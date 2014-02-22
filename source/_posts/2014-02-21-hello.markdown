@@ -1,0 +1,10 @@
+---
+layout: post
+title: "hello"
+date: 2014-02-21 23:45:34 -0800
+comments: true
+categories: 生活
+---
+========
+Seashore washed by suds and foam,
+Been here so long got to calling it home．
