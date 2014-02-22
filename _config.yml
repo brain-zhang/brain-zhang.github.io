@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://memoryboxes.github.io
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: memoryboxes blog
+subtitle: for save
+author: memoryboxes
 simple_search: http://google.com/search
-description:
+description: been here so long got to call it home
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -92,6 +92,10 @@ delicious_count: 3
 # Disqus Comments
 disqus_short_name:
 disqus_show_comment_count: false
+
+# duoshuo
+duoshuo_comments: true
+duoshuo_short_name: memoryboxes-github
 
 # Google Analytics
 google_analytics_tracking_id:
