@@ -28,5 +28,6 @@ categories: tmux vim colorscheme color config
 就OK了。
 
 参考:
+
 http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode
 http://rhnh.net/2011/08/20/vim-and-tmux-on-osx
