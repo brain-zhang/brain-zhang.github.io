@@ -3,7 +3,7 @@ layout: post
 title: "解决tmux下vim colorscheme失效的问题"
 date: 2014-02-24 16:05:48 -0800
 comments: true
-categories:tmux vim colorscheme color config
+categories: tmux vim colorscheme color config
 ---
 在tmux(v1.6)默认配置下，vim的主题solarized, molokai等颜色设置都会失效
 
