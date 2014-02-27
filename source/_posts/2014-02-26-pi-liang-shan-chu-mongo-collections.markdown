@@ -12,5 +12,4 @@ mongodb没有批量删除collecton的命令，平常建立了很多a1,a2,a3的�
 
 就很方便删除了。
 
-{% gist 9242308 %}
-
+https://gist.github.com/memoryboxes/9242308
