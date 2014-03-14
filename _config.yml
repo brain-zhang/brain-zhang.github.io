@@ -2,12 +2,21 @@
 #      Main Configs       #
 # ----------------------- #
 
+<<<<<<< HEAD
 url: http://memoryboxes.github.io
 title: memoryboxes blog
 subtitle: Been here so long got to calling it home．
 author: memoryboxes
 simple_search: http://google.com/search
 description: been here so long got to call it home
+=======
+url: http://yoursite.com
+title: My Octopress Blog
+subtitle: A blogging framework for hackers.
+author: Your Name
+simple_search: https://www.google.com/search
+description:
+>>>>>>> affa3ffb8233f7b571a46a2c58aff574e470c369
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
