@@ -3,7 +3,7 @@ layout: post
 title: "为centos添加EPEL Repo"
 date: 2014-03-13 20:04:58 -0700
 comments: true
-categories:centos epel repo yum
+categories: centos epel repo yum
 ---
 
 centos默认的源软件不是很全，大部分时候需要添加EPEL源。
