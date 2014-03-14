@@ -78,12 +78,8 @@ module Jekyll
       gist_url = get_gist_url_for(gist, file)
       data     = get_web_content(gist_url)
 
-<<<<<<< HEAD
-      if data.code.to_i == 301 || data.code.to_i == 302
-=======
       locations = Array.new
       while (data.code.to_i == 301 || data.code.to_i == 302)
->>>>>>> affa3ffb8233f7b571a46a2c58aff574e470c369
         data = handle_gist_redirecting(data)
         break if locations.include? data.header['Location']
         locations << data.header['Location']
