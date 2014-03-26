@@ -32,12 +32,12 @@ svn的external link在多个项目互相引用时很有用。
 
 ## 最后简单的办法是:
 
-    * 如果是打tag，采用方法一，用tortoisesvn固定在一个版本
+* 如果是打tag，采用方法一，用tortoisesvn固定在一个版本
 
-    * 如果是打branch，先用tortoisesvn 固定在一个版本，再把branch分支checkout下来，用命令 `svn propedit svn:externals .`取消external link，再重新加入版本库，最后提交。
+* 如果是打branch，先用tortoisesvn 固定在一个版本，再把branch分支checkout下来，用命令 `svn propedit svn:externals .`取消external link，再重新加入版本库，最后提交。
 
 
 参考:
 
-    http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags
+http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags
 
