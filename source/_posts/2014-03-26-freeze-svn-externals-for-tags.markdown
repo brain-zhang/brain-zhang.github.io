@@ -36,6 +36,9 @@ svn的external link在多个项目互相引用时很有用。
 
 * 如果是打branch，先用tortoisesvn 固定在一个版本，再把branch分支checkout下来，用命令 `svn propedit svn:externals .`取消external link，再重新加入版本库，最后提交。
 
+## ps
+
+* 有人推荐了smartSVN，用了一下，和tortoisesvn的tag功能大同小异，没必要装两个。
 
 参考:
 
