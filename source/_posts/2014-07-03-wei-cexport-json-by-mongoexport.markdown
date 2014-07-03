@@ -3,7 +3,7 @@ layout: post
 title: "export json by mongoexport"
 date: 2014-07-03 00:46:23 +0000
 comments: true
-categories:mongoexport
+categories: mongoexport
 ---
 
 Exp:
