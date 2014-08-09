@@ -57,7 +57,7 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # blog_index_asides:
 # post_asides:
 # page_asides:
-blog_index_asides: [custom/asides/recent_comments.html]
+blog_index_asides: [custom/asides/recent_comments.html, ]
 
 # ----------------------- #
 #   3rd Party Settings    #
