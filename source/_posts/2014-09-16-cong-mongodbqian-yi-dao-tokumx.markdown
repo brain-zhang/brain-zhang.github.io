@@ -18,6 +18,8 @@ categories: MongoDB TokuMx
 
 #### 建立自己的清理机制，定期把无用的数据清理出去。这样虽然比Capped Collections可控制，但是对删除掉的磁盘空间利用率进一步下降了，很多时候，你删掉一半数据，能重新利用的空间可能也就10%。这是由MongoDB对于单个Document的空间分配机制决定的。
 
+#### 最后一种方法就是合理规划，分库分表，然后在mongodb.conf里面设置选项:`directoryperdb = true`，这样mongo每个数据库都会建立一个文件夹,这样删除单库的时候数据文件就删干净了，空间自然清理出来了，这个选项我强烈推荐打开，即使你没有空间上的困扰，打开后也对数据库管理维护由不小的方便。当然指望这种办法删数据局限性就太大了。
+
 详细说一下mongo对于删除空间的重新利用方法:
 
 1.首先mongodb删除一个document的时候并不是物理上真正删除数据，而是维护一个deleteList链表数组，每次删除就在链表里面做一个标记。怎么表示这次删除的空间大小范围呢,如图示:
@@ -48,13 +50,10 @@ categories: MongoDB TokuMx
 
 #### 看起来这些策略很靠谱，但我实际用起来两种方法其实效果都不好，另外usePowerOf2Size的表现好一些，mongodb自2.6开始把这种分配方式变成默认的了。
 
-
-### 最后一种方法就是合理规划，分库分表，然后在mongodb.conf里面设置选项:`directoryperdb = true`，这样mongo每个数据库都会建立一个文件夹,这样删除单库的时候数据文件就删干净了，空间自然清理出来了，这个选项我强烈推荐打开，即使你没有空间上的困扰，打开后也对数据库管理维护由不小的方便。当然指望这种办法删数据局限性就太大了。
-
 #### 啰嗦了半天，我想说的就是, mongodb的存储受他的MMap内存管理所限，改来改去利用率没有本质提升。
 
 ## How to do?
 
-升级Tokumx
+### 升级Tokumx
 
-看看Tokumx的介绍:"TokuMX is the MongoDB you know and love but built on top of Fractal Tree indexes from Tokutek."
+#### 看看Tokumx的介绍:"TokuMX is the MongoDB you know and love but built on top of Fractal Tree indexes from Tokutek."
