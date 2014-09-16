@@ -13,35 +13,22 @@ svn的external link在多个项目互相引用时很有用。
 
 ## 搜了一下，基本上有几个办法:
 
-
-
-    * 使用tortoisesvn>1.7版本，打tag及branch的时候可以固定在某一版本:
-
-
+使用tortoisesvn>1.7版本，打tag及branch的时候可以固定在某一版本:
 
     ¦   http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug-branchtag.html
 
 
-
     缺点是这样打出来的branch，checkout下来后，svn up还是回到最新的版本。
 
-
-
-    * 使用一个perl脚本，可以在打branch的时候把extern link一起拷贝到branch底下，这样相当于是建立了一个新的external link拷贝，修改branch不会影响到trunk
-
-
+使用一个perl脚本，可以在打branch的时候把extern link一起拷贝到branch底下，这样相当于是建立了一个新的external link拷贝，修改branch不会影响到trunk
 
     ¦   https://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/svncopy/
-
 
 
     缺点是这样打出来的branch底下会多出来external link的拷贝，不完美。
 
 
-
-    * 有人开发了工具, C#的，但我在win7下面打branch的时候会报错
-
-
+有人开发了工具, C#的，但我在win7下面打branch的时候会报错
 
     ¦   http://svnxf.codeplex.com/
 
@@ -54,15 +41,11 @@ svn的external link在多个项目互相引用时很有用。
 ## 最后简单的办法是:
 
 
+如果是打tag，采用方法一，用tortoisesvn固定在一个版本
 
-    * 如果是打tag，采用方法一，用tortoisesvn固定在一个版本
-
-    * 如果是打branch，先用tortoisesvn 固定在一个版本，再把branch分支checkout下来，用命令 `svn propedit svn:externals .`取消external link，再重新加入版本库，最后提交。
-
-
-
+如果是打branch，先用tortoisesvn 固定在一个版本，再把branch分支checkout下来，用命令 `svn propedit svn:externals .`取消external link，再重新加入版本库，最后提交。
 
 
 参考:
 
-    http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags
+http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags
