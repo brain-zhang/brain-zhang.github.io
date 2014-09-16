@@ -112,6 +112,8 @@ Tokumx宣称了很多很好的[特性](http://www.tokutek.com/products/tokumx-fo
 
 * Tokumx的 Capped Collections性能比较渣，但是在我看来，存储方式的改变已经不需要这种方式了，所以这个不是问题。
 
+* 我没有找到从Tokumx重新迁回MongoDB的现成工具，将来要迁回来，可能要手工写工具自己导数据
+
 * Mongodb升级,新Feature的支持，还有商业化的问题。Tokumx的官网上的blog有人问了这个问题，问Tokumx有没有同MongoDB Merge的计划，开发者做了回答，很详尽。
 
     首先Tokumx的开发团队很小的，可能不会及时跟进Mongodb的新Feature移植
