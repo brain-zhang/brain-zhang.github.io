@@ -114,5 +114,11 @@ Tokumx宣称了很多很好的[特性](http://www.tokutek.com/products/tokumx-fo
 
 * Mongodb升级,新Feature的支持，还有商业化的问题。Tokumx的官网上的blog有人问了这个问题，问Tokumx有没有同MongoDB Merge的计划，开发者做了回答，很详尽。
 
+    首先Tokumx的开发团队很小的，可能不会及时跟进Mongodb的新Feature移植
+
+    第二两家公司有不同的商业化考量，另外代码的Merge有一定工作量，未来不太可能合并
+
+    Tokumx只专注于存储性能的改进
+
 
 #### 最后啰嗦一句，如果对当前的Mongodb Future没有很大的期待，并且像我一样为磁盘空间所困扰的同志们，大胆迁移到Tokumx吧。
