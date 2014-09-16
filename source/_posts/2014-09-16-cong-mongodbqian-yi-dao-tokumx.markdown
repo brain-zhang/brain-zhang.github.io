@@ -110,7 +110,7 @@ Tokumx宣称了很多很好的[特性](http://www.tokutek.com/products/tokumx-fo
 
 #### 在我看来，与MongoDB相比，Tokumx的不足有以下几点:
 
-* 稳定性; 因为采用了自定义的内存管理，不如MongoDB的MMap方式管理稳定，如果`cacheSize`设置不合适，而Tokumx的机器还有其他占用内村比较大的进程，会导致OOP，被系统杀掉的几率比较大。这要求我们设置`cacheSize`要斟酌一下。可以参考[这里](http://docs.tokutek.com/tokumx/tokumx-server-parameters.html); 顺便说一下，如果你的系统内存占用控制得当，是没有多大问题的。
+* 稳定性; 因为采用了自定义的内存管理，不如MongoDB的MMap方式管理稳定，如果`cacheSize`设置不合适，而Tokumx的机器还有其他占用内存比较大的进程，会导致OOP，被系统杀掉的几率比较大。这要求我们设置`cacheSize`要斟酌一下。可以参考[这里](http://docs.tokutek.com/tokumx/tokumx-server-parameters.html); 顺便说一下，如果你的系统内存占用控制得当，是没有多大问题的。
 
 * Tokumx的 Capped Collections性能比较渣，但是在我看来，存储方式的改变已经不需要这种方式了，所以这个不是问题。
 
