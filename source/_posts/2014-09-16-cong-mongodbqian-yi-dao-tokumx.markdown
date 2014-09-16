@@ -69,6 +69,8 @@ categories: MongoDB TokuMx
 
 可以参考[这里](http://www.tokutek.com/2013/07/how-tokumx-gets-great-compression-for-mongodb/)
 以及[这里](http://www.tokutek.com/2013/07/tokumx-fractal-treer-indexes-what-are-they/)
+以及[这里](http://forms.tokutek.com/acton/attachment/6118/f-0039/1/-/-/-/-/lsm-vs-fractal.pdf)
+以及[这里](http://www.tokutek.com/wp-content/uploads/2012/09/BenderKuszmaul-tutorial-xldb12.pdf)
 
 Tokumx宣称了很多很好的[特性](http://www.tokutek.com/products/tokumx-for-mongodb/):
 
