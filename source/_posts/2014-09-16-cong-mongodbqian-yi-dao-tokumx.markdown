@@ -25,15 +25,15 @@ categories: MongoDB TokuMx
 1.首先mongodb删除一个document的时候并不是物理上真正删除数据，而是维护一个deleteList链表数组，每次删除就在链表里面做一个标记。怎么表示这次删除的空间大小范围呢,如图示:
 
 ```
-                            ---------------------------------------
- deleteList                 |<32 | 32-64| 64-128|....| < 4M| 4M-8M|
-                            ---------------------------------------
-                             |       |      |     |     |      |
-                             |       |      |     |     |      |
-                            +-+     +-+     +-+   +-+   +-+    +-+
-                            +-+     +-+     +-+   +-+   +-+    +-+
-                                    +-+     +-+   +-+   +-+    +-+
-                                            +-+   +-+   +-+    +-+
+     ---------------------------------------
+     |<32 | 32-64| 64-128|....| < 4M| 4M-8M| --deleteList
+     ---------------------------------------
+      |       |      |     |     |      |
+      |       |      |     |     |      |
+     +-+     +-+    +-+   +-+   +-+    +-+
+     +-+     +-+    +-+   +-+   +-+    +-+
+             +-+    +-+   +-+   +-+    +-+
+                    +-+   +-+   +-+    +-+
 ```
 
 2.对每一个被删除的docment计算其大小，然后插入到合适的链表中去，这样下次插入新数据的时候，先计算合适的空间大小，再在这个链表数组中找到合适的空闲空间指针地址，插入数据。如果没有合适的，再去开辟新空间。
@@ -58,4 +58,61 @@ categories: MongoDB TokuMx
 
 ### 升级Tokumx
 
-#### 看看Tokumx的介绍:"TokuMX is the MongoDB you know and love but built on top of Fractal Tree indexes from Tokutek."
+看看Tokumx的介绍:
+"TokuMX is the MongoDB you know and love but built on top of Fractal Tree indexes from Tokutek."
+
+从上层看，Tokumx 可以看成是Mongodb的克隆，仅仅是底层的存储方式用它们的Fractal Tree算法替换了mongodb的存储而已。
+
+关于Fractal Tree，了解不多，从官方文档看，是对B-Tree的一个改进，通过对BTree的下级树叶保存子节点的缓冲区减少IO次数，另外可以用zlib等压缩算法存储数据
+
+存储方式的改变，也改变了MongoDB默认用的MMap内存管理算法，Tokumx采用自定义的内存管理，直接表现就是占用内存可以手工控制了(事实上也推荐你指定一个内存占用值)，不像MongoDB那样对内存的占用贪得无厌。得益于Fractal Tree，因为I/O的减少，分形树索引不会要求索引必须小于内存。即使超过内存的限制，TokuMX依然可以维持很高的写入性能。
+
+可以参考[这里](http://www.tokutek.com/2013/07/how-tokumx-gets-great-compression-for-mongodb/)
+以及[这里](http://www.tokutek.com/2013/07/tokumx-fractal-treer-indexes-what-are-they/)
+
+Tokumx宣称了很多很好的[特性](http://www.tokutek.com/products/tokumx-for-mongodb/):
+
+* Benefits for Developers
+* 20x faster w/o tuning
+* Transactions w/o tedious code
+* Switch w/o changing your app
+* Benefits for DevOps
+* Use fewer servers; avoid upgrades
+* 90% compression = less flash
+* Scalability w/o losing data integrity
+
+与Mongodg对比，官方宣称的限制有两个:
+
+* 不支持全文索引
+* 不支持GEO地理信息
+
+我们看中的就是他的磁盘占用，对这两个限制不Care。
+
+## Migrating data from MongoDB into TokuMX
+
+怎样迁移，参考[官方Wiki](https://github.com/Tokutek/mongo/wiki)
+
+## How about
+
+#### 将Mongodb(2.4.9) 迁移到TokuMx (1.5.0)，插入的document多是4K左右，原Mongodb数据库达到TB级别，感性体验:
+
+* 数据存储占用空间大幅下降，1/10并不夸大
+
+* 每个collection及index都会存在单独的文件中,这样删除单表或索引后会立即释放占用的空间
+
+* 同一个表，删除老数据，插入新数据，空间重复利用率>80%
+
+* 写入速度没有20x的提升，但各种情况下，最差提升1倍是有的
+
+* 读性能没有下降
+
+#### 在我看来，与MongoDB相比，Tokumx的不足有以下几点:
+
+* 稳定性; 因为采用了自定义的内存管理，不如MongoDB的MMap方式管理稳定，如果`cacheSize`设置不合适，而Tokumx的机器还有其他占用内村比较大的进程，会导致OOP，被系统杀掉的几率比较大。这要求我们设置`cacheSize`要斟酌一下。可以参考[这里](http://docs.tokutek.com/tokumx/tokumx-server-parameters.html); 顺便说一下，如果你的系统内存占用控制得当，是没有多大问题的。
+
+* Tokumx的 Capped Collections性能比较渣，但是在我看来，存储方式的改变已经不需要这种方式了，所以这个不是问题。
+
+* Mongodb升级,新Feature的支持，还有商业化的问题。Tokumx的官网上的blog有人问了这个问题，问Tokumx有没有同MongoDB Merge的计划，开发者做了回答，很详尽。
+
+
+#### 最后啰嗦一句，如果对当前的Mongodb Future没有很大的期待，并且像我一样为磁盘空间所困扰的同志们，大胆迁移到Tokumx吧。
