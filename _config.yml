@@ -57,7 +57,7 @@ default_asides: [custom/asides/recent_comments.html, asides/recent_posts.html, a
 # blog_index_asides:
 # post_asides:
 # page_asides:
-blog_index_asides: [custom/asides/recent_comments.html, asides/recent_posts.html, asides/github.html]
+blog_index_asides: [custom/asides/recent_comments.html, asides/recent_posts.html, asides/github.html, asides/category_list.html]
 
 # ----------------------- #
 #   3rd Party Settings    #
