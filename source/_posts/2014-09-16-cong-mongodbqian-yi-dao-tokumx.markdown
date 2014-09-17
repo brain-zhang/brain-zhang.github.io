@@ -83,7 +83,7 @@ Tokumx宣称了很多很好的[特性](http://www.tokutek.com/products/tokumx-fo
 * 90% compression = less flash
 * Scalability w/o losing data integrity
 
-与Mongodg对比，官方宣称的限制有两个:
+与MongoDB对比，官方宣称的限制有两个:
 
 * 不支持全文索引
 * 不支持GEO地理信息
