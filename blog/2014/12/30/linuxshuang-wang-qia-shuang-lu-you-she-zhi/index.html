@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux多网卡多路由设置 - memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="折腾了半天，原始出处不知道了，转记一下。 比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此 eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254
+eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254
+eth2是教育网， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linux多网卡多路由设置</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-30T09:40:53+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>折腾了半天，原始出处不知道了，转记一下。</p>
+
+<p>比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此</p>
+
+<ul>
+<li><p>eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254</p></li>
+<li><p>eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254</p></li>
+<li><p>eth2是教育网，ip地址为3.3.3.3/24，教育网网关为3.3.3.254</p></li>
+</ul>
+
+
+<p>传统情况下，如果是为了从内向外访问获得更好的速度，让访问电信走电信，访问网通走网通，那么配置是网关只能够配置一个。</p>
+
+<p>比如以电信为主的，那么网关就只设置电信的1.1.1.254，而针对网通和教育网设置不同的路由，路由下一跳指向网通和教育网对应的 网关。</p>
+
+<p>如果这样做的目的只是实现内部访问外面，那么是没问题了，但是如果是为了让外面的用户能够正常访问到服务器上的服务就会出问题。比如电信用户会无法访问网通和教育网的ip，网通用户会无法访问电信和教育网的ip。</p>
+
+<p>要解决这个问题，思路就是由哪个网口进来的流量希望全部就由哪个回去。用lartc里面提到的方法就是来源的口不同，走不同的路由表。在默认的路由表基础上再建立三个路由表。</p>
+
+<p>用 ip route show 可以看到默认有local,main,default三个路由表，这三个路由表的名称命名来自 /etc/iproute2/rt_tables ，这里先在这个配置文件里面添加三个不同的路由表表名，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables</span></code></pre></td></tr></table></div></figure>
+
+
+<p>之后建立这三个路由表的内容，因为这三个路由表的只是用来响应来自不同接口的，而不是用来相应从哪个接口出去的，所以只需要每个路由表里面建立默认网关即可。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ip route add default via 1.1.1.254 dev eth0 table ChinaNet
+</span><span class='line'>ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
+</span><span class='line'>ip route add default via 3.3.3.254 dev eth2 table ChinaEdu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>之后再加上三条规则，使来自不同的口的走不同的路由表</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ip rule add from 1.1.1.1 table ChinaNet
+</span><span class='line'>ip rule add from 2.2.2.2 table ChinaCnc
+</span><span class='line'>ip rule add from 3.3.3.3 table ChinaEdu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此无论是电信还是网通还是教育网用户，访问三个ip的任意一个地址都能够连通了。即便是服务器上本身的默认路由都没有设置，也能够让外面的用户正常访问。</p>
+
+<p>命令汇总：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ip route show
+</span><span class='line'>
+</span><span class='line'>echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables // 这里也可以直接通过Vi编辑
+</span><span class='line'>
+</span><span class='line'>ip route add default via 1.1.1.254 dev eth0 table ChinaNet
+</span><span class='line'>ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
+</span><span class='line'>ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
+</span><span class='line'>
+</span><span class='line'>ip rule add from 1.1.1.1 table ChinaNet
+</span><span class='line'>ip rule add from 2.2.2.2 table ChinaCnc
+</span><span class='line'>ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-30T09:40:53+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/network/'>network</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/" title="Previous Post: libpcap PACKET_MMAP内存分配">&laquo; libpcap PACKET_MMAP内存分配</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/" title="Next Post: Macvtap Ethernet support tcpdump">Macvtap Ethernet support tcpdump &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://memoryboxes.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/';
+        var disqus_url = 'http://memoryboxes.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

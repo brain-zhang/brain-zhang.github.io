@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Javascript_pattern | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/javascript-pattern/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript设计模式 - 笔记3]]></title>
+    <link href="http://memoryboxes.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/"/>
+    <updated>2015-01-24T11:30:02+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3</id>
+    <content type="html"><![CDATA[<p>javascript 里面的继承是个非常复杂的话题，一言蔽之，就是你要替解释器干点活。另外，javascript属于使用原型式继承的语言，这个比较少见，所以直觉上不好拐弯。</p>
+
+<p>先回顾比较简单的办法</p>
+
+<h2>类式继承</h2>
+
+<h3>一个简单的类</h3>
+
+<p>```
+/<em> class Person </em>/
+function Person(name) {</p>
+
+<pre><code>this.name = name;
+</code></pre>
+
+<p>}</p>
+
+<p>Person.prototype.getName = functino() {</p>
+
+<pre><code>return this.name;
+</code></pre>
+
+<p>}</p>
+
+<p>var reader = new Person(&lsquo;memoryboxes&rsquo;);
+reader.getName();
+```</p>
+
+<p>好，下面定义一个它的子类</p>
+
+<p>```
+/<em> Class Author </em>/
+function Author(name, books) {</p>
+
+<pre><code>Person.call(this, name);
+this.books = books;
+</code></pre>
+
+<p>}
+Author.prototype = new Persion();  //set up the prototype chain
+Author.prototype.contructor = Author; //set the constructor attribute to author
+Author.getBooks = function() {return this.books;}
+```</p>
+
+<p>容易费解的是这两行:
+<code>
+Author.prototype = new Persion();  //set up the prototype chain
+Author.prototype.contructor = Author; //set the constructor attribute to author
+</code></p>
+
+<p>javascript中，每个对象都有一个原型对象，在创建一个对象时，javascript会自动将其原型对象设置为其构造函数的prototype属性所指的对象。
+在访问对象的某个成员时，如果这个成员未见于当前对象，那么javascript会沿着原型链向上逐一访问每个原型对象(最顶端为Object.prototype对象)，直到找到这个成员为止。
+这意味着，为了让一个类继承另一个类，只需将子类的prototype设置为基类的一个实例即可。</p>
+
+<p>第二行将prototype的constructor属性重新设置为Author。是因为:
+定义一个构造函数时，其默认的prototype对象是一个Object类型的实例，其contructor属性会被设置为构造函数本身。如果手工将prototype设置为另一个对象，就要重新设置其constructor属性。</p>
+
+<p>最后，为了简化类的声明，可以将这些工作封装在extend函数中:</p>
+
+<p>```
+function extend(subClass, superClass) {</p>
+
+<pre><code>var F = function(){};
+F.prototype = superClass.prototype;
+subClass.prototype = new F();
+subClass.prototype.contructor = subClass;
+</code></pre>
+
+<p>}
+```
+作为改进，定义了一个新对象F，避免基类对象过大，创建实例浪费资源。</p>
+
+<p>但是这样还有个小缺点，声明 Author的时候，还要显式的调用一下<code>Person.call()</code>，下面这个版本进一步做了改进：
+```
+function extend(subClass, superClass) {</p>
+
+<pre><code>var F = function(){};
+F.prototype = superClass.prototype;
+subClass.prototype = new F();
+subClass.prototype.contructor = subClass;
+
+subClass.superclass = superClass.prototype;
+if(superClass.prototype.contructor == Object.prototype.constructor) {
+    superClass.prototype.contructor = superClass;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>增加了一个superclass属性来直接访问基类，这样声明Author的时候可以这么写:
+```
+/<em> Class Author </em>/
+function Author(name, books) {</p>
+
+<pre><code>Author.superclass.contructor.call(this, name);
+this.books = books;
+</code></pre>
+
+<p>}
+extend(Author, Person);
+Author.getBooks = function() {return this.books;}
+```</p>
+
+<h2>原型式继承</h2>
+
+<p>TODO</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript设计模式 - 笔记2]]></title>
+    <link href="http://memoryboxes.github.io/blog/2015/01/05/javascriptshe-ji-mo-shi-2/"/>
+    <updated>2015-01-05T09:05:16+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2015/01/05/javascriptshe-ji-mo-shi-2</id>
+    <content type="html"><![CDATA[<h1>如何封装一个对象</h1>
+
+<h2>门户大开型</h2>
+
+<p>最简单的办法就是按传统方法创建一个类，用一个函数来做其构造器。</p>
+
+<p>```
+var Book = function(isbn, title, author) {</p>
+
+<pre><code>if (isbn === undefined) {
+    throw new Error('Book constructor requires an isbn.');
+}
+this.isbn = isbn;
+this.title = title || 'No title specified';
+this.author = author || 'No title specified';
+</code></pre>
+
+<p>}</p>
+
+<p>//define by attr
+Book.prototype.display = function() {&hellip;};</p>
+
+<p>//define by object literals
+Book.prototype = {</p>
+
+<pre><code>display: function(){...},
+checkIsdn: function(){...}
+</code></pre>
+
+<p>};
+```</p>
+
+<ul>
+<li>优点：简单</li>
+<li>缺点：没有保护，需要加各种校验。但内部的成员还是有很大可能被修改的。</li>
+</ul>
+
+
+<h2>语法修饰增强型</h2>
+
+<p>用setattr,getattr等赋值取值方法及命名规范区别私有成员</p>
+
+<p>```
+var Book = function(isbn, title, author) {</p>
+
+<pre><code>if (isbn === undefined) {
+    throw new Error('Book constructor requires an isbn.');
+}
+this.setIsbn(isbn);
+this.setTitle(title);
+this.setAuthor(author);
+</code></pre>
+
+<p>}</p>
+
+<p>//define by attr
+Book.prototype.display = function() {&hellip;};</p>
+
+<p>//define by object literals
+Book.prototype = {</p>
+
+<pre><code>_checkIsdn: function() {...}
+
+setIsbn: function(isbn) {
+    if!(this._checkIsbn(isbn)) {
+        throw new Error("Invalid isbn");
+    }
+    this._isbn = isbn;
+}
+
+getIsbn: function() {
+    return this._isbn;
+}
+.......
+</code></pre>
+
+<p>};
+```
+* 优点：简单，安全性也有所增强
+* 缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。</p>
+
+<h2>闭包实现私有成员</h2>
+
+<p>```
+var Book = function(iisbn, ititle, iauthor) {</p>
+
+<pre><code>//private attributes
+var isbn, title, author;
+
+//private method
+function _checkIsbn(iisbn) {
+    ...
+}
+
+//privileged methods
+this.getIsbn = function() {
+    return isbn;
+};
+
+this.setIsbn = function(iisbn) {
+    this._checkIsbn(iisbn) ...
+    isbn = iisbn;
+}
+
+.......
+
+//contructor code
+this.setIsbn(iisbn);
+this.setTitle(ititle);
+this.setAuthor(iauthor);
+</code></pre>
+
+<p>};</p>
+
+<p>//public, non-privileged methods</p>
+
+<p>Book.prototype = {</p>
+
+<pre><code>display: fucntion(){},
+....
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这里应用了js的闭包特性，isbn等属性不再通过<code>this</code>来引用，而是放到函数的构造器里面。既要访问到私有成员，又要对外的方法放到函数的构造中，对私有成员没有依赖的函数用prototype。</p>
+
+<ul>
+<li>优点：比较完整的模拟了private特性</li>
+<li>缺点：private方法不再存在prototype里面，这样没生成一个新的对象实例都会为每个每个私有方法和特权方法生成一个新副本，耗费内存。</li>
+</ul>
+
+
+<h2>实现静态方法和属性</h2>
+
+<p>```
+var Book = (function() {</p>
+
+<pre><code>//private static attributes
+var numberOfBooks = 0;
+
+//private static method
+function checkIsbn(iisbn) {
+    ...
+}
+
+//return the contructor
+return function(iisbn, ititle, iauthor) {
+    //private attributes
+    var isbn, title, author;
+
+    //privileged methods
+    this.getIsbn = function() {
+        return isbn;
+    };
+
+    this.setIsbn = function(iisbn) {
+        this._checkIsbn(iisbn) ...
+        isbn = iisbn;
+    }
+    .......
+
+    //contructor code
+    numOfBooks++;
+    this.setIsbn(iisbn);
+}
+</code></pre>
+
+<p>})();</p>
+
+<p>//public, static methods
+Book.converTotitleCase = function(){&hellip;};</p>
+
+<p>//public, non-privileged methods</p>
+
+<p>Book.prototype = {</p>
+
+<pre><code>display: fucntion(){},
+....
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这里和<code>闭包实现私有成员</code>的区别就在于构造函数变成了一个内嵌函数，这样就创建了一个闭包，可以把静态的私有成员声明在最顶层。</p>
+
+<h2>实现常量</h2>
+
+<p>常量就设置为一个私有静态属性，用大写区分即可。我认为没有必要实现一个取值器去限制，用CONST前缀从代码风格上约束即可。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript设计模式 - 笔记1]]></title>
+    <link href="http://memoryboxes.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/"/>
+    <updated>2015-01-04T08:25:15+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1</id>
+    <content type="html"><![CDATA[<h1>富有表现力的javascript</h1>
+
+<h2>弱类型语言</h2>
+
+<p>javascript中有三种原始类型:布尔型、数值型(不区分浮点数和整数)和字符串型。</p>
+
+<p>此外，还有对象类型和包含可执行代码的函数类型。前者是一种复合类型(数组是一种特殊的对象)。</p>
+
+<p>最后，还有空类型(null)和未定义类型(undefined)。</p>
+
+<p>原始数据类型按值传送，其他数据类型则按引用传送。</p>
+
+<h2>函数是一等对象</h2>
+
+<ul>
+<li>匿名函数</li>
+</ul>
+
+
+<p>```
+(function(){</p>
+
+<pre><code>var foo = 10;
+var bar = 2;
+alert(foo * bar);
+</code></pre>
+
+<p>})();
+```</p>
+
+<ul>
+<li>闭包</li>
+</ul>
+
+
+<p>```
+var baz;
+(function(){</p>
+
+<pre><code>var foo = 10;
+var bar = 2;
+baz = function(){
+    return foo * bar;
+}
+</code></pre>
+
+<p>})();
+baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行
+```</p>
+
+<ul>
+<li><p>作用域、嵌套函数和闭包</p>
+
+<ul>
+<li><p>js中，只有函数具有作用域：</p>
+
+<p>  在一个函数内部声明的变量，外部无法访问；
+  定义在一个函数中的变量在该函数的内嵌函数中是可以访问的</p></li>
+<li><p>js中的作用域是词法性的：</p>
+
+<p>  函数运行在定义他们的作用域中，而不是调用他们的作用域中；
+  可以利用这个特性定义静态方法和属性；</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>对象的易变性(mutable)和内省(introspection)</h2>
+
+<ul>
+<li>易变性：js中可以对象前定义的类和实例化的对象进行修改</li>
+<li>内省：js中可以在运行时检查对象所具有的属性和方法</li>
+</ul>
+
+
+<h1>接口</h1>
+
+<ul>
+<li><p>接口也是一种对象，判断一个类是否是实现了某类接口，就是传入这个接口，而后比较。</p>
+
+<p>  java有专门的接口类，C++有虚基类，而C在linux kernel中的对象设计方法实际上也是一种接口实现，这都是接口在语言层面支持的体现</p></li>
+<li><p>封装(encapsulation)和信息隐藏：信息隐藏是目的，而封装则是藉以达到这个目的的技术</p>
+
+<p>  java和C++有 private关键字作为支持，Python有'__&lsquo;的命名约定，js中一般用闭包来模拟</p></li>
+</ul>
+
+
+<h2>接口实现</h2>
+
+<h3>用注释来模拟</h3>
+
+<p>```
+/*
+interface Composite {</p>
+
+<pre><code>function add(child);
+function remove(child);
+...
+</code></pre>
+
+<p>}</p>
+
+<p>interface FormItem{</p>
+
+<pre><code>function save();
+</code></pre>
+
+<p>}</p>
+
+<p>var CompositeForm = function(id, method, action) {</p>
+
+<pre><code>//implements Composite, FromItem
+...
+</code></pre>
+
+<p>};</p>
+
+<p>CompositeForm.prototype.add = function(child) {</p>
+
+<pre><code>...
+</code></pre>
+
+<p>}
+CompositeForm.prototype.remove= function(child) {</p>
+
+<pre><code>...
+</code></pre>
+
+<p>}
+CompositeForm.prototype.save= function() {</p>
+
+<pre><code>...
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<ul>
+<li>优点：简单明了，代码体积小</li>
+<li>缺点：无法错误检查</li>
+</ul>
+
+
+<h3>用属性检查模仿接口</h3>
+
+<p>约定所有类明确声明实现了那些接口，和这些类打交道的对象可以针对这些声明做检查。</p>
+
+<p>```
+/*
+interface Composite {</p>
+
+<pre><code>function add(child);
+function remove(child);
+...
+</code></pre>
+
+<p>}</p>
+
+<p>interface FormItem{</p>
+
+<pre><code>function save();
+</code></pre>
+
+<p>}</p>
+
+<p>var CompositeForm = function(id, method, action) {</p>
+
+<pre><code>//implements Composite, FromItem
+this.implementsInterfaces = ['Composite', 'FromItem'];
+...
+</code></pre>
+
+<p>};</p>
+
+<pre><code>...
+</code></pre>
+
+<p>function addForm(formInstance) {</p>
+
+<pre><code>if (!implements(formInstance, 'Composite', 'FormItem')) {
+    throw new Error("object does not implement a required interface");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>function implements(objects) {</p>
+
+<pre><code>for (var i = 1; i &lt; arguments.length; i++) {
+    var interfaceName = arguments[i];
+    var interfaceFound = false;
+    for (var j = 0; j &lt; object.implementsInterfaces[j] == interfaceName) {
+        interfaceFound = true;
+        break;
+    }
+    if (!interfaceFound) {
+        return false;
+    }
+}
+return true;
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<ul>
+<li>优点:有错误检查</li>
+<li>缺点:每次调用都要检查，啰嗦，另外防不住有说了实现但没有干活的</li>
+</ul>
+
+
+<h1>鸭式辨型模仿接口</h1>
+
+<p>```
+var Composite = new Intreface(&lsquo;Composite&rsquo;, [&lsquo;add&rsquo;, &lsquo;remove&rsquo;]);
+var FormItem = new Interface(&lsquo;FormItem&rsquo;, [&lsquo;save&rsquo;]);
+var CompositeForm = function(id, method, action) {</p>
+
+<pre><code>...
+</code></pre>
+
+<p>};</p>
+
+<p>function addForm(formInstance) {</p>
+
+<pre><code>ensureImplements(formInstance, Composite, FormItem);
+......
+</code></pre>
+
+<p>}</p>
+
+<p>var Interface = function(name, methods) {</p>
+
+<pre><code>if (arguments.length != 2) {
+    throw new Error("Interface constructor called with " + arguments.length + "arguments, but expected exactly 2.");
+}
+this.name = name;
+this.methods = [];
+for (var i = 0; len = methods.length; i &lt; len; i++) {
+    if (typeof methods[i] !== 'string')  {
+        throw new Error("Interface contructor expects method names to be " +
+                        "passed in as string");
+    }
+}
+this.methods.push(methods[i]);
+</code></pre>
+
+<p>}</p>
+
+<p>Interface.ensureImplements = function(object) {</p>
+
+<pre><code>if (arguments.length &lt; 2) {
+    throw Error("Functino Interface.ensureImplements called with " + arguments.length +
+                "arguments, but expected at leaset 2.");
+}
+
+for (var i = 1, len = arguments.length; i &lt; len; i++) {
+    if (interface.constructor !== Interface) {
+        throw new Error("Function Interface.ensureImplements expects arguments" +
+                        "two and above to be instances of Interface.");
+    } 
+}
+
+for (var j = 1, methodsLen = interface.methods.length; j &lt; methodsLen; j++) {
+    var method = interface.methods[j];
+    if(!object[method] || typeof object[method] !== 'function') {
+        throw new Error("Function Interface.ensureImplements: object " +
+                        "does not implement the " + interface.name)  +
+                        "interface.Method " + method + " was not found.");
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<ul>
+<li>优点：进一步加强了错误检查</li>
+<li>缺点：增大了调试难度</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

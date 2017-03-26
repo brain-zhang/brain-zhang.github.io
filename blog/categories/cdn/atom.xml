@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: CDN | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/cdn/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Webtorrent Redefine CDN?]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/05/10/webtorrent-redefine-cdn/"/>
+    <updated>2016-05-10T10:00:19+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/05/10/webtorrent-redefine-cdn</id>
+    <content type="html"><![CDATA[<p>最近发现了一个开源的JS东东，webtorrent:</p>
+
+<p><a href="https://github.com/feross/webtorrent">https://github.com/feross/webtorrent</a></p>
+
+<p>用webRTC实现了一个浏览器端的bt客户端。</p>
+
+<p>这个点子我还在几年前试过呢？当时想用socketio来做，但各种限制，当时webRTC还是个小众，没有被浏览器主流实现。</p>
+
+<p>试了一下，效果还差强人意。</p>
+
+<p>脑洞开一下，话说这会不会是快播们的春天来了。</p>
+
+<p>严肃一点再想想，是不是CDN提供商们可以利用它分担压力，提升速度，走上人生巅峰&hellip;.</p>
+
+<p>留待后续观察。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Mongoexport | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/mongoexport/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Export Json by Mongoexport]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/07/03/wei-cexport-json-by-mongoexport/"/>
+    <updated>2014-07-03T08:46:23+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/07/03/wei-cexport-json-by-mongoexport</id>
+    <content type="html"><![CDATA[<p>Exp:</p>
+
+<pre><code>mongoexport -d foo -c exp -o exp.json -q '{"ts":{"$gte":0}}'
+</code></pre>
+
+<p>Notice:</p>
+
+<pre><code>You should use `"`  not  `'` in query string
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

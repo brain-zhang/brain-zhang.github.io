@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cisco | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/cisco/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cisco 3560X Config Cheat]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/07/28/cisco-3560x-config-cheat/"/>
+    <updated>2016-07-28T10:02:06+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/07/28/cisco-3560x-config-cheat</id>
+    <content type="html"><![CDATA[<p>工作需要，学习了Cisco的路由器配置，记一下:</p>
+
+<ul>
+<li>查看所有信息</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>show run
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>查看span</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>show span
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>为某个vlan id建立spanning-tree</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>spanning-tree vlan 15
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>取消某个vlan id的spanning-tree</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>no spanning-tree vlan 15
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>将某个端口加入vlan中</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>sh run init gi 0/39
+config t
+switchport access vlan 14
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>保存配置</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>do wr
+copy running-config startup-config
+</code></pre>
+
+<p>```</p>
+
+<p>顺便记一下cisco catalyst交换机配置</p>
+
+<ul>
+<li>登陆交换机</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>ssh admin@10.1.0.2
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>查看现有配置</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>show running-config
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>#conf t
+(config)#int ra g0/37 -39
+(config-if-range)#sw mo acc
+(config-if-range)#sw acc vl 15
+(config-if-range)#exit
+(config)#int ra g0/41 -46
+(config-if-range)#sw tr e d
+(config-if-range)#sw mo tr
+(config-if-range)#end
+#wr
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>开启/关闭端口</li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>TEST3#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+TEST3(config)#int g0/41
+TEST3(config-if)#sh
+TEST3(config-if)#shutdown
+TEST3(config-if)#no shutdown
+TEST3(config-if)#end
+TEST3#
+</code></pre>
+
+<p>```</p>
+
+<p>例如 配置vlan15 和 trunk:</p>
+
+<p>```
+interface GigabitEthernet0/39
+ switchport access vlan 15
+  switchport mode access</p>
+
+<p>interface GigabitEthernet0/46
+ switchport trunk encapsulation dot1q
+  switchport mode trunk</p>
+
+<p>```</p>
+
+<p>去掉</p>
+
+<p><code>
+no switchport access vlan 15
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

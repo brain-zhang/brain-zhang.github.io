@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Bootstrap | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/bootstrap/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrap Learn123]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/06/06/bootstrap-learn123/"/>
+    <updated>2016-06-06T08:22:45+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/06/06/bootstrap-learn123</id>
+    <content type="html"><![CDATA[<h1>Caption1 startUp</h1>
+
+<ul>
+<li>ARIA: Accessible Rich Internet Applications</li>
+</ul>
+
+
+<p>简单说来，就是指<a href="http://www.zhangxinxu.com/wordpress/2012/03/wai-aria-%E6%97%A0%E9%9A%9C%E7%A2%8D%E9%98%85%E8%AF%BB/">无障碍网页应用</a>。主要针对的是视觉缺陷，失聪，行动不便的残疾人以及假装残疾的测试人员。尤其像盲人，眼睛看不到，其浏览网页则需要借助辅助设备，如屏幕阅读器，屏幕阅读机可以大声朗读或者输出盲文。</p>
+
+<p>而ARIA就是可以让屏幕阅读器准确识别网页中的内容，变化，状态的技术规范，可以让盲人这类用户也能无障碍阅读！</p>
+
+<p>参考:</p>
+
+<p><a href="https://www.sitepoint.com/html5-main-element/">https://www.sitepoint.com/html5-main-element/</a></p>
+]]></content>
+  </entry>
+  
+</feed>

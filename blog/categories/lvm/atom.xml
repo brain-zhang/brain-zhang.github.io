@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Lvm | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/lvm/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Extend Lvm in vCenter]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/05/15/extend-lvm-in-vcenter/"/>
+    <updated>2016-05-15T09:56:59+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/05/15/extend-lvm-in-vcenter</id>
+    <content type="html"><![CDATA[<h2>如何在vCenter上LVM分区扩容</h2>
+
+<ul>
+<li><p>导入镜像后，编辑虚拟机，增加第二块硬盘</p></li>
+<li><p>这个时候我们执行下面命令就可以看到新加的磁盘</p>
+
+<pre><code>  ls -alh /dev/sdb
+</code></pre></li>
+<li><p>使用fdisk 创建lvm分区，方法和创建普通分区的方法一致，然后lvm的分区类型是8e</p></li>
+<li><p>执行下面的命令看看效果，现在/dev/sdb1 已经是linux LVM类型的分区了</p>
+
+<pre><code>  fdisk -l
+</code></pre></li>
+<li><p>创建PV</p>
+
+<pre><code>  pvcreate /dev/sdb1
+  pvdisplay
+</code></pre></li>
+<li><p>把PV加入VG中</p>
+
+<pre><code>  vgdisplay
+  vgextend centos /dev/sdb1
+</code></pre></li>
+<li><p>扩容LV</p>
+
+<pre><code>  lvdisplay
+  lvextend -L 150G  /dev/centos/opt
+  xfs_growfs /dev/centos/opt
+</code></pre></li>
+<li><p>df -h看一下，打完收工</p></li>
+<li><p>如果再不够，可以加第三块盘，同样的操作</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

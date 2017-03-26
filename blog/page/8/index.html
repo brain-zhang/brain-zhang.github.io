@@ -1,0 +1,1108 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="memorybox个人博客">
+  <meta name="keywords" content="Python, Docker, MongoDB, Web, 煤矿">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/page/8">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/">从MongoDB迁移到TokuMx</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-16T08:36:30+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>WHY:</h2>
+
+<p>原因无它，MongoDB的 BSON格式带来的磁盘空间消耗实在太严重了,将mongodb的数据库文件gzip一把，一般能到原大小的1/10。</p>
+
+<h3>mongodb提出的解决办法有以下几个:</h3>
+
+<h4><a href="http://docs.mongodb.org/manual/reference/method/db.repairDatabase/">定期repaire或Compact</a>，但是repaire带来的性能消耗实在太大，repaire或compact的时候插入性能基本上就是渣了，另外100G级别的数据库文件需要数小时才能压缩完毕。</h4>
+
+<h4>采用<a href="http://docs.mongodb.org/manual/core/capped-collections/">Capped Collections</a>，这样在创建collections的时候可以指定数据库文件能占用的最大空间大小及单个document大小，当存储数据超过这个大小的时候会自动删除最老的数据，空出空间来。但这样做弊端就是你不知道会有多少数据被删掉，另外需要你对这个表插入的document大小心中有数。</h4>
+
+<h4>建立自己的清理机制，定期把无用的数据清理出去。这样虽然比Capped Collections可控制，但是对删除掉的磁盘空间利用率进一步下降了，很多时候，你删掉一半数据，能重新利用的空间可能也就10%。这是由MongoDB对于单个Document的空间分配机制决定的。</h4>
+
+<h4>最后一种方法就是合理规划，分库分表，然后在mongodb.conf里面设置选项:<code>directoryperdb = true</code>，这样mongo每个数据库都会建立一个文件夹,这样删除单库的时候数据文件就删干净了，空间自然清理出来了，这个选项我强烈推荐打开，即使你没有空间上的困扰，打开后也对数据库管理维护由不小的方便。当然指望这种办法删数据局限性就太大了。</h4>
+
+<p>详细说一下mongo对于删除空间的重新利用方法:</p>
+
+<p>1.首先mongodb删除一个document的时候并不是物理上真正删除数据，而是维护一个deleteList链表数组，每次删除就在链表里面做一个标记。怎么表示这次删除的空间大小范围呢,如图示:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> ---------------------------------------
+</span><span class='line'> |&lt;32 | 32-64| 64-128|....| &lt; 4M| 4M-8M| --deleteList
+</span><span class='line'> ---------------------------------------
+</span><span class='line'>  |       |      |     |     |      |
+</span><span class='line'>  |       |      |     |     |      |
+</span><span class='line'> +-+     +-+    +-+   +-+   +-+    +-+
+</span><span class='line'> +-+     +-+    +-+   +-+   +-+    +-+
+</span><span class='line'>         +-+    +-+   +-+   +-+    +-+
+</span><span class='line'>                +-+   +-+   +-+    +-+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.对每一个被删除的docment计算其大小，然后插入到合适的链表中去，这样下次插入新数据的时候，先计算合适的空间大小，再在这个链表数组中找到合适的空闲空间指针地址，插入数据。如果没有合适的，再去开辟新空间。</p>
+
+<p>3.这个链表数组每个大小区间是代码里写死的，可参见<code>namespace_detail.h</code>:
+<code>int bucketSizes[] = { 32, 64, 128, 256, 0x200, 0x400, 0x800, 0x1000, 0x2000, 0x4000, 0x8000, 0x10000, 0x20000, 0x40000, 0x80000, 0x100000, 0x200000,0x400000, 0x800000};</code></p>
+
+<p>那么插入一条新的docement时，如何计算这个合适的空间分配大小就要斟酌了。mongo采取两种办法，选择哪一种可以在创建collection的时候指定:</p>
+
+<p>1.Padding计算方式，这也是mongodb默认的方式。每次开辟空间的时候，采用公式 <code>实际大小*(1+paddingFactor)</code>，这个 paddingFactor一般比较小，在0.01-1之间，是根据插入document的大小自动变化的。可以在mongodb的shell里用<code>db.stats()</code>查看这个值。另外，repaire会把这个值置为1，compact操作可以手工指定这个值。</p>
+
+<p>2.采用<a href="http://docs.mongodb.org/manual/reference/command/collMod/">usePowerOf2Size</a>方式,这种方式和mongodb的磁盘空间分配比较相像，就是以2<sup>2</sup>, 2<sup>3</sup>, 2<sup>4</sup>&hellip;.大小增长，每次分配相近的空间大小</p>
+
+<p>网上有人评价道:这两种方式各有优劣，padding方式会为文档开辟更合适的大小，而且paddingFactor比较小，一般为0.01-0.09，不会浪费空间，文档更新小的话也不会移动文档位置。但是当大量更新和删除的时候，这种方式重复利用空间的能力就比较小，因为在deleteList中，不太容易找到合适的已删除文档，而且一旦更新就会又移动位置，磁盘重复利用率低，增长快，碎片多。相比之下，usePowerOf2Size方式，Mongodb每次都会开辟比文档大的多的空间，使用空间变多，但是更新和删除的容错率就会比较高，因为在deleteList列表中更容易找到合适的删除文档（每个列表中的文档大小都是相同的固定的），更新的时候也不会大量移动位置，磁盘重复利用率高，增长慢。</p>
+
+<h4>看起来这些策略很靠谱，但我实际用起来两种方法其实效果都不好，另外usePowerOf2Size的表现好一些，mongodb自2.6开始把这种分配方式变成默认的了。</h4>
+
+<h4>啰嗦了半天，我想说的就是, mongodb的存储受他的MMap内存管理所限，改来改去利用率没有本质提升。</h4>
+
+<h2>How to do?</h2>
+
+<h3>升级Tokumx</h3>
+
+<p>看看Tokumx的介绍:
+&ldquo;TokuMX is the MongoDB you know and love but built on top of Fractal Tree indexes from Tokutek.&rdquo;</p>
+
+<p>从上层看，Tokumx 可以看成是Mongodb的克隆，仅仅是底层的存储方式用它们的Fractal Tree算法替换了mongodb的存储而已。</p>
+
+<p>关于Fractal Tree，了解不多，从官方文档看，是对B-Tree的一个改进，通过对BTree的下级树叶保存子节点的缓冲区减少IO次数，另外可以用zlib等压缩算法存储数据</p>
+
+<p>存储方式的改变，也改变了MongoDB默认用的MMap内存管理算法，Tokumx采用自定义的内存管理，直接表现就是占用内存可以手工控制了(事实上也推荐你指定一个内存占用值)，不像MongoDB那样对内存的占用贪得无厌。得益于Fractal Tree，因为I/O的减少，分形树索引不会要求索引必须小于内存。即使超过内存的限制，TokuMX依然可以维持很高的写入性能。</p>
+
+<p>可以参考<a href="http://www.tokutek.com/2013/07/how-tokumx-gets-great-compression-for-mongodb/">这里</a>
+以及<a href="http://www.tokutek.com/2013/07/tokumx-fractal-treer-indexes-what-are-they/">这里</a>
+以及<a href="http://forms.tokutek.com/acton/attachment/6118/f-0039/1/-/-/-/-/lsm-vs-fractal.pdf">这里</a>
+以及<a href="http://www.tokutek.com/wp-content/uploads/2012/09/BenderKuszmaul-tutorial-xldb12.pdf">这里</a></p>
+
+<p>Tokumx宣称了很多很好的<a href="http://www.tokutek.com/products/tokumx-for-mongodb/">特性</a>:</p>
+
+<ul>
+<li>Benefits for Developers</li>
+<li>20x faster w/o tuning</li>
+<li>Transactions w/o tedious code</li>
+<li>Switch w/o changing your app</li>
+<li>Benefits for DevOps</li>
+<li>Use fewer servers; avoid upgrades</li>
+<li>90% compression = less flash</li>
+<li>Scalability w/o losing data integrity</li>
+</ul>
+
+
+<p>与MongoDB对比，官方宣称的限制有两个:</p>
+
+<ul>
+<li>不支持全文索引</li>
+<li>不支持GEO地理信息</li>
+</ul>
+
+
+<p>我们看中的就是他的磁盘占用，对这两个限制不Care。</p>
+
+<h2>Migrating data from MongoDB into TokuMX</h2>
+
+<p>怎样迁移，参考<a href="https://github.com/Tokutek/mongo/wiki">官方Wiki</a></p>
+
+<h2>How about</h2>
+
+<h4>将Mongodb(2.4.9) 迁移到TokuMx (1.5.0)，插入的document多是4K左右，原Mongodb数据库达到TB级别，感性体验:</h4>
+
+<ul>
+<li><p>数据存储占用空间大幅下降，说只用原来的1/10并不夸大</p></li>
+<li><p>每个collection及index都会存在单独的文件中,这样删除单表或索引后会立即释放占用的空间</p></li>
+<li><p>同一个表，删除老数据，插入新数据，空间重复利用率>80%</p></li>
+<li><p>写入速度没有20x的提升，但各种情况下，最差情况提升1倍是有的</p></li>
+<li><p>读性能没有下降</p></li>
+</ul>
+
+
+<h4>在我看来，与MongoDB相比，Tokumx的不足有以下几点:</h4>
+
+<ul>
+<li><p>稳定性; 因为采用了自定义的内存管理，不如MongoDB的MMap方式管理稳定，如果<code>cacheSize</code>设置不合适，而Tokumx的机器还有其他占用内存比较大的进程，会导致OOP，被系统杀掉的几率比较大。这要求我们设置<code>cacheSize</code>要斟酌一下。可以参考<a href="http://docs.tokutek.com/tokumx/tokumx-server-parameters.html">这里</a>; 顺便说一下，如果你的系统内存占用控制得当，是没有多大问题的。</p></li>
+<li><p>Tokumx的 Capped Collections性能比较渣，但是在我看来，存储方式的改变已经不需要这种方式了，所以这个不是问题。</p></li>
+<li><p>我没有找到从Tokumx重新迁回MongoDB的现成工具，将来要迁回来，可能要手工写工具自己导数据</p></li>
+<li><p>Mongodb升级,新Feature的支持，还有商业化的问题。Tokumx的官网上的blog有人问了这个问题，问Tokumx有没有同MongoDB Merge的计划，开发者做了回答，很详尽。</p>
+
+<p>  首先Tokumx的开发团队很小的，可能不会及时跟进Mongodb的新Feature移植</p>
+
+<p>  第二两家公司有不同的商业化考量，另外代码的Merge有一定工作量，未来不太可能合并</p>
+
+<p>  Tokumx只专注于存储性能的改进</p></li>
+</ul>
+
+
+<h4>更新:经过一段时间使用，发现了如下问题:</h4>
+
+<ul>
+<li><p>压缩后大量update是会带来大量碎片</p></li>
+<li><p>高写入性能会造成同步出现巨大延迟</p></li>
+<li><p>还是会莫名down掉，down掉几率还是要比Mongodb大</p></li>
+</ul>
+
+
+<h4>再次更新:经过实际数据测试，usePowerOf2Size的磁盘重复利用的确比较好</h4>
+
+<ul>
+<li><p>采用Padding 的存储方式，磁盘重复利用率为32%</p></li>
+<li><p>采用usePowerOf2Size 的存储方式，磁盘重复利用率为73%</p></li>
+<li><p>采用usePowerOf2Size 的存储方式比Padding 的存储方式，磁盘多占用10%</p></li>
+</ul>
+
+
+<p>所以假如有一年的数据，Padding的存储方式，storageSize为1T，设定过期时间是1年，那么第二年后，数据库增长为1.7T</p>
+
+<p>同样的数据，usePowerOf2Size 的存储方式，storageSize为1.1T，设定过期时间是1年，那么第二年后，数据库增长为1.5T</p>
+
+<p>这个数字会根据插入记录的离散度有所变化，但大概比例应该就是这样的。</p>
+
+<h4>总的来说，Tokumx还是只适合单机用啊，机器一多，各种毛病都来了~~~，大家如果分布式，等mongodb 2.8版本更靠谱一些。</h4>
+
+<h4>2015-05 更新:升级到 mongodb3.0.3，切换到 WiredTiger存储引擎 ，各方面工作良好，建议升级 。</h4>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Export Json by Mongoexport</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-03T08:46:23+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2014</time>
+        
+           | <a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Exp:</p>
+
+<pre><code>mongoexport -d foo -c exp -o exp.json -q '{"ts":{"$gte":0}}'
+</code></pre>
+
+<p>Notice:</p>
+
+<pre><code>You should use `"`  not  `'` in query string
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/26/freeze-svn-externals-for-tags/">Freeze Svn:externals for Tags/branch</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T18:12:23+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/26/freeze-svn-externals-for-tags/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/03/26/freeze-svn-externals-for-tags/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>svn的external link在多个项目互相引用时很有用。</p>
+
+<p>但我们想要做tag及branch的时候，需要将external link的文件或目录固定在某个版本。</p>
+
+<h2>搜了一下，基本上有几个办法:</h2>
+
+<p>使用tortoisesvn>1.7版本，打tag及branch的时候可以固定在某一版本:</p>
+
+<pre><code>¦   http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug-branchtag.html
+
+
+缺点是这样打出来的branch，checkout下来后，svn up还是回到最新的版本。
+</code></pre>
+
+<p>使用一个perl脚本，可以在打branch的时候把extern link一起拷贝到branch底下，这样相当于是建立了一个新的external link拷贝，修改branch不会影响到trunk</p>
+
+<pre><code>¦   https://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/svncopy/
+
+
+缺点是这样打出来的branch底下会多出来external link的拷贝，不完美。
+</code></pre>
+
+<p>有人开发了工具, C#的，但我在win7下面打branch的时候会报错</p>
+
+<pre><code>¦   http://svnxf.codeplex.com/
+</code></pre>
+
+<h4>原先以为这样的事情总该有个simple的解决办法的，但还真是没找到，自己实际写个脚本想做这个事情才发现不简单。想要做这件事的前提是要把代码check到本地来，这样就不如直接调命令了，如果远程操作svn库，就需要三方开发。</h4>
+
+<h2>最后简单的办法是:</h2>
+
+<p>如果是打tag，采用方法一，用tortoisesvn固定在一个版本</p>
+
+<p>如果是打branch，先用tortoisesvn 固定在一个版本，再把branch分支checkout下来，用命令 <code>svn propedit svn:externals .</code>取消external link，再重新加入版本库，最后提交。</p>
+
+<p>参考:</p>
+
+<p><a href="http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags">http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/">为centos添加EPEL Repo</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T11:04:58+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/03/14/wei-centostian-jia-epel-repo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>centos默认的源软件不是很全，大部分时候需要添加EPEL源。</p>
+
+<h2>centos5.x</h2>
+
+<pre><code>wget http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+sudo rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
+</code></pre>
+
+<h2>centos6.x</h2>
+
+<pre><code>wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
+</code></pre>
+
+<h2>添加完毕后可以到/etc/yum.repos.d里面看一下</h2>
+
+<pre><code>$ ls -1 /etc/yum.repos.d/epel* /etc/yum.repos.d/remi.repo
+/etc/yum.repos.d/epel.repo
+/etc/yum.repos.d/epel-testing.repo
+/etc/yum.repos.d/remi.repo
+</code></pre>
+
+<h2>设置remi repository</h2>
+
+<p>remi repository更新很快，如果你很需要htopxxx最新版本这样的话最好打开</p>
+
+<pre><code>sudo vim /etc/yum.repos.d/remi.repo
+</code></pre>
+
+<p>编辑 [remi]段:</p>
+
+<pre><code>name=Les RPM de remi pour Enterprise Linux $releasever - $basearch
+#baseurl=http://rpms.famillecollet.com/enterprise/$releasever/remi/$basearch/
+mirrorlist=http://rpms.famillecollet.com/enterprise/$releasever/remi/mirror
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+failovermethod=priority
+</code></pre>
+
+<h2>开发工具套装</h2>
+
+<pre><code>yum groupinstall "Development Tools"
+</code></pre>
+
+<h2>SCL源</h2>
+
+<p><a href="http://wiki.centos.org/AdditionalResources/Repositories/SCL">http://wiki.centos.org/AdditionalResources/Repositories/SCL</a></p>
+
+<h2>解决仓库安装失败的问题</h2>
+
+<p>有时候某个软件可以Search，但安装一直报错:</p>
+
+<pre><code>http://download.fedoraproject.org/pu...ry.sqlite.bz2: [Errno 12] Timeout: &lt;urlopen error timed out&gt;
+Trying other mirror.
+</code></pre>
+
+<p>最简单的修复办法就是重建repos</p>
+
+<pre><code>yum clean all
+rpm --rebuilddb
+yum update
+</code></pre>
+
+<p>90%的情况会奏效</p>
+
+<h2>yum只下载安装包</h2>
+
+<pre><code>[RHEL5]
+yum -y install yum-downloadonly
+yum install mongodb-org --downloadonly
+
+[RHEL6]
+yum install yum-plugin-downloadonly
+yum install --downloadonly --downloaddir=. mongodb-org
+</code></pre>
+
+<h2>yum提取已经安装的rpm包</h2>
+
+<pre><code>yum install yum-utils
+yumdownloader &lt;package&gt;
+yumdownloader &lt;package&gt; --resolve
+</code></pre>
+
+<h2>yum升级kernel</h2>
+
+<p><a href="http://elrepo.org/tiki/kernel-ml">http://elrepo.org/tiki/kernel-ml</a></p>
+
+<h2>elrepo url</h2>
+
+<p><a href="http://elrepo.org/tiki/tiki-index.php">http://elrepo.org/tiki/tiki-index.php</a></p>
+
+<p><a href="http://elrepo.org/linux/kernel/">http://elrepo.org/linux/kernel/</a></p>
+
+<p><a href="http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/">http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/</a></p>
+
+<h2>mongodb RPM repo</h2>
+
+<p><a href="https://repo.mongodb.org/yum/redhat">https://repo.mongodb.org/yum/redhat</a></p>
+
+<h2>163镜像源</h2>
+
+<p><a href="http://mirrors.163.com/.help/centos.html">http://mirrors.163.com/.help/centos.html</a></p>
+
+<h2>rpm 常用命令</h2>
+
+<ul>
+<li>重装某个包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -ivh --replacepkgs xxx.rpm</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改prefix</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qp --queryformat "%{defaultprefix}\n" &lt;packagefile&gt;
+</span><span class='line'>rpm -ivh --prefix &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查询某个包包含的文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -ql &lt;packagefile&gt;
+</span><span class='line'>rpm -qs &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查询某个包包含的配置文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qc &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查询某个包安装时要执行的脚本文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -q --scripts &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查询某个文件属于哪个包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查询某个可执行文件的配置文件和log文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qcf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>寻找最近安装的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find /bin -type f -mtime -14 | rpm -qF
+</span><span class='line'>rpm -qa --queryformat '%{installtime} %{name}-%{version}-%{release} %{installtime:date}\n' | sort -nr +1 | sed -e 's/^[^ ]* //'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>寻找最大的安装包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qa --queryformat '%{name-%{version}-%{release} %{size}\n' | sort -nr +1}'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>解压一个rpm文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm2cpio xxx.rpm | cpio -div</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">批量删除mongo Collections</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-27T09:24:04+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>mongodb没有批量删除collecton的命令，平常建立了很多a1,a2,a3的表删除有些麻烦，写个小脚本方便些。</p>
+
+<pre><code>mongorm.sh -d database -c a*
+</code></pre>
+
+<p>就很方便删除了。</p>
+
+<pre><code>#!/bin/bash
+# remove mongodb's collections with command "mongn rm app*"
+# Usage `mongorm &lt;-c collections*&gt; &lt;-d dababase&gt;`
+
+E_BADARGS=85
+E_NOFILE=86
+
+DATABASE=''
+COLLECTIONS=''
+
+while getopts "c:d:h" arg
+do
+        case $arg in
+             c)
+                echo "-c $OPTARG"
+                COLLECTIONS=$OPTARG
+                ;;
+             d)
+                echo "-d $OPTARG"
+                DATABASE=$OPTARG
+                ;;
+             h)
+                 echo "mongorm &lt;-d database&gt; &lt;-c collections&gt;"
+                 echo "for exp:"
+                 echo "        mongorm -d bpc -c app*"
+                 ;;
+             ?)
+                echo "unkonw argument"
+        exit 1
+        ;;
+        esac
+done
+
+if [[ -z "$DATABASE" ]]
+    # Correct number of arguments passed to script?
+then
+    echo 'Usage: -d database'
+    echo 'please do mongorm.sh -h to get more info'
+    exit $E_BADARGS
+fi
+
+if [[ -z "$COLLECTIONS" ]]
+    # Correct number of arguments passed to script?
+then
+    echo 'Usage: -c collections'
+    echo 'please do mongorm.sh -h to get more info'
+    exit $E_BADARGS
+fi
+
+mongojs_rm_function=`cat &lt;&lt; EOF
+db.getCollectionNames().forEach(function(c) {
+    if(c.match("$COLLECTIONS")) {
+                db.getCollection(c).drop();
+                    }
+                  });
+EOF
+`
+echo $mongojs_rm_function&gt;remove.js
+
+mongo 127.0.0.1:27017/$DATABASE remove.js
+rm -rf remove.js
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">解决tmux下vim Colorscheme失效的问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-25T08:05:48+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在tmux(v1.6)默认配置下，vim的主题solarized, molokai等颜色设置都会失效</p>
+
+<p>这是由于tmux term设置的问题。</p>
+
+<p>需要在~/.bashrc中添加:
+<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
+
+<p>再在~/.tmux.conf中添加:
+<code>set -g default-terminal "xterm"</code></p>
+
+<p>如果是osx，可能在~/.bashrc要添加:
+<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
+
+<p>在~/.tmux.conf中添加:
+<code>set -g default-terminal "screen-256color"</code></p>
+
+<p>最后执行
+<code>$ source ~/.bashrc</code></p>
+
+<p>就OK了。</p>
+
+<p>参考:</p>
+
+<p><a href="http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode">http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode</a>
+<a href="http://rhnh.net/2011/08/20/vim-and-tmux-on-osx">http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/22/shuang-meng-ji/">双梦记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-22T16:45:16+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/22/shuang-meng-ji/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/02/22/shuang-meng-ji/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>阿拉伯历史学家艾尔一伊萨基叙说了下面的故事：</p>
+
+<p>“据可靠人士说（不过唯有真主才是无所不知、无所不能、慈悲为怀、明察秋毫的），开罗有个家资巨万的人，他仗义疏财，散尽家产，只剩下祖传的房屋，不得不干活糊口。他工作十分辛苦，一晚累得在他园子里的无花果树下睡着了，他梦见一个衣服湿透的人从嘴里掏出一枚金币，对他说：‘你的好运在波斯的伊斯法罕；去找吧。’他第二天清晨醒来后便踏上漫长的旅程，经受了沙漠、海洋、海盗、偶像崇拜者、河流、猛兽和人的磨难艰险。他终于到达伊斯法罕，刚进城天色已晚，便在一座清真寺的天井里躺着过夜。清真寺旁边有一家民宅，由于万能的神的安排，一伙强盗借道清真寺，闯进民宅，睡梦中的人被强盗的喧闹吵醒，高声呼救。邻舍也呼喊起来，该区巡夜士兵的队长赶来，强盗们便翻过屋顶逃跑。队长吩咐搜查寺院，发现了从开罗来的人，士兵们用竹杖把他打得死去活来。两天后，他在监狱里苏醒。队长把他提去审问：‘你是谁，从哪里来？’那人回道：‘我来自有名的城市开罗，我名叫穆罕默德一艾尔一马格莱比。’队长追问：‘你来波斯干什么？’那人如实说：‘有个人托梦给我，叫我来伊斯法罕，说我的好运在这里。如今我到了伊斯法罕，发现答应我的好运却是你劈头盖脸给我的一顿好打。’</p>
+
+<p>“队长听了这番话，笑得大牙都露了出来，最后说：‘鲁莽轻信的人啊，我三次梦见开罗城的一所房子，房子后面有个日晷，日晷后面有棵无花果树，无花果树后面有个喷泉，喷泉底下埋着宝藏。我根本不信那个乱梦。而你这个骡子与魔鬼生的傻瓜啊，居然相信一个梦，跑了这么多城市。别让我在伊斯法罕再见到你了。拿几枚钱币走吧。’</p>
+
+<p>“那人拿了钱，回到自己的国家，他在自家园子的喷泉底下（也就是队长梦见的地点）挖出了宝藏。神用这种方式保佑了他，给了他好报和祝福。在冥冥中主宰一切的神是慷慨的。”</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/22/hello/">Hello</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-22T15:45:34+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/22/hello/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/02/22/hello/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Seashore washed by suds and foam,</p>
+
+<p>Been here so long got to calling it home．</p>
+
+<p>let&rsquo;s sail.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/7/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
+<li class='category'><a href='/blog/categories/array/'>Array (1)</a></li>
+<li class='category'><a href='/blog/categories/c/'>C (1)</a></li>
+<li class='category'><a href='/blog/categories/c2c/'>C2C (1)</a></li>
+<li class='category'><a href='/blog/categories/cdn/'>CDN (1)</a></li>
+<li class='category'><a href='/blog/categories/designpattern/'>DesignPattern (1)</a></li>
+<li class='category'><a href='/blog/categories/django/'>Django (3)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>Docker (4)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (4)</a></li>
+<li class='category'><a href='/blog/categories/macvtap/'>Macvtap (1)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>MongoDB (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>Mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/packet-mmap/'>PACKET_MMAP (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (4)</a></li>
+<li class='category'><a href='/blog/categories/sdn/'>SDN (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>SVN (1)</a></li>
+<li class='category'><a href='/blog/categories/tcp-ip/'>TCP/IP (3)</a></li>
+<li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
+<li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>Vim (2)</a></li>
+<li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
+<li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
+<li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
+<li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
+<li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
+<li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
+<li class='category'><a href='/blog/categories/centos/'>centos (2)</a></li>
+<li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
+<li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
+<li class='category'><a href='/blog/categories/color/'>color (1)</a></li>
+<li class='category'><a href='/blog/categories/colorscheme/'>colorscheme (1)</a></li>
+<li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
+<li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
+<li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
+<li class='category'><a href='/blog/categories/epel/'>epel (1)</a></li>
+<li class='category'><a href='/blog/categories/externals/'>externals (1)</a></li>
+<li class='category'><a href='/blog/categories/finance/'>finance (1)</a></li>
+<li class='category'><a href='/blog/categories/freeze/'>freeze (1)</a></li>
+<li class='category'><a href='/blog/categories/gcc/'>gcc (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>
+<li class='category'><a href='/blog/categories/jenkins/'>jenkins (1)</a></li>
+<li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
+<li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
+<li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
+<li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
+<li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/mongoexport/'>mongoexport (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>mysql (1)</a></li>
+<li class='category'><a href='/blog/categories/netcat/'>netcat (1)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (6)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (1)</a></li>
+<li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
+<li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>
+<li class='category'><a href='/blog/categories/product/'>product (1)</a></li>
+<li class='category'><a href='/blog/categories/repo/'>repo (1)</a></li>
+<li class='category'><a href='/blog/categories/satoshi/'>satoshi (1)</a></li>
+<li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
+<li class='category'><a href='/blog/categories/tag/'>tag (1)</a></li>
+<li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+<li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
+<li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
+<li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
+<li class='category'><a href='/blog/categories/windows/'>windows (1)</a></li>
+<li class='category'><a href='/blog/categories/yum/'>yum (1)</a></li>
+<li class='category'><a href='/blog/categories/云计算/'>云计算 (1)</a></li>
+<li class='category'><a href='/blog/categories/华容道/'>华容道 (1)</a></li>
+<li class='category'><a href='/blog/categories/批量删除/'>批量删除 (1)</a></li>
+<li class='category'><a href='/blog/categories/生活/'>生活 (1)</a></li>
+<li class='category'><a href='/blog/categories/表/'>表 (1)</a></li>
+<li class='category'><a href='/blog/categories/读书摘录/'>读书摘录 (2)</a></li>
+  
+    </ul> 
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

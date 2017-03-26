@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Uwsgi部署django程序 - memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="Python的web世界，部署首选uwsgi，既可独战，又可搭配Nginx等车轮战，实在是居家必备。 但我每次都得搞都得去翻一遍手册，实在烦了，记一下简单粗暴的测试方案。 安装 pip install uwsgi 测试 写一个最简单的test.py: 1
+2
+3
+# test.pydef &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/2014/10/31/uwsgibu-shu-djangocheng-xu">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Uwsgi部署django程序</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-31T08:39:26+08:00" pubdate data-updated="true">Oct 31<span>st</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Python的web世界，部署首选uwsgi，既可独战，又可搭配Nginx等车轮战，实在是居家必备。</p>
+
+<p>但我每次都得搞都得去翻一遍手册，实在烦了，记一下简单粗暴的测试方案。</p>
+
+<h2>安装</h2>
+
+<pre><code>pip install uwsgi
+</code></pre>
+
+<h2>测试</h2>
+
+<p>写一个最简单的test.py:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># test.pydef application(env, start_response):
+</span><span class='line'>    start_response('200 OK', [('Content-Type','text/html')])
+</span><span class='line'>    return "Hello World"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行shell命令:</p>
+
+<pre><code>uwsgi --http :8000 --wsgi-file test.py
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到<code>Hello World</code>了</p>
+
+<h2>集成Django</h2>
+
+<pre><code>django-admin startproject testuwsgi
+</code></pre>
+
+<p>这样生成的项目，django版本不同，目录会有微小的差别，找manage.py就对了</p>
+
+<p>如果是>django1.6的话，会自动生成wsgi.py文件，没有的话编辑一个:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
+</span><span class='line'># coding: utf-8
+</span><span class='line'>
+</span><span class='line'>import os
+</span><span class='line'>import sys
+</span><span class='line'>
+</span><span class='line'># 将系统的编码设置为UTF8
+</span><span class='line'>reload(sys)
+</span><span class='line'>sys.setdefaultencoding('utf8')
+</span><span class='line'>
+</span><span class='line'>os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+</span><span class='line'>
+</span><span class='line'>from django.core.handlers.wsgi import WSGIHandler
+</span><span class='line'>application = WSGIHandler()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行:</p>
+
+<pre><code>uwsgi --http :8000 --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到Django的欢迎页面了</p>
+
+<h2>支持Https</h2>
+
+<p>uwsgi自1.3版本开始支持https</p>
+
+<p>分两步走:</p>
+
+<h4>生成证书</h4>
+
+<pre><code>openssl genrsa -out foobar.key 2048
+openssl req -new -key foobar.key -out foobar.csr
+openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
+</code></pre>
+
+<h4>走起</h4>
+
+<pre><code>uwsgi --master --https 0.0.0.0:8443,foobar.crt,foobar.key --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问的时候要以:</p>
+
+<p><a href="https://127.0.0.1:8443/">https://127.0.0.1:8443/</a></p>
+
+<p>OK了</p>
+
+<p>至于怎么搭配Nginx，写配置文件，搭配Supervisor，还是老老实实翻手册吧，反正这个不是经常做。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-31T08:39:26+08:00" pubdate data-updated="true">Oct 31<span>st</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/django/'>Django</a>, <a class='category' href='/blog/categories/uwsgi/'>uwsgi</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/" title="Previous Post: how to auto gen css/js by grunt and jenkins">&laquo; how to auto gen css/js by grunt and jenkins</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/" title="Next Post: 用TCP/IP进行网际互连 (笔记)">用TCP/IP进行网际互连 (笔记) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://memoryboxes.github.io/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/';
+        var disqus_url = 'http://memoryboxes.github.io/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

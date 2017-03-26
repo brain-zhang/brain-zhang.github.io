@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Server | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/server/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[比较实惠的二手机器]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi/"/>
+    <updated>2016-06-15T17:42:12+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi</id>
+    <content type="html"><![CDATA[<p>公司里采购了一批二手服务器，用了一段时间很实惠，记录之:</p>
+
+<ul>
+<li><p>IBM x3550M4服务器E5&mdash;2670<em>2 192G(8G</em>24) 无硬盘，8个硬盘架， M5110阵列卡 单电 ￥7680</p></li>
+<li><p>IBM x3550m4服务器硬盘背板 扩展板 81Y6657 ￥450</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

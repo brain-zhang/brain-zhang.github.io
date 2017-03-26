@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 表 | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/biao/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[批量删除mongo Collections]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/"/>
+    <updated>2014-02-27T09:24:04+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/02/27/pi-liang-shan-chu-mongo-collections</id>
+    <content type="html"><![CDATA[<p>mongodb没有批量删除collecton的命令，平常建立了很多a1,a2,a3的表删除有些麻烦，写个小脚本方便些。</p>
+
+<pre><code>mongorm.sh -d database -c a*
+</code></pre>
+
+<p>就很方便删除了。</p>
+
+<pre><code>#!/bin/bash
+# remove mongodb's collections with command "mongn rm app*"
+# Usage `mongorm &lt;-c collections*&gt; &lt;-d dababase&gt;`
+
+E_BADARGS=85
+E_NOFILE=86
+
+DATABASE=''
+COLLECTIONS=''
+
+while getopts "c:d:h" arg
+do
+        case $arg in
+             c)
+                echo "-c $OPTARG"
+                COLLECTIONS=$OPTARG
+                ;;
+             d)
+                echo "-d $OPTARG"
+                DATABASE=$OPTARG
+                ;;
+             h)
+                 echo "mongorm &lt;-d database&gt; &lt;-c collections&gt;"
+                 echo "for exp:"
+                 echo "        mongorm -d bpc -c app*"
+                 ;;
+             ?)
+                echo "unkonw argument"
+        exit 1
+        ;;
+        esac
+done
+
+if [[ -z "$DATABASE" ]]
+    # Correct number of arguments passed to script?
+then
+    echo 'Usage: -d database'
+    echo 'please do mongorm.sh -h to get more info'
+    exit $E_BADARGS
+fi
+
+if [[ -z "$COLLECTIONS" ]]
+    # Correct number of arguments passed to script?
+then
+    echo 'Usage: -c collections'
+    echo 'please do mongorm.sh -h to get more info'
+    exit $E_BADARGS
+fi
+
+mongojs_rm_function=`cat &lt;&lt; EOF
+db.getCollectionNames().forEach(function(c) {
+    if(c.match("$COLLECTIONS")) {
+                db.getCollection(c).drop();
+                    }
+                  });
+EOF
+`
+echo $mongojs_rm_function&gt;remove.js
+
+mongo 127.0.0.1:27017/$DATABASE remove.js
+rm -rf remove.js
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

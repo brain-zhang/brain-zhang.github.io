@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rake Gen Deploy Rejected in Octopress]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/"/>
+    <updated>2014-09-16T11:55:56+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress</id>
+    <content type="html"><![CDATA[<p>Octopress老版本，例如我用的，在一台新机器上check 下来Repo，重建source分支时，会报rejected错误。</p>
+
+<p>怎么pull也不管用，解决办法参考这里:</p>
+
+<p><a href="http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress">http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress</a></p>
+
+<h3>悲剧提示，我后来发现有一段blog被revert掉了，诡异的是在github上面的提交记录也没了，要慎用，要做好备份。</h3>
+]]></content>
+  </entry>
+  
+</feed>

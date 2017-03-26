@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Colorscheme | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/colorscheme/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[解决tmux下vim Colorscheme失效的问题]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/"/>
+    <updated>2014-02-25T08:05:48+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti</id>
+    <content type="html"><![CDATA[<p>在tmux(v1.6)默认配置下，vim的主题solarized, molokai等颜色设置都会失效</p>
+
+<p>这是由于tmux term设置的问题。</p>
+
+<p>需要在~/.bashrc中添加:
+<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
+
+<p>再在~/.tmux.conf中添加:
+<code>set -g default-terminal "xterm"</code></p>
+
+<p>如果是osx，可能在~/.bashrc要添加:
+<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
+
+<p>在~/.tmux.conf中添加:
+<code>set -g default-terminal "screen-256color"</code></p>
+
+<p>最后执行
+<code>$ source ~/.bashrc</code></p>
+
+<p>就OK了。</p>
+
+<p>参考:</p>
+
+<p><a href="http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode">http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode</a>
+<a href="http://rhnh.net/2011/08/20/vim-and-tmux-on-osx">http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</a></p>
+]]></content>
+  </entry>
+  
+</feed>

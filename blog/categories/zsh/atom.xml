@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Zsh | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/zsh/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[svn1.7+ Zsh报错]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/"/>
+    <updated>2014-09-17T08:40:14+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo</id>
+    <content type="html"><![CDATA[<p>更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。</p>
+
+<p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>
+
+<p>修改方法:</p>
+
+<p>打开文件：/usr/share/zsh/4.3.11/functions/_subversion</p>
+
+<p>找到35行左右</p>
+
+<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:arg:)#/(--$match[2])-    $match[1]$match[3] (-$match[1])--$match[2]$match[3]}</code>
+改为</p>
+
+<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}</code></p>
+
+<p>参考资料：
+<a href="http://www.zsh.org/mla/workers/2011/msg01448.html">http://www.zsh.org/mla/workers/2011/msg01448.html</a></p>
+]]></content>
+  </entry>
+  
+</feed>

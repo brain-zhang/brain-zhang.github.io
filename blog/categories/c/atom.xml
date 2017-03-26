@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/c/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[C:dynamic Array in Stack]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/09/17/c-dynamic-array-in-stack/"/>
+    <updated>2014-09-17T08:42:25+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/09/17/c-dynamic-array-in-stack</id>
+    <content type="html"><![CDATA[<p>以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。</p>
+
+<p>```
+int main()
+{</p>
+
+<pre><code>int x = 12;
+char pz[x];
+</code></pre>
+
+<p>}
+```
+C99是支持的。在gcc4+以上的版本里测试OK。</p>
+
+<p>另外stackoverflow上提到C++不支持动态数组，在g++4.4.7里面试了一下，也是可以的。</p>
+
+<p>不是我不明白，这世界变化快。</p>
+
+<p>Out好多好多年了…….</p>
+
+<p>参考:
+<a href="http://stackoverflow.com/questions/1204521/dynamic-array-in-stack">http://stackoverflow.com/questions/1204521/dynamic-array-in-stack</a> <a href="http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed">http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</a></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Django | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/django/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Uwsgi部署django程序]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/"/>
+    <updated>2014-10-31T08:39:26+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/10/31/uwsgibu-shu-djangocheng-xu</id>
+    <content type="html"><![CDATA[<p>Python的web世界，部署首选uwsgi，既可独战，又可搭配Nginx等车轮战，实在是居家必备。</p>
+
+<p>但我每次都得搞都得去翻一遍手册，实在烦了，记一下简单粗暴的测试方案。</p>
+
+<h2>安装</h2>
+
+<pre><code>pip install uwsgi
+</code></pre>
+
+<h2>测试</h2>
+
+<p>写一个最简单的test.py:</p>
+
+<p>```</p>
+
+<h1>test.pydef application(env, start_response):</h1>
+
+<pre><code>start_response('200 OK', [('Content-Type','text/html')])
+return "Hello World"
+</code></pre>
+
+<p>```</p>
+
+<p>执行shell命令:</p>
+
+<pre><code>uwsgi --http :8000 --wsgi-file test.py
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到<code>Hello World</code>了</p>
+
+<h2>集成Django</h2>
+
+<pre><code>django-admin startproject testuwsgi
+</code></pre>
+
+<p>这样生成的项目，django版本不同，目录会有微小的差别，找manage.py就对了</p>
+
+<p>如果是>django1.6的话，会自动生成wsgi.py文件，没有的话编辑一个:</p>
+
+<p>```</p>
+
+<h1>!/usr/bin/env python</h1>
+
+<h1>coding: utf-8</h1>
+
+<p>import os
+import sys</p>
+
+<h1>将系统的编码设置为UTF8</h1>
+
+<p>reload(sys)
+sys.setdefaultencoding(&lsquo;utf8&rsquo;)</p>
+
+<p>os.environ.setdefault(&ldquo;DJANGO_SETTINGS_MODULE&rdquo;, &ldquo;mysite.settings&rdquo;)</p>
+
+<p>from django.core.handlers.wsgi import WSGIHandler
+application = WSGIHandler()
+```</p>
+
+<p>执行:</p>
+
+<pre><code>uwsgi --http :8000 --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到Django的欢迎页面了</p>
+
+<h2>支持Https</h2>
+
+<p>uwsgi自1.3版本开始支持https</p>
+
+<p>分两步走:</p>
+
+<h4>生成证书</h4>
+
+<pre><code>openssl genrsa -out foobar.key 2048
+openssl req -new -key foobar.key -out foobar.csr
+openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
+</code></pre>
+
+<h4>走起</h4>
+
+<pre><code>uwsgi --master --https 0.0.0.0:8443,foobar.crt,foobar.key --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问的时候要以:</p>
+
+<p><a href="https://127.0.0.1:8443/">https://127.0.0.1:8443/</a></p>
+
+<p>OK了</p>
+
+<p>至于怎么搭配Nginx，写配置文件，搭配Supervisor，还是老老实实翻手册吧，反正这个不是经常做。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[自定义Django的密码策略]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/"/>
+    <updated>2014-09-17T08:38:03+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue</id>
+    <content type="html"><![CDATA[<p>Django 从1.4 版本开始，包含了一些安全方面的重要提升。其中一个是使用 PBKDF2 密码加密算法代替了 SHA1 。另外一个特性是你可以添加自己的密码加密方法。</p>
+
+<p>Django 会使用你提供的第一个密码加密方法（在你的 setting.py 文件里要至少有一个方法）</p>
+
+<p>```
+PASSWORD_HASHERS = (</p>
+
+<pre><code>'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+'django.contrib.auth.hashers.BCryptPasswordHasher',
+'django.contrib.auth.hashers.SHA1PasswordHasher', # Insecure Hashes
+'django.contrib.auth.hashers.MD5PasswordHasher', # Insecure Hashes
+'django.contrib.auth.hashers.CryptPasswordHasher', # Insecure Hashes
+</code></pre>
+
+<p>)
+```</p>
+
+<p>但Django默认生成的密码策略往往会带上 md5_xxx, pbkdf2_xxx，同其他系统整合的时候，一般是没有这些前缀的，这就需要我们自定义一个密码策略。</p>
+
+<p>下面介绍下如何定义一个简单的 <code>md5(md5(password, salt))</code> 密码策略。</p>
+
+<h3>step1</h3>
+
+<p>建立一个app，django-admin.py startapp ownmd5</p>
+
+<h3>step2</h3>
+
+<p>在 ownmd5中 建立 hashers.py 文件，加入 OwnMd5PasswordHasher 类</p>
+
+<p>```
+import hashlib
+from django.utils.translation import ugettext_noop as _
+from django.utils.datastructures import SortedDict
+from django.utils.crypto import constant_time_compare
+from django.utils.encoding import force_bytes, force_str, force_text
+from django.contrib.auth.hashers import BasePasswordHasher, mask_hash</p>
+
+<p>class OwnMD5PasswordHasher(BasePasswordHasher):</p>
+
+<pre><code>"""
+The Salted MD5 password hashing algorithm (not recommended)
+"""
+algorithm = "ownmd5"
+
+def encode(self, password, salt):
+    assert password is not None
+    assert salt and '$' not in salt
+    hash = hashlib.md5(hashlib.md5(force_bytes(salt + password)).hexdigest()).hexdigest()
+    return hash
+
+def verify(self, password, encoded, salt):
+    encoded_2 = self.encode(password, salt)
+    return constant_time_compare(encoded, encoded_2)
+
+def safe_summary(self, encoded, salt):
+    return SortedDict([
+        (_('algorithm'), self.algorithm),
+        (_('salt'), mask_hash(salt, show=4)),
+        (_('hash'), mask_hash(hash)),
+    ])
+</code></pre>
+
+<p>```</p>
+
+<h3>step3</h3>
+
+<p>将 OwnMD5PasswordHasher 加入到settings.py 中:
+```
+PASSWORD_HASHERS = (</p>
+
+<pre><code>'ownmd5.hashers.OwnMD5PasswordHasher',
+</code></pre>
+
+<p>)
+```
+这样，默认的user及auth模块都会采用自定义的md5算法。</p>
+
+<p>参考:</p>
+
+<p><a href="https://docs.djangoproject.com/en/1.6/topics/auth/passwords/">https://docs.djangoproject.com/en/1.6/topics/auth/passwords/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Auto Reload Modules in Django Shell]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/09/17/auto-reload-modules-in-django-shell/"/>
+    <updated>2014-09-17T08:36:01+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/09/17/auto-reload-modules-in-django-shell</id>
+    <content type="html"><![CDATA[<p><code>python manage.py shell</code></p>
+
+<p>太常用了，但是每次修改模块代码后，总要 exit—>reset 才能重新load一遍代码，实在是不爽。</p>
+
+<p>也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。</p>
+
+<p>最近发现一个扩展，django-externsions:</p>
+
+<p><a href="https://github.com/django-extensions/django-extensions">https://github.com/django-extensions/django-extensions</a></p>
+
+<p>装上好用不少，貌似还比较靠谱，推荐之。</p>
+]]></content>
+  </entry>
+  
+</feed>

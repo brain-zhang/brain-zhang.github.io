@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Bitcoin | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/bitcoin/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[加密技术发展]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/"/>
+    <updated>2016-12-25T16:54:47+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan</id>
+    <content type="html"><![CDATA[<p>比特币是建立在区块链基础上的，区块链的基本技术支撑有三个:</p>
+
+<ul>
+<li><p>非对称加密</p></li>
+<li><p>点对点网络技术</p></li>
+<li><p>HASH现金</p></li>
+</ul>
+
+
+<p>其中非对称加密和HASH现金技术的历史发展颇有渊源，最近仔细学习了一下密码学科普知识，总结一下。</p>
+
+<!-- more -->
+
+
+<h2>历史回溯</h2>
+
+<p>虽然加密和解秘是人类诞生以来一直上演的剧目，方法也是形形色色，但到现在为止，可以简单归纳为两个历史阶段:</p>
+
+<h3>1976年之前</h3>
+
+<p>1976年以前，所有的加密算法，模式是一样的:</p>
+
+<ul>
+<li><p>甲方选择某一种加密规则，对信息进行加密</p></li>
+<li><p>乙方使用同一种规则，对信息进行解密</p></li>
+</ul>
+
+
+<p>这时候所有的加解密都是在规则上下文章，主要有两大流派，隐写术和密码术。</p>
+
+<p>隐写术就是利用隐形墨水之类的秘密传递手段，缺点显而易见，比如在很多小说里描述的火烤显形的段子。</p>
+
+<p>密码术相对比较主流，最基本的是"替换"和"移位"两种方法，</p>
+
+<h4>替换法</h4>
+
+<p>即用一个字母表来替换明码字母的方法，举例:</p>
+
+<p>明码表: a b c d e f g h i j k l m n o p q r s t u v w x y z</p>
+
+<p>密码表: D E F G H I J K L M N O P Q R S T U V W X Y Z A B C</p>
+
+<p>明文:   v e n i, v i d i, v i c i</p>
+
+<p>密文:   Y H Q L, Y L G L, Y L F L</p>
+
+<p>上面这个简单的加密就来自于鼎鼎大名的凯撒加密。当然实际没这么简单，但原理就是这么回事。</p>
+
+<h4>移位法</h4>
+
+<p>即制定一系列规则，对明文进行移位交换获得密文， 举例:</p>
+
+<p>相邻两个字符互换形成密文:</p>
+
+<p>明文:   v e n i, v i d i, v i c i</p>
+
+<p>密文:   e v i n, i v i d, i v i c</p>
+
+<p>在1976年之前，大家用的最多的就是这两种方法交替多次加密，比如有多个密码表多次映射，多个移位变换规则进行多次变换等等</p>
+
+<p>大家熟知的<a href="https://zh.wikipedia.org/zh-hans/%E8%B3%87%E6%96%99%E5%8A%A0%E5%AF%86%E6%A8%99%E6%BA%96">DES加密算法</a>就是此类古典加密算法的顶峰，当然，现在已经由于安全问题不被推荐了。</p>
+
+<p>上千年间，大家围绕这些基础手段斗智斗力，但始终有个缺陷无法解决：</p>
+
+<h4>如何把加密规则和密码表安全的通知对方?</h4>
+
+<p>用现代密码学里面的一个<a href="https://zh.wikipedia.org/wiki/%E6%84%9B%E9%BA%97%E7%B5%B2%E8%88%87%E9%AE%91%E4%BC%AF">经典譬喻</a>来描述一下:</p>
+
+<ul>
+<li><p>Alice和Bob是朋友，他们的住处离得比较远，Alice想要发送一则隐私消息给Bob</p></li>
+<li><p>Eve想要窃听Alice和Bob的通信，Alice和Bob无法防止Eve的偷看</p></li>
+<li><p>Alice把信放在一个盒子里，她上了锁，让邮差发给Bob，Eve没有钥匙，无法打开盒子，但是Bob也无法打开</p></li>
+</ul>
+
+
+<p>那么问题来了，Alice如何把钥匙发给Bob呢？</p>
+
+<p>古典密码术的所有问题，在于密钥分发的问题，而且看起来这个问题和“先有蛋还是先有鸡”的问题一样，是无解的:</p>
+
+<p>Alice要安全的给Bob钥匙，就得放在加锁的盒子里，但是要打开盒子，就需要钥匙。</p>
+
+<h3>1976年之后</h3>
+
+<p>当然，世上的无奈，除了马云不能灌篮这类事情外，大部分都是能解决的。</p>
+
+<p>在我们想出解决办法之前，先放一张拽拽的图片镇楼:</p>
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/201612/bg1.jpg" alt="非对称加密发明人" /></p>
+
+<p>左边的Whtfield Diffie是早期的Geek典范，看看他迷离的眼神，拽拽的发型，不羁的络腮胡&hellip;.等等等等，最让人生气的是他还有个善解人意的爱人~ ~</p>
+
+<p>好，让我们再回到Alice和bob的情书问题上来，咳咳，不知道为什么变成Alice给Bob情书了~ ~ ~</p>
+
+<p>现在设想这样一种解决手段:</p>
+
+<ul>
+<li><p>Alice把情书放到铁盒子里，上锁，发给Bob</p></li>
+<li><p>Bob收到盒子，没有去想办法打开它，而是又加上了自己的一把锁，发回给Alice</p></li>
+<li><p>Alice打开自己加的锁，发回给Bob</p></li>
+<li><p>Bob打开自己的锁</p></li>
+<li><p>可恶的Eve只能干生气了，好可怜啊</p></li>
+</ul>
+
+
+<p>哈，这证明了在我们的小譬喻里，分发密钥这个事情是可以安全解决的。1976年之前的人好笨啊，为什么不能这么搞呢？</p>
+
+<p>少年，图样图僧破，在密码世界里，有一个重要的屏障：先进先出原则，就是先上锁的那个人，必须先打开锁。</p>
+
+<p>???</p>
+
+<p>你问我为什么会有这个屏障呢，我也说不明白啊，这是数学家们呕心沥血好多年也没解决的问题，嗯，少年，我看好你哦。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Is Craig Wright Real Satoshi Nakamoto?]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/"/>
+    <updated>2016-05-02T19:41:48+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto</id>
+    <content type="html"><![CDATA[<p>Craig Wright 又在声明他是"中本聪"了.</p>
+
+<p>“中本聪”给出的签名是：</p>
+
+<pre><code>MEUCIQDBKn1Uly8m0UyzETObUSL4wYdBfd4ejvtoQfVcNCIK4AIgZmMsXNQWHvo6KDd2Tu6euEl13VTC3ihl6XUlhcU+fM4=
+</code></pre>
+
+<p>我们先对信息串进行base64解码，再转换成hex是：</p>
+
+<pre><code>3045022100c12a7d54972f26d14cb311339b5122f8c187417dde1e8efb6841f55c34220ae0022066632c5cd4161efa3a2837764eee9eb84975dd54c2de2865e9752585c53e7cce
+</code></pre>
+
+<p>很遗憾，我们可以在交易ID：</p>
+
+<pre><code>828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe
+</code></pre>
+
+<p>中找出这个签名。可通过：</p>
+
+<p><a href="https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex">https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</a></p>
+
+<p>找到十六进制串的交易内容</p>
+
+<p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
+
+<p>但是令人疑惑的是GAVIN ANDRESEN为这位"中本聪"背书:</p>
+
+<p><a href="http://gavinandresen.ninja/satoshi">http://gavinandresen.ninja/satoshi</a></p>
+
+<p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
+
+<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家&hellip;&hellip;</p>
+
+<p>卫平布莱恩特老师说,这球有意思啊&hellip;&hellip;.</p>
+
+<p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
+
+<p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
+
+<p><a href="https://www.zhihu.com/question/22199390/answer/76083139">https://www.zhihu.com/question/22199390/answer/76083139</a></p>
+
+<p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+
+<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+
+<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
+
+<p>呵呵, 绝佳的侦探小说体裁啊.</p>
+]]></content>
+  </entry>
+  
+</feed>

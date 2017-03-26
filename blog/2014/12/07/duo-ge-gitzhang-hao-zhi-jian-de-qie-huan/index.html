@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>多个git账号之间的切换 - memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="做过很多遍了，却总是记不住，这回从头来描述一下。 介绍 所谓多个git账号，可能有两种情况: 我有多个github的账号，不同的账号对应不同的repo，需要push的时候自动区分账号
+我有多个git的账号，有的是github的，有的是bitbucket的，有的是单位的gitlab的， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">多个git账号之间的切换</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-07T15:00:34+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>做过很多遍了，却总是记不住，这回从头来描述一下。</p>
+
+<h1>介绍</h1>
+
+<p>所谓多个git账号，可能有两种情况:</p>
+
+<ul>
+<li><p>我有多个github的账号，不同的账号对应不同的repo，需要push的时候自动区分账号</p></li>
+<li><p>我有多个git的账号，有的是github的，有的是bitbucket的，有的是单位的gitlab的，不同账号对应不同的repo，需要push的时候自动区分账号</p></li>
+</ul>
+
+
+<p>这两种情况的处理方法是一样的，分下面几步走:</p>
+
+<h1>处理</h1>
+
+<ul>
+<li><p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
+
+<p>  <code>
+      ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
+ </code></p>
+
+<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
+
+<p>  <code>
+      ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
+ </code></p>
+
+<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p></li>
+<li><p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p></li>
+<li><p>编辑 <code>~/.ssh/config</code>，设定不同的git 服务器对应不同的key</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(first@mail.com),注意User项直接填git，不用填在github的用户名
+</span><span class='line'>Host github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github
+</span><span class='line'>
+</span><span class='line'># second user(second@mail.com)
+</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
+</span><span class='line'>Host 172.16.11.11
+</span><span class='line'> HostName 172.16.11.11
+</span><span class='line'> User work
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_work</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
+
+<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
+
+<ul>
+<li>从上面一步可以看到，ssh区分账号，其实靠的是HostName这个字段，因此如果在github上有多个账号，很容易的可以把不同的账号映射到不同的HostName上就可以了。比如我有A和B两个账号， 先按照步骤一生成不同的key文件，再修改<code>~/.ssh/config</code> 内容应该是这样的。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(A@mail.com),注意User项直接填git，不用填在github的用户名
+</span><span class='line'>Host A.github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_A
+</span><span class='line'>
+</span><span class='line'># second user(B@mail.com)
+</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
+</span><span class='line'>Host A.github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_B</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
+
+<pre><code>git@github.com:testA/gopkg.git
+</code></pre>
+
+<p>那么根据上面的配置，就要把<code>github.com</code>换成<code>A.github.com</code>, 那么ssh解析的时候就会自动把<code>testA.github.com</code> 转换为 <code>github.com</code>,修改后就是</p>
+
+<pre><code>git@A.github.com:testA/gopkg.git
+</code></pre>
+
+<p>直接更改 <code>repo/.git/config</code> 里面的url即可</p>
+
+<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
+
+<h1>一些题外话</h1>
+
+<h2>我有一个repo，想要同时push到不同的仓库该如何设置?</h2>
+
+<p>很简单， 直接更改 <code>repo/.git/config</code> 里面的url即可，把里面对应tag下的url增加一个就可以了。例:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[remote "GitHub"]
+</span><span class='line'>    url = git@github.com:elliottcable/Paws.o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/GitHub/*
+</span><span class='line'>[branch "Master"]
+</span><span class='line'>    remote = GitHub
+</span><span class='line'>    merge = refs/heads/Master
+</span><span class='line'>[remote "Codaset"]
+</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Codaset/*
+</span><span class='line'>[remote "Paws"]
+</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Paws/*
+</span><span class='line'>[remote "Origin"]
+</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
+</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
+
+<h2>我有一个github的repo，clone没有问题，push的时候总是报错:error: The requested URL returned error: 403 while accessing xxx</h2>
+
+<p>这个问题也困扰了我一段时间，后来发现修改 <code>repo/.git/config</code> 里面的url，把https地址替换为ssh就好了。</p>
+
+<p>例如</p>
+
+<pre><code>url=https://MichaelDrogalis@github.com/derekerdmann/lunch_call.git
+</code></pre>
+
+<p>替换为</p>
+
+<pre><code>url=ssh://git@github.com/derekerdmann/lunch_call.git
+</code></pre>
+
+<h1>参考</h1>
+
+<p><a href="http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed">http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed</a>
+<a href="http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446">http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-07T15:00:34+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/" title="Previous Post: 科技进步是安全行业的最根本保障">&laquo; 科技进步是安全行业的最根本保障</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/12/08/dockerzhong-de-wang-luo/" title="Next Post: docker中的网络">docker中的网络 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://memoryboxes.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/';
+        var disqus_url = 'http://memoryboxes.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

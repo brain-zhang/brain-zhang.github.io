@@ -1,0 +1,1424 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="memorybox个人博客">
+  <meta name="keywords" content="Python, Docker, MongoDB, Web, 煤矿">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/page/6">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/">Linux多网卡多路由设置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-30T09:40:53+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>折腾了半天，原始出处不知道了，转记一下。</p>
+
+<p>比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此</p>
+
+<ul>
+<li><p>eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254</p></li>
+<li><p>eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254</p></li>
+<li><p>eth2是教育网，ip地址为3.3.3.3/24，教育网网关为3.3.3.254</p></li>
+</ul>
+
+
+<p>传统情况下，如果是为了从内向外访问获得更好的速度，让访问电信走电信，访问网通走网通，那么配置是网关只能够配置一个。</p>
+
+<p>比如以电信为主的，那么网关就只设置电信的1.1.1.254，而针对网通和教育网设置不同的路由，路由下一跳指向网通和教育网对应的 网关。</p>
+
+<p>如果这样做的目的只是实现内部访问外面，那么是没问题了，但是如果是为了让外面的用户能够正常访问到服务器上的服务就会出问题。比如电信用户会无法访问网通和教育网的ip，网通用户会无法访问电信和教育网的ip。</p>
+
+<p>要解决这个问题，思路就是由哪个网口进来的流量希望全部就由哪个回去。用lartc里面提到的方法就是来源的口不同，走不同的路由表。在默认的路由表基础上再建立三个路由表。</p>
+
+<p>用 ip route show 可以看到默认有local,main,default三个路由表，这三个路由表的名称命名来自 /etc/iproute2/rt_tables ，这里先在这个配置文件里面添加三个不同的路由表表名，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables</span></code></pre></td></tr></table></div></figure>
+
+
+<p>之后建立这三个路由表的内容，因为这三个路由表的只是用来响应来自不同接口的，而不是用来相应从哪个接口出去的，所以只需要每个路由表里面建立默认网关即可。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ip route add default via 1.1.1.254 dev eth0 table ChinaNet
+</span><span class='line'>ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
+</span><span class='line'>ip route add default via 3.3.3.254 dev eth2 table ChinaEdu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>之后再加上三条规则，使来自不同的口的走不同的路由表</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ip rule add from 1.1.1.1 table ChinaNet
+</span><span class='line'>ip rule add from 2.2.2.2 table ChinaCnc
+</span><span class='line'>ip rule add from 3.3.3.3 table ChinaEdu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此无论是电信还是网通还是教育网用户，访问三个ip的任意一个地址都能够连通了。即便是服务器上本身的默认路由都没有设置，也能够让外面的用户正常访问。</p>
+
+<p>命令汇总：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ip route show
+</span><span class='line'>
+</span><span class='line'>echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
+</span><span class='line'>echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables // 这里也可以直接通过Vi编辑
+</span><span class='line'>
+</span><span class='line'>ip route add default via 1.1.1.254 dev eth0 table ChinaNet
+</span><span class='line'>ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
+</span><span class='line'>ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
+</span><span class='line'>
+</span><span class='line'>ip rule add from 1.1.1.1 table ChinaNet
+</span><span class='line'>ip rule add from 2.2.2.2 table ChinaCnc
+</span><span class='line'>ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/">Libpcap PACKET_MMAP内存分配</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-25T10:03:49+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>libpcap为了提高效率，调用<code>setsockopt(handle-&gt;fd, SOL_PACKET, PACKET_RX_RING,(void *) &amp;req, sizeof(req))</code>时采用kmalloc分配内存。</p>
+
+<p>可以参考:</p>
+
+<p><a href="https://www.kernel.org/doc/Documentation/networking/packet_mmap.txt">https://www.kernel.org/doc/Documentation/networking/packet_mmap.txt</a></p>
+
+<p>kmalloc底层依赖linux的slab内存分配机制，在2.6.22内核之后，slub取代slab成为默认的内存分配器。空间和时间上都有所提升。值得升级。</p>
+
+<p>另外，centos5.9默认采用的2.6.18内核，编译的时候默认的KMALLOC_MAX_SIZE 设置为size-131072，这对于有很大内存的机器，分配效率是不高的。</p>
+
+<p>最简单的办法就是用rpm包升级到2.6.33.9-rt31.86.el5rt，这个内核编译的时候已经将KMALLOC_MAX_SIZE设置为size-4194304。</p>
+
+<p>这个问题是追踪libpcap的抓包程序，内存分配频繁失败发现的。</p>
+
+<p>只能说，内核升级频繁，很多编译开关影响很大，要想全面发挥linux的性能，只能紧跟潮流啊。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/08/dockerzhong-de-wang-luo/">Docker中的网络</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-08T08:25:53+08:00" pubdate data-updated="true">Dec 8<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/08/dockerzhong-de-wang-luo/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/12/08/dockerzhong-de-wang-luo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Docker的默认网络是非常弱的，他使用的是一个虚拟网桥和container中的veth pair通信，在container中，默认是没有对外的IP的，外部主机或容器只能通过NAT，或者自定义iptable来实现主机或容器间的互联互通。
+这种局限性非常明显:</p>
+
+<ul>
+<li><p>如果我要配置一个sshd service，需要手工配置转发规则，非常不便</p></li>
+<li><p>无法使用DHCP</p></li>
+<li><p>NAT无法在宿主机上用一个端口提供不同服务，所以有多个container绑定到一个物理网卡时，因为无法分配多个对外IP，所以诸如Http 这样的服务只能跑在同一IP的不同端口上。</p></li>
+<li><p>在Container中无法正常tcpdump</p></li>
+</ul>
+
+
+<p>理想的容器内网卡应该像VMware的NSX那样，让你&#8217;基本上&#8217;感觉不到这是个虚拟的网卡，当然，这个和Docker的初衷有点不符了。但我们解决问题为先，工具是那一个，但不同人用法不同。</p>
+
+<p>将Docker Container连接到本地网络，有四种搞法 (具体请参考:<a href="http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/">http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/</a>)，下面简单描述下:</p>
+
+<ul>
+<li>采用官方默认的搞法，用NAT:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ip addr add 10.12.0.117/21 dev em1
+</span><span class='line'>
+</span><span class='line'>docker run -d --name web -p 10.12.0.117:80:80 centos/simpleweb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>   这种方法简单，但也有上面所说的各种缺点</p>
+
+<ul>
+<li><p>建立自己的网桥和veth pair，为每个网桥分配一个IP，每个veth对绑定一个网桥，映射进docker容器，这样在容器内就得到了一个接近于真实的网卡。并且有能与本地网络的通信</p>
+
+<p>  这种办法其实是对默认docker网络实现的一种升级，但是解决了原来的诸多局限，缺点是操作比较麻烦，另外容器内用tcpdump也会有问题</p></li>
+<li><p>使用Open vSwitch Bridge，模拟第二种办法。</p>
+
+<p>  这种方法就是用Open vSwitch简化了操作，但是又引入了一套东西。</p></li>
+<li><p>建立macvlan虚拟网卡，容器启动后用nsenter工具映射到容器的network namespace中</p>
+
+<p>  这种办法我觉得是最干净简洁的，而且采用macvlan，还意外获得了一种能力，就是你能在宿主机上创建子macvlan设备，从而能向容器内的macvlan设备打入精确的流量。
+  采用这种方法得到的container，可以在里面启动sshd，远程ssh上去各种操作，这样使用同一般的虚拟机没有多大差别。
+  另外，在容器内tcpdump包也很完美，如果想捕获二层协议包，可以用macvtap替换macvlan。</p></li>
+</ul>
+
+
+<p>需要注意的是，如果想要tcpdump macvtap，需要linux kernel 3.14以上的支持，参见<a href="https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523">这里</a>。</p>
+
+<p>最后推荐为了简化macvlan的操作，我写的一个小工具:<a href="https://github.com/memoryboxes/dockerfly">dockerfly</a></p>
+
+<p>参考:</p>
+
+<ul>
+<li>Linux 上的基础网络设备详解</li>
+</ul>
+
+
+<p><a href="http://www.ibm.com/developerworks/cn/linux/1310_xiawc_networkdevice/index.html">http://www.ibm.com/developerworks/cn/linux/1310_xiawc_networkdevice/index.html</a></p>
+
+<ul>
+<li>Linux 上虚拟网络与真实网络的映射</li>
+</ul>
+
+
+<p><a href="http://www.ibm.com/developerworks/cn/linux/1312_xiawc_linuxvirtnet/index.html">http://www.ibm.com/developerworks/cn/linux/1312_xiawc_linuxvirtnet/index.html</a></p>
+
+<ul>
+<li>网络虚拟化技术: TUN/TAP MACVLAN MACVTAP</li>
+</ul>
+
+
+<p><a href="https://blog.kghost.info/2013/03/27/linux-network-tun/">https://blog.kghost.info/2013/03/27/linux-network-tun/</a></p>
+
+<ul>
+<li>Coupling Docker and Open vSwitch</li>
+</ul>
+
+
+<p><a href="http://fbevmware.blogspot.com/2013/12/coupling-docker-and-open-vswitch.html">http://fbevmware.blogspot.com/2013/12/coupling-docker-and-open-vswitch.html</a></p>
+
+<ul>
+<li>four ways to connect a docker</li>
+</ul>
+
+
+<p><a href="http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/">http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/</a></p>
+
+<ul>
+<li>Docker containers should not run an SSH server</li>
+</ul>
+
+
+<p><a href="https://news.ycombinator.com/item?id=7950326">https://news.ycombinator.com/item?id=7950326</a></p>
+
+<ul>
+<li>Proposal: Native Docker Multi-Host Networking</li>
+</ul>
+
+
+<p><a href="https://github.com/docker/docker/issues/8951">https://github.com/docker/docker/issues/8951</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/">多个git账号之间的切换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-07T15:00:34+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>做过很多遍了，却总是记不住，这回从头来描述一下。</p>
+
+<h1>介绍</h1>
+
+<p>所谓多个git账号，可能有两种情况:</p>
+
+<ul>
+<li><p>我有多个github的账号，不同的账号对应不同的repo，需要push的时候自动区分账号</p></li>
+<li><p>我有多个git的账号，有的是github的，有的是bitbucket的，有的是单位的gitlab的，不同账号对应不同的repo，需要push的时候自动区分账号</p></li>
+</ul>
+
+
+<p>这两种情况的处理方法是一样的，分下面几步走:</p>
+
+<h1>处理</h1>
+
+<ul>
+<li><p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
+
+<p>  <code>
+      ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
+ </code></p>
+
+<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
+
+<p>  <code>
+      ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
+ </code></p>
+
+<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p></li>
+<li><p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p></li>
+<li><p>编辑 <code>~/.ssh/config</code>，设定不同的git 服务器对应不同的key</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(first@mail.com),注意User项直接填git，不用填在github的用户名
+</span><span class='line'>Host github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github
+</span><span class='line'>
+</span><span class='line'># second user(second@mail.com)
+</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
+</span><span class='line'>Host 172.16.11.11
+</span><span class='line'> HostName 172.16.11.11
+</span><span class='line'> User work
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_work</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
+
+<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
+
+<ul>
+<li>从上面一步可以看到，ssh区分账号，其实靠的是HostName这个字段，因此如果在github上有多个账号，很容易的可以把不同的账号映射到不同的HostName上就可以了。比如我有A和B两个账号， 先按照步骤一生成不同的key文件，再修改<code>~/.ssh/config</code> 内容应该是这样的。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(A@mail.com),注意User项直接填git，不用填在github的用户名
+</span><span class='line'>Host A.github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_A
+</span><span class='line'>
+</span><span class='line'># second user(B@mail.com)
+</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
+</span><span class='line'>Host A.github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_B</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
+
+<pre><code>git@github.com:testA/gopkg.git
+</code></pre>
+
+<p>那么根据上面的配置，就要把<code>github.com</code>换成<code>A.github.com</code>, 那么ssh解析的时候就会自动把<code>testA.github.com</code> 转换为 <code>github.com</code>,修改后就是</p>
+
+<pre><code>git@A.github.com:testA/gopkg.git
+</code></pre>
+
+<p>直接更改 <code>repo/.git/config</code> 里面的url即可</p>
+
+<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
+
+<h1>一些题外话</h1>
+
+<h2>我有一个repo，想要同时push到不同的仓库该如何设置?</h2>
+
+<p>很简单， 直接更改 <code>repo/.git/config</code> 里面的url即可，把里面对应tag下的url增加一个就可以了。例:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[remote "GitHub"]
+</span><span class='line'>    url = git@github.com:elliottcable/Paws.o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/GitHub/*
+</span><span class='line'>[branch "Master"]
+</span><span class='line'>    remote = GitHub
+</span><span class='line'>    merge = refs/heads/Master
+</span><span class='line'>[remote "Codaset"]
+</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Codaset/*
+</span><span class='line'>[remote "Paws"]
+</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Paws/*
+</span><span class='line'>[remote "Origin"]
+</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
+</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
+
+<h2>我有一个github的repo，clone没有问题，push的时候总是报错:error: The requested URL returned error: 403 while accessing xxx</h2>
+
+<p>这个问题也困扰了我一段时间，后来发现修改 <code>repo/.git/config</code> 里面的url，把https地址替换为ssh就好了。</p>
+
+<p>例如</p>
+
+<pre><code>url=https://MichaelDrogalis@github.com/derekerdmann/lunch_call.git
+</code></pre>
+
+<p>替换为</p>
+
+<pre><code>url=ssh://git@github.com/derekerdmann/lunch_call.git
+</code></pre>
+
+<h1>参考</h1>
+
+<p><a href="http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed">http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed</a>
+<a href="http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446">http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/">科技进步是安全行业的最根本保障</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-29T12:43:57+08:00" pubdate data-updated="true">Nov 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天上网的时候突然发现有人邮件问什么是矿震。原来是知乎的注册号职业还是煤矿行业，知乎还是挺智能的~~~</p>
+
+<p>查了一下，辽宁那又有矿难了,矿震引起煤尘爆炸。唉&hellip;&hellip;</p>
+
+<p>什么是矿震呢，矿上有叫岩裂的，有叫岩震的，说法不一。书上的说法是冲击地压。通俗点就是地底下挖空了，巷道两侧岩石受不了压力，就压裂塌陷了。</p>
+
+<p>我是没遇见过，矿上听过一些老师傅讲岩裂的时候，最可怕的是两侧的石子像子弹一样弹出来，人在那个时候是没什么办法的，趴在地上逃过一劫，一般高瓦斯的矿也会引发爆炸之类的事故，这个时候就听老天爷的了。</p>
+
+<p>又胡思乱想了很多事情。</p>
+
+<p>我刚入行，到各个煤矿下过一些井的时候，有很多不明白的事。那时候我一边看书上的一些矿压理论，一边在井下看实际的生产，发现了很多可以改进的地方。比如离层监控，直接顶垮塌预警，还有支护距离、支护强度的选择~~~
+这些事情都是有现有理论支撑的，很多情况下找几位真正懂行的专家来，做好规划和基础建设，后期是能省下很多气力的，生产也能安全的多。</p>
+
+<p>那个时候，我用很幼稚的办法写着一个支护专家系统，想着可以用电脑帮助预测离层压力，该如何选型液压支柱等，还想着要是有个论坛，供全国的煤矿从业者交流经验，提炼知识就好了。</p>
+
+<p>后来，我又下了一段时间的井，有一个很心凉的发现或想法，现在也不能摆脱:</p>
+
+<p>那就是，人命也许不是那么值钱，无论是在他人眼里，或是在自己眼里。</p>
+
+<p>我记得那时候外来人员，像我这样的厂家人员下井，一般会买20几万的地险，我至今也没有去查过之前从业的公司有没有给我买工伤保险，有点可笑是不。可事实就是这样，在山东很多小县城，正规给工人交齐保险的小工厂几乎没有，相比下，富士康其实已经是非常良心的企业了。即使企业按最低标准给你交齐各种保险(这家企业还能正常运转)，你换工作，流动到其他地方后，这些钱大部分还是要孝敬当地政府的，而且那点钱再转到外地还不够跑腿的功夫。可能一些工作稳定，长期在一个地方生活的人体会不多。但是当我辗转几个地方后，就发现交类似养老保险这种事无论对企业还是工人都是非常不划算的。</p>
+
+<p>所以在很多地方，工人和工厂心照不宣，在没有保障的前提下尽量活着。</p>
+
+<p>事实上，无论是工厂还是工人自己，对自己的命值多少钱，估量的数字都少得可怜。在非常好的条件下，一个青壮年在井下挂了，能得到的赔偿我估计就在30-40万之间。而且这还是&#8221;毛利&#8221;，为了得到这笔赔偿你还要杂七杂八的各种打点开销。这个估算就是以山西国有大矿为参照，像甘肃那样年产40万吨的小矿就不说了。</p>
+
+<p>但更令我惊奇的是，甘肃那样的小矿，井下条件反而比山西的大矿好得多，井口的巷道会贴瓷砖，会有很明亮的灯，下井的工人也比大矿的工人心情更宽松。虽然硬件设施比不上人家财大气粗，但软件上的很多小细节都很贴心。</p>
+
+<p>后来我明白了，就是西边的老矿区，一般还是把人当人来看的，说的不好听些，你真的埋在井下了，虽然赔的钱比不上大矿，但一般还有人情世故，给你家其他人安排个矿上清闲活，家里也有矿上的左邻右舍照顾着，这就是我们老派国企的作风。
+像山西很多大矿，我觉得是市场化和国有企业的奇怪混合体。工人的价值，管理制度，硬件建设，都市场化了；说白了，就是这个投入下去，要比你的命便宜，就投，你的命贱，就不投。但煤炭销售，利润分配，还是要国家来管。</p>
+
+<p>有很多瞎扯的专家讲这个制度，那个管理。似乎每次事故出来都是管理问题，制度问题&hellip;&hellip;不错，肯定是管理问题，制度问题。但是，我下井的时候，干活很累的时候，不止一次想过:就是现在顶塌了，也无所谓。
+人在极累的时候，什么也顾不上的。这是人不可克服的弱点。当工人连自己性命也轻忽的时候，你和他讲这个管理，那个制度，专家们，敢到井下去讲讲吗。</p>
+
+<p>管理当然很重要，后来我觉得，安全行业最根本的保障在于科技进步。只有人远离危险的时候，才有闲情谈管理，谈制度。</p>
+
+<p>听新闻说中国已经成为全世界最大的机器人消费市场，非常高兴。</p>
+
+<p>有人说会有下岗，会有就业萎缩。</p>
+
+<p>我只想问:人命有贵贱吗?人命有价格吗?</p>
+
+<p>如果你不想回答这种无聊的问题，就不要再对更无聊的问题评头论足了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/16/pycon2017-in-shanghai/">Pycon2014 in Shanghai</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-16T12:19:21+08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/16/pycon2017-in-shanghai/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/11/16/pycon2017-in-shanghai/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今年又去打酱油了。在上海有这点好处，可以很方便的找到各种组织~~~</p>
+
+<p>去年拿了个帽子，今年发了件T恤，明年来条短裤就套装啦。</p>
+
+<p>这次Pycon非常赞，上海的组织者真用心，这次无论是演讲还是气氛都很到位。志愿者们真的辛苦了，十二分的敬礼。</p>
+
+<p>讲的内容有几点让我很惊艳的:</p>
+
+<ul>
+<li><p>讲协程的时候提到，函数的返回值不必返回给调用者，可以返回给三方，很有启发</p></li>
+<li><p>黄冬老师讲测试3层设备或者网站性能的最好办法，是把一段时间的DDOS发包抓下来，或者造出一堆SYN，直接用tcpreplay打到目标机上。很好很粗暴，也很有效</p></li>
+<li><p>关于OpenCL在数据计算领域的应用，让我有点吃惊，已经这么易用了，回头要看看</p></li>
+<li><p>以前一直听人说postgresql怎么怎么好，这次又被强化了一遍，这个也要研究研究</p></li>
+<li><p>中间看到有演讲者调试程序用lldb，之前我一直以为它不靠谱，貌似已经很成熟了</p></li>
+<li><p>机器学习讲的简洁明了，让我这个门外汉也听得津津有味</p></li>
+<li><p>中间的台湾演讲同五地互动的创举，太有想法了，虽然效果不理想，但我想说太Cool了，未来的大会互动会更多元，更精彩，为这个尝试鼓掌</p></li>
+<li><p>主持人非常专业，聪敏又风趣，可以直接上央视啦</p></li>
+</ul>
+
+
+<p>还有几点不足的:</p>
+
+<ul>
+<li><p>话筒时好时不好，这个估计让大家有点提心吊胆的。这个是经验啊，以后组织类似的活动话筒要多多益善，还要多备电池。</p></li>
+<li><p>Django和创业的两个议题都有点浅，太多讲Python的ABC了，这方面的内容可以收缩下</p></li>
+</ul>
+
+
+<p>另外有点Confuse，会上有人提到用libpcap抓包分析网络流的，黄冬老师说性能没问题。其实我们这测试下来，绑定CPU抓包，libpcap通常的性能就在单网卡400Mbps左右。
+如果用Zero Copy的话，可能性能有提升，但也不会太高。目前抓流量效率最好的是Intel的DPDK，可以到10Gbps。</p>
+
+<p>还有魔豆提到用Selenium做自动化测试的事情，我用Selenium觉得，他的适用场景在WEB UI很少变化，并且页面结构简单的企业软件，像传统的路由器管理界面这样的东西，用它的录制测试还是可以的。
+但是界面稍微个性化一些，想让测试代码长久，必须手写代码，而且是简单可靠的代码，不能单纯追求覆盖率。Selenium的测试代码虽然好写，但也容易废弃，要想写的简单可靠还是很有难度的。</p>
+
+<p>关于UI测试，我的想法就是，尽量降低编写成本，如果一个UI测试挂了，你不能在5分钟之内修复它，直接丢弃掉！编写UI自动化测试的成本不应该超过5分钟，如果一个测试要频繁维护，那么，是重新写一个的时候了。
+要想达到这个目标，我想到的简单解决方案就是图像DIFF，facebook之前出过一个huxley，我很有兴趣的研究过，还PULL过代码，但这个东西还是离我心目中的自动化图像DIFF有距离。后来又自己写了一个能把每天的测试结果保存下来，并能基于时间查看对比的东东，但效果也不好。</p>
+
+<p>我想象中的web UI自动测试是这样的:</p>
+
+<ul>
+<li><p>支持比较模板点自定义</p>
+
+<p>  对比的截图可以是基于录制时间最早的case的，如果中途重新录制，提供用户自定义机制。</p></li>
+<li><p>支持时间轴功能</p>
+
+<p>  1、查询时间范围的灵活选择，可以很简洁的查询某段时间、或某个时间点的case.</p>
+
+<p>  2、可以在时间轴上直接修改比较模板的base时间点</p>
+
+<p>  3、以不同颜色标识base时间点、pass的测试、fail的测试以及fail的个数，测试名称等</p></li>
+<li><p>比较智能的图像DIFF算法:</p>
+
+<p>  1、首先要能忽略指定区域，因为有些区域能够预测到是不断变化的。</p>
+
+<p>  2、能对整张图、或某几个区域提供多个选择，如果符合其中一个我们就认为是OK的</p>
+
+<p>  3、能提供组件级的识别，比如某个button，某个搜索框等等，一张截图里面如果所有指定的组件都OK，我们就认为是OK的。</p></li>
+</ul>
+
+
+<p>PS:已经出现了类似的开源项目:</p>
+
+<p><a href="https://github.com/Huddle/PhantomCSS">https://github.com/Huddle/PhantomCSS</a></p>
+
+<p>最后感概下，Pycon一年比一年进步，志愿者们功不可没。对于他们的工作，怎么赞誉都不过分。非常感谢!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">用TCP/IP进行网际互连 (笔记)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-05T08:19:18+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>还是要补习基础知识啊。</p>
+
+<p>譬如TCP的状态机转换，我每次都得花很长很长的时间才能反应过来什么时候会进入TIME_WAIT,CLOSE_WAIT&hellip;.</p>
+
+<p>譬如一个pcap包，看了很长很长时间才发现是个规避糊涂窗口的Nagle算法&hellip;</p>
+
+<p>譬如这本书，每次扫一遍好像都能知道怎么回事，过了段时间就又雾里看花了&hellip;.</p>
+
+<p>这次通读一遍，又发现一些有意思的东西，记一下:</p>
+
+<h3>底层网络技术回顾</h3>
+
+<ul>
+<li><p>最初的电话系统是面向连接的电路交换，后期(就是现在)的IP网络是基于分组交换的</p>
+
+<p>  讲起来很简单，实际上为了实现分组交换网上的通信质量达到电路直接交换的效果，还是要付出很大努力，才能克服时延、抖动、通信质量等多个问题</p></li>
+<li><p>以太网容量</p>
+
+<p>  当前以太网不是为一对计算机之间提供可能的最高吞吐率而优化的，而是为更多网点介入和更多通信总量优化的。当前10G以太网的帧长度和格式还是保持10M网的标准，从这方面看，10G以太网在物理层的协议上还是有优化余地的。</p></li>
+<li><p>POE可以提供48V,不超过15.4W的功率消耗，这个数字还是挺可观的</p></li>
+<li><p>关于以太网的一些特点</p>
+
+<p>  CSMA/CD 是很简单但有效的手段，值得后来的分布式系统借鉴</p>
+
+<p>  以太网在物理层上只是&#8221;尽最大努力交付(best effort delivery)&ldquo;，但如果碰到问题，错误不会得到通知，数据包会丢弃</p>
+
+<p>  frame帧大小 64B~1518B</p>
+
+<p>  线缆的集合造就集线器，集线器升级为连接任意多的以太网就变成网桥，网桥提供自适应的帧转发，这样任意多的以太网就集合为一个物理网络，他们也遵循CSMA/CD。网桥提供更完善的隔离和配置方案就变成了交换机。</p>
+
+<p>  以太网的地址(MAC)是要向IEEE买的</p>
+
+<p>  以太网基础上升级为WIFI就有了两个很重要的技能:</p>
+
+<pre><code>* 可作为接入点基站
+* 可作为接入点连接(点对点),也就是WI-MAX
+</code></pre></li>
+</ul>
+
+
+<h3>网际互联的模型</h3>
+
+<ul>
+<li><p>路由器的工作，某种情况下和DHT很相似，不过实现的约束更多一些</p></li>
+<li><p>定向广播地址，主机号都为1</p></li>
+<li><p>受限广播地址，255.255.255.255 (本地子网广播)</p></li>
+<li><p>0.0.0.0有时候也用于广播，这是早期BSD实现的一个bug。后来有些软件为了兼容，也这么实现了。</p></li>
+<li><p>0.0.0.0 表示无路由目标，有些应用把绑定这个的设置，认为是绑定全部本地IP。类似于一些设置中，设为0就相当于该项设置无限制。</p></li>
+<li><p>127.0.0.1 是本地环回地址, 专供自己访问自己, 速度大( 不用经过整个协议栈 )</p></li>
+<li><p>地址管理早期是由<a href="https://www.iana.org/about">IANA</a> 管理的，早期的IANA地址维护者仅仅是一个人,<a href="http://en.wikipedia.org/wiki/Jon_Postel">Jon Postel</a>，这位传奇人物在1998年过世，后来IANA成长为更完善的组织，ICANN是也,目前由ICANN管理地址相关分配工作。</p></li>
+<li><p>IBM的地址段是9.0.0.0，AT&amp;T的地址段是12.0.0.0</p></li>
+</ul>
+
+
+<h3>ARP</h3>
+
+<ul>
+<li>没什么好讲的了，这个是最熟悉的</li>
+</ul>
+
+
+<h3>无连接网络</h3>
+
+<pre><code>* 错误会被丢弃!!!
+
+* IP报文已经包含了源-目的地址
+
+* 分片控制
+
+* 优先级
+
+* 校验和
+
+* 路由信息和时间戳
+</code></pre>
+
+<h3>ICMP</h3>
+
+<ul>
+<li>最好和Ping结合起来学习</li>
+</ul>
+
+
+<p>最后，读这本书后面的应用层也很好玩，能延伸想象很多东西，比如现在Linux下虚拟网卡的实现，Vmware如何虚拟物理网卡的，还有早期浩方上如果实现虚拟局域网的，很多原来看起来Magic的东西，其实原理很简单，平时多想想会很有趣。</p>
+
+<p>从TCP/IP的设计来看，我们的网络应用还是停留在很&#8221;初级&#8221;的阶段，还没有完全发挥出他的潜力。未来肯定还会出现像P2P软件这样神奇的颠覆者，TCP/IP所承载的流量也会一次次变化，如果把TCP/IP比作海的话，不知道下一位弄潮儿是谁。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/">Uwsgi部署django程序</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-31T08:39:26+08:00" pubdate data-updated="true">Oct 31<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Python的web世界，部署首选uwsgi，既可独战，又可搭配Nginx等车轮战，实在是居家必备。</p>
+
+<p>但我每次都得搞都得去翻一遍手册，实在烦了，记一下简单粗暴的测试方案。</p>
+
+<h2>安装</h2>
+
+<pre><code>pip install uwsgi
+</code></pre>
+
+<h2>测试</h2>
+
+<p>写一个最简单的test.py:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># test.pydef application(env, start_response):
+</span><span class='line'>    start_response('200 OK', [('Content-Type','text/html')])
+</span><span class='line'>    return "Hello World"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行shell命令:</p>
+
+<pre><code>uwsgi --http :8000 --wsgi-file test.py
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到<code>Hello World</code>了</p>
+
+<h2>集成Django</h2>
+
+<pre><code>django-admin startproject testuwsgi
+</code></pre>
+
+<p>这样生成的项目，django版本不同，目录会有微小的差别，找manage.py就对了</p>
+
+<p>如果是>django1.6的话，会自动生成wsgi.py文件，没有的话编辑一个:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
+</span><span class='line'># coding: utf-8
+</span><span class='line'>
+</span><span class='line'>import os
+</span><span class='line'>import sys
+</span><span class='line'>
+</span><span class='line'># 将系统的编码设置为UTF8
+</span><span class='line'>reload(sys)
+</span><span class='line'>sys.setdefaultencoding('utf8')
+</span><span class='line'>
+</span><span class='line'>os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+</span><span class='line'>
+</span><span class='line'>from django.core.handlers.wsgi import WSGIHandler
+</span><span class='line'>application = WSGIHandler()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行:</p>
+
+<pre><code>uwsgi --http :8000 --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到Django的欢迎页面了</p>
+
+<h2>支持Https</h2>
+
+<p>uwsgi自1.3版本开始支持https</p>
+
+<p>分两步走:</p>
+
+<h4>生成证书</h4>
+
+<pre><code>openssl genrsa -out foobar.key 2048
+openssl req -new -key foobar.key -out foobar.csr
+openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
+</code></pre>
+
+<h4>走起</h4>
+
+<pre><code>uwsgi --master --https 0.0.0.0:8443,foobar.crt,foobar.key --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问的时候要以:</p>
+
+<p><a href="https://127.0.0.1:8443/">https://127.0.0.1:8443/</a></p>
+
+<p>OK了</p>
+
+<p>至于怎么搭配Nginx，写配置文件，搭配Supervisor，还是老老实实翻手册吧，反正这个不是经常做。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">How to Auto Gen Css/js by Grunt and Jenkins</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T12:16:15+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然有<a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a>的存在，但多个人编辑同一份css/js代码时，还要操心编译这个事，实在是多余。</p>
+
+<p>想到的最直接的办法就是jenkins上开一个项目，自动编译一把，再自动提交:</p>
+
+<p>虽然是野路子，但效果那是杠杠的。</p>
+
+<p>记一下一些要注意的点:</p>
+
+<ul>
+<li>有时候自动编译会失败，需要标记一下:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/node-v0.10.20-linux-x64/bin/grunt --force |tee $PWD_DIR/grunt.log
+</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
+</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
+</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
+</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
+</span><span class='line'>    exit 1
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样jenkins编译失败，就会标红了</p>
+
+<ul>
+<li>还有个坑，有时候新增加了一个js的代码目录，这样编译后也会多一个目录，这就需要svn每次提交的时候，不要忘了强制add一下当前所有目录:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn add static/dist/ --force</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>最后，极少数的情况编译后会出现冲突，因为编译的时候有人同样编译了一把提交了，这样自动提交会失败，也需要标记一下:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn ci --no-auth-cache --username=xxx --password=xxx static/dist/* -m "jenkins:auto grunt" 2&gt;&1| tee $PWD_DIR/svn.log
+</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
+</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
+</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
+</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
+</span><span class='line'>    exit 1
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样基本上看看jenkins的状态，或是让jenkins自动发发邮件，就舒心了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-compile-by-autotools/">How to Compile by Autotools</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T12:12:30+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/29/how-to-compile-by-autotools/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/10/29/how-to-compile-by-autotools/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>echo "Running aclocal..."
+</span><span class='line'>aclocal || exit 1
+</span><span class='line'>echo "Running autoheader..."
+</span><span class='line'>autoheader || exit 1
+</span><span class='line'>echo "Running autoconf..."
+</span><span class='line'>autoconf || exit 1
+</span><span class='line'>echo "Running automake..."
+</span><span class='line'>automake --add-missing --copy || exit 1
+</span><span class='line'>echo "Finished."</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/7/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
+<li class='category'><a href='/blog/categories/array/'>Array (1)</a></li>
+<li class='category'><a href='/blog/categories/c/'>C (1)</a></li>
+<li class='category'><a href='/blog/categories/c2c/'>C2C (1)</a></li>
+<li class='category'><a href='/blog/categories/cdn/'>CDN (1)</a></li>
+<li class='category'><a href='/blog/categories/designpattern/'>DesignPattern (1)</a></li>
+<li class='category'><a href='/blog/categories/django/'>Django (3)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>Docker (4)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (4)</a></li>
+<li class='category'><a href='/blog/categories/macvtap/'>Macvtap (1)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>MongoDB (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>Mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/packet-mmap/'>PACKET_MMAP (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (4)</a></li>
+<li class='category'><a href='/blog/categories/sdn/'>SDN (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>SVN (1)</a></li>
+<li class='category'><a href='/blog/categories/tcp-ip/'>TCP/IP (3)</a></li>
+<li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
+<li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>Vim (2)</a></li>
+<li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
+<li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
+<li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
+<li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
+<li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
+<li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
+<li class='category'><a href='/blog/categories/centos/'>centos (2)</a></li>
+<li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
+<li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
+<li class='category'><a href='/blog/categories/color/'>color (1)</a></li>
+<li class='category'><a href='/blog/categories/colorscheme/'>colorscheme (1)</a></li>
+<li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
+<li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
+<li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
+<li class='category'><a href='/blog/categories/epel/'>epel (1)</a></li>
+<li class='category'><a href='/blog/categories/externals/'>externals (1)</a></li>
+<li class='category'><a href='/blog/categories/finance/'>finance (1)</a></li>
+<li class='category'><a href='/blog/categories/freeze/'>freeze (1)</a></li>
+<li class='category'><a href='/blog/categories/gcc/'>gcc (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>
+<li class='category'><a href='/blog/categories/jenkins/'>jenkins (1)</a></li>
+<li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
+<li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
+<li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
+<li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
+<li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/mongoexport/'>mongoexport (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>mysql (1)</a></li>
+<li class='category'><a href='/blog/categories/netcat/'>netcat (1)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (6)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (1)</a></li>
+<li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
+<li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>
+<li class='category'><a href='/blog/categories/product/'>product (1)</a></li>
+<li class='category'><a href='/blog/categories/repo/'>repo (1)</a></li>
+<li class='category'><a href='/blog/categories/satoshi/'>satoshi (1)</a></li>
+<li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
+<li class='category'><a href='/blog/categories/tag/'>tag (1)</a></li>
+<li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+<li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
+<li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
+<li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
+<li class='category'><a href='/blog/categories/windows/'>windows (1)</a></li>
+<li class='category'><a href='/blog/categories/yum/'>yum (1)</a></li>
+<li class='category'><a href='/blog/categories/云计算/'>云计算 (1)</a></li>
+<li class='category'><a href='/blog/categories/华容道/'>华容道 (1)</a></li>
+<li class='category'><a href='/blog/categories/批量删除/'>批量删除 (1)</a></li>
+<li class='category'><a href='/blog/categories/生活/'>生活 (1)</a></li>
+<li class='category'><a href='/blog/categories/表/'>表 (1)</a></li>
+<li class='category'><a href='/blog/categories/读书摘录/'>读书摘录 (2)</a></li>
+  
+    </ul> 
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

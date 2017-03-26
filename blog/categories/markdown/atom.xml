@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Markdown | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/markdown/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown Raw Format]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/09/18/markdown-raw-format/"/>
+    <updated>2014-09-18T14:21:04+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/09/18/markdown-raw-format</id>
+    <content type="html"><![CDATA[<p>有时候想要在Markdwon里面画ASCII画，会被Format掉，例如:</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  &mdash;&mdash;&mdash;    &mdash;&mdash;&mdash;&ndash; |</td>
+</tr>
+<tr>
+<td></td>
+<td>                    |</td>
+</tr>
+<tr>
+<td></td>
+<td>     \        /     |</td>
+</tr>
+<tr>
+<td></td>
+<td>      &mdash;&mdash;&mdash;&ndash;/      |</td>
+</tr>
+<tr>
+<td></td>
+<td>                    |</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</p>
+
+<p>这个时候可以用缩进来解决:</p>
+
+<pre><code>|--------------------+
+|                    |
+|  ------    ------- |
+|                    |
+|     \        /     |
+|      -------/      |
+|                    |
++--------------------+
+</code></pre>
+
+<p>参考:
+<a href="https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262">https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262</a></p>
+
+<p>引发了一点兴趣，meta.stackexchange.com上面有个测试语法专贴，各种乱搞洋洋大观:</p>
+
+<p><a href="http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134">http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134</a></p>
+]]></content>
+  </entry>
+  
+</feed>

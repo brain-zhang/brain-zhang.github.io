@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ldap | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/ldap/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Enable Ldap on Centos]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/05/25/enable-ldap-on-centos/"/>
+    <updated>2016-05-25T08:24:04+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/05/25/enable-ldap-on-centos</id>
+    <content type="html"><![CDATA[<h2>Dockerfile</h2>
+
+<pre><code>FROM docker-registry.dev.netis.com.cn:5000/autobuild/centos6
+
+# Maintainer: docker_user &lt;docker_user at email.com&gt; (@docker_user)
+MAINTAINER memoryboxes memoryboxes@gmail.com
+
+# Commands to add ldap to image
+RUN mkdir -p /etc/openldap/cacerts/ &amp;&amp; \
+    rpm --rebuilddb &amp;&amp; \
+    yum clean all  &amp;&amp; \
+    wget http://xxxxxx/ca.cert -O /etc/openldap/cacerts/ca.cert &amp;&amp; \
+    wget http://xxxxxx/sshd_config -O /etc/ssh/sshd_config &amp;&amp; \
+    chmod 600 /etc/ssh/sshd_config &amp;&amp; \
+    sed -i  's/#PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config &amp;&amp; \
+    echo "xxxxxxx" | passwd --stdin root &amp;&amp; \
+    yum -y install pam_ldap.so authconfig nscd openldap-clients nss-pam-ldapd &amp;&amp; \
+    yum -y install sudo &amp;&amp; \
+    yum clean all
+
+ADD nscd /etc/dockerservices/nscd
+ADD nslcd /etc/dockerservices/nslcd
+COPY docker_entrypoint.sh /
+
+# Commands when creating a new container
+ENTRYPOINT ["/docker_entrypoint.sh"]
+CMD ["/usr/bin/svscan", "/etc/dockerservices"]
+</code></pre>
+
+<h2>docker_entrypoint.sh</h2>
+
+<pre><code>#!/bin/bash
+
+set -e
+
+echo "x.x.x.x ldap.xxx.com.cn" &gt;&gt;/etc/hosts
+authconfig --enableldap --enableldapauth --ldapserver=ldap.xxx.com.cn --ldapbasedn="dc=xxx,dc=com,dc=cn" --enablemkhomedir --enableldaptls --enablecache
+
+exec "$@"
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

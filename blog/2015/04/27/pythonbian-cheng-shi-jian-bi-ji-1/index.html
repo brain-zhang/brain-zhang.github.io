@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Python编程实战 - 笔记1 - memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。 创建型设计模式 抽象工厂 (Abstract Factory) 名字就用AbstractFactory好了，不要起什么BaseFactory之类的
+相关类都放到对应的Factory Class里面 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Python编程实战 - 笔记1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-27T08:17:45+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。</p>
+
+<h2>创建型设计模式</h2>
+
+<h4>抽象工厂 (Abstract Factory)</h4>
+
+<ul>
+<li>名字就用AbstractFactory好了，不要起什么BaseFactory之类的</li>
+<li>相关类都放到对应的Factory Class里面，不要暴露给外面了</li>
+</ul>
+
+
+<h4>建造者模式 (Build)</h4>
+
+<ul>
+<li>和工厂的区别就是保存了创建对象时各个部分的细节</li>
+</ul>
+
+
+<h4>工厂模式</h4>
+
+<ul>
+<li>根据情况实例化对象</li>
+<li>还是注意和抽象工厂的区别，抽象工厂是将创建对象的行为抽象出来，而工厂模式则是根据要创建的对象类型实例化</li>
+</ul>
+
+
+<h4>原型模式 (Prototype)</h4>
+
+<ul>
+<li>这个模式其实在javascript的根本，不过Python的实现方法还真是五花八门，我说直接用copy就好了嘛</li>
+</ul>
+
+
+<h4>单例模式 (Singleton)</h4>
+
+<ul>
+<li>我最中意的一种实现:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Borg:
+</span><span class='line'>    _shared_state = {}
+</span><span class='line'>    def __init__(self):
+</span><span class='line'>        self.__dict__ = self._shared_state
+</span><span class='line'>
+</span><span class='line'>class Singleton(Borg):
+</span><span class='line'>    def __init__(self, arg):
+</span><span class='line'>        Borg.__init__(self)
+</span><span class='line'>        self.val = arg
+</span><span class='line'>    def __str__(self):
+</span><span class='line'>        return self.val</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>结构型设计</h2>
+
+<ul>
+<li>作用就是改装对象，或者把小对象合并为大对象</li>
+</ul>
+
+
+<h4>Adapter</h4>
+
+<ul>
+<li>其实就是转接方法</li>
+</ul>
+
+
+<h4>Bridge</h4>
+
+<ul>
+<li>把方法抽象出来</li>
+</ul>
+
+
+<h4>Composite</h4>
+
+<ul>
+<li>Python里面有一种省一点内存的写法，可以直接用CompositeItem和Item两个类来实现，不过我觉得不直观</li>
+</ul>
+
+
+<h4>decorator</h4>
+
+<ul>
+<li><p>几个新的decorator:</p>
+
+<ul>
+<li><p><code>@functools_wraps</code> : 装饰器工厂</p></li>
+<li><p><code>@statically_typed</code> : 类型检查</p></li>
+</ul>
+</li>
+<li><p>另外<code>@ensure</code>类修饰符可以用来简化设置property的代码</p></li>
+</ul>
+
+
+<h4>Facade</h4>
+
+<ul>
+<li>这个模式其实是天天在做的，就是把接口聚合的好看一点</li>
+<li>其实思想可以推广到很多方面，比如Docker，就是LXC的一个Facader，而且做的比较好看，于是大家就都来用了</li>
+</ul>
+
+
+<h4>Flyweight</h4>
+
+<ul>
+<li>管理许多小对象的时候用引用</li>
+<li>Python用<code>__slot__</code> Attribute来做最方便</li>
+<li>里面关于用shelve对象存储class attribute的思路挺实用的</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-27T08:17:45+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/designpattern/'>DesignPattern</a>, <a class='category' href='/blog/categories/python/'>Python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/10/multiline-comments-in-docker-file/" title="Previous Post: multiline comments in docker file">&laquo; multiline comments in docker file</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/06/how-to-xargs-separate-parameters/" title="Next Post: how to xargs separate parameters">how to xargs separate parameters &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://memoryboxes.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/';
+        var disqus_url = 'http://memoryboxes.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

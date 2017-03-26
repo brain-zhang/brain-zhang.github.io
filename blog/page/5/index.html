@@ -1,0 +1,1910 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="memorybox个人博客">
+  <meta name="keywords" content="Python, Docker, MongoDB, Web, 煤矿">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/page/5">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/06/how-to-xargs-separate-parameters/">How to Xargs Separate Parameters</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-06T08:06:52+08:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/05/06/how-to-xargs-separate-parameters/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/05/06/how-to-xargs-separate-parameters/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>做过很多遍了，每次还是得现查，记一下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>output:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[param 1] [param 1]
+</span><span class='line'>[param 2] [param 2]</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/">Python编程实战 - 笔记1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-27T08:17:45+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。</p>
+
+<h2>创建型设计模式</h2>
+
+<h4>抽象工厂 (Abstract Factory)</h4>
+
+<ul>
+<li>名字就用AbstractFactory好了，不要起什么BaseFactory之类的</li>
+<li>相关类都放到对应的Factory Class里面，不要暴露给外面了</li>
+</ul>
+
+
+<h4>建造者模式 (Build)</h4>
+
+<ul>
+<li>和工厂的区别就是保存了创建对象时各个部分的细节</li>
+</ul>
+
+
+<h4>工厂模式</h4>
+
+<ul>
+<li>根据情况实例化对象</li>
+<li>还是注意和抽象工厂的区别，抽象工厂是将创建对象的行为抽象出来，而工厂模式则是根据要创建的对象类型实例化</li>
+</ul>
+
+
+<h4>原型模式 (Prototype)</h4>
+
+<ul>
+<li>这个模式其实在javascript的根本，不过Python的实现方法还真是五花八门，我说直接用copy就好了嘛</li>
+</ul>
+
+
+<h4>单例模式 (Singleton)</h4>
+
+<ul>
+<li>我最中意的一种实现:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Borg:
+</span><span class='line'>    _shared_state = {}
+</span><span class='line'>    def __init__(self):
+</span><span class='line'>        self.__dict__ = self._shared_state
+</span><span class='line'>
+</span><span class='line'>class Singleton(Borg):
+</span><span class='line'>    def __init__(self, arg):
+</span><span class='line'>        Borg.__init__(self)
+</span><span class='line'>        self.val = arg
+</span><span class='line'>    def __str__(self):
+</span><span class='line'>        return self.val</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>结构型设计</h2>
+
+<ul>
+<li>作用就是改装对象，或者把小对象合并为大对象</li>
+</ul>
+
+
+<h4>Adapter</h4>
+
+<ul>
+<li>其实就是转接方法</li>
+</ul>
+
+
+<h4>Bridge</h4>
+
+<ul>
+<li>把方法抽象出来</li>
+</ul>
+
+
+<h4>Composite</h4>
+
+<ul>
+<li>Python里面有一种省一点内存的写法，可以直接用CompositeItem和Item两个类来实现，不过我觉得不直观</li>
+</ul>
+
+
+<h4>decorator</h4>
+
+<ul>
+<li><p>几个新的decorator:</p>
+
+<ul>
+<li><p><code>@functools_wraps</code> : 装饰器工厂</p></li>
+<li><p><code>@statically_typed</code> : 类型检查</p></li>
+</ul>
+</li>
+<li><p>另外<code>@ensure</code>类修饰符可以用来简化设置property的代码</p></li>
+</ul>
+
+
+<h4>Facade</h4>
+
+<ul>
+<li>这个模式其实是天天在做的，就是把接口聚合的好看一点</li>
+<li>其实思想可以推广到很多方面，比如Docker，就是LXC的一个Facader，而且做的比较好看，于是大家就都来用了</li>
+</ul>
+
+
+<h4>Flyweight</h4>
+
+<ul>
+<li>管理许多小对象的时候用引用</li>
+<li>Python用<code>__slot__</code> Attribute来做最方便</li>
+<li>里面关于用shelve对象存储class attribute的思路挺实用的</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/10/multiline-comments-in-docker-file/">Multiline Comments in Docker File</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-10T09:07:36+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/04/10/multiline-comments-in-docker-file/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/04/10/multiline-comments-in-docker-file/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>为了减少Image的fs layout数目，Dockerfile中经常会把多个命令集中到一个 <code>RUN</code> 指令下。</p>
+
+<p>多行之后可读性就很差了。</p>
+
+<p>有个比较偏门的写注释的方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RUN mkdir -p /home/build/npm3 && \
+</span><span class='line'>    mkdir -p /home/build/smartprobe && \
+</span><span class='line'>    mkdir -p /home/build/bpc3 && \
+</span><span class='line'>    `#====================================================` \
+</span><span class='line'>    `#=============checkout and install rpms==============` \
+</span><span class='line'>    svn export xxx && \
+</span><span class='line'>    rpm -ivh --force --nodeps *.rpm && \
+</span><span class='line'>    `#====================================================` \
+</span><span class='line'>    `#=============checkout and install python==============` \
+</span><span class='line'>    ... && \
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>比较实用，推荐之。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/">Different Users in Same Unix Group Can Not Run Mongod</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-10T08:44:42+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>事情的缘起是这样的&hellip;&hellip;.</p>
+
+<p>想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到)</p>
+
+<p>Docker build不支持 &mdash;privileged，所以默认的/etc/init.d/mongod  这个脚本中的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种写法就死翘翘了。</p>
+
+<p>github上有这个Issue:</p>
+
+<p><a href="https://github.com/docker/docker/issues/1916">https://github.com/docker/docker/issues/1916</a></p>
+
+<p>大家讨论了1年多，对于怎么解决，还是没有个所以然。(话说要再吐槽一下github的issue了，一般大一点的项目，一个issue跨度以年来论，长篇大论读完也不容易呀)</p>
+
+<p>最后只好在Dockerfile中这么搞:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mongod --fork -f /etc/mongod.conf && \
+</span><span class='line'>mongod --shutdown -f /etc/mongod.conf && \
+</span><span class='line'>chown mongod:mongod /opt/lib/mongodbpath -R
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样build就顺利完成了。</p>
+
+<p>可是启动这个image为container后，执行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/mongod start</span></code></pre></td></tr></table></div></figure>
+
+
+<p>报错:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted</span></code></pre></td></tr></table></div></figure>
+
+
+<p>虾米，明明已经加了mongod的group了。而且errorno是1，不是 <code>"errno:13 Permission denied"</code>，有点奇怪。</p>
+
+<p>问题在这里:</p>
+
+<p><a href="https://jira.mongodb.org/browse/SERVER-7583">https://jira.mongodb.org/browse/SERVER-7583</a></p>
+
+<p>要再加一个指令:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>setcap cap_fowner+ep /usr/bin/mongod</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就是这么折腾。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/03/huarongdao/">第一个AndroidApp-华容道</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-03T08:19:39+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2015</time>
+        
+           | <a href="/blog/2015/03/03/huarongdao/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/03/03/huarongdao/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>第一个Android APP上线，很简单的一个小游戏：智取华容道</h2>
+
+<p>GooglePlay:
+<a href="https://play.google.com/store/apps/details?id=me.happy123.aklotski">https://play.google.com/store/apps/details?id=me.happy123.aklotski</a></p>
+
+<p>百度应用下载地址:
+<a href="http://shouji.baidu.com/game/item?docid=7547918">http://shouji.baidu.com/game/item?docid=7547918</a></p>
+
+<p>小米商店下载地址:
+<a href="http://app.mi.com/detail/87656">http://app.mi.com/detail/87656</a></p>
+
+<p>老是对自己说，要不断学习，跟上时代浪潮。但是悲哀的发现，自己是跟的越来越吃力了。</p>
+
+<p>早在大连搞电视机的时候，那时候Android刚出来，就对自己说，要好好看看。无奈之后各处辗转，这事就搁下了。</p>
+
+<p>非不能也，实不为也！</p>
+
+<p>过年空出来一个周，Python党也要写Android App了。</p>
+
+<p>找了本 <code>HeadFirst Java</code> ，一天的时间扫了一遍Java的语法，写了几个小例子练练手。之后直接对着Android官方文档开干了。</p>
+
+<p>流程就是 google &ndash;> 坑 &ndash;> 继续google &hellip;.，如此循环不已&hellip;&hellip;</p>
+
+<p>用父亲打扑克的机器，开个Eclipse基本上卡半天，本着一颗折腾的心，硬是PS出来几张背景图，小游戏&lt;华容道>出炉啦。</p>
+
+<p>图片和关卡都来自于代码发芽网，作者非常大度的授权我使用，非常感谢:</p>
+
+<p><a href="http://fayaa.com/">http://fayaa.com/</a></p>
+
+<h2>开发日志:</h2>
+
+<p>很巧的，我在知乎看到了类似&#8221;如何20天零基础开发Android游戏&#8221; 的问题。大家都是对这种问题不屑一顾的，但我从开始到完成恰好十来天，可以作为参考记录一下。</p>
+
+<h4>Day1</h4>
+
+<p>确立市场方向，要做个益智类游戏，啥好呢？啥好呢？我把所有的Android的华容道下载下来玩了一遍，嗯，都很粗糙，看来有的玩，就是它了。</p>
+
+<p>这个时候，其实你已经完成一半工作了。没错，就是那句什么 <code>决定出发的时候，旅行就完成了一半</code>。 这个时候就不要纠结于做什么了，关键是如何做。</p>
+
+<h4>Day2</h4>
+
+<p>开始搭建开发环境，先后折腾了Android Studio和Eclipse，家里翻墙实在慢呀，另外我用父亲打扑克的机器跑Android Studio是在跑不动啊，最后装了Eclipse。推荐个链接，有兄弟收集了开发环境套装国内下载，你值得拥有。</p>
+
+<p><a href="http://www.cnblogs.com/bjzhanghao/archive/2012/11/14/android-platform-sdk-download-mirror.html">http://www.cnblogs.com/bjzhanghao/archive/2012/11/14/android-platform-sdk-download-mirror.html</a></p>
+
+<h4>Day3</h4>
+
+<p>开始学习Java，神马?你都不会Java还来搞Android。嗯，我也没想到，有一天我要搞Java！要搞Java啊，我对它的印象还是航空母舰啊~~~。没办法，找了本 <code>Head First Java</code> 电子书，照着书里面的例子一个个敲，没错，不论懂不懂，就一个个敲。，幸亏 <code>Head First</code> 系列专门照顾低智商读者的，像我这样的一天敲到了300多页的例子。</p>
+
+<h4>Day4</h4>
+
+<p>不知不觉就把600页的书敲完了。嗯，看来那种xx天精通xxx，也不是骗人的，现在我的状态，估计能出去忽悠一些HR了。</p>
+
+<h4>Day5</h4>
+
+<p>先不管Android，搞一个穷人版的华容道。就开始封装三个类，什么接口啊，多态啊，统统不用，就是简单继承。搞了个核心库，棋盘就用 0011 先画出来了。嗯，最后可以玩了。不过只有我一个人懂得怎么玩。 不过很有成就感啊，看来一天写个俄罗斯方块之类的不是难事啊。</p>
+
+<h4>Day6</h4>
+
+<p>这个核心库很关键啊，挂了直接影响后面的开发啊。但是我用 0011 看的很累啊。赶紧google之，看看Java怎么搞测试~~~，好，最后集成了JUnit，顺便学了学怎么在Eclipse里面跑测试，最后写了一堆测试用例，果然发现了BUG，某些棋子竟然能对角线走动，罪过罪过。</p>
+
+<h4>Day7</h4>
+
+<p>Android程序怎么搞，现在八字还没一撇呢。热情啊，就要消耗光了。</p>
+
+<p>赶紧找了本网上号称最简单的Android开发教程 <code>第一行代码</code> ，再开始对着敲。没错，我就是只会这一招。</p>
+
+<h4>Day8</h4>
+
+<p>还在敲~~~，敲不完了。不是打字慢，而是电脑一开Android 手机模拟器就陷入昏睡模式，一气之下不敲了，直接接上手机开干。</p>
+
+<h4>Day9-Day13</h4>
+
+<p>游戏逻辑早写完了，我对Android App的开发印象就是:画View。没错，就是处理各种图像拉伸，各种尺寸适配，各种布局位置，各种奇葩的手机尺寸，各种API新老接口整合。</p>
+
+<p>简单列举下中间遇到的坑:</p>
+
+<ul>
+<li><p>怎么在各种尺寸下画出一个比较漂亮的棋盘布局</p></li>
+<li><p>怎么用相对布局把几个菜单搞得整齐一点</p></li>
+<li><p>怎么PS出一个不那么生硬的背景，没错，我还同时开了Photoshop做美工，这个时候电脑已经处在超脱状态</p></li>
+<li><p>怎么在两个View直接传数据，怎么处理活动的生存周期</p></li>
+<li><p>怎么加背景音乐，怎么搞成服务，怎么能让程序退出的时候结束服务，怎么搞得好听一点，没错，这个时候我又客串DJ，研究了MP3各码率下音质和文件大小的关系，最后以专业乐评人的视角选择了一首古筝曲</p></li>
+<li><p>晕，现在为止还是只有一关呢，怎么办？我到 <code>代码发芽</code> 网上，写个Python脚本爬下来了所有关卡，同时邮件问作者申请授权</p></li>
+<li><p>到底是拖动棋子效果好呢，还是点击移动棋子效果好呢？我又化身PM，反反复复走最简单的一关， <code>十八步</code> ，最后确定还是点击效果好。没错，到目前为止，这个游戏我只玩通了三关，我的智商就是这样。最后我爸还解决了 <code>横刀立马</code> ，我怎么也不行。</p></li>
+<li><p>发现一个重大问题，原来我一直以为只有五虎上将的，一共五横五竖十个长条棋子，突然发现有一关里面出现了魏延，我晕，再调吧</p></li>
+<li><p>又发现个问题，Android的默认sqlite模块好像没说怎么把已有的数据库集成进去，怎么办，Google吧</p></li>
+</ul>
+
+
+<h4>Day14</h4>
+
+<p>到各个Android市场注册账号，提交APP，等审核，之间经历若干PS工作，这也是辛苦活啊。</p>
+
+<p>~~~~~</p>
+
+<p>就是这样，我在各种大坑小坑瞎搞之后，瞎搞出来了。。。</p>
+
+<h2>结论</h2>
+
+<ul>
+<li><p>所谓零基础xx天搞APP是可以的，但是有条件，你只是Android零基础或者Java零基础，其它编程基础还是要有的，不然期间大坑小坑肯定要浪费很多时间</p></li>
+<li><p>熟练工和初级工效率差距巨大，一天写个游戏APP不是开玩笑</p></li>
+<li><p>这样写出的APP完成度低，要加入完整的体验流程，工作量还是很大的</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/">Javascript设计模式 - 笔记3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-24T11:30:02+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>javascript 里面的继承是个非常复杂的话题，一言蔽之，就是你要替解释器干点活。另外，javascript属于使用原型式继承的语言，这个比较少见，所以直觉上不好拐弯。</p>
+
+<p>先回顾比较简单的办法</p>
+
+<h2>类式继承</h2>
+
+<h3>一个简单的类</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* class Person */
+</span><span class='line'>function Person(name) {
+</span><span class='line'>    this.name = name;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>Person.prototype.getName = functino() {
+</span><span class='line'>    return this.name;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var reader = new Person('memoryboxes');
+</span><span class='line'>reader.getName();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好，下面定义一个它的子类</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* Class Author */
+</span><span class='line'>function Author(name, books) {
+</span><span class='line'>    Person.call(this, name);
+</span><span class='line'>    this.books = books;
+</span><span class='line'>}
+</span><span class='line'>Author.prototype = new Persion();  //set up the prototype chain
+</span><span class='line'>Author.prototype.contructor = Author; //set the constructor attribute to author
+</span><span class='line'>Author.getBooks = function() {return this.books;}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>容易费解的是这两行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Author.prototype = new Persion();  //set up the prototype chain
+</span><span class='line'>Author.prototype.contructor = Author; //set the constructor attribute to author</span></code></pre></td></tr></table></div></figure>
+
+
+<p>javascript中，每个对象都有一个原型对象，在创建一个对象时，javascript会自动将其原型对象设置为其构造函数的prototype属性所指的对象。
+在访问对象的某个成员时，如果这个成员未见于当前对象，那么javascript会沿着原型链向上逐一访问每个原型对象(最顶端为Object.prototype对象)，直到找到这个成员为止。
+这意味着，为了让一个类继承另一个类，只需将子类的prototype设置为基类的一个实例即可。</p>
+
+<p>第二行将prototype的constructor属性重新设置为Author。是因为:
+定义一个构造函数时，其默认的prototype对象是一个Object类型的实例，其contructor属性会被设置为构造函数本身。如果手工将prototype设置为另一个对象，就要重新设置其constructor属性。</p>
+
+<p>最后，为了简化类的声明，可以将这些工作封装在extend函数中:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function extend(subClass, superClass) {
+</span><span class='line'>    var F = function(){};
+</span><span class='line'>    F.prototype = superClass.prototype;
+</span><span class='line'>    subClass.prototype = new F();
+</span><span class='line'>    subClass.prototype.contructor = subClass;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>作为改进，定义了一个新对象F，避免基类对象过大，创建实例浪费资源。</p>
+
+<p>但是这样还有个小缺点，声明 Author的时候，还要显式的调用一下<code>Person.call()</code>，下面这个版本进一步做了改进：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function extend(subClass, superClass) {
+</span><span class='line'>    var F = function(){};
+</span><span class='line'>    F.prototype = superClass.prototype;
+</span><span class='line'>    subClass.prototype = new F();
+</span><span class='line'>    subClass.prototype.contructor = subClass;
+</span><span class='line'>
+</span><span class='line'>    subClass.superclass = superClass.prototype;
+</span><span class='line'>    if(superClass.prototype.contructor == Object.prototype.constructor) {
+</span><span class='line'>        superClass.prototype.contructor = superClass;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>增加了一个superclass属性来直接访问基类，这样声明Author的时候可以这么写:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* Class Author */
+</span><span class='line'>function Author(name, books) {
+</span><span class='line'>    Author.superclass.contructor.call(this, name);
+</span><span class='line'>    this.books = books;
+</span><span class='line'>}
+</span><span class='line'>extend(Author, Person);
+</span><span class='line'>Author.getBooks = function() {return this.books;}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>原型式继承</h2>
+
+<p>TODO</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/17/git-cheat/">Git Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-17T11:45:03+08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/01/17/git-cheat/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/01/17/git-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>整理一下经常忘记的Git命令</p>
+
+<h1>remote 同步</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote -v                                                     // 查看当前远程版本库
+</span><span class='line'>$ git remote add cocos2d-x git://github.com/cocos2d/cocos2d-x.git   // 添加原始版本库
+</span><span class='line'>$ git fetch cocos2d-x                                               // 获取原始版本库的更新
+</span><span class='line'>$ git merge cocos2d-x/master                                        // 合并原始版本库的代码到当前版本库中，合并前确保当前分支是master</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>remote branch</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch -a                                                     //查看所有分支
+</span><span class='line'>$ git checkout -b branches/xxx origin/branches/xxx                  //chekcout远程分支
+</span><span class='line'>$ git push origin --delete &lt;branchname&gt;                             //删除远程分支
+</span><span class='line'>$ git push origin --delete tag &lt;tagname&gt;                            //删除远程tag
+</span><span class='line'>$ git push origin :&lt;branchName&gt;                                     //推送一个空分支到远程分支，相当于删除分支
+</span><span class='line'>$ git push origin :refs/tags/&lt;tagName&gt;                              //推送一个空tag到远程，相当于删除tag</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>删除不存在对应远程分支的本地分支</h2>
+
+<p>假设这样一种情况：</p>
+
+<ol>
+<li>我创建了本地分支b1并pull到远程分支 origin/b1；</li>
+<li>其他人在本地使用fetch或pull创建了本地的b1分支；</li>
+<li>我删除了 origin/b1 远程分支；</li>
+<li>其他人再次执行fetch或者pull并不会删除这个他们本地的 b1 分支，运行 git branch -a 也不能看出这个branch被删除了，如何处理？</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git fetch -p                                                        //在fetch之后删除掉没有与远程分支对应的本地分支</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>重命名远程分支</h2>
+
+<p>在git中重命名远程分支，其实就是先删除远程分支，然后重命名本地分支，再重新提交一个远程分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push --delete origin devel                                    //删除远程分支
+</span><span class='line'>$ git branch -m devel develop                                       //重命名本地分支
+</span><span class='line'>$ git push origin develop                                           //推送本地分支</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>把本地tag推送到远程</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push --tags</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>获取远程tag</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git fetch origin tag &lt;tagname&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>合并branch上的指定文件</h2>
+
+<p>branches/A 上修改了一个文件A.h，新增了一个文件B.h，删除了一个文件C.h。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout master                                               //首先切换到master分支
+</span><span class='line'>
+</span><span class='line'>$ git checkout -p branches/A A.h                                    //不切换branch，把RemLanbranches/A上的A.h更新到当前分支
+</span><span class='line'>
+</span><span class='line'>$ git checkout branches/A B.h                                       //去掉-p参数，新增该B.h文件
+</span><span class='line'>
+</span><span class='line'>$ rm C.h                                                            //删除文件目前还没找到其他办法，但效果是一样的</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>分支的衍合</h2>
+
+<p>参考:<a href="http://git-scm.com/docs/git-rebase">http://git-scm.com/docs/git-rebase</a></p>
+
+<h1>diff</h1>
+
+<p>只显示两个分支间的差异，如果你想找出‘master’,‘test’的共有 父分支和&#8217;test&#8217;分支之间的差异，你用3个‘.&lsquo;来取代前面的两个&rsquo;.&lsquo; 。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff master..test</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示你当前的索引和上次提交间的差异；这些内容在不带&#8221;-a&#8221;参数运行 &ldquo;git commit&#8221;命令时就会被提交。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff --cached</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示你工作目录与上次提交时之间的所有差别，这条命令所显示的 内容都会在执行&#8221;git commit -a&#8221;命令时被提交。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff HEAD</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你要查看当前的工作目录与另外一个分支的差别，你可以用下面的命令执行:
+这会显示你当前工作目录与另外一个叫&#8217;test&#8217;分支的差别。你也以加上路径限定符，来只 比较某一个文件或目录。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff test</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示你当前工作目录下的lib目录与上次提交之间的差别(或者更准确的 说是在当前分支)。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff HEAD -- ./lib</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果不是查看每个文件的详细差别，而是统计一下有哪些文件被改动，有多少行被改 动，就可以使用‘&mdash;stat&#8217; 参数。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff --stat</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/05/javascriptshe-ji-mo-shi-2/">Javascript设计模式 - 笔记2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-05T09:05:16+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/01/05/javascriptshe-ji-mo-shi-2/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/01/05/javascriptshe-ji-mo-shi-2/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>如何封装一个对象</h1>
+
+<h2>门户大开型</h2>
+
+<p>最简单的办法就是按传统方法创建一个类，用一个函数来做其构造器。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = function(isbn, title, author) {
+</span><span class='line'>    if (isbn === undefined) {
+</span><span class='line'>        throw new Error('Book constructor requires an isbn.');
+</span><span class='line'>    }
+</span><span class='line'>    this.isbn = isbn;
+</span><span class='line'>    this.title = title || 'No title specified';
+</span><span class='line'>    this.author = author || 'No title specified';
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//define by attr
+</span><span class='line'>Book.prototype.display = function() {...};
+</span><span class='line'>
+</span><span class='line'>//define by object literals
+</span><span class='line'>Book.prototype = {
+</span><span class='line'>    display: function(){...},
+</span><span class='line'>    checkIsdn: function(){...}
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>优点：简单</li>
+<li>缺点：没有保护，需要加各种校验。但内部的成员还是有很大可能被修改的。</li>
+</ul>
+
+
+<h2>语法修饰增强型</h2>
+
+<p>用setattr,getattr等赋值取值方法及命名规范区别私有成员</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = function(isbn, title, author) {
+</span><span class='line'>    if (isbn === undefined) {
+</span><span class='line'>        throw new Error('Book constructor requires an isbn.');
+</span><span class='line'>    }
+</span><span class='line'>    this.setIsbn(isbn);
+</span><span class='line'>    this.setTitle(title);
+</span><span class='line'>    this.setAuthor(author);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//define by attr
+</span><span class='line'>Book.prototype.display = function() {...};
+</span><span class='line'>
+</span><span class='line'>//define by object literals
+</span><span class='line'>Book.prototype = {
+</span><span class='line'>    _checkIsdn: function() {...}
+</span><span class='line'>
+</span><span class='line'>    setIsbn: function(isbn) {
+</span><span class='line'>        if!(this._checkIsbn(isbn)) {
+</span><span class='line'>            throw new Error("Invalid isbn");
+</span><span class='line'>        }
+</span><span class='line'>        this._isbn = isbn;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    getIsbn: function() {
+</span><span class='line'>        return this._isbn;
+</span><span class='line'>    }
+</span><span class='line'>    .......
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>优点：简单，安全性也有所增强</li>
+<li>缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。</li>
+</ul>
+
+
+<h2>闭包实现私有成员</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = function(iisbn, ititle, iauthor) {
+</span><span class='line'>
+</span><span class='line'>    //private attributes
+</span><span class='line'>    var isbn, title, author;
+</span><span class='line'>
+</span><span class='line'>    //private method
+</span><span class='line'>    function _checkIsbn(iisbn) {
+</span><span class='line'>        ...
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    //privileged methods
+</span><span class='line'>    this.getIsbn = function() {
+</span><span class='line'>        return isbn;
+</span><span class='line'>    };
+</span><span class='line'>
+</span><span class='line'>    this.setIsbn = function(iisbn) {
+</span><span class='line'>        this._checkIsbn(iisbn) ...
+</span><span class='line'>        isbn = iisbn;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    .......
+</span><span class='line'>
+</span><span class='line'>    //contructor code
+</span><span class='line'>    this.setIsbn(iisbn);
+</span><span class='line'>    this.setTitle(ititle);
+</span><span class='line'>    this.setAuthor(iauthor);
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>//public, non-privileged methods
+</span><span class='line'>
+</span><span class='line'>Book.prototype = {
+</span><span class='line'>    display: fucntion(){},
+</span><span class='line'>    ....
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里应用了js的闭包特性，isbn等属性不再通过<code>this</code>来引用，而是放到函数的构造器里面。既要访问到私有成员，又要对外的方法放到函数的构造中，对私有成员没有依赖的函数用prototype。</p>
+
+<ul>
+<li>优点：比较完整的模拟了private特性</li>
+<li>缺点：private方法不再存在prototype里面，这样没生成一个新的对象实例都会为每个每个私有方法和特权方法生成一个新副本，耗费内存。</li>
+</ul>
+
+
+<h2>实现静态方法和属性</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = (function() {
+</span><span class='line'>
+</span><span class='line'>    //private static attributes
+</span><span class='line'>    var numberOfBooks = 0;
+</span><span class='line'>
+</span><span class='line'>    //private static method
+</span><span class='line'>    function checkIsbn(iisbn) {
+</span><span class='line'>        ...
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    //return the contructor
+</span><span class='line'>    return function(iisbn, ititle, iauthor) {
+</span><span class='line'>        //private attributes
+</span><span class='line'>        var isbn, title, author;
+</span><span class='line'>
+</span><span class='line'>        //privileged methods
+</span><span class='line'>        this.getIsbn = function() {
+</span><span class='line'>            return isbn;
+</span><span class='line'>        };
+</span><span class='line'>
+</span><span class='line'>        this.setIsbn = function(iisbn) {
+</span><span class='line'>            this._checkIsbn(iisbn) ...
+</span><span class='line'>            isbn = iisbn;
+</span><span class='line'>        }
+</span><span class='line'>        .......
+</span><span class='line'>
+</span><span class='line'>        //contructor code
+</span><span class='line'>        numOfBooks++;
+</span><span class='line'>        this.setIsbn(iisbn);
+</span><span class='line'>    }
+</span><span class='line'>})();
+</span><span class='line'>
+</span><span class='line'>//public, static methods
+</span><span class='line'>Book.converTotitleCase = function(){...};
+</span><span class='line'>
+</span><span class='line'>//public, non-privileged methods
+</span><span class='line'>
+</span><span class='line'>Book.prototype = {
+</span><span class='line'>    display: fucntion(){},
+</span><span class='line'>    ....
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里和<code>闭包实现私有成员</code>的区别就在于构造函数变成了一个内嵌函数，这样就创建了一个闭包，可以把静态的私有成员声明在最顶层。</p>
+
+<h2>实现常量</h2>
+
+<p>常量就设置为一个私有静态属性，用大写区分即可。我认为没有必要实现一个取值器去限制，用CONST前缀从代码风格上约束即可。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/">Javascript设计模式 - 笔记1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-04T08:25:15+08:00" pubdate data-updated="true">Jan 4<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>富有表现力的javascript</h1>
+
+<h2>弱类型语言</h2>
+
+<p>javascript中有三种原始类型:布尔型、数值型(不区分浮点数和整数)和字符串型。</p>
+
+<p>此外，还有对象类型和包含可执行代码的函数类型。前者是一种复合类型(数组是一种特殊的对象)。</p>
+
+<p>最后，还有空类型(null)和未定义类型(undefined)。</p>
+
+<p>原始数据类型按值传送，其他数据类型则按引用传送。</p>
+
+<h2>函数是一等对象</h2>
+
+<ul>
+<li>匿名函数</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(function(){
+</span><span class='line'>    var foo = 10;
+</span><span class='line'>    var bar = 2;
+</span><span class='line'>    alert(foo * bar);
+</span><span class='line'>})();</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>闭包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var baz;
+</span><span class='line'>(function(){
+</span><span class='line'>    var foo = 10;
+</span><span class='line'>    var bar = 2;
+</span><span class='line'>    baz = function(){
+</span><span class='line'>        return foo * bar;
+</span><span class='line'>    }
+</span><span class='line'>})();
+</span><span class='line'>baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>作用域、嵌套函数和闭包</p>
+
+<ul>
+<li><p>js中，只有函数具有作用域：</p>
+
+<p>  在一个函数内部声明的变量，外部无法访问；
+  定义在一个函数中的变量在该函数的内嵌函数中是可以访问的</p></li>
+<li><p>js中的作用域是词法性的：</p>
+
+<p>  函数运行在定义他们的作用域中，而不是调用他们的作用域中；
+  可以利用这个特性定义静态方法和属性；</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>对象的易变性(mutable)和内省(introspection)</h2>
+
+<ul>
+<li>易变性：js中可以对象前定义的类和实例化的对象进行修改</li>
+<li>内省：js中可以在运行时检查对象所具有的属性和方法</li>
+</ul>
+
+
+<h1>接口</h1>
+
+<ul>
+<li><p>接口也是一种对象，判断一个类是否是实现了某类接口，就是传入这个接口，而后比较。</p>
+
+<p>  java有专门的接口类，C++有虚基类，而C在linux kernel中的对象设计方法实际上也是一种接口实现，这都是接口在语言层面支持的体现</p></li>
+<li><p>封装(encapsulation)和信息隐藏：信息隐藏是目的，而封装则是藉以达到这个目的的技术</p>
+
+<p>  java和C++有 private关键字作为支持，Python有&#8217;__&lsquo;的命名约定，js中一般用闭包来模拟</p></li>
+</ul>
+
+
+<h2>接口实现</h2>
+
+<h3>用注释来模拟</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/*
+</span><span class='line'>interface Composite {
+</span><span class='line'>    function add(child);
+</span><span class='line'>    function remove(child);
+</span><span class='line'>    ...
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>interface FormItem{
+</span><span class='line'>    function save();
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var CompositeForm = function(id, method, action) {
+</span><span class='line'>    //implements Composite, FromItem
+</span><span class='line'>    ...
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>CompositeForm.prototype.add = function(child) {
+</span><span class='line'>    ...
+</span><span class='line'>}
+</span><span class='line'>CompositeForm.prototype.remove= function(child) {
+</span><span class='line'>    ...
+</span><span class='line'>}
+</span><span class='line'>CompositeForm.prototype.save= function() {
+</span><span class='line'>    ...
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>优点：简单明了，代码体积小</li>
+<li>缺点：无法错误检查</li>
+</ul>
+
+
+<h3>用属性检查模仿接口</h3>
+
+<p>约定所有类明确声明实现了那些接口，和这些类打交道的对象可以针对这些声明做检查。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/*
+</span><span class='line'>interface Composite {
+</span><span class='line'>    function add(child);
+</span><span class='line'>    function remove(child);
+</span><span class='line'>    ...
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>interface FormItem{
+</span><span class='line'>    function save();
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var CompositeForm = function(id, method, action) {
+</span><span class='line'>    //implements Composite, FromItem
+</span><span class='line'>    this.implementsInterfaces = ['Composite', 'FromItem'];
+</span><span class='line'>    ...
+</span><span class='line'>};
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>function addForm(formInstance) {
+</span><span class='line'>    if (!implements(formInstance, 'Composite', 'FormItem')) {
+</span><span class='line'>        throw new Error("object does not implement a required interface");
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>function implements(objects) {
+</span><span class='line'>    for (var i = 1; i &lt; arguments.length; i++) {
+</span><span class='line'>        var interfaceName = arguments[i];
+</span><span class='line'>        var interfaceFound = false;
+</span><span class='line'>        for (var j = 0; j &lt; object.implementsInterfaces[j] == interfaceName) {
+</span><span class='line'>            interfaceFound = true;
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        if (!interfaceFound) {
+</span><span class='line'>            return false;
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    return true;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>优点:有错误检查</li>
+<li>缺点:每次调用都要检查，啰嗦，另外防不住有说了实现但没有干活的</li>
+</ul>
+
+
+<h1>鸭式辨型模仿接口</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var Composite = new Intreface('Composite', ['add', 'remove']);
+</span><span class='line'>var FormItem = new Interface('FormItem', ['save']);
+</span><span class='line'>var CompositeForm = function(id, method, action) {
+</span><span class='line'>    ...
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>function addForm(formInstance) {
+</span><span class='line'>    ensureImplements(formInstance, Composite, FormItem);
+</span><span class='line'>    ......
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var Interface = function(name, methods) {
+</span><span class='line'>    if (arguments.length != 2) {
+</span><span class='line'>        throw new Error("Interface constructor called with " + arguments.length + "arguments, but expected exactly 2.");
+</span><span class='line'>    }
+</span><span class='line'>    this.name = name;
+</span><span class='line'>    this.methods = [];
+</span><span class='line'>    for (var i = 0; len = methods.length; i &lt; len; i++) {
+</span><span class='line'>        if (typeof methods[i] !== 'string')  {
+</span><span class='line'>            throw new Error("Interface contructor expects method names to be " +
+</span><span class='line'>                            "passed in as string");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    this.methods.push(methods[i]);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>Interface.ensureImplements = function(object) {
+</span><span class='line'>    if (arguments.length &lt; 2) {
+</span><span class='line'>        throw Error("Functino Interface.ensureImplements called with " + arguments.length +
+</span><span class='line'>                    "arguments, but expected at leaset 2.");
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    for (var i = 1, len = arguments.length; i &lt; len; i++) {
+</span><span class='line'>        if (interface.constructor !== Interface) {
+</span><span class='line'>            throw new Error("Function Interface.ensureImplements expects arguments" +
+</span><span class='line'>                            "two and above to be instances of Interface.");
+</span><span class='line'>        } 
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    for (var j = 1, methodsLen = interface.methods.length; j &lt; methodsLen; j++) {
+</span><span class='line'>        var method = interface.methods[j];
+</span><span class='line'>        if(!object[method] || typeof object[method] !== 'function') {
+</span><span class='line'>            throw new Error("Function Interface.ensureImplements: object " +
+</span><span class='line'>                            "does not implement the " + interface.name)  +
+</span><span class='line'>                            "interface.Method " + method + " was not found.");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>优点：进一步加强了错误检查</li>
+<li>缺点：增大了调试难度</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/">Macvtap Ethernet Support Tcpdump</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-31T17:05:01+08:00" pubdate data-updated="true">Dec 31<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/12/31/macvtap-ethernet-support-tcpdump/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>用macvtap模拟网卡时，用tcpdump抓包是抓不到的，后来发现3.14版本以上的内核修正了这一点。</p>
+
+<p>参考这个提交:</p>
+
+<p><a href="https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523">https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/6/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/4/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
+<li class='category'><a href='/blog/categories/array/'>Array (1)</a></li>
+<li class='category'><a href='/blog/categories/c/'>C (1)</a></li>
+<li class='category'><a href='/blog/categories/c2c/'>C2C (1)</a></li>
+<li class='category'><a href='/blog/categories/cdn/'>CDN (1)</a></li>
+<li class='category'><a href='/blog/categories/designpattern/'>DesignPattern (1)</a></li>
+<li class='category'><a href='/blog/categories/django/'>Django (3)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>Docker (4)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (4)</a></li>
+<li class='category'><a href='/blog/categories/macvtap/'>Macvtap (1)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>MongoDB (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>Mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/packet-mmap/'>PACKET_MMAP (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (4)</a></li>
+<li class='category'><a href='/blog/categories/sdn/'>SDN (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>SVN (1)</a></li>
+<li class='category'><a href='/blog/categories/tcp-ip/'>TCP/IP (3)</a></li>
+<li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
+<li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>Vim (2)</a></li>
+<li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
+<li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
+<li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
+<li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
+<li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
+<li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
+<li class='category'><a href='/blog/categories/centos/'>centos (2)</a></li>
+<li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
+<li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
+<li class='category'><a href='/blog/categories/color/'>color (1)</a></li>
+<li class='category'><a href='/blog/categories/colorscheme/'>colorscheme (1)</a></li>
+<li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
+<li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
+<li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
+<li class='category'><a href='/blog/categories/epel/'>epel (1)</a></li>
+<li class='category'><a href='/blog/categories/externals/'>externals (1)</a></li>
+<li class='category'><a href='/blog/categories/finance/'>finance (1)</a></li>
+<li class='category'><a href='/blog/categories/freeze/'>freeze (1)</a></li>
+<li class='category'><a href='/blog/categories/gcc/'>gcc (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>
+<li class='category'><a href='/blog/categories/jenkins/'>jenkins (1)</a></li>
+<li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
+<li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
+<li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
+<li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
+<li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
+<li class='category'><a href='/blog/categories/mongodb/'>mongodb (1)</a></li>
+<li class='category'><a href='/blog/categories/mongoexport/'>mongoexport (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>mysql (1)</a></li>
+<li class='category'><a href='/blog/categories/netcat/'>netcat (1)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (6)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (1)</a></li>
+<li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
+<li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>
+<li class='category'><a href='/blog/categories/product/'>product (1)</a></li>
+<li class='category'><a href='/blog/categories/repo/'>repo (1)</a></li>
+<li class='category'><a href='/blog/categories/satoshi/'>satoshi (1)</a></li>
+<li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
+<li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
+<li class='category'><a href='/blog/categories/tag/'>tag (1)</a></li>
+<li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+<li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
+<li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
+<li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
+<li class='category'><a href='/blog/categories/windows/'>windows (1)</a></li>
+<li class='category'><a href='/blog/categories/yum/'>yum (1)</a></li>
+<li class='category'><a href='/blog/categories/云计算/'>云计算 (1)</a></li>
+<li class='category'><a href='/blog/categories/华容道/'>华容道 (1)</a></li>
+<li class='category'><a href='/blog/categories/批量删除/'>批量删除 (1)</a></li>
+<li class='category'><a href='/blog/categories/生活/'>生活 (1)</a></li>
+<li class='category'><a href='/blog/categories/表/'>表 (1)</a></li>
+<li class='category'><a href='/blog/categories/读书摘录/'>读书摘录 (2)</a></li>
+  
+    </ul> 
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

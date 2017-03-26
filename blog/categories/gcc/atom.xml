@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Gcc | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/gcc/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Compile by Autotools]]></title>
+    <link href="http://memoryboxes.github.io/blog/2014/10/29/how-to-compile-by-autotools/"/>
+    <updated>2014-10-29T12:12:30+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2014/10/29/how-to-compile-by-autotools</id>
+    <content type="html"><![CDATA[<p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<p>echo &ldquo;Running aclocal&hellip;&rdquo;
+aclocal || exit 1
+echo &ldquo;Running autoheader&hellip;&rdquo;
+autoheader || exit 1
+echo &ldquo;Running autoconf&hellip;&rdquo;
+autoconf || exit 1
+echo &ldquo;Running automake&hellip;&rdquo;
+automake &mdash;add-missing &mdash;copy || exit 1
+echo &ldquo;Finished.&rdquo;
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

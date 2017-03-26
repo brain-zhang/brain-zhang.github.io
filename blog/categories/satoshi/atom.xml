@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Satoshi | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/satoshi/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-03-26T16:36:24+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Is Craig Wright Real Satoshi Nakamoto?]]></title>
+    <link href="http://memoryboxes.github.io/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/"/>
+    <updated>2016-05-02T19:41:48+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto</id>
+    <content type="html"><![CDATA[<p>Craig Wright 又在声明他是"中本聪"了.</p>
+
+<p>“中本聪”给出的签名是：</p>
+
+<pre><code>MEUCIQDBKn1Uly8m0UyzETObUSL4wYdBfd4ejvtoQfVcNCIK4AIgZmMsXNQWHvo6KDd2Tu6euEl13VTC3ihl6XUlhcU+fM4=
+</code></pre>
+
+<p>我们先对信息串进行base64解码，再转换成hex是：</p>
+
+<pre><code>3045022100c12a7d54972f26d14cb311339b5122f8c187417dde1e8efb6841f55c34220ae0022066632c5cd4161efa3a2837764eee9eb84975dd54c2de2865e9752585c53e7cce
+</code></pre>
+
+<p>很遗憾，我们可以在交易ID：</p>
+
+<pre><code>828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe
+</code></pre>
+
+<p>中找出这个签名。可通过：</p>
+
+<p><a href="https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex">https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</a></p>
+
+<p>找到十六进制串的交易内容</p>
+
+<p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
+
+<p>但是令人疑惑的是GAVIN ANDRESEN为这位"中本聪"背书:</p>
+
+<p><a href="http://gavinandresen.ninja/satoshi">http://gavinandresen.ninja/satoshi</a></p>
+
+<p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
+
+<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家&hellip;&hellip;</p>
+
+<p>卫平布莱恩特老师说,这球有意思啊&hellip;&hellip;.</p>
+
+<p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
+
+<p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
+
+<p><a href="https://www.zhihu.com/question/22199390/answer/76083139">https://www.zhihu.com/question/22199390/answer/76083139</a></p>
+
+<p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+
+<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+
+<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
+
+<p>呵呵, 绝佳的侦探小说体裁啊.</p>
+]]></content>
+  </entry>
+  
+</feed>
