@@ -114,9 +114,12 @@ gpgcheck=1
 gpgkey=https://getfedora.org/static/34EC9CBA.txt
 </code></pre>
 
-<p>然后使用 yum install gcc gcc-c++ -y 进行安装，注意，如果你要用这种方法安装gcc，那在第1步就干脆不要安装gcc和gcc-c++包了。</p>
+<p>然后执行</p>
 
-<h3>使用Devtoolset-4升级，详细方法见这里</h3>
+<pre><code>yum update gcc gcc-c++
+</code></pre>
+
+<h3>使用Devtoolset-4升级</h3>
 
 <pre><code>yum install centos-release-scl
 yum install devtoolset-4-gcc*
