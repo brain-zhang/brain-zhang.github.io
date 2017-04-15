@@ -4,7 +4,7 @@
   <title><![CDATA[memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-03-27T21:41:28+08:00</updated>
+  <updated>2017-04-15T16:00:51+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Update to gcc4.9.x on Centos7]]></title>
+    <link href="http://memoryboxes.github.io/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/"/>
+    <updated>2017-04-15T15:50:53+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7</id>
+    <content type="html"><![CDATA[<p>现在很多软件包默认编译要求GLIBCXX >=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件>=4.9.1。</p>
+
+<p>CentOS下升级gcc版本有两个途径，一个是添加其他源进行自动升级，一个是手动编译升级，这里先顺便讲下自动升级的两个办法：</p>
+
+<h3>添加Fedora源</h3>
+
+<p>在 /etc/yum.repos.d 目录中添加文件 FedoraRepo.repo ，并输入以下内容:</p>
+
+<pre><code>[warning:fedora]
+name=fedora
+mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-23&amp;arch=$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://getfedora.org/static/34EC9CBA.txt
+</code></pre>
+
+<p>然后使用 yum install gcc gcc-c++ -y 进行安装，注意，如果你要用这种方法安装gcc，那在第1步就干脆不要安装gcc和gcc-c++包了。</p>
+
+<h3>使用Devtoolset-4升级，详细方法见这里</h3>
+
+<pre><code>yum install centos-release-scl
+yum install devtoolset-4-gcc*
+scl enable devtoolset-4 bash
+which gcc
+gcc --version
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Migarate Duoshuo to Disqus]]></title>
@@ -1406,83 +1440,6 @@ exec "$@"
 <p>802.3标准定义的帧和以太网的帧都有最小长度要求。802.3规定数据部分必须至少为38字节，而对于以太网，则要求最少要有46字节。为了保证这一点，必须在不足的空间插入填充字节。</p>
 
 <p>最后注意一下，mtu的大小只是指帧内容的大小，不包括帧头。所以mtu是1500时，QinQ又额外的四个字节，加上帧头共1522个字节，会丢包，最小要把mtu设置为1504。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[学了点财会知识]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/"/>
-    <updated>2016-05-22T18:17:32+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi</id>
-    <content type="html"><![CDATA[<p>周末又复习了一点财会方面的知识，顺便又重温了复式记账，要想办法用起来啊。</p>
-
-<p>记一些小tip:</p>
-
-<h2>企业账本一般分为</h2>
-
-<ul>
-<li><p>总账</p></li>
-<li><p>明细账</p></li>
-<li><p>十三栏明细账</p></li>
-<li><p>存货进销存账目</p></li>
-<li><p>应收票据备查账</p></li>
-</ul>
-
-
-<h2>会计凭证</h2>
-
-<ul>
-<li><p>原始凭证</p>
-
-<ul>
-<li><p>自制原始凭证</p></li>
-<li><p>外来原始凭证</p></li>
-</ul>
-</li>
-<li><p>记账凭证</p>
-
-<ul>
-<li><p>收款凭证</p></li>
-<li><p>付款凭证</p></li>
-<li><p>转账凭证</p></li>
-</ul>
-</li>
-</ul>
-
-
-<h2>会计恒等式</h2>
-
-<p>资产 = 负债 + 所有者权益</p>
-
-<h2>为什么要设定会计和出纳两个职位</h2>
-
-<ul>
-<li><p>要求出纳和会计都登记资金类账簿，是为了互相核对的需要</p></li>
-<li><p>出纳的银行存款日记账要求更严格，如果出现错误，只能原页修改，而会计的银行存款证明细账可用活页替换</p></li>
-</ul>
-
-
-<h2>一般公司的差旅报销流程</h2>
-
-<ul>
-<li><p>报销人填写差旅报销单</p></li>
-<li><p>分管领导签字</p></li>
-<li><p>会计统计明细账，核对单据</p></li>
-<li><p>财务负责人签字</p></li>
-<li><p>出纳支取</p></li>
-<li><p>领取人签字</p></li>
-</ul>
-
-
-<h2>一般纳税人和中小规模纳税人</h2>
-
-<ul>
-<li><p>一般纳税人： 开具增值税专用票，17个点的抵扣</p></li>
-<li><p>中小规模纳税人： 可由国税局代开增值税专用票，3个点的抵扣</p></li>
-</ul>
-
-
-<p>ps: 上海市国税地税不分家的，所以这个要实际操作才知道。</p>
 ]]></content>
   </entry>
   

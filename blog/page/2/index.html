@@ -75,6 +75,76 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-05T08:23:00+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/05/mysql-cheat/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/07/05/mysql-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>整理一下经常忘记的mysql命令</p>
+
+<h1>连接</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root -p</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>list</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ show DATABASES;
+</span><span class='line'>$ show TABLES;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Error</h1>
+
+<ul>
+<li>ERROR 1045 (28000): Access denied for user &lsquo;root&rsquo;@&lsquo;localhost&rsquo; (using password: YES)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysqld --skip-grant-tables
+</span><span class='line'>$ mysql -u root mysql
+</span><span class='line'>$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
+</span><span class='line'>$ mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/03/shang-ye-luo-ji/">商业逻辑</a></h1>
     
     
@@ -656,113 +726,6 @@ exec "$@"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/">学了点财会知识</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-22T18:17:32+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>周末又复习了一点财会方面的知识，顺便又重温了复式记账，要想办法用起来啊。</p>
-
-<p>记一些小tip:</p>
-
-<h2>企业账本一般分为</h2>
-
-<ul>
-<li><p>总账</p></li>
-<li><p>明细账</p></li>
-<li><p>十三栏明细账</p></li>
-<li><p>存货进销存账目</p></li>
-<li><p>应收票据备查账</p></li>
-</ul>
-
-
-<h2>会计凭证</h2>
-
-<ul>
-<li><p>原始凭证</p>
-
-<ul>
-<li><p>自制原始凭证</p></li>
-<li><p>外来原始凭证</p></li>
-</ul>
-</li>
-<li><p>记账凭证</p>
-
-<ul>
-<li><p>收款凭证</p></li>
-<li><p>付款凭证</p></li>
-<li><p>转账凭证</p></li>
-</ul>
-</li>
-</ul>
-
-
-<h2>会计恒等式</h2>
-
-<p>资产 = 负债 + 所有者权益</p>
-
-<h2>为什么要设定会计和出纳两个职位</h2>
-
-<ul>
-<li><p>要求出纳和会计都登记资金类账簿，是为了互相核对的需要</p></li>
-<li><p>出纳的银行存款日记账要求更严格，如果出现错误，只能原页修改，而会计的银行存款证明细账可用活页替换</p></li>
-</ul>
-
-
-<h2>一般公司的差旅报销流程</h2>
-
-<ul>
-<li><p>报销人填写差旅报销单</p></li>
-<li><p>分管领导签字</p></li>
-<li><p>会计统计明细账，核对单据</p></li>
-<li><p>财务负责人签字</p></li>
-<li><p>出纳支取</p></li>
-<li><p>领取人签字</p></li>
-</ul>
-
-
-<h2>一般纳税人和中小规模纳税人</h2>
-
-<ul>
-<li><p>一般纳税人： 开具增值税专用票，17个点的抵扣</p></li>
-<li><p>中小规模纳税人： 可由国税局代开增值税专用票，3个点的抵扣</p></li>
-</ul>
-
-
-<p>ps: 上海市国税地税不分家的，所以这个要实际操作才知道。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -780,6 +743,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
       </li>
     
@@ -793,10 +760,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
       </li>
     
   </ul>
@@ -806,6 +769,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
       </li>
     
@@ -819,10 +786,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
       </li>
     
   </ul>
@@ -887,7 +850,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
-<li class='category'><a href='/blog/categories/centos/'>centos (2)</a></li>
+<li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
 <li class='category'><a href='/blog/categories/color/'>color (1)</a></li>
@@ -900,7 +863,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/externals/'>externals (1)</a></li>
 <li class='category'><a href='/blog/categories/finance/'>finance (1)</a></li>
 <li class='category'><a href='/blog/categories/freeze/'>freeze (1)</a></li>
-<li class='category'><a href='/blog/categories/gcc/'>gcc (1)</a></li>
+<li class='category'><a href='/blog/categories/gcc/'>gcc (2)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
 <li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>

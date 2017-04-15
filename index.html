@@ -75,6 +75,70 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-04-15T15:50:53+08:00" pubdate data-updated="true">Apr 15<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>现在很多软件包默认编译要求GLIBCXX >=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件>=4.9.1。</p>
+
+<p>CentOS下升级gcc版本有两个途径，一个是添加其他源进行自动升级，一个是手动编译升级，这里先顺便讲下自动升级的两个办法：</p>
+
+<h3>添加Fedora源</h3>
+
+<p>在 /etc/yum.repos.d 目录中添加文件 FedoraRepo.repo ，并输入以下内容:</p>
+
+<pre><code>[warning:fedora]
+name=fedora
+mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-23&amp;arch=$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://getfedora.org/static/34EC9CBA.txt
+</code></pre>
+
+<p>然后使用 yum install gcc gcc-c++ -y 进行安装，注意，如果你要用这种方法安装gcc，那在第1步就干脆不要安装gcc和gcc-c++包了。</p>
+
+<h3>使用Devtoolset-4升级，详细方法见这里</h3>
+
+<pre><code>yum install centos-release-scl
+yum install devtoolset-4-gcc*
+scl enable devtoolset-4 bash
+which gcc
+gcc --version
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a></h1>
     
     
@@ -668,76 +732,6 @@ if sys.stdout.encoding == 'cp936':
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-05T08:23:00+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/07/05/mysql-cheat/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/07/05/mysql-cheat/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>整理一下经常忘记的mysql命令</p>
-
-<h1>连接</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root -p</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>list</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ show DATABASES;
-</span><span class='line'>$ show TABLES;</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Error</h1>
-
-<ul>
-<li>ERROR 1045 (28000): Access denied for user &lsquo;root&rsquo;@&lsquo;localhost&rsquo; (using password: YES)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysqld --skip-grant-tables
-</span><span class='line'>$ mysql -u root mysql
-</span><span class='line'>$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
-</span><span class='line'>$ mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -753,6 +747,10 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
       </li>
     
@@ -766,10 +764,6 @@ if sys.stdout.encoding == 'cp936':
     
       <li class="post">
         <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
       </li>
     
   </ul>
@@ -779,6 +773,10 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
       </li>
     
@@ -792,10 +790,6 @@ if sys.stdout.encoding == 'cp936':
     
       <li class="post">
         <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/12/18/gpuyun-suan-qia-bei-cun/">GPU运算卡备存</a>
       </li>
     
   </ul>
@@ -860,7 +854,7 @@ if sys.stdout.encoding == 'cp936':
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
-<li class='category'><a href='/blog/categories/centos/'>centos (2)</a></li>
+<li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
 <li class='category'><a href='/blog/categories/color/'>color (1)</a></li>
@@ -873,7 +867,7 @@ if sys.stdout.encoding == 'cp936':
 <li class='category'><a href='/blog/categories/externals/'>externals (1)</a></li>
 <li class='category'><a href='/blog/categories/finance/'>finance (1)</a></li>
 <li class='category'><a href='/blog/categories/freeze/'>freeze (1)</a></li>
-<li class='category'><a href='/blog/categories/gcc/'>gcc (1)</a></li>
+<li class='category'><a href='/blog/categories/gcc/'>gcc (2)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
 <li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
