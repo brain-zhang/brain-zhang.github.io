@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Shell | memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/blog/categories/shell/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-04-15T16:05:42+08:00</updated>
+  <updated>2017-06-05T12:48:37+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -20,9 +20,8 @@
     <id>http://memoryboxes.github.io/blog/2015/05/06/how-to-xargs-separate-parameters</id>
     <content type="html"><![CDATA[<p>做过很多遍了，每次还是得现查，记一下:</p>
 
-<p><code>
-echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]
-</code></p>
+<pre><code>echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]
+</code></pre>
 
 <p>output:</p>
 
@@ -30,6 +29,11 @@ echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]
 [param 1] [param 1]
 [param 2] [param 2]
 </code></p>
+
+<h2>xargs里面替换字符串</h2>
+
+<pre><code>ls|xargs -I @  echo "mv @ @.pack"|sed 's/.json.pack.pack/.pack/g'|bash
+</code></pre>
 ]]></content>
   </entry>
   

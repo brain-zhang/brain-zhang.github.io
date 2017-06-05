@@ -4,7 +4,7 @@
   <title><![CDATA[memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-04-15T16:05:42+08:00</updated>
+  <updated>2017-06-05T12:48:37+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -711,6 +711,34 @@ if sys.stdout.encoding == 'cp936':
 
 <h2>systemd startup script template</h2>
 
+<h4>helloworld.conf</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>server = tcp://localhost:35555
+</span><span class='line'>node = 1
+</span><span class='line'>heartbeat_period = 5
+</span><span class='line'>port_sync_period = 10
+</span><span class='line'>config_period = 60
+</span><span class='line'>ovslog_filepath = /var/lib/helloworldtest/log/hello.log
+</span><span class='line'>ovslog_maxbytes = 10485760
+</span><span class='line'>
+</span><span class='line'>[system]
+</span><span class='line'>pidFilePath=/var/lib/helloworldtest/run/hello.pid
+</span><span class='line'>logFilePath=/var/lib/helloworldtest/log/hello.log</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>service</h4>
+
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -723,18 +751,22 @@ if sys.stdout.encoding == 'cp936':
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[config]
-</span><span class='line'>server = tcp://localhost:35555
-</span><span class='line'>node = 1
-</span><span class='line'>heartbeat_period = 5
-</span><span class='line'>port_sync_period = 10
-</span><span class='line'>config_period = 60
-</span><span class='line'>ovslog_filepath = /var/lib/helloworldtest/log/testovs.log
-</span><span class='line'>ovslog_maxbytes = 10485760
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Unit]
+</span><span class='line'>Description=helloworld
 </span><span class='line'>
-</span><span class='line'>[system]
-</span><span class='line'>pidFilePath=/var/lib/helloworldtest/run/testclient.pid
-</span><span class='line'>logFilePath=/var/lib/helloworldtest/log/testclient.log</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>[Service]
+</span><span class='line'>Type=forking
+</span><span class='line'>EnvironmentFile=/etc/helloworld.conf
+</span><span class='line'>ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${logFilePath} )'
+</span><span class='line'>ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${pidFilePath} )'
+</span><span class='line'>ExecStart=/usr/local/sbin/daemonize -p ${pidFilePath} -a -o ${logFilePath} -e ${logFilePath} /usr/local/bin/helloworld -c /etc/helloworld.conf
+</span><span class='line'>ExecStopPost=/bin/kill $MAINPID
+</span><span class='line'>Restart=always
+</span><span class='line'>
+</span><span class='line'>[Install]
+</span><span class='line'>WantedBy=default.target</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

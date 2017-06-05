@@ -259,9 +259,8 @@
 
   <div class="entry-content"><p>做过很多遍了，每次还是得现查，记一下:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]
+</code></pre>
 
 <p>output:</p>
 
@@ -271,7 +270,10 @@
 </span><span class='line'>[param 2] [param 2]</span></code></pre></td></tr></table></div></figure>
 
 
+<h2>xargs里面替换字符串</h2>
 
+<pre><code>ls|xargs -I @  echo "mv @ @.pack"|sed 's/.json.pack.pack/.pack/g'|bash
+</code></pre>
 </div>
   
   
