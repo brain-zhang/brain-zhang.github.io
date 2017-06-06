@@ -75,6 +75,61 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">How to Change Systemd Service Timeout Value</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-05T17:56:04+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>show value</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>change value</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure>
+
+
+<p>TimeoutStopUSec = 900</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl daemon-reexec</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
     
     
@@ -666,66 +721,6 @@ exec "$@"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">再谈以太网帧格式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-23T21:59:43+08:00" pubdate data-updated="true">May 23<span>rd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>又重新读了一遍《tcp/ip详解》，又重温了一遍万年知识以太网，为了不能忘却的回忆，我决定原文摘抄一遍。</p>
-
-<p>以太网这个术语是指DEC、Intel和Xerox公司在1982年联合公布的一个标准。它是当今TCP/IP采用的主要局域网技术。
-几年后，IEEE802委员会公布了一个稍有不同的标准集，其中802.3针对整个CSMA/CD网络，802.4针对令牌总线网络，
-802.5针对令牌环网络，这三者的共同特性由802.2标准来定义，那就是802网络共有的逻辑链路控制（LLC）。不幸的
-是，802.3定义了一个与以太网不同的帧格式。</p>
-
-<p>下图定义了两种不同形式的封装格式：</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/802_3.jpg" alt="802.3" /></p>
-
-<p>在以太网帧格式中，类型字段之后就是数据，而在802帧格式中，跟随在后面的3字节的802.2LLC和5字节的802.2SNAP。</p>
-
-<p>目的服务访问（DSAP）和源服务访问点（SSAP）的值都设为0xaa。ctrl字段的值设为3.随后的3个字节org code都设置为0。</p>
-
-<p>再接下来的2个字节类型字段和以以太网帧格式一样。</p>
-
-<p>CRC字段用于帧内后续字节差错的循环冗余码检验。</p>
-
-<p>802.3标准定义的帧和以太网的帧都有最小长度要求。802.3规定数据部分必须至少为38字节，而对于以太网，则要求最少要有46字节。为了保证这一点，必须在不足的空间插入填充字节。</p>
-
-<p>最后注意一下，mtu的大小只是指帧内容的大小，不包括帧头。所以mtu是1500时，QinQ又额外的四个字节，加上帧头共1522个字节，会丢包，最小要把mtu设置为1504。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -743,6 +738,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
       </li>
     
@@ -756,10 +755,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
       </li>
     
   </ul>
@@ -769,6 +764,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
       </li>
     
@@ -782,10 +781,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a>
       </li>
     
   </ul>
@@ -851,6 +846,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
+<li class='category'><a href='/blog/categories/centos7/'>centos7 (1)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
 <li class='category'><a href='/blog/categories/color/'>color (1)</a></li>
@@ -881,6 +877,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/mysql/'>mysql (1)</a></li>
 <li class='category'><a href='/blog/categories/netcat/'>netcat (1)</a></li>
 <li class='category'><a href='/blog/categories/network/'>network (6)</a></li>
+<li class='category'><a href='/blog/categories/ntp/'>ntp (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (1)</a></li>
 <li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
 <li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>

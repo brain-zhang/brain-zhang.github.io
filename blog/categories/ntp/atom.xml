@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ntp | memoryboxes blog]]></title>
+  <link href="http://memoryboxes.github.io/blog/categories/ntp/atom.xml" rel="self"/>
+  <link href="http://memoryboxes.github.io/"/>
+  <updated>2017-06-06T21:28:54+08:00</updated>
+  <id>http://memoryboxes.github.io/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Deploy Local Ntp Server on Centos7]]></title>
+    <link href="http://memoryboxes.github.io/blog/2017/06/06/deploy-local-ntp-server-on-centos7/"/>
+    <updated>2017-06-06T21:20:35+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2017/06/06/deploy-local-ntp-server-on-centos7</id>
+    <content type="html"><![CDATA[<p>有时候需要内网环境搭建一个ntp服务器同步内网的几台机器。</p>
+
+<p>四步走:</p>
+
+<h2>安装ntpd</h2>
+
+<pre><code>yum -y install ntp ntpdate
+</code></pre>
+
+<h2>修改/etc/ntpd.conf</h2>
+
+<pre><code># line 18: add the network range you allow to receive requests
+restrict 10.0.0.0 mask 255.255.255.0 nomodify notrap
+
+# local clock
+server 127.127.1.0
+fudge  127.127.1.0 stratum 10
+</code></pre>
+
+<h2>重启</h2>
+
+<pre><code>systemctl start ntpd
+systemctl enable ntpd
+firewall-cmd --add-service=ntp --permanent
+firewall-cmd --reload
+</code></pre>
+
+<h2>瞄一眼</h2>
+
+<pre><code>watch ntpq -p
+</code></pre>
+
+<p>注意reach这个值，在启动ntp server服务后，这个值就从0开始不断增加，当增加到17的时候，从0到17是5次的变更，每一次是poll的值的秒数，是64秒*5=320秒的时间。</p>
+
+<p>如果之后从ntp客户端同步ntp server还失败的话，用ntpdate –d来查询详细错误信息，再做判断。</p>
+]]></content>
+  </entry>
+  
+</feed>

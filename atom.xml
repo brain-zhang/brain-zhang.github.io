@@ -4,7 +4,7 @@
   <title><![CDATA[memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-06-05T13:06:00+08:00</updated>
+  <updated>2017-06-06T21:28:54+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Deploy Local Ntp Server on Centos7]]></title>
+    <link href="http://memoryboxes.github.io/blog/2017/06/06/deploy-local-ntp-server-on-centos7/"/>
+    <updated>2017-06-06T21:20:35+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2017/06/06/deploy-local-ntp-server-on-centos7</id>
+    <content type="html"><![CDATA[<p>有时候需要内网环境搭建一个ntp服务器同步内网的几台机器。</p>
+
+<p>四步走:</p>
+
+<h2>安装ntpd</h2>
+
+<pre><code>yum -y install ntp ntpdate
+</code></pre>
+
+<h2>修改/etc/ntpd.conf</h2>
+
+<pre><code># line 18: add the network range you allow to receive requests
+restrict 10.0.0.0 mask 255.255.255.0 nomodify notrap
+
+# local clock
+server 127.127.1.0
+fudge  127.127.1.0 stratum 10
+</code></pre>
+
+<h2>重启</h2>
+
+<pre><code>systemctl start ntpd
+systemctl enable ntpd
+firewall-cmd --add-service=ntp --permanent
+firewall-cmd --reload
+</code></pre>
+
+<h2>瞄一眼</h2>
+
+<pre><code>watch ntpq -p
+</code></pre>
+
+<p>注意reach这个值，在启动ntp server服务后，这个值就从0开始不断增加，当增加到17的时候，从0到17是5次的变更，每一次是poll的值的秒数，是64秒*5=320秒的时间。</p>
+
+<p>如果之后从ntp客户端同步ntp server还失败的话，用ntpdate –d来查询详细错误信息，再做判断。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Update to gcc4.9.x on Centos7]]></title>
@@ -1433,36 +1476,6 @@ authconfig --enableldap --enableldapauth --ldapserver=ldap.xxx.com.cn --ldapbase
 
 exec "$@"
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[再谈以太网帧格式]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/"/>
-    <updated>2016-05-23T21:59:43+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi</id>
-    <content type="html"><![CDATA[<p>又重新读了一遍《tcp/ip详解》，又重温了一遍万年知识以太网，为了不能忘却的回忆，我决定原文摘抄一遍。</p>
-
-<p>以太网这个术语是指DEC、Intel和Xerox公司在1982年联合公布的一个标准。它是当今TCP/IP采用的主要局域网技术。
-几年后，IEEE802委员会公布了一个稍有不同的标准集，其中802.3针对整个CSMA/CD网络，802.4针对令牌总线网络，
-802.5针对令牌环网络，这三者的共同特性由802.2标准来定义，那就是802网络共有的逻辑链路控制（LLC）。不幸的
-是，802.3定义了一个与以太网不同的帧格式。</p>
-
-<p>下图定义了两种不同形式的封装格式：</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/802_3.jpg" alt="802.3" /></p>
-
-<p>在以太网帧格式中，类型字段之后就是数据，而在802帧格式中，跟随在后面的3字节的802.2LLC和5字节的802.2SNAP。</p>
-
-<p>目的服务访问（DSAP）和源服务访问点（SSAP）的值都设为0xaa。ctrl字段的值设为3.随后的3个字节org code都设置为0。</p>
-
-<p>再接下来的2个字节类型字段和以以太网帧格式一样。</p>
-
-<p>CRC字段用于帧内后续字节差错的循环冗余码检验。</p>
-
-<p>802.3标准定义的帧和以太网的帧都有最小长度要求。802.3规定数据部分必须至少为38字节，而对于以太网，则要求最少要有46字节。为了保证这一点，必须在不足的空间插入填充字节。</p>
-
-<p>最后注意一下，mtu的大小只是指帧内容的大小，不包括帧头。所以mtu是1500时，QinQ又额外的四个字节，加上帧头共1522个字节，会丢包，最小要把mtu设置为1504。</p>
 ]]></content>
   </entry>
   
