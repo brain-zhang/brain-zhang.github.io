@@ -75,6 +75,200 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/28/cisco-3560x-config-cheat/">Cisco 3560X Config Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-28T10:02:06+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/28/cisco-3560x-config-cheat/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/07/28/cisco-3560x-config-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>工作需要，学习了Cisco的路由器配置，记一下:</p>
+
+<ul>
+<li>查看所有信息</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show run</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看span</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show span</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>为某个vlan id建立spanning-tree</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>取消某个vlan id的spanning-tree</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>将某个端口加入vlan中</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh run init gi 0/39
+</span><span class='line'>config t
+</span><span class='line'>switchport access vlan 14</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>保存配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>do wr
+</span><span class='line'>copy running-config startup-config</span></code></pre></td></tr></table></div></figure>
+
+
+<p>顺便记一下cisco catalyst交换机配置</p>
+
+<ul>
+<li>登陆交换机</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看现有配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show running-config</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#conf t
+</span><span class='line'>(config)#int ra g0/37 -39
+</span><span class='line'>(config-if-range)#sw mo acc
+</span><span class='line'>(config-if-range)#sw acc vl 15
+</span><span class='line'>(config-if-range)#exit
+</span><span class='line'>(config)#int ra g0/41 -46
+</span><span class='line'>(config-if-range)#sw tr e d
+</span><span class='line'>(config-if-range)#sw mo tr
+</span><span class='line'>(config-if-range)#end
+</span><span class='line'>#wr</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>开启/关闭端口</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TEST3#conf t
+</span><span class='line'>Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class='line'>TEST3(config)#int g0/41
+</span><span class='line'>TEST3(config-if)#sh
+</span><span class='line'>TEST3(config-if)#shutdown
+</span><span class='line'>TEST3(config-if)#no shutdown
+</span><span class='line'>TEST3(config-if)#end
+</span><span class='line'>TEST3#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如 配置vlan15 和 trunk:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>interface GigabitEthernet0/39
+</span><span class='line'> switchport access vlan 15
+</span><span class='line'>  switchport mode access
+</span><span class='line'>
+</span><span class='line'>interface GigabitEthernet0/46
+</span><span class='line'> switchport trunk encapsulation dot1q
+</span><span class='line'>  switchport mode trunk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>去掉</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>no switchport access vlan 15</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">How to Change Systemd Service Timeout Value</a></h1>
     
     
@@ -643,84 +837,6 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/25/enable-ldap-on-centos/">Enable Ldap on Centos</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-25T08:24:04+08:00" pubdate data-updated="true">May 25<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/25/enable-ldap-on-centos/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/05/25/enable-ldap-on-centos/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Dockerfile</h2>
-
-<pre><code>FROM docker-registry.dev.netis.com.cn:5000/autobuild/centos6
-
-# Maintainer: docker_user &lt;docker_user at email.com&gt; (@docker_user)
-MAINTAINER memoryboxes memoryboxes@gmail.com
-
-# Commands to add ldap to image
-RUN mkdir -p /etc/openldap/cacerts/ &amp;&amp; \
-    rpm --rebuilddb &amp;&amp; \
-    yum clean all  &amp;&amp; \
-    wget http://xxxxxx/ca.cert -O /etc/openldap/cacerts/ca.cert &amp;&amp; \
-    wget http://xxxxxx/sshd_config -O /etc/ssh/sshd_config &amp;&amp; \
-    chmod 600 /etc/ssh/sshd_config &amp;&amp; \
-    sed -i  's/#PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config &amp;&amp; \
-    echo "xxxxxxx" | passwd --stdin root &amp;&amp; \
-    yum -y install pam_ldap.so authconfig nscd openldap-clients nss-pam-ldapd &amp;&amp; \
-    yum -y install sudo &amp;&amp; \
-    yum clean all
-
-ADD nscd /etc/dockerservices/nscd
-ADD nslcd /etc/dockerservices/nslcd
-COPY docker_entrypoint.sh /
-
-# Commands when creating a new container
-ENTRYPOINT ["/docker_entrypoint.sh"]
-CMD ["/usr/bin/svscan", "/etc/dockerservices"]
-</code></pre>
-
-<h2>docker_entrypoint.sh</h2>
-
-<pre><code>#!/bin/bash
-
-set -e
-
-echo "x.x.x.x ldap.xxx.com.cn" &gt;&gt;/etc/hosts
-authconfig --enableldap --enableldapauth --ldapserver=ldap.xxx.com.cn --ldapbasedn="dc=xxx,dc=com,dc=cn" --enablemkhomedir --enableldaptls --enablecache
-
-exec "$@"
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -738,6 +854,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
       </li>
     
@@ -751,10 +871,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
       </li>
     
   </ul>
@@ -764,6 +880,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
       </li>
     
@@ -777,10 +897,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a>
       </li>
     
   </ul>
@@ -845,7 +961,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
-<li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
+<li class='category'><a href='/blog/categories/centos/'>centos (4)</a></li>
 <li class='category'><a href='/blog/categories/centos7/'>centos7 (1)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/collections/'>collections (1)</a></li>
