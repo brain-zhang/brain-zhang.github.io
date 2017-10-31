@@ -75,6 +75,50 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/08/05/megacli-cheat/">Megacli Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-05T03:21:49+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/08/05/megacli-cheat/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/08/05/megacli-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>做Raid，用到了megacli，又学了一套命令.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/05/megacli-cheat/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/28/cisco-3560x-config-cheat/">Cisco 3560X Config Cheat</a></h1>
     
     
@@ -774,69 +818,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">How to Keep Environment Variables and PATH When Using SUDO</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-02T09:15:19+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>sudo tips</h2>
-
-<h4>How to keep Environment Variables when Using SUDO</h4>
-
-<p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
-
-<pre><code>Defaults env_keep += "HOME"
-</code></pre>
-
-<p>or and pay attention to the -E flag. This works:</p>
-
-<pre><code>export HOME=/home/users/memorybox
-sudo -E bash -c 'echo $HOME'
-</code></pre>
-
-<h4>How to keep PATH Variables when Using SUDO</h4>
-
-<pre><code>vim /etc/sudoers
-sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
-</code></pre>
-
-<h4>How to change root env</h4>
-
-<pre><code>sudo -i
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -854,6 +835,10 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a>
       </li>
     
@@ -867,10 +852,6 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
     
       <li class="post">
         <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
       </li>
     
   </ul>
@@ -880,6 +861,10 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a>
       </li>
     
@@ -893,10 +878,6 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
     
       <li class="post">
         <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a>
       </li>
     
   </ul>
@@ -979,6 +960,7 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
 <li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/http/'>http (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>
 <li class='category'><a href='/blog/categories/jenkins/'>jenkins (1)</a></li>
 <li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
