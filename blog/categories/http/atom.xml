@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Http | memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/blog/categories/http/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-10-31T22:03:41+08:00</updated>
+  <updated>2017-10-31T22:05:02+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -40,28 +40,27 @@
 <p>比如大家常见的微信公众号文章，如果引用过来，一般就是防盗链了，这个时候可以用下面的通用代码解决：</p>
 
 <ul>
-<li><p>需要引用jquery和 (ReferrerKiller.js)[<a href="https://github.com/jpgerek/referrer-killer">https://github.com/jpgerek/referrer-killer</a>] 这两个库:</p>
+<li><p>需要引用jquery和 <a href="https://github.com/jpgerek/referrer-killer">ReferrerKiller.js</a> 这两个库:</p>
 
-<p>  ```</p>
-
-<p>  jQuery(function() {
+<p>  <code>
+  jQuery(function() {
       //遍历所有的img元素，凡是QQ和微信引用的统统放到iframe里面
-      jQuery(&ldquo;div&rdquo;).find(&ldquo;img&rdquo;).each(function() {
+      jQuery("div").find("img").each(function() {
           var img = jQuery(this);
-          var img_src = img.attr(&ldquo;src&rdquo;);
-          if (img_src != undefined &amp;&amp; img_src != &lsquo;&rsquo;) {
+          var img_src = img.attr("src");
+          if (img_src != undefined &amp;&amp; img_src != '') {
               img_src = decodeURI(img_src);
-              img_src = img_src.split(&ldquo;?&rdquo;)[0];
-              if (img_src.indexOf(&ldquo;qpic.cn&rdquo;) > 0 || img_src.indexOf(&ldquo;qlogo.cn&rdquo;) > 0 || img_src.indexOf(&ldquo;qq.com&rdquo;) > 0) {
-                  var frameid = &lsquo;frameimg&rsquo; + Math.random();
-                  img.parent().append(&lsquo;<span id="' + frameid + '"></span>&rsquo;)
+              img_src = img_src.split("?")[0];
+              if (img_src.indexOf("qpic.cn") &gt; 0 || img_src.indexOf("qlogo.cn") &gt; 0 || img_src.indexOf("qq.com") &gt; 0) {
+                  var frameid = 'frameimg' + Math.random();
+                  img.parent().append('&lt;span id="' + frameid + '"&gt;&lt;/span&gt;')
                   img.remove();
                   document.getElementById(frameid).innerHTML = ReferrerKiller.imageHtml(img_src);
               }
           }
       })
   })
-  ```</p></li>
+ </code></p></li>
 </ul>
 
 
