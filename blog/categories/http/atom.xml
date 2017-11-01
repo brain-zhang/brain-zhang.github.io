@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Http | memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/blog/categories/http/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-11-01T12:46:39+08:00</updated>
+  <updated>2017-11-01T12:58:28+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -42,8 +42,7 @@
 <ul>
 <li><p>需要引用jquery和 <a href="https://github.com/jpgerek/referrer-killer">ReferrerKiller.js</a> 这两个库:</p>
 
-<p>  <code>
-  jQuery(function() {
+<pre><code>  jQuery(function() {
       //遍历所有的img元素，凡是QQ和微信引用的统统放到iframe里面
       jQuery("div").find("img").each(function() {
           var img = jQuery(this);
@@ -60,7 +59,7 @@
           }
       })
   })
- </code></p></li>
+</code></pre></li>
 </ul>
 
 
