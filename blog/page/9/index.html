@@ -75,6 +75,69 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">解决tmux下vim Colorscheme失效的问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-25T08:05:48+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在tmux(v1.6)默认配置下，vim的主题solarized, molokai等颜色设置都会失效</p>
+
+<p>这是由于tmux term设置的问题。</p>
+
+<p>需要在~/.bashrc中添加:
+<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
+
+<p>再在~/.tmux.conf中添加:
+<code>set -g default-terminal "xterm"</code></p>
+
+<p>如果是osx，可能在~/.bashrc要添加:
+<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
+
+<p>在~/.tmux.conf中添加:
+<code>set -g default-terminal "screen-256color"</code></p>
+
+<p>最后执行
+<code>$ source ~/.bashrc</code></p>
+
+<p>就OK了。</p>
+
+<p>参考:</p>
+
+<p><a href="http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode">http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode</a>
+<a href="http://rhnh.net/2011/08/20/vim-and-tmux-on-osx">http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/22/shuang-meng-ji/">双梦记</a></h1>
     
     
@@ -173,6 +236,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
       </li>
     
@@ -186,10 +253,6 @@
     
       <li class="post">
         <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
       </li>
     
   </ul>
@@ -199,6 +262,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
       </li>
     
@@ -212,10 +279,6 @@
     
       <li class="post">
         <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/26/migarate-duoshuo-to-disqus/">Migarate Duoshuo to Disqus</a>
       </li>
     
   </ul>
@@ -319,6 +382,7 @@
 <li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>
 <li class='category'><a href='/blog/categories/product/'>product (1)</a></li>
 <li class='category'><a href='/blog/categories/repo/'>repo (1)</a></li>
+<li class='category'><a href='/blog/categories/samba/'>samba (1)</a></li>
 <li class='category'><a href='/blog/categories/satoshi/'>satoshi (1)</a></li>
 <li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
 <li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
