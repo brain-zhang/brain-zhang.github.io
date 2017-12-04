@@ -75,6 +75,129 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/11/open-vswitch-bridge-and-networknamespace-command-cheat/">Open vSwitch Bridge and NetworkNameSpace Command Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-11T15:41:02+08:00" pubdate data-updated="true">May 11<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/05/11/open-vswitch-bridge-and-networknamespace-command-cheat/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/05/11/open-vswitch-bridge-and-networknamespace-command-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li><p>启动</p>
+
+<pre><code>  service openvswitch start
+</code></pre></li>
+<li><p>创建网桥</p>
+
+<pre><code>  ovs-vsctl add-br br0
+  ifconfig br0 up
+</code></pre></li>
+<li><p>显示所有网桥</p>
+
+<pre><code>  ovs-vsctl show
+</code></pre></li>
+<li><p>删除网桥</p>
+
+<pre><code>  ovs-vsctl del-br br0
+</code></pre></li>
+<li><p>增加端口</p>
+
+<pre><code>  ovs-vsctl add-port br0 eth0
+</code></pre></li>
+<li><p>设置网卡为none</p>
+
+<pre><code>  dhclient br0
+</code></pre></li>
+<li><p>用 Namespace 模拟两台虚拟机网络</p>
+
+<pre><code>  p netns add network1
+  ip netns add network2
+</code></pre></li>
+<li><p>创建两个虚拟网卡并加入网桥</p>
+
+<pre><code>  ovs-vsctl add-port br0 vport1 -- set interface vport1 type=internal
+  ovs-vsctl add-port br0 vport2 -- set interface vport2 type=internal
+  tunctl -p -t vport1
+  tunctl -p -t vport2
+</code></pre></li>
+<li><p>两个虚拟网卡接入namespace</p>
+
+<pre><code>  ip link set vport1 netns network1
+  ip link set vport2 netns network2
+</code></pre></li>
+<li><p>设置虚拟网卡的IP</p>
+
+<pre><code>  ip netns exec network1 ifconfig vport1 192.168.0.1/24 up
+  ip netns exec network2 ifconfig vport2 192.168.0.2/24 up
+</code></pre></li>
+<li><p>两个namsespace PING</p>
+
+<pre><code>  ip netns exec network1 ping 192.168.0.2
+  ip netns exec network2 tcpdump -i vport2
+</code></pre></li>
+<li><p>两个namsespace  NC传输</p>
+
+<pre><code>  ip netns exec network2 nc -l 1234
+  ip netns exec network2 tcpdump -i vport2
+  ip netns exec network1 nc 192.168.0.2 1234
+</code></pre></li>
+<li><p>显示vlan信息</p>
+
+<pre><code>  ovs-appctl fdb/show br0
+</code></pre></li>
+<li><p>显示openflow信息</p>
+
+<pre><code>  ovs-ofctl show br0
+</code></pre></li>
+<li><p>显示流表信息</p>
+
+<pre><code>  ovs-ofctl dump-flows br0
+</code></pre></li>
+<li><p>显示网桥详细信息</p>
+
+<pre><code>  ovs-vsctl list Bridge
+</code></pre></li>
+<li><p>显示端口详细信息</p>
+
+<pre><code>  ovs-vsctl list Port
+</code></pre></li>
+<li><p>显示接口详细信息</p>
+
+<pre><code>  ovs-vsctl list Interface
+</code></pre></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits/">Running Many Containers Requires Bumping Up Inotify Limits</a></h1>
     
     
@@ -1448,74 +1571,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/07/crontab-eight-comm/">Crontab Eight Comm</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-07T18:11:11+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/08/07/crontab-eight-comm/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/08/07/crontab-eight-comm/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>网上收集，多次踩坑，立此存照</p>
-
-<h2>crontab八诫</h2>
-
-<ul>
-<li><p>不要假定cron知道所需要的特殊环境，它其实并不知道。所以你要保证在shelll脚本中提供所有必要的路径和环境变量，除了一些自动设置的全局变量。所以注意如下2点：</p>
-
-<ul>
-<li>脚本中涉及文件路径时写全局路径；</li>
-<li><p>脚本执行要用到java或其他环境变量时，通过source命令引入环境变量，如：</p>
-
-<pre><code>  #!/bin/sh
-  source /etc/profile
-  export RUN_CONF=/home/xxxx/boss.conf
-  /usr/local/jboss-4.0.5/bin/run.sh -c mev &amp;
-</code></pre></li>
-</ul>
-</li>
-<li><p>当手动执行脚本OK，但是crontab死活不执行时。这时必须大胆怀疑是环境变量惹的祸，并可以尝试在crontab中直接引入环境变量解决问题。如：</p>
-
-<pre><code>  0 * * * * . /etc/profile;/bin/sh /var/www/java/audit_no_count/bin/restart_audit.sh
-</code></pre></li>
-<li><p>新创建的cron job，不会马上执行，至少要过2分钟才执行。如果重启cron则马上执行。</p></li>
-<li><p>每条 JOB 执行完毕之后，系统会自动将输出发送邮件给当前系统用户。日积月累，非常的多，甚至会撑爆整个系统。所以每条 JOB 命令后面进行重定向处理是非常必要的: <code>&gt;/dev/null 2&gt;&amp;1</code>, 前提是对 Job 中的命令需要正常输出已经作了一定的处理, 比如追加到某个特定日志文件。</p></li>
-<li><p>当crontab突然失效时，可以尝试<code>/etc/init.d/crond restart</code>解决问题。或者查看日志看某个job有没有执行/报错 <code>tail -f /var/log/cron</code>。</p></li>
-<li><p>千万别乱运行 <code>crontab -r</code>。它从Crontab目录（/var/spool/cron）中删除用户的Crontab文件。删除了该用户的所有crontab都没了。</p></li>
-<li><p>在crontab中%是有特殊含义的，表示换行的意思。如果要用的话必须进行转义 <code>\%</code>，如经常用的<code>date '+%Y%m%d'</code>在crontab里是不会执行的，应该换成 <code>date '+\%Y\%m\%d'</code>。</p></li>
-<li><p>永远要手工验证一下crontab中的命令</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -1533,6 +1588,10 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
       </li>
     
@@ -1546,10 +1605,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     
       <li class="post">
         <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
       </li>
     
   </ul>
@@ -1559,6 +1614,10 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
       </li>
     
@@ -1572,10 +1631,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     
       <li class="post">
         <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
       </li>
     
   </ul>
@@ -1686,6 +1741,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tag/'>tag (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
+<li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>

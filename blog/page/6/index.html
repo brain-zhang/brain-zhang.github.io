@@ -75,6 +75,150 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/03/03/huarongdao/">第一个AndroidApp-华容道</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-03T08:19:39+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2015</time>
+        
+           | <a href="/blog/2015/03/03/huarongdao/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2015/03/03/huarongdao/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>第一个Android APP上线，很简单的一个小游戏：智取华容道</h2>
+
+<p>GooglePlay:
+<a href="https://play.google.com/store/apps/details?id=me.happy123.aklotski">https://play.google.com/store/apps/details?id=me.happy123.aklotski</a></p>
+
+<p>百度应用下载地址:
+<a href="http://shouji.baidu.com/game/item?docid=7547918">http://shouji.baidu.com/game/item?docid=7547918</a></p>
+
+<p>小米商店下载地址:
+<a href="http://app.mi.com/detail/87656">http://app.mi.com/detail/87656</a></p>
+
+<p>老是对自己说，要不断学习，跟上时代浪潮。但是悲哀的发现，自己是跟的越来越吃力了。</p>
+
+<p>早在大连搞电视机的时候，那时候Android刚出来，就对自己说，要好好看看。无奈之后各处辗转，这事就搁下了。</p>
+
+<p>非不能也，实不为也！</p>
+
+<p>过年空出来一个周，Python党也要写Android App了。</p>
+
+<p>找了本 <code>HeadFirst Java</code> ，一天的时间扫了一遍Java的语法，写了几个小例子练练手。之后直接对着Android官方文档开干了。</p>
+
+<p>流程就是 google &ndash;> 坑 &ndash;> 继续google &hellip;.，如此循环不已&hellip;&hellip;</p>
+
+<p>用父亲打扑克的机器，开个Eclipse基本上卡半天，本着一颗折腾的心，硬是PS出来几张背景图，小游戏&lt;华容道>出炉啦。</p>
+
+<p>图片和关卡都来自于代码发芽网，作者非常大度的授权我使用，非常感谢:</p>
+
+<p><a href="http://fayaa.com/">http://fayaa.com/</a></p>
+
+<h2>开发日志:</h2>
+
+<p>很巧的，我在知乎看到了类似&#8221;如何20天零基础开发Android游戏&#8221; 的问题。大家都是对这种问题不屑一顾的，但我从开始到完成恰好十来天，可以作为参考记录一下。</p>
+
+<h4>Day1</h4>
+
+<p>确立市场方向，要做个益智类游戏，啥好呢？啥好呢？我把所有的Android的华容道下载下来玩了一遍，嗯，都很粗糙，看来有的玩，就是它了。</p>
+
+<p>这个时候，其实你已经完成一半工作了。没错，就是那句什么 <code>决定出发的时候，旅行就完成了一半</code>。 这个时候就不要纠结于做什么了，关键是如何做。</p>
+
+<h4>Day2</h4>
+
+<p>开始搭建开发环境，先后折腾了Android Studio和Eclipse，家里翻墙实在慢呀，另外我用父亲打扑克的机器跑Android Studio是在跑不动啊，最后装了Eclipse。推荐个链接，有兄弟收集了开发环境套装国内下载，你值得拥有。</p>
+
+<p><a href="http://www.cnblogs.com/bjzhanghao/archive/2012/11/14/android-platform-sdk-download-mirror.html">http://www.cnblogs.com/bjzhanghao/archive/2012/11/14/android-platform-sdk-download-mirror.html</a></p>
+
+<h4>Day3</h4>
+
+<p>开始学习Java，神马?你都不会Java还来搞Android。嗯，我也没想到，有一天我要搞Java！要搞Java啊，我对它的印象还是航空母舰啊~~~。没办法，找了本 <code>Head First Java</code> 电子书，照着书里面的例子一个个敲，没错，不论懂不懂，就一个个敲。，幸亏 <code>Head First</code> 系列专门照顾低智商读者的，像我这样的一天敲到了300多页的例子。</p>
+
+<h4>Day4</h4>
+
+<p>不知不觉就把600页的书敲完了。嗯，看来那种xx天精通xxx，也不是骗人的，现在我的状态，估计能出去忽悠一些HR了。</p>
+
+<h4>Day5</h4>
+
+<p>先不管Android，搞一个穷人版的华容道。就开始封装三个类，什么接口啊，多态啊，统统不用，就是简单继承。搞了个核心库，棋盘就用 0011 先画出来了。嗯，最后可以玩了。不过只有我一个人懂得怎么玩。 不过很有成就感啊，看来一天写个俄罗斯方块之类的不是难事啊。</p>
+
+<h4>Day6</h4>
+
+<p>这个核心库很关键啊，挂了直接影响后面的开发啊。但是我用 0011 看的很累啊。赶紧google之，看看Java怎么搞测试~~~，好，最后集成了JUnit，顺便学了学怎么在Eclipse里面跑测试，最后写了一堆测试用例，果然发现了BUG，某些棋子竟然能对角线走动，罪过罪过。</p>
+
+<h4>Day7</h4>
+
+<p>Android程序怎么搞，现在八字还没一撇呢。热情啊，就要消耗光了。</p>
+
+<p>赶紧找了本网上号称最简单的Android开发教程 <code>第一行代码</code> ，再开始对着敲。没错，我就是只会这一招。</p>
+
+<h4>Day8</h4>
+
+<p>还在敲~~~，敲不完了。不是打字慢，而是电脑一开Android 手机模拟器就陷入昏睡模式，一气之下不敲了，直接接上手机开干。</p>
+
+<h4>Day9-Day13</h4>
+
+<p>游戏逻辑早写完了，我对Android App的开发印象就是:画View。没错，就是处理各种图像拉伸，各种尺寸适配，各种布局位置，各种奇葩的手机尺寸，各种API新老接口整合。</p>
+
+<p>简单列举下中间遇到的坑:</p>
+
+<ul>
+<li><p>怎么在各种尺寸下画出一个比较漂亮的棋盘布局</p></li>
+<li><p>怎么用相对布局把几个菜单搞得整齐一点</p></li>
+<li><p>怎么PS出一个不那么生硬的背景，没错，我还同时开了Photoshop做美工，这个时候电脑已经处在超脱状态</p></li>
+<li><p>怎么在两个View直接传数据，怎么处理活动的生存周期</p></li>
+<li><p>怎么加背景音乐，怎么搞成服务，怎么能让程序退出的时候结束服务，怎么搞得好听一点，没错，这个时候我又客串DJ，研究了MP3各码率下音质和文件大小的关系，最后以专业乐评人的视角选择了一首古筝曲</p></li>
+<li><p>晕，现在为止还是只有一关呢，怎么办？我到 <code>代码发芽</code> 网上，写个Python脚本爬下来了所有关卡，同时邮件问作者申请授权</p></li>
+<li><p>到底是拖动棋子效果好呢，还是点击移动棋子效果好呢？我又化身PM，反反复复走最简单的一关， <code>十八步</code> ，最后确定还是点击效果好。没错，到目前为止，这个游戏我只玩通了三关，我的智商就是这样。最后我爸还解决了 <code>横刀立马</code> ，我怎么也不行。</p></li>
+<li><p>发现一个重大问题，原来我一直以为只有五虎上将的，一共五横五竖十个长条棋子，突然发现有一关里面出现了魏延，我晕，再调吧</p></li>
+<li><p>又发现个问题，Android的默认sqlite模块好像没说怎么把已有的数据库集成进去，怎么办，Google吧</p></li>
+</ul>
+
+
+<h4>Day14</h4>
+
+<p>到各个Android市场注册账号，提交APP，等审核，之间经历若干PS工作，这也是辛苦活啊。</p>
+
+<p>~~~~~</p>
+
+<p>就是这样，我在各种大坑小坑瞎搞之后，瞎搞出来了。。。</p>
+
+<h2>结论</h2>
+
+<ul>
+<li><p>所谓零基础xx天搞APP是可以的，但是有条件，你只是Android零基础或者Java零基础，其它编程基础还是要有的，不然期间大坑小坑肯定要浪费很多时间</p></li>
+<li><p>熟练工和初级工效率差距巨大，一天写个游戏APP不是开玩笑</p></li>
+<li><p>这样写出的APP完成度低，要加入完整的体验流程，工作量还是很大的</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/">Javascript设计模式 - 笔记3</a></h1>
     
     
@@ -1683,86 +1827,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/">科技进步是安全行业的最根本保障</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-29T12:43:57+08:00" pubdate data-updated="true">Nov 29<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天上网的时候突然发现有人邮件问什么是矿震。原来是知乎的注册号职业还是煤矿行业，知乎还是挺智能的~~~</p>
-
-<p>查了一下，辽宁那又有矿难了,矿震引起煤尘爆炸。唉&hellip;&hellip;</p>
-
-<p>什么是矿震呢，矿上有叫岩裂的，有叫岩震的，说法不一。书上的说法是冲击地压。通俗点就是地底下挖空了，巷道两侧岩石受不了压力，就压裂塌陷了。</p>
-
-<p>我是没遇见过，矿上听过一些老师傅讲岩裂的时候，最可怕的是两侧的石子像子弹一样弹出来，人在那个时候是没什么办法的，趴在地上逃过一劫，一般高瓦斯的矿也会引发爆炸之类的事故，这个时候就听老天爷的了。</p>
-
-<p>又胡思乱想了很多事情。</p>
-
-<p>我刚入行，到各个煤矿下过一些井的时候，有很多不明白的事。那时候我一边看书上的一些矿压理论，一边在井下看实际的生产，发现了很多可以改进的地方。比如离层监控，直接顶垮塌预警，还有支护距离、支护强度的选择~~~
-这些事情都是有现有理论支撑的，很多情况下找几位真正懂行的专家来，做好规划和基础建设，后期是能省下很多气力的，生产也能安全的多。</p>
-
-<p>那个时候，我用很幼稚的办法写着一个支护专家系统，想着可以用电脑帮助预测离层压力，该如何选型液压支柱等，还想着要是有个论坛，供全国的煤矿从业者交流经验，提炼知识就好了。</p>
-
-<p>后来，我又下了一段时间的井，有一个很心凉的发现或想法，现在也不能摆脱:</p>
-
-<p>那就是，人命也许不是那么值钱，无论是在他人眼里，或是在自己眼里。</p>
-
-<p>我记得那时候外来人员，像我这样的厂家人员下井，一般会买20几万的地险，我至今也没有去查过之前从业的公司有没有给我买工伤保险，有点可笑是不。可事实就是这样，在山东很多小县城，正规给工人交齐保险的小工厂几乎没有，相比下，富士康其实已经是非常良心的企业了。即使企业按最低标准给你交齐各种保险(这家企业还能正常运转)，你换工作，流动到其他地方后，这些钱大部分还是要孝敬当地政府的，而且那点钱再转到外地还不够跑腿的功夫。可能一些工作稳定，长期在一个地方生活的人体会不多。但是当我辗转几个地方后，就发现交类似养老保险这种事无论对企业还是工人都是非常不划算的。</p>
-
-<p>所以在很多地方，工人和工厂心照不宣，在没有保障的前提下尽量活着。</p>
-
-<p>事实上，无论是工厂还是工人自己，对自己的命值多少钱，估量的数字都少得可怜。在非常好的条件下，一个青壮年在井下挂了，能得到的赔偿我估计就在30-40万之间。而且这还是&#8221;毛利&#8221;，为了得到这笔赔偿你还要杂七杂八的各种打点开销。这个估算就是以山西国有大矿为参照，像甘肃那样年产40万吨的小矿就不说了。</p>
-
-<p>但更令我惊奇的是，甘肃那样的小矿，井下条件反而比山西的大矿好得多，井口的巷道会贴瓷砖，会有很明亮的灯，下井的工人也比大矿的工人心情更宽松。虽然硬件设施比不上人家财大气粗，但软件上的很多小细节都很贴心。</p>
-
-<p>后来我明白了，就是西边的老矿区，一般还是把人当人来看的，说的不好听些，你真的埋在井下了，虽然赔的钱比不上大矿，但一般还有人情世故，给你家其他人安排个矿上清闲活，家里也有矿上的左邻右舍照顾着，这就是我们老派国企的作风。
-像山西很多大矿，我觉得是市场化和国有企业的奇怪混合体。工人的价值，管理制度，硬件建设，都市场化了；说白了，就是这个投入下去，要比你的命便宜，就投，你的命贱，就不投。但煤炭销售，利润分配，还是要国家来管。</p>
-
-<p>有很多瞎扯的专家讲这个制度，那个管理。似乎每次事故出来都是管理问题，制度问题&hellip;&hellip;不错，肯定是管理问题，制度问题。但是，我下井的时候，干活很累的时候，不止一次想过:就是现在顶塌了，也无所谓。
-人在极累的时候，什么也顾不上的。这是人不可克服的弱点。当工人连自己性命也轻忽的时候，你和他讲这个管理，那个制度，专家们，敢到井下去讲讲吗。</p>
-
-<p>管理当然很重要，后来我觉得，安全行业最根本的保障在于科技进步。只有人远离危险的时候，才有闲情谈管理，谈制度。</p>
-
-<p>听新闻说中国已经成为全世界最大的机器人消费市场，非常高兴。</p>
-
-<p>有人说会有下岗，会有就业萎缩。</p>
-
-<p>我只想问:人命有贵贱吗?人命有价格吗?</p>
-
-<p>如果你不想回答这种无聊的问题，就不要再对更无聊的问题评头论足了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -1780,6 +1844,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
       </li>
     
@@ -1793,10 +1861,6 @@
     
       <li class="post">
         <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
       </li>
     
   </ul>
@@ -1806,6 +1870,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
       </li>
     
@@ -1819,10 +1887,6 @@
     
       <li class="post">
         <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a>
       </li>
     
   </ul>
@@ -1933,6 +1997,7 @@
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tag/'>tag (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
+<li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>

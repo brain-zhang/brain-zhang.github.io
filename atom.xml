@@ -4,7 +4,7 @@
   <title><![CDATA[memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-03T11:21:44+08:00</updated>
+  <updated>2017-12-04T17:41:01+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Game Theory]]></title>
+    <link href="http://memoryboxes.github.io/blog/2017/12/04/game-theory/"/>
+    <updated>2017-12-04T17:39:24+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2017/12/04/game-theory</id>
+    <content type="html"><![CDATA[<p>看网易公开课的博弈论，很有意思，记下笔记:</p>
+
+<h2>导论-五个入门结论</h2>
+
+<ol>
+<li><p>don’t play a strictly dominated strategy</p></li>
+<li><p>rational choice in case lead to outcomes suck</p></li>
+<li><p>you can’t get what you want ,till you know what you want</p></li>
+<li><p>put yourself in others’ shoes and try to figure out what they will do</p></li>
+<li><p>most people are evil</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Config Samba Config With No Password Share]]></title>
@@ -1467,28 +1487,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 <p>永远不要完全相信数据链路的CRC校验，应该始终打开端到端的校验和功能。另外，即使是打开了，也要小心，UDP和TCP的校验和也不是可以百分百信赖的。</p>
 
 <p>注意两个ICMP报文和UDP的交互：ICMP不可达报文和ICMP源站抑制差错报文</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bootstrap Learn123]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/06/06/bootstrap-learn123/"/>
-    <updated>2016-06-06T08:22:45+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/06/06/bootstrap-learn123</id>
-    <content type="html"><![CDATA[<h1>Caption1 startUp</h1>
-
-<ul>
-<li>ARIA: Accessible Rich Internet Applications</li>
-</ul>
-
-
-<p>简单说来，就是指<a href="http://www.zhangxinxu.com/wordpress/2012/03/wai-aria-%E6%97%A0%E9%9A%9C%E7%A2%8D%E9%98%85%E8%AF%BB/">无障碍网页应用</a>。主要针对的是视觉缺陷，失聪，行动不便的残疾人以及假装残疾的测试人员。尤其像盲人，眼睛看不到，其浏览网页则需要借助辅助设备，如屏幕阅读器，屏幕阅读机可以大声朗读或者输出盲文。</p>
-
-<p>而ARIA就是可以让屏幕阅读器准确识别网页中的内容，变化，状态的技术规范，可以让盲人这类用户也能无障碍阅读！</p>
-
-<p>参考:</p>
-
-<p><a href="https://www.sitepoint.com/html5-main-element/">https://www.sitepoint.com/html5-main-element/</a></p>
 ]]></content>
   </entry>
   
