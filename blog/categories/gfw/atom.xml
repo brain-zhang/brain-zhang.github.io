@@ -4,7 +4,7 @@
   <title><![CDATA[Category: GFW | memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/blog/categories/gfw/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-04T20:24:46+08:00</updated>
+  <updated>2017-12-04T20:31:30+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -54,7 +54,7 @@ sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 19
 
 <p>Client is the machine you want to bypass the GFW.</p>
 
-<p>Download the client package [Shadowsocks-win-latest-release]9<a href="https://github.com/shadowsocks/shadowsocks-windows/releases0,">https://github.com/shadowsocks/shadowsocks-windows/releases0,</a> extract it, and run.</p>
+<p>Download the client package <a href="https://github.com/shadowsocks/shadowsocks-windows/releases">Shadowsocks-win-latest-release</a>, extract it, and run.</p>
 
 <p>You can check its “System Proxy” option, which is convenient for all browsers and terminal.</p>
 
