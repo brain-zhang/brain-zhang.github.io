@@ -4,7 +4,7 @@
   <title><![CDATA[memoryboxes blog]]></title>
   <link href="http://memoryboxes.github.io/atom.xml" rel="self"/>
   <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-04T20:31:30+08:00</updated>
+  <updated>2017-12-06T16:25:33+08:00</updated>
   <id>http://memoryboxes.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrate Firewalld to Iptables on Centos7]]></title>
+    <link href="http://memoryboxes.github.io/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/"/>
+    <updated>2017-12-06T16:23:22+08:00</updated>
+    <id>http://memoryboxes.github.io/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7</id>
+    <content type="html"><![CDATA[<h2>关闭 FireWall</h2>
+
+<pre><code>systemctl stop firewalld.service #停止firewall
+systemctl disable firewalld.service #禁止firewall开机启动
+</code></pre>
+
+<h2>安装 iptables</h2>
+
+<pre><code>yum install iptables-services
+</code></pre>
+
+<h2>配置 iptables</h2>
+
+<pre><code>#!/bin/bash
+
+IF="eth0"
+
+#清除规则
+/sbin/iptables -F
+/sbin/iptables -X
+/sbin/iptables -Z
+
+# 预定义策略
+/sbin/iptables -A INPUT -s 127.0.0.1 -j ACCEPT  # 允许回环接口可以被访问
+/sbin/iptables -P INPUT   DROP # 默认是拒绝访问
+/sbin/iptables -P OUTPUT  ACCEPT  # 允许本机访问其他机器，无限制
+/sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+/sbin/iptables -A INPUT -p icmp -j ACCEPT # 允许ping
+
+
+#允许的本机服务
+/sbin/iptables -A INPUT -p TCP -i $IF --dport 22 -j ACCEPT        # SSH
+# /sbin/iptables -A INPUT -p TCP -i $IF --dport  3306 -j ACCEPT        # mysql
+/sbin/iptables -A INPUT -p TCP -i $IF --dport  80 -j ACCEPT        # web
+/sbin/iptables -A INPUT -p TCP -i $IF --dport  8888 -j ACCEPT        # web
+
+# 黑名单
+#/sbin/iptables -A INPUT -s 1.1.1.0/24 -j DROP
+#/sbin/iptables -A INPUT -s 1.1.1.0 -j DROP
+
+# 信任的网络和IP
+/sbin/iptables -A INPUT -s 1.1.1.1/24 -j ACCEPT # 信任的网络
+
+# 保存配置
+/usr/libexec/iptables/iptables.init save
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Penetrate GFW With ShadowSocks Docker Container on Centos7]]></title>
@@ -1456,25 +1510,6 @@ RAID Level : Primary-1, Secondary-3, RAID Level Qualifier-0 RAID 10
 <li><p>IBM x3550m4服务器硬盘背板 扩展板 81Y6657 ￥450</p></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Difference of E1000 and VMXENT in Vmware Exsi]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/"/>
-    <updated>2016-06-14T15:18:55+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi</id>
-    <content type="html"><![CDATA[<p>Exsi中新建虚拟机网卡，可以选择四种网卡：E1000; 可变; VMXNET 2(增加型)；VMXENT 3</p>
-
-<p>Vmware官网解释了区别:</p>
-
-<p>要想兼容性好，就是用E1000,基本上所有的OS的带了E1000的驱动。</p>
-
-<p>要想性能好(降低CPU的使用率)，那就用VMXNET 3，他是准虚拟化(ParaVirtualized)，需要在VM里面安装vmware的驱动(包含在vmware tools)，并且有一些限制，例如，虚拟机硬件版本必须是7以上，只有一些特定的操作系统被支持，</p>
-
-<p>参考:</p>
-
-<p><a href="https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;cmd=displayKC&amp;externalId=1001805">https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;cmd=displayKC&amp;externalId=1001805</a></p>
 ]]></content>
   </entry>
   

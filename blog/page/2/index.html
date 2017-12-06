@@ -75,6 +75,65 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-14T16:06:12+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在windows CMD中输出中文是比较烦的事情，最简单的就是增加一个windows.py，用的时候import一下:</p>
+
+<pre><code>#!/usr/bin/env python
+#  -*- coding: utf-8 -*-
+import sys
+
+class UnicodeStreamFilter:
+    def __init__(self, target):
+        self.target = target
+        self.encoding = 'utf-8'
+        self.errors = 'replace'
+        self.encode_to = self.target.encoding
+    def write(self, s):
+        if type(s) == str:
+            s = s.decode("utf-8")
+        s = s.encode(self.encode_to, self.errors).decode(self.encode_to)
+        self.target.write(s)
+
+if sys.stdout.encoding == 'cp936':
+    sys.stdout = UnicodeStreamFilter(sys.stdout)
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a></h1>
     
     
@@ -687,55 +746,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/">Difference of E1000 and VMXENT in Vmware Exsi</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-14T15:18:55+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/#disqus_thread"
-             data-disqus-identifier="http://memoryboxes.github.io/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Exsi中新建虚拟机网卡，可以选择四种网卡：E1000; 可变; VMXNET 2(增加型)；VMXENT 3</p>
-
-<p>Vmware官网解释了区别:</p>
-
-<p>要想兼容性好，就是用E1000,基本上所有的OS的带了E1000的驱动。</p>
-
-<p>要想性能好(降低CPU的使用率)，那就用VMXNET 3，他是准虚拟化(ParaVirtualized)，需要在VM里面安装vmware的驱动(包含在vmware tools)，并且有一些限制，例如，虚拟机硬件版本必须是7以上，只有一些特定的操作系统被支持，</p>
-
-<p>参考:</p>
-
-<p><a href="https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;cmd=displayKC&amp;externalId=1001805">https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;cmd=displayKC&amp;externalId=1001805</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -753,6 +763,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/">How to Penetrate GFW With ShadowSocks Docker Container on Centos7</a>
       </li>
     
@@ -766,10 +780,6 @@
     
       <li class="post">
         <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a>
       </li>
     
   </ul>
@@ -779,6 +789,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/">How to Penetrate GFW With ShadowSocks Docker Container on Centos7</a>
       </li>
     
@@ -792,10 +806,6 @@
     
       <li class="post">
         <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a>
       </li>
     
   </ul>
@@ -880,6 +890,7 @@
 <li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
 <li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
 <li class='category'><a href='/blog/categories/http/'>http (1)</a></li>
+<li class='category'><a href='/blog/categories/iptables-/'>iptables, (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>
 <li class='category'><a href='/blog/categories/jenkins/'>jenkins (1)</a></li>
 <li class='category'><a href='/blog/categories/kernel/'>kernel (1)</a></li>
@@ -887,7 +898,7 @@
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
 <li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (8)</a></li>
 <li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
 <li class='category'><a href='/blog/categories/mongodb/'>mongodb (1)</a></li>
 <li class='category'><a href='/blog/categories/mongoexport/'>mongoexport (1)</a></li>

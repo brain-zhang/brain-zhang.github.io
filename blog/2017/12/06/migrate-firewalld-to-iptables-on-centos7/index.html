@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Migrate Firewalld to Iptables on Centos7 - memoryboxes blog</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="关闭 FireWall systemctl stop firewalld.service #停止firewall
+systemctl disable firewalld.service #禁止firewall开机启动 安装 iptables yum install iptables- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://memoryboxes.github.io/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">memoryboxes blog</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="memoryboxes.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/2015/03/03/huarongdao/"><i class="fa fa-flask"></i>Android开发</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Migrate Firewalld to Iptables on Centos7</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-06T16:23:22+08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2017</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://memoryboxes.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>关闭 FireWall</h2>
+
+<pre><code>systemctl stop firewalld.service #停止firewall
+systemctl disable firewalld.service #禁止firewall开机启动
+</code></pre>
+
+<h2>安装 iptables</h2>
+
+<pre><code>yum install iptables-services
+</code></pre>
+
+<h2>配置 iptables</h2>
+
+<pre><code>#!/bin/bash
+
+IF="eth0"
+
+#清除规则
+/sbin/iptables -F
+/sbin/iptables -X
+/sbin/iptables -Z
+
+# 预定义策略
+/sbin/iptables -A INPUT -s 127.0.0.1 -j ACCEPT  # 允许回环接口可以被访问
+/sbin/iptables -P INPUT   DROP # 默认是拒绝访问
+/sbin/iptables -P OUTPUT  ACCEPT  # 允许本机访问其他机器，无限制
+/sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+/sbin/iptables -A INPUT -p icmp -j ACCEPT # 允许ping
+
+
+#允许的本机服务
+/sbin/iptables -A INPUT -p TCP -i $IF --dport 22 -j ACCEPT        # SSH
+# /sbin/iptables -A INPUT -p TCP -i $IF --dport  3306 -j ACCEPT        # mysql
+/sbin/iptables -A INPUT -p TCP -i $IF --dport  80 -j ACCEPT        # web
+/sbin/iptables -A INPUT -p TCP -i $IF --dport  8888 -j ACCEPT        # web
+
+# 黑名单
+#/sbin/iptables -A INPUT -s 1.1.1.0/24 -j DROP
+#/sbin/iptables -A INPUT -s 1.1.1.0 -j DROP
+
+# 信任的网络和IP
+/sbin/iptables -A INPUT -s 1.1.1.1/24 -j ACCEPT # 信任的网络
+
+# 保存配置
+/usr/libexec/iptables/iptables.init save
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-06T16:23:22+08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/iptables/'>iptables,</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/" title="Previous Post: How to Penetrate GFW With ShadowSocks  Docker Container On Centos7">&laquo; How to Penetrate GFW With ShadowSocks  Docker Container On Centos7</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/">How to Penetrate GFW With ShadowSocks Docker Container on Centos7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/">How to Penetrate GFW With ShadowSocks Docker Container on Centos7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://memoryboxes.github.io/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/';
+        var disqus_url = 'http://memoryboxes.github.io/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
