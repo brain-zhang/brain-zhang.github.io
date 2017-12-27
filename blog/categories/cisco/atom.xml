@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Cisco | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/cisco/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/cisco/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Cisco 3560X Config Cheat]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/07/28/cisco-3560x-config-cheat/"/>
+    <link href="http://happy123.me/blog/2016/07/28/cisco-3560x-config-cheat/"/>
     <updated>2016-07-28T10:02:06+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/07/28/cisco-3560x-config-cheat</id>
+    <id>http://happy123.me/blog/2016/07/28/cisco-3560x-config-cheat</id>
     <content type="html"><![CDATA[<p>工作需要，学习了Cisco的路由器配置，记一下:</p>
 
 <ul>

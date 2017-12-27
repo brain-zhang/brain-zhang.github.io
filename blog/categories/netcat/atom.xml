@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Netcat | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/netcat/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/netcat/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Netcat Command]]></title>
-    <link href="http://memoryboxes.github.io/blog/2015/08/26/netcat-command/"/>
+    <link href="http://happy123.me/blog/2015/08/26/netcat-command/"/>
     <updated>2015-08-26T09:07:48+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2015/08/26/netcat-command</id>
+    <id>http://happy123.me/blog/2015/08/26/netcat-command</id>
     <content type="html"><![CDATA[<p>Netcat能做到的事情太多了，但和tcpdump一个流派，参数多的令人发指，拣常用的几个命令记录一下</p>
 
 <h2>场景</h2>

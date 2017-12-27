@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Hardware | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/hardware/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/hardware/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GPU运算卡备存]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/12/18/gpuyun-suan-qia-bei-cun/"/>
+    <link href="http://happy123.me/blog/2016/12/18/gpuyun-suan-qia-bei-cun/"/>
     <updated>2016-12-18T15:38:18+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/12/18/gpuyun-suan-qia-bei-cun</id>
+    <id>http://happy123.me/blog/2016/12/18/gpuyun-suan-qia-bei-cun</id>
     <content type="html"><![CDATA[<p>科技产品的命名一很高冷，就是老发烧友，过了几年再来看新产品的名儿，仍有可能一头雾水。</p>
 
 <p>这其中显卡命名尤甚，为了不把马良认成马超，留存一下。</p>

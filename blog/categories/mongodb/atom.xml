@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: MongoDB | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/mongodb/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[从MongoDB迁移到TokuMx]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/"/>
+    <link href="http://happy123.me/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/"/>
     <updated>2014-09-16T08:36:30+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx</id>
+    <id>http://happy123.me/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx</id>
     <content type="html"><![CDATA[<h2>WHY:</h2>
 
 <p>原因无它，MongoDB的 BSON格式带来的磁盘空间消耗实在太严重了,将mongodb的数据库文件gzip一把，一般能到原大小的1/10。</p>

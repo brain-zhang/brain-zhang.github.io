@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Python | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/python/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Python在windows CMD中输出中文]]></title>
-    <link href="http://memoryboxes.github.io/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/"/>
+    <link href="http://happy123.me/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/"/>
     <updated>2017-02-14T16:06:12+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen</id>
+    <id>http://happy123.me/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen</id>
     <content type="html"><![CDATA[<p>在windows CMD中输出中文是比较烦的事情，最简单的就是增加一个windows.py，用的时候import一下:</p>
 
 <pre><code>#!/usr/bin/env python
@@ -44,9 +44,9 @@ if sys.stdout.encoding == 'cp936':
   
   <entry>
     <title type="html"><![CDATA[Python编程实战 - 笔记1]]></title>
-    <link href="http://memoryboxes.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/"/>
+    <link href="http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/"/>
     <updated>2015-04-27T08:17:45+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1</id>
+    <id>http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1</id>
     <content type="html"><![CDATA[<p>这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。</p>
 
 <h2>创建型设计模式</h2>
@@ -168,9 +168,9 @@ class Singleton(Borg):
   
   <entry>
     <title type="html"><![CDATA[Pycon2014 in Shanghai]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/11/16/pycon2017-in-shanghai/"/>
+    <link href="http://happy123.me/blog/2014/11/16/pycon2017-in-shanghai/"/>
     <updated>2014-11-16T12:19:21+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/11/16/pycon2017-in-shanghai</id>
+    <id>http://happy123.me/blog/2014/11/16/pycon2017-in-shanghai</id>
     <content type="html"><![CDATA[<p>今年又去打酱油了。在上海有这点好处，可以很方便的找到各种组织~~~</p>
 
 <p>去年拿了个帽子，今年发了件T恤，明年来条短裤就套装啦。</p>
@@ -241,9 +241,9 @@ class Singleton(Borg):
   
   <entry>
     <title type="html"><![CDATA[python2.x：Error When Printing an Exception Containing a Unicode String]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/"/>
+    <link href="http://happy123.me/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/"/>
     <updated>2014-09-17T08:43:39+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/09/17/python2-dot-x:error-when-printing-an-exception-containing-a-unicode-string</id>
+    <id>http://happy123.me/blog/2014/09/17/python2-dot-x:error-when-printing-an-exception-containing-a-unicode-string</id>
     <content type="html"><![CDATA[<p>Python2.x中抛出Unicode的异常需要注意:</p>
 
 <p>```</p>

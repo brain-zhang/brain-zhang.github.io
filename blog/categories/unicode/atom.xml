@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Unicode | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/unicode/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/unicode/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[python2.x：Error When Printing an Exception Containing a Unicode String]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/"/>
+    <link href="http://happy123.me/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/"/>
     <updated>2014-09-17T08:43:39+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/09/17/python2-dot-x:error-when-printing-an-exception-containing-a-unicode-string</id>
+    <id>http://happy123.me/blog/2014/09/17/python2-dot-x:error-when-printing-an-exception-containing-a-unicode-string</id>
     <content type="html"><![CDATA[<p>Python2.x中抛出Unicode的异常需要注意:</p>
 
 <p>```</p>

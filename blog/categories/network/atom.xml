@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Network | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/network/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/network/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[再谈以太网帧格式]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/"/>
+    <link href="http://happy123.me/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/"/>
     <updated>2016-05-23T21:59:43+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi</id>
+    <id>http://happy123.me/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi</id>
     <content type="html"><![CDATA[<p>又重新读了一遍《tcp/ip详解》，又重温了一遍万年知识以太网，为了不能忘却的回忆，我决定原文摘抄一遍。</p>
 
 <p>以太网这个术语是指DEC、Intel和Xerox公司在1982年联合公布的一个标准。它是当今TCP/IP采用的主要局域网技术。
@@ -45,9 +45,9 @@
   
   <entry>
     <title type="html"><![CDATA[Udp Packet Receive Errors]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/05/20/udp-packet-receive-errors/"/>
+    <link href="http://happy123.me/blog/2016/05/20/udp-packet-receive-errors/"/>
     <updated>2016-05-20T08:09:35+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/05/20/udp-packet-receive-errors</id>
+    <id>http://happy123.me/blog/2016/05/20/udp-packet-receive-errors</id>
     <content type="html"><![CDATA[<h2>Issue</h2>
 
 <p>netstat -s output shows high number of Udp: packet receive errors</p>
@@ -129,9 +129,9 @@ users:(("processname",pid=1234,fd=3))
   
   <entry>
     <title type="html"><![CDATA[Send Large Packet by Dpdk Pktgen]]></title>
-    <link href="http://memoryboxes.github.io/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/"/>
+    <link href="http://happy123.me/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/"/>
     <updated>2015-10-28T17:11:10+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2015/10/28/send-large-packet-by-dpdk-pktgen</id>
+    <id>http://happy123.me/blog/2015/10/28/send-large-packet-by-dpdk-pktgen</id>
     <content type="html"><![CDATA[<h2>场景</h2>
 
 <p>测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。</p>
@@ -169,9 +169,9 @@ users:(("processname",pid=1234,fd=3))
   
   <entry>
     <title type="html"><![CDATA[Capture QinQ Large Packets]]></title>
-    <link href="http://memoryboxes.github.io/blog/2015/10/28/capture-qinq-large-packets/"/>
+    <link href="http://happy123.me/blog/2015/10/28/capture-qinq-large-packets/"/>
     <updated>2015-10-28T17:06:26+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2015/10/28/capture-qinq-large-packets</id>
+    <id>http://happy123.me/blog/2015/10/28/capture-qinq-large-packets</id>
     <content type="html"><![CDATA[<p>最近遇到一个QinQ的问题，总结一下。</p>
 
 <p>对QinQ协议的交换机做Span，tcpdump抓包后发现，有一些包大小为1522字节，这些包都被网卡丢掉了。仔细排查后发现，网卡对于>1518的包，统一丢掉处理了。</p>
@@ -388,9 +388,9 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   
   <entry>
     <title type="html"><![CDATA[Linux多网卡多路由设置]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/"/>
+    <link href="http://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/"/>
     <updated>2014-12-30T09:40:53+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi</id>
+    <id>http://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi</id>
     <content type="html"><![CDATA[<p>折腾了半天，原始出处不知道了，转记一下。</p>
 
 <p>比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此</p>

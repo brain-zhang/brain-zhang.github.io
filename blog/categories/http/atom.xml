@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Http | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/http/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/http/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Http Referer 的盗链与反盗链]]></title>
-    <link href="http://memoryboxes.github.io/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/"/>
+    <link href="http://happy123.me/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/"/>
     <updated>2017-10-31T21:47:27+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian</id>
+    <id>http://happy123.me/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian</id>
     <content type="html"><![CDATA[<p>HTTP的图片防盗链技术基本上人民群众喜闻乐见了。 今天突然发现一种比较通用的隐藏referer来反盗链的hack手段，记录之。</p>
 
 <p>简单来说，Referer是HTTP协议中的一个请求报头，用于告知服务器用户的来源页面。比如说你从Google搜索结果中点击进入了某个页面，那么该次HTTP请求中的Referer就是Google搜索结果页面的地址。</p>

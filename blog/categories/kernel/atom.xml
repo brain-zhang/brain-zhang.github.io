@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Kernel | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/kernel/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/kernel/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Debug Kernel Panic in Centos]]></title>
-    <link href="http://memoryboxes.github.io/blog/2015/06/07/debug-kernel-panic-in-centos/"/>
+    <link href="http://happy123.me/blog/2015/06/07/debug-kernel-panic-in-centos/"/>
     <updated>2015-06-07T09:22:34+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2015/06/07/debug-kernel-panic-in-centos</id>
+    <id>http://happy123.me/blog/2015/06/07/debug-kernel-panic-in-centos</id>
     <content type="html"><![CDATA[<p>当你面对一台新机器，出于某些原因(不是闲的慌)不得不自己编译一个内核时，会碰上kernel panic。</p>
 
 <p>kernel panic很让人心烦，启动时的panic更让人烦，没有挂上硬盘，没有任何log的panic尤其让人烦。</p>

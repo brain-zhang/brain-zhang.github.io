@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Gcc | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/gcc/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/gcc/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Update to gcc4.9.x on Centos7]]></title>
-    <link href="http://memoryboxes.github.io/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/"/>
+    <link href="http://happy123.me/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/"/>
     <updated>2017-04-15T15:50:53+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7</id>
+    <id>http://happy123.me/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7</id>
     <content type="html"><![CDATA[<p>现在很多软件包默认编译要求GLIBCXX >=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件>=4.9.1。</p>
 
 <p>CentOS下升级gcc版本有两个途径，一个是添加其他源进行自动升级，一个是手动编译升级，这里先顺便讲下自动升级的两个办法：</p>
@@ -52,9 +52,9 @@ gcc --version
   
   <entry>
     <title type="html"><![CDATA[How to Compile by Autotools]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/10/29/how-to-compile-by-autotools/"/>
+    <link href="http://happy123.me/blog/2014/10/29/how-to-compile-by-autotools/"/>
     <updated>2014-10-29T12:12:30+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/10/29/how-to-compile-by-autotools</id>
+    <id>http://happy123.me/blog/2014/10/29/how-to-compile-by-autotools</id>
     <content type="html"><![CDATA[<p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
 
 <p>```</p>

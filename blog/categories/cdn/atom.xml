@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: CDN | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/cdn/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/cdn/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Webtorrent Redefine CDN?]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/05/10/webtorrent-redefine-cdn/"/>
+    <link href="http://happy123.me/blog/2016/05/10/webtorrent-redefine-cdn/"/>
     <updated>2016-05-10T10:00:19+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/05/10/webtorrent-redefine-cdn</id>
+    <id>http://happy123.me/blog/2016/05/10/webtorrent-redefine-cdn</id>
     <content type="html"><![CDATA[<p>最近发现了一个开源的JS东东，webtorrent:</p>
 
 <p><a href="https://github.com/feross/webtorrent">https://github.com/feross/webtorrent</a></p>

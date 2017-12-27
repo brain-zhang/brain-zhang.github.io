@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Vim | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/vim/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[解决tmux下vim Colorscheme失效的问题]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/"/>
+    <link href="http://happy123.me/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/"/>
     <updated>2014-02-25T08:05:48+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti</id>
+    <id>http://happy123.me/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti</id>
     <content type="html"><![CDATA[<p>在tmux(v1.6)默认配置下，vim的主题solarized, molokai等颜色设置都会失效</p>
 
 <p>这是由于tmux term设置的问题。</p>

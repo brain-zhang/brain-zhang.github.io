@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://memoryboxes.github.io/sitemap.xml 
+Sitemap: http://happy123.me/sitemap.xml 

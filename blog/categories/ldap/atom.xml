@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ldap | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/ldap/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/ldap/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Enable Ldap on Centos]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/05/25/enable-ldap-on-centos/"/>
+    <link href="http://happy123.me/blog/2016/05/25/enable-ldap-on-centos/"/>
     <updated>2016-05-25T08:24:04+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/05/25/enable-ldap-on-centos</id>
+    <id>http://happy123.me/blog/2016/05/25/enable-ldap-on-centos</id>
     <content type="html"><![CDATA[<h2>Dockerfile</h2>
 
 <pre><code>FROM docker-registry.dev.netis.com.cn:5000/autobuild/centos6

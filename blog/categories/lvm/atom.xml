@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Lvm | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/lvm/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/lvm/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Extend Lvm in vCenter]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/05/15/extend-lvm-in-vcenter/"/>
+    <link href="http://happy123.me/blog/2016/05/15/extend-lvm-in-vcenter/"/>
     <updated>2016-05-15T09:56:59+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/05/15/extend-lvm-in-vcenter</id>
+    <id>http://happy123.me/blog/2016/05/15/extend-lvm-in-vcenter</id>
     <content type="html"><![CDATA[<h2>如何在vCenter上LVM分区扩容</h2>
 
 <ul>

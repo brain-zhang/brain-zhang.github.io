@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Yum | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/yum/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/yum/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[为centos添加EPEL Repo]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/03/14/wei-centostian-jia-epel-repo/"/>
+    <link href="http://happy123.me/blog/2014/03/14/wei-centostian-jia-epel-repo/"/>
     <updated>2014-03-14T11:04:58+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/03/14/wei-centostian-jia-epel-repo</id>
+    <id>http://happy123.me/blog/2014/03/14/wei-centostian-jia-epel-repo</id>
     <content type="html"><![CDATA[<p>centos默认的源软件不是很全，大部分时候需要添加EPEL源。</p>
 
 <h2>centos5.x</h2>

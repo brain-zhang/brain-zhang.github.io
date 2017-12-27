@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Docker | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/docker/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/docker/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Docker中的网络]]></title>
-    <link href="http://memoryboxes.github.io/blog/2014/12/08/dockerzhong-de-wang-luo/"/>
+    <link href="http://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo/"/>
     <updated>2014-12-08T08:25:53+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2014/12/08/dockerzhong-de-wang-luo</id>
+    <id>http://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo</id>
     <content type="html"><![CDATA[<p>Docker的默认网络是非常弱的，他使用的是一个虚拟网桥和container中的veth pair通信，在container中，默认是没有对外的IP的，外部主机或容器只能通过NAT，或者自定义iptable来实现主机或容器间的互联互通。
 这种局限性非常明显:</p>
 

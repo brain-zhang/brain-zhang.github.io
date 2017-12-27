@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Blockchain | memoryboxes blog]]></title>
-  <link href="http://memoryboxes.github.io/blog/categories/blockchain/atom.xml" rel="self"/>
-  <link href="http://memoryboxes.github.io/"/>
-  <updated>2017-12-27T14:48:56+08:00</updated>
-  <id>http://memoryboxes.github.io/</id>
+  <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2017-12-27T14:52:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[加密技术发展]]></title>
-    <link href="http://memoryboxes.github.io/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/"/>
+    <link href="http://happy123.me/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/"/>
     <updated>2016-12-25T16:54:47+08:00</updated>
-    <id>http://memoryboxes.github.io/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan</id>
+    <id>http://happy123.me/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan</id>
     <content type="html"><![CDATA[<p>比特币是建立在区块链基础上的，区块链的基本技术支撑有三个:</p>
 
 <ul>
