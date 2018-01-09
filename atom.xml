@@ -4,7 +4,7 @@
   <title><![CDATA[memoryboxes blog]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2017-12-27T15:19:33+08:00</updated>
+  <updated>2018-01-09T16:47:50+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Block Chain White Papers]]></title>
+    <link href="http://happy123.me/blog/2018/01/09/block-chain-white-papers/"/>
+    <updated>2018-01-09T16:42:45+08:00</updated>
+    <id>http://happy123.me/blog/2018/01/09/block-chain-white-papers</id>
+    <content type="html"><![CDATA[<h2>比特币白皮书</h2>
+
+<h4>中文版</h4>
+
+<p><a href="http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system">http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system</a></p>
+
+<h4>英文版</h4>
+
+<p><a href="https://bitcoin.org/bitcoin.pdf">https://bitcoin.org/bitcoin.pdf</a></p>
+
+<h2>以太坊白皮书</h2>
+
+<h4>中文版</h4>
+
+<p><a href="http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6">http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6</a></p>
+
+<h4>英文版</h4>
+
+<p><a href="https://github.com/ethereum/wiki/blob/master/drafts/%5Benglish%5D-old-ethereum-whitepaper.md">https://github.com/ethereum/wiki/blob/master/drafts/%5Benglish%5D-old-ethereum-whitepaper.md</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Migrate Firewalld to Iptables on Centos7]]></title>
@@ -1498,21 +1525,6 @@ RAID Level : Primary-1, Secondary-3, RAID Level Qualifier-0 RAID 10
 <h1>什么是合适的管理</h1>
 
 <p>形势一片大好的公司，严格点很不错。但弱小的公司，过于严苛会导致离心离德。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[比较实惠的二手机器]]></title>
-    <link href="http://happy123.me/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi/"/>
-    <updated>2016-06-15T17:42:12+08:00</updated>
-    <id>http://happy123.me/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi</id>
-    <content type="html"><![CDATA[<p>公司里采购了一批二手服务器，用了一段时间很实惠，记录之:</p>
-
-<ul>
-<li><p>IBM x3550M4服务器E5&mdash;2670<em>2 192G(8G</em>24) 无硬盘，8个硬盘架， M5110阵列卡 单电 ￥7680</p></li>
-<li><p>IBM x3550m4服务器硬盘背板 扩展板 81Y6657 ￥450</p></li>
-</ul>
-
 ]]></content>
   </entry>
   

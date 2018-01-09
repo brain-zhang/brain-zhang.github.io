@@ -79,6 +79,51 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi/">比较实惠的二手机器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-15T17:42:12+08:00" pubdate data-updated="true">Jun 15<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>公司里采购了一批二手服务器，用了一段时间很实惠，记录之:</p>
+
+<ul>
+<li><p>IBM x3550M4服务器E5&mdash;2670<em>2 192G(8G</em>24) 无硬盘，8个硬盘架， M5110阵列卡 单电 ￥7680</p></li>
+<li><p>IBM x3550m4服务器硬盘背板 扩展板 81Y6657 ￥450</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/">Difference of E1000 and VMXENT in Vmware Exsi</a></h1>
     
     
@@ -730,120 +775,6 @@ exec "$@"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/20/udp-packet-receive-errors/">Udp Packet Receive Errors</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-20T08:09:35+08:00" pubdate data-updated="true">May 20<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/20/udp-packet-receive-errors/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/05/20/udp-packet-receive-errors/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Issue</h2>
-
-<p>netstat -s output shows high number of Udp: packet receive errors</p>
-
-<p>Getting high number of UDP packet drops or loss</p>
-
-<p>SNMP trap issue :&ndash; SNMP trap seems to be fluctuating on my RHEL server.</p>
-
-<h2>Resolution</h2>
-
-<p>Udp: packet receive errors is increased for the following reasons:</p>
-
-<ul>
-<li><p>Not enough socket buffer space</p></li>
-<li><p>UDP checksum failure</p></li>
-<li><p>UDP length mismatch</p></li>
-<li><p>IPSec Security Policy failure</p></li>
-</ul>
-
-
-<h2>Diagnostic Steps</h2>
-
-<h4>Gather statistics</h4>
-
-<p>Run the command netstat -nsu and see the Udp: section:</p>
-
-<pre><code>netstat -su
-
-Udp:
-    559933412 packets received
-    71 packets to unknown port received.
-    33861296 packet receive errors    &lt;---- HERE
-    7516291 packets sent
-Socket buffer checking:
-</code></pre>
-
-<p>The current system-wide default socket buffer size can be determined with the commands:</p>
-
-<pre><code>sysctl net.core.rmem_max
-sysctl net.core.rmem_default
-</code></pre>
-
-<p>This can be confirmed by watching socket statistics whilst packet receive errors is growing by running ss -nump at regular intervals, for example:</p>
-
-<pre><code>while true; do ss -nump; sleep 1; done
-</code></pre>
-
-<p>This will produce output as follows:</p>
-
-<pre><code>State    Recv-Q Send-Q    Local Address:Port      Peer Address:Port
-ESTAB    0      0           192.168.0.2:4500       192.168.0.1:4500
-users:(("processname",pid=1234,fd=3))
-        skmem:(r0,rb212992,t0,tb212992,f4096,w0,o0,bl0)
-</code></pre>
-
-<p>If the Recv-Q statistic is regularly growing large, such as approading the system-wide rmem_max, then increase the socket buffer size.</p>
-
-<p>Note this means the application is not receiving from the buffer fast enough. It may be necessary to reconfigure or redesign the application to perform better.</p>
-
-<h2>Conclusion</h2>
-
-<p>The statistic Udp: packet receive errors is reporting the SNMP MIB called UDP_MIB_INERRORS.</p>
-
-<h2>Commands</h2>
-
-<ul>
-<li><p>run udp server</p>
-
-<pre><code>  nc -4 -u -l 2389
-</code></pre></li>
-<li><p>cli to server</p>
-
-<pre><code>  echo -n "hello" | nc -u x.x.x.x 2389
-</code></pre></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -861,6 +792,10 @@ users:(("processname",pid=1234,fd=3))
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
       </li>
     
@@ -874,10 +809,6 @@ users:(("processname",pid=1234,fd=3))
     
       <li class="post">
         <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
       </li>
     
   </ul>
@@ -887,6 +818,10 @@ users:(("processname",pid=1234,fd=3))
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
       </li>
     
@@ -900,10 +835,6 @@ users:(("processname",pid=1234,fd=3))
     
       <li class="post">
         <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a>
       </li>
     
   </ul>
@@ -966,7 +897,7 @@ users:(("processname",pid=1234,fd=3))
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (1)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (2)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
@@ -1041,7 +972,7 @@ users:(("processname",pid=1234,fd=3))
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - memoryboxes -
+  Copyright &copy; 2018 - memoryboxes -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
