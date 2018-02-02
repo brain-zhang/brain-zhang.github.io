@@ -80,6 +80,486 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/28/cisco-3560x-config-cheat/">Cisco 3560X Config Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-28T10:02:06+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/28/cisco-3560x-config-cheat/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/07/28/cisco-3560x-config-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>工作需要，学习了Cisco的路由器配置，记一下:</p>
+
+<ul>
+<li>查看所有信息</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show run</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看span</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show span</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>为某个vlan id建立spanning-tree</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>取消某个vlan id的spanning-tree</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>将某个端口加入vlan中</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh run init gi 0/39
+</span><span class='line'>config t
+</span><span class='line'>switchport access vlan 14</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>保存配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>do wr
+</span><span class='line'>copy running-config startup-config</span></code></pre></td></tr></table></div></figure>
+
+
+<p>顺便记一下cisco catalyst交换机配置</p>
+
+<ul>
+<li>登陆交换机</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看现有配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show running-config</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#conf t
+</span><span class='line'>(config)#int ra g0/37 -39
+</span><span class='line'>(config-if-range)#sw mo acc
+</span><span class='line'>(config-if-range)#sw acc vl 15
+</span><span class='line'>(config-if-range)#exit
+</span><span class='line'>(config)#int ra g0/41 -46
+</span><span class='line'>(config-if-range)#sw tr e d
+</span><span class='line'>(config-if-range)#sw mo tr
+</span><span class='line'>(config-if-range)#end
+</span><span class='line'>#wr</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>开启/关闭端口</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TEST3#conf t
+</span><span class='line'>Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class='line'>TEST3(config)#int g0/41
+</span><span class='line'>TEST3(config-if)#sh
+</span><span class='line'>TEST3(config-if)#shutdown
+</span><span class='line'>TEST3(config-if)#no shutdown
+</span><span class='line'>TEST3(config-if)#end
+</span><span class='line'>TEST3#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如 配置vlan15 和 trunk:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>interface GigabitEthernet0/39
+</span><span class='line'> switchport access vlan 15
+</span><span class='line'>  switchport mode access
+</span><span class='line'>
+</span><span class='line'>interface GigabitEthernet0/46
+</span><span class='line'> switchport trunk encapsulation dot1q
+</span><span class='line'>  switchport mode trunk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>去掉</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>no switchport access vlan 15</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/12/bi-te-bi-shi-shang-de-jiu-da-bei-ju/">比特币史上的九大悲剧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-12T08:42:59+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/12/bi-te-bi-shi-shang-de-jiu-da-bei-ju/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/07/12/bi-te-bi-shi-shang-de-jiu-da-bei-ju/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>比特币成功减半，但是扩容争论日益升级。目前正处于一个微妙的时间点。这个时候以史为鉴，让我们回顾一下比特币历史上的一些悲剧故事。
+{:.info}</p>
+
+<p>你知道你的比特币现在身处何方么？真心希望它们仍旧在你的钱包里，比特币历史上充斥着各种人为错误，软件的不给力，甚至能够让狂野的西部歹徒都能够脱帽敬礼的盗窃案发生。</p>
+
+<p>比特币是一种人造的开源技术，它并非上天所赐的礼物。这里列举了比特币历史上的九大悲剧。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/07/12/bi-te-bi-shi-shang-de-jiu-da-bei-ju/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/">比特币总量为什么是2100万</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-08T22:28:27+08:00" pubdate data-updated="true">Jul 8<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>比特币第二次减半将至，为什么比特币总量设置为2100万呢？这篇文章谈笑中有几分戏谑，但都是有的放矢，值得一读。
+{:.info}</p>
+
+<h2>正文</h2>
+
+<p>比特币总量2100万个，这可能是刚接触比特币的小白们记得最清楚，也是最迷惑的数字。</p>
+
+<p>中本聪没在任何公开的言论中提到：为什么选这个数字，于是网上出现了各种各样的猜测和逻辑推理。</p>
+
+<p>我们就来聊聊这个数：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">How to Change Systemd Service Timeout Value</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-05T17:56:04+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>show value</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>change value</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure>
+
+
+<p>TimeoutStopUSec = 900</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl daemon-reexec</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-05T08:23:00+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/05/mysql-cheat/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/07/05/mysql-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>整理一下经常忘记的mysql命令</p>
+
+<h1>连接</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root -p</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>list</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ show DATABASES;
+</span><span class='line'>$ show TABLES;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Error</h1>
+
+<ul>
+<li>ERROR 1045 (28000): Access denied for user &lsquo;root&rsquo;@&lsquo;localhost&rsquo; (using password: YES)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysqld --skip-grant-tables
+</span><span class='line'>$ mysql -u root mysql
+</span><span class='line'>$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
+</span><span class='line'>$ mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/03/shang-ye-luo-ji/">商业逻辑</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-03T16:50:41+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/03/shang-ye-luo-ji/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/07/03/shang-ye-luo-ji/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>如何识别战略点</h1>
+
+<p>贝佐斯:</p>
+
+<p>我常被问一个问题：“在接下来的10年里，会有什么样的变化？”&hellip;但我很少被问到“在接下来的10年里，什么是不变的？”。我认为第二个问题比第一个问题更加重要，因为你需要将你的战略建立在不变的事物上。</p>
+
+<p>在亚马逊的零售业务中，我们知道消费者会想要更低价格的产品，10年后仍然如此。他们想要更快的物流，更多的选择。很难想像，会有顾客在10年后跑来和我说：“Jeff，我喜欢亚马逊，但你们的价格能不能贵一点，或者到货时间再慢一点。”</p>
+
+<p>所以我们将精力放到这些不变的事物上，我们知道现在在上面投入的精力，会在10年里和10年后持续不断的让我们获益。当你发现了一个对的事情，甚至10年后依然如一，那么它就值得你将大量的精力倾注于此。</p>
+
+<h1>如何判断行业前景</h1>
+
+<p>所以，要判断一个行业的前景，最简单的办法是看这个行业的龙头在干什么——他们才是最聪明、最敏锐的观察家。</p>
+
+<h1>合适的商业谈判环境是什么样的</h1>
+
+<p>接待供应商，不谈价格、不谈技术的话，都会在空旷的接洽室。透明落地玻璃接受路人监督，几张小圆桌配着椅子，还有几张长桌长椅。</p>
+
+<h1>什么是合适的管理</h1>
+
+<p>形势一片大好的公司，严格点很不错。但弱小的公司，过于严苛会导致离心离德。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi/">比较实惠的二手机器</a></h1>
     
     
@@ -267,7 +747,7 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/06/06/bootstrap-learn123/">Bootstrap Learn123</a></h1>
+      <h1 class="entry-title"><a href="/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/">石头比特币之岛</a></h1>
     
     
       <p class="meta">
@@ -283,494 +763,35 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
   
 
 
-<time datetime="2016-06-06T08:22:45+08:00" pubdate data-updated="true">Jun 6<span>th</span>, 2016</time>
+<time datetime="2016-06-08T22:26:46+08:00" pubdate data-updated="true">Jun 8<span>th</span>, 2016</time>
         
-           | <a href="/blog/2016/06/06/bootstrap-learn123/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/06/06/bootstrap-learn123/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Caption1 startUp</h1>
-
-<ul>
-<li>ARIA: Accessible Rich Internet Applications</li>
-</ul>
-
-
-<p>简单说来，就是指<a href="http://www.zhangxinxu.com/wordpress/2012/03/wai-aria-%E6%97%A0%E9%9A%9C%E7%A2%8D%E9%98%85%E8%AF%BB/">无障碍网页应用</a>。主要针对的是视觉缺陷，失聪，行动不便的残疾人以及假装残疾的测试人员。尤其像盲人，眼睛看不到，其浏览网页则需要借助辅助设备，如屏幕阅读器，屏幕阅读机可以大声朗读或者输出盲文。</p>
-
-<p>而ARIA就是可以让屏幕阅读器准确识别网页中的内容，变化，状态的技术规范，可以让盲人这类用户也能无障碍阅读！</p>
-
-<p>参考:</p>
-
-<p><a href="https://www.sitepoint.com/html5-main-element/">https://www.sitepoint.com/html5-main-element/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/05/tcp-slash-ip-illustrated-note1/">TCP/IP Illustrated Note1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-05T21:59:52+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/05/tcp-slash-ip-illustrated-note1/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/06/05/tcp-slash-ip-illustrated-note1/">Comments</a>
+           | <a href="/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>又开始重读&lt;TCP/IP详解>。发现真的是年纪大了&hellip;.T_T，看了就忘，做笔记也用处不大。</p>
+  <div class="entry-content"><p>这是一篇妙文，讲述了我们人类世界一直习以为常的货币，其本质是什么，你会看到，早期的石头货币与现在数字货币并没有什么不同。
+{:.info}</p>
 
-<p>打算每天读完一部分，在这里捡一些重要的地方记一下。</p>
+<h2>正文</h2>
 
-<h2>ARP</h2>
+<h4>所以，你已经决定了要把比特币告诉某些人</h4>
 
-<p>习得技能:</p>
+<p>我很高兴听到这个消息。你赢得了我的祝贺和尊重；解释比特币是一个高尚的事业。其他高尚的事业还包括给麻风病患者沐浴，手动替便秘的骡子通便，以及任何包括“第一阶段的人体临床试验”这样的字眼的事。</p>
 
-<ul>
-<li><code>tcpdump -e</code> 可以显示硬件层地址</li>
-</ul>
+<p>我的意思是说，你正在做一件非常有必要同时将让这个世界变得更加美好的事情。然后，在不远的未来，你会感觉非常痛苦。你会痛苦、疲惫、并且真的怀疑这个事情的好处究竟会怎样到来。</p>
 
-
-<h2>IP</h2>
-
-<p>重要提示:</p>
-
-<ul>
-<li>传输之前需要把首部转换成网络字节序。注意，仅仅是首部就可以。</li>
-</ul>
-
-
-<h2>ICMP</h2>
-
-<p>重要提示:</p>
-
-<ul>
-<li><p>在对ICMP差错报文响应时，永远不会生成另一份ICMP差错报文</p></li>
-<li><p>当发放一份ICMP差错报文时，始终包含IP首部和产生ICMP差错报文的IP数据包的前8个字节。这样就可以精准知道谁产生的ICMP差错</p></li>
-<li><p>ICMP的典型应用:</p>
-
-<ul>
-<li><p>掩码请求和应答 (大多数主机在收到请求后都会产生应答，而不是指定的主机应答，这其实是实现上的冗余)</p></li>
-<li><p>时间戳请求和应答</p></li>
-</ul>
-</li>
-<li><p>多宿主机发送报文给自己的某个接口，其实都是给回环地址的，这样产生的ICMP应答其实搞不明白原始报文发给哪个接口</p></li>
-</ul>
-
-
-<h2>Ping</h2>
-
-<p>习得技能:</p>
-
-<ul>
-<li><p><code>Ping -S</code> 每秒一个往返请求</p></li>
-<li><p><code>Ping -R</code> 记录路由，但是有限制，最大只能存放9个IP地址，而且只记录路由出口</p></li>
-</ul>
+<p>比特币不能被轻松随意的解释或者方便的被比喻。事实上，没几个比较是适合它的！它是一种货币但它像一种商品一样运作。它的总量有限，所以…它几乎就像是黄金！…除了它是以一个精确的固定的速率被创造，并且将在一个准确的固定的时间点停止创造。所以，它又不像黄金。“挖矿”这个工作也并不真正的产出什么实物。比特币是一份倾倒给任何不加怀疑的新手的，时代错误的trainwreck（一种效力强劲的大麻）。并且可怕的伪字，比如说“区块链blockchain”和“hashcash”使得它听起来更像是一场骗局。</p>
 
 </div>
   
   
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">How to Keep Environment Variables and PATH When Using SUDO</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-02T09:15:19+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>sudo tips</h2>
-
-<h4>How to keep Environment Variables when Using SUDO</h4>
-
-<p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
-
-<pre><code>Defaults env_keep += "HOME"
-</code></pre>
-
-<p>or and pay attention to the -E flag. This works:</p>
-
-<pre><code>export HOME=/home/users/memorybox
-sudo -E bash -c 'echo $HOME'
-</code></pre>
-
-<h4>How to keep PATH Variables when Using SUDO</h4>
-
-<pre><code>vim /etc/sudoers
-sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
-</code></pre>
-
-<h4>How to change root env</h4>
-
-<pre><code>sudo -i
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/25/enable-ldap-on-centos/">Enable Ldap on Centos</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-25T08:24:04+08:00" pubdate data-updated="true">May 25<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/25/enable-ldap-on-centos/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/05/25/enable-ldap-on-centos/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Dockerfile</h2>
-
-<pre><code>FROM docker-registry.dev.netis.com.cn:5000/autobuild/centos6
-
-# Maintainer: docker_user &lt;docker_user at email.com&gt; (@docker_user)
-MAINTAINER memoryboxes memoryboxes@gmail.com
-
-# Commands to add ldap to image
-RUN mkdir -p /etc/openldap/cacerts/ &amp;&amp; \
-    rpm --rebuilddb &amp;&amp; \
-    yum clean all  &amp;&amp; \
-    wget http://xxxxxx/ca.cert -O /etc/openldap/cacerts/ca.cert &amp;&amp; \
-    wget http://xxxxxx/sshd_config -O /etc/ssh/sshd_config &amp;&amp; \
-    chmod 600 /etc/ssh/sshd_config &amp;&amp; \
-    sed -i  's/#PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config &amp;&amp; \
-    echo "xxxxxxx" | passwd --stdin root &amp;&amp; \
-    yum -y install pam_ldap.so authconfig nscd openldap-clients nss-pam-ldapd &amp;&amp; \
-    yum -y install sudo &amp;&amp; \
-    yum clean all
-
-ADD nscd /etc/dockerservices/nscd
-ADD nslcd /etc/dockerservices/nslcd
-COPY docker_entrypoint.sh /
-
-# Commands when creating a new container
-ENTRYPOINT ["/docker_entrypoint.sh"]
-CMD ["/usr/bin/svscan", "/etc/dockerservices"]
-</code></pre>
-
-<h2>docker_entrypoint.sh</h2>
-
-<pre><code>#!/bin/bash
-
-set -e
-
-echo "x.x.x.x ldap.xxx.com.cn" &gt;&gt;/etc/hosts
-authconfig --enableldap --enableldapauth --ldapserver=ldap.xxx.com.cn --ldapbasedn="dc=xxx,dc=com,dc=cn" --enablemkhomedir --enableldaptls --enablecache
-
-exec "$@"
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">再谈以太网帧格式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-23T21:59:43+08:00" pubdate data-updated="true">May 23<span>rd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>又重新读了一遍《tcp/ip详解》，又重温了一遍万年知识以太网，为了不能忘却的回忆，我决定原文摘抄一遍。</p>
-
-<p>以太网这个术语是指DEC、Intel和Xerox公司在1982年联合公布的一个标准。它是当今TCP/IP采用的主要局域网技术。
-几年后，IEEE802委员会公布了一个稍有不同的标准集，其中802.3针对整个CSMA/CD网络，802.4针对令牌总线网络，
-802.5针对令牌环网络，这三者的共同特性由802.2标准来定义，那就是802网络共有的逻辑链路控制（LLC）。不幸的
-是，802.3定义了一个与以太网不同的帧格式。</p>
-
-<p>下图定义了两种不同形式的封装格式：</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/802_3.jpg" alt="802.3" /></p>
-
-<p>在以太网帧格式中，类型字段之后就是数据，而在802帧格式中，跟随在后面的3字节的802.2LLC和5字节的802.2SNAP。</p>
-
-<p>目的服务访问（DSAP）和源服务访问点（SSAP）的值都设为0xaa。ctrl字段的值设为3.随后的3个字节org code都设置为0。</p>
-
-<p>再接下来的2个字节类型字段和以以太网帧格式一样。</p>
-
-<p>CRC字段用于帧内后续字节差错的循环冗余码检验。</p>
-
-<p>802.3标准定义的帧和以太网的帧都有最小长度要求。802.3规定数据部分必须至少为38字节，而对于以太网，则要求最少要有46字节。为了保证这一点，必须在不足的空间插入填充字节。</p>
-
-<p>最后注意一下，mtu的大小只是指帧内容的大小，不包括帧头。所以mtu是1500时，QinQ又额外的四个字节，加上帧头共1522个字节，会丢包，最小要把mtu设置为1504。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/">学了点财会知识</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-22T18:17:32+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>周末又复习了一点财会方面的知识，顺便又重温了复式记账，要想办法用起来啊。</p>
-
-<p>记一些小tip:</p>
-
-<h2>企业账本一般分为</h2>
-
-<ul>
-<li><p>总账</p></li>
-<li><p>明细账</p></li>
-<li><p>十三栏明细账</p></li>
-<li><p>存货进销存账目</p></li>
-<li><p>应收票据备查账</p></li>
-</ul>
-
-
-<h2>会计凭证</h2>
-
-<ul>
-<li><p>原始凭证</p>
-
-<ul>
-<li><p>自制原始凭证</p></li>
-<li><p>外来原始凭证</p></li>
-</ul>
-</li>
-<li><p>记账凭证</p>
-
-<ul>
-<li><p>收款凭证</p></li>
-<li><p>付款凭证</p></li>
-<li><p>转账凭证</p></li>
-</ul>
-</li>
-</ul>
-
-
-<h2>会计恒等式</h2>
-
-<p>资产 = 负债 + 所有者权益</p>
-
-<h2>为什么要设定会计和出纳两个职位</h2>
-
-<ul>
-<li><p>要求出纳和会计都登记资金类账簿，是为了互相核对的需要</p></li>
-<li><p>出纳的银行存款日记账要求更严格，如果出现错误，只能原页修改，而会计的银行存款证明细账可用活页替换</p></li>
-</ul>
-
-
-<h2>一般公司的差旅报销流程</h2>
-
-<ul>
-<li><p>报销人填写差旅报销单</p></li>
-<li><p>分管领导签字</p></li>
-<li><p>会计统计明细账，核对单据</p></li>
-<li><p>财务负责人签字</p></li>
-<li><p>出纳支取</p></li>
-<li><p>领取人签字</p></li>
-</ul>
-
-
-<h2>一般纳税人和中小规模纳税人</h2>
-
-<ul>
-<li><p>一般纳税人： 开具增值税专用票，17个点的抵扣</p></li>
-<li><p>中小规模纳税人： 可由国税局代开增值税专用票，3个点的抵扣</p></li>
-</ul>
-
-
-<p>ps: 上海市国税地税不分家的，所以这个要实际操作才知道。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/22/man-man-xue-zhao-li-jie-hao-de-chan-pin-shi-shi-yao/">慢慢学着理解好的产品是什么</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-22T18:02:19+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/22/man-man-xue-zhao-li-jie-hao-de-chan-pin-shi-shi-yao/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/05/22/man-man-xue-zhao-li-jie-hao-de-chan-pin-shi-shi-yao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>从很久很久之前，我就不是很在意技术细节了。</p>
-
-<p>当年还四处走矿山的时候，我看到有人还在用一个很高级的电脑跑DOS的时候，震惊了。当时那个负责人说，有个矿压软件一直跑在DOS里，习惯了。就这么用下来了。</p>
-
-<p>互联网的产品之冠，在我看来，一直是hao123.com</p>
-
-<p>但是那时候只是停留在意识层次，最近痛下决心，慢慢学习，试图理解什么是好的产品，好的产品是怎么成就的。</p>
-
-<ul>
-<li><p>好产品满足人的 <code>贪懒嗔痴</code>，就这个理论来看，我一直坚定不移的抱持一个观点，互联网的篮下，是色情流量。</p></li>
-<li><p>好产品不是设计出来的，是慢慢生长起来的</p></li>
-<li><p>成功的产品初期，应该只有一个功能</p></li>
-<li><p>成功产品，slogan一句话就说明白</p></li>
-<li><p>面向场景来做设计而非功能列表</p></li>
-<li><p>好产品会召唤用户，如果没有自然增长就不必推广</p></li>
-</ul>
-
-
-<h4>听了一堂产品经理培训，问了几个问题，记录一下</h4>
-
-<ul>
-<li><p>[问题]王老师你好，我是一个程序员。虽然工作方面是后台开发，但也懂一点前台，前一段时间自学Android，开发了一个小游戏。但是总觉得有道坎，不能达到那种专业的产品水准。早期我理想中的好的产品草根典型，是hao123.com。我也一直往这方面去学习，但考虑实际的用户场景时总是感觉磕磕绊绊，比如我现在在写一个经营微信公众号的工具类网站，对于需求、取舍考虑很多，也反复改了几版，总是觉得不是那种“就是它了”的程度。请问怎么继续学习提高呢？</p></li>
-<li><p>解答: 实现为主，快速上线，反复迭代，等用户吐槽。</p></li>
-<li><p>[问题]王老师，如果你的团队这个sprint的任务都排满了。这个时候boss过来要强加功能，你一番权衡之后觉得还是放在下个sprint为好。怎么和boss沟通呢？谢谢。</p></li>
-<li><p>解答：搞清楚BOSS的目的，协调、沟通，解决。切忌直接反对。</p></li>
-<li><p>[问题]王老师，请问网易的WEB产品经理懂CSS、JS等前端知识吗？关注诸如nodejs、React等新知识吗？能有独立开发一个小网站的能力吗？能熟悉Linux常用操作吗？你认为产品经理需要有这些技能吗？</p></li>
-<li><p>解答：需要。学无止境。</p></li>
-</ul>
-
-</div>
-  
+    <footer>
+      <a rel="full-article" href="/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/">阅读全文 &rarr;</a>
+    </footer>
   
 
 
@@ -797,6 +818,10 @@ exec "$@"
       </li>
     
       <li class="post">
+        <a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
       </li>
     
@@ -806,10 +831,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
       </li>
     
   </ul>
@@ -872,7 +893,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (2)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (6)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
@@ -894,6 +915,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
 <li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/history/'>history (4)</a></li>
 <li class='category'><a href='/blog/categories/http/'>http (1)</a></li>
 <li class='category'><a href='/blog/categories/iptables-/'>iptables, (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>

@@ -80,6 +80,919 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/">多个git账号之间的切换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-07T15:00:34+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>做过很多遍了，却总是记不住，这回从头来描述一下。</p>
+
+<h1>介绍</h1>
+
+<p>所谓多个git账号，可能有两种情况:</p>
+
+<ul>
+<li><p>我有多个github的账号，不同的账号对应不同的repo，需要push的时候自动区分账号</p></li>
+<li><p>我有多个git的账号，有的是github的，有的是bitbucket的，有的是单位的gitlab的，不同账号对应不同的repo，需要push的时候自动区分账号</p></li>
+</ul>
+
+
+<p>这两种情况的处理方法是一样的，分下面几步走:</p>
+
+<h1>处理</h1>
+
+<ul>
+<li><p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
+
+<p>  <code>
+      ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
+ </code></p>
+
+<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
+
+<p>  <code>
+      ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
+ </code></p>
+
+<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p></li>
+<li><p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p></li>
+<li><p>编辑 <code>~/.ssh/config</code>，设定不同的git 服务器对应不同的key</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(first@mail.com),注意User项直接填git，不用填在github的用户名
+</span><span class='line'>Host github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github
+</span><span class='line'>
+</span><span class='line'># second user(second@mail.com)
+</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
+</span><span class='line'>Host 172.16.11.11
+</span><span class='line'> HostName 172.16.11.11
+</span><span class='line'> User work
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_work</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
+
+<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
+
+<ul>
+<li>从上面一步可以看到，ssh区分账号，其实靠的是HostName这个字段，因此如果在github上有多个账号，很容易的可以把不同的账号映射到不同的HostName上就可以了。比如我有A和B两个账号， 先按照步骤一生成不同的key文件，再修改<code>~/.ssh/config</code> 内容应该是这样的。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(A@mail.com),注意User项直接填git，不用填在github的用户名
+</span><span class='line'>Host A.github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_A
+</span><span class='line'>
+</span><span class='line'># second user(B@mail.com)
+</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
+</span><span class='line'>Host A.github.com
+</span><span class='line'> HostName github.com
+</span><span class='line'> User git
+</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_B</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
+
+<pre><code>git@github.com:testA/gopkg.git
+</code></pre>
+
+<p>那么根据上面的配置，就要把<code>github.com</code>换成<code>A.github.com</code>, 那么ssh解析的时候就会自动把<code>testA.github.com</code> 转换为 <code>github.com</code>,修改后就是</p>
+
+<pre><code>git@A.github.com:testA/gopkg.git
+</code></pre>
+
+<p>直接更改 <code>repo/.git/config</code> 里面的url即可</p>
+
+<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
+
+<h1>一些题外话</h1>
+
+<h2>我有一个repo，想要同时push到不同的仓库该如何设置?</h2>
+
+<p>很简单， 直接更改 <code>repo/.git/config</code> 里面的url即可，把里面对应tag下的url增加一个就可以了。例:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[remote "GitHub"]
+</span><span class='line'>    url = git@github.com:elliottcable/Paws.o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/GitHub/*
+</span><span class='line'>[branch "Master"]
+</span><span class='line'>    remote = GitHub
+</span><span class='line'>    merge = refs/heads/Master
+</span><span class='line'>[remote "Codaset"]
+</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Codaset/*
+</span><span class='line'>[remote "Paws"]
+</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Paws/*
+</span><span class='line'>[remote "Origin"]
+</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
+</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
+
+<h2>我有一个github的repo，clone没有问题，push的时候总是报错:error: The requested URL returned error: 403 while accessing xxx</h2>
+
+<p>这个问题也困扰了我一段时间，后来发现修改 <code>repo/.git/config</code> 里面的url，把https地址替换为ssh就好了。</p>
+
+<p>例如</p>
+
+<pre><code>url=https://MichaelDrogalis@github.com/derekerdmann/lunch_call.git
+</code></pre>
+
+<p>替换为</p>
+
+<pre><code>url=ssh://git@github.com/derekerdmann/lunch_call.git
+</code></pre>
+
+<h1>参考</h1>
+
+<p><a href="http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed">http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed</a>
+<a href="http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446">http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/">科技进步是安全行业的最根本保障</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-29T12:43:57+08:00" pubdate data-updated="true">Nov 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天上网的时候突然发现有人邮件问什么是矿震。原来是知乎的注册号职业还是煤矿行业，知乎还是挺智能的~~~</p>
+
+<p>查了一下，辽宁那又有矿难了,矿震引起煤尘爆炸。唉&hellip;&hellip;</p>
+
+<p>什么是矿震呢，矿上有叫岩裂的，有叫岩震的，说法不一。书上的说法是冲击地压。通俗点就是地底下挖空了，巷道两侧岩石受不了压力，就压裂塌陷了。</p>
+
+<p>我是没遇见过，矿上听过一些老师傅讲岩裂的时候，最可怕的是两侧的石子像子弹一样弹出来，人在那个时候是没什么办法的，趴在地上逃过一劫，一般高瓦斯的矿也会引发爆炸之类的事故，这个时候就听老天爷的了。</p>
+
+<p>又胡思乱想了很多事情。</p>
+
+<p>我刚入行，到各个煤矿下过一些井的时候，有很多不明白的事。那时候我一边看书上的一些矿压理论，一边在井下看实际的生产，发现了很多可以改进的地方。比如离层监控，直接顶垮塌预警，还有支护距离、支护强度的选择~~~
+这些事情都是有现有理论支撑的，很多情况下找几位真正懂行的专家来，做好规划和基础建设，后期是能省下很多气力的，生产也能安全的多。</p>
+
+<p>那个时候，我用很幼稚的办法写着一个支护专家系统，想着可以用电脑帮助预测离层压力，该如何选型液压支柱等，还想着要是有个论坛，供全国的煤矿从业者交流经验，提炼知识就好了。</p>
+
+<p>后来，我又下了一段时间的井，有一个很心凉的发现或想法，现在也不能摆脱:</p>
+
+<p>那就是，人命也许不是那么值钱，无论是在他人眼里，或是在自己眼里。</p>
+
+<p>我记得那时候外来人员，像我这样的厂家人员下井，一般会买20几万的地险，我至今也没有去查过之前从业的公司有没有给我买工伤保险，有点可笑是不。可事实就是这样，在山东很多小县城，正规给工人交齐保险的小工厂几乎没有，相比下，富士康其实已经是非常良心的企业了。即使企业按最低标准给你交齐各种保险(这家企业还能正常运转)，你换工作，流动到其他地方后，这些钱大部分还是要孝敬当地政府的，而且那点钱再转到外地还不够跑腿的功夫。可能一些工作稳定，长期在一个地方生活的人体会不多。但是当我辗转几个地方后，就发现交类似养老保险这种事无论对企业还是工人都是非常不划算的。</p>
+
+<p>所以在很多地方，工人和工厂心照不宣，在没有保障的前提下尽量活着。</p>
+
+<p>事实上，无论是工厂还是工人自己，对自己的命值多少钱，估量的数字都少得可怜。在非常好的条件下，一个青壮年在井下挂了，能得到的赔偿我估计就在30-40万之间。而且这还是&#8221;毛利&#8221;，为了得到这笔赔偿你还要杂七杂八的各种打点开销。这个估算就是以山西国有大矿为参照，像甘肃那样年产40万吨的小矿就不说了。</p>
+
+<p>但更令我惊奇的是，甘肃那样的小矿，井下条件反而比山西的大矿好得多，井口的巷道会贴瓷砖，会有很明亮的灯，下井的工人也比大矿的工人心情更宽松。虽然硬件设施比不上人家财大气粗，但软件上的很多小细节都很贴心。</p>
+
+<p>后来我明白了，就是西边的老矿区，一般还是把人当人来看的，说的不好听些，你真的埋在井下了，虽然赔的钱比不上大矿，但一般还有人情世故，给你家其他人安排个矿上清闲活，家里也有矿上的左邻右舍照顾着，这就是我们老派国企的作风。
+像山西很多大矿，我觉得是市场化和国有企业的奇怪混合体。工人的价值，管理制度，硬件建设，都市场化了；说白了，就是这个投入下去，要比你的命便宜，就投，你的命贱，就不投。但煤炭销售，利润分配，还是要国家来管。</p>
+
+<p>有很多瞎扯的专家讲这个制度，那个管理。似乎每次事故出来都是管理问题，制度问题&hellip;&hellip;不错，肯定是管理问题，制度问题。但是，我下井的时候，干活很累的时候，不止一次想过:就是现在顶塌了，也无所谓。
+人在极累的时候，什么也顾不上的。这是人不可克服的弱点。当工人连自己性命也轻忽的时候，你和他讲这个管理，那个制度，专家们，敢到井下去讲讲吗。</p>
+
+<p>管理当然很重要，后来我觉得，安全行业最根本的保障在于科技进步。只有人远离危险的时候，才有闲情谈管理，谈制度。</p>
+
+<p>听新闻说中国已经成为全世界最大的机器人消费市场，非常高兴。</p>
+
+<p>有人说会有下岗，会有就业萎缩。</p>
+
+<p>我只想问:人命有贵贱吗?人命有价格吗?</p>
+
+<p>如果你不想回答这种无聊的问题，就不要再对更无聊的问题评头论足了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/16/pycon2017-in-shanghai/">Pycon2014 in Shanghai</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-16T12:19:21+08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/16/pycon2017-in-shanghai/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/11/16/pycon2017-in-shanghai/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今年又去打酱油了。在上海有这点好处，可以很方便的找到各种组织~~~</p>
+
+<p>去年拿了个帽子，今年发了件T恤，明年来条短裤就套装啦。</p>
+
+<p>这次Pycon非常赞，上海的组织者真用心，这次无论是演讲还是气氛都很到位。志愿者们真的辛苦了，十二分的敬礼。</p>
+
+<p>讲的内容有几点让我很惊艳的:</p>
+
+<ul>
+<li><p>讲协程的时候提到，函数的返回值不必返回给调用者，可以返回给三方，很有启发</p></li>
+<li><p>黄冬老师讲测试3层设备或者网站性能的最好办法，是把一段时间的DDOS发包抓下来，或者造出一堆SYN，直接用tcpreplay打到目标机上。很好很粗暴，也很有效</p></li>
+<li><p>关于OpenCL在数据计算领域的应用，让我有点吃惊，已经这么易用了，回头要看看</p></li>
+<li><p>以前一直听人说postgresql怎么怎么好，这次又被强化了一遍，这个也要研究研究</p></li>
+<li><p>中间看到有演讲者调试程序用lldb，之前我一直以为它不靠谱，貌似已经很成熟了</p></li>
+<li><p>机器学习讲的简洁明了，让我这个门外汉也听得津津有味</p></li>
+<li><p>中间的台湾演讲同五地互动的创举，太有想法了，虽然效果不理想，但我想说太Cool了，未来的大会互动会更多元，更精彩，为这个尝试鼓掌</p></li>
+<li><p>主持人非常专业，聪敏又风趣，可以直接上央视啦</p></li>
+</ul>
+
+
+<p>还有几点不足的:</p>
+
+<ul>
+<li><p>话筒时好时不好，这个估计让大家有点提心吊胆的。这个是经验啊，以后组织类似的活动话筒要多多益善，还要多备电池。</p></li>
+<li><p>Django和创业的两个议题都有点浅，太多讲Python的ABC了，这方面的内容可以收缩下</p></li>
+</ul>
+
+
+<p>另外有点Confuse，会上有人提到用libpcap抓包分析网络流的，黄冬老师说性能没问题。其实我们这测试下来，绑定CPU抓包，libpcap通常的性能就在单网卡400Mbps左右。
+如果用Zero Copy的话，可能性能有提升，但也不会太高。目前抓流量效率最好的是Intel的DPDK，可以到10Gbps。</p>
+
+<p>还有魔豆提到用Selenium做自动化测试的事情，我用Selenium觉得，他的适用场景在WEB UI很少变化，并且页面结构简单的企业软件，像传统的路由器管理界面这样的东西，用它的录制测试还是可以的。
+但是界面稍微个性化一些，想让测试代码长久，必须手写代码，而且是简单可靠的代码，不能单纯追求覆盖率。Selenium的测试代码虽然好写，但也容易废弃，要想写的简单可靠还是很有难度的。</p>
+
+<p>关于UI测试，我的想法就是，尽量降低编写成本，如果一个UI测试挂了，你不能在5分钟之内修复它，直接丢弃掉！编写UI自动化测试的成本不应该超过5分钟，如果一个测试要频繁维护，那么，是重新写一个的时候了。
+要想达到这个目标，我想到的简单解决方案就是图像DIFF，facebook之前出过一个huxley，我很有兴趣的研究过，还PULL过代码，但这个东西还是离我心目中的自动化图像DIFF有距离。后来又自己写了一个能把每天的测试结果保存下来，并能基于时间查看对比的东东，但效果也不好。</p>
+
+<p>我想象中的web UI自动测试是这样的:</p>
+
+<ul>
+<li><p>支持比较模板点自定义</p>
+
+<p>  对比的截图可以是基于录制时间最早的case的，如果中途重新录制，提供用户自定义机制。</p></li>
+<li><p>支持时间轴功能</p>
+
+<p>  1、查询时间范围的灵活选择，可以很简洁的查询某段时间、或某个时间点的case.</p>
+
+<p>  2、可以在时间轴上直接修改比较模板的base时间点</p>
+
+<p>  3、以不同颜色标识base时间点、pass的测试、fail的测试以及fail的个数，测试名称等</p></li>
+<li><p>比较智能的图像DIFF算法:</p>
+
+<p>  1、首先要能忽略指定区域，因为有些区域能够预测到是不断变化的。</p>
+
+<p>  2、能对整张图、或某几个区域提供多个选择，如果符合其中一个我们就认为是OK的</p>
+
+<p>  3、能提供组件级的识别，比如某个button，某个搜索框等等，一张截图里面如果所有指定的组件都OK，我们就认为是OK的。</p></li>
+</ul>
+
+
+<p>PS:已经出现了类似的开源项目:</p>
+
+<p><a href="https://github.com/Huddle/PhantomCSS">https://github.com/Huddle/PhantomCSS</a></p>
+
+<p>最后感概下，Pycon一年比一年进步，志愿者们功不可没。对于他们的工作，怎么赞誉都不过分。非常感谢!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">用TCP/IP进行网际互连 (笔记)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-05T08:19:18+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>还是要补习基础知识啊。</p>
+
+<p>譬如TCP的状态机转换，我每次都得花很长很长的时间才能反应过来什么时候会进入TIME_WAIT,CLOSE_WAIT&hellip;.</p>
+
+<p>譬如一个pcap包，看了很长很长时间才发现是个规避糊涂窗口的Nagle算法&hellip;</p>
+
+<p>譬如这本书，每次扫一遍好像都能知道怎么回事，过了段时间就又雾里看花了&hellip;.</p>
+
+<p>这次通读一遍，又发现一些有意思的东西，记一下:</p>
+
+<h3>底层网络技术回顾</h3>
+
+<ul>
+<li><p>最初的电话系统是面向连接的电路交换，后期(就是现在)的IP网络是基于分组交换的</p>
+
+<p>  讲起来很简单，实际上为了实现分组交换网上的通信质量达到电路直接交换的效果，还是要付出很大努力，才能克服时延、抖动、通信质量等多个问题</p></li>
+<li><p>以太网容量</p>
+
+<p>  当前以太网不是为一对计算机之间提供可能的最高吞吐率而优化的，而是为更多网点介入和更多通信总量优化的。当前10G以太网的帧长度和格式还是保持10M网的标准，从这方面看，10G以太网在物理层的协议上还是有优化余地的。</p></li>
+<li><p>POE可以提供48V,不超过15.4W的功率消耗，这个数字还是挺可观的</p></li>
+<li><p>关于以太网的一些特点</p>
+
+<p>  CSMA/CD 是很简单但有效的手段，值得后来的分布式系统借鉴</p>
+
+<p>  以太网在物理层上只是&#8221;尽最大努力交付(best effort delivery)&ldquo;，但如果碰到问题，错误不会得到通知，数据包会丢弃</p>
+
+<p>  frame帧大小 64B~1518B</p>
+
+<p>  线缆的集合造就集线器，集线器升级为连接任意多的以太网就变成网桥，网桥提供自适应的帧转发，这样任意多的以太网就集合为一个物理网络，他们也遵循CSMA/CD。网桥提供更完善的隔离和配置方案就变成了交换机。</p>
+
+<p>  以太网的地址(MAC)是要向IEEE买的</p>
+
+<p>  以太网基础上升级为WIFI就有了两个很重要的技能:</p>
+
+<pre><code>* 可作为接入点基站
+* 可作为接入点连接(点对点),也就是WI-MAX
+</code></pre></li>
+</ul>
+
+
+<h3>网际互联的模型</h3>
+
+<ul>
+<li><p>路由器的工作，某种情况下和DHT很相似，不过实现的约束更多一些</p></li>
+<li><p>定向广播地址，主机号都为1</p></li>
+<li><p>受限广播地址，255.255.255.255 (本地子网广播)</p></li>
+<li><p>0.0.0.0有时候也用于广播，这是早期BSD实现的一个bug。后来有些软件为了兼容，也这么实现了。</p></li>
+<li><p>0.0.0.0 表示无路由目标，有些应用把绑定这个的设置，认为是绑定全部本地IP。类似于一些设置中，设为0就相当于该项设置无限制。</p></li>
+<li><p>127.0.0.1 是本地环回地址, 专供自己访问自己, 速度大( 不用经过整个协议栈 )</p></li>
+<li><p>地址管理早期是由<a href="https://www.iana.org/about">IANA</a> 管理的，早期的IANA地址维护者仅仅是一个人,<a href="http://en.wikipedia.org/wiki/Jon_Postel">Jon Postel</a>，这位传奇人物在1998年过世，后来IANA成长为更完善的组织，ICANN是也,目前由ICANN管理地址相关分配工作。</p></li>
+<li><p>IBM的地址段是9.0.0.0，AT&amp;T的地址段是12.0.0.0</p></li>
+</ul>
+
+
+<h3>ARP</h3>
+
+<ul>
+<li>没什么好讲的了，这个是最熟悉的</li>
+</ul>
+
+
+<h3>无连接网络</h3>
+
+<pre><code>* 错误会被丢弃!!!
+
+* IP报文已经包含了源-目的地址
+
+* 分片控制
+
+* 优先级
+
+* 校验和
+
+* 路由信息和时间戳
+</code></pre>
+
+<h3>ICMP</h3>
+
+<ul>
+<li>最好和Ping结合起来学习</li>
+</ul>
+
+
+<p>最后，读这本书后面的应用层也很好玩，能延伸想象很多东西，比如现在Linux下虚拟网卡的实现，Vmware如何虚拟物理网卡的，还有早期浩方上如果实现虚拟局域网的，很多原来看起来Magic的东西，其实原理很简单，平时多想想会很有趣。</p>
+
+<p>从TCP/IP的设计来看，我们的网络应用还是停留在很&#8221;初级&#8221;的阶段，还没有完全发挥出他的潜力。未来肯定还会出现像P2P软件这样神奇的颠覆者，TCP/IP所承载的流量也会一次次变化，如果把TCP/IP比作海的话，不知道下一位弄潮儿是谁。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/">Uwsgi部署django程序</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-31T08:39:26+08:00" pubdate data-updated="true">Oct 31<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Python的web世界，部署首选uwsgi，既可独战，又可搭配Nginx等车轮战，实在是居家必备。</p>
+
+<p>但我每次都得搞都得去翻一遍手册，实在烦了，记一下简单粗暴的测试方案。</p>
+
+<h2>安装</h2>
+
+<pre><code>pip install uwsgi
+</code></pre>
+
+<h2>测试</h2>
+
+<p>写一个最简单的test.py:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># test.pydef application(env, start_response):
+</span><span class='line'>    start_response('200 OK', [('Content-Type','text/html')])
+</span><span class='line'>    return "Hello World"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行shell命令:</p>
+
+<pre><code>uwsgi --http :8000 --wsgi-file test.py
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到<code>Hello World</code>了</p>
+
+<h2>集成Django</h2>
+
+<pre><code>django-admin startproject testuwsgi
+</code></pre>
+
+<p>这样生成的项目，django版本不同，目录会有微小的差别，找manage.py就对了</p>
+
+<p>如果是>django1.6的话，会自动生成wsgi.py文件，没有的话编辑一个:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
+</span><span class='line'># coding: utf-8
+</span><span class='line'>
+</span><span class='line'>import os
+</span><span class='line'>import sys
+</span><span class='line'>
+</span><span class='line'># 将系统的编码设置为UTF8
+</span><span class='line'>reload(sys)
+</span><span class='line'>sys.setdefaultencoding('utf8')
+</span><span class='line'>
+</span><span class='line'>os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+</span><span class='line'>
+</span><span class='line'>from django.core.handlers.wsgi import WSGIHandler
+</span><span class='line'>application = WSGIHandler()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行:</p>
+
+<pre><code>uwsgi --http :8000 --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到Django的欢迎页面了</p>
+
+<h2>支持Https</h2>
+
+<p>uwsgi自1.3版本开始支持https</p>
+
+<p>分两步走:</p>
+
+<h4>生成证书</h4>
+
+<pre><code>openssl genrsa -out foobar.key 2048
+openssl req -new -key foobar.key -out foobar.csr
+openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
+</code></pre>
+
+<h4>走起</h4>
+
+<pre><code>uwsgi --master --https 0.0.0.0:8443,foobar.crt,foobar.key --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问的时候要以:</p>
+
+<p><a href="https://127.0.0.1:8443/">https://127.0.0.1:8443/</a></p>
+
+<p>OK了</p>
+
+<p>至于怎么搭配Nginx，写配置文件，搭配Supervisor，还是老老实实翻手册吧，反正这个不是经常做。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">How to Auto Gen Css/js by Grunt and Jenkins</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T12:16:15+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然有<a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a>的存在，但多个人编辑同一份css/js代码时，还要操心编译这个事，实在是多余。</p>
+
+<p>想到的最直接的办法就是jenkins上开一个项目，自动编译一把，再自动提交:</p>
+
+<p>虽然是野路子，但效果那是杠杠的。</p>
+
+<p>记一下一些要注意的点:</p>
+
+<ul>
+<li>有时候自动编译会失败，需要标记一下:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/node-v0.10.20-linux-x64/bin/grunt --force |tee $PWD_DIR/grunt.log
+</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
+</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
+</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
+</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
+</span><span class='line'>    exit 1
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样jenkins编译失败，就会标红了</p>
+
+<ul>
+<li>还有个坑，有时候新增加了一个js的代码目录，这样编译后也会多一个目录，这就需要svn每次提交的时候，不要忘了强制add一下当前所有目录:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn add static/dist/ --force</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>最后，极少数的情况编译后会出现冲突，因为编译的时候有人同样编译了一把提交了，这样自动提交会失败，也需要标记一下:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn ci --no-auth-cache --username=xxx --password=xxx static/dist/* -m "jenkins:auto grunt" 2&gt;&1| tee $PWD_DIR/svn.log
+</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
+</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
+</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
+</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
+</span><span class='line'>    exit 1
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样基本上看看jenkins的状态，或是让jenkins自动发发邮件，就舒心了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-compile-by-autotools/">How to Compile by Autotools</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T12:12:30+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/29/how-to-compile-by-autotools/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/10/29/how-to-compile-by-autotools/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>echo "Running aclocal..."
+</span><span class='line'>aclocal || exit 1
+</span><span class='line'>echo "Running autoheader..."
+</span><span class='line'>autoheader || exit 1
+</span><span class='line'>echo "Running autoconf..."
+</span><span class='line'>autoconf || exit 1
+</span><span class='line'>echo "Running automake..."
+</span><span class='line'>automake --add-missing --copy || exit 1
+</span><span class='line'>echo "Finished."</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/18/markdown-raw-format/">Markdown Raw Format</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-18T14:21:04+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/18/markdown-raw-format/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/18/markdown-raw-format/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有时候想要在Markdwon里面画ASCII画，会被Format掉，例如:</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  &mdash;&mdash;&mdash;    &mdash;&mdash;&mdash;&ndash; |</td>
+</tr>
+<tr>
+<td></td>
+<td>                    |</td>
+</tr>
+<tr>
+<td></td>
+<td>     \        /     |</td>
+</tr>
+<tr>
+<td></td>
+<td>      &mdash;&mdash;&mdash;&ndash;/      |</td>
+</tr>
+<tr>
+<td></td>
+<td>                    |</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</p>
+
+<p>这个时候可以用缩进来解决:</p>
+
+<pre><code>|--------------------+
+|                    |
+|  ------    ------- |
+|                    |
+|     \        /     |
+|      -------/      |
+|                    |
++--------------------+
+</code></pre>
+
+<p>参考:
+<a href="https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262">https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262</a></p>
+
+<p>引发了一点兴趣，meta.stackexchange.com上面有个测试语法专贴，各种乱搞洋洋大观:</p>
+
+<p><a href="http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134">http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/18/docker-cheat-sheet/">Docker Cheat Sheet</a></h1>
     
     
@@ -304,680 +1217,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/c-dynamic-array-in-stack/">C:dynamic Array in Stack</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:42:25+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/c-dynamic-array-in-stack/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/17/c-dynamic-array-in-stack/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
-</span><span class='line'>{
-</span><span class='line'>    int x = 12;
-</span><span class='line'>    char pz[x];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>C99是支持的。在gcc4+以上的版本里测试OK。</p>
-
-<p>另外stackoverflow上提到C++不支持动态数组，在g++4.4.7里面试了一下，也是可以的。</p>
-
-<p>不是我不明白，这世界变化快。</p>
-
-<p>Out好多好多年了…….</p>
-
-<p>参考:
-<a href="http://stackoverflow.com/questions/1204521/dynamic-array-in-stack">http://stackoverflow.com/questions/1204521/dynamic-array-in-stack</a> <a href="http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed">http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/">svn1.7+ Zsh报错</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:40:14+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。</p>
-
-<p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>
-
-<p>修改方法:</p>
-
-<p>打开文件：/usr/share/zsh/4.3.11/functions/_subversion</p>
-
-<p>找到35行左右</p>
-
-<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:arg:)#/(--$match[2])-    $match[1]$match[3] (-$match[1])--$match[2]$match[3]}</code>
-改为</p>
-
-<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}</code></p>
-
-<p>参考资料：
-<a href="http://www.zsh.org/mla/workers/2011/msg01448.html">http://www.zsh.org/mla/workers/2011/msg01448.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/">自定义Django的密码策略</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:38:03+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Django 从1.4 版本开始，包含了一些安全方面的重要提升。其中一个是使用 PBKDF2 密码加密算法代替了 SHA1 。另外一个特性是你可以添加自己的密码加密方法。</p>
-
-<p>Django 会使用你提供的第一个密码加密方法（在你的 setting.py 文件里要至少有一个方法）</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
-</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.BCryptPasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.SHA1PasswordHasher', # Insecure Hashes
-</span><span class='line'>    'django.contrib.auth.hashers.MD5PasswordHasher', # Insecure Hashes
-</span><span class='line'>    'django.contrib.auth.hashers.CryptPasswordHasher', # Insecure Hashes
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但Django默认生成的密码策略往往会带上 md5_xxx, pbkdf2_xxx，同其他系统整合的时候，一般是没有这些前缀的，这就需要我们自定义一个密码策略。</p>
-
-<p>下面介绍下如何定义一个简单的 <code>md5(md5(password, salt))</code> 密码策略。</p>
-
-<h3>step1</h3>
-
-<p>建立一个app，django-admin.py startapp ownmd5</p>
-
-<h3>step2</h3>
-
-<p>在 ownmd5中 建立 hashers.py 文件，加入 OwnMd5PasswordHasher 类</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import hashlib
-</span><span class='line'>from django.utils.translation import ugettext_noop as _
-</span><span class='line'>from django.utils.datastructures import SortedDict
-</span><span class='line'>from django.utils.crypto import constant_time_compare
-</span><span class='line'>from django.utils.encoding import force_bytes, force_str, force_text
-</span><span class='line'>from django.contrib.auth.hashers import BasePasswordHasher, mask_hash
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>class OwnMD5PasswordHasher(BasePasswordHasher):
-</span><span class='line'>    """
-</span><span class='line'>    The Salted MD5 password hashing algorithm (not recommended)
-</span><span class='line'>    """
-</span><span class='line'>    algorithm = "ownmd5"
-</span><span class='line'>
-</span><span class='line'>    def encode(self, password, salt):
-</span><span class='line'>        assert password is not None
-</span><span class='line'>        assert salt and '$' not in salt
-</span><span class='line'>        hash = hashlib.md5(hashlib.md5(force_bytes(salt + password)).hexdigest()).hexdigest()
-</span><span class='line'>        return hash
-</span><span class='line'>
-</span><span class='line'>    def verify(self, password, encoded, salt):
-</span><span class='line'>        encoded_2 = self.encode(password, salt)
-</span><span class='line'>        return constant_time_compare(encoded, encoded_2)
-</span><span class='line'>
-</span><span class='line'>    def safe_summary(self, encoded, salt):
-</span><span class='line'>        return SortedDict([
-</span><span class='line'>            (_('algorithm'), self.algorithm),
-</span><span class='line'>            (_('salt'), mask_hash(salt, show=4)),
-</span><span class='line'>            (_('hash'), mask_hash(hash)),
-</span><span class='line'>        ])</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>step3</h3>
-
-<p>将 OwnMD5PasswordHasher 加入到settings.py 中:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
-</span><span class='line'>    'ownmd5.hashers.OwnMD5PasswordHasher',
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样，默认的user及auth模块都会采用自定义的md5算法。</p>
-
-<p>参考:</p>
-
-<p><a href="https://docs.djangoproject.com/en/1.6/topics/auth/passwords/">https://docs.djangoproject.com/en/1.6/topics/auth/passwords/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/auto-reload-modules-in-django-shell/">Auto Reload Modules in Django Shell</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:36:01+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/auto-reload-modules-in-django-shell/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/17/auto-reload-modules-in-django-shell/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>python manage.py shell</code></p>
-
-<p>太常用了，但是每次修改模块代码后，总要 exit—>reset 才能重新load一遍代码，实在是不爽。</p>
-
-<p>也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。</p>
-
-<p>最近发现一个扩展，django-externsions:</p>
-
-<p><a href="https://github.com/django-extensions/django-extensions">https://github.com/django-extensions/django-extensions</a></p>
-
-<p>装上好用不少，貌似还比较靠谱，推荐之。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/">Vim 对选中范围内容批量替换</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:31:22+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>vim可以很方便的用 %s/src/dst/g 批量替换。</p>
-
-<p>但是我想对ctrl+v 块选择的内容做批量替换就麻烦一点了，每次都得打一串很长很长的脚本命令。</p>
-
-<p>发现的一个插件做这个事,vis:</p>
-
-<p><a href="https://github.com/vim-scripts/vis">https://github.com/vim-scripts/vis</a></p>
-
-<p>支持两个命令模式:B 和 S</p>
-
-<p><code>B</code> 在选定区域内执行命令</p>
-
-<p>ctrl+v选中内容后，使用<code>:B cmd</code>，此时命令栏的状态应该是<code>:'&lt;,'&gt;B cmd</code>这样。</p>
-
-<p>例如替换内容, <code>ctrl-v</code>  <code>:B s/pattern/becomes/</code></p>
-
-<p>执行外部命令，<code>ctrl-v</code>  <code>:B !sort</code></p>
-
-<p><code>S</code> 在选定区域内查找内容</p>
-
-<p><code>ctrl+v</code>选中内容后，使用<code>:S pattern</code>，此时命令栏的状态应该是<code>:'&lt;,'&gt;S pattern</code>这样。</p>
-
-<p>解脱了….</p>
-
-<p>记一下免得又忘掉。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/">Vim 命令行操作小技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:30:15+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
-
-<p>1.查看历史指令并执行</p>
-
-<p>2.复制寄存器中的内容
-1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。</p>
-
-<p>2 使用寄存器，一般复制时使用&#8221; + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
-
-<h2>vim tooltips</h2>
-
-<h4>Display CRLF as ^M:</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:e ++ff=unix</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/">Rake Gen Deploy Rejected in Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-16T11:55:56+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Octopress老版本，例如我用的，在一台新机器上check 下来Repo，重建source分支时，会报rejected错误。</p>
-
-<p>怎么pull也不管用，解决办法参考这里:</p>
-
-<p><a href="http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress">http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress</a></p>
-
-<h3>悲剧提示，我后来发现有一段blog被revert掉了，诡异的是在github上面的提交记录也没了，要慎用，要做好备份。</h3>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/">从MongoDB迁移到TokuMx</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-16T08:36:30+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>WHY:</h2>
-
-<p>原因无它，MongoDB的 BSON格式带来的磁盘空间消耗实在太严重了,将mongodb的数据库文件gzip一把，一般能到原大小的1/10。</p>
-
-<h3>mongodb提出的解决办法有以下几个:</h3>
-
-<h4><a href="http://docs.mongodb.org/manual/reference/method/db.repairDatabase/">定期repaire或Compact</a>，但是repaire带来的性能消耗实在太大，repaire或compact的时候插入性能基本上就是渣了，另外100G级别的数据库文件需要数小时才能压缩完毕。</h4>
-
-<h4>采用<a href="http://docs.mongodb.org/manual/core/capped-collections/">Capped Collections</a>，这样在创建collections的时候可以指定数据库文件能占用的最大空间大小及单个document大小，当存储数据超过这个大小的时候会自动删除最老的数据，空出空间来。但这样做弊端就是你不知道会有多少数据被删掉，另外需要你对这个表插入的document大小心中有数。</h4>
-
-<h4>建立自己的清理机制，定期把无用的数据清理出去。这样虽然比Capped Collections可控制，但是对删除掉的磁盘空间利用率进一步下降了，很多时候，你删掉一半数据，能重新利用的空间可能也就10%。这是由MongoDB对于单个Document的空间分配机制决定的。</h4>
-
-<h4>最后一种方法就是合理规划，分库分表，然后在mongodb.conf里面设置选项:<code>directoryperdb = true</code>，这样mongo每个数据库都会建立一个文件夹,这样删除单库的时候数据文件就删干净了，空间自然清理出来了，这个选项我强烈推荐打开，即使你没有空间上的困扰，打开后也对数据库管理维护由不小的方便。当然指望这种办法删数据局限性就太大了。</h4>
-
-<p>详细说一下mongo对于删除空间的重新利用方法:</p>
-
-<p>1.首先mongodb删除一个document的时候并不是物理上真正删除数据，而是维护一个deleteList链表数组，每次删除就在链表里面做一个标记。怎么表示这次删除的空间大小范围呢,如图示:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> ---------------------------------------
-</span><span class='line'> |&lt;32 | 32-64| 64-128|....| &lt; 4M| 4M-8M| --deleteList
-</span><span class='line'> ---------------------------------------
-</span><span class='line'>  |       |      |     |     |      |
-</span><span class='line'>  |       |      |     |     |      |
-</span><span class='line'> +-+     +-+    +-+   +-+   +-+    +-+
-</span><span class='line'> +-+     +-+    +-+   +-+   +-+    +-+
-</span><span class='line'>         +-+    +-+   +-+   +-+    +-+
-</span><span class='line'>                +-+   +-+   +-+    +-+</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2.对每一个被删除的docment计算其大小，然后插入到合适的链表中去，这样下次插入新数据的时候，先计算合适的空间大小，再在这个链表数组中找到合适的空闲空间指针地址，插入数据。如果没有合适的，再去开辟新空间。</p>
-
-<p>3.这个链表数组每个大小区间是代码里写死的，可参见<code>namespace_detail.h</code>:
-<code>int bucketSizes[] = { 32, 64, 128, 256, 0x200, 0x400, 0x800, 0x1000, 0x2000, 0x4000, 0x8000, 0x10000, 0x20000, 0x40000, 0x80000, 0x100000, 0x200000,0x400000, 0x800000};</code></p>
-
-<p>那么插入一条新的docement时，如何计算这个合适的空间分配大小就要斟酌了。mongo采取两种办法，选择哪一种可以在创建collection的时候指定:</p>
-
-<p>1.Padding计算方式，这也是mongodb默认的方式。每次开辟空间的时候，采用公式 <code>实际大小*(1+paddingFactor)</code>，这个 paddingFactor一般比较小，在0.01-1之间，是根据插入document的大小自动变化的。可以在mongodb的shell里用<code>db.stats()</code>查看这个值。另外，repaire会把这个值置为1，compact操作可以手工指定这个值。</p>
-
-<p>2.采用<a href="http://docs.mongodb.org/manual/reference/command/collMod/">usePowerOf2Size</a>方式,这种方式和mongodb的磁盘空间分配比较相像，就是以2<sup>2</sup>, 2<sup>3</sup>, 2<sup>4</sup>&hellip;.大小增长，每次分配相近的空间大小</p>
-
-<p>网上有人评价道:这两种方式各有优劣，padding方式会为文档开辟更合适的大小，而且paddingFactor比较小，一般为0.01-0.09，不会浪费空间，文档更新小的话也不会移动文档位置。但是当大量更新和删除的时候，这种方式重复利用空间的能力就比较小，因为在deleteList中，不太容易找到合适的已删除文档，而且一旦更新就会又移动位置，磁盘重复利用率低，增长快，碎片多。相比之下，usePowerOf2Size方式，Mongodb每次都会开辟比文档大的多的空间，使用空间变多，但是更新和删除的容错率就会比较高，因为在deleteList列表中更容易找到合适的删除文档（每个列表中的文档大小都是相同的固定的），更新的时候也不会大量移动位置，磁盘重复利用率高，增长慢。</p>
-
-<h4>看起来这些策略很靠谱，但我实际用起来两种方法其实效果都不好，另外usePowerOf2Size的表现好一些，mongodb自2.6开始把这种分配方式变成默认的了。</h4>
-
-<h4>啰嗦了半天，我想说的就是, mongodb的存储受他的MMap内存管理所限，改来改去利用率没有本质提升。</h4>
-
-<h2>How to do?</h2>
-
-<h3>升级Tokumx</h3>
-
-<p>看看Tokumx的介绍:
-&ldquo;TokuMX is the MongoDB you know and love but built on top of Fractal Tree indexes from Tokutek.&rdquo;</p>
-
-<p>从上层看，Tokumx 可以看成是Mongodb的克隆，仅仅是底层的存储方式用它们的Fractal Tree算法替换了mongodb的存储而已。</p>
-
-<p>关于Fractal Tree，了解不多，从官方文档看，是对B-Tree的一个改进，通过对BTree的下级树叶保存子节点的缓冲区减少IO次数，另外可以用zlib等压缩算法存储数据</p>
-
-<p>存储方式的改变，也改变了MongoDB默认用的MMap内存管理算法，Tokumx采用自定义的内存管理，直接表现就是占用内存可以手工控制了(事实上也推荐你指定一个内存占用值)，不像MongoDB那样对内存的占用贪得无厌。得益于Fractal Tree，因为I/O的减少，分形树索引不会要求索引必须小于内存。即使超过内存的限制，TokuMX依然可以维持很高的写入性能。</p>
-
-<p>可以参考<a href="http://www.tokutek.com/2013/07/how-tokumx-gets-great-compression-for-mongodb/">这里</a>
-以及<a href="http://www.tokutek.com/2013/07/tokumx-fractal-treer-indexes-what-are-they/">这里</a>
-以及<a href="http://forms.tokutek.com/acton/attachment/6118/f-0039/1/-/-/-/-/lsm-vs-fractal.pdf">这里</a>
-以及<a href="http://www.tokutek.com/wp-content/uploads/2012/09/BenderKuszmaul-tutorial-xldb12.pdf">这里</a></p>
-
-<p>Tokumx宣称了很多很好的<a href="http://www.tokutek.com/products/tokumx-for-mongodb/">特性</a>:</p>
-
-<ul>
-<li>Benefits for Developers</li>
-<li>20x faster w/o tuning</li>
-<li>Transactions w/o tedious code</li>
-<li>Switch w/o changing your app</li>
-<li>Benefits for DevOps</li>
-<li>Use fewer servers; avoid upgrades</li>
-<li>90% compression = less flash</li>
-<li>Scalability w/o losing data integrity</li>
-</ul>
-
-
-<p>与MongoDB对比，官方宣称的限制有两个:</p>
-
-<ul>
-<li>不支持全文索引</li>
-<li>不支持GEO地理信息</li>
-</ul>
-
-
-<p>我们看中的就是他的磁盘占用，对这两个限制不Care。</p>
-
-<h2>Migrating data from MongoDB into TokuMX</h2>
-
-<p>怎样迁移，参考<a href="https://github.com/Tokutek/mongo/wiki">官方Wiki</a></p>
-
-<h2>How about</h2>
-
-<h4>将Mongodb(2.4.9) 迁移到TokuMx (1.5.0)，插入的document多是4K左右，原Mongodb数据库达到TB级别，感性体验:</h4>
-
-<ul>
-<li><p>数据存储占用空间大幅下降，说只用原来的1/10并不夸大</p></li>
-<li><p>每个collection及index都会存在单独的文件中,这样删除单表或索引后会立即释放占用的空间</p></li>
-<li><p>同一个表，删除老数据，插入新数据，空间重复利用率>80%</p></li>
-<li><p>写入速度没有20x的提升，但各种情况下，最差情况提升1倍是有的</p></li>
-<li><p>读性能没有下降</p></li>
-</ul>
-
-
-<h4>在我看来，与MongoDB相比，Tokumx的不足有以下几点:</h4>
-
-<ul>
-<li><p>稳定性; 因为采用了自定义的内存管理，不如MongoDB的MMap方式管理稳定，如果<code>cacheSize</code>设置不合适，而Tokumx的机器还有其他占用内存比较大的进程，会导致OOP，被系统杀掉的几率比较大。这要求我们设置<code>cacheSize</code>要斟酌一下。可以参考<a href="http://docs.tokutek.com/tokumx/tokumx-server-parameters.html">这里</a>; 顺便说一下，如果你的系统内存占用控制得当，是没有多大问题的。</p></li>
-<li><p>Tokumx的 Capped Collections性能比较渣，但是在我看来，存储方式的改变已经不需要这种方式了，所以这个不是问题。</p></li>
-<li><p>我没有找到从Tokumx重新迁回MongoDB的现成工具，将来要迁回来，可能要手工写工具自己导数据</p></li>
-<li><p>Mongodb升级,新Feature的支持，还有商业化的问题。Tokumx的官网上的blog有人问了这个问题，问Tokumx有没有同MongoDB Merge的计划，开发者做了回答，很详尽。</p>
-
-<p>  首先Tokumx的开发团队很小的，可能不会及时跟进Mongodb的新Feature移植</p>
-
-<p>  第二两家公司有不同的商业化考量，另外代码的Merge有一定工作量，未来不太可能合并</p>
-
-<p>  Tokumx只专注于存储性能的改进</p></li>
-</ul>
-
-
-<h4>更新:经过一段时间使用，发现了如下问题:</h4>
-
-<ul>
-<li><p>压缩后大量update是会带来大量碎片</p></li>
-<li><p>高写入性能会造成同步出现巨大延迟</p></li>
-<li><p>还是会莫名down掉，down掉几率还是要比Mongodb大</p></li>
-</ul>
-
-
-<h4>再次更新:经过实际数据测试，usePowerOf2Size的磁盘重复利用的确比较好</h4>
-
-<ul>
-<li><p>采用Padding 的存储方式，磁盘重复利用率为32%</p></li>
-<li><p>采用usePowerOf2Size 的存储方式，磁盘重复利用率为73%</p></li>
-<li><p>采用usePowerOf2Size 的存储方式比Padding 的存储方式，磁盘多占用10%</p></li>
-</ul>
-
-
-<p>所以假如有一年的数据，Padding的存储方式，storageSize为1T，设定过期时间是1年，那么第二年后，数据库增长为1.7T</p>
-
-<p>同样的数据，usePowerOf2Size 的存储方式，storageSize为1.1T，设定过期时间是1年，那么第二年后，数据库增长为1.5T</p>
-
-<p>这个数字会根据插入记录的离散度有所变化，但大概比例应该就是这样的。</p>
-
-<h4>总的来说，Tokumx还是只适合单机用啊，机器一多，各种毛病都来了~~~，大家如果分布式，等mongodb 2.8版本更靠谱一些。</h4>
-
-<h4>2015-05 更新:升级到 mongodb3.0.3，切换到 WiredTiger存储引擎 ，各方面工作良好，建议升级 。</h4>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -999,6 +1238,10 @@
       </li>
     
       <li class="post">
+        <a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
       </li>
     
@@ -1008,10 +1251,6 @@
     
       <li class="post">
         <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
       </li>
     
   </ul>
@@ -1074,7 +1313,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (2)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (6)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
@@ -1096,6 +1335,7 @@
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
 <li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/history/'>history (4)</a></li>
 <li class='category'><a href='/blog/categories/http/'>http (1)</a></li>
 <li class='category'><a href='/blog/categories/iptables-/'>iptables, (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>

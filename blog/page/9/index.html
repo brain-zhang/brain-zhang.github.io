@@ -80,6 +80,680 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/09/17/c-dynamic-array-in-stack/">C:dynamic Array in Stack</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:42:25+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/c-dynamic-array-in-stack/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/c-dynamic-array-in-stack/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
+</span><span class='line'>{
+</span><span class='line'>    int x = 12;
+</span><span class='line'>    char pz[x];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>C99是支持的。在gcc4+以上的版本里测试OK。</p>
+
+<p>另外stackoverflow上提到C++不支持动态数组，在g++4.4.7里面试了一下，也是可以的。</p>
+
+<p>不是我不明白，这世界变化快。</p>
+
+<p>Out好多好多年了…….</p>
+
+<p>参考:
+<a href="http://stackoverflow.com/questions/1204521/dynamic-array-in-stack">http://stackoverflow.com/questions/1204521/dynamic-array-in-stack</a> <a href="http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed">http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/">svn1.7+ Zsh报错</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:40:14+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。</p>
+
+<p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>
+
+<p>修改方法:</p>
+
+<p>打开文件：/usr/share/zsh/4.3.11/functions/_subversion</p>
+
+<p>找到35行左右</p>
+
+<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:arg:)#/(--$match[2])-    $match[1]$match[3] (-$match[1])--$match[2]$match[3]}</code>
+改为</p>
+
+<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}</code></p>
+
+<p>参考资料：
+<a href="http://www.zsh.org/mla/workers/2011/msg01448.html">http://www.zsh.org/mla/workers/2011/msg01448.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/">自定义Django的密码策略</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:38:03+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Django 从1.4 版本开始，包含了一些安全方面的重要提升。其中一个是使用 PBKDF2 密码加密算法代替了 SHA1 。另外一个特性是你可以添加自己的密码加密方法。</p>
+
+<p>Django 会使用你提供的第一个密码加密方法（在你的 setting.py 文件里要至少有一个方法）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
+</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+</span><span class='line'>    'django.contrib.auth.hashers.BCryptPasswordHasher',
+</span><span class='line'>    'django.contrib.auth.hashers.SHA1PasswordHasher', # Insecure Hashes
+</span><span class='line'>    'django.contrib.auth.hashers.MD5PasswordHasher', # Insecure Hashes
+</span><span class='line'>    'django.contrib.auth.hashers.CryptPasswordHasher', # Insecure Hashes
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但Django默认生成的密码策略往往会带上 md5_xxx, pbkdf2_xxx，同其他系统整合的时候，一般是没有这些前缀的，这就需要我们自定义一个密码策略。</p>
+
+<p>下面介绍下如何定义一个简单的 <code>md5(md5(password, salt))</code> 密码策略。</p>
+
+<h3>step1</h3>
+
+<p>建立一个app，django-admin.py startapp ownmd5</p>
+
+<h3>step2</h3>
+
+<p>在 ownmd5中 建立 hashers.py 文件，加入 OwnMd5PasswordHasher 类</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import hashlib
+</span><span class='line'>from django.utils.translation import ugettext_noop as _
+</span><span class='line'>from django.utils.datastructures import SortedDict
+</span><span class='line'>from django.utils.crypto import constant_time_compare
+</span><span class='line'>from django.utils.encoding import force_bytes, force_str, force_text
+</span><span class='line'>from django.contrib.auth.hashers import BasePasswordHasher, mask_hash
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>class OwnMD5PasswordHasher(BasePasswordHasher):
+</span><span class='line'>    """
+</span><span class='line'>    The Salted MD5 password hashing algorithm (not recommended)
+</span><span class='line'>    """
+</span><span class='line'>    algorithm = "ownmd5"
+</span><span class='line'>
+</span><span class='line'>    def encode(self, password, salt):
+</span><span class='line'>        assert password is not None
+</span><span class='line'>        assert salt and '$' not in salt
+</span><span class='line'>        hash = hashlib.md5(hashlib.md5(force_bytes(salt + password)).hexdigest()).hexdigest()
+</span><span class='line'>        return hash
+</span><span class='line'>
+</span><span class='line'>    def verify(self, password, encoded, salt):
+</span><span class='line'>        encoded_2 = self.encode(password, salt)
+</span><span class='line'>        return constant_time_compare(encoded, encoded_2)
+</span><span class='line'>
+</span><span class='line'>    def safe_summary(self, encoded, salt):
+</span><span class='line'>        return SortedDict([
+</span><span class='line'>            (_('algorithm'), self.algorithm),
+</span><span class='line'>            (_('salt'), mask_hash(salt, show=4)),
+</span><span class='line'>            (_('hash'), mask_hash(hash)),
+</span><span class='line'>        ])</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>step3</h3>
+
+<p>将 OwnMD5PasswordHasher 加入到settings.py 中:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
+</span><span class='line'>    'ownmd5.hashers.OwnMD5PasswordHasher',
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样，默认的user及auth模块都会采用自定义的md5算法。</p>
+
+<p>参考:</p>
+
+<p><a href="https://docs.djangoproject.com/en/1.6/topics/auth/passwords/">https://docs.djangoproject.com/en/1.6/topics/auth/passwords/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/17/auto-reload-modules-in-django-shell/">Auto Reload Modules in Django Shell</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:36:01+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/auto-reload-modules-in-django-shell/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/auto-reload-modules-in-django-shell/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>python manage.py shell</code></p>
+
+<p>太常用了，但是每次修改模块代码后，总要 exit—>reset 才能重新load一遍代码，实在是不爽。</p>
+
+<p>也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。</p>
+
+<p>最近发现一个扩展，django-externsions:</p>
+
+<p><a href="https://github.com/django-extensions/django-extensions">https://github.com/django-extensions/django-extensions</a></p>
+
+<p>装上好用不少，貌似还比较靠谱，推荐之。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/">Vim 对选中范围内容批量替换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:31:22+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>vim可以很方便的用 %s/src/dst/g 批量替换。</p>
+
+<p>但是我想对ctrl+v 块选择的内容做批量替换就麻烦一点了，每次都得打一串很长很长的脚本命令。</p>
+
+<p>发现的一个插件做这个事,vis:</p>
+
+<p><a href="https://github.com/vim-scripts/vis">https://github.com/vim-scripts/vis</a></p>
+
+<p>支持两个命令模式:B 和 S</p>
+
+<p><code>B</code> 在选定区域内执行命令</p>
+
+<p>ctrl+v选中内容后，使用<code>:B cmd</code>，此时命令栏的状态应该是<code>:'&lt;,'&gt;B cmd</code>这样。</p>
+
+<p>例如替换内容, <code>ctrl-v</code>  <code>:B s/pattern/becomes/</code></p>
+
+<p>执行外部命令，<code>ctrl-v</code>  <code>:B !sort</code></p>
+
+<p><code>S</code> 在选定区域内查找内容</p>
+
+<p><code>ctrl+v</code>选中内容后，使用<code>:S pattern</code>，此时命令栏的状态应该是<code>:'&lt;,'&gt;S pattern</code>这样。</p>
+
+<p>解脱了….</p>
+
+<p>记一下免得又忘掉。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/">Vim 命令行操作小技巧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:30:15+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
+
+<p>1.查看历史指令并执行</p>
+
+<p>2.复制寄存器中的内容
+1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。</p>
+
+<p>2 使用寄存器，一般复制时使用&#8221; + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
+
+<h2>vim tooltips</h2>
+
+<h4>Display CRLF as ^M:</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:e ++ff=unix</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/">Rake Gen Deploy Rejected in Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-16T11:55:56+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Octopress老版本，例如我用的，在一台新机器上check 下来Repo，重建source分支时，会报rejected错误。</p>
+
+<p>怎么pull也不管用，解决办法参考这里:</p>
+
+<p><a href="http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress">http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress</a></p>
+
+<h3>悲剧提示，我后来发现有一段blog被revert掉了，诡异的是在github上面的提交记录也没了，要慎用，要做好备份。</h3>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/">从MongoDB迁移到TokuMx</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-16T08:36:30+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>WHY:</h2>
+
+<p>原因无它，MongoDB的 BSON格式带来的磁盘空间消耗实在太严重了,将mongodb的数据库文件gzip一把，一般能到原大小的1/10。</p>
+
+<h3>mongodb提出的解决办法有以下几个:</h3>
+
+<h4><a href="http://docs.mongodb.org/manual/reference/method/db.repairDatabase/">定期repaire或Compact</a>，但是repaire带来的性能消耗实在太大，repaire或compact的时候插入性能基本上就是渣了，另外100G级别的数据库文件需要数小时才能压缩完毕。</h4>
+
+<h4>采用<a href="http://docs.mongodb.org/manual/core/capped-collections/">Capped Collections</a>，这样在创建collections的时候可以指定数据库文件能占用的最大空间大小及单个document大小，当存储数据超过这个大小的时候会自动删除最老的数据，空出空间来。但这样做弊端就是你不知道会有多少数据被删掉，另外需要你对这个表插入的document大小心中有数。</h4>
+
+<h4>建立自己的清理机制，定期把无用的数据清理出去。这样虽然比Capped Collections可控制，但是对删除掉的磁盘空间利用率进一步下降了，很多时候，你删掉一半数据，能重新利用的空间可能也就10%。这是由MongoDB对于单个Document的空间分配机制决定的。</h4>
+
+<h4>最后一种方法就是合理规划，分库分表，然后在mongodb.conf里面设置选项:<code>directoryperdb = true</code>，这样mongo每个数据库都会建立一个文件夹,这样删除单库的时候数据文件就删干净了，空间自然清理出来了，这个选项我强烈推荐打开，即使你没有空间上的困扰，打开后也对数据库管理维护由不小的方便。当然指望这种办法删数据局限性就太大了。</h4>
+
+<p>详细说一下mongo对于删除空间的重新利用方法:</p>
+
+<p>1.首先mongodb删除一个document的时候并不是物理上真正删除数据，而是维护一个deleteList链表数组，每次删除就在链表里面做一个标记。怎么表示这次删除的空间大小范围呢,如图示:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> ---------------------------------------
+</span><span class='line'> |&lt;32 | 32-64| 64-128|....| &lt; 4M| 4M-8M| --deleteList
+</span><span class='line'> ---------------------------------------
+</span><span class='line'>  |       |      |     |     |      |
+</span><span class='line'>  |       |      |     |     |      |
+</span><span class='line'> +-+     +-+    +-+   +-+   +-+    +-+
+</span><span class='line'> +-+     +-+    +-+   +-+   +-+    +-+
+</span><span class='line'>         +-+    +-+   +-+   +-+    +-+
+</span><span class='line'>                +-+   +-+   +-+    +-+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.对每一个被删除的docment计算其大小，然后插入到合适的链表中去，这样下次插入新数据的时候，先计算合适的空间大小，再在这个链表数组中找到合适的空闲空间指针地址，插入数据。如果没有合适的，再去开辟新空间。</p>
+
+<p>3.这个链表数组每个大小区间是代码里写死的，可参见<code>namespace_detail.h</code>:
+<code>int bucketSizes[] = { 32, 64, 128, 256, 0x200, 0x400, 0x800, 0x1000, 0x2000, 0x4000, 0x8000, 0x10000, 0x20000, 0x40000, 0x80000, 0x100000, 0x200000,0x400000, 0x800000};</code></p>
+
+<p>那么插入一条新的docement时，如何计算这个合适的空间分配大小就要斟酌了。mongo采取两种办法，选择哪一种可以在创建collection的时候指定:</p>
+
+<p>1.Padding计算方式，这也是mongodb默认的方式。每次开辟空间的时候，采用公式 <code>实际大小*(1+paddingFactor)</code>，这个 paddingFactor一般比较小，在0.01-1之间，是根据插入document的大小自动变化的。可以在mongodb的shell里用<code>db.stats()</code>查看这个值。另外，repaire会把这个值置为1，compact操作可以手工指定这个值。</p>
+
+<p>2.采用<a href="http://docs.mongodb.org/manual/reference/command/collMod/">usePowerOf2Size</a>方式,这种方式和mongodb的磁盘空间分配比较相像，就是以2<sup>2</sup>, 2<sup>3</sup>, 2<sup>4</sup>&hellip;.大小增长，每次分配相近的空间大小</p>
+
+<p>网上有人评价道:这两种方式各有优劣，padding方式会为文档开辟更合适的大小，而且paddingFactor比较小，一般为0.01-0.09，不会浪费空间，文档更新小的话也不会移动文档位置。但是当大量更新和删除的时候，这种方式重复利用空间的能力就比较小，因为在deleteList中，不太容易找到合适的已删除文档，而且一旦更新就会又移动位置，磁盘重复利用率低，增长快，碎片多。相比之下，usePowerOf2Size方式，Mongodb每次都会开辟比文档大的多的空间，使用空间变多，但是更新和删除的容错率就会比较高，因为在deleteList列表中更容易找到合适的删除文档（每个列表中的文档大小都是相同的固定的），更新的时候也不会大量移动位置，磁盘重复利用率高，增长慢。</p>
+
+<h4>看起来这些策略很靠谱，但我实际用起来两种方法其实效果都不好，另外usePowerOf2Size的表现好一些，mongodb自2.6开始把这种分配方式变成默认的了。</h4>
+
+<h4>啰嗦了半天，我想说的就是, mongodb的存储受他的MMap内存管理所限，改来改去利用率没有本质提升。</h4>
+
+<h2>How to do?</h2>
+
+<h3>升级Tokumx</h3>
+
+<p>看看Tokumx的介绍:
+&ldquo;TokuMX is the MongoDB you know and love but built on top of Fractal Tree indexes from Tokutek.&rdquo;</p>
+
+<p>从上层看，Tokumx 可以看成是Mongodb的克隆，仅仅是底层的存储方式用它们的Fractal Tree算法替换了mongodb的存储而已。</p>
+
+<p>关于Fractal Tree，了解不多，从官方文档看，是对B-Tree的一个改进，通过对BTree的下级树叶保存子节点的缓冲区减少IO次数，另外可以用zlib等压缩算法存储数据</p>
+
+<p>存储方式的改变，也改变了MongoDB默认用的MMap内存管理算法，Tokumx采用自定义的内存管理，直接表现就是占用内存可以手工控制了(事实上也推荐你指定一个内存占用值)，不像MongoDB那样对内存的占用贪得无厌。得益于Fractal Tree，因为I/O的减少，分形树索引不会要求索引必须小于内存。即使超过内存的限制，TokuMX依然可以维持很高的写入性能。</p>
+
+<p>可以参考<a href="http://www.tokutek.com/2013/07/how-tokumx-gets-great-compression-for-mongodb/">这里</a>
+以及<a href="http://www.tokutek.com/2013/07/tokumx-fractal-treer-indexes-what-are-they/">这里</a>
+以及<a href="http://forms.tokutek.com/acton/attachment/6118/f-0039/1/-/-/-/-/lsm-vs-fractal.pdf">这里</a>
+以及<a href="http://www.tokutek.com/wp-content/uploads/2012/09/BenderKuszmaul-tutorial-xldb12.pdf">这里</a></p>
+
+<p>Tokumx宣称了很多很好的<a href="http://www.tokutek.com/products/tokumx-for-mongodb/">特性</a>:</p>
+
+<ul>
+<li>Benefits for Developers</li>
+<li>20x faster w/o tuning</li>
+<li>Transactions w/o tedious code</li>
+<li>Switch w/o changing your app</li>
+<li>Benefits for DevOps</li>
+<li>Use fewer servers; avoid upgrades</li>
+<li>90% compression = less flash</li>
+<li>Scalability w/o losing data integrity</li>
+</ul>
+
+
+<p>与MongoDB对比，官方宣称的限制有两个:</p>
+
+<ul>
+<li>不支持全文索引</li>
+<li>不支持GEO地理信息</li>
+</ul>
+
+
+<p>我们看中的就是他的磁盘占用，对这两个限制不Care。</p>
+
+<h2>Migrating data from MongoDB into TokuMX</h2>
+
+<p>怎样迁移，参考<a href="https://github.com/Tokutek/mongo/wiki">官方Wiki</a></p>
+
+<h2>How about</h2>
+
+<h4>将Mongodb(2.4.9) 迁移到TokuMx (1.5.0)，插入的document多是4K左右，原Mongodb数据库达到TB级别，感性体验:</h4>
+
+<ul>
+<li><p>数据存储占用空间大幅下降，说只用原来的1/10并不夸大</p></li>
+<li><p>每个collection及index都会存在单独的文件中,这样删除单表或索引后会立即释放占用的空间</p></li>
+<li><p>同一个表，删除老数据，插入新数据，空间重复利用率>80%</p></li>
+<li><p>写入速度没有20x的提升，但各种情况下，最差情况提升1倍是有的</p></li>
+<li><p>读性能没有下降</p></li>
+</ul>
+
+
+<h4>在我看来，与MongoDB相比，Tokumx的不足有以下几点:</h4>
+
+<ul>
+<li><p>稳定性; 因为采用了自定义的内存管理，不如MongoDB的MMap方式管理稳定，如果<code>cacheSize</code>设置不合适，而Tokumx的机器还有其他占用内存比较大的进程，会导致OOP，被系统杀掉的几率比较大。这要求我们设置<code>cacheSize</code>要斟酌一下。可以参考<a href="http://docs.tokutek.com/tokumx/tokumx-server-parameters.html">这里</a>; 顺便说一下，如果你的系统内存占用控制得当，是没有多大问题的。</p></li>
+<li><p>Tokumx的 Capped Collections性能比较渣，但是在我看来，存储方式的改变已经不需要这种方式了，所以这个不是问题。</p></li>
+<li><p>我没有找到从Tokumx重新迁回MongoDB的现成工具，将来要迁回来，可能要手工写工具自己导数据</p></li>
+<li><p>Mongodb升级,新Feature的支持，还有商业化的问题。Tokumx的官网上的blog有人问了这个问题，问Tokumx有没有同MongoDB Merge的计划，开发者做了回答，很详尽。</p>
+
+<p>  首先Tokumx的开发团队很小的，可能不会及时跟进Mongodb的新Feature移植</p>
+
+<p>  第二两家公司有不同的商业化考量，另外代码的Merge有一定工作量，未来不太可能合并</p>
+
+<p>  Tokumx只专注于存储性能的改进</p></li>
+</ul>
+
+
+<h4>更新:经过一段时间使用，发现了如下问题:</h4>
+
+<ul>
+<li><p>压缩后大量update是会带来大量碎片</p></li>
+<li><p>高写入性能会造成同步出现巨大延迟</p></li>
+<li><p>还是会莫名down掉，down掉几率还是要比Mongodb大</p></li>
+</ul>
+
+
+<h4>再次更新:经过实际数据测试，usePowerOf2Size的磁盘重复利用的确比较好</h4>
+
+<ul>
+<li><p>采用Padding 的存储方式，磁盘重复利用率为32%</p></li>
+<li><p>采用usePowerOf2Size 的存储方式，磁盘重复利用率为73%</p></li>
+<li><p>采用usePowerOf2Size 的存储方式比Padding 的存储方式，磁盘多占用10%</p></li>
+</ul>
+
+
+<p>所以假如有一年的数据，Padding的存储方式，storageSize为1T，设定过期时间是1年，那么第二年后，数据库增长为1.7T</p>
+
+<p>同样的数据，usePowerOf2Size 的存储方式，storageSize为1.1T，设定过期时间是1年，那么第二年后，数据库增长为1.5T</p>
+
+<p>这个数字会根据插入记录的离散度有所变化，但大概比例应该就是这样的。</p>
+
+<h4>总的来说，Tokumx还是只适合单机用啊，机器一多，各种毛病都来了~~~，大家如果分布式，等mongodb 2.8版本更靠谱一些。</h4>
+
+<h4>2015-05 更新:升级到 mongodb3.0.3，切换到 WiredTiger存储引擎 ，各方面工作良好，建议升级 。</h4>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Export Json by Mongoexport</a></h1>
     
     
@@ -198,506 +872,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/">为centos添加EPEL Repo</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-14T11:04:58+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/03/14/wei-centostian-jia-epel-repo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>centos默认的源软件不是很全，大部分时候需要添加EPEL源。</p>
-
-<h2>centos5.x</h2>
-
-<pre><code>wget http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
-wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
-sudo rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
-</code></pre>
-
-<h2>centos6.x</h2>
-
-<pre><code>wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
-</code></pre>
-
-<h2>添加完毕后可以到/etc/yum.repos.d里面看一下</h2>
-
-<pre><code>$ ls -1 /etc/yum.repos.d/epel* /etc/yum.repos.d/remi.repo
-/etc/yum.repos.d/epel.repo
-/etc/yum.repos.d/epel-testing.repo
-/etc/yum.repos.d/remi.repo
-</code></pre>
-
-<h2>设置remi repository</h2>
-
-<p>remi repository更新很快，如果你很需要htopxxx最新版本这样的话最好打开</p>
-
-<pre><code>sudo vim /etc/yum.repos.d/remi.repo
-</code></pre>
-
-<p>编辑 [remi]段:</p>
-
-<pre><code>name=Les RPM de remi pour Enterprise Linux $releasever - $basearch
-#baseurl=http://rpms.famillecollet.com/enterprise/$releasever/remi/$basearch/
-mirrorlist=http://rpms.famillecollet.com/enterprise/$releasever/remi/mirror
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-failovermethod=priority
-</code></pre>
-
-<h2>开发工具套装</h2>
-
-<pre><code>yum groupinstall "Development Tools"
-</code></pre>
-
-<h2>SCL源</h2>
-
-<p><a href="http://wiki.centos.org/AdditionalResources/Repositories/SCL">http://wiki.centos.org/AdditionalResources/Repositories/SCL</a></p>
-
-<h2>解决仓库安装失败的问题</h2>
-
-<p>有时候某个软件可以Search，但安装一直报错:</p>
-
-<pre><code>http://download.fedoraproject.org/pu...ry.sqlite.bz2: [Errno 12] Timeout: &lt;urlopen error timed out&gt;
-Trying other mirror.
-</code></pre>
-
-<p>最简单的修复办法就是重建repos</p>
-
-<pre><code>yum clean all
-rpm --rebuilddb
-yum update
-</code></pre>
-
-<p>90%的情况会奏效</p>
-
-<h2>yum只下载安装包</h2>
-
-<pre><code>[RHEL5]
-yum -y install yum-downloadonly
-yum install mongodb-org --downloadonly
-
-[RHEL6]
-yum install yum-plugin-downloadonly
-yum install --downloadonly --downloaddir=. mongodb-org
-</code></pre>
-
-<h2>yum提取已经安装的rpm包</h2>
-
-<pre><code>yum install yum-utils
-yumdownloader &lt;package&gt;
-yumdownloader &lt;package&gt; --resolve
-</code></pre>
-
-<h2>yum升级kernel</h2>
-
-<p><a href="http://elrepo.org/tiki/kernel-ml">http://elrepo.org/tiki/kernel-ml</a></p>
-
-<h2>elrepo url</h2>
-
-<p><a href="http://elrepo.org/tiki/tiki-index.php">http://elrepo.org/tiki/tiki-index.php</a></p>
-
-<p><a href="http://elrepo.org/linux/kernel/">http://elrepo.org/linux/kernel/</a></p>
-
-<p><a href="http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/">http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/</a></p>
-
-<h2>mongodb RPM repo</h2>
-
-<p><a href="https://repo.mongodb.org/yum/redhat">https://repo.mongodb.org/yum/redhat</a></p>
-
-<h2>163镜像源</h2>
-
-<p><a href="http://mirrors.163.com/.help/centos.html">http://mirrors.163.com/.help/centos.html</a></p>
-
-<h2>rpm 常用命令</h2>
-
-<ul>
-<li>重装某个包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -ivh --replacepkgs xxx.rpm</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>修改prefix</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qp --queryformat "%{defaultprefix}\n" &lt;packagefile&gt;
-</span><span class='line'>rpm -ivh --prefix &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个包包含的文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -ql &lt;packagefile&gt;
-</span><span class='line'>rpm -qs &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个包包含的配置文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qc &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个包安装时要执行的脚本文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -q --scripts &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个文件属于哪个包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个可执行文件的配置文件和log文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qcf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>寻找最近安装的包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find /bin -type f -mtime -14 | rpm -qF
-</span><span class='line'>rpm -qa --queryformat '%{installtime} %{name}-%{version}-%{release} %{installtime:date}\n' | sort -nr +1 | sed -e 's/^[^ ]* //'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>寻找最大的安装包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qa --queryformat '%{name-%{version}-%{release} %{size}\n' | sort -nr +1}'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>解压一个rpm文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm2cpio xxx.rpm | cpio -div</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">批量删除mongo Collections</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-27T09:24:04+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>mongodb没有批量删除collecton的命令，平常建立了很多a1,a2,a3的表删除有些麻烦，写个小脚本方便些。</p>
-
-<pre><code>mongorm.sh -d database -c a*
-</code></pre>
-
-<p>就很方便删除了。</p>
-
-<pre><code>#!/bin/bash
-# remove mongodb's collections with command "mongn rm app*"
-# Usage `mongorm &lt;-c collections*&gt; &lt;-d dababase&gt;`
-
-E_BADARGS=85
-E_NOFILE=86
-
-DATABASE=''
-COLLECTIONS=''
-
-while getopts "c:d:h" arg
-do
-        case $arg in
-             c)
-                echo "-c $OPTARG"
-                COLLECTIONS=$OPTARG
-                ;;
-             d)
-                echo "-d $OPTARG"
-                DATABASE=$OPTARG
-                ;;
-             h)
-                 echo "mongorm &lt;-d database&gt; &lt;-c collections&gt;"
-                 echo "for exp:"
-                 echo "        mongorm -d bpc -c app*"
-                 ;;
-             ?)
-                echo "unkonw argument"
-        exit 1
-        ;;
-        esac
-done
-
-if [[ -z "$DATABASE" ]]
-    # Correct number of arguments passed to script?
-then
-    echo 'Usage: -d database'
-    echo 'please do mongorm.sh -h to get more info'
-    exit $E_BADARGS
-fi
-
-if [[ -z "$COLLECTIONS" ]]
-    # Correct number of arguments passed to script?
-then
-    echo 'Usage: -c collections'
-    echo 'please do mongorm.sh -h to get more info'
-    exit $E_BADARGS
-fi
-
-mongojs_rm_function=`cat &lt;&lt; EOF
-db.getCollectionNames().forEach(function(c) {
-    if(c.match("$COLLECTIONS")) {
-                db.getCollection(c).drop();
-                    }
-                  });
-EOF
-`
-echo $mongojs_rm_function&gt;remove.js
-
-mongo 127.0.0.1:27017/$DATABASE remove.js
-rm -rf remove.js
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">解决tmux下vim Colorscheme失效的问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-25T08:05:48+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在tmux(v1.6)默认配置下，vim的主题solarized, molokai等颜色设置都会失效</p>
-
-<p>这是由于tmux term设置的问题。</p>
-
-<p>需要在~/.bashrc中添加:
-<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
-
-<p>再在~/.tmux.conf中添加:
-<code>set -g default-terminal "xterm"</code></p>
-
-<p>如果是osx，可能在~/.bashrc要添加:
-<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
-
-<p>在~/.tmux.conf中添加:
-<code>set -g default-terminal "screen-256color"</code></p>
-
-<p>最后执行
-<code>$ source ~/.bashrc</code></p>
-
-<p>就OK了。</p>
-
-<p>参考:</p>
-
-<p><a href="http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode">http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode</a>
-<a href="http://rhnh.net/2011/08/20/vim-and-tmux-on-osx">http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/22/shuang-meng-ji/">双梦记</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-22T16:45:16+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
-        
-           | <a href="/blog/2014/02/22/shuang-meng-ji/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/02/22/shuang-meng-ji/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>阿拉伯历史学家艾尔一伊萨基叙说了下面的故事：</p>
-
-<p>“据可靠人士说（不过唯有真主才是无所不知、无所不能、慈悲为怀、明察秋毫的），开罗有个家资巨万的人，他仗义疏财，散尽家产，只剩下祖传的房屋，不得不干活糊口。他工作十分辛苦，一晚累得在他园子里的无花果树下睡着了，他梦见一个衣服湿透的人从嘴里掏出一枚金币，对他说：‘你的好运在波斯的伊斯法罕；去找吧。’他第二天清晨醒来后便踏上漫长的旅程，经受了沙漠、海洋、海盗、偶像崇拜者、河流、猛兽和人的磨难艰险。他终于到达伊斯法罕，刚进城天色已晚，便在一座清真寺的天井里躺着过夜。清真寺旁边有一家民宅，由于万能的神的安排，一伙强盗借道清真寺，闯进民宅，睡梦中的人被强盗的喧闹吵醒，高声呼救。邻舍也呼喊起来，该区巡夜士兵的队长赶来，强盗们便翻过屋顶逃跑。队长吩咐搜查寺院，发现了从开罗来的人，士兵们用竹杖把他打得死去活来。两天后，他在监狱里苏醒。队长把他提去审问：‘你是谁，从哪里来？’那人回道：‘我来自有名的城市开罗，我名叫穆罕默德一艾尔一马格莱比。’队长追问：‘你来波斯干什么？’那人如实说：‘有个人托梦给我，叫我来伊斯法罕，说我的好运在这里。如今我到了伊斯法罕，发现答应我的好运却是你劈头盖脸给我的一顿好打。’</p>
-
-<p>“队长听了这番话，笑得大牙都露了出来，最后说：‘鲁莽轻信的人啊，我三次梦见开罗城的一所房子，房子后面有个日晷，日晷后面有棵无花果树，无花果树后面有个喷泉，喷泉底下埋着宝藏。我根本不信那个乱梦。而你这个骡子与魔鬼生的傻瓜啊，居然相信一个梦，跑了这么多城市。别让我在伊斯法罕再见到你了。拿几枚钱币走吧。’</p>
-
-<p>“那人拿了钱，回到自己的国家，他在自家园子的喷泉底下（也就是队长梦见的地点）挖出了宝藏。神用这种方式保佑了他，给了他好报和祝福。在冥冥中主宰一切的神是慷慨的。”</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/22/hello/">Hello</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-22T15:45:34+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
-        
-           | <a href="/blog/2014/02/22/hello/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/02/22/hello/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Seashore washed by suds and foam,</p>
-
-<p>Been here so long got to calling it home．</p>
-
-<p>let&rsquo;s sail.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/10/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -716,6 +893,10 @@ rm -rf remove.js
       </li>
     
       <li class="post">
+        <a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a>
       </li>
     
@@ -725,10 +906,6 @@ rm -rf remove.js
     
       <li class="post">
         <a href="/blog/2017/12/04/game-theory/">Game Theory</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a>
       </li>
     
   </ul>
@@ -791,7 +968,7 @@ rm -rf remove.js
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (2)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (6)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
@@ -813,6 +990,7 @@ rm -rf remove.js
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/grunt/'>grunt (1)</a></li>
 <li class='category'><a href='/blog/categories/hardware/'>hardware (1)</a></li>
+<li class='category'><a href='/blog/categories/history/'>history (4)</a></li>
 <li class='category'><a href='/blog/categories/http/'>http (1)</a></li>
 <li class='category'><a href='/blog/categories/iptables-/'>iptables, (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript-pattern/'>javascript_pattern (3)</a></li>
