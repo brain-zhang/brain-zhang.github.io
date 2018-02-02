@@ -4,7 +4,7 @@
   <title><![CDATA[memoryboxes blog]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-02-02T22:31:16+08:00</updated>
+  <updated>2018-02-02T22:33:00+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Coincheck被盗5亿个XEM]]></title>
+    <link href="http://happy123.me/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/"/>
+    <updated>2018-02-02T21:16:43+08:00</updated>
+    <id>http://happy123.me/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem</id>
+    <content type="html"><![CDATA[<p>2018-01-26,Coincheck 被盗 5 亿个 XEM, 这个数目估计是史上最大了，hacker 的账户地址是这里:</p>
+
+<p><a href="http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG">http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG</a></p>
+
+<p>按照 coinmarketcap 的市场价来算，现在 5 亿个 XEM 价值大概 4 亿美元</p>
+
+<p>另外可能是 coincheck 自己的防护，他们的 Ripple 钱包也有一笔大额的转账:</p>
+
+<p><a href="https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8">https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8</a></p>
+
+<p>有将近 1 亿个 xrp 转账到了一个地址，这个地址貌似有 30 亿个 xrp.</p>
+
+<p>这笔转账可能是 coincheck 正在审计，不是 hack 行为。</p>
+
+<p>除去 MTGOX 那次，Coincheck 的这次悲剧不论数量还是市场价格估计都是史上最强了</p>
+
+<p>2018-01-28, Coincheck公布了补偿措施</p>
+
+<p><a href="http://corporate.coincheck.com/2018/01/28/30.html">http://corporate.coincheck.com/2018/01/28/30.html</a></p>
+
+<p>共损失 52300,0000 个 XEM，按照被偷时的币值返还，每个币 88 日元</p>
+
+<p>额，貌似总额超过 25 亿人民币了</p>
+
+<p>最奇怪的是，直到2018-02-01，市场才起了反应，开始下跌。</p>
+
+<p>这个赌博的场子越来越让人看不懂了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Block Chain White Papers]]></title>
@@ -1313,27 +1348,6 @@ RAID Level : Primary-1, Secondary-3, RAID Level Qualifier-0 RAID 10
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -AdpSetProp RebuildRate -30 -a0</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bitfinex演出的第十大悲剧]]></title>
-    <link href="http://happy123.me/blog/2016/08/03/bitfinexyan-chu-de-di-shi-da-bei-ju/"/>
-    <updated>2016-08-03T07:52:17+08:00</updated>
-    <id>http://happy123.me/blog/2016/08/03/bitfinexyan-chu-de-di-shi-da-bei-ju</id>
-    <content type="html"><![CDATA[<p>比特币扩容争论貌似刚刚出现曙光，但Bitfinex不甘寂寞，倾情出演比特币史上的又一出悲剧。
-{:.info}</p>
-
-<!-- more -->
-
-
-<p>2016-08-03，<a href="https://www.reddit.com/r/Bitcoin/comments/4vupa6/p2shinfo_shows_movement_out_of_multisig_wallets/d61oe33">reddit</a>上面已经有人确认，Bitfinex被盗119756个btc.</p>
-
-<p>可悲的是Bitfinex没有使用冷钱包。</p>
-
-<p>受此影响，币价大跌超过30%。</p>
-
-<p>比特币世界中总不缺黑天鹅，后人哀之而不鉴之。这些悲剧会一直重演下去。</p>
 ]]></content>
   </entry>
   
