@@ -5,18 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>C:dynamic Array in Stack - memoryboxes blog</title>
+  <title>央行抵押补充贷款PSL浅析 - memoryboxes blog</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。 1
-2
-3
-4
-5
-int main()
-{ int x = 12; char pz[x];
-} C99是支持的。在gcc4+以上的版本里测试OK。 另外stackoverflow上提到C++ &hellip;">
+  <meta name="description" content="看到一则新闻，山东取消了货币化安置奖励，美其名曰控制房价，其实想想就明白是政府余量不足了，房价飞涨，补贴不能。 老家这里的棚户改造轰轰烈烈搞了两年了，货币化安置的效果非常显著，周边的房价一个劲往上涨。我就有点纳闷了，这个货币化安置的钱是从哪儿来的呢？ 央行在2014年推出的PSL（抵押补充贷款） &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,7 +18,7 @@ int main()
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2014/09/17/c-dynamic-array-in-stack">
+  <link rel="canonical" href="http://happy123.me/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="memoryboxes blog" type="application/atom+xml">
@@ -84,7 +77,7 @@ int main()
   
   <header>
     
-      <h1 class="entry-title">C:dynamic Array in Stack</h1>
+      <h1 class="entry-title">央行抵押补充贷款PSL浅析</h1>
     
     
       <p class="meta">
@@ -100,7 +93,7 @@ int main()
   
 
 
-<time datetime="2014-09-17T08:42:25+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+<time datetime="2018-02-02T22:38:15+08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -110,30 +103,52 @@ int main()
   </header>
 
 
-<div class="entry-content"><p>以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。</p>
+<div class="entry-content"><p>看到一则新闻，山东取消了货币化安置奖励，美其名曰控制房价，其实想想就明白是政府余量不足了，房价飞涨，补贴不能。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
-</span><span class='line'>{
-</span><span class='line'>    int x = 12;
-</span><span class='line'>    char pz[x];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<p>老家这里的棚户改造轰轰烈烈搞了两年了，货币化安置的效果非常显著，周边的房价一个劲往上涨。我就有点纳闷了，这个货币化安置的钱是从哪儿来的呢？</p>
+
+<!-- more -->
 
 
-<p>C99是支持的。在gcc4+以上的版本里测试OK。</p>
+<p>央行在2014年推出的PSL（抵押补充贷款）创新性政策工具，部分解决了棚改货币化安置的资金问题。央行通过PSL向国开行发放贷款，国开行通过棚改专项贷款向地方政府发放贷款，地方政府通过货币化安置向棚户区居民发放补偿款，地方政府拆迁卖地后偿还国开行贷款，国开行偿还央行贷款，形成资金流的闭环。</p>
 
-<p>另外stackoverflow上提到C++不支持动态数组，在g++4.4.7里面试了一下，也是可以的。</p>
+<p>我查了一下资料，问题来了:</p>
 
-<p>不是我不明白，这世界变化快。</p>
+<ul>
+<li><p>开行是把什么抵押给央行了？是只能抵押棚改专项贷款，还是国债、开行债、扶贫贷款、小微企业贷款之类的都可以?</p></li>
+<li><p>PSL利率怎么设定？央行指定还是市场化？</p></li>
+<li><p>如何监控PSL的投向，并防止利差套利。</p></li>
+<li><p>开行用什么方式来偿还PSL贷款？</p></li>
+</ul>
 
-<p>Out好多好多年了…….</p>
 
-<p>参考:
-<a href="http://stackoverflow.com/questions/1204521/dynamic-array-in-stack">http://stackoverflow.com/questions/1204521/dynamic-array-in-stack</a> <a href="http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed">http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</a></p>
+<h2>最重要的是，这是不是放水？</h2>
+
+<p>又学习了一下基本金融知识，发现一个比较权威的解释:</p>
+
+<p>国信证券宏观经济分析师钟正生认为，这一工具最大突破在于，将商业银行贷款纳入用于基础货币投放的合格抵押品框架，从而摆脱再贷款的信用风险问题，打造一个常规的基础货币投放渠道。央行投放基础货币需要同时扩张资产方和负债方，而为了保证央行资产的安全性，央行一般会要求交易对手提供抵押品并进行风险评估。而合格抵押品意味着受到央行认可的，可在货币政策工具中用于抵押给央行的资产，例如我国正逆回购以及SLO、SLF操作中，一般使用国债和政策性金融债作为合格抵押品。我们在之前报告中提及，外汇占款趋势下滑，央票自然到期萎缩背景下，央行需要重启再贷款作为弥补基础货币缺口的手段。其主要原因在于，央行缺乏合适的抵押品，用于大规模基础货币的投放。而再贷款是信用贷款，不需要抵押。但吊诡的是，无需抵押既是再贷款的突出优点，也是再贷款的局限所在。无抵押会带来信用风险问题，央行资产有可能会遭受损失，历史上由于再贷款在央行账目上产生坏账的案例并不鲜见。因此，我们一直认为，短期内再贷款可以充当提供基础货币的过渡职能，但长期来看仍需完善央行的合格抵押品框架。现在看起来，PSL可能正是在央行在完善合格抵押品框架上作出的重要推进。</p>
+
+<p>然后我又脑补为通俗版:</p>
+
+<ul>
+<li><p>央行采用外汇占款发行人民币的老路子越来越难了，美国加息，外汇流出压力大啊。</p></li>
+<li><p>现在我要以国内资产来定价发行货币了</p></li>
+</ul>
+
+
+<p>好吧，看起来这不是放水，顶多可以称之为定向宽松。那么是不是就不用紧张通胀了呢？</p>
+
+<p>完全不是！</p>
+
+<p>类比一下，这其实是股市里面的一种对敲手法。</p>
+
+<p>央行最终收下的抵押品不外乎还是地方财政的资产，那地方财政最大的抵押资产是什么呢？还是土地。</p>
+
+<p>发出去的货币标的其实就是不断推升的地价。</p>
+
+<p>这下好了，其实是央行和地方政府联手对敲，把地价炒高了，还多出来一种发行货币的手段，顺便把债务压力转给平头百姓，一箭三雕啊。</p>
+
+<p>兴，百姓苦；亡，百姓苦</p>
 </div>
 
 
@@ -156,12 +171,12 @@ int main()
   
 
 
-<time datetime="2014-09-17T08:42:25+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+<time datetime="2018-02-02T22:38:15+08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/array/'>Array</a>, <a class='category' href='/blog/categories/c/'>C</a>
+    <a class='category' href='/blog/categories/life/'>life</a>
   
 </span>
 
@@ -177,10 +192,8 @@ int main()
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/" title="Previous Post: svn1.7+ Zsh报错">&laquo; svn1.7+ Zsh报错</a>
+        <a class="basic-alignment left" href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/" title="Previous Post: Coincheck被盗5亿个XEM">&laquo; Coincheck被盗5亿个XEM</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/" title="Next Post: python2.x：Error When Printing an Exception Containing a Unicode String">python2.x：Error When Printing an Exception Containing a Unicode String &raquo;</a>
       
     </p>
   </footer>
@@ -301,8 +314,8 @@ int main()
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2014/09/17/c-dynamic-array-in-stack/';
-        var disqus_url = 'http://happy123.me/blog/2014/09/17/c-dynamic-array-in-stack/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi/';
+        var disqus_url = 'http://happy123.me/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi/';
         var disqus_script = 'embed.js';
       
     (function () {
