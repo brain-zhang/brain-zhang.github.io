@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-02-12T21:47:43+08:00</updated>
+  <updated>2018-02-12T21:49:35+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -175,8 +175,8 @@
 
 
 <ol>
-<li><p>2018-02-12 21:00:00(UTC+8), 难度值D为2,874,674,234,415; 此时全网算力为20.75EH</p></li>
-<li><p>如果我有一台蚂蚁S9，算力13T，那么一个区块周期(10分钟)的期望收益为12.5 * 13T / 20.75EH BTC</p></li>
+<li><p>2018-02-12 21:00:00(UTC+8), 难度值D为2,874,674,234,415; 此时全网算力为20.75EH/S</p></li>
+<li><p>如果我有一台蚂蚁S9，算力13T/S，那么一个区块周期(10分钟)的期望BTC收益为12.5 * 13T / 20.75EH</p></li>
 </ol>
 
 
