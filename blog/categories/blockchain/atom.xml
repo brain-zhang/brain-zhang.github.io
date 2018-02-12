@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-02-12T21:44:23+08:00</updated>
+  <updated>2018-02-12T21:47:43+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -83,19 +83,14 @@
 <h3>等等，我有点晕了，为什么要采取这种绕弯的存储方式呢?</h3>
 
 <ol>
-<li>比特币的工作量证明本质是计算一个256bits的hash值，并保证这个值小于target，表示为公式如下:</li>
-</ol>
-
-
-<p><code>
+<li><p>比特币的工作量证明本质是计算一个256bits的hash值，并保证这个值小于target，表示为公式如下:
+<code>
 SHA256(SHA256(区块头)) &lt; Target
-</code></p>
-
-<ol>
+</code></p></li>
 <li><p>初始Target，即difficulty_1_target设置为0x00000000FFFF0000000000000000000000000000000000000000000000000000，此时难度为1</p></li>
 <li><p>Target是一个256位的很大的数，对这个数进行乘除运算需要特殊的库来处理，所以中本聪考虑用一个32位的数来近似表示Target</p></li>
 <li><p>256 / 32 = 8, 2<sup>8</sup> = 256，因此我们需要用256进制来表示Target，256进制的运算规则如上所述</p></li>
-<li><p>那么初始Target其实可以表示为0x1d00FFFFFF，解压验证一下:</p></li>
+<li><p>那么初始Target其实可以表示为0x1D00FFFFFF，解压验证一下:</p></li>
 </ol>
 
 
@@ -107,7 +102,7 @@ SHA256(SHA256(区块头)) &lt; Target
 <p>```</p>
 
 <ol>
-<li>0x1d00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
+<li>0x1D00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
 </ol>
 
 
@@ -120,7 +115,7 @@ SHA256(SHA256(区块头)) &lt; Target
 </code></p>
 
 <ol>
-<li><p>判断是否需要更新目标值( 2016的整数倍)，如果不是则继续使用最后一个区块的目标值</p></li>
+<li><p>判断是否需要更新目标值(2016的整数倍)，如果不是则继续使用最后一个区块的目标值</p></li>
 <li><p>计算前2016个区块出块用时</p></li>
 <li><p>如果用时低于半周，则按半周计算。防止难度增加4倍以上。</p></li>
 <li><p>如果用时高于8周，则按8周计算。防止难度降低到4倍以下。</p></li>
@@ -136,59 +131,36 @@ SHA256(SHA256(区块头)) &lt; Target
 <h2>知道nbits，如何推算全网算力</h2>
 
 <ol>
-<li>nbits为0x1b0404cb时，难度为：</li>
-</ol>
-
-
-<p><code>
+<li><p>nbits为0x1b0404cb时，难度为：
+<code>
 0x00000000FFFF0000000000000000000000000000000000000000000000000000 / 0x00000000000404CB000000000000000000000000000000000000000000000000 = 16307.420938523983
-</code></p>
-
-<ol>
-<li>为了找到新区块，该区块的target值必须小于目标target值，实际上是一个在0到2<sup>256</sup>-1之间的随机数，难度1的偏移量是：</li>
-</ol>
-
-
-<p><code>
+</code></p></li>
+<li><p>为了找到新区块，该区块的target值必须小于目标target值，实际上是一个在0到2<sup>256</sup>-1之间的随机数，难度1的偏移量是：
+<code>
 0xffff * 2^208
-</code></p>
-
-<ol>
-<li>难度D的偏移量是</li>
-</ol>
-
-
-<p><code>
+</code></p></li>
+<li><p>难度D的偏移量是
+<code>
 (0xffff * 2^208)/D
-</code></p>
-
-<ol>
-<li>在难度D下，为了找到新区块，我们预期要计算的HASH数量是</li>
-</ol>
-
-
-<p><code>
+</code></p></li>
+<li><p>在难度D下，为了找到新区块，我们预期要计算的HASH数量是
+<code>
 D * 2^256 / (0xffff * 2^208)
-</code>
-5. 难度的设定，是为了以每10分钟一个区块的产生速度产生2016个区块，因而我们在600秒内计算 (D * 2<sup>48</sup> / 0xffff) 个HASH，这就意味着产生2016个区块的网络HASH速率(算力)是</p>
-
-<p><code>
+</code></p></li>
+<li><p>难度的设定，是为了以每10分钟一个区块的产生速度产生2016个区块，因而我们在600秒内计算 (D * 2<sup>48</sup> / 0xffff) 个HASH，这就意味着产生2016个区块的网络HASH速率(算力)是
+<code>
 D * 2^48 / 0xffff / 600
-</code></p>
-
-<p>可以进一步简化为：</p>
-
-<p><code>
+</code>
+可以进一步简化为：
+<code>
 D * 2^32 / 600
-</code></p>
-
-<ol>
+</code></p></li>
 <li><p>2018-02-12 21:00:00(UTC+8), 难度值D为2,874,674,234,415; 此时全网算力为20.75EH</p></li>
 <li><p>如果我有一台蚂蚁S9，算力13T，那么一个区块周期(10分钟)的期望收益为12.5 * 13T / 20.75EH BTC</p></li>
 </ol>
 
 
-<h2>一点小TIP</h2>
+<h2>一点小TIPS</h2>
 
 <ul>
 <li>难度为1时，目标target在比特币客户端中表示为</li>

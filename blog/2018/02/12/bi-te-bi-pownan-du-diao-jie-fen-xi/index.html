@@ -171,7 +171,7 @@
 <li><p>初始Target，即difficulty_1_target设置为0x00000000FFFF0000000000000000000000000000000000000000000000000000，此时难度为1</p></li>
 <li><p>Target是一个256位的很大的数，对这个数进行乘除运算需要特殊的库来处理，所以中本聪考虑用一个32位的数来近似表示Target</p></li>
 <li><p>256 / 32 = 8, 2<sup>8</sup> = 256，因此我们需要用256进制来表示Target，256进制的运算规则如上所述</p></li>
-<li><p>那么初始Target其实可以表示为0x1d00FFFFFF，解压验证一下:</p></li>
+<li><p>那么初始Target其实可以表示为0x1D00FFFFFF，解压验证一下:</p></li>
 </ol>
 
 
@@ -180,7 +180,7 @@
 
 
 <ol>
-<li>0x1d00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
+<li>0x1D00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
 </ol>
 
 
@@ -189,11 +189,11 @@
 <p>目标值计算公式如下，但在实际计算时有些特别处理，将目标值控制在一定范围内。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>新目标值= 当前目标值 * 实际2016个区块出块时间 / 理论2016个区块出块时间(2周)。 </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>新目标值= 当前目标值 * 实际2016个区块出块时间 / 理论2016个区块出块时间(2周)。</span></code></pre></td></tr></table></div></figure>
 
 
 <ol>
-<li><p>判断是否需要更新目标值( 2016的整数倍)，如果不是则继续使用最后一个区块的目标值</p></li>
+<li><p>判断是否需要更新目标值(2016的整数倍)，如果不是则继续使用最后一个区块的目标值</p></li>
 <li><p>计算前2016个区块出块用时</p></li>
 <li><p>如果用时低于半周，则按半周计算。防止难度增加4倍以上。</p></li>
 <li><p>如果用时高于8周，则按8周计算。防止难度降低到4倍以下。</p></li>
@@ -265,7 +265,7 @@
 </ol>
 
 
-<h2>一点小TIP</h2>
+<h2>一点小TIPS</h2>
 
 <ul>
 <li>难度为1时，目标target在比特币客户端中表示为</li>
