@@ -160,22 +160,17 @@
 
 <ol>
 <li><p>比特币的工作量证明本质是计算一个256bits的hash值，并保证这个值小于target，表示为公式如下:
-<code>
-SHA256(SHA256(区块头)) &lt; Target
+ <code>
+ SHA256(SHA256(区块头)) &lt; Target
 </code></p></li>
-<li><p>初始Target，即difficulty_1_target设置为0x00000000FFFF0000000000000000000000000000000000000000000000000000，此时难度为1</p></li>
+<li><p>初始Target，即difficulty_1_target设置为<code>0x00000000FFFF0000000000000000000000000000000000000000000000000000</code>，此时难度为1</p></li>
 <li><p>Target是一个256位的很大的数，对这个数进行乘除运算需要特殊的库来处理，所以中本聪考虑用一个32位的数来近似表示Target</p></li>
 <li><p>256 / 32 = 8, 2<sup>8</sup> = 256，因此我们需要用256进制来表示Target，256进制的运算规则如上所述</p></li>
-<li><p>那么初始Target其实可以表示为0x1D00FFFFFF，解压验证一下:</p></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0x00ffff *256** (0x1d - 3)  = ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>0x1D00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
+<li><p>那么初始Target其实可以表示为0x1D00FFFFFF，解压验证一下:
+ <code>
+     0x00ffff *256** (0x1d - 3)  = ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+</code></p></li>
+<li><p>0x1D00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</p></li>
 </ol>
 
 
@@ -205,8 +200,8 @@ SHA256(SHA256(区块头)) &lt; Target
 
 <ol>
 <li><p>nbits为0x1b0404cb时，难度为：
-<code>
-0x00000000FFFF0000000000000000000000000000000000000000000000000000 / 0x00000000000404CB000000000000000000000000000000000000000000000000 = 16307.420938523983
+ <code>
+ 0x00000000FFFF0000000000000000000000000000000000000000000000000000 / 0x00000000000404CB000000000000000000000000000000000000000000000000 = 16307.420938523983
 </code></p></li>
 <li><p>为了找到新区块，该区块的target值必须小于目标target值，实际上是一个在0到2<sup>256</sup>-1之间的随机数，难度1的偏移量是：
 <code>
