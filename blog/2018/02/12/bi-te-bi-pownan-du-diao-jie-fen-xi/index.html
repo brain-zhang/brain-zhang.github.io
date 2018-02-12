@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>比特币POW难度调节分析 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="比特币白皮书在工作量证明章节中解释了工作量证明（PoW）的方式： 我们在区块中补增一个随机数(Nonce)，这个随机数要使得该给定区块的随机散列值出现了所需的那么多个0。我们通过反复尝试来找到这个随机数，直到找到为止，这样我们就构建了一个工作量证明机制。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>Been here so long got to calling it home．</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/linux/"><i class="fa fa-flask"></i>Linux</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/python/"><i class="fa fa-flask"></i>python</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">比特币POW难度调节分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-02-12T20:50:34+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>比特币白皮书在工作量证明章节中解释了工作量证明（PoW）的方式：</p>
+
+<blockquote><p>我们在区块中补增一个随机数(Nonce)，这个随机数要使得该给定区块的随机散列值出现了所需的那么多个0。我们通过反复尝试来找到这个随机数，直到找到为止，这样我们就构建了一个工作量证明机制。只要该CPU耗费的工作量能够满足该工作量证明机制，那么除非重新完成相当的工作量，该区块的信息就不可更改。由于之后的区块是链接在该区块之后的，所以想要更改该区块中的信息，就还需要重新完成之后所有区块的全部工作量。</p></blockquote>
+
+<p>那这个随机数难度值是怎么产生的呢？</p>
+
+<!-- more -->
+
+
+<p>原理是简单的，但是细节总是需要穷根究底。</p>
+
+<h2>比特币难度值Difficulty</h2>
+
+<p>难度值在区块中并不记录，仅仅是为了人类直观感受解题难度而演变出的一个浮点数。难度每2016个区块改变一次，公式如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>diffculty = difficulty_1_target / currentTarget</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此处的 difficulty_1_target 为一个常数，非常大的一个数字。表示矿池挖矿最大难度。目标值越小，区块生成难度越大。区块中存储的是这个名为target的值。</p>
+
+<h2>难度值如何存储在区块中的</h2>
+
+<p>在区块中存储的是Target，但是将Target经类似于浮点数的一种压缩表示法，字段为nbits。例如，如果区块bits记录为0x1b0404cb，那么他表示的十六进制的Target值为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x0404cb * 2**(8*(0x1b - 3)) = 0x00000000000404CB000000000000000000000000000000000000000000000000</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>在计算时，后面3个字节0x0404cb作为底，前面1字节0x1b表示次方数。具体压缩过程如下：</h3>
+
+<ul>
+<li><p>将数字转换为256进制数</p></li>
+<li><p>如果第一位数字大于127(0x7f),则前面添加0</p></li>
+<li><p>压缩结果中的第一位存放该256进制数的位数</p></li>
+<li><p>后面三个数存放该256进制数的前三位，如果不足三位，则后面补零</p></li>
+</ul>
+
+
+<h4>例如，将数字1000压缩，先转换为256进制数</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1000 = 0x03 * 256 + 0xe8 * 1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么是由两个数字构成：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>03   e8</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个数未超过0x7f,则不需填0，但长度两位低于三位，在后面补零，最终表示为：0x0203e800</p>
+
+<h3>等等，我有点晕了，为什么要采取这种绕弯的存储方式呢?</h3>
+
+<ol>
+<li>比特币的工作量证明本质是计算一个256bits的hash值，并保证这个值小于target，表示为公式如下:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SHA256(SHA256(区块头)) &lt; Target</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>初始Target(即difficulty_1_target)设置为0x00000000FFFF0000000000000000000000000000000000000000000000000000，此时难度为1</p></li>
+<li><p>Target是一个256位的很大的数，对这个数进行乘除运算需要特殊的库来处理，所以中本聪考虑用一个32位的数来近似表示Target</p></li>
+<li><p>256 / 32 = 8, 2<sup>8</sup> = 256，因此我们需要用256进制来表示Target，256进制的运算规则如上所述</p></li>
+<li><p>那么初始Target其实可以表示为0x1d00FFFFFF，解压验证一下:</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00ffff *256** (0x1d - 3)  = ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>0x1d00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
+</ol>
+
+
+<h2>难度如何调节</h2>
+
+<p>目标值计算公式如下，但在实际计算时有些特别处理，将目标值控制在一定范围内。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>新目标值= 当前目标值 * 实际2016个区块出块时间 / 理论2016个区块出块时间(2周)。 </span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>判断是否需要更新目标值( 2016的整数倍)，如果不是则继续使用最后一个区块的目标值</p></li>
+<li><p>计算前2016个区块出块用时</p></li>
+<li><p>如果用时低于半周，则按半周计算。防止难度增加4倍以上。</p></li>
+<li><p>如果用时高于8周，则按8周计算。防止难度降低到4倍以下。</p></li>
+<li><p>用时乘以当前难度, 再除以2周</p></li>
+<li><p>如果超过最大难度限制，则按最大难度处理</p></li>
+</ol>
+
+
+<p>代码参考这里:</p>
+
+<p><a href="https://github.com/memoryboxes/bitcoin/blob/a1c3d8f14dca6a86fa103d86ef125e95372f860c/src/main.cpp#L857">https://github.com/memoryboxes/bitcoin/blob/a1c3d8f14dca6a86fa103d86ef125e95372f860c/src/main.cpp#L857</a></p>
+
+<h2>知道nbits，如何推算全网算力</h2>
+
+<ol>
+<li>nbits为0x1b0404cb时，难度为：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00000000FFFF0000000000000000000000000000000000000000000000000000 / 0x00000000000404CB000000000000000000000000000000000000000000000000 = 16307.420938523983</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>为了找到新区块，该区块的target值必须小于目标target值，实际上是一个在0到2<sup>256</sup>-1之间的随机数，难度1的偏移量是：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0xffff * 2^208</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>难度D的偏移量是</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(0xffff * 2^208)/D</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>在难度D下，为了找到新区块，我们预期要计算的HASH数量是</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>D * 2^256 / (0xffff * 2^208)</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>难度的设定，是为了以每10分钟一个区块的产生速度产生2016个区块，因而我们在600秒内计算 (D * 2<sup>48</sup> / 0xffff) 个HASH，这就意味着产生2016个区块的网络HASH速率(算力)是</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>D * 2^48 / 0xffff / 600</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以进一步简化为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>D * 2^32 / 600</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>2018-02-12 21:00:00(UTC+8), 难度值D为2,874,674,234,415; 此时全网算力为20.75EH</p></li>
+<li><p>如果我有一台蚂蚁S9，算力13T，那么一个区块周期(10分钟)的期望收益为12.5 * 13T / 20.75EH BTC</p></li>
+</ol>
+
+
+<h2>一点小TIP</h2>
+
+<ul>
+<li>难度为1时，目标target在比特币客户端中表示为</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00000000FFFF0000000000000000000000000000000000000000000000000000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是在绝大部分矿池里面表示为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样挖矿的时候，挖矿软件显示的难度和比特币客户端api调用算出来的难度有微小差别，可以忽略。这个其实时早期矿池实现的时候找方便造成的不统一，因为比特币客户端判断HASH合法性的时候用的时nbits来判断，所以不影响最终计算结果</p>
+
+<ul>
+<li>现有的算法中，难度值每2016个区块调整一次，但新的难度值不需要与难度“1”进行比较运算，而是根据前2015个块的出块时间来计算，所以严谨的计算公式为:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>difficulty = [prev_target] * 【前2015个区块生成所用的时间】 / 1209600 （按标准每10分钟出一个块，2016个块所需要的秒数）</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为啥？就是中本聪早期的代码比较糙，他在循环的时候因为还有一个genius block要处理，可能为了代码干净起见就不去特殊处理了，其实也没啥影响</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-02-12T20:50:34+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi/" title="Previous Post: 央行抵押补充贷款PSL浅析">&laquo; 央行抵押补充贷款PSL浅析</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">比特币POW难度调节分析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi/">央行抵押补充贷款PSL浅析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Coincheck被盗5亿个XEM</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">比特币POW难度调节分析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi/">央行抵押补充贷款PSL浅析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Coincheck被盗5亿个XEM</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/';
+        var disqus_url = 'http://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

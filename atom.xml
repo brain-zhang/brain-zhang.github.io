@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-02-05T15:56:19+08:00</updated>
+  <updated>2018-02-12T21:41:26+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,205 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币POW难度调节分析]]></title>
+    <link href="http://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/"/>
+    <updated>2018-02-12T20:50:34+08:00</updated>
+    <id>http://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi</id>
+    <content type="html"><![CDATA[<p>比特币白皮书在工作量证明章节中解释了工作量证明（PoW）的方式：</p>
+
+<blockquote><p>我们在区块中补增一个随机数(Nonce)，这个随机数要使得该给定区块的随机散列值出现了所需的那么多个0。我们通过反复尝试来找到这个随机数，直到找到为止，这样我们就构建了一个工作量证明机制。只要该CPU耗费的工作量能够满足该工作量证明机制，那么除非重新完成相当的工作量，该区块的信息就不可更改。由于之后的区块是链接在该区块之后的，所以想要更改该区块中的信息，就还需要重新完成之后所有区块的全部工作量。</p></blockquote>
+
+<p>那这个随机数难度值是怎么产生的呢？</p>
+
+<!-- more -->
+
+
+<p>原理是简单的，但是细节总是需要穷根究底。</p>
+
+<h2>比特币难度值Difficulty</h2>
+
+<p>难度值在区块中并不记录，仅仅是为了人类直观感受解题难度而演变出的一个浮点数。难度每2016个区块改变一次，公式如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>diffculty = difficulty_1_target / currentTarget</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此处的 difficulty_1_target 为一个常数，非常大的一个数字。表示矿池挖矿最大难度。目标值越小，区块生成难度越大。区块中存储的是这个名为target的值。</p>
+
+<h2>难度值如何存储在区块中的</h2>
+
+<p>在区块中存储的是Target，但是将Target经类似于浮点数的一种压缩表示法，字段为nbits。例如，如果区块bits记录为0x1b0404cb，那么他表示的十六进制的Target值为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x0404cb * 2**(8*(0x1b - 3)) = 0x00000000000404CB000000000000000000000000000000000000000000000000</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>在计算时，后面3个字节0x0404cb作为底，前面1字节0x1b表示次方数。具体压缩过程如下：</h3>
+
+<ul>
+<li><p>将数字转换为256进制数</p></li>
+<li><p>如果第一位数字大于127(0x7f),则前面添加0</p></li>
+<li><p>压缩结果中的第一位存放该256进制数的位数</p></li>
+<li><p>后面三个数存放该256进制数的前三位，如果不足三位，则后面补零</p></li>
+</ul>
+
+
+<h4>例如，将数字1000压缩，先转换为256进制数</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1000 = 0x03 * 256 + 0xe8 * 1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么是由两个数字构成：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>03   e8</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个数未超过0x7f,则不需填0，但长度两位低于三位，在后面补零，最终表示为：0x0203e800</p>
+
+<h3>等等，我有点晕了，为什么要采取这种绕弯的存储方式呢?</h3>
+
+<ol>
+<li>比特币的工作量证明本质是计算一个256bits的hash值，并保证这个值小于target，表示为公式如下:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SHA256(SHA256(区块头)) &lt; Target</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>初始Target(即difficulty_1_target)设置为0x00000000FFFF0000000000000000000000000000000000000000000000000000，此时难度为1</p></li>
+<li><p>Target是一个256位的很大的数，对这个数进行乘除运算需要特殊的库来处理，所以中本聪考虑用一个32位的数来近似表示Target</p></li>
+<li><p>256 / 32 = 8, 2<sup>8</sup> = 256，因此我们需要用256进制来表示Target，256进制的运算规则如上所述</p></li>
+<li><p>那么初始Target其实可以表示为0x1d00FFFFFF，解压验证一下:</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00ffff *256** (0x1d - 3)  = ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>0x1d00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
+</ol>
+
+
+<h2>难度如何调节</h2>
+
+<p>目标值计算公式如下，但在实际计算时有些特别处理，将目标值控制在一定范围内。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>新目标值= 当前目标值 * 实际2016个区块出块时间 / 理论2016个区块出块时间(2周)。 </span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>判断是否需要更新目标值( 2016的整数倍)，如果不是则继续使用最后一个区块的目标值</p></li>
+<li><p>计算前2016个区块出块用时</p></li>
+<li><p>如果用时低于半周，则按半周计算。防止难度增加4倍以上。</p></li>
+<li><p>如果用时高于8周，则按8周计算。防止难度降低到4倍以下。</p></li>
+<li><p>用时乘以当前难度, 再除以2周</p></li>
+<li><p>如果超过最大难度限制，则按最大难度处理</p></li>
+</ol>
+
+
+<p>代码参考这里:</p>
+
+<p><a href="https://github.com/memoryboxes/bitcoin/blob/a1c3d8f14dca6a86fa103d86ef125e95372f860c/src/main.cpp#L857">https://github.com/memoryboxes/bitcoin/blob/a1c3d8f14dca6a86fa103d86ef125e95372f860c/src/main.cpp#L857</a></p>
+
+<h2>知道nbits，如何推算全网算力</h2>
+
+<ol>
+<li>nbits为0x1b0404cb时，难度为：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00000000FFFF0000000000000000000000000000000000000000000000000000 / 0x00000000000404CB000000000000000000000000000000000000000000000000 = 16307.420938523983</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>为了找到新区块，该区块的target值必须小于目标target值，实际上是一个在0到2<sup>256</sup>-1之间的随机数，难度1的偏移量是：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0xffff * 2^208</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>难度D的偏移量是</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(0xffff * 2^208)/D</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>在难度D下，为了找到新区块，我们预期要计算的HASH数量是</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>D * 2^256 / (0xffff * 2^208)</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>难度的设定，是为了以每10分钟一个区块的产生速度产生2016个区块，因而我们在600秒内计算 (D * 2<sup>48</sup> / 0xffff) 个HASH，这就意味着产生2016个区块的网络HASH速率(算力)是</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>D * 2^48 / 0xffff / 600</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以进一步简化为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>D * 2^32 / 600</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>2018-02-12 21:00:00(UTC+8), 难度值D为2,874,674,234,415; 此时全网算力为20.75EH</p></li>
+<li><p>如果我有一台蚂蚁S9，算力13T，那么一个区块周期(10分钟)的期望收益为12.5 * 13T / 20.75EH BTC</p></li>
+</ol>
+
+
+<h2>一点小TIP</h2>
+
+<ul>
+<li>难度为1时，目标target在比特币客户端中表示为</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00000000FFFF0000000000000000000000000000000000000000000000000000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是在绝大部分矿池里面表示为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样挖矿的时候，挖矿软件显示的难度和比特币客户端api调用算出来的难度有微小差别，可以忽略。这个其实时早期矿池实现的时候找方便造成的不统一，因为比特币客户端判断HASH合法性的时候用的时nbits来判断，所以不影响最终计算结果</p>
+
+<ul>
+<li>现有的算法中，难度值每2016个区块调整一次，但新的难度值不需要与难度“1”进行比较运算，而是根据前2015个块的出块时间来计算，所以严谨的计算公式为:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>difficulty = [prev_target] * 【前2015个区块生成所用的时间】 / 1209600 （按标准每10分钟出一个块，2016个块所需要的秒数）</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为啥？就是中本聪早期的代码比较糙，他在循环的时候因为还有一个genius block要处理，可能为了代码干净起见就不去特殊处理了，其实也没啥影响</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[央行抵押补充贷款PSL浅析]]></title>
@@ -930,316 +1129,6 @@ if sys.stdout.encoding == 'cp936':
 <p>最后，附一个硬件天梯排行榜测评网站:</p>
 
 <p><a href="http://www.passmark.com/">http://www.passmark.com/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Write Standard Startup Script]]></title>
-    <link href="http://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script/"/>
-    <updated>2016-08-22T09:09:06+08:00</updated>
-    <id>http://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script</id>
-    <content type="html"><![CDATA[<p>centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板&hellip;</p>
-
-<p>模板实例:</p>
-
-<!-- more -->
-
-
-<h2>systemV init script template</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'># testclient - Startup script for testclient
-</span><span class='line'>
-</span><span class='line'># chkconfig: 35 85 15
-</span><span class='line'># description: testclient is your openstack VMS monitor and ovs auto config bot.
-</span><span class='line'># processname: testclient
-</span><span class='line'># config: /etc/testclient.conf
-</span><span class='line'>
-</span><span class='line'>. /etc/rc.d/init.d/functions
-</span><span class='line'>
-</span><span class='line'># NOTE: if you change any OPTIONS here, you get what you pay for:
-</span><span class='line'># this script assumes all options are in the config file.
-</span><span class='line'>CONFIGFILE="/etc/testclient.conf"
-</span><span class='line'>
-</span><span class='line'>testCLIENT=/usr/local/bin/testclient
-</span><span class='line'>
-</span><span class='line'>testCLIENT_USER=helloworldtest
-</span><span class='line'>testCLIENT_GROUP=helloworldtest
-</span><span class='line'>
-</span><span class='line'># things from testclient.conf get there by testclient reading it
-</span><span class='line'>PIDFILEPATH=`awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?pidFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
-</span><span class='line'>PIDDIR=`dirname $PIDFILEPATH`
-</span><span class='line'>LOGFILEPATH=`awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?logFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
-</span><span class='line'>LOGDIR=`dirname $LOGFILEPATH`
-</span><span class='line'>
-</span><span class='line'>OPTIONS=" -c $CONFIGFILE"
-</span><span class='line'>
-</span><span class='line'>start()
-</span><span class='line'>{
-</span><span class='line'>  # Make sure the default pidfile directory exists
-</span><span class='line'>  if [ ! -d $PIDDIR ]; then
-</span><span class='line'>    install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $PIDDIR
-</span><span class='line'>  fi
-</span><span class='line'>  if [ ! -d $LOGDIR ]; then
-</span><span class='line'>    install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $LOGDIR
-</span><span class='line'>  fi
-</span><span class='line'>
-</span><span class='line'>  echo -n $"Starting testclient: "
-</span><span class='line'>  daemon --pidfile "$PIDFILEPATH" --user "$testCLIENT_USER" --check $testCLIENT "$testCLIENT $OPTIONS &gt;$LOGFILEPATH 2&gt;&1 &"
-</span><span class='line'>
-</span><span class='line'>  RETVAL=$?
-</span><span class='line'>  pid=`ps -A x | grep $testCLIENT | grep -v grep | cut -d" " -f1 | head -n 1`
-</span><span class='line'>  if [ -n "$pid" ]; then
-</span><span class='line'>          echo $pid &gt; $PIDFILEPATH
-</span><span class='line'>  fi
-</span><span class='line'>
-</span><span class='line'>  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/testclient
-</span><span class='line'>  echo
-</span><span class='line'>  return $RETVAL
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>stop()
-</span><span class='line'>{
-</span><span class='line'>  echo -n $"Stopping testclient: "
-</span><span class='line'>  testclient_killproc "$PIDFILEPATH" $testCLIENT
-</span><span class='line'>  RETVAL=$?
-</span><span class='line'>  echo
-</span><span class='line'>  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/testclient
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>restart () {
-</span><span class='line'>        stop
-</span><span class='line'>        start
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'># Send TERM signal to process and wait up to 300 seconds for process to go away.
-</span><span class='line'># If process is still alive after 300 seconds, send KILL signal.
-</span><span class='line'># Built-in killproc() (found in /etc/init.d/functions) is on certain versions of Linux
-</span><span class='line'># where it sleeps for the full $delay seconds if process does not respond fast enough to
-</span><span class='line'># the initial TERM signal.
-</span><span class='line'>testclient_killproc()
-</span><span class='line'>{
-</span><span class='line'>  local pid_file=$1
-</span><span class='line'>  local procname=$2
-</span><span class='line'>  local -i delay=10
-</span><span class='line'>  local -i duration=1
-</span><span class='line'>  local pid=`pidofproc -p "${pid_file}" ${procname}`
-</span><span class='line'>
-</span><span class='line'>  kill -TERM $pid &gt;/dev/null 2&gt;&1
-</span><span class='line'>  usleep 1000
-</span><span class='line'>  local -i x=0
-</span><span class='line'>  while [ $x -le $delay ] && checkpid $pid; do
-</span><span class='line'>    sleep $duration
-</span><span class='line'>    x=$(( $x + $duration))
-</span><span class='line'>  done
-</span><span class='line'>
-</span><span class='line'>  kill -KILL $pid &gt;/dev/null 2&gt;&1
-</span><span class='line'>  usleep 1000
-</span><span class='line'>
-</span><span class='line'>  checkpid $pid # returns 0 only if the process exists
-</span><span class='line'>  local RC=$?
-</span><span class='line'>  [ "$RC" -eq 0 ] && failure "${procname} shutdown" || rm -f "${pid_file}"; success "${procname} shutdown"
-</span><span class='line'>  RC=$((! $RC)) # invert return code so we return 0 when process is dead.
-</span><span class='line'>  return $RC
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>RETVAL=0
-</span><span class='line'>
-</span><span class='line'>case "$1" in
-</span><span class='line'>  start)
-</span><span class='line'>    start
-</span><span class='line'>    ;;
-</span><span class='line'>  stop)
-</span><span class='line'>    stop
-</span><span class='line'>    ;;
-</span><span class='line'>  restart|reload|force-reload)
-</span><span class='line'>    restart
-</span><span class='line'>    ;;
-</span><span class='line'>  condrestart)
-</span><span class='line'>    [ -f $PIDFILEPATH] && restart || :
-</span><span class='line'>    ;;
-</span><span class='line'>  status)
-</span><span class='line'>    status $testCLIENT
-</span><span class='line'>    RETVAL=$?
-</span><span class='line'>    ;;
-</span><span class='line'>  *)
-</span><span class='line'>    echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
-</span><span class='line'>    RETVAL=1
-</span><span class='line'>esac
-</span><span class='line'>
-</span><span class='line'>exit $RETVAL</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>systemd startup script template</h2>
-
-<h4>helloworld.conf</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>node = 1
-</span><span class='line'>
-</span><span class='line'>[system]
-</span><span class='line'>pidFilePath=/var/lib/helloworldtest/run/hello.pid
-</span><span class='line'>logFilePath=/var/lib/helloworldtest/log/hello.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>/usr/lib/systemd/system/helloworld.service</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Unit]
-</span><span class='line'>Description=helloworld
-</span><span class='line'>
-</span><span class='line'>[Service]
-</span><span class='line'>Type=forking
-</span><span class='line'>EnvironmentFile=/etc/helloworld.conf
-</span><span class='line'>ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${logFilePath} )'
-</span><span class='line'>ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${pidFilePath} )'
-</span><span class='line'>ExecStart=/usr/local/sbin/daemonize -p ${pidFilePath} -a -o ${logFilePath} -e ${logFilePath} /usr/local/bin/helloworld -c /etc/helloworld.conf
-</span><span class='line'>ExecStopPost=/bin/kill $MAINPID
-</span><span class='line'>Restart=always
-</span><span class='line'>
-</span><span class='line'>[Install]
-</span><span class='line'>WantedBy=default.target</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
