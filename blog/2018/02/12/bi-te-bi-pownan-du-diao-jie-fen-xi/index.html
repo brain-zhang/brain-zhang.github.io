@@ -254,7 +254,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这样挖矿的时候，挖矿软件显示的难度和比特币客户端api调用算出来的难度有微小差别，可以忽略。这个其实时早期矿池实现的时候找方便造成的不统一，因为比特币客户端判断HASH合法性的时候用的时nbits来判断，所以不影响最终计算结果</p>
+<p>这样挖矿的时候，挖矿软件显示的难度和比特币客户端api调用算出来的难度有微小差别，可以忽略。这个其实时早期矿池实现的时候找方便造成的不统一，因为比特币客户端判断HASH合法性的时候用的是nbits来判断，所以不影响最终计算结果</p>
 
 <ul>
 <li>现有的算法中，难度值每2016个区块调整一次，但新的难度值不需要与难度“1”进行比较运算，而是根据前2015个块的出块时间来计算，所以严谨的计算公式为:</li>
