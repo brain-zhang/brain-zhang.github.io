@@ -80,6 +80,162 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/05/08/tcpdump-commands/">Tcpdump Commands</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-08T20:06:22+08:00" pubdate data-updated="true">May 8<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/05/08/tcpdump-commands/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2015/05/08/tcpdump-commands/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>tcpdump 的抓包保存到文件的命令参数是-w xxx.cap</p>
+
+<ul>
+<li>抓eth1的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 -w /tmp/xxx.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓eth1的包，用ip+port的形式显示通信对</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 -nn -w /tmp/xxx.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓 192.168.1.123的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓192.168.1.123的80端口的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 and port 80 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓192.168.1.123的icmp的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 and icmp -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓192.168.1.123的80端口和110和25以外的其他端口的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 host 192.168.1.123 and ! port 80 and ! port 25 and ! port 110 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓vlan 1的包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 port 80 and vlan 1 -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>抓pppoe的密码</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 pppoes -w /tmp/xxx.cap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>以100m大小分割保存文件， 超过100m另开一个文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tcpdump -i eth1 -w /tmp/xxx.cap  -C 100m</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>把后两个数据包并到一个数据包merge.pcap</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mergecap -w merge.pcap 1.pcap 2.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>按照radius条件过滤数据包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tshark -r 1.pcap radius -w radius.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>按照数据包数分割一个大的数据</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>editcap -c 1000000 merge.pcap split01.pcap</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>split pcap</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>editcap -c 100000 in.pcap out.pcap</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/06/how-to-xargs-separate-parameters/">How to Xargs Separate Parameters</a></h1>
     
     
@@ -1651,49 +1807,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/">Macvtap Ethernet Support Tcpdump</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-31T17:05:01+08:00" pubdate data-updated="true">Dec 31<span>st</span>, 2014</time>
-        
-           | <a href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/12/31/macvtap-ethernet-support-tcpdump/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>用macvtap模拟网卡时，用tcpdump抓包是抓不到的，后来发现3.14版本以上的内核修正了这一点。</p>
-
-<p>参考这个提交:</p>
-
-<p><a href="https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523">https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -1711,6 +1824,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/02/17/what-do-cryptic-github-comments-mean/">What Do Cryptic Github Comments Mean?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">比特币POW难度调节分析</a>
       </li>
     
@@ -1724,10 +1841,6 @@
     
       <li class="post">
         <a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a>
       </li>
     
   </ul>
@@ -1775,6 +1888,7 @@
 <li class='category'><a href='/blog/categories/docker/'>Docker (4)</a></li>
 <li class='category'><a href='/blog/categories/gfw/'>GFW (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (4)</a></li>
+<li class='category'><a href='/blog/categories/linux-/'>Linux, (1)</a></li>
 <li class='category'><a href='/blog/categories/macvtap/'>Macvtap (1)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/mongodb/'>MongoDB (1)</a></li>
@@ -1790,7 +1904,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (12)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (13)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
