@@ -80,6 +80,65 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/03/shang-ye-luo-ji/">商业逻辑</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-03T16:50:41+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/03/shang-ye-luo-ji/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/07/03/shang-ye-luo-ji/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>如何识别战略点</h1>
+
+<p>贝佐斯:</p>
+
+<p>我常被问一个问题：“在接下来的10年里，会有什么样的变化？”&hellip;但我很少被问到“在接下来的10年里，什么是不变的？”。我认为第二个问题比第一个问题更加重要，因为你需要将你的战略建立在不变的事物上。</p>
+
+<p>在亚马逊的零售业务中，我们知道消费者会想要更低价格的产品，10年后仍然如此。他们想要更快的物流，更多的选择。很难想像，会有顾客在10年后跑来和我说：“Jeff，我喜欢亚马逊，但你们的价格能不能贵一点，或者到货时间再慢一点。”</p>
+
+<p>所以我们将精力放到这些不变的事物上，我们知道现在在上面投入的精力，会在10年里和10年后持续不断的让我们获益。当你发现了一个对的事情，甚至10年后依然如一，那么它就值得你将大量的精力倾注于此。</p>
+
+<h1>如何判断行业前景</h1>
+
+<p>所以，要判断一个行业的前景，最简单的办法是看这个行业的龙头在干什么——他们才是最聪明、最敏锐的观察家。</p>
+
+<h1>合适的商业谈判环境是什么样的</h1>
+
+<p>接待供应商，不谈价格、不谈技术的话，都会在空旷的接洽室。透明落地玻璃接受路人监督，几张小圆桌配着椅子，还有几张长桌长椅。</p>
+
+<h1>什么是合适的管理</h1>
+
+<p>形势一片大好的公司，严格点很不错。但弱小的公司，过于严苛会导致离心离德。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/06/15/bi-jiao-shi-hui-de-er-shou-ji-qi/">比较实惠的二手机器</a></h1>
     
     
@@ -652,66 +711,6 @@ exec "$@"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">再谈以太网帧格式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-23T21:59:43+08:00" pubdate data-updated="true">May 23<span>rd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>又重新读了一遍《tcp/ip详解》，又重温了一遍万年知识以太网，为了不能忘却的回忆，我决定原文摘抄一遍。</p>
-
-<p>以太网这个术语是指DEC、Intel和Xerox公司在1982年联合公布的一个标准。它是当今TCP/IP采用的主要局域网技术。
-几年后，IEEE802委员会公布了一个稍有不同的标准集，其中802.3针对整个CSMA/CD网络，802.4针对令牌总线网络，
-802.5针对令牌环网络，这三者的共同特性由802.2标准来定义，那就是802网络共有的逻辑链路控制（LLC）。不幸的
-是，802.3定义了一个与以太网不同的帧格式。</p>
-
-<p>下图定义了两种不同形式的封装格式：</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/802_3.jpg" alt="802.3" /></p>
-
-<p>在以太网帧格式中，类型字段之后就是数据，而在802帧格式中，跟随在后面的3字节的802.2LLC和5字节的802.2SNAP。</p>
-
-<p>目的服务访问（DSAP）和源服务访问点（SSAP）的值都设为0xaa。ctrl字段的值设为3.随后的3个字节org code都设置为0。</p>
-
-<p>再接下来的2个字节类型字段和以以太网帧格式一样。</p>
-
-<p>CRC字段用于帧内后续字节差错的循环冗余码检验。</p>
-
-<p>802.3标准定义的帧和以太网的帧都有最小长度要求。802.3规定数据部分必须至少为38字节，而对于以太网，则要求最少要有46字节。为了保证这一点，必须在不足的空间插入填充字节。</p>
-
-<p>最后注意一下，mtu的大小只是指帧内容的大小，不包括帧头。所以mtu是1500时，QinQ又额外的四个字节，加上帧头共1522个字节，会丢包，最小要把mtu设置为1504。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -729,6 +728,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/02/28/enable-multiusers-support-for-win10/">Enable Multiusers Support for Win10</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/02/17/what-do-cryptic-github-comments-mean/">What Do Cryptic Github Comments Mean?</a>
       </li>
     
@@ -742,10 +745,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Coincheck被盗5亿个XEM</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a>
       </li>
     
   </ul>
@@ -861,12 +860,12 @@ exec "$@"
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (7)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
-<li class='category'><a href='/blog/categories/windows/'>windows (1)</a></li>
+<li class='category'><a href='/blog/categories/windows/'>windows (2)</a></li>
 <li class='category'><a href='/blog/categories/yum/'>yum (1)</a></li>
 <li class='category'><a href='/blog/categories/云计算/'>云计算 (1)</a></li>
 <li class='category'><a href='/blog/categories/华容道/'>华容道 (1)</a></li>

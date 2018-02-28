@@ -80,6 +80,106 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">How to Auto Gen Css/js by Grunt and Jenkins</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T12:16:15+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然有<a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a>的存在，但多个人编辑同一份css/js代码时，还要操心编译这个事，实在是多余。</p>
+
+<p>想到的最直接的办法就是jenkins上开一个项目，自动编译一把，再自动提交:</p>
+
+<p>虽然是野路子，但效果那是杠杠的。</p>
+
+<p>记一下一些要注意的点:</p>
+
+<ul>
+<li>有时候自动编译会失败，需要标记一下:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/node-v0.10.20-linux-x64/bin/grunt --force |tee $PWD_DIR/grunt.log
+</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
+</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
+</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
+</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
+</span><span class='line'>    exit 1
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样jenkins编译失败，就会标红了</p>
+
+<ul>
+<li>还有个坑，有时候新增加了一个js的代码目录，这样编译后也会多一个目录，这就需要svn每次提交的时候，不要忘了强制add一下当前所有目录:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn add static/dist/ --force</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>最后，极少数的情况编译后会出现冲突，因为编译的时候有人同样编译了一把提交了，这样自动提交会失败，也需要标记一下:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn ci --no-auth-cache --username=xxx --password=xxx static/dist/* -m "jenkins:auto grunt" 2&gt;&1| tee $PWD_DIR/svn.log
+</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
+</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
+</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
+</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
+</span><span class='line'>    exit 1
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样基本上看看jenkins的状态，或是让jenkins自动发发邮件，就舒心了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-compile-by-autotools/">How to Compile by Autotools</a></h1>
     
     
@@ -839,60 +939,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/">Vim 命令行操作小技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:30:15+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
-
-<p>1.查看历史指令并执行</p>
-
-<p>2.复制寄存器中的内容
-1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。</p>
-
-<p>2 使用寄存器，一般复制时使用&#8221; + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
-
-<h2>vim tooltips</h2>
-
-<h4>Display CRLF as ^M:</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:e ++ff=unix</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -910,6 +956,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/02/28/enable-multiusers-support-for-win10/">Enable Multiusers Support for Win10</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/02/17/what-do-cryptic-github-comments-mean/">What Do Cryptic Github Comments Mean?</a>
       </li>
     
@@ -923,10 +973,6 @@
     
       <li class="post">
         <a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Coincheck被盗5亿个XEM</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a>
       </li>
     
   </ul>
@@ -1042,12 +1088,12 @@
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (7)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/uwsgi/'>uwsgi (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
-<li class='category'><a href='/blog/categories/windows/'>windows (1)</a></li>
+<li class='category'><a href='/blog/categories/windows/'>windows (2)</a></li>
 <li class='category'><a href='/blog/categories/yum/'>yum (1)</a></li>
 <li class='category'><a href='/blog/categories/云计算/'>云计算 (1)</a></li>
 <li class='category'><a href='/blog/categories/华容道/'>华容道 (1)</a></li>
