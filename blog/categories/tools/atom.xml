@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
+  <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2018-02-28T11:03:51+08:00</updated>
+  <id>http://happy123.me/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Write Standard Startup Script]]></title>
+    <link href="http://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script/"/>
+    <updated>2016-08-22T09:09:06+08:00</updated>
+    <id>http://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script</id>
+    <content type="html"><![CDATA[<p>centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板&hellip;</p>
+
+<p>模板实例:</p>
+
+<!-- more -->
+
+
+<h2>systemV init script template</h2>
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>testclient &ndash; Startup script for testclient</h1>
+
+<h1>chkconfig: 35 85 15</h1>
+
+<h1>description: testclient is your openstack VMS monitor and ovs auto config bot.</h1>
+
+<h1>processname: testclient</h1>
+
+<h1>config: /etc/testclient.conf</h1>
+
+<p>. /etc/rc.d/init.d/functions</p>
+
+<h1>NOTE: if you change any OPTIONS here, you get what you pay for:</h1>
+
+<h1>this script assumes all options are in the config file.</h1>
+
+<p>CONFIGFILE=&ldquo;/etc/testclient.conf&rdquo;</p>
+
+<p>testCLIENT=/usr/local/bin/testclient</p>
+
+<p>testCLIENT_USER=helloworldtest
+testCLIENT_GROUP=helloworldtest</p>
+
+<h1>things from testclient.conf get there by testclient reading it</h1>
+
+<p>PIDFILEPATH=<code>awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?pidFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
+PIDDIR=</code>dirname $PIDFILEPATH<code>
+LOGFILEPATH=</code>awk -F'[:=]&lsquo; -v IGNORECASE=1 &rsquo;/^[[:blank:]]<em>(processManagement.)?logFilePath[[:blank:]]</em>[:=][[:blank:]]*/{print $2}&lsquo; &ldquo;$CONFIGFILE&rdquo; | tr -d &ldquo;[:blank:]\&rdquo;&rsquo;&ldquo; | aw
+LOGDIR=<code>dirname $LOGFILEPATH</code></p>
+
+<p>OPTIONS=&ldquo; -c $CONFIGFILE&rdquo;</p>
+
+<p>start()
+{
+  # Make sure the default pidfile directory exists
+  if [ ! -d $PIDDIR ]; then</p>
+
+<pre><code>install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $PIDDIR
+</code></pre>
+
+<p>  fi
+  if [ ! -d $LOGDIR ]; then</p>
+
+<pre><code>install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $LOGDIR
+</code></pre>
+
+<p>  fi</p>
+
+<p>  echo -n $&ldquo;Starting testclient: &rdquo;
+  daemon &mdash;pidfile &ldquo;$PIDFILEPATH&rdquo; &mdash;user &ldquo;$testCLIENT_USER&rdquo; &mdash;check $testCLIENT &ldquo;$testCLIENT $OPTIONS >$LOGFILEPATH 2>&amp;1 &amp;&rdquo;</p>
+
+<p>  RETVAL=$?
+  pid=<code>ps -A x | grep $testCLIENT | grep -v grep | cut -d" " -f1 | head -n 1</code>
+  if [ -n &ldquo;$pid&rdquo; ]; then</p>
+
+<pre><code>      echo $pid &gt; $PIDFILEPATH
+</code></pre>
+
+<p>  fi</p>
+
+<p>  [ $RETVAL -eq 0 ] &amp;&amp; touch /var/lock/subsys/testclient
+  echo
+  return $RETVAL
+}</p>
+
+<p>stop()
+{
+  echo -n $&ldquo;Stopping testclient: &rdquo;
+  testclient_killproc &ldquo;$PIDFILEPATH&rdquo; $testCLIENT
+  RETVAL=$?
+  echo
+  [ $RETVAL -eq 0 ] &amp;&amp; rm -f /var/lock/subsys/testclient
+}</p>
+
+<p>restart () {</p>
+
+<pre><code>    stop
+    start
+</code></pre>
+
+<p>}</p>
+
+<h1>Send TERM signal to process and wait up to 300 seconds for process to go away.</h1>
+
+<h1>If process is still alive after 300 seconds, send KILL signal.</h1>
+
+<h1>Built-in killproc() (found in /etc/init.d/functions) is on certain versions of Linux</h1>
+
+<h1>where it sleeps for the full $delay seconds if process does not respond fast enough to</h1>
+
+<h1>the initial TERM signal.</h1>
+
+<p>testclient_killproc()
+{
+  local pid_file=$1
+  local procname=$2
+  local -i delay=10
+  local -i duration=1
+  local pid=<code>pidofproc -p "${pid_file}" ${procname}</code></p>
+
+<p>  kill -TERM $pid >/dev/null 2>&amp;1
+  usleep 1000
+  local -i x=0
+  while [ $x -le $delay ] &amp;&amp; checkpid $pid; do</p>
+
+<pre><code>sleep $duration
+x=$(( $x + $duration))
+</code></pre>
+
+<p>  done</p>
+
+<p>  kill -KILL $pid >/dev/null 2>&amp;1
+  usleep 1000</p>
+
+<p>  checkpid $pid # returns 0 only if the process exists
+  local RC=$?
+  [ &ldquo;$RC&rdquo; -eq 0 ] &amp;&amp; failure &ldquo;${procname} shutdown&rdquo; || rm -f &ldquo;${pid_file}&rdquo;; success &ldquo;${procname} shutdown&rdquo;
+  RC=$((! $RC)) # invert return code so we return 0 when process is dead.
+  return $RC
+}</p>
+
+<p>RETVAL=0</p>
+
+<p>case &ldquo;$1&rdquo; in
+  start)</p>
+
+<pre><code>start
+;;
+</code></pre>
+
+<p>  stop)</p>
+
+<pre><code>stop
+;;
+</code></pre>
+
+<p>  restart|reload|force-reload)</p>
+
+<pre><code>restart
+;;
+</code></pre>
+
+<p>  condrestart)</p>
+
+<pre><code>[ -f $PIDFILEPATH] &amp;&amp; restart || :
+;;
+</code></pre>
+
+<p>  status)</p>
+
+<pre><code>status $testCLIENT
+RETVAL=$?
+;;
+</code></pre>
+
+<p>  *)</p>
+
+<pre><code>echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+RETVAL=1
+</code></pre>
+
+<p>esac</p>
+
+<p>exit $RETVAL
+```</p>
+
+<h2>systemd startup script template</h2>
+
+<h4>helloworld.conf</h4>
+
+<p>```
+node = 1</p>
+
+<p>[system]
+pidFilePath=/var/lib/helloworldtest/run/hello.pid
+logFilePath=/var/lib/helloworldtest/log/hello.log
+```</p>
+
+<h4>/usr/lib/systemd/system/helloworld.service</h4>
+
+<p>```
+[Unit]
+Description=helloworld</p>
+
+<p>[Service]
+Type=forking
+EnvironmentFile=/etc/helloworld.conf
+ExecStartPre=/bin/sh -c &lsquo;/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${logFilePath} )&rsquo;
+ExecStartPre=/bin/sh -c &lsquo;/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${pidFilePath} )&rsquo;
+ExecStart=/usr/local/sbin/daemonize -p ${pidFilePath} -a -o ${logFilePath} -e ${logFilePath} /usr/local/bin/helloworld -c /etc/helloworld.conf
+ExecStopPost=/bin/kill $MAINPID
+Restart=always</p>
+
+<p>[Install]
+WantedBy=default.target
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Keep Environment Variables and PATH When Using SUDO]]></title>
+    <link href="http://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/"/>
+    <updated>2016-06-02T09:15:19+08:00</updated>
+    <id>http://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo</id>
+    <content type="html"><![CDATA[<h2>sudo tips</h2>
+
+<h4>How to keep Environment Variables when Using SUDO</h4>
+
+<p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
+
+<pre><code>Defaults env_keep += "HOME"
+</code></pre>
+
+<p>or and pay attention to the -E flag. This works:</p>
+
+<pre><code>export HOME=/home/users/memorybox
+sudo -E bash -c 'echo $HOME'
+</code></pre>
+
+<h4>How to keep PATH Variables when Using SUDO</h4>
+
+<pre><code>vim /etc/sudoers
+sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
+</code></pre>
+
+<h4>How to change root env</h4>
+
+<pre><code>sudo -i
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux Profile and Debug Tools of Performance]]></title>
+    <link href="http://happy123.me/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/"/>
+    <updated>2015-06-28T16:52:15+08:00</updated>
+    <id>http://happy123.me/blog/2015/06/28/linux-profile-and-debug-tools-of-performance</id>
+    <content type="html"><![CDATA[<h4>用perf工具统计系统调用</h4>
+
+<p><code>
+perf top
+</code></p>
+
+<p>或者统计一段时间内的调用</p>
+
+<p><code>
+perf record -a -g -F 1000 sleep 30
+perf report -g
+</code></p>
+
+<h4>用strace 追踪某个进程的调用</h4>
+
+<p><code>
+strace -c ls
+</code></p>
+
+<p>或者attach一个进程</p>
+
+<p><code>
+strace -c -p pid
+</code></p>
+
+<h4>查看磁盘调用</h4>
+
+<p><code>
+lsof -p pid
+</code></p>
+
+<h4>磁盘负载</h4>
+
+<p><code>
+iostat -x 5 -m
+</code></p>
+
+<p>整体负载统计</p>
+
+<p><code>
+vmstat 5
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux Cheat Sheet]]></title>
+    <link href="http://happy123.me/blog/2015/06/19/linux-cheat-sheet/"/>
+    <updated>2015-06-19T09:43:07+08:00</updated>
+    <id>http://happy123.me/blog/2015/06/19/linux-cheat-sheet</id>
+    <content type="html"><![CDATA[<p>收集linux下需要多次google的命令</p>
+
+<h2>编码问题</h2>
+
+<ul>
+<li>utf16 > utf8</li>
+</ul>
+
+
+<p><code>
+iconv -f UTF-16 -t UTF-8 file_name
+</code></p>
+
+<h2>web开发命令</h2>
+
+<ul>
+<li>curl post 一个json文件</li>
+</ul>
+
+
+<p><code>
+curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf
+</code></p>
+
+<ul>
+<li>curl post 一个json字符串</li>
+</ul>
+
+
+<p><code>
+curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login
+</code></p>
+
+<h2>系统时间</h2>
+
+<ul>
+<li>centos6系列修改时区</li>
+</ul>
+
+
+<p><code>
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+vim /etc/sysconfig/clock
+ZONE="Asia/Shanghai"
+</code></p>
+
+<ul>
+<li>centos7系列修改时区</li>
+</ul>
+
+
+<p><code>
+timedatectl list-timezones | grep Asia
+timedatectl set-timezone Asia/Shanghai
+</code></p>
+
+<ul>
+<li>设置系统时间</li>
+</ul>
+
+
+<p><code>
+date +"%Y%m%d%H%M%S"
+</code></p>
+
+<h2>系统状态</h2>
+
+<ul>
+<li>查看系统占用句柄数</li>
+</ul>
+
+
+<p><code>
+lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more
+</code></p>
+
+<h2>程序</h2>
+
+<ul>
+<li>mongo导出</li>
+</ul>
+
+
+<p><code>
+mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json
+</code></p>
+
+<h2>shell 处理</h2>
+
+<ul>
+<li>获取当前路径</li>
+</ul>
+
+
+<p><code>
+export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)
+</code></p>
+
+<ul>
+<li>检查CPU load</li>
+</ul>
+
+
+<p><code>
+CURRENT_LOAD=`top -b -n 1|grep 'load average'|awk '{print $12}'|sed 's/,//'`
+declare -i current_load=${CURRENT_LOAD%.*}
+</code></p>
+
+<ul>
+<li>find 匹配多个pattern</li>
+</ul>
+
+
+<p><code>
+find /usr/lib64 -name '*.so' -o -name '*.so.1'
+</code></p>
+
+<h2>文本处理</h2>
+
+<ul>
+<li>根据某个字段做uniq</li>
+</ul>
+
+
+<p><code>
+sort -u -t, -k1 file
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Debug Kernel Panic in Centos]]></title>
+    <link href="http://happy123.me/blog/2015/06/07/debug-kernel-panic-in-centos/"/>
+    <updated>2015-06-07T09:22:34+08:00</updated>
+    <id>http://happy123.me/blog/2015/06/07/debug-kernel-panic-in-centos</id>
+    <content type="html"><![CDATA[<p>当你面对一台新机器，出于某些原因(不是闲的慌)不得不自己编译一个内核时，会碰上kernel panic。</p>
+
+<p>kernel panic很让人心烦，启动时的panic更让人烦，没有挂上硬盘，没有任何log的panic尤其让人烦。</p>
+
+<p>提供几个解决问题的瞎搞方法: （以下内容针对于redhat系，但大部分方法是通用的）</p>
+
+<h4>判断引起panic的环节</h4>
+
+<p>简单描述下启动流程:</p>
+
+<pre><code>1 Power On                                 Maybe Err:Worlds Collides
+2 BIOS                                     Maybe Err:Worlds Collides
+3 Load Grub From MBR                       Maybe Err:See nothing
+4 load Grub and show it                    Maybe Err:Grub loads failed
+5 Grub reads menu.list                     Maybe Err:Grub loads failed
+6 Grub loads kernel image                  Maybe Err:Grub loads failed
+7 kernel mounts root filesystem            Maybe Err:PANIC
+8 kernel runs init                         Maybe Err:PANIC
+9 init runs scripts to start               Maybe Err:PANIC
+</code></pre>
+
+<p>首先你要确认下是哪个环节引起的panic，如果你的log打得比较全，一般能根据蛛丝马迹判断是上面那个环节引起的问题。一般panic发生在step7，step8, step9环节当中。</p>
+
+<ul>
+<li><p>step9: 走到这里已经无大碍，无非是/etc/rc.sysinit 之流挂载了不该有的设备，启动了不知道神马的服务，可以直接在启动脚本中打各种log调试</p></li>
+<li><p>step8: 这个就比较棘手，一般是initramfs 解压后执行某些脚本报错，所幸是大部分都是init级别的，一般可以在grub的kernel后面加参数，挂载shell调，也可以直接用工具修改initramfs镜像中的文件，重新打包二分法定位</p></li>
+<li><p>step7: 也比较棘手，一般panic总要怀疑磁盘驱动，我感觉这个是导致panic的大户，另外如果屏幕没有东东输出，估计视频驱动也要鼓捣一番。</p></li>
+</ul>
+
+
+<p>下面针对 step7，step8级别的panic提供一些瞎搞手段</p>
+
+<h4>在kernel 参数中加入调试开关，关闭ACPI，selinux</h4>
+
+<p>```
+  title CentOS (2.6.32-358.el6.x86_64)</p>
+
+<pre><code>      root (hd0,0)
+      kernel /vmlinuz-2.6.32-358.el6.x86_64 ro root=/dev/mapper/vg_localhost-lv_root rd_NO_LUKS rd_NO_MD rd_LVM_LV=vg_localhost/lv_swap crashkernel=128M LANG=zh_CN.UTF-8 rd_LVM_LV=vg_localhost/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM debug selinux=0 acpi=0
+      initrd /initramfs-2.6.32-358.el6.x86_64.img
+</code></pre>
+
+<p>```</p>
+
+<p>这是考验人品的时候，不管三七二十一，先把最有可能的问题点排除掉。另外redhat系的会在kernel后面加上 <code>rhgb quiet</code> 之类的参数，统统去掉，开机的时候好好盯着屏幕看看，有没有可疑的东东输出。 因为系统可能会在短时间内输出大量log而没有记录，你需要设置一下输出log的速率和暂停时机，更详细的参数可以在这里找到:</p>
+
+<p><a href="https://wiki.archlinux.org/index.php/Boot_debugging">https://wiki.archlinux.org/index.php/Boot_debugging</a></p>
+
+<h4>在kernel 参数中加入dracut的调试开关</h4>
+
+<p>redhat系后期采用了dracut构建 initrd镜像，关于dracut的手册在这里:</p>
+
+<p><a href="http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd">http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd</a></p>
+
+<p>调试开关在这里:</p>
+
+<p><a href="https://fedoraproject.org/wiki/How_to_debug_Dracut_problems">https://fedoraproject.org/wiki/How_to_debug_Dracut_problems</a></p>
+
+<p>你可以设定rdshell，在panic之后跳入dracut提供的shell，打dmesg看看log信息。</p>
+
+<h3>最后的最后，实在不知道为啥了，而且你很闲，可以考虑启动时加串口设备调试</h3>
+
+<h4>一些tooltip</h4>
+
+<ul>
+<li><p>编译kernel的时候，make menuconfig，3.10以后的内核支持搜索某个开关后按数字键直接跳到那个开关的设置项中，这个很有用</p></li>
+<li><p>redhat系用dracut构建initrd，配置文件默认在 /usr/share/dracut/ ，如果你懒得改 initramfs，可以直接修改里面的配置文件，然后重新make install即可</p></li>
+<li><p>有时候你不好确认根文件系统挂载到哪里了，可以参考这里:</p></li>
+</ul>
+
+
+<p><a href="http://free-electrons.com/blog/find-root-device/">http://free-electrons.com/blog/find-root-device/</a></p>
+
+<p>其它参考资料:</p>
+
+<p><a href="http://www.tuxradar.com/content/how-fix-linux-boot-problems">http://www.tuxradar.com/content/how-fix-linux-boot-problems</a></p>
+]]></content>
+  </entry>
+  
+</feed>
