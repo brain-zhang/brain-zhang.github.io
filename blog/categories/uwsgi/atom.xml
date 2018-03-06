@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Uwsgi | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/uwsgi/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-02-28T11:19:42+08:00</updated>
+  <updated>2018-03-06T13:26:50+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -33,10 +33,26 @@
 
 <p>```</p>
 
-<h1>test.pydef application(env, start_response):</h1>
+<h1>test.py</h1>
+
+<p>def application(env, start_response):</p>
 
 <pre><code>start_response('200 OK', [('Content-Type','text/html')])
 return "Hello World"
+</code></pre>
+
+<p>```</p>
+
+<p>python3的话需要返回一个binary</p>
+
+<p>```</p>
+
+<h1>test.py</h1>
+
+<p>def application(env, start_response):</p>
+
+<pre><code>start_response('200 OK', [('Content-Type','text/html')])
+return [b"Hello World"]
 </code></pre>
 
 <p>```</p>
