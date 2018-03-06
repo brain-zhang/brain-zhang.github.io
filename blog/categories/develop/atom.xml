@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-03-06T13:26:50+08:00</updated>
+  <updated>2018-03-06T13:28:42+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -236,6 +236,129 @@ class Singleton(Borg):
 <p><a href="https://github.com/Huddle/PhantomCSS">https://github.com/Huddle/PhantomCSS</a></p>
 
 <p>最后感概下，Pycon一年比一年进步，志愿者们功不可没。对于他们的工作，怎么赞誉都不过分。非常感谢!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Uwsgi部署django程序]]></title>
+    <link href="http://happy123.me/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/"/>
+    <updated>2014-10-31T08:39:26+08:00</updated>
+    <id>http://happy123.me/blog/2014/10/31/uwsgibu-shu-djangocheng-xu</id>
+    <content type="html"><![CDATA[<p>Python的web世界，部署首选uwsgi，既可独战，又可搭配Nginx等车轮战，实在是居家必备。</p>
+
+<p>但我每次都得搞都得去翻一遍手册，实在烦了，记一下简单粗暴的测试方案。</p>
+
+<h2>安装</h2>
+
+<pre><code>pip install uwsgi
+</code></pre>
+
+<h2>测试</h2>
+
+<p>写一个最简单的test.py:</p>
+
+<p>```</p>
+
+<h1>test.py</h1>
+
+<p>def application(env, start_response):</p>
+
+<pre><code>start_response('200 OK', [('Content-Type','text/html')])
+return "Hello World"
+</code></pre>
+
+<p>```</p>
+
+<p>python3的话需要返回一个binary</p>
+
+<p>```</p>
+
+<h1>test.py</h1>
+
+<p>def application(env, start_response):</p>
+
+<pre><code>start_response('200 OK', [('Content-Type','text/html')])
+return [b"Hello World"]
+</code></pre>
+
+<p>```</p>
+
+<p>执行shell命令:</p>
+
+<pre><code>uwsgi --http :8000 --wsgi-file test.py
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到<code>Hello World</code>了</p>
+
+<h2>集成Django</h2>
+
+<pre><code>django-admin startproject testuwsgi
+</code></pre>
+
+<p>这样生成的项目，django版本不同，目录会有微小的差别，找manage.py就对了</p>
+
+<p>如果是>django1.6的话，会自动生成wsgi.py文件，没有的话编辑一个:</p>
+
+<p>```</p>
+
+<h1>!/usr/bin/env python</h1>
+
+<h1>coding: utf-8</h1>
+
+<p>import os
+import sys</p>
+
+<h1>将系统的编码设置为UTF8</h1>
+
+<p>reload(sys)
+sys.setdefaultencoding(&lsquo;utf8&rsquo;)</p>
+
+<p>os.environ.setdefault(&ldquo;DJANGO_SETTINGS_MODULE&rdquo;, &ldquo;mysite.settings&rdquo;)</p>
+
+<p>from django.core.handlers.wsgi import WSGIHandler
+application = WSGIHandler()
+```</p>
+
+<p>执行:</p>
+
+<pre><code>uwsgi --http :8000 --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问:</p>
+
+<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+
+<p>因该能看到Django的欢迎页面了</p>
+
+<h2>支持Https</h2>
+
+<p>uwsgi自1.3版本开始支持https</p>
+
+<p>分两步走:</p>
+
+<h4>生成证书</h4>
+
+<pre><code>openssl genrsa -out foobar.key 2048
+openssl req -new -key foobar.key -out foobar.csr
+openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
+</code></pre>
+
+<h4>走起</h4>
+
+<pre><code>uwsgi --master --https 0.0.0.0:8443,foobar.crt,foobar.key --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
+</code></pre>
+
+<p>访问的时候要以:</p>
+
+<p><a href="https://127.0.0.1:8443/">https://127.0.0.1:8443/</a></p>
+
+<p>OK了</p>
+
+<p>至于怎么搭配Nginx，写配置文件，搭配Supervisor，还是老老实实翻手册吧，反正这个不是经常做。</p>
 ]]></content>
   </entry>
   
