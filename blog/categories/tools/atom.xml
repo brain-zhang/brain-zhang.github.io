@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-02T09:16:11+08:00</updated>
+  <updated>2018-04-02T09:20:12+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,7 +18,7 @@
     <link href="http://happy123.me/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/"/>
     <updated>2018-04-02T09:14:01+08:00</updated>
     <id>http://happy123.me/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory</id>
-    <content type="html"><![CDATA[<p>小内存一般都不大，比如 1GB 什么的。估计总是发现装完 LAMP 就基本上内存全用光了。</p>
+    <content type="html"><![CDATA[<p>小VPS内存一般都不大，比如 1GB 什么的。估计总是发现装完 LAMP 就基本上内存全用光了。</p>
 
 <p>访问量不大的话，可以在 my.conf 中加入以下配置，关掉性能优化。</p>
 
