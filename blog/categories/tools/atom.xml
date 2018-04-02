@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-03-06T13:36:25+08:00</updated>
+  <updated>2018-04-02T09:16:11+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Disable Performance_schema to Save Mysql's Memory]]></title>
+    <link href="http://happy123.me/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/"/>
+    <updated>2018-04-02T09:14:01+08:00</updated>
+    <id>http://happy123.me/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory</id>
+    <content type="html"><![CDATA[<p>小内存一般都不大，比如 1GB 什么的。估计总是发现装完 LAMP 就基本上内存全用光了。</p>
+
+<p>访问量不大的话，可以在 my.conf 中加入以下配置，关掉性能优化。</p>
+
+<p><code>
+[mysqld]
+performance_schema=off
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Enable Multiusers Support for Win10]]></title>
@@ -338,141 +354,6 @@ iostat -x 5 -m
 
 <p><code>
 vmstat 5
-</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux Cheat Sheet]]></title>
-    <link href="http://happy123.me/blog/2015/06/19/linux-cheat-sheet/"/>
-    <updated>2015-06-19T09:43:07+08:00</updated>
-    <id>http://happy123.me/blog/2015/06/19/linux-cheat-sheet</id>
-    <content type="html"><![CDATA[<p>收集linux下需要多次google的命令</p>
-
-<h2>编码问题</h2>
-
-<ul>
-<li>utf16 > utf8</li>
-</ul>
-
-
-<p><code>
-iconv -f UTF-16 -t UTF-8 file_name
-</code></p>
-
-<h2>web开发命令</h2>
-
-<ul>
-<li>curl post 一个json文件</li>
-</ul>
-
-
-<p><code>
-curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf
-</code></p>
-
-<ul>
-<li>curl post 一个json字符串</li>
-</ul>
-
-
-<p><code>
-curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login
-</code></p>
-
-<h2>系统时间</h2>
-
-<ul>
-<li>centos6系列修改时区</li>
-</ul>
-
-
-<p><code>
-ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-vim /etc/sysconfig/clock
-ZONE="Asia/Shanghai"
-</code></p>
-
-<ul>
-<li>centos7系列修改时区</li>
-</ul>
-
-
-<p><code>
-timedatectl list-timezones | grep Asia
-timedatectl set-timezone Asia/Shanghai
-</code></p>
-
-<ul>
-<li>设置系统时间</li>
-</ul>
-
-
-<p><code>
-date +"%Y%m%d%H%M%S"
-</code></p>
-
-<h2>系统状态</h2>
-
-<ul>
-<li>查看系统占用句柄数</li>
-</ul>
-
-
-<p><code>
-lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more
-</code></p>
-
-<h2>程序</h2>
-
-<ul>
-<li>mongo导出</li>
-</ul>
-
-
-<p><code>
-mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json
-</code></p>
-
-<h2>shell 处理</h2>
-
-<ul>
-<li>获取当前路径</li>
-</ul>
-
-
-<p><code>
-export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)
-</code></p>
-
-<ul>
-<li>检查CPU load</li>
-</ul>
-
-
-<p><code>
-CURRENT_LOAD=`top -b -n 1|grep 'load average'|awk '{print $12}'|sed 's/,//'`
-declare -i current_load=${CURRENT_LOAD%.*}
-</code></p>
-
-<ul>
-<li>find 匹配多个pattern</li>
-</ul>
-
-
-<p><code>
-find /usr/lib64 -name '*.so' -o -name '*.so.1'
-</code></p>
-
-<h2>文本处理</h2>
-
-<ul>
-<li>根据某个字段做uniq</li>
-</ul>
-
-
-<p><code>
-sort -u -t, -k1 file
 </code></p>
 ]]></content>
   </entry>
