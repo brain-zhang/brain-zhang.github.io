@@ -80,6 +80,59 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/10/webtorrent-redefine-cdn/">Webtorrent Redefine CDN?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-10T10:00:19+08:00" pubdate data-updated="true">May 10<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/05/10/webtorrent-redefine-cdn/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2016/05/10/webtorrent-redefine-cdn/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近发现了一个开源的JS东东，webtorrent:</p>
+
+<p><a href="https://github.com/feross/webtorrent">https://github.com/feross/webtorrent</a></p>
+
+<p>用webRTC实现了一个浏览器端的bt客户端。</p>
+
+<p>这个点子我还在几年前试过呢？当时想用socketio来做，但各种限制，当时webRTC还是个小众，没有被浏览器主流实现。</p>
+
+<p>试了一下，效果还差强人意。</p>
+
+<p>脑洞开一下，话说这会不会是快播们的春天来了。</p>
+
+<p>严肃一点再想想，是不是CDN提供商们可以利用它分担压力，提升速度，走上人生巅峰&hellip;.</p>
+
+<p>留待后续观察。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/">有关于云计算及SDN</a></h1>
     
     
@@ -1547,87 +1600,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/">Linux Profile and Debug Tools of Performance</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-28T16:52:15+08:00" pubdate data-updated="true">Jun 28<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>用perf工具统计系统调用</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>perf top</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者统计一段时间内的调用</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>perf record -a -g -F 1000 sleep 30
-</span><span class='line'>perf report -g</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>用strace 追踪某个进程的调用</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>strace -c ls</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者attach一个进程</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>strace -c -p pid</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>查看磁盘调用</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lsof -p pid</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>磁盘负载</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>iostat -x 5 -m</span></code></pre></td></tr></table></div></figure>
-
-
-<p>整体负载统计</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vmstat 5 </span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -1645,6 +1617,10 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">Satoshi Craig Wright Is Being Sued for $10 Billion</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/">Disable Performance_schema to Save Mysql&#8217;s Memory</a>
       </li>
     
@@ -1658,10 +1634,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     
       <li class="post">
         <a href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">比特币POW难度调节分析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi/">央行抵押补充贷款PSL浅析</a>
       </li>
     
   </ul>
@@ -1723,7 +1695,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (13)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (14)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>

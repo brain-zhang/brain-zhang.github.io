@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Python编程实战 - 笔记1 - Living a Simple Life is a Happy Life</title>
+  <title>Satoshi Craig Wright Is Being Sued for $10 Billion - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。 创建型设计模式 抽象工厂 (Abstract Factory) 名字就用AbstractFactory好了，不要起什么BaseFactory之类的
-相关类都放到对应的Factory Class里面 &hellip;">
+  <meta name="description" content="啥也不说了，涉及百亿美元的案子，估计在人类历史上都能排前排了。 而且作为Bitcoin粉，我估计这个案子有可能在历史上空前绝后。涉及悬疑，天才，欺诈，巨额金钱，先知等等元素~~ 留名之。 https://www.coindesk.com/satoshi-craig-wright-sued-10- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1">
+  <link rel="canonical" href="http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -78,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">Python编程实战 - 笔记1</h1>
+      <h1 class="entry-title">Satoshi Craig Wright Is Being Sued for $10 Billion</h1>
     
     
       <p class="meta">
@@ -94,7 +93,7 @@
   
 
 
-<time datetime="2015-04-27T08:17:45+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+<time datetime="2018-04-22T19:31:24+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -104,129 +103,98 @@
   </header>
 
 
-<div class="entry-content"><p>这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。</p>
+<div class="entry-content"><p>啥也不说了，涉及百亿美元的案子，估计在人类历史上都能排前排了。</p>
 
-<h2>创建型设计模式</h2>
+<p>而且作为Bitcoin粉，我估计这个案子有可能在历史上空前绝后。涉及悬疑，天才，欺诈，巨额金钱，先知等等元素~~</p>
 
-<h4>抽象工厂 (Abstract Factory)</h4>
+<p>留名之。</p>
 
-<ul>
-<li>名字就用AbstractFactory好了，不要起什么BaseFactory之类的</li>
-<li>相关类都放到对应的Factory Class里面，不要暴露给外面了</li>
-</ul>
+<p><a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/">https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</a></p>
 
+<h4>PS:附一下之前的总结</h4>
 
-<h4>建造者模式 (Build)</h4>
+<p>2016-05更新:</p>
 
-<ul>
-<li>和工厂的区别就是保存了创建对象时各个部分的细节</li>
-</ul>
+<p>=========================</p>
 
+<p>参考<a href="http://8btc.com%E7%9A%84%E6%96%87%E7%AB%A0:">http://8btc.com%E7%9A%84%E6%96%87%E7%AB%A0:</a></p>
 
-<h4>工厂模式</h4>
+<p>为什么说这个中本聪是假的</p>
 
-<ul>
-<li>根据情况实例化对象</li>
-<li>还是注意和抽象工厂的区别，抽象工厂是将创建对象的行为抽象出来，而工厂模式则是根据要创建的对象类型实例化</li>
-</ul>
+<p>Craig Wright 又在声明他是”中本聪”了.</p>
 
-
-<h4>原型模式 (Prototype)</h4>
-
-<ul>
-<li>这个模式其实在javascript的根本，不过Python的实现方法还真是五花八门，我说直接用copy就好了嘛</li>
-</ul>
-
-
-<h4>单例模式 (Singleton)</h4>
-
-<ul>
-<li>我最中意的一种实现:</li>
-</ul>
-
+<p>“中本聪”给出的签名是：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Borg:
-</span><span class='line'>    _shared_state = {}
-</span><span class='line'>    def __init__(self):
-</span><span class='line'>        self.__dict__ = self._shared_state
-</span><span class='line'>
-</span><span class='line'>class Singleton(Borg):
-</span><span class='line'>    def __init__(self, arg):
-</span><span class='line'>        Borg.__init__(self)
-</span><span class='line'>        self.val = arg
-</span><span class='line'>    def __str__(self):
-</span><span class='line'>        return self.val</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MEUCIQDBKn1Uly8m0UyzETObUSL4wYdBfd4ejvtoQfVcNCIK4AIgZmMsXNQWHvo6KDd2Tu6euEl13VTC3ihl6XUlhcU+fM4=</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>结构型设计</h2>
+<p>我们先对信息串进行base64解码，再转换成hex是：</p>
 
-<ul>
-<li>作用就是改装对象，或者把小对象合并为大对象</li>
-</ul>
-
-
-<h4>Adapter</h4>
-
-<ul>
-<li>其实就是转接方法</li>
-</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>3045022100c12a7d54972f26d14cb311339b5122f8c187417dde1e8efb6841f55c34220ae0022066632c5cd4161efa3a2837764eee9eb84975dd54c2de2865e9752585c53e7cce</span></code></pre></td></tr></table></div></figure>
 
 
-<h4>Bridge</h4>
+<p>很遗憾，我们可以在交易ID：</p>
 
-<ul>
-<li>把方法抽象出来</li>
-</ul>
-
-
-<h4>Composite</h4>
-
-<ul>
-<li>Python里面有一种省一点内存的写法，可以直接用CompositeItem和Item两个类来实现，不过我觉得不直观</li>
-</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe</span></code></pre></td></tr></table></div></figure>
 
 
-<h4>decorator</h4>
+<p>中找出这个签名。可通过：</p>
 
-<ul>
-<li><p>几个新的decorator:</p>
+<p><a href="https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex">https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</a></p>
 
-<ul>
-<li><p><code>@functools_wraps</code> : 装饰器工厂</p></li>
-<li><p><code>@statically_typed</code> : 类型检查</p></li>
-</ul>
-</li>
-<li><p>另外<code>@ensure</code>类修饰符可以用来简化设置property的代码</p></li>
-</ul>
+<p>找到十六进制串的交易内容</p>
 
+<p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
 
-<h4>Facade</h4>
+<p>但是令人疑惑的是GAVIN ANDRESEN为这位”中本聪”背书:</p>
 
-<ul>
-<li>这个模式其实是天天在做的，就是把接口聚合的好看一点</li>
-<li>其实思想可以推广到很多方面，比如Docker，就是LXC的一个Facader，而且做的比较好看，于是大家就都来用了</li>
-</ul>
+<p><a href="http://gavinandresen.ninja/satoshi">http://gavinandresen.ninja/satoshi</a></p>
 
+<p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
 
-<h4>Flyweight</h4>
+<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家……</p>
 
-<ul>
-<li>管理许多小对象的时候用引用</li>
-<li>Python用<code>__slot__</code> Attribute来做最方便</li>
-<li>里面关于用shelve对象存储class attribute的思路挺实用的</li>
-</ul>
+<p>卫平布莱恩特老师说,这球有意思啊…….</p>
 
+<p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
+
+<p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
+
+<p><a href="https://www.zhihu.com/question/22199390/answer/76083139">https://www.zhihu.com/question/22199390/answer/76083139</a></p>
+
+<p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+
+<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+
+<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
+
+<p>呵呵, 绝佳的侦探小说体裁啊.</p>
+
+<p>2017-12-24更新</p>
+
+<p>================</p>
+
+<p>我在比特币开发论坛的早期帖子上发现了一个线索，在bitcoin release 0.1版本的时候，satoshi曾经自称自己:</p>
+
+<pre><code>"The design supports a tremendous variety of possible transaction types that I designed years ago.  Escrow transactions, bonded contracts, third party arbitration, multi-party signature, etc.  If Bitcoin catches on in a big way, these are things we'll want to explore in the future, but they all had to be designed at the beginning to make sure they would be possible later."
+</code></pre>
+
+<p>这代表satoshi早期的职业生涯和金融、保险以及法务方面联系很紧密，同时看他的代码风格是老派C++的写法，有MS的味道 ：），然后看看 David Kleiman的个人主页，浮想联翩啊。</p>
+
+<p>2018-04-22更新</p>
+
+<p>==================</p>
+
+<p>Craig Wright的案宗已经出来了:</p>
+
+<p><a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/">https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</a></p>
+
+<p>我觉得基本上可以确定猜测是对的，但是除了Craig Wright本人，真相的细节可能永远不会有人知道了。</p>
+
+<p>现在最大的疑问就是100w币的私钥是谁控制着？</p>
 </div>
 
 
@@ -249,12 +217,12 @@
   
 
 
-<time datetime="2015-04-27T08:17:45+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+<time datetime="2018-04-22T19:31:24+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/designpattern/'>DesignPattern</a>, <a class='category' href='/blog/categories/develop/'>develop</a>
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
   
 </span>
 
@@ -270,10 +238,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/04/10/multiline-comments-in-docker-file/" title="Previous Post: multiline comments in docker file">&laquo; multiline comments in docker file</a>
+        <a class="basic-alignment left" href="/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/" title="Previous Post: disable performance_schema to save mysql's memory">&laquo; disable performance_schema to save mysql's memory</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/05/06/how-to-xargs-separate-parameters/" title="Next Post: how to xargs separate parameters">how to xargs separate parameters &raquo;</a>
       
     </p>
   </footer>
@@ -395,8 +361,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/';
-        var disqus_url = 'http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/';
+        var disqus_url = 'http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/';
         var disqus_script = 'embed.js';
       
     (function () {

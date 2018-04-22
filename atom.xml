@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-02T09:20:12+08:00</updated>
+  <updated>2018-04-22T19:42:50+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Satoshi Craig Wright Is Being Sued for $10 Billion]]></title>
+    <link href="http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/"/>
+    <updated>2018-04-22T19:31:24+08:00</updated>
+    <id>http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion</id>
+    <content type="html"><![CDATA[<p>啥也不说了，涉及百亿美元的案子，估计在人类历史上都能排前排了。</p>
+
+<p>而且作为Bitcoin粉，我估计这个案子有可能在历史上空前绝后。涉及悬疑，天才，欺诈，巨额金钱，先知等等元素~~</p>
+
+<p>留名之。</p>
+
+<p><a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/">https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</a></p>
+
+<h4>PS:附一下之前的总结</h4>
+
+<p>2016-05更新:</p>
+
+<p>=========================</p>
+
+<p>参考<a href="http://8btc.com%E7%9A%84%E6%96%87%E7%AB%A0:">http://8btc.com%E7%9A%84%E6%96%87%E7%AB%A0:</a></p>
+
+<p>为什么说这个中本聪是假的</p>
+
+<p>Craig Wright 又在声明他是”中本聪”了.</p>
+
+<p>“中本聪”给出的签名是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MEUCIQDBKn1Uly8m0UyzETObUSL4wYdBfd4ejvtoQfVcNCIK4AIgZmMsXNQWHvo6KDd2Tu6euEl13VTC3ihl6XUlhcU+fM4=</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们先对信息串进行base64解码，再转换成hex是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>3045022100c12a7d54972f26d14cb311339b5122f8c187417dde1e8efb6841f55c34220ae0022066632c5cd4161efa3a2837764eee9eb84975dd54c2de2865e9752585c53e7cce</span></code></pre></td></tr></table></div></figure>
+
+
+<p>很遗憾，我们可以在交易ID：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe</span></code></pre></td></tr></table></div></figure>
+
+
+<p>中找出这个签名。可通过：</p>
+
+<p><a href="https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex">https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</a></p>
+
+<p>找到十六进制串的交易内容</p>
+
+<p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
+
+<p>但是令人疑惑的是GAVIN ANDRESEN为这位”中本聪”背书:</p>
+
+<p><a href="http://gavinandresen.ninja/satoshi">http://gavinandresen.ninja/satoshi</a></p>
+
+<p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
+
+<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家……</p>
+
+<p>卫平布莱恩特老师说,这球有意思啊…….</p>
+
+<p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
+
+<p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
+
+<p><a href="https://www.zhihu.com/question/22199390/answer/76083139">https://www.zhihu.com/question/22199390/answer/76083139</a></p>
+
+<p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+
+<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+
+<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
+
+<p>呵呵, 绝佳的侦探小说体裁啊.</p>
+
+<p>2017-12-24更新</p>
+
+<p>================</p>
+
+<p>我在比特币开发论坛的早期帖子上发现了一个线索，在bitcoin release 0.1版本的时候，satoshi曾经自称自己:</p>
+
+<pre><code>"The design supports a tremendous variety of possible transaction types that I designed years ago.  Escrow transactions, bonded contracts, third party arbitration, multi-party signature, etc.  If Bitcoin catches on in a big way, these are things we'll want to explore in the future, but they all had to be designed at the beginning to make sure they would be possible later."
+</code></pre>
+
+<p>这代表satoshi早期的职业生涯和金融、保险以及法务方面联系很紧密，同时看他的代码风格是老派C++的写法，有MS的味道 ：），然后看看 David Kleiman的个人主页，浮想联翩啊。</p>
+
+<p>2018-04-22更新</p>
+
+<p>==================</p>
+
+<p>Craig Wright的案宗已经出来了:</p>
+
+<p><a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/">https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</a></p>
+
+<p>我觉得基本上可以确定猜测是对的，但是除了Craig Wright本人，真相的细节可能永远不会有人知道了。</p>
+
+<p>现在最大的疑问就是100w币的私钥是谁控制着？</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Disable Performance_schema to Save Mysql's Memory]]></title>
@@ -800,33 +900,6 @@ gcc --version
 <p>也许未来一个月很快就会发生一些有趣的事情，这是Bitcoin系统运行8年来的最大波澜。</p>
 
 <p>大家拭目以待。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[用Pyinstaller打包python脚本适配windows]]></title>
-    <link href="http://happy123.me/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/"/>
-    <updated>2017-02-14T16:13:52+08:00</updated>
-    <id>http://happy123.me/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows</id>
-    <content type="html"><![CDATA[<p>一行命令的事，纯python脚本打包出来一般5Mb左右，大小还可以接收。</p>
-
-<p>首先在脚本同目录下加入一个pyinstaller.py:</p>
-
-<pre><code>#!/usr/bin/env python
-from PyInstaller.__main__ import run
-run()
-</code></pre>
-
-<p>然后执行:</p>
-
-<pre><code>python pyinstaller.py -c -F &lt;xxxx.py&gt; -p &lt;sdk&gt;
-</code></pre>
-
-<ul>
-<li>&lt;xxxx.py> 为脚本名称</li>
-<li><sdk> 为三方包目录</li>
-</ul>
-
 ]]></content>
   </entry>
   

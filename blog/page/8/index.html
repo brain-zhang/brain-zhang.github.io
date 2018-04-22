@@ -80,6 +80,176 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/17/git-cheat/">Git Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-17T11:45:03+08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/01/17/git-cheat/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2015/01/17/git-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>整理一下经常忘记的Git命令</p>
+
+<h1>remote 同步</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote -v                                                     // 查看当前远程版本库
+</span><span class='line'>$ git remote add cocos2d-x git://github.com/cocos2d/cocos2d-x.git   // 添加原始版本库
+</span><span class='line'>$ git fetch cocos2d-x                                               // 获取原始版本库的更新
+</span><span class='line'>$ git merge cocos2d-x/master                                        // 合并原始版本库的代码到当前版本库中，合并前确保当前分支是master</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>remote branch</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch -a                                                     //查看所有分支
+</span><span class='line'>$ git checkout -b branches/xxx origin/branches/xxx                  //chekcout远程分支
+</span><span class='line'>$ git push origin --delete &lt;branchname&gt;                             //删除远程分支
+</span><span class='line'>$ git push origin --delete tag &lt;tagname&gt;                            //删除远程tag
+</span><span class='line'>$ git push origin :&lt;branchName&gt;                                     //推送一个空分支到远程分支，相当于删除分支
+</span><span class='line'>$ git push origin :refs/tags/&lt;tagName&gt;                              //推送一个空tag到远程，相当于删除tag</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>删除不存在对应远程分支的本地分支</h2>
+
+<p>假设这样一种情况：</p>
+
+<ol>
+<li>我创建了本地分支b1并pull到远程分支 origin/b1；</li>
+<li>其他人在本地使用fetch或pull创建了本地的b1分支；</li>
+<li>我删除了 origin/b1 远程分支；</li>
+<li>其他人再次执行fetch或者pull并不会删除这个他们本地的 b1 分支，运行 git branch -a 也不能看出这个branch被删除了，如何处理？</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git fetch -p                                                        //在fetch之后删除掉没有与远程分支对应的本地分支</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>重命名远程分支</h2>
+
+<p>在git中重命名远程分支，其实就是先删除远程分支，然后重命名本地分支，再重新提交一个远程分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push --delete origin devel                                    //删除远程分支
+</span><span class='line'>$ git branch -m devel develop                                       //重命名本地分支
+</span><span class='line'>$ git push origin develop                                           //推送本地分支</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>把本地tag推送到远程</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push --tags</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>获取远程tag</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git fetch origin tag &lt;tagname&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>合并branch上的指定文件</h2>
+
+<p>branches/A 上修改了一个文件A.h，新增了一个文件B.h，删除了一个文件C.h。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout master                                               //首先切换到master分支
+</span><span class='line'>
+</span><span class='line'>$ git checkout -p branches/A A.h                                    //不切换branch，把RemLanbranches/A上的A.h更新到当前分支
+</span><span class='line'>
+</span><span class='line'>$ git checkout branches/A B.h                                       //去掉-p参数，新增该B.h文件
+</span><span class='line'>
+</span><span class='line'>$ rm C.h                                                            //删除文件目前还没找到其他办法，但效果是一样的</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>分支的衍合</h2>
+
+<p>参考:<a href="http://git-scm.com/docs/git-rebase">http://git-scm.com/docs/git-rebase</a></p>
+
+<h1>diff</h1>
+
+<p>只显示两个分支间的差异，如果你想找出‘master’,‘test’的共有 父分支和&#8217;test&#8217;分支之间的差异，你用3个‘.&lsquo;来取代前面的两个&rsquo;.&lsquo; 。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff master..test</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示你当前的索引和上次提交间的差异；这些内容在不带&#8221;-a&#8221;参数运行 &ldquo;git commit&#8221;命令时就会被提交。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff --cached</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示你工作目录与上次提交时之间的所有差别，这条命令所显示的 内容都会在执行&#8221;git commit -a&#8221;命令时被提交。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff HEAD</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你要查看当前的工作目录与另外一个分支的差别，你可以用下面的命令执行:
+这会显示你当前工作目录与另外一个叫&#8217;test&#8217;分支的差别。你也以加上路径限定符，来只 比较某一个文件或目录。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff test</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示你当前工作目录下的lib目录与上次提交之间的差别(或者更准确的 说是在当前分支)。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff HEAD -- ./lib</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果不是查看每个文件的详细差别，而是统计一下有哪些文件被改动，有多少行被改 动，就可以使用‘&mdash;stat&#8217; 参数。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff --stat</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/05/javascriptshe-ji-mo-shi-2/">Javascript设计模式 - 笔记2</a></h1>
     
     
@@ -1531,130 +1701,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">用TCP/IP进行网际互连 (笔记)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-05T08:19:18+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>还是要补习基础知识啊。</p>
-
-<p>譬如TCP的状态机转换，我每次都得花很长很长的时间才能反应过来什么时候会进入TIME_WAIT,CLOSE_WAIT&hellip;.</p>
-
-<p>譬如一个pcap包，看了很长很长时间才发现是个规避糊涂窗口的Nagle算法&hellip;</p>
-
-<p>譬如这本书，每次扫一遍好像都能知道怎么回事，过了段时间就又雾里看花了&hellip;.</p>
-
-<p>这次通读一遍，又发现一些有意思的东西，记一下:</p>
-
-<h3>底层网络技术回顾</h3>
-
-<ul>
-<li><p>最初的电话系统是面向连接的电路交换，后期(就是现在)的IP网络是基于分组交换的</p>
-
-<p>  讲起来很简单，实际上为了实现分组交换网上的通信质量达到电路直接交换的效果，还是要付出很大努力，才能克服时延、抖动、通信质量等多个问题</p></li>
-<li><p>以太网容量</p>
-
-<p>  当前以太网不是为一对计算机之间提供可能的最高吞吐率而优化的，而是为更多网点介入和更多通信总量优化的。当前10G以太网的帧长度和格式还是保持10M网的标准，从这方面看，10G以太网在物理层的协议上还是有优化余地的。</p></li>
-<li><p>POE可以提供48V,不超过15.4W的功率消耗，这个数字还是挺可观的</p></li>
-<li><p>关于以太网的一些特点</p>
-
-<p>  CSMA/CD 是很简单但有效的手段，值得后来的分布式系统借鉴</p>
-
-<p>  以太网在物理层上只是&#8221;尽最大努力交付(best effort delivery)&ldquo;，但如果碰到问题，错误不会得到通知，数据包会丢弃</p>
-
-<p>  frame帧大小 64B~1518B</p>
-
-<p>  线缆的集合造就集线器，集线器升级为连接任意多的以太网就变成网桥，网桥提供自适应的帧转发，这样任意多的以太网就集合为一个物理网络，他们也遵循CSMA/CD。网桥提供更完善的隔离和配置方案就变成了交换机。</p>
-
-<p>  以太网的地址(MAC)是要向IEEE买的</p>
-
-<p>  以太网基础上升级为WIFI就有了两个很重要的技能:</p>
-
-<pre><code>* 可作为接入点基站
-* 可作为接入点连接(点对点),也就是WI-MAX
-</code></pre></li>
-</ul>
-
-
-<h3>网际互联的模型</h3>
-
-<ul>
-<li><p>路由器的工作，某种情况下和DHT很相似，不过实现的约束更多一些</p></li>
-<li><p>定向广播地址，主机号都为1</p></li>
-<li><p>受限广播地址，255.255.255.255 (本地子网广播)</p></li>
-<li><p>0.0.0.0有时候也用于广播，这是早期BSD实现的一个bug。后来有些软件为了兼容，也这么实现了。</p></li>
-<li><p>0.0.0.0 表示无路由目标，有些应用把绑定这个的设置，认为是绑定全部本地IP。类似于一些设置中，设为0就相当于该项设置无限制。</p></li>
-<li><p>127.0.0.1 是本地环回地址, 专供自己访问自己, 速度大( 不用经过整个协议栈 )</p></li>
-<li><p>地址管理早期是由<a href="https://www.iana.org/about">IANA</a> 管理的，早期的IANA地址维护者仅仅是一个人,<a href="http://en.wikipedia.org/wiki/Jon_Postel">Jon Postel</a>，这位传奇人物在1998年过世，后来IANA成长为更完善的组织，ICANN是也,目前由ICANN管理地址相关分配工作。</p></li>
-<li><p>IBM的地址段是9.0.0.0，AT&amp;T的地址段是12.0.0.0</p></li>
-</ul>
-
-
-<h3>ARP</h3>
-
-<ul>
-<li>没什么好讲的了，这个是最熟悉的</li>
-</ul>
-
-
-<h3>无连接网络</h3>
-
-<pre><code>* 错误会被丢弃!!!
-
-* IP报文已经包含了源-目的地址
-
-* 分片控制
-
-* 优先级
-
-* 校验和
-
-* 路由信息和时间戳
-</code></pre>
-
-<h3>ICMP</h3>
-
-<ul>
-<li>最好和Ping结合起来学习</li>
-</ul>
-
-
-<p>最后，读这本书后面的应用层也很好玩，能延伸想象很多东西，比如现在Linux下虚拟网卡的实现，Vmware如何虚拟物理网卡的，还有早期浩方上如果实现虚拟局域网的，很多原来看起来Magic的东西，其实原理很简单，平时多想想会很有趣。</p>
-
-<p>从TCP/IP的设计来看，我们的网络应用还是停留在很&#8221;初级&#8221;的阶段，还没有完全发挥出他的潜力。未来肯定还会出现像P2P软件这样神奇的颠覆者，TCP/IP所承载的流量也会一次次变化，如果把TCP/IP比作海的话，不知道下一位弄潮儿是谁。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -1672,6 +1718,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">Satoshi Craig Wright Is Being Sued for $10 Billion</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/">Disable Performance_schema to Save Mysql&#8217;s Memory</a>
       </li>
     
@@ -1685,10 +1735,6 @@
     
       <li class="post">
         <a href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">比特币POW难度调节分析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/02/02/yang-xing-di-ya-bu-chong-dai-kuan-pslqian-xi/">央行抵押补充贷款PSL浅析</a>
       </li>
     
   </ul>
@@ -1750,7 +1796,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (13)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (14)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
