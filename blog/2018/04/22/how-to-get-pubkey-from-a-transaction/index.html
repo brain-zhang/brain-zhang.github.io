@@ -5,16 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>自定义Django的密码策略 - Living a Simple Life is a Happy Life</title>
+  <title>How to Get Pubkey From a Transaction - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="Django 从1.4 版本开始，包含了一些安全方面的重要提升。其中一个是使用 PBKDF2 密码加密算法代替了 SHA1 。另外一个特性是你可以添加自己的密码加密方法。 Django 会使用你提供的第一个密码加密方法（在你的 setting.py 文件里要至少有一个方法） 1
-2
-3
-4
-5
-6 &hellip;">
+  <meta name="description" content="比如1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD，这个地址，有转出过，如何得到公钥 原理很简单，但是实践起来比较烦： 首先我们找一下这个地址的随便一笔花费，比如这个: https://btc.com/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -23,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue">
+  <link rel="canonical" href="http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -82,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">自定义Django的密码策略</h1>
+      <h1 class="entry-title">How to Get Pubkey From a Transaction</h1>
     
     
       <p class="meta">
@@ -98,7 +93,7 @@
   
 
 
-<time datetime="2014-09-17T08:38:03+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+<time datetime="2018-04-22T20:42:49+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -108,39 +103,27 @@
   </header>
 
 
-<div class="entry-content"><p>Django 从1.4 版本开始，包含了一些安全方面的重要提升。其中一个是使用 PBKDF2 密码加密算法代替了 SHA1 。另外一个特性是你可以添加自己的密码加密方法。</p>
+<div class="entry-content"><p>比如<code>1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</code>，这个地址，有转出过，如何得到公钥</p>
 
-<p>Django 会使用你提供的第一个密码加密方法（在你的 setting.py 文件里要至少有一个方法）</p>
+<p>原理很简单，但是实践起来比较烦：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
-</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.BCryptPasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.SHA1PasswordHasher', # Insecure Hashes
-</span><span class='line'>    'django.contrib.auth.hashers.MD5PasswordHasher', # Insecure Hashes
-</span><span class='line'>    'django.contrib.auth.hashers.CryptPasswordHasher', # Insecure Hashes
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+<!-- more -->
 
 
-<p>但Django默认生成的密码策略往往会带上 md5_xxx, pbkdf2_xxx，同其他系统整合的时候，一般是没有这些前缀的，这就需要我们自定义一个密码策略。</p>
+<p>首先我们找一下这个地址的随便一笔花费，比如这个:</p>
 
-<p>下面介绍下如何定义一个简单的 <code>md5(md5(password, salt))</code> 密码策略。</p>
+<p><a href="https://btc.com/0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33">https://btc.com/0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33</a></p>
 
-<h3>step1</h3>
+<p>然后需要一个工具通过交易hash解析一下这笔交易</p>
 
-<p>建立一个app，django-admin.py startapp ownmd5</p>
+<p>推荐用这个 <a href="https://github.com/libbitcoin/libbitcoin-explorer/wiki/Download-BX">libbitcoin/libbitcoin-explorer</a></p>
 
-<h3>step2</h3>
+<p>执行</p>
 
-<p>在 ownmd5中 建立 hashers.py 文件，加入 OwnMd5PasswordHasher 类</p>
+<pre><code>bx-windows-x64-icu.exe fetch-tx 0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33
+</code></pre>
+
+<p>得到了这笔交易解析后的完整输出:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -171,56 +154,106 @@
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import hashlib
-</span><span class='line'>from django.utils.translation import ugettext_noop as _
-</span><span class='line'>from django.utils.datastructures import SortedDict
-</span><span class='line'>from django.utils.crypto import constant_time_compare
-</span><span class='line'>from django.utils.encoding import force_bytes, force_str, force_text
-</span><span class='line'>from django.contrib.auth.hashers import BasePasswordHasher, mask_hash
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>class OwnMD5PasswordHasher(BasePasswordHasher):
-</span><span class='line'>    """
-</span><span class='line'>    The Salted MD5 password hashing algorithm (not recommended)
-</span><span class='line'>    """
-</span><span class='line'>    algorithm = "ownmd5"
-</span><span class='line'>
-</span><span class='line'>    def encode(self, password, salt):
-</span><span class='line'>        assert password is not None
-</span><span class='line'>        assert salt and '$' not in salt
-</span><span class='line'>        hash = hashlib.md5(hashlib.md5(force_bytes(salt + password)).hexdigest()).hexdigest()
-</span><span class='line'>        return hash
-</span><span class='line'>
-</span><span class='line'>    def verify(self, password, encoded, salt):
-</span><span class='line'>        encoded_2 = self.encode(password, salt)
-</span><span class='line'>        return constant_time_compare(encoded, encoded_2)
-</span><span class='line'>
-</span><span class='line'>    def safe_summary(self, encoded, salt):
-</span><span class='line'>        return SortedDict([
-</span><span class='line'>            (_('algorithm'), self.algorithm),
-</span><span class='line'>            (_('salt'), mask_hash(salt, show=4)),
-</span><span class='line'>            (_('hash'), mask_hash(hash)),
-</span><span class='line'>        ])</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>transaction
+</span><span class='line'>{
+</span><span class='line'>    hash 0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33
+</span><span class='line'>    inputs
+</span><span class='line'>    {
+</span><span class='line'>        input
+</span><span class='line'>        {
+</span><span class='line'>            address_hash b4a5d3960471568c3883046eec3b41b4953d61a1
+</span><span class='line'>            previous_output
+</span><span class='line'>            {
+</span><span class='line'>                hash 5fb9f0e7f520163e4afe0baa440fe93999273e95d9e345e0488a0802ed62674f
+</span><span class='line'>                index 0
+</span><span class='line'>            }
+</span><span class='line'>            script "[3045022100e4a4695ecbe6f507ec7181a2f321f489c7a3bd7eea032c75e4e1eba89174183c022019555aa917be6191db14da72e5c234a4b628f321b917ea334bcf9c122296cd5901] [044da006f958beba78ec54443df4a3f52237253f7ae8cbdb17dccf3feaa57f3126da0a0909f11998130c2d0e86a485f4e79ee466a183a476c432c68758ab9e630b]"
+</span><span class='line'>            sequence 4294967295
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    lock_time 0
+</span><span class='line'>    outputs
+</span><span class='line'>    {
+</span><span class='line'>        output
+</span><span class='line'>        {
+</span><span class='line'>            address_hash c621cbfd778e6109e26046d96738c7af75e7b78b
+</span><span class='line'>            script "dup hash160 [c621cbfd778e6109e26046d96738c7af75e7b78b] equalverify checksig"
+</span><span class='line'>            value 43103
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    version 1
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>step3</h3>
+<p>注意script那一段，就是分成了两部分，前面一个中括号里面是签名，后面是公钥。</p>
 
-<p>将 OwnMD5PasswordHasher 加入到settings.py 中:</p>
+<p>然后仔细看看这还是个老钱包生成的地址，没有压缩;</p>
+
+<p>写个小脚本parse一下这个公钥，就可以看看是不是和地址对应啦:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
-</span><span class='line'>    'ownmd5.hashers.OwnMD5PasswordHasher',
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
+</span><span class='line'>
+</span><span class='line'>from hashlib import *
+</span><span class='line'>from base58 import *
+</span><span class='line'>
+</span><span class='line'>def SHA256D(bstr):
+</span><span class='line'>    return sha256(sha256(bstr).digest()).digest()
+</span><span class='line'>
+</span><span class='line'>def ConvertPKHToAddress(prefix, addr):
+</span><span class='line'>    data = prefix + addr
+</span><span class='line'>    return b58encode(data + SHA256D(data)[:4])
+</span><span class='line'>
+</span><span class='line'>def PubkeyToAddress(pubkey_hex):
+</span><span class='line'>    pubkey = bytearray.fromhex(pubkey_hex)
+</span><span class='line'>    round1 = sha256(pubkey).digest()
+</span><span class='line'>    h = new('ripemd160')
+</span><span class='line'>    h.update(round1)
+</span><span class='line'>    pubkey_hash = h.digest()
+</span><span class='line'>    return ConvertPKHToAddress(b'\x00', pubkey_hash)
+</span><span class='line'>
+</span><span class='line'>pubkey = "044da006f958beba78ec54443df4a3f52237253f7ae8cbdb17dccf3feaa57f3126da0a0909f11998130c2d0e86a485f4e79ee466a183a476c432c68758ab9e630b"
+</span><span class='line'>print(len(pubkey))
+</span><span class='line'>print("Address: %s" % PubkeyToAddress(pubkey))</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这样，默认的user及auth模块都会采用自定义的md5算法。</p>
+<p>输出是这样的:</p>
 
-<p>参考:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>130
+</span><span class='line'>Address: 1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</span></code></pre></td></tr></table></div></figure>
 
-<p><a href="https://docs.djangoproject.com/en/1.6/topics/auth/passwords/">https://docs.djangoproject.com/en/1.6/topics/auth/passwords/</a></p>
+
+<p>OK，打完收工。</p>
+
+<p>如果一个地址只收币，从来没消费币，公钥是不会广播到网上的，所以这种地址拿不到公钥。一定要有花费，才能得到公钥。</p>
+
+<p>所以有人推荐每次花费币之后就不要再用老地址了，每次交易都用新地址，避免将来出现什么黑科技（比如量子计算机之类的）穷举破解。 其实我觉的无所谓，大不了有人喊ECDSA挂了我再转移一下就行了，人家富豪榜里面都有好几个大佬也不在乎这点事。</p>
+
+<p>另外公钥有两种形式：压缩与非压缩。一把私钥其实可以搞出两个地址哈。早期比特币均使用非压缩公钥，现大部分客户端已默认使用压缩公钥。早期openssl库的文档写的比较糙，导致Satoshi以为必须使用非压缩的完整公钥，后来大家发现其实公钥的左右两个32字节是有关联的，左侧(X)可以推出右侧(Y)的平方值，有左侧(X)就可以了。</p>
 </div>
 
 
@@ -243,12 +276,12 @@
   
 
 
-<time datetime="2014-09-17T08:38:03+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+<time datetime="2018-04-22T20:42:49+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/django/'>Django</a>
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
   
 </span>
 
@@ -264,10 +297,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/17/auto-reload-modules-in-django-shell/" title="Previous Post: Auto Reload Modules in Django Shell">&laquo; Auto Reload Modules in Django Shell</a>
+        <a class="basic-alignment left" href="/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/" title="Previous Post: Satoshi Craig Wright Is Being Sued for $10 Billion">&laquo; Satoshi Craig Wright Is Being Sued for $10 Billion</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/" title="Next Post: svn1.7+ Zsh报错">svn1.7+ Zsh报错 &raquo;</a>
       
     </p>
   </footer>
@@ -389,8 +420,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/';
-        var disqus_url = 'http://happy123.me/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/';
+        var disqus_url = 'http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/';
         var disqus_script = 'embed.js';
       
     (function () {
