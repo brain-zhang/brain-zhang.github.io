@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-24T23:22:09+08:00</updated>
+  <updated>2018-04-25T07:21:37+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -45,7 +45,7 @@
 
 <h4>那么是不是我们就此可以高枕无忧了呢?</h4>
 
-<p>2<sup>160</sup> 的散列空间，也足够对抗HASH碰撞了。现在计算机普遍的频率为GH/s的量级，假设我们有1EH/s的算力来碰撞，2<sup>160</sup>/2<sup>60</sup>=2<sup>100</sup>，换算成年单位大概是10<sup>24</sup>年，假设宇宙年龄为100亿年，那么我们碰撞出一个私钥的时间为10<sup>24</sup>/10<sup>10</sup>=10<sup>14</sup> 个宇宙轮回，就是宇宙毁灭重生100,000,000,000,000次，我们有可能破解一个比特币私钥。</p>
+<p>2<sup>160</sup> 的散列空间，也足够对抗HASH碰撞了。现在计算机普遍的频率为GH/s的量级，假设我们有1EH/s的算力来碰撞，有效的比特币地址为10亿个，2<sup>160</sup>/2<sup>60</sup>/2<sup>30</sup>=2<sup>70</sup>，换算成年单位大概是10<sup>15</sup>年，假设宇宙年龄为100亿年，那么我们碰撞出一个私钥的时间为10<sup>15</sup>/10<sup>10</sup>=100000 个宇宙轮回，就是宇宙毁灭重生100,000次，我们有可能破解一个比特币私钥。</p>
 
 <p>那么有人质疑比特币的安全性，我们大可以傲娇的说："没错，比特币在数学上不是绝对安全的。但我可以保证，它比这个宇宙安全的多。你相信明天宇宙就会爆炸吗？不相信的话，就相信比特币，洗洗安心睡吧。^_^"</p>
 
