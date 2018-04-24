@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-24T17:44:14+08:00</updated>
+  <updated>2018-04-24T19:16:56+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -127,7 +127,7 @@ Address: 1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD
 
 <p>所以有人推荐每次花费币之后就不要再用老地址了，每次交易都用新地址，避免将来出现什么黑科技（比如量子计算机之类的）穷举破解。 其实我觉的无所谓，大不了有人喊ECDSA挂了我再转移一下就行了，人家富豪榜里面都有好几个大佬也不在乎这点事。</p>
 
-<p>PS:更新自打脸一下，我还是觉得每次交易用新地址是一定要做的，理论上HASH碰撞的概率有2<sup>160</sup>，但是我现在觉得这个量级不能简单的推算为1/2<sup>160</sup>；所以再进行HASH还是很有必要的。</p>
+<p>PS:更新自打脸一下，我还是觉得每次交易用新地址是一定要做的，理论上HASH碰撞的概率有2<sup>160</sup>，但是我现在觉得这个量级不能简单的推算为1/2<sup>160</sup>；毕竟不是所有的钱包实现熵值都足够大。</p>
 
 <h4>再强调一遍，每次交易用新地址是一个必须养成的习惯。</h4>
 
