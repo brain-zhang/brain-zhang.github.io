@@ -80,6 +80,131 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-24T21:38:13+08:00" pubdate data-updated="true">Apr 24<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/04/24/cryptocurrency-security/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>比特币的地址生成过程分为以下几个步骤:</h4>
+
+<ol>
+<li><p>随机生成一个32字节(256bits)的私钥k</p></li>
+<li><p>采用椭圆曲线算法，以私钥k为起点，将其与曲线上预定的生成点G相乘以获得曲线上的另一点，也就是相应的公钥 K</p></li>
+<li><p>进一步SHA256=>RIPEMD160 得到地址原始值A: A = RIPEMD160(SHA256(K))</p></li>
+<li><p>对A进行Base58Check编码，添加前置版本号后Double SHA256取最后四个字节作为校验位，最后 Base58Check(前缀+A+校验)得到最终地址</p></li>
+</ol>
+
+
+<p>整个过程中，私钥的生成空间有256bits，由私钥推出地址过程中，由于用到了RIPEMD160散列，所以生成空间共有160bits。</p>
+
+<p>也就是说，去除版本号变化，某一类型的比特币地址最多有 2<sup>160</sup>个。</p>
+
+<p>为什么有步骤3呢，不光增加了地址复杂度，还降低了HASH碰撞空间(从256bits降到160bits)。</p>
+
+<p>所以中本聪的选择只是带来了不必要的复杂度和浪费吗？最后证明，答案是否定的。有另外一个非常好的理由去使用这个&#8221;公钥的哈希值&#8221;的地址结构：量子加密技术。量子计算机可以破解椭圆曲线数字签名算法（也就是说，给定一个公钥，量子计算机可以相当快速的找到对应的私钥），但它们不能相类似的逆转哈希算法（或者说他们可以，但是将需要花掉280个步骤来完成一个比特币地址的破解，这仍然是相当不可行的）。因此，如果你的比特币资金存放在一个你没有支出过的地址里（这意味着公钥是没有公开的），它们在量子计算机面前也就是安全的，至少在你把它们花掉之前。有理论上的途径可以让比特币完全免于量子计算机的威胁，但一个地址只是一个公钥的哈希值的事实，意味着一旦量子计算机真的出现了，在我们全面切换之前攻击者可以造成的损失要小得多。</p>
+
+<p>请参考:</p>
+
+<p><a href="http://www.8btc.com/satoshis-genius-unexpected-ways-in-which-bitcoin-dodged-some-cryptographic-bullet">http://www.8btc.com/satoshis-genius-unexpected-ways-in-which-bitcoin-dodged-some-cryptographic-bullet</a></p>
+
+<h4>那么是不是我们就此可以高枕无忧了呢?</h4>
+
+<p>2<sup>160</sup> 的散列空间，也足够对抗HASH碰撞了。现在计算机普遍的频率为GH/s的量级，假设我们有1EH/s的算力来碰撞，2<sup>160</sup>/2<sup>60</sup>=2<sup>100</sup>，换算成年单位大概是10<sup>24</sup>年，假设宇宙年龄为100亿年，那么我们碰撞出一个私钥的时间为10<sup>24</sup>/10<sup>10</sup>=10<sup>14</sup> 个宇宙轮回，就是宇宙毁灭重生100,000,000,000,000次，我们有可能破解一个比特币私钥。</p>
+
+<p>那么有人质疑比特币的安全性，我们大可以傲娇的说：&#8221;没错，比特币在数学上不是绝对安全的。但我可以保证，它比这个宇宙安全的多。你相信明天宇宙就会爆炸吗？不相信的话，就相信比特币，洗洗安心睡吧。^_^&#8221;</p>
+
+<h4>事实果真如此吗?</h4>
+
+<p>让我们看一下<a href="https://lbc.cryptoguru.org/">Large Bitcoin Collider</a>这个项目。</p>
+
+<p>该项目被称为大型比特币对撞机（LBC）。大型比特币对撞机尝试进行加密碰撞，它本质上证明了一个据称独特且随机的数字字符串可以重复。一路上爱好者们都在利用该项目的强大计算能力来尝试和破灭比特币的算法规则，最后打开其他人所拥有的比特币钱包，并有可能在里面拿走这些比特币。</p>
+
+<p>是的，他们就是简单粗暴，他们试图从1穷举碰撞到2<sup>160</sup>来&#8221;打捞&#8221;比特币私钥。</p>
+
+<p>我猜你肯定会说：哇咔咔，这帮傻小子，打捞到宇宙末日也不会有啥的</p>
+
+<p>这个项目已经被贴上了很多标签：不可能，违法，毫无意义等等。</p>
+
+<h4>一些让人惊奇的事情</h4>
+
+<p>这个项目从2016年4月份开始运作，算力逐渐壮大到1GH/s的碰撞强度，到目前(2018-04)为止，发现了什么？</p>
+
+<p>事实上他们刚刚碰撞到2<sup>54</sup>级别，按照道理来说他们离发现第一个私钥还相隔了xxxxxxx个宇宙轮回，事实呢？</p>
+
+<p>他们共发现了16个有效的私钥，其中有4个地址是真实有效并且有余额的，共打捞了1个多BTC。当然，他们花费的成本可能已经远远超过了所得，但是毕竟这对人们信奉的&#8221;比特币安全牢不可破&#8221;产生重击。</p>
+
+<h4>他们骗人，用事先生成的地址来发送交易，然后蒙蔽世人</h4>
+
+<p>事实上只要在bitcointalk.org论坛上仔细追踪一下这个帖子，就会发现这个项目完全是可信的，发起人十分严谨，记录了每次碰撞成功的结果，并且时间点上并无伪造的可能</p>
+
+<p><a href="https://bitcointalk.org/index.php?topic=1573035.0">https://bitcointalk.org/index.php?topic=1573035.0</a></p>
+
+<h4>哇，比特币被攻破了，我要赶紧卖卖卖</h4>
+
+<p>事实上我们还是要强调比特币的设计比起这个星球上所有的银行和金融机构要安全的多，比起担心你的币，还是多担心一下你在人行总账上的资产账户吧。</p>
+
+<h4>那这种事情怎么解释呢？</h4>
+
+<ol>
+<li><p>不是所有人的私钥都是那么&#8221;随机&#8221;，有理由相信，早期的一些玩家或者说一些钱包生成私钥的机制并不是那么完善，他们采用的熵源不够随机，造成私钥的值太小，被碰撞机发现了</p></li>
+<li><p>总有一些人们，对于随机字符有莫名的恐惧，他们采用&#8221;脑钱包&#8221;来让自己更有控制感，相信我，大部分&#8221;脑钱包&#8221;的生成密语并不是多好，可能你会拿到一个被碰撞概率大得多的私钥。那些手头有大量&#8221;社工库&#8221;的坏小子们，是无法抵挡去碰撞攻击你的私钥的诱惑的</p></li>
+<li><p>也许，我是说也许。数字货币的安全性设计是如此的健壮，健壮到人们忽视了最基本的问题：历史上从来没有哪一个系统能把所有东西都暴露在外，让人们随意碰撞攻击。这种时候，安全性最薄弱的环节还是在于人们的意识</p></li>
+</ol>
+
+
+<h4>那我们要如果保护自己呢？</h4>
+
+<ol>
+<li><p>尽量采用最新的，社区公认的健壮的钱包</p></li>
+<li><p>如果你要用脑钱包，确认你明白其中的风险，并且自己最好对生成的私钥做一个安全评估</p></li>
+<li><p>一个地址发送一笔转账后就更换地址</p></li>
+</ol>
+
+
+<h4>一些后续</h4>
+
+<p>LBC这个项目遭受了很多人的误解和攻击。有的人认为这是一种偷盗行为。我得说，现有的法律在这里的确是盲点。</p>
+
+<p>我在街上捡了一个钱包，大家都知道送去警局。</p>
+
+<p>我在数字世界里面碰到了宇宙洪荒岁月亿万年一次的大奖，尽管这个奖励可能是从别的一个什么倒霉蛋那里拿来的，不过也没其他人知道，为什么不能看作是无主物品呢？为什么不看成是上天的眷顾呢？</p>
+
+<h4>数字货币世界还是处于蛮荒狂野时代，乔帮主的训诫要时时温习:饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
+
+<h4>少年，祝你好运</h4>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">How to Get Pubkey From a Transaction</a></h1>
     
     
@@ -539,55 +664,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-12-07T13:13:52+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2017</time>
-        
-           | <a href="/blog/2017/12/07/nicehashbei-dao/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2017/12/07/nicehashbei-dao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Nicehash 被盗 4700+币</p>
-
-<p>比 bitfinex 要幸运一点，这次发现的比较早，但是按照现在的币价大涨来算，损失也超过了 6000w USD，上次 bitfinex 11w 币不过折合 7000w USD 而已。</p>
-
-<p><a href="https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/">https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/</a></p>
-
-<p>这个是 hacker 的转入地址:</p>
-
-<p><a href="https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq">https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq</a></p>
-
-<p>最早的一笔交易发生在 2017-12-06 13:17:12(UTC+8)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -603,6 +679,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">How to Get Pubkey From a Transaction</a>
       </li>
     
@@ -616,10 +696,6 @@
     
       <li class="post">
         <a href="/blog/2018/02/28/enable-multiusers-support-for-win10/">Enable Multiusers Support for Win10</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/02/17/what-do-cryptic-github-comments-mean/">What Do Cryptic Github Comments Mean?</a>
       </li>
     
   </ul>
@@ -681,7 +757,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (15)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (16)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
