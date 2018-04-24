@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-24T22:36:08+08:00</updated>
+  <updated>2018-04-24T22:43:34+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -24,7 +24,7 @@
 <li><p>随机生成一个32字节(256bits)的私钥k</p></li>
 <li><p>采用椭圆曲线算法，以私钥k为起点，将其与曲线上预定的生成点G相乘以获得曲线上的另一点，也就是相应的公钥 K</p></li>
 <li><p>进一步SHA256=>RIPEMD160 得到地址原始值A: A = RIPEMD160(SHA256(K))</p></li>
-<li><p>对A进行Base58Check编码，添加前置版本号后Double SHA256取最后四个字节作为校验位，最后 Base58Check(前缀+A+校验)得到最终地址</p></li>
+<li><p>对A进行Base58Check编码，添加前置版本号后Double SHA256取最后四个字节作为校验位，最后 Base58Check(前缀+Base58Check(A)+校验)得到最终地址</p></li>
 </ol>
 
 
@@ -102,7 +102,7 @@
 
 <p>我在数字世界里面碰到了宇宙洪荒岁月亿万年一次的大奖，尽管这个奖励可能是从别的一个什么倒霉蛋那里拿来的，不过也没其他人知道，为什么不能看作是无主物品呢？为什么不看成是上天的眷顾呢？</p>
 
-<h4>数字货币世界还是处于蛮荒狂野时代，乔帮主的训诫要时时温习:饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
+<h4>数字货币世界还是处于蛮荒狂野时代，不是那么多事情都是理所当然的;乔帮主的训诫要时时温习:饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
 <h4>少年，祝你好运</h4>
 ]]></content>
