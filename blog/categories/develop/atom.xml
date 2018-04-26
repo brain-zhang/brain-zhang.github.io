@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-25T07:21:37+08:00</updated>
+  <updated>2018-04-26T13:39:42+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[寻找并删除Git记录中的大文件]]></title>
+    <link href="http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo/"/>
+    <updated>2018-04-26T13:36:16+08:00</updated>
+    <id>http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo</id>
+    <content type="html"><![CDATA[<p>有时候gitignore没做好，一不小心就又进来一个二进制文件</p>
+
+<p>再重复了N次Google之后，还是记一下吧</p>
+
+<!-- more -->
+
+
+<ol>
+<li>首先通过rev-list来找到仓库记录中的大文件：</li>
+</ol>
+
+
+<p><code>
+git rev-list --objects --all | grep "$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | awk '{print$1}')"
+</code></p>
+
+<ol>
+<li>然后通过filter-branch来重写这些大文件涉及到的所有提交（重写历史记录）：</li>
+</ol>
+
+
+<p><code>
+git filter-branch -f --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch your-file-name' --tag-name-filter cat -- --all
+</code></p>
+
+<ol>
+<li>再删除缓存的对象，顺便瘦身一下:</li>
+</ol>
+
+
+<p><code>
+git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
+git reflog expire --expire=now --all
+git gc --prune=now
+</code></p>
+
+<p>打完收工</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python在windows CMD中输出中文]]></title>
@@ -359,69 +404,6 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 <p>OK了</p>
 
 <p>至于怎么搭配Nginx，写配置文件，搭配Supervisor，还是老老实实翻手册吧，反正这个不是经常做。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[python2.x：Error When Printing an Exception Containing a Unicode String]]></title>
-    <link href="http://happy123.me/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/"/>
-    <updated>2014-09-17T08:43:39+08:00</updated>
-    <id>http://happy123.me/blog/2014/09/17/python2-dot-x:error-when-printing-an-exception-containing-a-unicode-string</id>
-    <content type="html"><![CDATA[<p>Python2.x中抛出Unicode的异常需要注意:</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>try:
-&hellip;     raise Exception(u'Error when printing 中文异常')
-&hellip; except Exception, e:
-&hellip;     print e
-&hellip;     print str(e)
-```
-会报UnicodeEncodeError: &lsquo;ascii&rsquo; codec can&rsquo;t encode character &hellip;</p></blockquote></blockquote></blockquote>
-
-<p>同样，如果在log中直接输出，也会报错</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>import logging</p>
-
-<pre><code>logger = logging.getLogger('default')
-try:
-</code></pre>
-
-<p>&hellip;     raise Exception(u'Error when printing 中文异常')
-&hellip; except Exception, e:
-&hellip;     logger.error(e)
-&hellip;     logger.error(&ldquo;%s&rdquo;, e)
-&hellip;     logger.error(&ldquo;%s&rdquo;, str(e))
-```</p></blockquote></blockquote></blockquote>
-
-<p>简单的解决办法就是用e.message</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>try:
-&hellip;     raise Exception(u'Error when printing 中文异常')
-&hellip; except Exception, e:
-&hellip;     print e.message
-&hellip;     print &ldquo;%s&rdquo; % e.message
-```</p></blockquote></blockquote></blockquote>
-
-<p>也可以详细的可以指定encoder</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>try:
-&hellip;     raise Exception(u'Error when printing 中文异常')
-&hellip; except Exception, e:
-&hellip;     print unicode(e.message).encode(&lsquo;utf-8&rsquo;)
-```</p></blockquote></blockquote></blockquote>
-
-<p>Python3就没这个事了，备忘一下。</p>
-
-<p>参考:</p>
-
-<p><a href="http://bugs.python.org/issue2517">http://bugs.python.org/issue2517</a></p>
 ]]></content>
   </entry>
   

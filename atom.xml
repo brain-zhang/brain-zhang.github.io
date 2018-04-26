@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-25T07:21:37+08:00</updated>
+  <updated>2018-04-26T13:39:42+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[寻找并删除Git记录中的大文件]]></title>
+    <link href="http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo/"/>
+    <updated>2018-04-26T13:36:16+08:00</updated>
+    <id>http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo</id>
+    <content type="html"><![CDATA[<p>有时候gitignore没做好，一不小心就又进来一个二进制文件</p>
+
+<p>再重复了N次Google之后，还是记一下吧</p>
+
+<!-- more -->
+
+
+<ol>
+<li>首先通过rev-list来找到仓库记录中的大文件：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rev-list --objects --all | grep "$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | awk '{print$1}')"</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>然后通过filter-branch来重写这些大文件涉及到的所有提交（重写历史记录）：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git filter-branch -f --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch your-file-name' --tag-name-filter cat -- --all</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>再删除缓存的对象，顺便瘦身一下:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
+</span><span class='line'>git reflog expire --expire=now --all
+</span><span class='line'>git gc --prune=now</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打完收工</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[谈谈比特币的地址安全问题]]></title>
@@ -1102,43 +1149,6 @@ firewall-cmd --reload
 <p>注意reach这个值，在启动ntp server服务后，这个值就从0开始不断增加，当增加到17的时候，从0到17是5次的变更，每一次是poll的值的秒数，是64秒*5=320秒的时间。</p>
 
 <p>如果之后从ntp客户端同步ntp server还失败的话，用ntpdate –d来查询详细错误信息，再做判断。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Update to gcc4.9.x on Centos7]]></title>
-    <link href="http://happy123.me/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/"/>
-    <updated>2017-04-15T15:50:53+08:00</updated>
-    <id>http://happy123.me/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7</id>
-    <content type="html"><![CDATA[<p>现在很多软件包默认编译要求GLIBCXX >=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件>=4.9.1。</p>
-
-<p>CentOS下升级gcc版本有两个途径，一个是添加其他源进行自动升级，一个是手动编译升级，这里先顺便讲下自动升级的两个办法：</p>
-
-<h3>添加Fedora源</h3>
-
-<p>在 /etc/yum.repos.d 目录中添加文件 FedoraRepo.repo ，并输入以下内容:</p>
-
-<pre><code>[warning:fedora]
-name=fedora
-mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-23&amp;arch=$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://getfedora.org/static/34EC9CBA.txt
-</code></pre>
-
-<p>然后执行</p>
-
-<pre><code>yum update gcc gcc-c++
-</code></pre>
-
-<h3>使用Devtoolset-4升级</h3>
-
-<pre><code>yum install centos-release-scl
-yum install devtoolset-4-gcc*
-scl enable devtoolset-4 bash
-which gcc
-gcc --version
-</code></pre>
 ]]></content>
   </entry>
   

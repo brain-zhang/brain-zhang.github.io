@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Product - Living a Simple Life is a Happy Life</title>
+  <title>寻找并删除Git记录中的大文件 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="Category: product">
+  <meta name="description" content="有时候gitignore没做好，一不小心就又进来一个二进制文件 再重复了N次Google之后，还是记一下吧 首先通过rev-list来找到仓库记录中的大文件： 1
+git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.meblog/categories/product">
+  <link rel="canonical" href="http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -73,36 +74,130 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Product</h1>
+    
+      <h1 class="entry-title">寻找并删除Git记录中的大文件</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-26T13:36:16+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://happy123.me">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>有时候gitignore没做好，一不小心就又进来一个二进制文件</p>
 
-  
-  <h2>2016</h2>
+<p>再重复了N次Google之后，还是记一下吧</p>
 
-<article>
-  
-<h1><a href="/blog/2016/05/22/man-man-xue-zhao-li-jie-hao-de-chan-pin-shi-shi-yao/">慢慢学着理解好的产品是什么</a></h1>
-<time datetime="2016-05-22T18:02:19+08:00" pubdate><span class='month'>May</span> <span class='day'>22</span> <span class='year'>2016</span></time>
-
-<footer>
-  <span class="categories">分类: <a class='category' href='/blog/categories/product/'>product</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<ol>
+<li>首先通过rev-list来找到仓库记录中的大文件：</li>
+</ol>
 
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rev-list --objects --all | grep "$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | awk '{print$1}')"</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>然后通过filter-branch来重写这些大文件涉及到的所有提交（重写历史记录）：</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git filter-branch -f --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch your-file-name' --tag-name-filter cat -- --all</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>再删除缓存的对象，顺便瘦身一下:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
+</span><span class='line'>git reflog expire --expire=now --all
+</span><span class='line'>git gc --prune=now</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打完收工</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-26T13:36:16+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/develop/'>develop</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/04/24/cryptocurrency-security/" title="Previous Post: 谈谈比特币的地址安全问题">&laquo; 谈谈比特币的地址安全问题</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -213,7 +308,10 @@
       var disqus_shortname = 'memoryboxes';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo/';
+        var disqus_url = 'http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
