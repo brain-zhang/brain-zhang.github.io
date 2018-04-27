@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-27T14:50:09+08:00</updated>
+  <updated>2018-04-27T14:52:48+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,7 +18,7 @@
     <link href="http://happy123.me/blog/2018/04/27/a-strange-bitcoin-transaction/"/>
     <updated>2018-04-27T14:24:30+08:00</updated>
     <id>http://happy123.me/blog/2018/04/27/a-strange-bitcoin-transaction</id>
-    <content type="html"><![CDATA[<p>在之前的(谈谈比特币的地址安全问题)[<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">http://happy123.me/blog/2018/04/24/cryptocurrency-security/</a>]这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
+    <content type="html"><![CDATA[<p>在之前的<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
 
 <p>令人惊奇的是，他们真的碰到了几个地址。对他们最近发现的4个地址做了一下分析，发现了更让人惊奇的事情。</p>
 
