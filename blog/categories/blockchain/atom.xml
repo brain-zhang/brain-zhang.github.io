@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-27T14:45:28+08:00</updated>
+  <updated>2018-04-27T14:48:19+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -40,9 +40,9 @@
 <h4>2017-09-04 16:54:48 UTC</h4>
 
 <ul>
+<li><p>private key:0x180788e47e326c.</p></li>
 <li><p>hash160:2f4870ef54fa4b048c1365d42594cc7d3d269551</p></li>
 <li><p>address:15K1YKJMiJ4fpesTVUcByoz334rHmknxmT</p></li>
-<li><p>private:0x180788e47e326c.</p></li>
 <li><p>balance: 0.53 BTC</p></li>
 </ul>
 
@@ -50,9 +50,9 @@
 <h4>2017-04-21 12:50:55 UTC</h4>
 
 <ul>
+<li><p>private key:0xefae164cb9e3c.</p></li>
 <li><p>hash160: 36af659edbe94453f6344e920d143f1778653ae7</p></li>
 <li><p>address:15z9c9sVpu6fwNiK7dMAFgMYSK4GqsGZim</p></li>
-<li><p>private key:0xefae164cb9e3c.</p></li>
 <li><p>balance:0.052 BTC</p></li>
 </ul>
 
@@ -60,9 +60,9 @@
 <h4>2017-04-05 02:23:00 UTC</h4>
 
 <ul>
+<li><p>private key:0x75070a1a009d4.</p></li>
 <li><p>hash160:ef6419cffd7fad7027994354eb8efae223c2dbe7</p></li>
 <li><p>address:1NpnQyZ7x24ud82b7WiRNvPm6N8bqGQnaS</p></li>
-<li><p>private key:0x75070a1a009d4.</p></li>
 <li><p>balance:0.051 BTC</p></li>
 </ul>
 
@@ -73,7 +73,7 @@
 
 <p>一番追踪之后，我们发现了下面这笔交易:</p>
 
-<p><a href="https://blockchain.info/tx/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15">https://blockchain.info/tx/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15</a></p>
+<p><a href="https://btc.com/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15">https://btc.com/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15</a></p>
 
 <p>在2015年初的时候就有人对于比特币的安全模型提出过一个严肃的检验，他构造了以上这笔交易。</p>
 
@@ -112,7 +112,7 @@
 
 <p>也许是币价飞涨，从第161个地址之后的币应该是被持有人花掉了。但是从55-160这个区间里面的币还安然无恙，这个价值加起来也不算小了。</p>
 
-<p>这似乎是经过深思熟虑的~~也许是一个实验，看看在产出被拿走之前的时间。我这确实是个有趣的实验，比特币世界总不乏一些有趣的人。</p>
+<p>这似乎是经过深思熟虑的~~也许是一个实验，看看在产出被拿走之前的时间。我认为这确实是个有趣的实验，比特币世界总不乏一些有趣的人。</p>
 
 <p>少年，拿起你手中的显卡算力，2<sup>55</sup>级别的碰撞似乎不是那么遥不可及，让我们看看第55个幸运儿什么时候诞生。</p>
 ]]></content>
