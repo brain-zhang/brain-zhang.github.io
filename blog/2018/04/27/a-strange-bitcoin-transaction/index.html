@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Linux Cheat Sheet - Living a Simple Life is a Happy Life</title>
+  <title>A Strange Bitcoin Transaction - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="收集linux下需要多次google的命令 编码问题 utf16 > utf8 1
-iconv -f UTF-16 -t UTF-8 file_name web开发命令 curl post 一个json文件 1
-curl -H "Content-Type: application/json"-- &hellip;">
+  <meta name="description" content="在之前的(谈谈比特币的地址安全问题)[http://happy123.me/blog/2018/04/24/cryptocurrency-security/]这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。 令人惊奇的是， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ curl -H "Content-Type: application/json"-- &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2015/06/19/linux-cheat-sheet">
+  <link rel="canonical" href="http://happy123.me/blog/2018/04/27/a-strange-bitcoin-transaction">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -79,7 +77,7 @@ curl -H "Content-Type: application/json"-- &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Linux Cheat Sheet</h1>
+      <h1 class="entry-title">A Strange Bitcoin Transaction</h1>
     
     
       <p class="meta">
@@ -95,7 +93,7 @@ curl -H "Content-Type: application/json"-- &hellip;">
   
 
 
-<time datetime="2015-06-19T09:43:07+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2015</time>
+<time datetime="2018-04-27T14:24:30+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -105,137 +103,126 @@ curl -H "Content-Type: application/json"-- &hellip;">
   </header>
 
 
-<div class="entry-content"><p>收集linux下需要多次google的命令</p>
+<div class="entry-content"><p>在之前的(谈谈比特币的地址安全问题)[<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">http://happy123.me/blog/2018/04/24/cryptocurrency-security/</a>]这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
 
-<h2>编码问题</h2>
+<p>令人惊奇的是，他们真的碰到了几个地址。对他们最近发现的4个地址做了一下分析，发现了更让人惊奇的事情。</p>
+
+<p>他们最近的四个发现是:</p>
+
+<!-- more -->
+
+
+<h4>2017-11-15 01:25:58 UTC</h4>
 
 <ul>
-<li>utf16 > utf8</li>
+<li><p>private key:0x236fb6d5ad1f43</p></li>
+<li><p>hash160:cb66763cf7fde659869ae7f06884d9a0f879a092</p></li>
+<li><p>address:1KYUv7nSvXx4642TKeuC2SNdTk326uUpFy</p></li>
+<li><p>balance:0.54 BTC</p></li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>iconv -f UTF-16 -t UTF-8 file_name</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>web开发命令</h2>
+<h4>2017-09-04 16:54:48 UTC</h4>
 
 <ul>
-<li>curl post 一个json文件</li>
+<li><p>hash160:2f4870ef54fa4b048c1365d42594cc7d3d269551</p></li>
+<li><p>address:15K1YKJMiJ4fpesTVUcByoz334rHmknxmT</p></li>
+<li><p>private:0x180788e47e326c.</p></li>
+<li><p>balance: 0.53 BTC</p></li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf</span></code></pre></td></tr></table></div></figure>
-
+<h4>2017-04-21 12:50:55 UTC</h4>
 
 <ul>
-<li>curl post 一个json字符串</li>
+<li><p>hash160: 36af659edbe94453f6344e920d143f1778653ae7</p></li>
+<li><p>address:15z9c9sVpu6fwNiK7dMAFgMYSK4GqsGZim</p></li>
+<li><p>private key:0xefae164cb9e3c.</p></li>
+<li><p>balance:0.052 BTC</p></li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>系统时间</h2>
+<h4>2017-04-05 02:23:00 UTC</h4>
 
 <ul>
-<li>centos6系列修改时区</li>
+<li><p>hash160:ef6419cffd7fad7027994354eb8efae223c2dbe7</p></li>
+<li><p>address:1NpnQyZ7x24ud82b7WiRNvPm6N8bqGQnaS</p></li>
+<li><p>private key:0x75070a1a009d4.</p></li>
+<li><p>balance:0.051 BTC</p></li>
 </ul>
 
+
+<h3>账户的余额依次递增，分别为0.51 &ndash;> 0.52 &ndash;> 0.53 &ndash;> 0.54</h3>
+
+<h3>这也太凑巧了吧，为什么LBC的网站上没有小于0.51之前的数额呢</h3>
+
+<p>一番追踪之后，我们发现了下面这笔交易:</p>
+
+<p><a href="https://blockchain.info/tx/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15">https://blockchain.info/tx/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15</a></p>
+
+<p>在2015年初的时候就有人对于比特币的安全模型提出过一个严肃的检验，他构造了以上这笔交易。</p>
+
+<p>这笔交易的每个输出地址的私钥是这样构造的:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</span><span class='line'>vim /etc/sysconfig/clock
-</span><span class='line'>ZONE="Asia/Shanghai"</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>000...........................00001
+</span><span class='line'>0000..........................000011
+</span><span class='line'>0000.........................0000111
+</span><span class='line'>0000........................00001000
+</span><span class='line'>0000.......................000010101
+</span><span class='line'>0000......................0000110001
+</span><span class='line'>0000.....................00001001100
+</span><span class='line'>0000....................000011100000
+</span><span class='line'>0000...................0000111010011
+</span><span class='line'>0000..................00001000000010
+</span><span class='line'>0000.................000010010000011
+</span><span class='line'>0000................0000101001111011
+</span><span class='line'>0000...............00001010001100000
+</span><span class='line'>0000..............000010100100110000
+</span><span class='line'>0000.............0000110100011110011
+</span><span class='line'>0000............00001100100100110110
+</span><span class='line'>0000...........000010111011001001111
+</span><span class='line'>0000..........0000110000100000001101
+</span><span class='line'>0000.........00001010111010010011111
+</span><span class='line'>0000........000011010010110001010101
+</span><span class='line'>0000.......0000110111010010100110100
+</span><span class='line'>0000......00001011011110010000001111
+</span><span class='line'>0000.....000010101010110111001010010
+</span><span class='line'>0000....0000110111000010101000000100</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>centos7系列修改时区</li>
-</ul>
+<p>第n个输出值为n mBTC，它的私匙(二进制)从右到第n位，也就是1，然后剩下的部分是随机的。</p>
 
+<p>在我写这篇文章的时候，这批地址里面的余额已经被花费到了第54个地址，其实我猜就是LBC那帮人碰撞到的最大值(但是奇怪的是LBC的统计页面上没有包括这几个地址，我怀疑还有另外一个私下的类似LBC的组织在碰撞)</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>timedatectl list-timezones | grep Asia
-</span><span class='line'>timedatectl set-timezone Asia/Shanghai</span></code></pre></td></tr></table></div></figure>
+<p>也许是币价飞涨，从第161个地址之后的币应该是被持有人花掉了。但是从55-160这个区间里面的币还安然无恙，这个价值加起来也不算小了。</p>
 
+<p>这似乎是经过深思熟虑的~~也许是一个实验，看看在产出被拿走之前的时间。我这确实是个有趣的实验，比特币世界总不乏一些有趣的人。</p>
 
-<ul>
-<li>设置系统时间</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>date +"%Y%m%d%H%M%S"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>系统状态</h2>
-
-<ul>
-<li>查看系统占用句柄数</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>程序</h2>
-
-<ul>
-<li>mongo导出</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>shell 处理</h2>
-
-<ul>
-<li>获取当前路径</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>检查CPU load</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CURRENT_LOAD=`top -b -n 1|grep 'load average'|awk '{print $12}'|sed 's/,//'`
-</span><span class='line'>declare -i current_load=${CURRENT_LOAD%.*}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>find 匹配多个pattern</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find /usr/lib64 -name '*.so' -o -name '*.so.1'</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>文本处理</h2>
-
-<ul>
-<li>根据某个字段做uniq</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sort -u -t, -k1 file</span></code></pre></td></tr></table></div></figure>
-
+<p>少年，拿起你手中的显卡算力，2<sup>55</sup>级别的碰撞似乎不是那么遥不可及，让我们看看第55个幸运儿什么时候诞生。</p>
 </div>
 
 
@@ -258,12 +245,12 @@ curl -H "Content-Type: application/json"-- &hellip;">
   
 
 
-<time datetime="2015-06-19T09:43:07+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2015</time>
+<time datetime="2018-04-27T14:24:30+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
   
 </span>
 
@@ -279,10 +266,8 @@ curl -H "Content-Type: application/json"-- &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/06/07/debug-kernel-panic-in-centos/" title="Previous Post: debug kernel panic in centos">&laquo; debug kernel panic in centos</a>
+        <a class="basic-alignment left" href="/blog/2018/04/27/how-to-dump-csv-from-sqlite3/" title="Previous Post: how to dump csv from sqlite3">&laquo; how to dump csv from sqlite3</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/" title="Next Post: linux profile and debug  tools of performance">linux profile and debug  tools of performance &raquo;</a>
       
     </p>
   </footer>
@@ -404,8 +389,8 @@ curl -H "Content-Type: application/json"-- &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2015/06/19/linux-cheat-sheet/';
-        var disqus_url = 'http://happy123.me/blog/2015/06/19/linux-cheat-sheet/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/04/27/a-strange-bitcoin-transaction/';
+        var disqus_url = 'http://happy123.me/blog/2018/04/27/a-strange-bitcoin-transaction/';
         var disqus_script = 'embed.js';
       
     (function () {
