@@ -5,21 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Multiline Comments in Docker File - Living a Simple Life is a Happy Life</title>
+  <title>How to Sort Big Files - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="为了减少Image的fs layout数目，Dockerfile中经常会把多个命令集中到一个 RUN 指令下。 多行之后可读性就很差了。 有个比较偏门的写注释的方法: 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
+  <meta name="description" content="在linux要排序一个100G的文件，压力比较大 并行解决之: 1
+sort --parallel=2 -uo list-sorted.txt list.txt 注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,7 +20,7 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file">
+  <link rel="canonical" href="http://happy123.me/blog/2018/04/27/how-to-sort-big-files">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -87,7 +79,7 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Multiline Comments in Docker File</h1>
+      <h1 class="entry-title">How to Sort Big Files</h1>
     
     
       <p class="meta">
@@ -103,7 +95,7 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
   
 
 
-<time datetime="2015-04-10T09:07:36+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2015</time>
+<time datetime="2018-04-27T17:03:22+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -113,36 +105,15 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
   </header>
 
 
-<div class="entry-content"><p>为了减少Image的fs layout数目，Dockerfile中经常会把多个命令集中到一个 <code>RUN</code> 指令下。</p>
+<div class="entry-content"><p>在linux要排序一个100G的文件，压力比较大</p>
 
-<p>多行之后可读性就很差了。</p>
-
-<p>有个比较偏门的写注释的方法:</p>
+<p>并行解决之:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RUN mkdir -p /home/build/npm3 && \
-</span><span class='line'>    mkdir -p /home/build/smartprobe && \
-</span><span class='line'>    mkdir -p /home/build/bpc3 && \
-</span><span class='line'>    `#====================================================` \
-</span><span class='line'>    `#=============checkout and install rpms==============` \
-</span><span class='line'>    svn export xxx && \
-</span><span class='line'>    rpm -ivh --force --nodeps *.rpm && \
-</span><span class='line'>    `#====================================================` \
-</span><span class='line'>    `#=============checkout and install python==============` \
-</span><span class='line'>    ... && \
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
 
 
-<p>比较实用，推荐之。</p>
+<p>注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。</p>
 </div>
 
 
@@ -165,12 +136,12 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
   
 
 
-<time datetime="2015-04-10T09:07:36+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2015</time>
+<time datetime="2018-04-27T17:03:22+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/docker/'>Docker</a>
+    <a class='category' href='/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -186,10 +157,8 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/" title="Previous Post: Different users in same unix group can not run mongod">&laquo; Different users in same unix group can not run mongod</a>
+        <a class="basic-alignment left" href="/blog/2018/04/27/a-strange-bitcoin-transaction/" title="Previous Post: a strange bitcoin transaction">&laquo; a strange bitcoin transaction</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/" title="Next Post: Python编程实战 - 笔记1">Python编程实战 - 笔记1 &raquo;</a>
       
     </p>
   </footer>
@@ -311,8 +280,8 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file/';
-        var disqus_url = 'http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/04/27/how-to-sort-big-files/';
+        var disqus_url = 'http://happy123.me/blog/2018/04/27/how-to-sort-big-files/';
         var disqus_script = 'embed.js';
       
     (function () {

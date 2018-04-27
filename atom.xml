@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-27T15:05:16+08:00</updated>
+  <updated>2018-04-27T17:05:23+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Sort Big Files]]></title>
+    <link href="http://happy123.me/blog/2018/04/27/how-to-sort-big-files/"/>
+    <updated>2018-04-27T17:03:22+08:00</updated>
+    <id>http://happy123.me/blog/2018/04/27/how-to-sort-big-files</id>
+    <content type="html"><![CDATA[<p>在linux要排序一个100G的文件，压力比较大</p>
+
+<p>并行解决之:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Strange Bitcoin Transaction]]></title>
@@ -1225,15 +1242,6 @@ directory mask = 2777
 <p>就会被替换到iframe里面，同时iframe的src属性包括了完整的html内容，这样浏览器请求图片的时候，就不会带referrer了，微信的盗链就被绕过。</p>
 
 <p>不知道微信啥时候堵上这个洞呢？</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Btc UAHF]]></title>
-    <link href="http://happy123.me/blog/2017/08/01/btc-uahf/"/>
-    <updated>2017-08-01T22:11:54+08:00</updated>
-    <id>http://happy123.me/blog/2017/08/01/btc-uahf</id>
-    <content type="html"><![CDATA[<p>UTC时间 2017-08-01 18:12，UAHF<a href="https://blockchair.com/bitcoin-cash/block/478559">第一个大于1MB的块</a>被挖出，虽然现在算力占比很小，但值得关注，UAHF是否能存活下去，算力来决定吧。</p>
 ]]></content>
   </entry>
   

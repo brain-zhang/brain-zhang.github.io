@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-27T15:05:16+08:00</updated>
+  <updated>2018-04-27T17:05:23+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Sort Big Files]]></title>
+    <link href="http://happy123.me/blog/2018/04/27/how-to-sort-big-files/"/>
+    <updated>2018-04-27T17:03:22+08:00</updated>
+    <id>http://happy123.me/blog/2018/04/27/how-to-sort-big-files</id>
+    <content type="html"><![CDATA[<p>在linux要排序一个100G的文件，压力比较大</p>
+
+<p>并行解决之:</p>
+
+<p>```</p>
+
+<pre><code>sort --parallel=2 -uo list-sorted.txt list.txt
+</code></pre>
+
+<p>```</p>
+
+<p>注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Dump Csv From Sqlite3]]></title>
@@ -291,39 +311,6 @@ Restart=always</p>
 <p>[Install]
 WantedBy=default.target
 ```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Keep Environment Variables and PATH When Using SUDO]]></title>
-    <link href="http://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/"/>
-    <updated>2016-06-02T09:15:19+08:00</updated>
-    <id>http://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo</id>
-    <content type="html"><![CDATA[<h2>sudo tips</h2>
-
-<h4>How to keep Environment Variables when Using SUDO</h4>
-
-<p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
-
-<pre><code>Defaults env_keep += "HOME"
-</code></pre>
-
-<p>or and pay attention to the -E flag. This works:</p>
-
-<pre><code>export HOME=/home/users/memorybox
-sudo -E bash -c 'echo $HOME'
-</code></pre>
-
-<h4>How to keep PATH Variables when Using SUDO</h4>
-
-<pre><code>vim /etc/sudoers
-sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
-</code></pre>
-
-<h4>How to change root env</h4>
-
-<pre><code>sudo -i
-</code></pre>
 ]]></content>
   </entry>
   
