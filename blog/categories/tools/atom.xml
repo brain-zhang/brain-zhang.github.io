@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-27T17:05:23+08:00</updated>
+  <updated>2018-04-28T12:07:39+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -24,7 +24,7 @@
 
 <p>```</p>
 
-<pre><code>sort --parallel=2 -uo list-sorted.txt list.txt
+<pre><code>sort -S 50% --parallel=2 -uo list-sorted.txt list.txt
 </code></pre>
 
 <p>```</p>

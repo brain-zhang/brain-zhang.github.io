@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="在linux要排序一个100G的文件，压力比较大 并行解决之: 1
-sort --parallel=2 -uo list-sorted.txt list.txt 注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。
+sort -S 50% --parallel=2 -uo list-sorted.txt list.txt 注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。
 ">
   
 
@@ -110,7 +110,7 @@ sort --parallel=2 -uo list-sorted.txt list.txt 注意这一招在管道里面行
 <p>并行解决之:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sort --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort -S 50% --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
 
 
 <p>注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。</p>

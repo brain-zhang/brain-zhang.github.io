@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-27T17:05:23+08:00</updated>
+  <updated>2018-04-28T12:07:39+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -23,7 +23,7 @@
 <p>并行解决之:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sort --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort -S 50% --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
 
 
 <p>注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。</p>
