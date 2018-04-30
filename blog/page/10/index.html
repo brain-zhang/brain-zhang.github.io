@@ -80,6 +80,69 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-compile-by-autotools/">How to Compile by Autotools</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T12:12:30+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/29/how-to-compile-by-autotools/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/10/29/how-to-compile-by-autotools/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>echo "Running aclocal..."
+</span><span class='line'>aclocal || exit 1
+</span><span class='line'>echo "Running autoheader..."
+</span><span class='line'>autoheader || exit 1
+</span><span class='line'>echo "Running autoconf..."
+</span><span class='line'>autoconf || exit 1
+</span><span class='line'>echo "Running automake..."
+</span><span class='line'>automake --add-missing --copy || exit 1
+</span><span class='line'>echo "Finished."</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/18/markdown-raw-format/">Markdown Raw Format</a></h1>
     
     
@@ -830,51 +893,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/">Rake Gen Deploy Rejected in Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-16T11:55:56+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/09/16/rake-gen-deploy-rejected-in-octopress/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Octopress老版本，例如我用的，在一台新机器上check 下来Repo，重建source分支时，会报rejected错误。</p>
-
-<p>怎么pull也不管用，解决办法参考这里:</p>
-
-<p><a href="http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress">http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress</a></p>
-
-<h3>悲剧提示，我后来发现有一段blog被revert掉了，诡异的是在github上面的提交记录也没了，要慎用，要做好备份。</h3>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/11/">&larr; Older</a>
@@ -892,6 +910,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/">How to Compress All Find Files to Single Line Argv</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/04/27/how-to-sort-big-files/">How to Sort Big Files</a>
       </li>
     
@@ -905,10 +927,6 @@
     
       <li class="post">
         <a href="/blog/2018/04/26/purge-large-files-in-gitrepo/">寻找并删除Git记录中的大文件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>
       </li>
     
   </ul>
@@ -1024,7 +1042,7 @@
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (10)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (11)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-28T12:07:39+08:00</updated>
+  <updated>2018-04-30T10:41:04+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Compress All Find Files to Single Line Argv]]></title>
+    <link href="http://happy123.me/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/"/>
+    <updated>2018-04-30T10:39:39+08:00</updated>
+    <id>http://happy123.me/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv</id>
+    <content type="html"><![CDATA[<p>有时候find的所有文件要合并为一个argv管道到一个命令里面:</p>
+
+<p><code>
+find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Sort Big Files]]></title>
@@ -94,223 +107,6 @@ performance_schema=off
 <li><p>RDP</p></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Write Standard Startup Script]]></title>
-    <link href="http://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script/"/>
-    <updated>2016-08-22T09:09:06+08:00</updated>
-    <id>http://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script</id>
-    <content type="html"><![CDATA[<p>centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板&hellip;</p>
-
-<p>模板实例:</p>
-
-<!-- more -->
-
-
-<h2>systemV init script template</h2>
-
-<p>```</p>
-
-<h1>!/bin/bash</h1>
-
-<h1>testclient &ndash; Startup script for testclient</h1>
-
-<h1>chkconfig: 35 85 15</h1>
-
-<h1>description: testclient is your openstack VMS monitor and ovs auto config bot.</h1>
-
-<h1>processname: testclient</h1>
-
-<h1>config: /etc/testclient.conf</h1>
-
-<p>. /etc/rc.d/init.d/functions</p>
-
-<h1>NOTE: if you change any OPTIONS here, you get what you pay for:</h1>
-
-<h1>this script assumes all options are in the config file.</h1>
-
-<p>CONFIGFILE=&ldquo;/etc/testclient.conf&rdquo;</p>
-
-<p>testCLIENT=/usr/local/bin/testclient</p>
-
-<p>testCLIENT_USER=helloworldtest
-testCLIENT_GROUP=helloworldtest</p>
-
-<h1>things from testclient.conf get there by testclient reading it</h1>
-
-<p>PIDFILEPATH=<code>awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?pidFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
-PIDDIR=</code>dirname $PIDFILEPATH<code>
-LOGFILEPATH=</code>awk -F'[:=]&lsquo; -v IGNORECASE=1 &rsquo;/^[[:blank:]]<em>(processManagement.)?logFilePath[[:blank:]]</em>[:=][[:blank:]]*/{print $2}&lsquo; &ldquo;$CONFIGFILE&rdquo; | tr -d &ldquo;[:blank:]\&rdquo;&rsquo;&ldquo; | aw
-LOGDIR=<code>dirname $LOGFILEPATH</code></p>
-
-<p>OPTIONS=&ldquo; -c $CONFIGFILE&rdquo;</p>
-
-<p>start()
-{
-  # Make sure the default pidfile directory exists
-  if [ ! -d $PIDDIR ]; then</p>
-
-<pre><code>install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $PIDDIR
-</code></pre>
-
-<p>  fi
-  if [ ! -d $LOGDIR ]; then</p>
-
-<pre><code>install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $LOGDIR
-</code></pre>
-
-<p>  fi</p>
-
-<p>  echo -n $&ldquo;Starting testclient: &rdquo;
-  daemon &mdash;pidfile &ldquo;$PIDFILEPATH&rdquo; &mdash;user &ldquo;$testCLIENT_USER&rdquo; &mdash;check $testCLIENT &ldquo;$testCLIENT $OPTIONS >$LOGFILEPATH 2>&amp;1 &amp;&rdquo;</p>
-
-<p>  RETVAL=$?
-  pid=<code>ps -A x | grep $testCLIENT | grep -v grep | cut -d" " -f1 | head -n 1</code>
-  if [ -n &ldquo;$pid&rdquo; ]; then</p>
-
-<pre><code>      echo $pid &gt; $PIDFILEPATH
-</code></pre>
-
-<p>  fi</p>
-
-<p>  [ $RETVAL -eq 0 ] &amp;&amp; touch /var/lock/subsys/testclient
-  echo
-  return $RETVAL
-}</p>
-
-<p>stop()
-{
-  echo -n $&ldquo;Stopping testclient: &rdquo;
-  testclient_killproc &ldquo;$PIDFILEPATH&rdquo; $testCLIENT
-  RETVAL=$?
-  echo
-  [ $RETVAL -eq 0 ] &amp;&amp; rm -f /var/lock/subsys/testclient
-}</p>
-
-<p>restart () {</p>
-
-<pre><code>    stop
-    start
-</code></pre>
-
-<p>}</p>
-
-<h1>Send TERM signal to process and wait up to 300 seconds for process to go away.</h1>
-
-<h1>If process is still alive after 300 seconds, send KILL signal.</h1>
-
-<h1>Built-in killproc() (found in /etc/init.d/functions) is on certain versions of Linux</h1>
-
-<h1>where it sleeps for the full $delay seconds if process does not respond fast enough to</h1>
-
-<h1>the initial TERM signal.</h1>
-
-<p>testclient_killproc()
-{
-  local pid_file=$1
-  local procname=$2
-  local -i delay=10
-  local -i duration=1
-  local pid=<code>pidofproc -p "${pid_file}" ${procname}</code></p>
-
-<p>  kill -TERM $pid >/dev/null 2>&amp;1
-  usleep 1000
-  local -i x=0
-  while [ $x -le $delay ] &amp;&amp; checkpid $pid; do</p>
-
-<pre><code>sleep $duration
-x=$(( $x + $duration))
-</code></pre>
-
-<p>  done</p>
-
-<p>  kill -KILL $pid >/dev/null 2>&amp;1
-  usleep 1000</p>
-
-<p>  checkpid $pid # returns 0 only if the process exists
-  local RC=$?
-  [ &ldquo;$RC&rdquo; -eq 0 ] &amp;&amp; failure &ldquo;${procname} shutdown&rdquo; || rm -f &ldquo;${pid_file}&rdquo;; success &ldquo;${procname} shutdown&rdquo;
-  RC=$((! $RC)) # invert return code so we return 0 when process is dead.
-  return $RC
-}</p>
-
-<p>RETVAL=0</p>
-
-<p>case &ldquo;$1&rdquo; in
-  start)</p>
-
-<pre><code>start
-;;
-</code></pre>
-
-<p>  stop)</p>
-
-<pre><code>stop
-;;
-</code></pre>
-
-<p>  restart|reload|force-reload)</p>
-
-<pre><code>restart
-;;
-</code></pre>
-
-<p>  condrestart)</p>
-
-<pre><code>[ -f $PIDFILEPATH] &amp;&amp; restart || :
-;;
-</code></pre>
-
-<p>  status)</p>
-
-<pre><code>status $testCLIENT
-RETVAL=$?
-;;
-</code></pre>
-
-<p>  *)</p>
-
-<pre><code>echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
-RETVAL=1
-</code></pre>
-
-<p>esac</p>
-
-<p>exit $RETVAL
-```</p>
-
-<h2>systemd startup script template</h2>
-
-<h4>helloworld.conf</h4>
-
-<p>```
-node = 1</p>
-
-<p>[system]
-pidFilePath=/var/lib/helloworldtest/run/hello.pid
-logFilePath=/var/lib/helloworldtest/log/hello.log
-```</p>
-
-<h4>/usr/lib/systemd/system/helloworld.service</h4>
-
-<p>```
-[Unit]
-Description=helloworld</p>
-
-<p>[Service]
-Type=forking
-EnvironmentFile=/etc/helloworld.conf
-ExecStartPre=/bin/sh -c &lsquo;/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${logFilePath} )&rsquo;
-ExecStartPre=/bin/sh -c &lsquo;/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${pidFilePath} )&rsquo;
-ExecStart=/usr/local/sbin/daemonize -p ${pidFilePath} -a -o ${logFilePath} -e ${logFilePath} /usr/local/bin/helloworld -c /etc/helloworld.conf
-ExecStopPost=/bin/kill $MAINPID
-Restart=always</p>
-
-<p>[Install]
-WantedBy=default.target
-```</p>
 ]]></content>
   </entry>
   

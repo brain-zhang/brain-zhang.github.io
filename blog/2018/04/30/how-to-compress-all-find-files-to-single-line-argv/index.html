@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Kernel - Living a Simple Life is a Happy Life</title>
+  <title>How to Compress All Find Files to Single Line Argv - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="Category: kernel">
+  <meta name="description" content="有时候find的所有文件要合并为一个argv管道到一个命令里面: 1
+find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.meblog/categories/kernel">
+  <link rel="canonical" href="http://happy123.me/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -73,36 +74,96 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Kernel</h1>
+    
+      <h1 class="entry-title">How to Compress All Find Files to Single Line Argv</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-30T10:39:39+08:00" pubdate data-updated="true">Apr 30<span>th</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://happy123.me">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>有时候find的所有文件要合并为一个argv管道到一个命令里面:</p>
 
-  
-  <h2>2015</h2>
-
-<article>
-  
-<h1><a href="/blog/2015/06/07/debug-kernel-panic-in-centos/">Debug Kernel Panic in Centos</a></h1>
-<time datetime="2015-06-07T09:22:34+08:00" pubdate><span class='month'>Jun</span> <span class='day'>07</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">分类: <a class='category' href='/blog/categories/kernel/'>kernel</a>, <a class='category' href='/blog/categories/panic/'>panic</a>, <a class='category' href='/blog/categories/tools/'>tools</a></span>
-</footer>
-
-
-</article>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-30T10:39:39+08:00" pubdate data-updated="true">Apr 30<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/04/27/how-to-sort-big-files/" title="Previous Post: How to sort big files">&laquo; How to sort big files</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -213,7 +274,10 @@
       var disqus_shortname = 'memoryboxes';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://happy123.me/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/';
+        var disqus_url = 'http://happy123.me/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
