@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-05-01T13:16:27+08:00</updated>
+  <updated>2018-05-01T22:22:48+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Get Intersection of Two Big Files]]></title>
+    <link href="http://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files/"/>
+    <updated>2018-05-01T22:18:33+08:00</updated>
+    <id>http://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files</id>
+    <content type="html"><![CDATA[<p>两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。</p>
+
+<p>用sort+uniq直接搞定:</p>
+
+<h2>交集</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
+</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
+</span><span class='line'>$ cat aa.txt bb.txt | sort | uniq -d</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>并集</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat a.txt b.txt | sort | uniq</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>差集</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
+</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
+</span><span class='line'>$ cat aa.txt bb.txt bb.txt | sort | uniq -u</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Parallel All Cmds for Linux]]></title>
@@ -1144,57 +1186,6 @@ IF="eth0"
 # 保存配置
 /usr/libexec/iptables/iptables.init save
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Penetrate GFW With ShadowSocks Docker Container on Centos7]]></title>
-    <link href="http://happy123.me/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/"/>
-    <updated>2017-12-04T20:23:40+08:00</updated>
-    <id>http://happy123.me/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7</id>
-    <content type="html"><![CDATA[<p>The quickest way to Penetrate GFW With ShadowSocks(Docker Container) On Centos7.</p>
-
-<h2>Install Docker CE</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
-</span><span class='line'>$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
-</span><span class='line'>$ sudo yum install docker-ce</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>start  docker</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo systemctl start docker</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>pull shadowsocks container</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo docker pull oddrationale/docker-shadowsocks</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>start shadowsocks service</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can configure the service to run on a port of your choice. Just make sure the port number given to Docker is the same as the one given to shadowsocks. Also, it is highly recommended that you store the shadowsocks password in an environment variable as shown above. This way the password will not show in plain text when you run docker ps.</p>
-
-<p>For more command line options, refer to the <a href="https://github.com/shadowsocks/shadowsocks/tree/master">shadowsocks documentation</a></p>
-
-<h2>windows Client</h2>
-
-<p>Client is the machine you want to bypass the GFW.</p>
-
-<p>Download the client package <a href="https://github.com/shadowsocks/shadowsocks-windows/releases">Shadowsocks-win-latest-release</a>, extract it, and run.</p>
-
-<p>You can check its “System Proxy” option, which is convenient for all browsers and terminal.</p>
-
-<h2>now enjoy it</h2>
 ]]></content>
   </entry>
   
