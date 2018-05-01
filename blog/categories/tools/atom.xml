@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-30T10:41:04+08:00</updated>
+  <updated>2018-05-01T09:26:58+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Calling Multiple Commands Through Xargs]]></title>
+    <link href="http://happy123.me/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/"/>
+    <updated>2018-05-01T09:25:03+08:00</updated>
+    <id>http://happy123.me/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs</id>
+    <content type="html"><![CDATA[<p>有时候想在xargs后面接多条命令，这个时候直接加<code>;</code>是不行的，要这样做:</p>
+
+<p><code>
+cat a.txt | xargs -I@  sh -c 'command1; command2; ...'
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Compress All Find Files to Single Line Argv]]></title>
@@ -78,35 +91,6 @@ select username,password,email from passhouse order by site;
 [mysqld]
 performance_schema=off
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Enable Multiusers Support for Win10]]></title>
-    <link href="http://happy123.me/blog/2018/02/28/enable-multiusers-support-for-win10/"/>
-    <updated>2018-02-28T11:14:54+08:00</updated>
-    <id>http://happy123.me/blog/2018/02/28/enable-multiusers-support-for-win10</id>
-    <content type="html"><![CDATA[<p>自从买了套正版Win10，感觉又回归软粉行列。这就是所谓的屁股决定脑袋。</p>
-
-<p>开了hyper-v，日常使用足够了，我感觉hyper-v的虚拟化可能真的是Vmware的有力竞争对手。</p>
-
-<p>然后WSL的横空出世，让人调侃<code>win10将变成最好的Linux发行版</code>，此言不虚啊。</p>
-
-<p>最后我寻寻觅觅，找到了一个RDP多用户支持的工具:</p>
-
-<p><a href="https://github.com/stascorp/rdpwrap">https://github.com/stascorp/rdpwrap</a></p>
-
-<p>妥妥的把Win10变成了Win2012 Server。</p>
-
-<p>现在Win10日常使用组件好评度爆表依次为:</p>
-
-<ul>
-<li><p>多桌面</p></li>
-<li><p>hyper-v</p></li>
-<li><p>WSL</p></li>
-<li><p>RDP</p></li>
-</ul>
-
 ]]></content>
   </entry>
   

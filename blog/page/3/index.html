@@ -80,6 +80,77 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-03T09:49:15+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2017</time>
+        
+           | <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>年老记忆力下降，做了N+1遍了，还是忘。</p>
+
+<h2>卸载干净</h2>
+
+<pre><code>apt-get purge samba
+rm -rf /etc/samba /etc/default/samba
+</code></pre>
+
+<h2>重装</h2>
+
+<pre><code>apt-get install samba
+</code></pre>
+
+<h2>配置</h2>
+
+<pre><code>vim /etc/samba/smb.conf
+
+
+[share_name]
+public = yes
+browseable = yes
+path = /home
+guest ok = yes
+read only = no
+writeable = yes
+create mask = 0644
+directory mask = 2777
+</code></pre>
+
+<h2>重启</h2>
+
+<pre><code>systemctl restart smbd
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/">Http Referer 的盗链与反盗链</a></h1>
     
     
@@ -627,59 +698,6 @@ if sys.stdout.encoding == 'cp936':
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-12-25T16:54:47+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>比特币是建立在区块链基础上的，区块链的基本技术支撑有三个:</p>
-
-<ul>
-<li><p>非对称加密</p></li>
-<li><p>点对点网络技术</p></li>
-<li><p>HASH现金</p></li>
-</ul>
-
-
-<p>其中非对称加密和HASH现金技术的历史发展颇有渊源，最近仔细学习了一下密码学科普知识，总结一下。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -697,6 +715,10 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/">How to Calling Multiple Commands Through Xargs</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/">How to Compress All Find Files to Single Line Argv</a>
       </li>
     
@@ -710,10 +732,6 @@ if sys.stdout.encoding == 'cp936':
     
       <li class="post">
         <a href="/blog/2018/04/27/how-to-dump-csv-from-sqlite3/">How to Dump Csv From Sqlite3</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/04/26/purge-large-files-in-gitrepo/">寻找并删除Git记录中的大文件</a>
       </li>
     
   </ul>
@@ -829,7 +847,7 @@ if sys.stdout.encoding == 'cp936':
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (11)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (12)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

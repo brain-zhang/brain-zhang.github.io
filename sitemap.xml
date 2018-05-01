@@ -479,8 +479,14 @@
         <lastmod>2018-04-30T10:40:38+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://happy123.me/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/
+        </loc>
+        <lastmod>2018-05-01T09:26:41+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://happy123.me/blog/archives/</loc>
-        <lastmod>2018-04-30T10:40:38+08:00</lastmod>
+        <lastmod>2018-05-01T09:26:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://happy123.me/about/</loc>
@@ -492,7 +498,7 @@
     </url>
     <url>
         <loc>http://happy123.me/</loc>
-        <lastmod>2018-04-30T10:40:38+08:00</lastmod>
+        <lastmod>2018-05-01T09:26:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://happy123.me/robots.txt</loc>

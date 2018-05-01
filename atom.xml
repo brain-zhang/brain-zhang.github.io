@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-04-30T10:41:04+08:00</updated>
+  <updated>2018-05-01T09:26:58+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Calling Multiple Commands Through Xargs]]></title>
+    <link href="http://happy123.me/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/"/>
+    <updated>2018-05-01T09:25:03+08:00</updated>
+    <id>http://happy123.me/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs</id>
+    <content type="html"><![CDATA[<p>有时候想在xargs后面接多条命令，这个时候直接加<code>;</code>是不行的，要这样做:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat a.txt | xargs -I@  sh -c 'command1; command2; ...'</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Compress All Find Files to Single Line Argv]]></title>
@@ -1136,47 +1149,6 @@ IF="eth0"
 <li><p>most people are evil</p></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Config Samba Config With No Password Share]]></title>
-    <link href="http://happy123.me/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/"/>
-    <updated>2017-12-03T09:49:15+08:00</updated>
-    <id>http://happy123.me/blog/2017/12/03/how-to-config-samba-config-with-no-password-share</id>
-    <content type="html"><![CDATA[<p>年老记忆力下降，做了N+1遍了，还是忘。</p>
-
-<h2>卸载干净</h2>
-
-<pre><code>apt-get purge samba
-rm -rf /etc/samba /etc/default/samba
-</code></pre>
-
-<h2>重装</h2>
-
-<pre><code>apt-get install samba
-</code></pre>
-
-<h2>配置</h2>
-
-<pre><code>vim /etc/samba/smb.conf
-
-
-[share_name]
-public = yes
-browseable = yes
-path = /home
-guest ok = yes
-read only = no
-writeable = yes
-create mask = 0644
-directory mask = 2777
-</code></pre>
-
-<h2>重启</h2>
-
-<pre><code>systemctl restart smbd
-</code></pre>
 ]]></content>
   </entry>
   
