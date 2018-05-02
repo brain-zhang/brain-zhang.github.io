@@ -118,7 +118,7 @@
 <ol>
 <li><p>split -l 1000000000 huge-file small-chunk</p></li>
 <li><p>for X in small-chunk*; do sort -u &lt; $X > sorted-$X; done</p></li>
-<li><p>sort -u -m sorted-small-chunk* > sorted-huge-file &amp;&amp; rm -rf huge-file</p></li>
+<li><p>sort -u -m sorted-small-chunk<em> > sorted-huge-file &amp;&amp; rm -rf small-chunk</em> sorted-small-chunk*</p></li>
 </ol>
 
 </div>
