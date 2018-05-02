@@ -80,6 +80,62 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">How to Sort a Very Very Very Big File</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-03T07:21:50+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2018</time>
+        
+           | <a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
+
+<p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
+
+<p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
+
+<p>我也不想自己去写代码，最后只有分割搞定~~</p>
+
+<h3>把大象装进冰箱分为几步？</h3>
+
+<h3>三步:</h3>
+
+<ol>
+<li><p>split -l 1000000000 huge-file small-chunk</p></li>
+<li><p>for X in small-chunk*; do sort -u &lt; $X > sorted-$X; done</p></li>
+<li><p>sort -u -m sorted-small-chunk* > sorted-huge-file &amp;&amp; rm -rf huge-file</p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a></h1>
     
     
@@ -589,52 +645,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">How to Get Pubkey From a Transaction</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-22T20:42:49+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2018</time>
-        
-           | <a href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>比如<code>1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</code>，这个地址，有转出过，如何得到公钥</p>
-
-<p>原理很简单，但是实践起来比较烦：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -650,6 +660,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">How to Sort a Very Very Very Big File</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a>
       </li>
     
@@ -663,10 +677,6 @@
     
       <li class="post">
         <a href="/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/">How to Compress All Find Files to Single Line Argv</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/04/27/how-to-sort-big-files/">How to Sort Big Files</a>
       </li>
     
   </ul>
@@ -782,7 +792,7 @@
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (14)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (15)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

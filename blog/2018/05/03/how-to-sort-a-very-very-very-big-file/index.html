@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Array - Living a Simple Life is a Happy Life</title>
+  <title>How to Sort a Very Very Very Big File - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="Category: Array">
+  <meta name="description" content="sort -uo 一个1T的文件，让最高配的google cloud崩溃了，可惜了我的$30，白白跑了那么长时间 网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~ 不管是并行也好，管道也好， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.meblog/categories/array">
+  <link rel="canonical" href="http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -73,36 +73,109 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Array</h1>
+    
+      <h1 class="entry-title">How to Sort a Very Very Very Big File</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-03T07:21:50+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://happy123.me">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
 
-  
-  <h2>2014</h2>
+<p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
 
-<article>
-  
-<h1><a href="/blog/2014/09/17/c-dynamic-array-in-stack/">C:dynamic Array in Stack</a></h1>
-<time datetime="2014-09-17T08:42:25+08:00" pubdate><span class='month'>Sep</span> <span class='day'>17</span> <span class='year'>2014</span></time>
+<p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
 
-<footer>
-  <span class="categories">分类: <a class='category' href='/blog/categories/array/'>Array</a>, <a class='category' href='/blog/categories/c/'>C</a></span>
-</footer>
+<p>我也不想自己去写代码，最后只有分割搞定~~</p>
 
+<h3>把大象装进冰箱分为几步？</h3>
 
-</article>
+<h3>三步:</h3>
+
+<ol>
+<li><p>split -l 1000000000 huge-file small-chunk</p></li>
+<li><p>for X in small-chunk*; do sort -u &lt; $X > sorted-$X; done</p></li>
+<li><p>sort -u -m sorted-small-chunk* > sorted-huge-file &amp;&amp; rm -rf huge-file</p></li>
+</ol>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-03T07:21:50+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/" title="Previous Post: how to get Intersection of two big files">&laquo; how to get Intersection of two big files</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -213,7 +286,10 @@
       var disqus_shortname = 'memoryboxes';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/';
+        var disqus_url = 'http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
