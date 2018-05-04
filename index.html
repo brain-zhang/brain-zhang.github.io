@@ -106,7 +106,7 @@
   </header>
 
 
-  <div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
+  <div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
 
 <p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
 
@@ -134,6 +134,10 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>PS:</h3>
+
+<p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
 </div>
   
   

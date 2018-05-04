@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-05-04T08:21:58+08:00</updated>
+  <updated>2018-05-04T08:24:09+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,7 +18,7 @@
     <link href="http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/"/>
     <updated>2018-05-03T07:21:50+08:00</updated>
     <id>http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file</id>
-    <content type="html"><![CDATA[<p>sort -uo 一个1T的文件，让最高配的google cloud崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
+    <content type="html"><![CDATA[<p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
 
 <p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
 
@@ -46,6 +46,10 @@
 <p><code>
 cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt
 </code></p>
+
+<h3>PS:</h3>
+
+<p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
 ]]></content>
   </entry>
   
