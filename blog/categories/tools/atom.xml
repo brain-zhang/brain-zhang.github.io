@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-05-04T08:24:09+08:00</updated>
+  <updated>2018-05-04T08:31:47+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -24,24 +24,25 @@
 
 <p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
 
-<p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割搞定~~</p>
+<p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割手动外排搞定~~</p>
 
 <h3>把大象装进冰箱分为几步？</h3>
 
 <h3>三步:</h3>
 
-<ol>
-<li><p>split -l 1000000000 huge-file small-chunk</p></li>
-<li><p>for X in small-chunk*; do sort -u &lt; $X > sorted-$X; done</p></li>
-<li><p>sort -u -m sorted-small-chunk<em> > sorted-huge-file &amp;&amp; rm -rf small-chunk</em> sorted-small-chunk*</p></li>
-</ol>
+<p>```
+split -l 1000000000 huge-file small-chunk</p>
 
+<p>for X in small-chunk*; do sort -u &lt; $X > sorted-$X; done</p>
+
+<p>sort -u -m sorted-small-chunk<em> > sorted-huge-file &amp;&amp; rm -rf small-chunk</em> sorted-small-chunk*
+```</p>
 
 <h3>小TIPS:</h3>
 
 <p>如果只要去重不要排序的话，尽量不要用 sort -u或者sort | uniq，这个是nLog(n)的效率，让人捉急。</p>
 
-<p>可以利用awk的数组是内存hash表的特性，直接awk来做:</p>
+<p>可以利用awk的数组是内存hash表的特性，直接awk来做，前提是你内存够大，瞎估估需要十倍于数据的内存吧:</p>
 
 <p><code>
 cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt
