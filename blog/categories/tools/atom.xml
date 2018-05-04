@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-05-04T08:08:47+08:00</updated>
+  <updated>2018-05-04T08:21:58+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -24,7 +24,7 @@
 
 <p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
 
-<p>不要跟我谈什么外排，归并，位图，bloom filter，我就是不想自己去写代码，最后只有分割搞定~~</p>
+<p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割搞定~~</p>
 
 <h3>把大象装进冰箱分为几步？</h3>
 
