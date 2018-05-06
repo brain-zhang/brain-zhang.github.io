@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-05-06T10:11:27+08:00</updated>
+  <updated>2018-05-06T13:14:57+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -189,18 +189,13 @@ cat bigfile.txt| parallel --no-notice --pipe python pinyinconv.py &gt; pinyin.re
 <p>嗯，虽然这个作者非常非常好，但是他总是在命令前面输出一些慈善提示；当然我并不是讨厌这种做法，但看多了总有些疲劳，你懂的~~</p>
 
 <ul>
-<li>这些命令都是pipeline读取stdin，怎么直接从文件流里面读?</li>
-</ul>
-
-
-<p>看手册</p>
-
-<ul>
 <li>我有一些参数想传给程序，怎么办？</li>
 </ul>
 
 
-<p>看手册</p>
+<p><code>
+ seq 3|parallel --no-notice -q echo seq{}
+</code></p>
 
 <ul>
 <li>这个命令很好，但是语法好像啰嗦了一些，还有其它的替代命令吗？</li>
