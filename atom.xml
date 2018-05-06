@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-05-06T13:18:14+08:00</updated>
+  <updated>2018-05-06T13:23:43+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -210,7 +210,7 @@
 </ul>
 
 
-<p>嗯~ o(<em>￣▽￣</em>)o，还是有的，xargs有个-Pn参数，类似的效果，不过功能弱化很多，基本上是鸡肋</p>
+<p>嗯~ o(<em>￣▽￣</em>)o，还是有的，xargs有个-n参数，类似的效果，不过功能弱化很多，基本上是鸡肋</p>
 
 <h2>参考:</h2>
 
