@@ -80,6 +80,100 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/">Different Users in Same Unix Group Can Not Run Mongod</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-10T08:44:42+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>事情的缘起是这样的&hellip;&hellip;.</p>
+
+<p>想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到)</p>
+
+<p>Docker build不支持 &mdash;privileged，所以默认的/etc/init.d/mongod  这个脚本中的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种写法就死翘翘了。</p>
+
+<p>github上有这个Issue:</p>
+
+<p><a href="https://github.com/docker/docker/issues/1916">https://github.com/docker/docker/issues/1916</a></p>
+
+<p>大家讨论了1年多，对于怎么解决，还是没有个所以然。(话说要再吐槽一下github的issue了，一般大一点的项目，一个issue跨度以年来论，长篇大论读完也不容易呀)</p>
+
+<p>最后只好在Dockerfile中这么搞:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mongod --fork -f /etc/mongod.conf && \
+</span><span class='line'>mongod --shutdown -f /etc/mongod.conf && \
+</span><span class='line'>chown mongod:mongod /opt/lib/mongodbpath -R
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样build就顺利完成了。</p>
+
+<p>可是启动这个image为container后，执行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/mongod start</span></code></pre></td></tr></table></div></figure>
+
+
+<p>报错:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted</span></code></pre></td></tr></table></div></figure>
+
+
+<p>虾米，明明已经加了mongod的group了。而且errorno是1，不是 <code>"errno:13 Permission denied"</code>，有点奇怪。</p>
+
+<p>问题在这里:</p>
+
+<p><a href="https://jira.mongodb.org/browse/SERVER-7583">https://jira.mongodb.org/browse/SERVER-7583</a></p>
+
+<p>要再加一个指令:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>setcap cap_fowner+ep /usr/bin/mongod</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就是这么折腾。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/03/03/huarongdao/">第一个AndroidApp-华容道</a></h1>
     
     
@@ -1626,212 +1720,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/">多个git账号之间的切换</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-07T15:00:34+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>做过很多遍了，却总是记不住，这回从头来描述一下。</p>
-
-<h1>介绍</h1>
-
-<p>所谓多个git账号，可能有两种情况:</p>
-
-<ul>
-<li><p>我有多个github的账号，不同的账号对应不同的repo，需要push的时候自动区分账号</p></li>
-<li><p>我有多个git的账号，有的是github的，有的是bitbucket的，有的是单位的gitlab的，不同账号对应不同的repo，需要push的时候自动区分账号</p></li>
-</ul>
-
-
-<p>这两种情况的处理方法是一样的，分下面几步走:</p>
-
-<h1>处理</h1>
-
-<ul>
-<li><p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
-
-<p>  <code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
- </code></p>
-
-<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
-
-<p>  <code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
- </code></p>
-
-<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p></li>
-<li><p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p></li>
-<li><p>编辑 <code>~/.ssh/config</code>，设定不同的git 服务器对应不同的key</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(first@mail.com),注意User项直接填git，不用填在github的用户名
-</span><span class='line'>Host github.com
-</span><span class='line'> HostName github.com
-</span><span class='line'> User git
-</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github
-</span><span class='line'>
-</span><span class='line'># second user(second@mail.com)
-</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
-</span><span class='line'>Host 172.16.11.11
-</span><span class='line'> HostName 172.16.11.11
-</span><span class='line'> User work
-</span><span class='line'> IdentityFile ~/.ssh/id_rsa_work</span></code></pre></td></tr></table></div></figure>
-
-
-<p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
-
-<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
-
-<ul>
-<li>从上面一步可以看到，ssh区分账号，其实靠的是HostName这个字段，因此如果在github上有多个账号，很容易的可以把不同的账号映射到不同的HostName上就可以了。比如我有A和B两个账号， 先按照步骤一生成不同的key文件，再修改<code>~/.ssh/config</code> 内容应该是这样的。</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Default github user(A@mail.com),注意User项直接填git，不用填在github的用户名
-</span><span class='line'>Host A.github.com
-</span><span class='line'> HostName github.com
-</span><span class='line'> User git
-</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_A
-</span><span class='line'>
-</span><span class='line'># second user(B@mail.com)
-</span><span class='line'># 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
-</span><span class='line'>Host A.github.com
-</span><span class='line'> HostName github.com
-</span><span class='line'> User git
-</span><span class='line'> IdentityFile ~/.ssh/id_rsa_github_B</span></code></pre></td></tr></table></div></figure>
-
-
-<p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
-
-<pre><code>git@github.com:testA/gopkg.git
-</code></pre>
-
-<p>那么根据上面的配置，就要把<code>github.com</code>换成<code>A.github.com</code>, 那么ssh解析的时候就会自动把<code>testA.github.com</code> 转换为 <code>github.com</code>,修改后就是</p>
-
-<pre><code>git@A.github.com:testA/gopkg.git
-</code></pre>
-
-<p>直接更改 <code>repo/.git/config</code> 里面的url即可</p>
-
-<p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
-
-<h1>一些题外话</h1>
-
-<h2>我有一个repo，想要同时push到不同的仓库该如何设置?</h2>
-
-<p>很简单， 直接更改 <code>repo/.git/config</code> 里面的url即可，把里面对应tag下的url增加一个就可以了。例:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[remote "GitHub"]
-</span><span class='line'>    url = git@github.com:elliottcable/Paws.o.git
-</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/GitHub/*
-</span><span class='line'>[branch "Master"]
-</span><span class='line'>    remote = GitHub
-</span><span class='line'>    merge = refs/heads/Master
-</span><span class='line'>[remote "Codaset"]
-</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git
-</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Codaset/*
-</span><span class='line'>[remote "Paws"]
-</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
-</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/Paws/*
-</span><span class='line'>[remote "Origin"]
-</span><span class='line'>    url = git@github.com:Paws/Paws.o.git
-</span><span class='line'>    url = git@codaset.com:elliottcable/paws-o.git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
-
-<h2>我有一个github的repo，clone没有问题，push的时候总是报错:error: The requested URL returned error: 403 while accessing xxx</h2>
-
-<p>这个问题也困扰了我一段时间，后来发现修改 <code>repo/.git/config</code> 里面的url，把https地址替换为ssh就好了。</p>
-
-<p>例如</p>
-
-<pre><code>url=https://MichaelDrogalis@github.com/derekerdmann/lunch_call.git
-</code></pre>
-
-<p>替换为</p>
-
-<pre><code>url=ssh://git@github.com/derekerdmann/lunch_call.git
-</code></pre>
-
-<h1>参考</h1>
-
-<p><a href="http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed">http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed</a>
-<a href="http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446">http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -1849,6 +1737,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/">Python处理中文标点符号</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel/">How to Improve Performance Your Cmd by Parallel</a>
       </li>
     
@@ -1862,10 +1754,6 @@
     
       <li class="post">
         <a href="/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/">How to Parallel All Cmds for Linux</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/">How to Calling Multiple Commands Through Xargs</a>
       </li>
     
   </ul>
@@ -1939,7 +1827,7 @@
 <li class='category'><a href='/blog/categories/colorscheme/'>colorscheme (1)</a></li>
 <li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (6)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (7)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
 <li class='category'><a href='/blog/categories/epel/'>epel (1)</a></li>

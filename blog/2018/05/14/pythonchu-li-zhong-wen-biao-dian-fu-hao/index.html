@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>寻找并删除Git记录中的大文件 - Living a Simple Life is a Happy Life</title>
+  <title>Python处理中文标点符号 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="有时候gitignore没做好，一不小心就又进来一个二进制文件 在重复了N次Google之后，还是记一下吧 首先通过rev-list来找到仓库记录中的大文件： 1
-git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
+  <meta name="description" content="中文文本中可能出现的标点符号来源比较复杂，通过匹配等手段对他们处理的时候需要格外小心，防止遗漏。以下为在下处理中文标点的时候采用的两种方法: 中文标点集合 比较常见标点有这些： 1
+！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo">
+  <link rel="canonical" href="http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -78,7 +78,7 @@ git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
   
   <header>
     
-      <h1 class="entry-title">寻找并删除Git记录中的大文件</h1>
+      <h1 class="entry-title">Python处理中文标点符号</h1>
     
     
       <p class="meta">
@@ -94,7 +94,7 @@ git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
   
 
 
-<time datetime="2018-04-26T13:36:16+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2018</time>
+<time datetime="2018-05-14T09:03:13+08:00" pubdate data-updated="true">May 14<span>th</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -104,45 +104,108 @@ git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
   </header>
 
 
-<div class="entry-content"><p>有时候gitignore没做好，一不小心就又进来一个二进制文件</p>
-
-<p>在重复了N次Google之后，还是记一下吧</p>
+<div class="entry-content"><p>中文文本中可能出现的标点符号来源比较复杂，通过匹配等手段对他们处理的时候需要格外小心，防止遗漏。以下为在下处理中文标点的时候采用的两种方法:</p>
 
 <!-- more -->
 
 
-<ol>
-<li>首先通过rev-list来找到仓库记录中的大文件：</li>
-</ol>
+<h3>中文标点集合</h3>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git rev-list --objects --all | grep "$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | awk '{print$1}')"</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>然后通过filter-branch来重写这些大文件涉及到的所有提交（重写历史记录）：</li>
-</ol>
-
+<h4>比较常见标点有这些：</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git filter-branch -f --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch your-file-name' --tag-name-filter cat -- --all</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>再删除缓存的对象，顺便瘦身一下:</li>
-</ol>
+<p>调用zhon包的zhon.hanzi.punctuation函数即可得到这些中文标点。</p>
 
+<p>如果想用英文的标点，则可调用string包的string.punctuation函数可得到：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>!"#$%&\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因此，比如需要将所有标点符号去除，可以进行以下操作：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
-</span><span class='line'>git reflog expire --expire=now --all
-</span><span class='line'>git gc --prune=now</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; import re
+</span><span class='line'>&gt;&gt;&gt; from zhon.hanzo import punctuation
+</span><span class='line'>&gt;&gt;&gt; line = "测试。。去除标点。。"
+</span><span class='line'>&gt;&gt;&gt; print re.sub("[{}]+".format(punctuation), "", line.decode("utf-8")) # 需要将str转换为unicode</span></code></pre></td></tr></table></div></figure>
 
 
-<p>打完收工</p>
+<p>当然，如果想去除重复的符号而只保留一个，那么可以用\1指明：比如</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.sub(ur"([{}])+".format(punctuation), "\1", line.decode("utf-8"))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你也可以手工指定这些标点符号</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+</span><span class='line'>re_punctuation = "[{}]+".format(punctuation)
+</span><span class='line'>line = re.sub(re_punctuation, "", line)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>可以通过直接指定unicode码范围的办法来strip，比如:</h3>
+
+<p>去除所有半角全角符号，只留字母、数字、中文</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def remove_punctuation(line):
+</span><span class='line'>    rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+</span><span class='line'>    line = rule.sub('',line)
+</span><span class='line'>    return line</span></code></pre></td></tr></table></div></figure>
+
+
+<p>汉字的范围为”\u4e00-\u9fa5“，这个是用Unicode表示的，所以前面必须要加”u“；字符”r“的意思是表示忽略后面的转义字符，这样简化了后面正则表达式里每遇到一个转义字符还得挨个转义的麻烦</p>
+
+<h3>最后可以组合成为一个函数</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def remove_punctuation(line, strip_all=True):
+</span><span class='line'>    if strip_all:
+</span><span class='line'>        rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+</span><span class='line'>        line = rule.sub('',line)
+</span><span class='line'>    else:
+</span><span class='line'>        punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+</span><span class='line'>        re_punctuation = "[{}]+".format(punctuation)
+</span><span class='line'>        line = re.sub(re_punctuation, "", line)
+</span><span class='line'>
+</span><span class='line'>    return line.strip()</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>清洗完毕后，有时候我们希望按照多个标点符号来分割</h3>
+
+<p>比如只要遇到中文或英文的逗号和句号等符号就分割，可以直接用translate把这些符号翻译为统一的分隔符，再split:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>strip_chars = '？"。.，,《》[]〖〗“”'
+</span><span class='line'>single_line = single_line.translate(str.maketrans(dict.fromkeys(strip_chars, '#')))
+</span><span class='line'>single_line = single_line.split('#')</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 
@@ -165,7 +228,7 @@ git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
   
 
 
-<time datetime="2018-04-26T13:36:16+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2018</time>
+<time datetime="2018-05-14T09:03:13+08:00" pubdate data-updated="true">May 14<span>th</span>, 2018</time>
       
 
 <span class="categories">
@@ -186,10 +249,8 @@ git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2018/04/24/cryptocurrency-security/" title="Previous Post: 谈谈比特币的地址安全问题">&laquo; 谈谈比特币的地址安全问题</a>
+        <a class="basic-alignment left" href="/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel/" title="Previous Post: how to improve performance your cmd by parallel">&laquo; how to improve performance your cmd by parallel</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2018/04/27/how-to-dump-csv-from-sqlite3/" title="Next Post: how to dump csv from sqlite3">how to dump csv from sqlite3 &raquo;</a>
       
     </p>
   </footer>
@@ -311,8 +372,8 @@ git rev-list --objects --all | grep "$(git verify-pack -v .git/ &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo/';
-        var disqus_url = 'http://happy123.me/blog/2018/04/26/purge-large-files-in-gitrepo/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/';
+        var disqus_url = 'http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/';
         var disqus_script = 'embed.js';
       
     (function () {

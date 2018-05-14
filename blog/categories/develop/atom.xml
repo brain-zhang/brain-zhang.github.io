@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-05-08T12:20:53+08:00</updated>
+  <updated>2018-05-14T09:16:51+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,103 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python处理中文标点符号]]></title>
+    <link href="http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/"/>
+    <updated>2018-05-14T09:03:13+08:00</updated>
+    <id>http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao</id>
+    <content type="html"><![CDATA[<p>中文文本中可能出现的标点符号来源比较复杂，通过匹配等手段对他们处理的时候需要格外小心，防止遗漏。以下为在下处理中文标点的时候采用的两种方法:</p>
+
+<!-- more -->
+
+
+<h3>中文标点集合</h3>
+
+<h4>比较常见标点有这些：</h4>
+
+<p><code>
+！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.
+</code></p>
+
+<p>调用zhon包的zhon.hanzi.punctuation函数即可得到这些中文标点。</p>
+
+<p>如果想用英文的标点，则可调用string包的string.punctuation函数可得到：</p>
+
+<p><code>
+!"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~
+</code></p>
+
+<p>因此，比如需要将所有标点符号去除，可以进行以下操作：</p>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>import re
+from zhon.hanzo import punctuation
+line = &ldquo;测试。。去除标点。。&rdquo;
+print re.sub(&ldquo;[{}]+&rdquo;.format(punctuation), &ldquo;&rdquo;, line.decode(&ldquo;utf-8&rdquo;)) # 需要将str转换为unicode
+```</p></blockquote></blockquote></blockquote>
+
+<p>当然，如果想去除重复的符号而只保留一个，那么可以用\1指明：比如</p>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>re.sub(ur"([{}])+&ldquo;.format(punctuation), &rdquo;\1", line.decode(&ldquo;utf-8&rdquo;))
+```</p></blockquote></blockquote></blockquote>
+
+<p>你也可以手工指定这些标点符号</p>
+
+<p><code>
+punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+re_punctuation = "[{}]+".format(punctuation)
+line = re.sub(re_punctuation, "", line)
+</code></p>
+
+<h3>可以通过直接指定unicode码范围的办法来strip，比如:</h3>
+
+<p>去除所有半角全角符号，只留字母、数字、中文</p>
+
+<p>```
+def remove_punctuation(line):</p>
+
+<pre><code>rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+line = rule.sub('',line)
+return line
+</code></pre>
+
+<p>```</p>
+
+<p>汉字的范围为”\u4e00-\u9fa5“，这个是用Unicode表示的，所以前面必须要加”u“；字符”r“的意思是表示忽略后面的转义字符，这样简化了后面正则表达式里每遇到一个转义字符还得挨个转义的麻烦</p>
+
+<h3>最后可以组合成为一个函数</h3>
+
+<p>```
+def remove_punctuation(line, strip_all=True):</p>
+
+<pre><code>if strip_all:
+    rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+    line = rule.sub('',line)
+else:
+    punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+    re_punctuation = "[{}]+".format(punctuation)
+    line = re.sub(re_punctuation, "", line)
+
+return line.strip()
+</code></pre>
+
+<p>```</p>
+
+<h3>清洗完毕后，有时候我们希望按照多个标点符号来分割</h3>
+
+<p>比如只要遇到中文或英文的逗号和句号等符号就分割，可以直接用translate把这些符号翻译为统一的分隔符，再split:</p>
+
+<p><code>
+strip_chars = '？"。.，,《》[]〖〗“”'
+single_line = single_line.translate(str.maketrans(dict.fromkeys(strip_chars, '#')))
+single_line = single_line.split('#')
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[寻找并删除Git记录中的大文件]]></title>
@@ -281,129 +378,6 @@ class Singleton(Borg):
 <p><a href="https://github.com/Huddle/PhantomCSS">https://github.com/Huddle/PhantomCSS</a></p>
 
 <p>最后感概下，Pycon一年比一年进步，志愿者们功不可没。对于他们的工作，怎么赞誉都不过分。非常感谢!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Uwsgi部署django程序]]></title>
-    <link href="http://happy123.me/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/"/>
-    <updated>2014-10-31T08:39:26+08:00</updated>
-    <id>http://happy123.me/blog/2014/10/31/uwsgibu-shu-djangocheng-xu</id>
-    <content type="html"><![CDATA[<p>Python的web世界，部署首选uwsgi，既可独战，又可搭配Nginx等车轮战，实在是居家必备。</p>
-
-<p>但我每次都得搞都得去翻一遍手册，实在烦了，记一下简单粗暴的测试方案。</p>
-
-<h2>安装</h2>
-
-<pre><code>pip install uwsgi
-</code></pre>
-
-<h2>测试</h2>
-
-<p>写一个最简单的test.py:</p>
-
-<p>```</p>
-
-<h1>test.py</h1>
-
-<p>def application(env, start_response):</p>
-
-<pre><code>start_response('200 OK', [('Content-Type','text/html')])
-return "Hello World"
-</code></pre>
-
-<p>```</p>
-
-<p>python3的话需要返回一个binary</p>
-
-<p>```</p>
-
-<h1>test.py</h1>
-
-<p>def application(env, start_response):</p>
-
-<pre><code>start_response('200 OK', [('Content-Type','text/html')])
-return [b"Hello World"]
-</code></pre>
-
-<p>```</p>
-
-<p>执行shell命令:</p>
-
-<pre><code>uwsgi --http :8000 --wsgi-file test.py
-</code></pre>
-
-<p>访问:</p>
-
-<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
-
-<p>因该能看到<code>Hello World</code>了</p>
-
-<h2>集成Django</h2>
-
-<pre><code>django-admin startproject testuwsgi
-</code></pre>
-
-<p>这样生成的项目，django版本不同，目录会有微小的差别，找manage.py就对了</p>
-
-<p>如果是>django1.6的话，会自动生成wsgi.py文件，没有的话编辑一个:</p>
-
-<p>```</p>
-
-<h1>!/usr/bin/env python</h1>
-
-<h1>coding: utf-8</h1>
-
-<p>import os
-import sys</p>
-
-<h1>将系统的编码设置为UTF8</h1>
-
-<p>reload(sys)
-sys.setdefaultencoding(&lsquo;utf8&rsquo;)</p>
-
-<p>os.environ.setdefault(&ldquo;DJANGO_SETTINGS_MODULE&rdquo;, &ldquo;mysite.settings&rdquo;)</p>
-
-<p>from django.core.handlers.wsgi import WSGIHandler
-application = WSGIHandler()
-```</p>
-
-<p>执行:</p>
-
-<pre><code>uwsgi --http :8000 --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
-</code></pre>
-
-<p>访问:</p>
-
-<p><a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
-
-<p>因该能看到Django的欢迎页面了</p>
-
-<h2>支持Https</h2>
-
-<p>uwsgi自1.3版本开始支持https</p>
-
-<p>分两步走:</p>
-
-<h4>生成证书</h4>
-
-<pre><code>openssl genrsa -out foobar.key 2048
-openssl req -new -key foobar.key -out foobar.csr
-openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
-</code></pre>
-
-<h4>走起</h4>
-
-<pre><code>uwsgi --master --https 0.0.0.0:8443,foobar.crt,foobar.key --chdir xxxxx/testuwsgi --module testuwsgi.wsgi
-</code></pre>
-
-<p>访问的时候要以:</p>
-
-<p><a href="https://127.0.0.1:8443/">https://127.0.0.1:8443/</a></p>
-
-<p>OK了</p>
-
-<p>至于怎么搭配Nginx，写配置文件，搭配Supervisor，还是老老实实翻手册吧，反正这个不是经常做。</p>
 ]]></content>
   </entry>
   
