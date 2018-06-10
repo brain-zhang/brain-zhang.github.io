@@ -80,6 +80,55 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/06/10/how-to-split-large-tar-archive-into-multiple-files-of-certain-size/">How to Split Large ‘tar’ Archive Into Multiple Files of Certain Size</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-06-10T21:50:43+08:00" pubdate data-updated="true">Jun 10<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/06/10/how-to-split-large-tar-archive-into-multiple-files-of-certain-size/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2018/06/10/how-to-split-large-tar-archive-into-multiple-files-of-certain-size/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有时候需要压缩文件的时候同时分割一下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tar czvf - -C /mnt/g/dict/ weakpass_merge.dict |split -b 10000M - "weakpass.part.tar.gz."</span></code></pre></td></tr></table></div></figure>
+
+
+<p>还原:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat weakpass.part.tar.gz.*|tar zxvf</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/05/15/zhi-shu-etfman-tan/">指数ETF漫谈</a></h1>
     
     
@@ -585,54 +634,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/27/a-strange-bitcoin-transaction/">A Strange Bitcoin Transaction</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-27T14:24:30+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2018</time>
-        
-           | <a href="/blog/2018/04/27/a-strange-bitcoin-transaction/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2018/04/27/a-strange-bitcoin-transaction/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在之前的<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
-
-<p>令人惊奇的是，他们真的碰到了几个地址。对他们最近发现的4个地址做了一下分析，发现了更让人惊奇的事情。</p>
-
-<p>他们最近的四个发现是:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/04/27/a-strange-bitcoin-transaction/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -648,6 +649,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/06/10/how-to-split-large-tar-archive-into-multiple-files-of-certain-size/">How to Split Large ‘tar’ Archive Into Multiple Files of Certain Size</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/05/15/zhi-shu-etfman-tan/">指数ETF漫谈</a>
       </li>
     
@@ -661,10 +666,6 @@
     
       <li class="post">
         <a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">How to Sort a Very Very Very Big File</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a>
       </li>
     
   </ul>
@@ -780,7 +781,7 @@
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (16)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (17)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

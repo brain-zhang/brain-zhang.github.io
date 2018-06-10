@@ -80,6 +80,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-06T22:15:22+08:00" pubdate data-updated="true">Jun 6<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/06/06/set-local-repo-by-iso/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2017/06/06/set-local-repo-by-iso/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>想要挂载一个iso安装镜像作为本地repo</p>
+
+<h2>mount iso</h2>
+
+<pre><code>mkdir -p /mnt/cdrom
+mount -t iso9660 -o loop /home/Centosxxxx.iso /mnt/cdrom
+</code></pre>
+
+<h2>set local repo</h2>
+
+<pre><code>vi /etc/yum.repos.d/local.repo
+
+[localrepo]
+name=Unixmen Repository
+baseurl=file:///mnt/cdrom
+gpgcheck=0
+enabled=1
+</code></pre>
+
+<h2>set up</h2>
+
+<pre><code>yum clean all
+yum repolist
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a></h1>
     
     
@@ -568,50 +630,6 @@ if sys.stdout.encoding == 'cp936':
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/05/megacli-cheat/">Megacli Cheat</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-08-05T03:21:49+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/08/05/megacli-cheat/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/08/05/megacli-cheat/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>做Raid，用到了megacli，又学了一套命令.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/08/05/megacli-cheat/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -629,6 +647,10 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/06/10/how-to-split-large-tar-archive-into-multiple-files-of-certain-size/">How to Split Large ‘tar’ Archive Into Multiple Files of Certain Size</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/05/15/zhi-shu-etfman-tan/">指数ETF漫谈</a>
       </li>
     
@@ -642,10 +664,6 @@ if sys.stdout.encoding == 'cp936':
     
       <li class="post">
         <a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">How to Sort a Very Very Very Big File</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a>
       </li>
     
   </ul>
@@ -761,7 +779,7 @@ if sys.stdout.encoding == 'cp936':
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (16)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (17)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
