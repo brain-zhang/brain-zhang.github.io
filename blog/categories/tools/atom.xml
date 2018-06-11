@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-06-11T11:02:13+08:00</updated>
+  <updated>2018-06-11T11:14:07+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Set Proxy for Git]]></title>
+    <link href="http://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git/"/>
+    <updated>2018-06-11T11:12:20+08:00</updated>
+    <id>http://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git</id>
+    <content type="html"><![CDATA[<h3>全局设置和取消:</h3>
+
+<p>```
+git config &mdash;global https.proxy <a href="http://127.0.0.1:1080">http://127.0.0.1:1080</a></p>
+
+<p>git config &mdash;global https.proxy <a href="https://127.0.0.1:1080">https://127.0.0.1:1080</a></p>
+
+<p>git config &mdash;global &mdash;unset http.proxy</p>
+
+<p>git config &mdash;global &mdash;unset https.proxy
+```</p>
+
+<h3>local设置和取消:</h3>
+
+<p>```
+git config  https.proxy <a href="http://127.0.0.1:1080">http://127.0.0.1:1080</a></p>
+
+<p>git config  https.proxy <a href="https://127.0.0.1:1080">https://127.0.0.1:1080</a></p>
+
+<p>git config  &mdash;unset http.proxy</p>
+
+<p>git config  &mdash;unset https.proxy
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Split Large ‘tar’ Archive Into Multiple Files of Certain Size]]></title>
@@ -313,64 +344,6 @@ $ cat aa.txt bb.txt bb.txt | sort | uniq -u
 <li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Parallel All Cmds for Linux]]></title>
-    <link href="http://happy123.me/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/"/>
-    <updated>2018-05-01T13:07:20+08:00</updated>
-    <id>http://happy123.me/blog/2018/05/01/how-to-parallel-all-cmds-for-linux</id>
-    <content type="html"><![CDATA[<p>grep 一个100GB的文件总是很有压力，怎么才能提速呢?</p>
-
-<h3>瞎优化</h3>
-
-<p><code>
-LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt
-</code></p>
-
-<ul>
-<li><p><code>LC_ALL=C</code>比<code>LC_ALL=UTF-8</code>要块</p></li>
-<li><p>不需要正则的话，用fgrep可以提速</p></li>
-</ul>
-
-
-<h3>不过这样优化总是治标不治本，下面隆重推出linux 里面parallel all cmds的perl工具</h3>
-
-<p><code>
-cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password
-</code></p>
-
-<p>使用parallel ，和不使用parallel直接grep。结果显而易见，相差 20 倍。这比用啥 ack，ag优化效果明显多了</p>
-
-<h3>xargs也有一个-n的多核选项，可以作为备用</h3>
-
-<p>```
-$ time echo {1..5} |xargs -n 1  sleep</p>
-
-<p>real    0m15.005s
-user    0m0.000s
-sys 0m0.000s
-```</p>
-
-<p>这一条xargs把每个echo的数作为参数传给sleep ，所以一共sleep了 1+2+3+4+5=15秒。</p>
-
-<p>如果使用 -P 参数分给5个核，每个核各sleep 1,2,3,4,5秒，所以执行完之后总共sleep的5秒。</p>
-
-<p>```
-$ time echo {1..5} |xargs -n 1 -P 5 sleep</p>
-
-<p>real    0m5.003s
-user    0m0.000s
-sys 0m0.000s
-```</p>
-
-<ul>
-<li>引自:</li>
-</ul>
-
-
-<p><a href="https://www.jianshu.com/p/c5a2369fa613">https://www.jianshu.com/p/c5a2369fa613</a></p>
 ]]></content>
   </entry>
   
