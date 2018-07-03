@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-03T13:48:14+08:00</updated>
+  <updated>2018-07-03T13:50:03+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -99,7 +99,9 @@
 
 <h2>关闭</h2>
 
-<blockquote><blockquote><blockquote><p>db.close()</p></blockquote></blockquote></blockquote>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; db.close()</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
