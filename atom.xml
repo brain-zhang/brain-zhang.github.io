@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-06-17T07:32:48+08:00</updated>
+  <updated>2018-07-03T11:23:21+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,96 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Peewee ABC]]></title>
+    <link href="http://happy123.me/blog/2018/07/03/peewee-abc/"/>
+    <updated>2018-07-03T11:10:09+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/03/peewee-abc</id>
+    <content type="html"><![CDATA[<p>在我用了又一个小时的时间去温习sqlchemy丰富的文档后，我放弃治疗了。</p>
+
+<p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
+
+<h2>定义Model</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from peewee import SqliteDatabase, Model, CharField
+</span><span class='line'>
+</span><span class='line'>db = SqliteDatabase('testdb.sqlite3')
+</span><span class='line'>
+</span><span class='line'>class User(Model):
+</span><span class='line'>    username = CharField(index=True)
+</span><span class='line'>    password = CharField()
+</span><span class='line'>    email = CharField(index=True)
+</span><span class='line'>    birthday = DateField()
+</span><span class='line'>    is_relative = BooleanField()
+</span><span class='line'>
+</span><span class='line'>    class Meta:
+</span><span class='line'>        database = db
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>创建</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; db.connect()
+</span><span class='line'>&gt;&gt;&gt; db.create_tables([User])</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>保存</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; user_record = User(name='Bob', password="", email="hello@world.com", birthday=date(1960, 1, 15), is_relative=True)
+</span><span class='line'>&gt;&gt;&gt; user_record.save()
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>批量插入</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
+</span><span class='line'>user_records.append(
+</span><span class='line'>    (username, password, email, birthday, True),
+</span><span class='line'>    (username, password, email, birthday, True),
+</span><span class='line'>    (username, password, email, birthday, True),
+</span><span class='line'>)
+</span><span class='line'>User.insert_many(user_records, fields=fields).execute()
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>查询</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for user in User.select().where(User.username.contains(username)):
+</span><span class='line'>    print(user.username ....)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>关闭</h2>
+
+<blockquote><blockquote><blockquote><p>db.close()</p></blockquote></blockquote></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Set Proxy for Git]]></title>
@@ -1412,35 +1502,6 @@
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>[mysqld]
 </span><span class='line'>performance_schema=off</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Enable Multiusers Support for Win10]]></title>
-    <link href="http://happy123.me/blog/2018/02/28/enable-multiusers-support-for-win10/"/>
-    <updated>2018-02-28T11:14:54+08:00</updated>
-    <id>http://happy123.me/blog/2018/02/28/enable-multiusers-support-for-win10</id>
-    <content type="html"><![CDATA[<p>自从买了套正版Win10，感觉又回归软粉行列。这就是所谓的屁股决定脑袋。</p>
-
-<p>开了hyper-v，日常使用足够了，我感觉hyper-v的虚拟化可能真的是Vmware的有力竞争对手。</p>
-
-<p>然后WSL的横空出世，让人调侃<code>win10将变成最好的Linux发行版</code>，此言不虚啊。</p>
-
-<p>最后我寻寻觅觅，找到了一个RDP多用户支持的工具:</p>
-
-<p><a href="https://github.com/stascorp/rdpwrap">https://github.com/stascorp/rdpwrap</a></p>
-
-<p>妥妥的把Win10变成了Win2012 Server。</p>
-
-<p>现在Win10日常使用组件好评度爆表依次为:</p>
-
-<ul>
-<li><p>多桌面</p></li>
-<li><p>hyper-v</p></li>
-<li><p>WSL</p></li>
-<li><p>RDP</p></li>
-</ul>
 
 ]]></content>
   </entry>

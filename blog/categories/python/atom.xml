@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Python | Living a Simple Life is a Happy Life]]></title>
+  <link href="http://happy123.me/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2018-07-03T11:23:21+08:00</updated>
+  <id>http://happy123.me/</id>
+  <author>
+    <name><![CDATA[memoryboxes]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Peewee ABC]]></title>
+    <link href="http://happy123.me/blog/2018/07/03/peewee-abc/"/>
+    <updated>2018-07-03T11:10:09+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/03/peewee-abc</id>
+    <content type="html"><![CDATA[<p>在我用了又一个小时的时间去温习sqlchemy丰富的文档后，我放弃治疗了。</p>
+
+<p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
+
+<h2>定义Model</h2>
+
+<p>```
+from peewee import SqliteDatabase, Model, CharField</p>
+
+<p>db = SqliteDatabase(&lsquo;testdb.sqlite3&rsquo;)</p>
+
+<p>class User(Model):</p>
+
+<pre><code>username = CharField(index=True)
+password = CharField()
+email = CharField(index=True)
+birthday = DateField()
+is_relative = BooleanField()
+
+class Meta:
+    database = db
+</code></pre>
+
+<p>```</p>
+
+<h2>创建</h2>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>db.connect()
+db.create_tables([User])
+```</p></blockquote></blockquote></blockquote>
+
+<h2>保存</h2>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#104;&#x65;&#108;&#x6c;&#x6f;&#64;&#x77;&#111;&#x72;&#x6c;&#100;&#x2e;&#99;&#111;&#109;">&#x68;&#101;&#108;&#x6c;&#x6f;&#64;&#x77;&#111;&#114;&#x6c;&#x64;&#46;&#99;&#x6f;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
+user_record.save()</p></blockquote></blockquote></blockquote>
+
+<p>```</p>
+
+<h2>批量插入</h2>
+
+<p>```
+fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
+user_records.append(</p>
+
+<pre><code>(username, password, email, birthday, True),
+(username, password, email, birthday, True),
+(username, password, email, birthday, True),
+</code></pre>
+
+<p>)
+User.insert_many(user_records, fields=fields).execute()</p>
+
+<p>```</p>
+
+<h2>查询</h2>
+
+<p>```
+for user in User.select().where(User.username.contains(username)):</p>
+
+<pre><code>print(user.username ....)
+</code></pre>
+
+<p>```</p>
+
+<h2>关闭</h2>
+
+<blockquote><blockquote><blockquote><p>db.close()</p></blockquote></blockquote></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

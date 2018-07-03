@@ -80,6 +80,65 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/02/28/enable-multiusers-support-for-win10/">Enable Multiusers Support for Win10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-02-28T11:14:54+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/02/28/enable-multiusers-support-for-win10/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2018/02/28/enable-multiusers-support-for-win10/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自从买了套正版Win10，感觉又回归软粉行列。这就是所谓的屁股决定脑袋。</p>
+
+<p>开了hyper-v，日常使用足够了，我感觉hyper-v的虚拟化可能真的是Vmware的有力竞争对手。</p>
+
+<p>然后WSL的横空出世，让人调侃<code>win10将变成最好的Linux发行版</code>，此言不虚啊。</p>
+
+<p>最后我寻寻觅觅，找到了一个RDP多用户支持的工具:</p>
+
+<p><a href="https://github.com/stascorp/rdpwrap">https://github.com/stascorp/rdpwrap</a></p>
+
+<p>妥妥的把Win10变成了Win2012 Server。</p>
+
+<p>现在Win10日常使用组件好评度爆表依次为:</p>
+
+<ul>
+<li><p>多桌面</p></li>
+<li><p>hyper-v</p></li>
+<li><p>WSL</p></li>
+<li><p>RDP</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/02/17/what-do-cryptic-github-comments-mean/">What Do Cryptic Github Comments Mean?</a></h1>
     
     
@@ -568,77 +627,6 @@ systemctl disable firewalld.service #禁止firewall开机启动
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-12-03T09:49:15+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2017</time>
-        
-           | <a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>年老记忆力下降，做了N+1遍了，还是忘。</p>
-
-<h2>卸载干净</h2>
-
-<pre><code>apt-get purge samba
-rm -rf /etc/samba /etc/default/samba
-</code></pre>
-
-<h2>重装</h2>
-
-<pre><code>apt-get install samba
-</code></pre>
-
-<h2>配置</h2>
-
-<pre><code>vim /etc/samba/smb.conf
-
-
-[share_name]
-public = yes
-browseable = yes
-path = /home
-guest ok = yes
-read only = no
-writeable = yes
-create mask = 0644
-directory mask = 2777
-</code></pre>
-
-<h2>重启</h2>
-
-<pre><code>systemctl restart smbd
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -656,6 +644,10 @@ directory mask = 2777
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/07/03/peewee-abc/">Peewee ABC</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/06/11/how-to-set-proxy-for-git/">How to Set Proxy for Git</a>
       </li>
     
@@ -669,10 +661,6 @@ directory mask = 2777
     
       <li class="post">
         <a href="/blog/2018/05/15/zhi-shu-etfman-tan/">指数ETF漫谈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/">Python处理中文标点符号</a>
       </li>
     
   </ul>
@@ -747,6 +735,7 @@ directory mask = 2777
 <li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
 <li class='category'><a href='/blog/categories/develop/'>develop (7)</a></li>
+<li class='category'><a href='/blog/categories/develop-/'>develop, (1)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
 <li class='category'><a href='/blog/categories/epel/'>epel (1)</a></li>
@@ -778,6 +767,7 @@ directory mask = 2777
 <li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
 <li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>
 <li class='category'><a href='/blog/categories/product/'>product (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
 <li class='category'><a href='/blog/categories/repo/'>repo (1)</a></li>
 <li class='category'><a href='/blog/categories/samba/'>samba (1)</a></li>
 <li class='category'><a href='/blog/categories/satoshi/'>satoshi (1)</a></li>
