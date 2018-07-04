@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-04T18:31:32+08:00</updated>
+  <updated>2018-07-04T19:09:13+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Crawler ABC]]></title>
+    <link href="http://happy123.me/blog/2018/07/04/crawler-abc/"/>
+    <updated>2018-07-04T19:04:58+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/04/crawler-abc</id>
+    <content type="html"><![CDATA[<p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
+
+<h2>requests</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def get_html(url):
+</span><span class='line'>    headers = {
+</span><span class='line'>        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+</span><span class='line'>        'Accept': 'application/json, text/plain, */*',
+</span><span class='line'>        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+</span><span class='line'>        'Accept-Encoding': 'gzip, deflate, br',
+</span><span class='line'>        'Content-Type': 'application/x-www-form-urlencoded',
+</span><span class='line'>    }
+</span><span class='line'>    resp = requests.get(url, headers=headers)
+</span><span class='line'>    if resp.status_code == 200:
+</span><span class='line'>        return resp.content
+</span><span class='line'>    else:
+</span><span class='line'>        raise ValueError("Not valid response:{}".format(resp.content))
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>beautifulsoup</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from bs4 import BeautifulSoup
+</span><span class='line'>def get_username(html):
+</span><span class='line'>    soup = BeautifulSoup(html, 'lxml')
+</span><span class='line'>    user_div = soup.find(id='uhd')
+</span><span class='line'>    username = user_div.find('h2', class_='mt').get_text().strip()
+</span><span class='line'>    return username</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Grep Obtain Patterns From File]]></title>
@@ -1427,111 +1483,6 @@
 <h4>再强调一遍，每次交易用新地址是一个必须养成的习惯。</h4>
 
 <p>另外公钥有两种形式：压缩与非压缩。一把私钥其实可以搞出两个地址哈。早期比特币均使用非压缩公钥，现大部分客户端已默认使用压缩公钥。早期openssl库的文档写的比较糙，导致Satoshi以为必须使用非压缩的完整公钥，后来大家发现其实公钥的左右两个32字节是有关联的，左侧(X)可以推出右侧(Y)的平方值，有左侧(X)就可以了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Satoshi Craig Wright Is Being Sued for $10 Billion]]></title>
-    <link href="http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/"/>
-    <updated>2018-04-22T19:31:24+08:00</updated>
-    <id>http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion</id>
-    <content type="html"><![CDATA[<p>啥也不说了，涉及百亿美元的案子，估计在人类历史上都能排前排了。</p>
-
-<p>而且作为Bitcoin粉，我估计这个案子有可能在历史上空前绝后。涉及悬疑，天才，欺诈，巨额金钱，先知等等元素~~</p>
-
-<p>留名之。</p>
-
-<p><a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/">https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</a></p>
-
-<p>另外我对这篇<a href="http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">文章</a>用press.one进行了<a href="https://press.one/file/v?s=60db2f3ea40a25d28781c900af248523eb3c17024ce3ca18a42433035aff55524e4b2df76cfcef1466d38c4e23e4ab770d42359835b66d159cd5dd5099e0be260&amp;h=a93f5a68189ff4a9b14d9e592c4dd0a8a1b649d0191b58740d93ce10c0d055ec&amp;a=7e32e3deba87efcd35bc6d1ab355d85c50aa60bd&amp;v=2&amp;f=P1">签名:</a></p>
-
-<!-- more -->
-
-
-<h4>PS:附一下之前的总结</h4>
-
-<p>2016-05更新:</p>
-
-<p>=========================</p>
-
-<p>参考<a href="http://8btc.com%E7%9A%84%E6%96%87%E7%AB%A0:">http://8btc.com%E7%9A%84%E6%96%87%E7%AB%A0:</a></p>
-
-<p>为什么说这个中本聪是假的</p>
-
-<p>Craig Wright 又在声明他是”中本聪”了.</p>
-
-<p>“中本聪”给出的签名是：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MEUCIQDBKn1Uly8m0UyzETObUSL4wYdBfd4ejvtoQfVcNCIK4AIgZmMsXNQWHvo6KDd2Tu6euEl13VTC3ihl6XUlhcU+fM4=</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们先对信息串进行base64解码，再转换成hex是：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>3045022100c12a7d54972f26d14cb311339b5122f8c187417dde1e8efb6841f55c34220ae0022066632c5cd4161efa3a2837764eee9eb84975dd54c2de2865e9752585c53e7cce</span></code></pre></td></tr></table></div></figure>
-
-
-<p>很遗憾，我们可以在交易ID：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe</span></code></pre></td></tr></table></div></figure>
-
-
-<p>中找出这个签名。可通过：</p>
-
-<p><a href="https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex">https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</a></p>
-
-<p>找到十六进制串的交易内容</p>
-
-<p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
-
-<p>但是令人疑惑的是GAVIN ANDRESEN为这位”中本聪”背书:</p>
-
-<p><a href="http://gavinandresen.ninja/satoshi">http://gavinandresen.ninja/satoshi</a></p>
-
-<p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
-
-<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家……</p>
-
-<p>卫平布莱恩特老师说,这球有意思啊…….</p>
-
-<p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
-
-<p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
-
-<p><a href="https://www.zhihu.com/question/22199390/answer/76083139">https://www.zhihu.com/question/22199390/answer/76083139</a></p>
-
-<p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
-
-<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
-
-<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
-
-<p>呵呵, 绝佳的侦探小说体裁啊.</p>
-
-<p>2017-12-24更新</p>
-
-<p>================</p>
-
-<p>我在比特币开发论坛的早期帖子上发现了一个线索，在bitcoin release 0.1版本的时候，satoshi曾经自称自己:</p>
-
-<pre><code>"The design supports a tremendous variety of possible transaction types that I designed years ago.  Escrow transactions, bonded contracts, third party arbitration, multi-party signature, etc.  If Bitcoin catches on in a big way, these are things we'll want to explore in the future, but they all had to be designed at the beginning to make sure they would be possible later."
-</code></pre>
-
-<p>这代表satoshi早期的职业生涯和金融、保险以及法务方面联系很紧密，同时看他的代码风格是老派C++的写法，有MS的味道 ：），然后看看 David Kleiman的个人主页，浮想联翩啊。</p>
-
-<p>2018-04-22更新</p>
-
-<p>==================</p>
-
-<p>Craig Wright的案宗已经出来了:</p>
-
-<p><a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/">https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</a></p>
-
-<p>我觉得基本上可以确定猜测是对的，但是除了Craig Wright本人，真相的细节可能永远不会有人知道了。</p>
-
-<p>现在最大的疑问就是100w币的私钥是谁控制着？</p>
 ]]></content>
   </entry>
   

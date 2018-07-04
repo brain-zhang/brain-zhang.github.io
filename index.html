@@ -80,6 +80,92 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-04T19:04:58+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/07/04/crawler-abc/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2018/07/04/crawler-abc/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
+
+<h2>requests</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def get_html(url):
+</span><span class='line'>    headers = {
+</span><span class='line'>        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+</span><span class='line'>        'Accept': 'application/json, text/plain, */*',
+</span><span class='line'>        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+</span><span class='line'>        'Accept-Encoding': 'gzip, deflate, br',
+</span><span class='line'>        'Content-Type': 'application/x-www-form-urlencoded',
+</span><span class='line'>    }
+</span><span class='line'>    resp = requests.get(url, headers=headers)
+</span><span class='line'>    if resp.status_code == 200:
+</span><span class='line'>        return resp.content
+</span><span class='line'>    else:
+</span><span class='line'>        raise ValueError("Not valid response:{}".format(resp.content))
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>beautifulsoup</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from bs4 import BeautifulSoup
+</span><span class='line'>def get_username(html):
+</span><span class='line'>    soup = BeautifulSoup(html, 'lxml')
+</span><span class='line'>    user_div = soup.find(id='uhd')
+</span><span class='line'>    username = user_div.find('h2', class_='mt').get_text().strip()
+</span><span class='line'>    return username</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a></h1>
     
     
@@ -679,78 +765,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-05-01T22:18:33+08:00" pubdate data-updated="true">May 1<span>st</span>, 2018</time>
-        
-           | <a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。</p>
-
-<p>用sort+uniq直接搞定:</p>
-
-<h2>交集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt | sort | uniq -d</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>并集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat a.txt b.txt | sort | uniq</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>差集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt bb.txt | sort | uniq -u</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -766,6 +780,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a>
       </li>
     
@@ -779,10 +797,6 @@
     
       <li class="post">
         <a href="/blog/2018/06/10/becoming-warren-buffett/">Becoming Warren Buffett</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/06/10/how-to-split-large-tar-archive-into-multiple-files-of-certain-size/">How to Split Large ‘tar’ Archive Into Multiple Files of Certain Size</a>
       </li>
     
   </ul>
@@ -856,7 +870,7 @@
 <li class='category'><a href='/blog/categories/colorscheme/'>colorscheme (1)</a></li>
 <li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (7)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (8)</a></li>
 <li class='category'><a href='/blog/categories/develop-/'>develop, (1)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>

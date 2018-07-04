@@ -533,8 +533,12 @@
         <lastmod>2018-07-04T18:31:10+08:00</lastmod>
     </url>
     <url>
+        <loc>http://happy123.me/blog/2018/07/04/crawler-abc/</loc>
+        <lastmod>2018-07-04T19:08:48+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://happy123.me/blog/archives/</loc>
-        <lastmod>2018-07-04T18:31:10+08:00</lastmod>
+        <lastmod>2018-07-04T19:08:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://happy123.me/about/</loc>
@@ -546,7 +550,7 @@
     </url>
     <url>
         <loc>http://happy123.me/</loc>
-        <lastmod>2018-07-04T18:31:10+08:00</lastmod>
+        <lastmod>2018-07-04T19:08:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://happy123.me/robots.txt</loc>

@@ -80,6 +80,63 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-14T16:13:52+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一行命令的事，纯python脚本打包出来一般5Mb左右，大小还可以接收。</p>
+
+<p>首先在脚本同目录下加入一个pyinstaller.py:</p>
+
+<pre><code>#!/usr/bin/env python
+from PyInstaller.__main__ import run
+run()
+</code></pre>
+
+<p>然后执行:</p>
+
+<pre><code>python pyinstaller.py -c -F &lt;xxxx.py&gt; -p &lt;sdk&gt;
+</code></pre>
+
+<ul>
+<li>&lt;xxxx.py> 为脚本名称</li>
+<li><sdk> 为三方包目录</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a></h1>
     
     
@@ -669,61 +726,6 @@ if sys.stdout.encoding == 'cp936':
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">How to Change Systemd Service Timeout Value</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-05T17:56:04+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>show value</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>change value</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure>
-
-
-<p>TimeoutStopUSec = 900</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl daemon-reexec</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -741,6 +743,10 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a>
       </li>
     
@@ -754,10 +760,6 @@ if sys.stdout.encoding == 'cp936':
     
       <li class="post">
         <a href="/blog/2018/06/10/becoming-warren-buffett/">Becoming Warren Buffett</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/06/10/how-to-split-large-tar-archive-into-multiple-files-of-certain-size/">How to Split Large ‘tar’ Archive Into Multiple Files of Certain Size</a>
       </li>
     
   </ul>
@@ -831,7 +833,7 @@ if sys.stdout.encoding == 'cp936':
 <li class='category'><a href='/blog/categories/colorscheme/'>colorscheme (1)</a></li>
 <li class='category'><a href='/blog/categories/config/'>config (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (7)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (8)</a></li>
 <li class='category'><a href='/blog/categories/develop-/'>develop, (1)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (1)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>

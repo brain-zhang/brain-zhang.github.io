@@ -5,12 +5,24 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Btc UAHF - Living a Simple Life is a Happy Life</title>
+  <title>Crawler ABC - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="UTC时间 2017-08-01 18:12，UAHF第一个大于1MB的块被挖出，虽然现在算力占比很小，但值得关注，UAHF是否能存活下去，算力来决定吧。
-">
+  <meta name="description" content="一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs. requests 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+def get_html(url): headers = { 'User-Agent': 'Mozilla/5.0 ( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +31,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2017/08/01/btc-uahf">
+  <link rel="canonical" href="http://happy123.me/blog/2018/07/04/crawler-abc">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -78,7 +90,7 @@
   
   <header>
     
-      <h1 class="entry-title">Btc UAHF</h1>
+      <h1 class="entry-title">Crawler ABC</h1>
     
     
       <p class="meta">
@@ -94,7 +106,7 @@
   
 
 
-<time datetime="2017-08-01T22:11:54+08:00" pubdate data-updated="true">Aug 1<span>st</span>, 2017</time>
+<time datetime="2018-07-04T19:04:58+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -104,7 +116,54 @@
   </header>
 
 
-<div class="entry-content"><p>UTC时间 2017-08-01 18:12，UAHF<a href="https://blockchair.com/bitcoin-cash/block/478559">第一个大于1MB的块</a>被挖出，虽然现在算力占比很小，但值得关注，UAHF是否能存活下去，算力来决定吧。</p>
+<div class="entry-content"><p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
+
+<h2>requests</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def get_html(url):
+</span><span class='line'>    headers = {
+</span><span class='line'>        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+</span><span class='line'>        'Accept': 'application/json, text/plain, */*',
+</span><span class='line'>        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+</span><span class='line'>        'Accept-Encoding': 'gzip, deflate, br',
+</span><span class='line'>        'Content-Type': 'application/x-www-form-urlencoded',
+</span><span class='line'>    }
+</span><span class='line'>    resp = requests.get(url, headers=headers)
+</span><span class='line'>    if resp.status_code == 200:
+</span><span class='line'>        return resp.content
+</span><span class='line'>    else:
+</span><span class='line'>        raise ValueError("Not valid response:{}".format(resp.content))
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>beautifulsoup</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from bs4 import BeautifulSoup
+</span><span class='line'>def get_username(html):
+</span><span class='line'>    soup = BeautifulSoup(html, 'lxml')
+</span><span class='line'>    user_div = soup.find(id='uhd')
+</span><span class='line'>    username = user_div.find('h2', class_='mt').get_text().strip()
+</span><span class='line'>    return username</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -127,12 +186,12 @@
   
 
 
-<time datetime="2017-08-01T22:11:54+08:00" pubdate data-updated="true">Aug 1<span>st</span>, 2017</time>
+<time datetime="2018-07-04T19:04:58+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
+    <a class='category' href='/blog/categories/develop/'>develop</a>
   
 </span>
 
@@ -148,10 +207,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/06/06/set-local-repo-by-iso/" title="Previous Post: set local repo by iso">&laquo; set local repo by iso</a>
+        <a class="basic-alignment left" href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/" title="Previous Post: how to grep obtain patterns from file">&laquo; how to grep obtain patterns from file</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/10/31/http-referer-de-dao-lian-yu-fan-dao-lian/" title="Next Post: http referer 的盗链与反盗链">http referer 的盗链与反盗链 &raquo;</a>
       
     </p>
   </footer>
@@ -273,8 +330,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2017/08/01/btc-uahf/';
-        var disqus_url = 'http://happy123.me/blog/2017/08/01/btc-uahf/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/07/04/crawler-abc/';
+        var disqus_url = 'http://happy123.me/blog/2018/07/04/crawler-abc/';
         var disqus_script = 'embed.js';
       
     (function () {
