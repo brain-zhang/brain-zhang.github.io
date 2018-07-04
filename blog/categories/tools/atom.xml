@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-03T13:50:03+08:00</updated>
+  <updated>2018-07-04T18:12:49+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Grep Obtain Patterns From File]]></title>
+    <link href="http://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/"/>
+    <updated>2018-07-04T18:06:55+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file</id>
+    <content type="html"><![CDATA[<p>有一个100G的大文本文件 emailinfo.dict，包含邮箱及用户昵称; 格式为</p>
+
+<p><code>
+hello@163.com,你是我的海
+...
+</code></p>
+
+<p>有一个用户名文件user.txt，格式为:</p>
+
+<p><code>
+aaa
+xxxx
+....
+</code></p>
+
+<p>我们希望找出emailinfo.dict中，以user.txt中用户名开头的所有内容。</p>
+
+<p>首先将user.txt内容改为:</p>
+
+<p>```
+^aaa
+^xxxx
+&hellip;.</p>
+
+<p>然后执行:</p>
+
+<p><code>
+grep -G -f user.txt emailinfo.dict
+</code></p>
+
+<p>这个<code>-G</code>参数又花了我半个小时去读文档，我都不知道第几次做这种事情了。人年纪大了果然只能靠笔记。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Set Proxy for Git]]></title>
@@ -306,44 +345,6 @@ cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt
 <h3>PS:</h3>
 
 <p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Get Intersection of Two Big Files]]></title>
-    <link href="http://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files/"/>
-    <updated>2018-05-01T22:18:33+08:00</updated>
-    <id>http://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files</id>
-    <content type="html"><![CDATA[<p>两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。</p>
-
-<p>用sort+uniq直接搞定:</p>
-
-<h2>交集</h2>
-
-<p><code>
-$ sort a.txt | uniq &gt; aa.txt
-$ sort b.txt | uniq &gt; bb.txt
-$ cat aa.txt bb.txt | sort | uniq -d
-</code></p>
-
-<h2>并集</h2>
-
-<p><code>
-cat a.txt b.txt | sort | uniq
-</code></p>
-
-<h2>差集</h2>
-
-<p><code>
-$ sort a.txt | uniq &gt; aa.txt
-$ sort b.txt | uniq &gt; bb.txt
-$ cat aa.txt bb.txt bb.txt | sort | uniq -u
-</code></p>
-
-<ul>
-<li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
-</ul>
-
 ]]></content>
   </entry>
   

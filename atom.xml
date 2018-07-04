@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-03T13:50:03+08:00</updated>
+  <updated>2018-07-04T18:12:49+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Grep Obtain Patterns From File]]></title>
+    <link href="http://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/"/>
+    <updated>2018-07-04T18:06:55+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file</id>
+    <content type="html"><![CDATA[<p>有一个100G的大文本文件 emailinfo.dict，包含邮箱及用户昵称; 格式为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hello@163.com,你是我的海
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有一个用户名文件user.txt，格式为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>aaa
+</span><span class='line'>xxxx
+</span><span class='line'>....</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们希望找出emailinfo.dict中，以user.txt中用户名开头的所有内容。</p>
+
+<p>首先将user.txt内容改为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>^aaa
+</span><span class='line'>^xxxx
+</span><span class='line'>....
+</span><span class='line'>
+</span><span class='line'>然后执行:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>grep -G -f user.txt emailinfo.dict
+&#8220;`</p>
+
+<p>这个<code>-G</code>参数又花了我半个小时去读文档，我都不知道第几次做这种事情了。人年纪大了果然只能靠笔记。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Peewee ABC]]></title>
@@ -1488,23 +1535,6 @@
 <p>我觉得基本上可以确定猜测是对的，但是除了Craig Wright本人，真相的细节可能永远不会有人知道了。</p>
 
 <p>现在最大的疑问就是100w币的私钥是谁控制着？</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Disable Performance_schema to Save Mysql's Memory]]></title>
-    <link href="http://happy123.me/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/"/>
-    <updated>2018-04-02T09:14:01+08:00</updated>
-    <id>http://happy123.me/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory</id>
-    <content type="html"><![CDATA[<p>小VPS内存一般都不大，比如 1GB 什么的。估计总是发现装完 LAMP 就基本上内存全用光了。</p>
-
-<p>访问量不大的话，可以在 my.conf 中加入以下配置，关掉性能优化。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[mysqld]
-</span><span class='line'>performance_schema=off</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
