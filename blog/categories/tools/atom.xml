@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-04T18:12:49+08:00</updated>
+  <updated>2018-07-04T18:16:26+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -44,9 +44,8 @@ xxxx
 
 <p>然后执行:</p>
 
-<p><code>
-grep -G -f user.txt emailinfo.dict
-</code></p>
+<pre><code>grep -G -f user.txt emailinfo.dict
+</code></pre>
 
 <p>这个<code>-G</code>参数又花了我半个小时去读文档，我都不知道第几次做这种事情了。人年纪大了果然只能靠笔记。</p>
 ]]></content>

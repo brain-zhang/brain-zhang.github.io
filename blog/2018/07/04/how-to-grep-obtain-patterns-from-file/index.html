@@ -133,21 +133,15 @@ xxxx
 
 <p>首先将user.txt内容改为:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>^aaa
-</span><span class='line'>^xxxx
-</span><span class='line'>....
-</span><span class='line'>
-</span><span class='line'>然后执行:
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+^aaa
+^xxxx
+&hellip;.</p>
 
+<p>然后执行:</p>
 
-<p>grep -G -f user.txt emailinfo.dict
-&#8220;`</p>
+<pre><code>grep -G -f user.txt emailinfo.dict
+</code></pre>
 
 <p>这个<code>-G</code>参数又花了我半个小时去读文档，我都不知道第几次做这种事情了。人年纪大了果然只能靠笔记。</p>
 </div>
