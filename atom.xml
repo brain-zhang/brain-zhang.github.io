@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-21T12:47:48+08:00</updated>
+  <updated>2018-07-21T12:57:26+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -87,7 +87,7 @@
 
 <ul>
 <li><p>这个方法其实可以适用所有KVM虚机迁移，所以只要服务商开了自定义镜像挂载的功能，都可以跨公网对拷</p></li>
-<li><p>如果A和B不能直接通信的话，可以开一台重装机器C，在Linux A的一端把硬盘 clone为镜像文件，通过SSH文件服务器的方式转存到C上，然后在B上连接SSH文件服务器C，从而还原系统; 提示一下，其实生成的镜像文件挺小的，比dd之后压缩还小的多</p></li>
+<li><p>如果A和B不能直接通信的话，可以开一台中转机器C，在Linux A的一端把硬盘 clone为镜像文件，通过SSH文件服务器的方式转存到C上，然后在B上连接SSH文件服务器C，从而还原系统; 提示一下，其实生成的镜像文件挺小的，比dd之后压缩还小的多</p></li>
 <li><p>如果clone的时候报错，一般是A 端的文件系统有损坏，这个时候可以简单的执行 <code>shutdown -rF now</code> ,重启后自动修复一把，之后再挂载clonezilla ISO进行克隆</p></li>
 </ul>
 
