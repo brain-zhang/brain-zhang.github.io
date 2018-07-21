@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-21T12:42:40+08:00</updated>
+  <updated>2018-07-21T12:47:48+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -61,13 +61,9 @@
 <h4>下面我们说说怎么用clonezilla把上面繁琐的手工操作搞得不那么痛苦一点:</h4>
 
 <ol>
-<li>先去clonezilla.org 官网，找到下载地址，好吧，我已经帮你找好了:</li>
-</ol>
+<li><p>先去clonezilla.org 官网，找到下载地址，好吧，我已经帮你找好了:</p>
 
-
-<p><a href="http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso">http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso</a></p>
-
-<ol>
+<p> <a href="http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso">http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso</a></p></li>
 <li><p>vultr很贴心的提供了从url上传镜像的功能，我们到下面这个功能项中把iso镜像的url填进去，添加clonezilla镜像文件到vultr:</p>
 
 <p> <a href="https://my.vultr.com/iso/add/">https://my.vultr.com/iso/add/</a></p></li>
