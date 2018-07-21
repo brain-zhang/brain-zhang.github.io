@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-18T19:10:39+08:00</updated>
+  <updated>2018-07-21T12:37:10+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts]]></title>
+    <link href="http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/"/>
+    <updated>2018-07-21T09:11:55+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts</id>
+    <content type="html"><![CDATA[<p>虽然已经进入X时代了，但电脑城装机习惯性还是用Ghost，无他，习惯方便。</p>
+
+<p>Linux上面系统迁移，网上搜一搜，大批文章还是原始的dd, rsync之类；当然，不是说他不行，而是面向小白实在是有点坑啊。</p>
+
+<p>云时代，不同厂商间基本都提供了<code>快照</code>+<code>在线热迁移</code>的方案了，用起来也很舒服。</p>
+
+<p>那么，作为一个VPS小白用户，怎么在不同的账号，或者说不同的厂商之间，迁移我的Linux系统呢？</p>
+
+<p>比如我在vultr上面有两个账号，vultr的快照功能是很赞的，免费、速度快、生成虚机靠谱；</p>
+
+<p>那么问题来了，怎么把账号A的Linux A迁移到账号B的Linux B虚机上呢？</p>
+
+<p>官方回复是还没有考虑这个功能，然后Linux怎么可能做不到这种简单的事情呢？当然立刻就有人回复了详细的搞法，还贴心的附录了视频:</p>
+
+<p><a href="https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2">https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</a></p>
+
+<!-- more -->
+
+
+<h4>我们也嘴炮一下整个过程:</h4>
+
+<ol>
+<li><p>对Linux A建立SnapShot A</p></li>
+<li><p>从SnapShot A创立一台虚机 (注意这台虚机的磁盘要比Linux A的磁盘大，比如Linux A是5$的套餐15GB，那么最好建立一个20$的套餐45GB)</p></li>
+<li><p>vultr 有挂载光盘的功能，可以挂载一个linux live CD,用这张Live CD启动新虚机</p></li>
+<li><p>dd 命令完全拷贝原有磁盘</p>
+
+<p> dd if=/dev/vtbd0 bs=1m | gzip -c | ssh -e none myolduser@myoldserverip &lsquo;cat > backupsnapshot.iso.gz&rsquo;</p></li>
+<li><p>账号B开一台虚机，把backupsnapshot.iso.gz拷贝过去</p></li>
+<li><p>同样挂载Live CD，反向dd，恢复文件系统</p></li>
+<li><p>重启，改配置，赋权限，搞定</p></li>
+</ol>
+
+
+<p>说是嘴炮，是因为我之前硬盘dd对拷过，对于速度和之后的配置兼容深为烦恼，更不用说KVM上面用这个招数去做迁移了，我一个坑都不想踩的。</p>
+
+<p>光是看看上面一波操作，我就没兴趣折腾了。当然也有很多人的乐趣就是折腾，但是年纪大了就老是想偷懒。</p>
+
+<p>之前在不同物理机之间做Linux迁移，用clonezilla居多，虽然有一些Raid方面的支持会有问题，总体来说我对它的稳定性和便利性有巨大信任，但从来没有在KVM上搞过，这次我完整实验了一把，效果MAX。</p>
+
+<h4>下面我们说说怎么用clonezilla把上面繁琐的手工操作搞得不那么痛苦一点:</h4>
+
+<ol>
+<li>先去clonezilla.org 官网，找到下载地址，好吧，我已经帮你找好了:</li>
+</ol>
+
+
+<p><a href="http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso">http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso</a></p>
+
+<ol>
+<li><p>vultr很贴心的提供了从url上传镜像的功能，我们到下面这个功能项中把iso镜像的url填进去，添加clonezilla镜像文件到vultr:</p>
+
+<p> <a href="https://my.vultr.com/iso/add/">https://my.vultr.com/iso/add/</a></p></li>
+<li><p>点开虚机Linux A，点击<code>Settings</code> &ndash;> <code>Custom ISO</code> &ndash;> 选择clonezilla &ndash;> 点击 <code>Attach ISO and Reboot</code></p></li>
+<li><p>用VNC连接虚机，进入clonezilla的界面</p></li>
+<li><p>进入菜单项，<code>第一菜单800X600分辨率</code> &ndash;> <code>简体中文</code> &ndash;> <code>使用再生龙</code></p></li>
+<li><p>选择 <code>remote-source 进入远程设备克隆的源端</code></p></li>
+<li><p>选择 <code>初学模式：接受默认的选择</code></p></li>
+<li><p>选择 <code>复制本机硬盘到它机硬盘</code></p></li>
+<li><p>选择 <code>设定固定IP地址</code></p></li>
+<li><p>设定IP,子网掩码，网关,域名服务器，如果机器有多块网卡的话，一般会列出网卡名字和MAC地址供你选择，vultr一般是双网卡(如果你启用了内网地址的话),网络信息在vultr的主机settings中能查到。</p></li>
+<li><p>选择要克隆的硬盘，设定没有问题的话，下面一路YES下去，机器就会进入等待目标端连接的状态</p></li>
+<li><p>在账号B的Linux B中重复1-11步操作，不同的是第6步选择目标端，第8步选择 <code>从镜像文件恢复至本机硬盘</code>, 之后填入Linux A的IP地址，就可以开始克隆对拷了</p></li>
+<li><p>我在不同vultr的账号中测试了Ubuntu16.04, Centos7.1, FreeBSD 10的迁移，效果MAX</p></li>
+</ol>
+
+
+<p>看起来步骤不少，熟练了还是能迅速操作的，clonezilla赞一个</p>
+
+<h4>一点小ToolTIps:</h4>
+
+<ul>
+<li><p>这个方法其实可以适用所有KVM虚机迁移，所以只要服务商开了自定义镜像挂载的功能，都可以跨公网对拷</p></li>
+<li><p>如果A和B不能直接通信的话，可以开一台重装机器C，在Linux A的一端把硬盘 clone为镜像文件，通过SSH文件服务器的方式转存到C上，然后在B上连接SSH文件服务器C，从而还原系统; 提示一下，其实生成的镜像文件挺小的，比dd之后压缩还小的多</p></li>
+<li><p>如果clone的时候报错，一般是A 端的文件系统有损坏，这个时候可以简单的执行 <code>shutdown -rF now</code> ,重启后自动修复一把，之后再挂载clonezilla ISO进行克隆</p></li>
+</ul>
+
+
+<h4>最后，让我们期望所有的服务商都能提供 qcow2 的导入导出功能</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Grep Obtain Patterns From File]]></title>
@@ -304,47 +391,6 @@ cat bigfile.txt| parallel --no-notice --pipe python pinyinconv.py &gt; pinyin.re
 <p><a href="http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html">http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html</a></p>
 
 <p>我的博客即将搬运同步至腾讯云+社区，邀请大家一同入驻：<a href="https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t">https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Sort a Very Very Very Big File]]></title>
-    <link href="http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/"/>
-    <updated>2018-05-03T07:21:50+08:00</updated>
-    <id>http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file</id>
-    <content type="html"><![CDATA[<p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
-
-<p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
-
-<p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
-
-<p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割手动外排搞定~~</p>
-
-<h3>把大象装进冰箱分为几步？</h3>
-
-<h3>三步:</h3>
-
-<p>```
-split -l 1000000000 huge-file small-chunk</p>
-
-<p>for X in small-chunk*; do sort -u &lt; $X > sorted-$X; done</p>
-
-<p>sort -u -m sorted-small-chunk<em> > sorted-huge-file &amp;&amp; rm -rf small-chunk</em> sorted-small-chunk*
-```</p>
-
-<h3>小TIPS:</h3>
-
-<p>如果只要去重不要排序的话，尽量不要用 sort -u或者sort | uniq，这个是nLog(n)的效率，让人捉急。</p>
-
-<p>可以利用awk的数组是内存hash表的特性，直接awk来做，前提是你内存够大，瞎估估需要十倍于数据的内存吧:</p>
-
-<p><code>
-cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt
-</code></p>
-
-<h3>PS:</h3>
-
-<p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
 ]]></content>
   </entry>
   

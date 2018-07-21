@@ -5,20 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>python2.x：Error When Printing an Exception Containing a Unicode String - Living a Simple Life is a Happy Life</title>
+  <title>Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="Python2.x中抛出Unicode的异常需要注意: 1
-2
-3
-4
-5
-&gt;&gt;&gt; try:
-... raise Exception(u'Error when printing 中文异常')
-... except Exception, e:
-... print e
-... &hellip;">
+  <meta name="description" content="虽然已经进入X时代了，但电脑城装机习惯性还是用Ghost，无他，习惯方便。 Linux上面系统迁移，网上搜一搜，大批文章还是原始的dd, rsync之类；当然，不是说他不行，而是面向小白实在是有点坑啊。 云时代，不同厂商间基本都提供了快照+在线热迁移的方案了，用起来也很舒服。 那么， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -27,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://happy123.me/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string">
+  <link rel="canonical" href="http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -86,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">python2.x：Error When Printing an Exception Containing a Unicode String</h1>
+      <h1 class="entry-title">Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts</h1>
     
     
       <p class="meta">
@@ -102,7 +93,7 @@
   
 
 
-<time datetime="2014-09-17T08:43:39+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+<time datetime="2018-07-21T09:11:55+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://happy123.me">Comments</a>
@@ -112,73 +103,85 @@
   </header>
 
 
-<div class="entry-content"><p>Python2.x中抛出Unicode的异常需要注意:</p>
+<div class="entry-content"><p>虽然已经进入X时代了，但电脑城装机习惯性还是用Ghost，无他，习惯方便。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     print e
-</span><span class='line'>...     print str(e)</span></code></pre></td></tr></table></div></figure>
+<p>Linux上面系统迁移，网上搜一搜，大批文章还是原始的dd, rsync之类；当然，不是说他不行，而是面向小白实在是有点坑啊。</p>
 
+<p>云时代，不同厂商间基本都提供了<code>快照</code>+<code>在线热迁移</code>的方案了，用起来也很舒服。</p>
 
-<p>会报UnicodeEncodeError: &lsquo;ascii&rsquo; codec can&rsquo;t encode character &hellip;</p>
+<p>那么，作为一个VPS小白用户，怎么在不同的账号，或者说不同的厂商之间，迁移我的Linux系统呢？</p>
 
-<p>同样，如果在log中直接输出，也会报错</p>
+<p>比如我在vultr上面有两个账号，vultr的快照功能是很赞的，免费、速度快、生成虚机靠谱；</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; import logging
-</span><span class='line'>    logger = logging.getLogger('default')
-</span><span class='line'>    try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     logger.error(e)
-</span><span class='line'>...     logger.error("%s", e)
-</span><span class='line'>...     logger.error("%s", str(e))</span></code></pre></td></tr></table></div></figure>
+<p>那么问题来了，怎么把账号A的Linux A迁移到账号B的Linux B虚机上呢？</p>
+
+<p>官方回复是还没有考虑这个功能，然后Linux怎么可能做不到这种简单的事情呢？当然立刻就有人回复了详细的搞法，还贴心的附录了视频:</p>
+
+<p><a href="https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2">https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</a></p>
+
+<!-- more -->
 
 
-<p>简单的解决办法就是用e.message</p>
+<h4>我们也嘴炮一下整个过程:</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     print e.message
-</span><span class='line'>...     print "%s" % e.message</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li><p>对Linux A建立SnapShot A</p></li>
+<li><p>从SnapShot A创立一台虚机 (注意这台虚机的磁盘要比Linux A的磁盘大，比如Linux A是5$的套餐15GB，那么最好建立一个20$的套餐45GB)</p></li>
+<li><p>vultr 有挂载光盘的功能，可以挂载一个linux live CD,用这张Live CD启动新虚机</p></li>
+<li><p>dd 命令完全拷贝原有磁盘</p>
 
-
-<p>也可以详细的可以指定encoder</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     print unicode(e.message).encode('utf-8')</span></code></pre></td></tr></table></div></figure>
+<p> dd if=/dev/vtbd0 bs=1m | gzip -c | ssh -e none myolduser@myoldserverip &lsquo;cat > backupsnapshot.iso.gz&rsquo;</p></li>
+<li><p>账号B开一台虚机，把backupsnapshot.iso.gz拷贝过去</p></li>
+<li><p>同样挂载Live CD，反向dd，恢复文件系统</p></li>
+<li><p>重启，改配置，赋权限，搞定</p></li>
+</ol>
 
 
-<p>Python3就没这个事了，备忘一下。</p>
+<p>说是嘴炮，是因为我之前硬盘dd对拷过，对于速度和之后的配置兼容深为烦恼，更不用说KVM上面用这个招数去做迁移了，我一个坑都不想踩的。</p>
 
-<p>参考:</p>
+<p>光是看看上面一波操作，我就没兴趣折腾了。当然也有很多人的乐趣就是折腾，但是年纪大了就老是想偷懒。</p>
 
-<p><a href="http://bugs.python.org/issue2517">http://bugs.python.org/issue2517</a></p>
+<p>之前在不同物理机之间做Linux迁移，用clonezilla居多，虽然有一些Raid方面的支持会有问题，总体来说我对它的稳定性和便利性有巨大信任，但从来没有在KVM上搞过，这次我完整实验了一把，效果MAX。</p>
+
+<h4>下面我们说说怎么用clonezilla把上面繁琐的手工操作搞得不那么痛苦一点:</h4>
+
+<ol>
+<li>先去clonezilla.org 官网，找到下载地址，好吧，我已经帮你找好了:</li>
+</ol>
+
+
+<p><a href="http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso">http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso</a></p>
+
+<ol>
+<li><p>vultr很贴心的提供了从url上传镜像的功能，我们到下面这个功能项中把iso镜像的url填进去，添加clonezilla镜像文件到vultr:</p>
+
+<p> <a href="https://my.vultr.com/iso/add/">https://my.vultr.com/iso/add/</a></p></li>
+<li><p>点开虚机Linux A，点击<code>Settings</code> &ndash;> <code>Custom ISO</code> &ndash;> 选择clonezilla &ndash;> 点击 <code>Attach ISO and Reboot</code></p></li>
+<li><p>用VNC连接虚机，进入clonezilla的界面</p></li>
+<li><p>进入菜单项，<code>第一菜单800X600分辨率</code> &ndash;> <code>简体中文</code> &ndash;> <code>使用再生龙</code></p></li>
+<li><p>选择 <code>remote-source 进入远程设备克隆的源端</code></p></li>
+<li><p>选择 <code>初学模式：接受默认的选择</code></p></li>
+<li><p>选择 <code>复制本机硬盘到它机硬盘</code></p></li>
+<li><p>选择 <code>设定固定IP地址</code></p></li>
+<li><p>设定IP,子网掩码，网关,域名服务器，如果机器有多块网卡的话，一般会列出网卡名字和MAC地址供你选择，vultr一般是双网卡(如果你启用了内网地址的话),网络信息在vultr的主机settings中能查到。</p></li>
+<li><p>选择要克隆的硬盘，设定没有问题的话，下面一路YES下去，机器就会进入等待目标端连接的状态</p></li>
+<li><p>在账号B的Linux B中重复1-11步操作，不同的是第6步选择目标端，第8步选择 <code>从镜像文件恢复至本机硬盘</code>, 之后填入Linux A的IP地址，就可以开始克隆对拷了</p></li>
+<li><p>我在不同vultr的账号中测试了Ubuntu16.04, Centos7.1, FreeBSD 10的迁移，效果MAX</p></li>
+</ol>
+
+
+<p>看起来步骤不少，熟练了还是能迅速操作的，clonezilla赞一个</p>
+
+<h4>一点小ToolTIps:</h4>
+
+<ul>
+<li><p>这个方法其实可以适用所有KVM虚机迁移，所以只要服务商开了自定义镜像挂载的功能，都可以跨公网对拷</p></li>
+<li><p>如果A和B不能直接通信的话，可以开一台重装机器C，在Linux A的一端把硬盘 clone为镜像文件，通过SSH文件服务器的方式转存到C上，然后在B上连接SSH文件服务器C，从而还原系统; 提示一下，其实生成的镜像文件挺小的，比dd之后压缩还小的多</p></li>
+<li><p>如果clone的时候报错，一般是A 端的文件系统有损坏，这个时候可以简单的执行 <code>shutdown -rF now</code> ,重启后自动修复一把，之后再挂载clonezilla ISO进行克隆</p></li>
+</ul>
+
+
+<h4>最后，让我们期望所有的服务商都能提供 qcow2 的导入导出功能</h4>
 </div>
 
 
@@ -201,12 +204,12 @@
   
 
 
-<time datetime="2014-09-17T08:43:39+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+<time datetime="2018-07-21T09:11:55+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/unicode/'>Unicode</a>, <a class='category' href='/blog/categories/develop/'>develop</a>
+    <a class='category' href='/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -222,10 +225,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/17/c-dynamic-array-in-stack/" title="Previous Post: C:dynamic Array in Stack">&laquo; C:dynamic Array in Stack</a>
+        <a class="basic-alignment left" href="/blog/2018/07/04/crawler-abc/" title="Previous Post: crawler ABC">&laquo; crawler ABC</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/09/18/docker-cheat-sheet/" title="Next Post: Docker Cheat Sheet">Docker Cheat Sheet &raquo;</a>
       
     </p>
   </footer>
@@ -347,8 +348,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://happy123.me/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/';
-        var disqus_url = 'http://happy123.me/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/';
+        var disqus_identifier = 'http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/';
+        var disqus_url = 'http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/';
         var disqus_script = 'embed.js';
       
     (function () {

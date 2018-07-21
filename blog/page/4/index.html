@@ -80,6 +80,59 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Migrate Firewalld to Iptables on Centos7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-06T16:23:22+08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>关闭 FireWall</h2>
+
+<pre><code>systemctl stop firewalld.service #停止firewall
+systemctl disable firewalld.service #禁止firewall开机启动
+</code></pre>
+
+<h2>安装 iptables</h2>
+
+<pre><code>yum install iptables-services
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/">How to Penetrate GFW With ShadowSocks Docker Container on Centos7</a></h1>
     
     
@@ -665,54 +718,6 @@ gcc --version
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/03/07/ant-pool-support-bitcoin-ulimited/">Ant Pool Support Bitcoin Ulimited</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-03-07T21:58:17+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2017</time>
-        
-           | <a href="/blog/2017/03/07/ant-pool-support-bitcoin-ulimited/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2017/03/07/ant-pool-support-bitcoin-ulimited/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>比特币诞生8年来最大波澜即将到来，大家拭目以待。
-{:.info}</p>
-
-<p>北京时间2017年3月7日凌晨2点半左右，当前比特币全网算力排名第一的矿池蚁池（AntPool）的某个节点通过替代版比特币软件Bitcoin Unlimited（BU）挖到了一个<a href="https://btc.com/00000000000000000204cd2c9840023f1434f3dcdd7f471e4b8c8638d14d7006">新区块</a>，这标志着蚁池正式向Bitcoin Unlimited（BU）开放投票。</p>
-
-<p>目前蚁池的算力占全网算力的13%左右，加上已有的支持BU的算力，BU支持率达到30%以上。</p>
-
-<p>也许未来一个月很快就会发生一些有趣的事情，这是Bitcoin系统运行8年来的最大波澜。</p>
-
-<p>大家拭目以待。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -730,6 +735,10 @@ gcc --version
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a>
       </li>
     
@@ -743,10 +752,6 @@ gcc --version
     
       <li class="post">
         <a href="/blog/2018/06/11/how-to-set-proxy-for-git/">How to Set Proxy for Git</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/06/10/becoming-warren-buffett/">Becoming Warren Buffett</a>
       </li>
     
   </ul>
@@ -864,7 +869,7 @@ gcc --version
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/theory/'>theory (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (19)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (20)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (1)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

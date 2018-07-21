@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-18T19:10:39+08:00</updated>
+  <updated>2018-07-21T12:37:10+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts]]></title>
+    <link href="http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/"/>
+    <updated>2018-07-21T09:11:55+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts</id>
+    <content type="html"><![CDATA[<p>虽然已经进入X时代了，但电脑城装机习惯性还是用Ghost，无他，习惯方便。</p>
+
+<p>Linux上面系统迁移，网上搜一搜，大批文章还是原始的dd, rsync之类；当然，不是说他不行，而是面向小白实在是有点坑啊。</p>
+
+<p>云时代，不同厂商间基本都提供了<code>快照</code>+<code>在线热迁移</code>的方案了，用起来也很舒服。</p>
+
+<p>那么，作为一个VPS小白用户，怎么在不同的账号，或者说不同的厂商之间，迁移我的Linux系统呢？</p>
+
+<p>比如我在vultr上面有两个账号，vultr的快照功能是很赞的，免费、速度快、生成虚机靠谱；</p>
+
+<p>那么问题来了，怎么把账号A的Linux A迁移到账号B的Linux B虚机上呢？</p>
+
+<p>官方回复是还没有考虑这个功能，然后Linux怎么可能做不到这种简单的事情呢？当然立刻就有人回复了详细的搞法，还贴心的附录了视频:</p>
+
+<p><a href="https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2">https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</a></p>
+
+<!-- more -->
+
+
+<h4>我们也嘴炮一下整个过程:</h4>
+
+<ol>
+<li><p>对Linux A建立SnapShot A</p></li>
+<li><p>从SnapShot A创立一台虚机 (注意这台虚机的磁盘要比Linux A的磁盘大，比如Linux A是5$的套餐15GB，那么最好建立一个20$的套餐45GB)</p></li>
+<li><p>vultr 有挂载光盘的功能，可以挂载一个linux live CD,用这张Live CD启动新虚机</p></li>
+<li><p>dd 命令完全拷贝原有磁盘</p>
+
+<p> dd if=/dev/vtbd0 bs=1m | gzip -c | ssh -e none myolduser@myoldserverip &lsquo;cat > backupsnapshot.iso.gz&rsquo;</p></li>
+<li><p>账号B开一台虚机，把backupsnapshot.iso.gz拷贝过去</p></li>
+<li><p>同样挂载Live CD，反向dd，恢复文件系统</p></li>
+<li><p>重启，改配置，赋权限，搞定</p></li>
+</ol>
+
+
+<p>说是嘴炮，是因为我之前硬盘dd对拷过，对于速度和之后的配置兼容深为烦恼，更不用说KVM上面用这个招数去做迁移了，我一个坑都不想踩的。</p>
+
+<p>光是看看上面一波操作，我就没兴趣折腾了。当然也有很多人的乐趣就是折腾，但是年纪大了就老是想偷懒。</p>
+
+<p>之前在不同物理机之间做Linux迁移，用clonezilla居多，虽然有一些Raid方面的支持会有问题，总体来说我对它的稳定性和便利性有巨大信任，但从来没有在KVM上搞过，这次我完整实验了一把，效果MAX。</p>
+
+<h4>下面我们说说怎么用clonezilla把上面繁琐的手工操作搞得不那么痛苦一点:</h4>
+
+<ol>
+<li>先去clonezilla.org 官网，找到下载地址，好吧，我已经帮你找好了:</li>
+</ol>
+
+
+<p><a href="http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso">http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso</a></p>
+
+<ol>
+<li><p>vultr很贴心的提供了从url上传镜像的功能，我们到下面这个功能项中把iso镜像的url填进去，添加clonezilla镜像文件到vultr:</p>
+
+<p> <a href="https://my.vultr.com/iso/add/">https://my.vultr.com/iso/add/</a></p></li>
+<li><p>点开虚机Linux A，点击<code>Settings</code> &ndash;> <code>Custom ISO</code> &ndash;> 选择clonezilla &ndash;> 点击 <code>Attach ISO and Reboot</code></p></li>
+<li><p>用VNC连接虚机，进入clonezilla的界面</p></li>
+<li><p>进入菜单项，<code>第一菜单800X600分辨率</code> &ndash;> <code>简体中文</code> &ndash;> <code>使用再生龙</code></p></li>
+<li><p>选择 <code>remote-source 进入远程设备克隆的源端</code></p></li>
+<li><p>选择 <code>初学模式：接受默认的选择</code></p></li>
+<li><p>选择 <code>复制本机硬盘到它机硬盘</code></p></li>
+<li><p>选择 <code>设定固定IP地址</code></p></li>
+<li><p>设定IP,子网掩码，网关,域名服务器，如果机器有多块网卡的话，一般会列出网卡名字和MAC地址供你选择，vultr一般是双网卡(如果你启用了内网地址的话),网络信息在vultr的主机settings中能查到。</p></li>
+<li><p>选择要克隆的硬盘，设定没有问题的话，下面一路YES下去，机器就会进入等待目标端连接的状态</p></li>
+<li><p>在账号B的Linux B中重复1-11步操作，不同的是第6步选择目标端，第8步选择 <code>从镜像文件恢复至本机硬盘</code>, 之后填入Linux A的IP地址，就可以开始克隆对拷了</p></li>
+<li><p>我在不同vultr的账号中测试了Ubuntu16.04, Centos7.1, FreeBSD 10的迁移，效果MAX</p></li>
+</ol>
+
+
+<p>看起来步骤不少，熟练了还是能迅速操作的，clonezilla赞一个</p>
+
+<h4>一点小ToolTIps:</h4>
+
+<ul>
+<li><p>这个方法其实可以适用所有KVM虚机迁移，所以只要服务商开了自定义镜像挂载的功能，都可以跨公网对拷</p></li>
+<li><p>如果A和B不能直接通信的话，可以开一台重装机器C，在Linux A的一端把硬盘 clone为镜像文件，通过SSH文件服务器的方式转存到C上，然后在B上连接SSH文件服务器C，从而还原系统; 提示一下，其实生成的镜像文件挺小的，比dd之后压缩还小的多</p></li>
+<li><p>如果clone的时候报错，一般是A 端的文件系统有损坏，这个时候可以简单的执行 <code>shutdown -rF now</code> ,重启后自动修复一把，之后再挂载clonezilla ISO进行克隆</p></li>
+</ul>
+
+
+<h4>最后，让我们期望所有的服务商都能提供 qcow2 的导入导出功能</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Crawler ABC]]></title>
@@ -1530,169 +1617,6 @@
 <h4>数字货币世界还是处于蛮荒狂野时代，不是那么多事情都是理所当然的;乔帮主的训诫要时时温习:饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
 <h4>少年，祝你好运</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Get Pubkey From a Transaction]]></title>
-    <link href="http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/"/>
-    <updated>2018-04-22T20:42:49+08:00</updated>
-    <id>http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction</id>
-    <content type="html"><![CDATA[<p>比如<code>1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</code>，这个地址，有转出过，如何得到公钥</p>
-
-<p>原理很简单，但是实践起来比较烦：</p>
-
-<!-- more -->
-
-
-<p>首先我们找一下这个地址的随便一笔花费，比如这个:</p>
-
-<p><a href="https://btc.com/0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33">https://btc.com/0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33</a></p>
-
-<p>然后需要一个工具通过交易hash解析一下这笔交易</p>
-
-<p>推荐用这个 <a href="https://github.com/libbitcoin/libbitcoin-explorer/wiki/Download-BX">libbitcoin/libbitcoin-explorer</a></p>
-
-<p>执行</p>
-
-<pre><code>bx-windows-x64-icu.exe fetch-tx 0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33
-</code></pre>
-
-<p>得到了这笔交易解析后的完整输出:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>transaction
-</span><span class='line'>{
-</span><span class='line'>    hash 0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33
-</span><span class='line'>    inputs
-</span><span class='line'>    {
-</span><span class='line'>        input
-</span><span class='line'>        {
-</span><span class='line'>            address_hash b4a5d3960471568c3883046eec3b41b4953d61a1
-</span><span class='line'>            previous_output
-</span><span class='line'>            {
-</span><span class='line'>                hash 5fb9f0e7f520163e4afe0baa440fe93999273e95d9e345e0488a0802ed62674f
-</span><span class='line'>                index 0
-</span><span class='line'>            }
-</span><span class='line'>            script "[3045022100e4a4695ecbe6f507ec7181a2f321f489c7a3bd7eea032c75e4e1eba89174183c022019555aa917be6191db14da72e5c234a4b628f321b917ea334bcf9c122296cd5901] [044da006f958beba78ec54443df4a3f52237253f7ae8cbdb17dccf3feaa57f3126da0a0909f11998130c2d0e86a485f4e79ee466a183a476c432c68758ab9e630b]"
-</span><span class='line'>            sequence 4294967295
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    lock_time 0
-</span><span class='line'>    outputs
-</span><span class='line'>    {
-</span><span class='line'>        output
-</span><span class='line'>        {
-</span><span class='line'>            address_hash c621cbfd778e6109e26046d96738c7af75e7b78b
-</span><span class='line'>            script "dup hash160 [c621cbfd778e6109e26046d96738c7af75e7b78b] equalverify checksig"
-</span><span class='line'>            value 43103
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    version 1
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意script那一段，就是分成了两部分，前面一个中括号里面是签名，后面是公钥。</p>
-
-<p>然后仔细看看这还是个老钱包生成的地址，没有压缩;</p>
-
-<p>写个小脚本parse一下这个公钥，就可以看看是不是和地址对应啦:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
-</span><span class='line'>
-</span><span class='line'>from hashlib import *
-</span><span class='line'>from base58 import *
-</span><span class='line'>
-</span><span class='line'>def SHA256D(bstr):
-</span><span class='line'>    return sha256(sha256(bstr).digest()).digest()
-</span><span class='line'>
-</span><span class='line'>def ConvertPKHToAddress(prefix, addr):
-</span><span class='line'>    data = prefix + addr
-</span><span class='line'>    return b58encode(data + SHA256D(data)[:4])
-</span><span class='line'>
-</span><span class='line'>def PubkeyToAddress(pubkey_hex):
-</span><span class='line'>    pubkey = bytearray.fromhex(pubkey_hex)
-</span><span class='line'>    round1 = sha256(pubkey).digest()
-</span><span class='line'>    h = new('ripemd160')
-</span><span class='line'>    h.update(round1)
-</span><span class='line'>    pubkey_hash = h.digest()
-</span><span class='line'>    return ConvertPKHToAddress(b'\x00', pubkey_hash)
-</span><span class='line'>
-</span><span class='line'>pubkey = "044da006f958beba78ec54443df4a3f52237253f7ae8cbdb17dccf3feaa57f3126da0a0909f11998130c2d0e86a485f4e79ee466a183a476c432c68758ab9e630b"
-</span><span class='line'>print(len(pubkey))
-</span><span class='line'>print("Address: %s" % PubkeyToAddress(pubkey))</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出是这样的:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>130
-</span><span class='line'>Address: 1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</span></code></pre></td></tr></table></div></figure>
-
-
-<p>OK，打完收工。</p>
-
-<p>如果一个地址只收币，从来没消费币，公钥是不会广播到网上的，所以这种地址拿不到公钥。一定要有花费，才能得到公钥。</p>
-
-<p>所以有人推荐每次花费币之后就不要再用老地址了，每次交易都用新地址，避免将来出现什么黑科技（比如量子计算机之类的）穷举破解。 其实我觉的无所谓，大不了有人喊ECDSA挂了我再转移一下就行了，人家富豪榜里面都有好几个大佬也不在乎这点事。</p>
-
-<p>PS:更新自打脸一下，我还是觉得每次交易用新地址是一定要做的，理论上HASH碰撞的概率有2<sup>160</sup>，但是我现在觉得这个量级不能简单的推算为1/2<sup>160</sup>；毕竟不是所有的钱包实现熵值都足够大。尽可能每次交易用新地址会增加碰撞库更新的难度。</p>
-
-<h4>再强调一遍，每次交易用新地址是一个必须养成的习惯。</h4>
-
-<p>另外公钥有两种形式：压缩与非压缩。一把私钥其实可以搞出两个地址哈。早期比特币均使用非压缩公钥，现大部分客户端已默认使用压缩公钥。早期openssl库的文档写的比较糙，导致Satoshi以为必须使用非压缩的完整公钥，后来大家发现其实公钥的左右两个32字节是有关联的，左侧(X)可以推出右侧(Y)的平方值，有左侧(X)就可以了。</p>
 ]]></content>
   </entry>
   
