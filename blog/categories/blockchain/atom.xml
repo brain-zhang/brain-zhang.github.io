@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-21T12:57:26+08:00</updated>
+  <updated>2018-07-27T03:33:26+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[史上最可怕的赌局FOMO3D]]></title>
+    <link href="http://happy123.me/blog/2018/07/27/shi-shang-zui-ke-pa-de-du-ju-fomo3d/"/>
+    <updated>2018-07-27T03:32:39+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/27/shi-shang-zui-ke-pa-de-du-ju-fomo3d</id>
+    <content type="html"><![CDATA[<p>人类骨子里面存在赌博的基因。从形形色色的资本市场，到我今天几点起床，好听一点，是一种概率的博弈，难听一点，就是赌博。</p>
+
+<p>互联网伊始，在其他人纷纷吹嘘空中楼阁的时候，最先盈利的，是赌场。</p>
+
+<p>区块链技术发展至今，落地的应用，无它，投机赌博尔。</p>
+
+<p>从最初的SatoshiDice到primedice，到各种DApp的赌博应用，我想不久之后，澳门和拉斯维加斯会面临重大挑战。</p>
+
+<p>第一次搞明白primedice和SatoshiDice的原理时，深深为之震撼，如此透明的博彩程序，在我看来已经到达赌博行业的顶尖水准了，后来者要超越，无非是内容上添砖加瓦，搞个美女营销之类的，技术上没啥改进余地了。</p>
+
+<p>事实证明，Too Yong。人类在赌博业上的创新永无止境。</p>
+
+<p>事实上，最近出来一个我认为史无前例的精巧，可怕，糅合了庞氏骗局，概率论，庄家，小白，顶级黑客，古典赌博术设计的区块链应用。而且，他非常坦诚，告诉你，我就是传销，就是骗局，你来了就是送我钱的，但是还是让人欲罢不能。事实上，我不怕丢人，我也投了一点小钱在里面，我也是庞氏骗局的被洗脑者。所有读到这里的人，要高能预警提醒你，下面文章所有的内容，都是洗脑文，写这篇文章的人已经中毒了，您应该带着批判的思维去审视这些知识。</p>
+
+<p>再提醒一遍，下面所有的内容都是传销受害者的一家之言，不要上当。</p>
+
+<!-- more -->
+
+
+<p>================================================================</p>
+
+<p>这个游戏叫做Fomo3D，是建立在以太坊的智能合约基础上的一款DApp，是一个实盘的旁氏骗局，玩法综合了 <code>传销+一元夺宝+博彩+资金盘+炒币</code> 的各样姿势，堪称区块链投机诈骗时代的集大成者。相比它，什么发行空气币，搞ICO的做法实在是弱爆了。</p>
+
+<p>先讲讲它的开发团队，非常的有Geek范，他们首先很坦诚，称自己的游戏为“退出骗局（exit-scam）”，这个游戏的官方域名就是:</p>
+
+<p><a href="https://exitscam.me/">https://exitscam.me/</a></p>
+
+<p>而且他们自称是反区块链主义者，发明这个游戏出来就是让人认识到比特币、以太坊这些东西就是骗人的，是个巨大的博傻游戏，他们要劝人退出这个骗局。</p>
+
+<p>劝你退出的方法很简单，就是他们发明了Fomo3D这个游戏骗光你的币，而且是正大光明的声明我就是来骗你的。</p>
+
+<h4>Fomo3D啥意思?</h4>
+
+<p>FOMO=fear of missing out，翻译成中文就是“怕错过”。这名字取得太应景了。实际上他们前面还做过一款叫做P3D（Proof of Weak Hands 3D）的庞氏类游戏，也曾一度引起轰动。当然，崩盘以前最后的一波投资者就比较难看。因此，这个游戏里面处处设法弄一些资金去给P3D填锅。</p>
+
+<p>3D也是团队的一个调侃，代表除了单纯的旁氏，他们还搞出了另外两种骗你钱的姿势~~</p>
+
+<p>明知是骗人我还要投入其中，你太小看我的智商了吧，你以为我是P2P的大妈还是A股的韭菜啊，我傻啊~~~</p>
+
+<p>且让我们细细看来。</p>
+
+<h2>规则：</h2>
+
+<p>完整的说明请参见官方wiki：</p>
+
+<p><a href="https://fomo3d.hostedwiki.co/pages/Fomo3D%20Explained">https://fomo3d.hostedwiki.co/pages/Fomo3D%20Explained</a></p>
+
+<p>这个游戏其实是一个挺复合型的游戏。它的主合约有一千多行代码，还有几个辅助合约，已经算是相当复杂的了。从游戏来说，他包含几个机制：</p>
+
+<h4>彩票：</h4>
+
+<p>可以随时购买一注彩票；存在4种不太一样的一样的彩票（分成了四种模式，每种模式用一种动物指代：鲸鱼、蛇、牛、熊），每一种的返还方式略有区别，但是共用奖池；分大奖和小奖（随机空投），小奖实时开奖，实时结算；大奖奖池累计，目前累计到2w eth（1000w美金）</p>
+
+<h4>一元拍卖：</h4>
+
+<p>每个出价的人都得交一笔钱（这是一元拍卖和传统拍卖的最大区别）；每次有人出价，拍卖时间顺延30秒；如果拍卖时间结束，最后一个出价的人，获得商品&mdash;&mdash;这里没有真实商品，就是获得整个奖池；</p>
+
+<h4>分红币：</h4>
+
+<p>每个持有币的人可以从后面的入场资金获得固定分红；分红完全平均，每一个token（在下面我会交替使用token，币，key，F3D这几种说法，意思都一样）获得分红都是相等的，不含随机性；整盘游戏结束的时候还有一个最终分红；</p>
+
+<h4>推荐/传销机制：</h4>
+
+<p>每个人可以生成推广链接；其他人通过推荐链接入场，他的消费中10%直接奖励给推荐人；用户可以更换推荐人链接，如果不怎么做，他的后续消费将持续给别人提供奖励；</p>
+
+<hr />
+
+<p>相信这么说你可能要晕了，我们综合起来描述一下:</p>
+
+<h4>首先合约提供了一种股份，他们称之为Key，你需要用Eth去买Key，拥有Key的人，就在游戏规定的时间内享有分红权，能源源不断的获取分红；</h4>
+
+<ul>
+<li><p>KEY的价格 = 0.000075 + 0.00000000015625*已有KEY的总量</p></li>
+<li><p>获利 = （ 提现时KEY总量 -买入时KEY总量 ）* 分润率</p></li>
+<li><p>Key不能卖，就是说你买了Key后只能握在手里</p></li>
+</ul>
+
+
+<p>这不就是尽早入场，尽早得利的老掉牙的骗局吗，最后一拨人接盘；有啥新鲜的？</p>
+
+<h4>且慢，我们看到，除了分红之外，其实整个池子还是剩下近一半币的；所以除了庞氏，他还引入了另外一个模式，一元夺宝:</h4>
+
+<ul>
+<li>一轮游戏的时间限定为24小时，当游戏时间结束时，最后一个买key的人，可以独享奖池48%份额。</li>
+</ul>
+
+
+<p>也就是说，越到游戏快结束的最后1分钟，碰运气去博的人会越来越多，而且到时候奖池里面的数字会惊人的大，比如现在(2018-07-27 03:00:00 UTF+8)，池子里面已经积累20000+ 的eth了，超过一千万美元。</p>
+
+<ul>
+<li>当游戏时间&lt;24小时，每有一个人买一个key，游戏的时间会延长30秒。</li>
+</ul>
+
+
+<p>当游戏快结束时，大家都去博大奖，反而会让游戏的时间延长，理论上来说，这个延长会无穷无尽，所以这个游戏的第一局会持续到永远&hellip;&hellip;.，直到以太坊破灭</p>
+
+<h4>为了让持有Key的人玩的更有乐子，他们还设计了一种空投机制，奖池会随机发币给key持有人，持有Key越多的人，越容易中奖</h4>
+
+<h4>另外团队还有另外一款Token，就是空气币叫P3D，凡是持有P3D的人也能从奖池里面分一杯羹，这个P3D的设计是另外一个庞氏骗局，可以说是骗上加骗，强强联合了</h4>
+
+<h4>最后的最后，为了找韭菜，他们还设计了常见的推荐机制</h4>
+
+<p>我投0.1Eth，就可以得到一个推荐链接，凡是点击这个链接进来的人，我都能拿奖励；所以大家很快就会看到各类自媒体的科普文章中，夹带类似以下格式的链接，你点进去买就立即是一个合格的韭菜了:</p>
+
+<p>```
+<a href="https://exitscam.me/1">https://exitscam.me/1</a></p>
+
+<p><a href="https://exitscam.me/eth">https://exitscam.me/eth</a></p>
+
+<p><a href="https://exitscam.me/go">https://exitscam.me/go</a></p>
+
+<p>~~~
+```</p>
+
+<p>看到这里，你是不是已经叹服它堪称史上集大成的诈骗机制了，这个产品经理洞悉了人性，发明了这个集传销，庞氏骗局，游戏，彩票，资金盘于一体的行为艺术，实在是应该去拉斯维加斯大展身手的；</p>
+
+<p>当然，也许人家已经看明白区块链迟早会革掉传统赌博行业的命，早早投身这个大潮来了~~~</p>
+
+<p>少年，你是不是急切的问，这个游戏咋玩啊，快给个教程链接我体验一下 233333~</p>
+
+<h4>且慢，我都说了这是个骗人的局，而且，搞明白它的设计细节，进行概率测算之后，我唯有四字形容：叹为观止。</h4>
+
+<h2>规则细节</h2>
+
+<p><del> 待续</del></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Strange Bitcoin Transaction]]></title>
@@ -456,49 +589,6 @@ Address: 1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD
 <p>我觉得基本上可以确定猜测是对的，但是除了Craig Wright本人，真相的细节可能永远不会有人知道了。</p>
 
 <p>现在最大的疑问就是100w币的私钥是谁控制着？</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What Do Cryptic Github Comments Mean?]]></title>
-    <link href="http://happy123.me/blog/2018/02/17/what-do-cryptic-github-comments-mean/"/>
-    <updated>2018-02-17T16:35:55+08:00</updated>
-    <id>http://happy123.me/blog/2018/02/17/what-do-cryptic-github-comments-mean</id>
-    <content type="html"><![CDATA[<p>在Github的Issue里面经常见到一堆<code>ACK</code>，原来知道肯定不是TCP的ACK，估计是acknowledge之类的缩写，但是一直不求甚解。</p>
-
-<!-- more -->
-
-
-<p>今天心血来潮搜了一下，嗯，猜的也差不多:</p>
-
-<ul>
-<li><p>LGTM—looks good to me</p></li>
-<li><p>ACK—acknowledgement, i.e. agreed/accepted change</p></li>
-<li><p>NACK/NAK —negative acknowledgement, i.e. disagree with change and/or concept</p></li>
-<li><p>RFC—request for comments, i.e. I think this is a good idea, lets discuss</p></li>
-<li><p>WIP—work in progress, do not merge yet</p></li>
-<li><p>AFAIK/AFAICT—as far as I know / can tell</p></li>
-<li><p>IIRC—if I recall correctly</p></li>
-<li><p>IANAL—“I am not a lawyer”, but I smell licensing issues</p></li>
-</ul>
-
-
-<p>像比特币代码仓库里还经常见到:</p>
-
-<ul>
-<li><p>Concept ACK—agree with the concept, but haven’t reviewed the changes</p></li>
-<li><p>utACK (aka. Untested ACK)—agree with the changes and reviewed them, but didn’t test</p></li>
-<li><p>Tested ACK—agree with the changes, reviewed and tested</p></li>
-</ul>
-
-
-<p>资料来源:</p>
-
-<p><a href="https://medium.freecodecamp.org/what-do-cryptic-github-comments-mean-9c1912bcc0a4">https://medium.freecodecamp.org/what-do-cryptic-github-comments-mean-9c1912bcc0a4</a></p>
-
-<p><a href="https://github.com/dear-github/dear-github">https://github.com/dear-github/dear-github</a></p>
-
-<p><a href="http://www.catb.org/jargon/html/index.html">http://www.catb.org/jargon/html/index.html</a></p>
 ]]></content>
   </entry>
   
