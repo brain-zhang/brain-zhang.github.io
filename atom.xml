@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-27T13:50:38+08:00</updated>
+  <updated>2018-07-27T13:58:46+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -165,8 +165,8 @@
 <table>
 <thead>
 <tr>
-<th>角色</th>
-<th> 收入分配(划归奖池) </th>
+<th>角色   </th>
+<th>收入分配(划归奖池)</th>
 <th> 实时分红 </th>
 <th> 分给Pomo3D Token持有人 </th>
 <th> 分给推荐人 </th>
@@ -177,38 +177,38 @@
 <tbody>
 <tr>
 <td>whales </td>
-<td> 50% </td>
-<td> 30% </td>
-<td> 6%  </td>
-<td> 10% </td>
-<td> 1%  </td>
+<td> 50%              </td>
+<td> 30%      </td>
+<td> 6%                     </td>
+<td> 10%        </td>
+<td> 1%       </td>
 <td> 3% </td>
 </tr>
 <tr>
 <td>bears  </td>
-<td> 43% </td>
-<td> 43% </td>
-<td> 0%  </td>
-<td> 10% </td>
-<td> 1%  </td>
+<td> 43%              </td>
+<td> 43%      </td>
+<td> 0%                     </td>
+<td> 10%        </td>
+<td> 1%       </td>
 <td> 3% </td>
 </tr>
 <tr>
 <td>bulls  </td>
-<td> 35% </td>
-<td> 43% </td>
-<td> 8%  </td>
-<td> 10% </td>
-<td> 1%  </td>
+<td> 35%              </td>
+<td> 43%      </td>
+<td> 8%                     </td>
+<td> 10%        </td>
+<td> 1%       </td>
 <td> 3% </td>
 </tr>
 <tr>
 <td>sneks  </td>
-<td> 20% </td>
-<td> 56% </td>
-<td> 10% </td>
-<td> 10% </td>
-<td> 1%  </td>
+<td> 20%              </td>
+<td> 56%      </td>
+<td> 10%                    </td>
+<td> 10%        </td>
+<td> 1%       </td>
 <td> 3% </td>
 </tr>
 </tbody>
@@ -220,7 +220,7 @@
 <table>
 <thead>
 <tr>
-<th>角色</th>
+<th>角色   </th>
 <th> 大奖(只有一个赢家) </th>
 <th> 下一轮 </th>
 <th> 最后一次分红 </th>
@@ -230,30 +230,30 @@
 <tbody>
 <tr>
 <td>whales </td>
-<td> 50% </td>
-<td> 25% </td>
-<td> 15%  </td>
+<td> 50%                </td>
+<td> 25%    </td>
+<td> 15%          </td>
 <td> 10% </td>
 </tr>
 <tr>
 <td>bears  </td>
-<td> 50% </td>
-<td> 25% </td>
-<td> 25%  </td>
+<td> 50%                </td>
+<td> 25%    </td>
+<td> 25%          </td>
 <td> 0% </td>
 </tr>
 <tr>
 <td>bulls  </td>
-<td> 50% </td>
-<td> 10% </td>
-<td> 30%  </td>
+<td> 50%                </td>
+<td> 10%    </td>
+<td> 30%          </td>
 <td> 10% </td>
 </tr>
 <tr>
 <td>sneks  </td>
-<td> 50% </td>
-<td> 10% </td>
-<td> 20%  </td>
+<td> 50%                </td>
+<td> 10%    </td>
+<td> 20%          </td>
 <td> 20%</td>
 </tr>
 </tbody>
