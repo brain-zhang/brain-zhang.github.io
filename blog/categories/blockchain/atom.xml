@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-28T19:46:02+08:00</updated>
+  <updated>2018-07-29T09:36:04+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -39,7 +39,7 @@
 
 <p>================================================================</p>
 
-<p>这个游戏叫做Fomo3D，是建立在以太坊的智能合约基础上的一款DApp，是一个实盘的旁氏骗局，玩法综合了<code>传销+一元夺宝+博彩+资金盘+炒币</code> 的各样姿势，堪称区块链投机诈骗时代的集大成者。相比它，什么发行空气币，搞ICO的做法实在是弱爆了。</p>
+<p>这个游戏叫做Fomo3D，是建立在以太坊的智能合约基础上的一款DApp，是一个实盘的庞氏骗局，玩法综合了<code>传销+一元夺宝+博彩+资金盘+炒币</code> 的各样姿势，堪称区块链投机诈骗时代的集大成者。相比它，什么发行空气币，搞ICO的做法实在是弱爆了。</p>
 
 <p>先讲讲它的开发团队，非常的有Geek范，他们首先很坦诚，称自己的游戏为“退出骗局（exit-scam）”，这个游戏的官方域名就是:</p>
 
@@ -53,7 +53,7 @@
 
 <p>FOMO=fear of missing out，翻译成中文就是“怕错过”。这名字取得太应景了。实际上他们前面还做过一款叫做P3D（Proof of Weak Hands 3D）的庞氏类游戏，也曾一度引起轰动。当然，崩盘以前最后的一波投资者就比较难看。因此，这个游戏里面处处设法弄一些资金去给P3D填锅。</p>
 
-<p>3D也是团队的一个调侃，代表除了单纯的旁氏，他们还搞出了另外两种骗你钱的姿势~~；另外在我看来，F3D和P3D好像两个倒金字塔，形成一个漏斗结构，这个游戏理论上没有终结的一天，他会把所有持有以太坊的有赌性的人吸引进来，不管是赢家还是输家，大家最后都会颠来倒去，起起落落沉迷不已，金字塔的形状就是三角形哈~~~</p>
+<p>3D也是团队的一个调侃，代表除了单纯的庞氏，他们还搞出了另外两种骗你钱的姿势~~；另外在我看来，F3D和P3D好像两个倒金字塔，形成一个漏斗结构，这个游戏理论上没有终结的一天，他会把所有持有以太坊的有赌性的人吸引进来，不管是赢家还是输家，大家最后都会颠来倒去，起起落落沉迷不已，金字塔的形状就是三角形哈~~~</p>
 
 <p><strong>明知是骗人我还要投入其中，你太小看我的智商了吧，你以为我是P2P的大妈还是A股的韭菜啊，我傻啊~~~</strong></p>
 
@@ -216,7 +216,7 @@ sneks  | 50%            | 10%    | 20%          | 20%
 
 <p>已知场外总资金N，求入场总资金临界点n, n>N/7 就赔本；</p>
 
-<p>已知N最大是1个亿，那么一定要在 总盘子 接近 1亿/7的时候撤退，大家都是理性人， 一定要在 1亿/7/7的时候撤退，~~~，最终这个数字是多少呢？</p>
+<p>已知N最大是1个亿，那么一定要在 总盘子 接近 1亿/7的之前进场，大家都是理性人， 一定要在 1亿/7/7之前进场，~~~，最终这个数字是多少呢？</p>
 
 <p>如果参与者都是理性人，那么你应该永远不入场!!</p>
 
@@ -292,7 +292,7 @@ sneks  | 50%            | 10%    | 20%          | 20%
 
 <p>目前已经有人指出了空投部分的漏洞，也有人说这是团队故意所为，自己判断吧:</p>
 
-<p><a href="https://link.zhihu.com/?target=https%3A//www.reddit.com/r/ethereum/comments/916xni/how_to_pwn_fomo3d_a_beginners_guide/">https://link.zhihu.com/?target=https%3A//www.reddit.com/r/ethereum/comments/916xni/how_to_pwn_fomo3d_a_beginners_guide/</a></p>
+<p><a href="https://www.reddit.com/r/ethereum/comments/916xni/how_to_pwn_fomo3d_a_beginners_guide/">https://www.reddit.com/r/ethereum/comments/916xni/how_to_pwn_fomo3d_a_beginners_guide/</a></p>
 
 <ul>
 <li><p>我相信，最后一分钟，以太坊会有很大的机率不出块，也许是因为网络阻塞，也许是因为矿池联合，或者~~天怒人怨而已</p></li>
