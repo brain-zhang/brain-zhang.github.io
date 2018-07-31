@@ -80,6 +80,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/09/17/c-dynamic-array-in-stack/">C:dynamic Array in Stack</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:42:25+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/c-dynamic-array-in-stack/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/c-dynamic-array-in-stack/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
+</span><span class='line'>{
+</span><span class='line'>    int x = 12;
+</span><span class='line'>    char pz[x];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>C99是支持的。在gcc4+以上的版本里测试OK。</p>
+
+<p>另外stackoverflow上提到C++不支持动态数组，在g++4.4.7里面试了一下，也是可以的。</p>
+
+<p>不是我不明白，这世界变化快。</p>
+
+<p>Out好多好多年了…….</p>
+
+<p>参考:
+<a href="http://stackoverflow.com/questions/1204521/dynamic-array-in-stack">http://stackoverflow.com/questions/1204521/dynamic-array-in-stack</a> <a href="http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed">http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/">svn1.7+ Zsh报错</a></h1>
     
     
@@ -810,247 +872,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/">为centos添加EPEL Repo</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-14T11:04:58+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/03/14/wei-centostian-jia-epel-repo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>centos默认的源软件不是很全，大部分时候需要添加EPEL源。</p>
-
-<h2>centos5.x</h2>
-
-<pre><code>wget http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
-wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
-sudo rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
-</code></pre>
-
-<h2>centos6.x</h2>
-
-<pre><code>wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
-</code></pre>
-
-<h2>添加完毕后可以到/etc/yum.repos.d里面看一下</h2>
-
-<pre><code>$ ls -1 /etc/yum.repos.d/epel* /etc/yum.repos.d/remi.repo
-/etc/yum.repos.d/epel.repo
-/etc/yum.repos.d/epel-testing.repo
-/etc/yum.repos.d/remi.repo
-</code></pre>
-
-<h2>设置remi repository</h2>
-
-<p>remi repository更新很快，如果你很需要htopxxx最新版本这样的话最好打开</p>
-
-<pre><code>sudo vim /etc/yum.repos.d/remi.repo
-</code></pre>
-
-<p>编辑 [remi]段:</p>
-
-<pre><code>name=Les RPM de remi pour Enterprise Linux $releasever - $basearch
-#baseurl=http://rpms.famillecollet.com/enterprise/$releasever/remi/$basearch/
-mirrorlist=http://rpms.famillecollet.com/enterprise/$releasever/remi/mirror
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-failovermethod=priority
-</code></pre>
-
-<h2>开发工具套装</h2>
-
-<pre><code>yum groupinstall "Development Tools"
-</code></pre>
-
-<h2>SCL源</h2>
-
-<p><a href="http://wiki.centos.org/AdditionalResources/Repositories/SCL">http://wiki.centos.org/AdditionalResources/Repositories/SCL</a></p>
-
-<h2>解决仓库安装失败的问题</h2>
-
-<p>有时候某个软件可以Search，但安装一直报错:</p>
-
-<pre><code>http://download.fedoraproject.org/pu...ry.sqlite.bz2: [Errno 12] Timeout: &lt;urlopen error timed out&gt;
-Trying other mirror.
-</code></pre>
-
-<p>最简单的修复办法就是重建repos</p>
-
-<pre><code>yum clean all
-rpm --rebuilddb
-yum update
-</code></pre>
-
-<p>90%的情况会奏效</p>
-
-<h2>yum只下载安装包</h2>
-
-<pre><code>[RHEL5]
-yum -y install yum-downloadonly
-yum install mongodb-org --downloadonly
-
-[RHEL6]
-yum install yum-plugin-downloadonly
-yum install --downloadonly --downloaddir=. mongodb-org
-</code></pre>
-
-<h2>yum提取已经安装的rpm包</h2>
-
-<pre><code>yum install yum-utils
-yumdownloader &lt;package&gt;
-yumdownloader &lt;package&gt; --resolve
-</code></pre>
-
-<h2>yum升级kernel</h2>
-
-<p><a href="http://elrepo.org/tiki/kernel-ml">http://elrepo.org/tiki/kernel-ml</a></p>
-
-<h2>elrepo url</h2>
-
-<p><a href="http://elrepo.org/tiki/tiki-index.php">http://elrepo.org/tiki/tiki-index.php</a></p>
-
-<p><a href="http://elrepo.org/linux/kernel/">http://elrepo.org/linux/kernel/</a></p>
-
-<p><a href="http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/">http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/</a></p>
-
-<h2>mongodb RPM repo</h2>
-
-<p><a href="https://repo.mongodb.org/yum/redhat">https://repo.mongodb.org/yum/redhat</a></p>
-
-<h2>163镜像源</h2>
-
-<p><a href="http://mirrors.163.com/.help/centos.html">http://mirrors.163.com/.help/centos.html</a></p>
-
-<h2>rpm 常用命令</h2>
-
-<ul>
-<li>重装某个包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -ivh --replacepkgs xxx.rpm</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>修改prefix</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qp --queryformat "%{defaultprefix}\n" &lt;packagefile&gt;
-</span><span class='line'>rpm -ivh --prefix &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个包包含的文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -ql &lt;packagefile&gt;
-</span><span class='line'>rpm -qs &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个包包含的配置文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qc &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个包安装时要执行的脚本文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -q --scripts &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个文件属于哪个包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询某个可执行文件的配置文件和log文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qcf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>寻找最近安装的包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find /bin -type f -mtime -14 | rpm -qF
-</span><span class='line'>rpm -qa --queryformat '%{installtime} %{name}-%{version}-%{release} %{installtime:date}\n' | sort -nr +1 | sed -e 's/^[^ ]* //'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>寻找最大的安装包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qa --queryformat '%{name-%{version}-%{release} %{size}\n' | sort -nr +1}'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>解压一个rpm文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm2cpio xxx.rpm | cpio -div</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13/">&larr; Older</a>
@@ -1068,6 +889,10 @@ yumdownloader &lt;package&gt; --resolve
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/">史上最可怕的赌局FOMO3D(2)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/07/27/shi-shang-zui-ke-pa-de-du-ju-fomo3d/">史上最可怕的赌局FOMO3D</a>
       </li>
     
@@ -1081,10 +906,6 @@ yumdownloader &lt;package&gt; --resolve
     
       <li class="post">
         <a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/07/03/peewee-abc/">Peewee ABC</a>
       </li>
     
   </ul>
@@ -1146,7 +967,7 @@ yumdownloader &lt;package&gt; --resolve
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (18)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (19)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
