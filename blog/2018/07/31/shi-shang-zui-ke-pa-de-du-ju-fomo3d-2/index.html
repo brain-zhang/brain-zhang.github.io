@@ -158,13 +158,20 @@
 <p>我写了一个小程序模拟了一下P3D的投资收益，非常非常有意思。P3D的规则非常非常简单:</p>
 
 <ol>
-<li><p>当买入一个P3D Token的时候:</p>
+<li>当买入一个P3D Token的时候:</li>
+</ol>
 
-<pre><code> token价格 = 0.0000001 + 0.00000001 * 总token数目
 
- 预先扣除手续费用 = token价格 * 19% (买入10%，卖出10%预收)
-</code></pre></li>
-<li><p>买入卖出的手续费用按照所有Token持有人的持有比重，发放分红</p></li>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>token价格 = 0.0000001 + 0.00000001 * 总token数目
+</span><span class='line'>
+</span><span class='line'>预先扣除手续费用 = token价格 * 19% (买入10%，卖出10%预收)</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>买入卖出的手续费用按照所有Token持有人的持有比重，发放分红</li>
 <li>其它类似于Fomo3D的游戏收入，会发放一部分分红给所有P3D Token持有人</li>
 </ol>
 
