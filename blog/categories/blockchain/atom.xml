@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-07-31T13:02:45+08:00</updated>
+  <updated>2018-08-01T18:52:57+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -33,7 +33,7 @@
 
 <p>然后我们再来看FOMO 3D，目前池子里面已经积累了21700+ ETH，市值10,000,000$，最终奖金肯定超过5,000,000$；现在总共售出了3000w+的key，假设池子还能增长一倍，那么游戏结束的最后一分钟，总共奖金5,000,0000$的基础上，肯定会有人尝试51%攻击，那么51%的攻击的成本有多少呢？</p>
 
-<p>目前以太坊全网算力为125T左右，每T/天的成本大概50$，在GPU云已经普及的情况下，租用nicehash、aws、google cloud的全部 GPU主机1小时似乎也不是太大的成本；如果我是理性人的话，策略就是:</p>
+<p>目前以太坊全网算力为125T左右，每G/天的成本大概50$，在GPU云已经普及的情况下，租用nicehash、aws、google cloud的全部 GPU主机1小时似乎也不是太大的成本；如果我是理性人的话，策略就是:</p>
 
 <ol>
 <li>首先花一部分钱不断的购买key到合约地址，交易每秒钟构造10笔，设置高手续GAS费用，通过全球矿池广播，确保先发优势</li>
