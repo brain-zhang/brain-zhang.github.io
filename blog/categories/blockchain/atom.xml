@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-08-01T18:52:57+08:00</updated>
+  <updated>2018-08-01T18:54:18+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -38,7 +38,7 @@
 <ol>
 <li>首先花一部分钱不断的购买key到合约地址，交易每秒钟构造10笔，设置高手续GAS费用，通过全球矿池广播，确保先发优势</li>
 <li>购买大量算力，比如1小时内1PB的算力，只打包我的交易，确保机率足够大</li>
-<li>相对于5,000,000$的奖池，这个成本实在不高</li>
+<li>相对于5,000,000$的奖池，这个投入还是值得的</li>
 </ol>
 
 
