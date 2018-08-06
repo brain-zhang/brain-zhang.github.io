@@ -80,6 +80,111 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/">python2.x：Error When Printing an Exception Containing a Unicode String</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:43:39+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Python2.x中抛出Unicode的异常需要注意:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
+</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
+</span><span class='line'>... except Exception, e:
+</span><span class='line'>...     print e
+</span><span class='line'>...     print str(e)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>会报UnicodeEncodeError: &lsquo;ascii&rsquo; codec can&rsquo;t encode character &hellip;</p>
+
+<p>同样，如果在log中直接输出，也会报错</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; import logging
+</span><span class='line'>    logger = logging.getLogger('default')
+</span><span class='line'>    try:
+</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
+</span><span class='line'>... except Exception, e:
+</span><span class='line'>...     logger.error(e)
+</span><span class='line'>...     logger.error("%s", e)
+</span><span class='line'>...     logger.error("%s", str(e))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>简单的解决办法就是用e.message</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
+</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
+</span><span class='line'>... except Exception, e:
+</span><span class='line'>...     print e.message
+</span><span class='line'>...     print "%s" % e.message</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也可以详细的可以指定encoder</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
+</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
+</span><span class='line'>... except Exception, e:
+</span><span class='line'>...     print unicode(e.message).encode('utf-8')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python3就没这个事了，备忘一下。</p>
+
+<p>参考:</p>
+
+<p><a href="http://bugs.python.org/issue2517">http://bugs.python.org/issue2517</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/17/c-dynamic-array-in-stack/">C:dynamic Array in Stack</a></h1>
     
     
@@ -796,82 +901,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/26/freeze-svn-externals-for-tags/">Freeze Svn:externals for Tags/branch</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-26T18:12:23+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/03/26/freeze-svn-externals-for-tags/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2014/03/26/freeze-svn-externals-for-tags/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>svn的external link在多个项目互相引用时很有用。</p>
-
-<p>但我们想要做tag及branch的时候，需要将external link的文件或目录固定在某个版本。</p>
-
-<h2>搜了一下，基本上有几个办法:</h2>
-
-<p>使用tortoisesvn>1.7版本，打tag及branch的时候可以固定在某一版本:</p>
-
-<pre><code>¦   http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug-branchtag.html
-
-
-缺点是这样打出来的branch，checkout下来后，svn up还是回到最新的版本。
-</code></pre>
-
-<p>使用一个perl脚本，可以在打branch的时候把extern link一起拷贝到branch底下，这样相当于是建立了一个新的external link拷贝，修改branch不会影响到trunk</p>
-
-<pre><code>¦   https://svn.apache.org/repos/asf/subversion/trunk/contrib/client-side/svncopy/
-
-
-缺点是这样打出来的branch底下会多出来external link的拷贝，不完美。
-</code></pre>
-
-<p>有人开发了工具, C#的，但我在win7下面打branch的时候会报错</p>
-
-<pre><code>¦   http://svnxf.codeplex.com/
-</code></pre>
-
-<h4>原先以为这样的事情总该有个simple的解决办法的，但还真是没找到，自己实际写个脚本想做这个事情才发现不简单。想要做这件事的前提是要把代码check到本地来，这样就不如直接调命令了，如果远程操作svn库，就需要三方开发。</h4>
-
-<h2>最后简单的办法是:</h2>
-
-<p>如果是打tag，采用方法一，用tortoisesvn固定在一个版本</p>
-
-<p>如果是打branch，先用tortoisesvn 固定在一个版本，再把branch分支checkout下来，用命令 <code>svn propedit svn:externals .</code>取消external link，再重新加入版本库，最后提交。</p>
-
-<p>参考:</p>
-
-<p><a href="http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags">http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13/">&larr; Older</a>
@@ -889,6 +918,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3/">史上最可怕的赌局FOMO3D(3)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/">史上最可怕的赌局FOMO3D(2)</a>
       </li>
     
@@ -902,10 +935,6 @@
     
       <li class="post">
         <a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a>
       </li>
     
   </ul>
@@ -967,7 +996,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (19)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (20)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/branch/'>branch (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>

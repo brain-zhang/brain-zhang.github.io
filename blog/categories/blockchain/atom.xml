@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-08-01T18:55:53+08:00</updated>
+  <updated>2018-08-06T09:46:07+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[史上最可怕的赌局FOMO3D(3)]]></title>
+    <link href="http://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3/"/>
+    <updated>2018-08-06T09:29:46+08:00</updated>
+    <id>http://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3</id>
+    <content type="html"><![CDATA[<p>目前FOMO 3D的赌局剩余时间已经有多次下降到3小时以下了。</p>
+
+<p>官方非常贴心的为我们指出了最后关头可能会发生的事情:</p>
+
+<!-- more -->
+
+
+<p>1.出块时间可能会增加到90s以上。
+2.可能会包括并不限于拒绝出块，跳过，或者提交空单。
+3.交易被拒绝。
+4.整个ETH网络的gas费用将会飙升
+5.大户可能可以购买完整的20-100个块以及其中全部的GAS
+6.网站可能被DDOS攻击
+7.infura节点可能会被ddos攻击。
+8.ETH网络可能会崩溃（再次）
+9.有人使用机器人尝试狙击最后的key。</p>
+
+<ul>
+<li>玩家可以简单的通过购买大量的key，来摧毁这一切攻击意图（以及浪费掉他们的eth）</li>
+</ul>
+
+
+<p>我认为1,2,3,4,6,7,8,9必然会发生，至于大户是否会购买最后100个块，要看全球所有矿池的看法，如果有人出5倍于矿池挖矿正常收益的价格的话，为什么不做这笔交易呢？</p>
+
+<p>至于小散，也想要搏一把的话：</p>
+
+<p>只需要确保的名字在顶部1:30点的附近。因为我觉得任何人，要是没有狂跳如飞的计时器，都不可能协调好。但原则是，大家彼此竞赛，目的是让计时器定格在1:30，因为玩家中的每一个人,想要获胜，都会按照这种方法。</p>
+
+<p>你不需要在30秒的时候花费大量的GAS狙击，你也不需要支付1000美元赶在竞赛结束前获得最后一个区块。那全是大户和机器人的领地。你可以轻松地将一个ETH长久放置于1:30标志处，并在rogue long block timer中获得100+次尝试的机会。这可能会耗费一段时间，但最后的辉煌成果就是对你的奖励。</p>
+
+<p>出块时间可以长达120秒，有些罕见情况下时间会更长。你想操纵那个计时器的时间越长（2:00, 2:30），你就会消耗更多的eth来让计时器保持在那里，但你胜算的几率也更大。一旦有120-150秒出块时间的堵塞来袭，你就赢了。</p>
+
+<p>这是利用可能的出块时间来发掘你自己的价值。赢得那个人也可能就是你，对吗？</p>
+
+<p>哈哈，我想小散的力量这个时候会让大户恐惧，因为大户下了血本，也未必能赢过小矿工的运气。</p>
+
+<p>这真的是史上第一个公开透明博大奖的博彩游戏，比什么现场抽奖，摇彩球要公正好玩的多。</p>
+
+<p>目前>20000+ ETH的彩池，奖金超过$1000w,拭目以待。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[史上最可怕的赌局FOMO3D(2)]]></title>
@@ -624,128 +671,6 @@ sneks  | 50%            | 10%    | 20%          | 20%
 <h4>数字货币世界还是处于蛮荒狂野时代，不是那么多事情都是理所当然的;乔帮主的训诫要时时温习:饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
 <h4>少年，祝你好运</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Get Pubkey From a Transaction]]></title>
-    <link href="http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/"/>
-    <updated>2018-04-22T20:42:49+08:00</updated>
-    <id>http://happy123.me/blog/2018/04/22/how-to-get-pubkey-from-a-transaction</id>
-    <content type="html"><![CDATA[<p>比如<code>1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</code>，这个地址，有转出过，如何得到公钥</p>
-
-<p>原理很简单，但是实践起来比较烦：</p>
-
-<!-- more -->
-
-
-<p>首先我们找一下这个地址的随便一笔花费，比如这个:</p>
-
-<p><a href="https://btc.com/0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33">https://btc.com/0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33</a></p>
-
-<p>然后需要一个工具通过交易hash解析一下这笔交易</p>
-
-<p>推荐用这个 <a href="https://github.com/libbitcoin/libbitcoin-explorer/wiki/Download-BX">libbitcoin/libbitcoin-explorer</a></p>
-
-<p>执行</p>
-
-<pre><code>bx-windows-x64-icu.exe fetch-tx 0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33
-</code></pre>
-
-<p>得到了这笔交易解析后的完整输出:</p>
-
-<p>```
-transaction
-{</p>
-
-<pre><code>hash 0998ef06442994c147aec242e6973dfe3d512b05bde880793051a48bd021fc33
-inputs
-{
-    input
-    {
-        address_hash b4a5d3960471568c3883046eec3b41b4953d61a1
-        previous_output
-        {
-            hash 5fb9f0e7f520163e4afe0baa440fe93999273e95d9e345e0488a0802ed62674f
-            index 0
-        }
-        script "[3045022100e4a4695ecbe6f507ec7181a2f321f489c7a3bd7eea032c75e4e1eba89174183c022019555aa917be6191db14da72e5c234a4b628f321b917ea334bcf9c122296cd5901] [044da006f958beba78ec54443df4a3f52237253f7ae8cbdb17dccf3feaa57f3126da0a0909f11998130c2d0e86a485f4e79ee466a183a476c432c68758ab9e630b]"
-        sequence 4294967295
-    }
-}
-lock_time 0
-outputs
-{
-    output
-    {
-        address_hash c621cbfd778e6109e26046d96738c7af75e7b78b
-        script "dup hash160 [c621cbfd778e6109e26046d96738c7af75e7b78b] equalverify checksig"
-        value 43103
-    }
-}
-version 1
-</code></pre>
-
-<p>}
-```</p>
-
-<p>注意script那一段，就是分成了两部分，前面一个中括号里面是签名，后面是公钥。</p>
-
-<p>然后仔细看看这还是个老钱包生成的地址，没有压缩;</p>
-
-<p>写个小脚本parse一下这个公钥，就可以看看是不是和地址对应啦:</p>
-
-<p>```</p>
-
-<h1>!/usr/bin/env python</h1>
-
-<p>from hashlib import *
-from base58 import *</p>
-
-<p>def SHA256D(bstr):</p>
-
-<pre><code>return sha256(sha256(bstr).digest()).digest()
-</code></pre>
-
-<p>def ConvertPKHToAddress(prefix, addr):</p>
-
-<pre><code>data = prefix + addr
-return b58encode(data + SHA256D(data)[:4])
-</code></pre>
-
-<p>def PubkeyToAddress(pubkey_hex):</p>
-
-<pre><code>pubkey = bytearray.fromhex(pubkey_hex)
-round1 = sha256(pubkey).digest()
-h = new('ripemd160')
-h.update(round1)
-pubkey_hash = h.digest()
-return ConvertPKHToAddress(b'\x00', pubkey_hash)
-</code></pre>
-
-<p>pubkey = &ldquo;044da006f958beba78ec54443df4a3f52237253f7ae8cbdb17dccf3feaa57f3126da0a0909f11998130c2d0e86a485f4e79ee466a183a476c432c68758ab9e630b&rdquo;
-print(len(pubkey))
-print(&ldquo;Address: %s&rdquo; % PubkeyToAddress(pubkey))
-```</p>
-
-<p>输出是这样的:</p>
-
-<p><code>
-130
-Address: 1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD
-</code></p>
-
-<p>OK，打完收工。</p>
-
-<p>如果一个地址只收币，从来没消费币，公钥是不会广播到网上的，所以这种地址拿不到公钥。一定要有花费，才能得到公钥。</p>
-
-<p>所以有人推荐每次花费币之后就不要再用老地址了，每次交易都用新地址，避免将来出现什么黑科技（比如量子计算机之类的）穷举破解。 其实我觉的无所谓，大不了有人喊ECDSA挂了我再转移一下就行了，人家富豪榜里面都有好几个大佬也不在乎这点事。</p>
-
-<p>PS:更新自打脸一下，我还是觉得每次交易用新地址是一定要做的，理论上HASH碰撞的概率有2<sup>160</sup>，但是我现在觉得这个量级不能简单的推算为1/2<sup>160</sup>；毕竟不是所有的钱包实现熵值都足够大。尽可能每次交易用新地址会增加碰撞库更新的难度。</p>
-
-<h4>再强调一遍，每次交易用新地址是一个必须养成的习惯。</h4>
-
-<p>另外公钥有两种形式：压缩与非压缩。一把私钥其实可以搞出两个地址哈。早期比特币均使用非压缩公钥，现大部分客户端已默认使用压缩公钥。早期openssl库的文档写的比较糙，导致Satoshi以为必须使用非压缩的完整公钥，后来大家发现其实公钥的左右两个32字节是有关联的，左侧(X)可以推出右侧(Y)的平方值，有左侧(X)就可以了。</p>
 ]]></content>
   </entry>
   
