@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-08-06T09:46:07+08:00</updated>
+  <updated>2018-08-06T09:48:50+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -25,19 +25,18 @@
 <!-- more -->
 
 
-<p>1.出块时间可能会增加到90s以上。
-2.可能会包括并不限于拒绝出块，跳过，或者提交空单。
-3.交易被拒绝。
-4.整个ETH网络的gas费用将会飙升
-5.大户可能可以购买完整的20-100个块以及其中全部的GAS
-6.网站可能被DDOS攻击
-7.infura节点可能会被ddos攻击。
-8.ETH网络可能会崩溃（再次）
-9.有人使用机器人尝试狙击最后的key。</p>
-
-<ul>
-<li>玩家可以简单的通过购买大量的key，来摧毁这一切攻击意图（以及浪费掉他们的eth）</li>
-</ul>
+<ol>
+<li><p>出块时间可能会增加到90s以上。</p></li>
+<li><p>可能会包括并不限于拒绝出块，跳过，或者提交空单。</p></li>
+<li><p>交易被拒绝。</p></li>
+<li><p>整个ETH网络的gas费用将会飙升</p></li>
+<li><p>大户可能可以购买完整的20-100个块以及其中全部的GAS</p></li>
+<li><p>网站可能被DDOS攻击</p></li>
+<li><p>infura节点可能会被ddos攻击。</p></li>
+<li><p>ETH网络可能会崩溃（再次）</p></li>
+<li><p>有人使用机器人尝试狙击最后的key。</p></li>
+<li><p>玩家可以简单的通过购买大量的key，来摧毁这一切攻击意图（以及浪费掉他们的eth）</p></li>
+</ol>
 
 
 <p>我认为1,2,3,4,6,7,8,9必然会发生，至于大户是否会购买最后100个块，要看全球所有矿池的看法，如果有人出5倍于矿池挖矿正常收益的价格的话，为什么不做这笔交易呢？</p>
