@@ -80,6 +80,76 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/">Send Large Packet by Dpdk Pktgen</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-28T17:11:10+08:00" pubdate data-updated="true">Oct 28<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>场景</h2>
+
+<p>测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。</p>
+
+<h2>问题</h2>
+
+<p>qinq双层vlan tag，有些包大小超过了1518字节，pktgen不支持。</p>
+
+<h2>解决方案</h2>
+
+<p>修改 dpdk-2.1.0/x86_64-native-linuxapp-gcc/include/rte_ether.h:</p>
+
+<pre><code>#define ETHER_MAX_LEN 1522
+</code></pre>
+
+<p>重新编译DPDK，Pktgen，重新加载DPDK驱动</p>
+
+<h2>资料</h2>
+
+<ul>
+<li>DPDK2.1.0:</li>
+</ul>
+
+
+<p><a href="http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz">http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz</a></p>
+
+<ul>
+<li>Pktgen2.9.5:</li>
+</ul>
+
+
+<p><a href="http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz">http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/10/28/capture-qinq-large-packets/">Capture QinQ Large Packets</a></h1>
     
     
@@ -1401,167 +1471,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/">Python编程实战 - 笔记1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-27T08:17:45+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。</p>
-
-<h2>创建型设计模式</h2>
-
-<h4>抽象工厂 (Abstract Factory)</h4>
-
-<ul>
-<li>名字就用AbstractFactory好了，不要起什么BaseFactory之类的</li>
-<li>相关类都放到对应的Factory Class里面，不要暴露给外面了</li>
-</ul>
-
-
-<h4>建造者模式 (Build)</h4>
-
-<ul>
-<li>和工厂的区别就是保存了创建对象时各个部分的细节</li>
-</ul>
-
-
-<h4>工厂模式</h4>
-
-<ul>
-<li>根据情况实例化对象</li>
-<li>还是注意和抽象工厂的区别，抽象工厂是将创建对象的行为抽象出来，而工厂模式则是根据要创建的对象类型实例化</li>
-</ul>
-
-
-<h4>原型模式 (Prototype)</h4>
-
-<ul>
-<li>这个模式其实在javascript的根本，不过Python的实现方法还真是五花八门，我说直接用copy就好了嘛</li>
-</ul>
-
-
-<h4>单例模式 (Singleton)</h4>
-
-<ul>
-<li>我最中意的一种实现:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Borg:
-</span><span class='line'>    _shared_state = {}
-</span><span class='line'>    def __init__(self):
-</span><span class='line'>        self.__dict__ = self._shared_state
-</span><span class='line'>
-</span><span class='line'>class Singleton(Borg):
-</span><span class='line'>    def __init__(self, arg):
-</span><span class='line'>        Borg.__init__(self)
-</span><span class='line'>        self.val = arg
-</span><span class='line'>    def __str__(self):
-</span><span class='line'>        return self.val</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>结构型设计</h2>
-
-<ul>
-<li>作用就是改装对象，或者把小对象合并为大对象</li>
-</ul>
-
-
-<h4>Adapter</h4>
-
-<ul>
-<li>其实就是转接方法</li>
-</ul>
-
-
-<h4>Bridge</h4>
-
-<ul>
-<li>把方法抽象出来</li>
-</ul>
-
-
-<h4>Composite</h4>
-
-<ul>
-<li>Python里面有一种省一点内存的写法，可以直接用CompositeItem和Item两个类来实现，不过我觉得不直观</li>
-</ul>
-
-
-<h4>decorator</h4>
-
-<ul>
-<li><p>几个新的decorator:</p>
-
-<ul>
-<li><p><code>@functools_wraps</code> : 装饰器工厂</p></li>
-<li><p><code>@statically_typed</code> : 类型检查</p></li>
-</ul>
-</li>
-<li><p>另外<code>@ensure</code>类修饰符可以用来简化设置property的代码</p></li>
-</ul>
-
-
-<h4>Facade</h4>
-
-<ul>
-<li>这个模式其实是天天在做的，就是把接口聚合的好看一点</li>
-<li>其实思想可以推广到很多方面，比如Docker，就是LXC的一个Facader，而且做的比较好看，于是大家就都来用了</li>
-</ul>
-
-
-<h4>Flyweight</h4>
-
-<ul>
-<li>管理许多小对象的时候用引用</li>
-<li>Python用<code>__slot__</code> Attribute来做最方便</li>
-<li>里面关于用shelve对象存储class attribute的思路挺实用的</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -1579,6 +1488,10 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/08/14/ba-fei-te-zhi-gu-dong-de-xin-1957-2018-zhong-ying-wen-zheng-li/">巴菲特致股东的信 1957-2018 中英文整理</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3/">史上最可怕的赌局FOMO3D(3)</a>
       </li>
     
@@ -1592,10 +1505,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     
       <li class="post">
         <a href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a>
       </li>
     
   </ul>
@@ -1689,7 +1598,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (4)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (5)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
 <li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
 <li class='category'><a href='/blog/categories/mongodb/'>mongodb (1)</a></li>
