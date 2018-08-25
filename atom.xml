@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-08-25T12:02:37+08:00</updated>
+  <updated>2018-08-25T12:04:18+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -45,13 +45,9 @@
 <ul>
 <li><p>比如当初Flash就被乔帮主活活说死了，说你不行行也不行。</p></li>
 <li><p>比如Plan9搞了一堆创新之后死翘翘了，根本就没几个人去在意</p></li>
-<li><p>比如苦大仇深的GUI方案，MS推出了一系列库，从MFC、WTL到所谓的WPF，从各类公司的私有解决方案，到现在还在服役的大名鼎鼎的Duilib;最后就不提历史风尘中的各类商业皮肤库了；</p></li>
-</ul>
+<li><p>比如苦大仇深的GUI方案，MS推出了一系列库，从MFC、WTL到所谓的WPF，从各类公司的私有解决方案，到现在还在服役的大名鼎鼎的Duilib;最后就不提历史风尘中的各类商业皮肤库了；</p>
 
-
-<p> 还有开源界的各路GNome、wxWidgets、QT、TCL，到现在跨平台GUI方案的战火都烧到浏览器上了，VS Code用啥实现的，竟然是Electron；虽然效果拔群，但是总觉得哪里不对路啊；</p>
-
-<ul>
+<p>   还有开源界的各路GNome、wxWidgets、QT、TCL，到现在跨平台GUI方案的战火都烧到浏览器上了，VS Code用啥实现的，竟然是Electron；虽然效果拔群，但是总觉得哪里不对路啊；</p></li>
 <li><p>从移动手机刚刚兴起的年代，就有无数种解决方案发誓要做到&#8221;一次编写，到处运行&#8221;，兼容各大主流移动平台；如今看看，口号依旧，分裂依旧，半死不活依旧</p></li>
 <li><p>为什么历史选择TCP/IP而把ISO模型扫进教科书</p></li>
 <li><p>为什么IE打败Netscape</p></li>
