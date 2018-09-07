@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-07T16:32:40+08:00</updated>
+  <updated>2018-09-07T16:36:53+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -55,7 +55,7 @@ db.create_tables([User])
 
 <p>```</p>
 
-<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x68;&#x65;&#x6c;&#108;&#x6f;&#64;&#x77;&#111;&#x72;&#108;&#100;&#46;&#x63;&#x6f;&#x6d;">&#104;&#101;&#x6c;&#x6c;&#111;&#64;&#119;&#x6f;&#x72;&#108;&#100;&#46;&#x63;&#x6f;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
+<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#104;&#101;&#x6c;&#x6c;&#111;&#64;&#x77;&#x6f;&#114;&#x6c;&#x64;&#46;&#99;&#111;&#109;">&#x68;&#x65;&#x6c;&#x6c;&#x6f;&#x40;&#x77;&#x6f;&#x72;&#x6c;&#x64;&#46;&#99;&#x6f;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
 user_record.save()</p></blockquote></blockquote></blockquote>
 
 <p>```</p>
