@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Develop, | Living a Simple Life is a Happy Life]]></title>
+  <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-07T15:50:33+08:00</updated>
+  <updated>2018-09-07T16:32:40+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,240 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[从WebAssembly说开去]]></title>
+    <link href="http://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu/"/>
+    <updated>2018-08-25T11:14:39+08:00</updated>
+    <id>http://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu</id>
+    <content type="html"><![CDATA[<p>科技界历史循环，轨迹无法量化预测。</p>
+
+<p>前几天看到bellard都在浏览器里面用WebAssembly跑虚拟机了，点进去试试，竟然模拟Win2000都有模有样了。</p>
+
+<p><a href="https://bellard.org/jslinux/index.html">https://bellard.org/jslinux/index.html</a></p>
+
+<p>不由得感叹人折腾的能力真是无比强大。</p>
+
+<!-- more -->
+
+
+<p>有人说WebAssembly又实现了一个Flash，又实现了一个SliverLight，又造了一个JavaApplet，我都想到很久很久之前的ActiveX了，想到COM组件了~~~</p>
+
+<p>肯定又会有人跳出来说，这回不一样了:</p>
+
+<ol>
+<li><p>谷歌、苹果、微软等公司一起来干了</p></li>
+<li><p>前端拯救世界，前端用Nodejs打入后端，后端用WebAssembly征服前端~~</p></li>
+<li><p>就连技术媒体都开始用吸睛标题：&lt;WebAssembly:解决 JavaScript 痼疾的一颗银色子弹？></p></li>
+</ol>
+
+
+<p>我得说，技术路线的发展完全是随机的，无迹可寻。</p>
+
+<ul>
+<li><p>比如当初Flash就被乔帮主活活说死了，说你不行行也不行。</p></li>
+<li><p>比如Plan9搞了一堆创新之后死翘翘了，根本就没几个人去在意</p></li>
+<li><p>比如苦大仇深的GUI方案，MS推出了一系列库，从MFC、WTL到所谓的WPF，从各类公司的私有解决方案，到现在还在服役的大名鼎鼎的Duilib;最后就不提历史风尘中的各类商业皮肤库了；</p>
+
+<p>   还有开源界的各路GNome、wxWidgets、QT、TCL，到现在跨平台GUI方案的战火都烧到浏览器上了，VS Code用啥实现的，竟然是Electron；虽然效果拔群，但是总觉得哪里不对路啊；</p></li>
+<li><p>从移动手机刚刚兴起的年代，就有无数种解决方案发誓要做到"一次编写，到处运行"，兼容各大主流移动平台；如今看看，口号依旧，分裂依旧，半死不活依旧</p></li>
+<li><p>为什么历史选择TCP/IP而把ISO模型扫进教科书</p></li>
+<li><p>为什么IE打败Netscape</p></li>
+<li><p>为什么KVM逐渐压倒Xen</p></li>
+</ul>
+
+
+<p>历史只是偶然，成败听凭运气，没有什么道理好讲的。</p>
+
+<p>我只能根据有限的经验来预言：任何一种号称"大一统方案"的方案最后总是失败。</p>
+
+<p>让我们再大声诵读伟大的Fred Brooks先知的预言：没有银弹，没有银弹，没有银弹~~~</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[非烫即屯]]></title>
+    <link href="http://happy123.me/blog/2018/08/25/fei-tang-ji-tun/"/>
+    <updated>2018-08-25T09:34:43+08:00</updated>
+    <id>http://happy123.me/blog/2018/08/25/fei-tang-ji-tun</id>
+    <content type="html"><![CDATA[<p>好久没有打开过VC++了，今天为了修改一个远古控件打开了久违的VC++，DEBUG模式下又看到了久违的"烫烫烫烫烫"~~~~</p>
+
+<!-- more -->
+
+
+<p>VC runtime debug version会把stack初始化成0xcc，unicode中0xcccc(双字节)就是中文的烫。如果你开了个char[]，然后最后一个字符忘了设置成0x00，然后去printf这个字符，那么整个stack从这个局部字符数组开始都输出到console，就变成了“烫烫烫烫烫”。</p>
+
+<p>为啥把stack初始化成0xcc而不是0x00呢？是因为0xcc在intel x86芯片指令集中代表int 3，也就是debug中断，该指令会自动把程序停在单步调试状态，然后去寻找系统中注册的调试器，如果找不到调试器，那么就会终止程序。这一开始是为了调试栈缓冲溢出错误的。如果出现溢出，并且代码尝试执行缓冲中的指令，就会进入单步调试状态。</p>
+
+<p>这是debug version, 那么release verion呢？发布版会把栈初始化成0xcd，这个就是imm8，就是立即中断退出的意思。这时候因为运行在用户机器上，没有调试器，也不希望用户来调试你的程序。0xcdcd就是中文的“屯”字。你会看见一些写的超烂的程序经常会出现“屯屯屯屯屯屯”。的确挺屯的，</p>
+
+<p>在今天这个芯片DEP，操作系统NX锁定双保险的时代，这种初始化已经没有啥必要了，这个烫屯还存在纯粹是历史原因。</p>
+
+<p>所以在那个电脑还比较古早的年代，说人品不好，那叫非奸即盗。说程序写的烂，那叫非烫即屯。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Crawler ABC]]></title>
+    <link href="http://happy123.me/blog/2018/07/04/crawler-abc/"/>
+    <updated>2018-07-04T19:04:58+08:00</updated>
+    <id>http://happy123.me/blog/2018/07/04/crawler-abc</id>
+    <content type="html"><![CDATA[<p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
+
+<!-- more -->
+
+
+<h2>requests</h2>
+
+<p>```
+def get_html(url):</p>
+
+<pre><code>headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Content-Type': 'application/x-www-form-urlencoded',
+}
+resp = requests.get(url, headers=headers)
+if resp.status_code == 200:
+    return resp.content
+else:
+    raise ValueError("Not valid response:{}".format(resp.content))
+</code></pre>
+
+<p>```</p>
+
+<h2>beautifulsoup</h2>
+
+<p>```
+from bs4 import BeautifulSoup
+def get_username(html):</p>
+
+<pre><code>soup = BeautifulSoup(html, 'lxml')
+user_div = soup.find(id='uhd')
+username = user_div.find('h2', class_='mt').get_text().strip()
+return username
+</code></pre>
+
+<p>```</p>
+
+<h2>phantomjs</h2>
+
+<p>用法非常简单，但是每次都得去查文档，封装成一个傻瓜类比较实在</p>
+
+<p>```
+class WebClient(object):</p>
+
+<pre><code>USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
+    "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
+    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
+    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
+    "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+    "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SE 2.X MetaSr 1.0; SE 2.X MetaSr 1.0; .NET CLR 2.0.50727; SE 2.X MetaSr 1.0)",
+    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+    "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
+    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
+    "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
+    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
+    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
+    "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
+    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
+]
+
+def __init__(self, phantomjs_driver_path='/usr/local/bin/phantomjs'):
+    # 引入配置对象DesiredCapabilities
+    dcap = dict(DesiredCapabilities.PHANTOMJS)
+
+    # 从USER_AGENTS列表中随机选一个浏览器头，伪装浏览器
+    dcap["phantomjs.page.settings.userAgent"] = (random.choice(self.USER_AGENTS))
+
+    # 不载入图片，爬页面速度会快很多
+    dcap["phantomjs.page.settings.loadImages"] = False
+
+    # 设置代理
+    # service_args = ['--proxy=127.0.0.1:1080', '--proxy-type=http']
+
+    # 打开带配置信息的phantomJS浏览器
+    self._driver = webdriver.PhantomJS(phantomjs_driver_path, desired_capabilities=dcap)
+
+    # 隐式等待5秒，可以自己调节
+    self._driver.implicitly_wait(5)
+
+    # 设置10秒页面超时返回，类似于requests.get()的timeout选项，driver.get()没有timeout选项
+    # 以前遇到过driver.get(url)一直不返回，但也不报错的问题，这时程序会卡住，设置超时选项能解决这个问题。
+    self._driver.set_page_load_timeout(10)
+    # 设置10秒脚本超时时间
+    self._driver.set_script_timeout(10)
+
+@property
+def driver(self):
+    return self._driver
+</code></pre>
+
+<p>```</p>
+
+<p>用起来也很简单，拿登陆163邮箱做例子:</p>
+
+<p>```
+def login_163(email, password):</p>
+
+<pre><code>login_url = 'http://m65.mm.mail.163.com/'
+driver = WebClient().driver
+driver.get(login_url)
+driver.implicitly_wait(10)
+
+try:
+    driver.execute_script('document.querySelector(".m-footer").querySelector("a").click();')
+    driver.execute_script('document.getElementById("entryMail").click();')
+except Exception as _:
+    pass
+
+time.sleep(3)
+driver.find_element_by_xpath('//input[@name="username"]').send_keys(email.split('@')[0])
+driver.find_element_by_xpath('//input[@name="password"]').send_keys(password)
+mail_select = Select(driver.find_element_by_xpath('//select[@name="domain"]'))
+mail_select.select_by_value(email.split('@')[-1])
+# driver.save_screenshot(email + '.png')
+
+# submit
+driver.find_element_by_id('submit').submit()
+driver.implicitly_wait(10)
+time.sleep(5)
+# driver.save_screenshot(email + '.login.png')
+
+login_info = driver.find_element_by_xpath('//div[@class="fgreet"]/strong').text
+driver.quit()
+
+return login_info.strip() == email
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Peewee ABC]]></title>
@@ -55,7 +289,7 @@ db.create_tables([User])
 
 <p>```</p>
 
-<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x68;&#x65;&#x6c;&#x6c;&#111;&#64;&#119;&#111;&#x72;&#108;&#x64;&#46;&#x63;&#x6f;&#x6d;">&#104;&#x65;&#x6c;&#108;&#x6f;&#64;&#119;&#x6f;&#x72;&#108;&#100;&#46;&#99;&#x6f;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
+<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#104;&#101;&#x6c;&#108;&#111;&#64;&#119;&#111;&#x72;&#x6c;&#100;&#46;&#x63;&#x6f;&#x6d;">&#104;&#x65;&#x6c;&#x6c;&#x6f;&#64;&#x77;&#x6f;&#114;&#x6c;&#100;&#x2e;&#99;&#x6f;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
 user_record.save()</p></blockquote></blockquote></blockquote>
 
 <p>```</p>
@@ -92,6 +326,103 @@ for user in User.select().where(User.username.contains(username)):</p>
 
 <blockquote><blockquote><blockquote><p>db.close()
 ```</p></blockquote></blockquote></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python处理中文标点符号]]></title>
+    <link href="http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/"/>
+    <updated>2018-05-14T09:03:13+08:00</updated>
+    <id>http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao</id>
+    <content type="html"><![CDATA[<p>中文文本中可能出现的标点符号来源比较复杂，通过匹配等手段对他们处理的时候需要格外小心，防止遗漏。以下为在下处理中文标点的时候采用的两种方法:</p>
+
+<!-- more -->
+
+
+<h3>中文标点集合</h3>
+
+<h4>比较常见标点有这些：</h4>
+
+<p><code>
+！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.
+</code></p>
+
+<p>调用zhon包的zhon.hanzi.punctuation函数即可得到这些中文标点。</p>
+
+<p>如果想用英文的标点，则可调用string包的string.punctuation函数可得到：</p>
+
+<p><code>
+!"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~
+</code></p>
+
+<p>因此，比如需要将所有标点符号去除，可以进行以下操作：</p>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>import re
+from zhon.hanzo import punctuation
+line = &ldquo;测试。。去除标点。。&rdquo;
+print re.sub(&ldquo;[{}]+&rdquo;.format(punctuation), &ldquo;&rdquo;, line.decode(&ldquo;utf-8&rdquo;)) # 需要将str转换为unicode
+```</p></blockquote></blockquote></blockquote>
+
+<p>当然，如果想去除重复的符号而只保留一个，那么可以用\1指明：比如</p>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>re.sub(ur"([{}])+&ldquo;.format(punctuation), &rdquo;\1", line.decode(&ldquo;utf-8&rdquo;))
+```</p></blockquote></blockquote></blockquote>
+
+<p>你也可以手工指定这些标点符号</p>
+
+<p><code>
+punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+re_punctuation = "[{}]+".format(punctuation)
+line = re.sub(re_punctuation, "", line)
+</code></p>
+
+<h3>可以通过直接指定unicode码范围的办法来strip，比如:</h3>
+
+<p>去除所有半角全角符号，只留字母、数字、中文</p>
+
+<p>```
+def remove_punctuation(line):</p>
+
+<pre><code>rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+line = rule.sub('',line)
+return line
+</code></pre>
+
+<p>```</p>
+
+<p>汉字的范围为”\u4e00-\u9fa5“，这个是用Unicode表示的，所以前面必须要加”u“；字符”r“的意思是表示忽略后面的转义字符，这样简化了后面正则表达式里每遇到一个转义字符还得挨个转义的麻烦</p>
+
+<h3>最后可以组合成为一个函数</h3>
+
+<p>```
+def remove_punctuation(line, strip_all=True):</p>
+
+<pre><code>if strip_all:
+    rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+    line = rule.sub('',line)
+else:
+    punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+    re_punctuation = "[{}]+".format(punctuation)
+    line = re.sub(re_punctuation, "", line)
+
+return line.strip()
+</code></pre>
+
+<p>```</p>
+
+<h3>清洗完毕后，有时候我们希望按照多个标点符号来分割</h3>
+
+<p>比如只要遇到中文或英文的逗号和句号等符号就分割，可以直接用translate把这些符号翻译为统一的分隔符，再split:</p>
+
+<p><code>
+strip_chars = '？"。.，,《》[]〖〗“”'
+single_line = single_line.translate(str.maketrans(dict.fromkeys(strip_chars, '#')))
+single_line = single_line.split('#')
+</code></p>
 ]]></content>
   </entry>
   
