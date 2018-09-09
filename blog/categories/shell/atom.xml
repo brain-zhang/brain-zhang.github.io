@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Shell | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/shell/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2018-09-09T22:01:06+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="http://happy123.me/blog/categories/shell/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2018-09-10T06:09:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Xargs Separate Parameters]]></title>
-    <link href="https://happy123.me/blog/2015/05/06/how-to-xargs-separate-parameters/"/>
+    <link href="http://happy123.me/blog/2015/05/06/how-to-xargs-separate-parameters/"/>
     <updated>2015-05-06T08:06:52+08:00</updated>
-    <id>https://happy123.me/blog/2015/05/06/how-to-xargs-separate-parameters</id>
+    <id>http://happy123.me/blog/2015/05/06/how-to-xargs-separate-parameters</id>
     <content type="html"><![CDATA[<p>做过很多遍了，每次还是得现查，记一下:</p>
 
 <pre><code>echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]

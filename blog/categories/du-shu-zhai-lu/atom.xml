@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: 读书摘录 | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/du-shu-zhai-lu/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2018-09-09T22:01:06+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="http://happy123.me/blog/categories/du-shu-zhai-lu/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2018-09-10T06:09:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[用TCP/IP进行网际互连 (笔记)]]></title>
-    <link href="https://happy123.me/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/"/>
+    <link href="http://happy123.me/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/"/>
     <updated>2014-11-05T08:19:18+08:00</updated>
-    <id>https://happy123.me/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji</id>
+    <id>http://happy123.me/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji</id>
     <content type="html"><![CDATA[<p>还是要补习基础知识啊。</p>
 
 <p>譬如TCP的状态机转换，我每次都得花很长很长的时间才能反应过来什么时候会进入TIME_WAIT,CLOSE_WAIT&hellip;.</p>
@@ -109,9 +109,9 @@
   
   <entry>
     <title type="html"><![CDATA[双梦记]]></title>
-    <link href="https://happy123.me/blog/2014/02/22/shuang-meng-ji/"/>
+    <link href="http://happy123.me/blog/2014/02/22/shuang-meng-ji/"/>
     <updated>2014-02-22T16:45:16+08:00</updated>
-    <id>https://happy123.me/blog/2014/02/22/shuang-meng-ji</id>
+    <id>http://happy123.me/blog/2014/02/22/shuang-meng-ji</id>
     <content type="html"><![CDATA[<p>阿拉伯历史学家艾尔一伊萨基叙说了下面的故事：</p>
 
 <p>“据可靠人士说（不过唯有真主才是无所不知、无所不能、慈悲为怀、明察秋毫的），开罗有个家资巨万的人，他仗义疏财，散尽家产，只剩下祖传的房屋，不得不干活糊口。他工作十分辛苦，一晚累得在他园子里的无花果树下睡着了，他梦见一个衣服湿透的人从嘴里掏出一枚金币，对他说：‘你的好运在波斯的伊斯法罕；去找吧。’他第二天清晨醒来后便踏上漫长的旅程，经受了沙漠、海洋、海盗、偶像崇拜者、河流、猛兽和人的磨难艰险。他终于到达伊斯法罕，刚进城天色已晚，便在一座清真寺的天井里躺着过夜。清真寺旁边有一家民宅，由于万能的神的安排，一伙强盗借道清真寺，闯进民宅，睡梦中的人被强盗的喧闹吵醒，高声呼救。邻舍也呼喊起来，该区巡夜士兵的队长赶来，强盗们便翻过屋顶逃跑。队长吩咐搜查寺院，发现了从开罗来的人，士兵们用竹杖把他打得死去活来。两天后，他在监狱里苏醒。队长把他提去审问：‘你是谁，从哪里来？’那人回道：‘我来自有名的城市开罗，我名叫穆罕默德一艾尔一马格莱比。’队长追问：‘你来波斯干什么？’那人如实说：‘有个人托梦给我，叫我来伊斯法罕，说我的好运在这里。如今我到了伊斯法罕，发现答应我的好运却是你劈头盖脸给我的一顿好打。’</p>

@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: https://happy123.me/sitemap.xml 
+Sitemap: http://happy123.me/sitemap.xml 

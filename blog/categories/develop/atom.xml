@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2018-09-09T22:01:06+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="http://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
+  <link href="http://happy123.me/"/>
+  <updated>2018-09-10T06:09:13+08:00</updated>
+  <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[从WebAssembly说开去]]></title>
-    <link href="https://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu/"/>
+    <link href="http://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu/"/>
     <updated>2018-08-25T11:14:39+08:00</updated>
-    <id>https://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu</id>
+    <id>http://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu</id>
     <content type="html"><![CDATA[<p>科技界历史循环，轨迹无法量化预测。</p>
 
 <p>前几天看到bellard都在浏览器里面用WebAssembly跑虚拟机了，点进去试试，竟然模拟Win2000都有模有样了。</p>
@@ -65,9 +65,9 @@
   
   <entry>
     <title type="html"><![CDATA[非烫即屯]]></title>
-    <link href="https://happy123.me/blog/2018/08/25/fei-tang-ji-tun/"/>
+    <link href="http://happy123.me/blog/2018/08/25/fei-tang-ji-tun/"/>
     <updated>2018-08-25T09:34:43+08:00</updated>
-    <id>https://happy123.me/blog/2018/08/25/fei-tang-ji-tun</id>
+    <id>http://happy123.me/blog/2018/08/25/fei-tang-ji-tun</id>
     <content type="html"><![CDATA[<p>好久没有打开过VC++了，今天为了修改一个远古控件打开了久违的VC++，DEBUG模式下又看到了久违的"烫烫烫烫烫"~~~~</p>
 
 <!-- more -->
@@ -87,9 +87,9 @@
   
   <entry>
     <title type="html"><![CDATA[Crawler ABC]]></title>
-    <link href="https://happy123.me/blog/2018/07/04/crawler-abc/"/>
+    <link href="http://happy123.me/blog/2018/07/04/crawler-abc/"/>
     <updated>2018-07-04T19:04:58+08:00</updated>
-    <id>https://happy123.me/blog/2018/07/04/crawler-abc</id>
+    <id>http://happy123.me/blog/2018/07/04/crawler-abc</id>
     <content type="html"><![CDATA[<p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
 
 <!-- more -->
@@ -249,9 +249,9 @@ return login_info.strip() == email
   
   <entry>
     <title type="html"><![CDATA[Peewee ABC]]></title>
-    <link href="https://happy123.me/blog/2018/07/03/peewee-abc/"/>
+    <link href="http://happy123.me/blog/2018/07/03/peewee-abc/"/>
     <updated>2018-07-03T11:10:09+08:00</updated>
-    <id>https://happy123.me/blog/2018/07/03/peewee-abc</id>
+    <id>http://happy123.me/blog/2018/07/03/peewee-abc</id>
     <content type="html"><![CDATA[<p>在我用了又一个小时的时间去温习sqlchemy丰富的文档后，我放弃治疗了。</p>
 
 <p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
@@ -289,7 +289,7 @@ db.create_tables([User])
 
 <p>```</p>
 
-<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x68;&#101;&#x6c;&#108;&#111;&#64;&#x77;&#x6f;&#114;&#108;&#x64;&#46;&#99;&#x6f;&#109;">&#x68;&#101;&#108;&#108;&#111;&#64;&#x77;&#x6f;&#114;&#108;&#100;&#46;&#99;&#x6f;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
+<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#104;&#101;&#108;&#x6c;&#111;&#x40;&#x77;&#111;&#114;&#108;&#100;&#46;&#x63;&#x6f;&#x6d;">&#x68;&#101;&#x6c;&#108;&#111;&#x40;&#119;&#x6f;&#x72;&#108;&#100;&#x2e;&#99;&#x6f;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
 user_record.save()</p></blockquote></blockquote></blockquote>
 
 <p>```</p>
@@ -331,9 +331,9 @@ for user in User.select().where(User.username.contains(username)):</p>
   
   <entry>
     <title type="html"><![CDATA[Python处理中文标点符号]]></title>
-    <link href="https://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/"/>
+    <link href="http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/"/>
     <updated>2018-05-14T09:03:13+08:00</updated>
-    <id>https://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao</id>
+    <id>http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao</id>
     <content type="html"><![CDATA[<p>中文文本中可能出现的标点符号来源比较复杂，通过匹配等手段对他们处理的时候需要格外小心，防止遗漏。以下为在下处理中文标点的时候采用的两种方法:</p>
 
 <!-- more -->
