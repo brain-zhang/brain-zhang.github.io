@@ -581,8 +581,14 @@
         <lastmod>2018-09-09T13:05:23+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/
+        </loc>
+        <lastmod>2018-09-09T15:13:34+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://happy123.me/blog/archives/</loc>
-        <lastmod>2018-09-09T14:18:25+08:00</lastmod>
+        <lastmod>2018-09-09T15:13:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://happy123.me/about/</loc>
@@ -594,7 +600,7 @@
     </url>
     <url>
         <loc>http://happy123.me/</loc>
-        <lastmod>2018-09-09T14:18:25+08:00</lastmod>
+        <lastmod>2018-09-09T15:13:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://happy123.me/robots.txt</loc>

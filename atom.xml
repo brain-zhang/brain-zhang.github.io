@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-09T14:18:58+08:00</updated>
+  <updated>2018-09-09T15:13:55+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为什么不用MAC地址来定位机器]]></title>
+    <link href="http://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/"/>
+    <updated>2018-09-09T15:09:42+08:00</updated>
+    <id>http://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi</id>
+    <content type="html"><![CDATA[<p>在知乎看到了这个问题，MAC地址48Bit, IP地址32Bit，完全可以用MAC划分出一个段来作为IP的映射，活着干脆不用IP了，有啥不可以呢？</p>
+
+<p>我觉得问题挺有意思的。我推测了一下。</p>
+
+<p>这纯粹是一个历史演变：</p>
+
+<p>10Base 以太网[Ethernet Version 2（EV2）] 是由施乐公司出去的人发明的，后来以太网被市场承认了就纳入IEEE802标准，这是20世纪80年代的事情，那个时候就已经定义MAC地址了。</p>
+
+<p>TCP/IP虽然最初是在1983年提出的，但是发展还是在1990年之后；另外TCP/IP也不是一个协议，而是一组协议簇，像ARP之类的和MAC地址相关的协议，很明显的，是在已有的硬件基础上开发的。</p>
+
+<p>所以结论很明显，在早期只有局域网的时代，诞生了MAC地址这种硬件地址规定；后来联网机器越来越多，TCP/IP 成为主流联网协议，但是它的年龄和MAC地址是差不多的，也不可能再重新搞，为了适配现有的局域网模式，开发了ARP等协议；</p>
+
+<p>计算机很多问题都是工程问题、商业问题，并不是技术完美就通吃天下，很多东西都是历史积淀、为了兼容现有系统而发展出来的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[真的存在独立随机事件吗]]></title>
@@ -2487,51 +2508,6 @@ sneks  | 50%            | 10%    | 20%          | 20%
 <p><a href="http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html">http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html</a></p>
 
 <p>我的博客即将搬运同步至腾讯云+社区，邀请大家一同入驻：<a href="https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t">https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Sort a Very Very Very Big File]]></title>
-    <link href="http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/"/>
-    <updated>2018-05-03T07:21:50+08:00</updated>
-    <id>http://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file</id>
-    <content type="html"><![CDATA[<p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
-
-<p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
-
-<p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
-
-<p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割手动外排搞定~~</p>
-
-<h3>把大象装进冰箱分为几步？</h3>
-
-<h3>三步:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>split -l 1000000000 huge-file small-chunk
-</span><span class='line'>
-</span><span class='line'>for X in small-chunk*; do sort -u &lt; $X &gt; sorted-$X; done
-</span><span class='line'>
-</span><span class='line'>sort -u -m sorted-small-chunk* &gt; sorted-huge-file && rm -rf small-chunk* sorted-small-chunk*</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>小TIPS:</h3>
-
-<p>如果只要去重不要排序的话，尽量不要用 sort -u或者sort | uniq，这个是nLog(n)的效率，让人捉急。</p>
-
-<p>可以利用awk的数组是内存hash表的特性，直接awk来做，前提是你内存够大，瞎估估需要十倍于数据的内存吧:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>PS:</h3>
-
-<p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
 ]]></content>
   </entry>
   

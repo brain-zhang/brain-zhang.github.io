@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Network | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/network/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-09T14:18:58+08:00</updated>
+  <updated>2018-09-09T15:13:55+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为什么不用MAC地址来定位机器]]></title>
+    <link href="http://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/"/>
+    <updated>2018-09-09T15:09:42+08:00</updated>
+    <id>http://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi</id>
+    <content type="html"><![CDATA[<p>在知乎看到了这个问题，MAC地址48Bit, IP地址32Bit，完全可以用MAC划分出一个段来作为IP的映射，活着干脆不用IP了，有啥不可以呢？</p>
+
+<p>我觉得问题挺有意思的。我推测了一下。</p>
+
+<p>这纯粹是一个历史演变：</p>
+
+<p>10Base 以太网[Ethernet Version 2（EV2）] 是由施乐公司出去的人发明的，后来以太网被市场承认了就纳入IEEE802标准，这是20世纪80年代的事情，那个时候就已经定义MAC地址了。</p>
+
+<p>TCP/IP虽然最初是在1983年提出的，但是发展还是在1990年之后；另外TCP/IP也不是一个协议，而是一组协议簇，像ARP之类的和MAC地址相关的协议，很明显的，是在已有的硬件基础上开发的。</p>
+
+<p>所以结论很明显，在早期只有局域网的时代，诞生了MAC地址这种硬件地址规定；后来联网机器越来越多，TCP/IP 成为主流联网协议，但是它的年龄和MAC地址是差不多的，也不可能再重新搞，为了适配现有的局域网模式，开发了ARP等协议；</p>
+
+<p>计算机很多问题都是工程问题、商业问题，并不是技术完美就通吃天下，很多东西都是历史积淀、为了兼容现有系统而发展出来的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[再谈以太网帧格式]]></title>
@@ -383,76 +404,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <p><a href="https://zh.wikipedia.org/wiki/IEEE_802.1ad">https://zh.wikipedia.org/wiki/IEEE_802.1ad</a></p>
 
 <p><a href="https://en.wikipedia.org/wiki/Ethernet_frame">https://en.wikipedia.org/wiki/Ethernet_frame</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux多网卡多路由设置]]></title>
-    <link href="http://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/"/>
-    <updated>2014-12-30T09:40:53+08:00</updated>
-    <id>http://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi</id>
-    <content type="html"><![CDATA[<p>折腾了半天，原始出处不知道了，转记一下。</p>
-
-<p>比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此</p>
-
-<ul>
-<li><p>eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254</p></li>
-<li><p>eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254</p></li>
-<li><p>eth2是教育网，ip地址为3.3.3.3/24，教育网网关为3.3.3.254</p></li>
-</ul>
-
-
-<p>传统情况下，如果是为了从内向外访问获得更好的速度，让访问电信走电信，访问网通走网通，那么配置是网关只能够配置一个。</p>
-
-<p>比如以电信为主的，那么网关就只设置电信的1.1.1.254，而针对网通和教育网设置不同的路由，路由下一跳指向网通和教育网对应的 网关。</p>
-
-<p>如果这样做的目的只是实现内部访问外面，那么是没问题了，但是如果是为了让外面的用户能够正常访问到服务器上的服务就会出问题。比如电信用户会无法访问网通和教育网的ip，网通用户会无法访问电信和教育网的ip。</p>
-
-<p>要解决这个问题，思路就是由哪个网口进来的流量希望全部就由哪个回去。用lartc里面提到的方法就是来源的口不同，走不同的路由表。在默认的路由表基础上再建立三个路由表。</p>
-
-<p>用 ip route show 可以看到默认有local,main,default三个路由表，这三个路由表的名称命名来自 /etc/iproute2/rt_tables ，这里先在这个配置文件里面添加三个不同的路由表表名，</p>
-
-<p><code>
-echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
-echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
-echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables
-</code></p>
-
-<p>之后建立这三个路由表的内容，因为这三个路由表的只是用来响应来自不同接口的，而不是用来相应从哪个接口出去的，所以只需要每个路由表里面建立默认网关即可。</p>
-
-<p><code>
-ip route add default via 1.1.1.254 dev eth0 table ChinaNet
-ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
-</code></p>
-
-<p>之后再加上三条规则，使来自不同的口的走不同的路由表</p>
-
-<p><code>
-ip rule add from 1.1.1.1 table ChinaNet
-ip rule add from 2.2.2.2 table ChinaCnc
-ip rule add from 3.3.3.3 table ChinaEdu
-</code></p>
-
-<p>至此无论是电信还是网通还是教育网用户，访问三个ip的任意一个地址都能够连通了。即便是服务器上本身的默认路由都没有设置，也能够让外面的用户正常访问。</p>
-
-<p>命令汇总：</p>
-
-<p>```
-ip route show</p>
-
-<p>echo “101 ChinaNet” >> /etc/iproute2/rt_tables
-echo ”102 ChinaCnc“ >> /etc/iproute2/rt_tables
-echo ”103 ChinaEdu“ >> /etc/iproute2/rt_tables // 这里也可以直接通过Vi编辑</p>
-
-<p>ip route add default via 1.1.1.254 dev eth0 table ChinaNet
-ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-ip route add default via 3.3.3.254 dev eth2 table ChinaEdu</p>
-
-<p>ip rule add from 1.1.1.1 table ChinaNet
-ip rule add from 2.2.2.2 table ChinaCnc
-ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程
-```</p>
 ]]></content>
   </entry>
   
