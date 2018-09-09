@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-09T10:18:22+08:00</updated>
+  <updated>2018-09-09T12:42:50+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,90 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[真的存在独立随机事件吗]]></title>
+    <link href="http://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma/"/>
+    <updated>2018-09-09T10:29:21+08:00</updated>
+    <id>http://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma</id>
+    <content type="html"><![CDATA[<p>比特币的block hash value一般被认为是一个真随机值，也被各种dice机制用来做seed.</p>
+
+<p>但是我老是在想：世界上存在真正的随机吗？或者再进一步，存在真正的<code>随机+独立</code>事件吗？</p>
+
+<!-- more -->
+
+
+<p>比如大刘的小说《镜子》就幻想了一种计算模型，从宇宙大爆炸那一刻开始，设定初始条件的组合再穷举，总能得到一个宇宙状态，这个宇宙就是我们现在所处的宇宙，你就能预测所有古往今来从诞生到毁灭的一切了；照这个道道来看，如果有一天能拥有无尽的算力，模拟预测亿万的宇宙都是可以的。</p>
+
+<p>但是<code>无限</code>这个东西实在是个逻辑上的概念，物理世界里面存在<code>无限</code>吗？又是一个挠头的问题。</p>
+
+<p>简而言之，因为物理世界种尚未发现这样一种东西，它的存在时间无限，计算能力无限，所以才会有<code>独立随机</code>这种概念。</p>
+
+<p>所以我觉得概率这种东西是物理学上的东东，反而不能从数学上来认知。因为它的存在根本是无法证伪的。</p>
+
+<p>正如相对论出世之前，牛顿三定律就能很好解释地球范围内的极大多数现象了；人们由于<code>时间+算力</code>的限制，只能从统计学上承认<code>独立随机事件</code>的存在，而无法在数学上去证明。</p>
+
+<p>瞎扯这么多，主要是我想起来几年前做过的两件消遣事：</p>
+
+<h4>抛硬币真的事一个随机事件吗？</h4>
+
+<p>嗨嗨，我就是这么无聊。我确实拿着一个2005年的1元硬币抛了上万次，研究抛硬币这个东西是不是真的是个随机事件。说到这里我都佩服自己了:真的是傻逼到一定境界的人。</p>
+
+<p>结论其实很无聊，其实抛个几百次就很容易看出来，至少在一个海拔水平面上，在一个刚性物体上面抛2005年铸造的1元硬币，不是随机事件，某一面向上的机率明显更大。而且与你抛硬币的方法有很大关系。</p>
+
+<ul>
+<li><p>2005年版的1元硬币如果立起来，重心并不是平均的，一面字、一面花，中心肯定会偏向比较重的那一面；这样的话，如果你把硬币立起来，用水平旋转的方法抛硬币，肯定会有一面的概率压倒性的大</p></li>
+<li><p>如果是力量比较平均的人，抛个一万次并不会对身体造成太大负荷，结合硬币的重心不平均，这就造成了抛上去掉下来的抛法肯定也是有一面向上的概率大</p></li>
+</ul>
+
+
+<p>这个是经过实证的，至少我可以保证，在某地、我的某个状态下，抛某个硬币，我去赌博，是很容易下注的，我知道哪面向上的概率大。</p>
+
+<p>所以一定要小心下次跟你赌抛硬币的人，他的硬币有可能做了手脚，或者他练习过手法，或者他知道这一版硬币的重心在何方。</p>
+
+<p>当然，你也可以反对，说我抛硬币概率巴拉巴拉，或者说一万次样本太小巴拉巴拉，或者说你一个人抛样本太小巴拉巴拉~~，总之就是基于统计学的实验无法证伪。</p>
+
+<p>再说说我的实验B</p>
+
+<h4>存在完全随机的数字吗？</h4>
+
+<p>大家普遍承认计算机产生的随机数是个伪随机数。为了解决这个问题，死宅们研究出了:</p>
+
+<p><a href="https://www.random.org/">https://www.random.org/</a></p>
+
+<p>这种接口，利用大气随机噪音来生成随机数；当然有很多人更相信量子态的随机，用量子发生器来产生随机数等等等等；</p>
+
+<p>这些方法共同的问题还是无法证伪，谁能保证你是真随机呢？</p>
+
+<p>幸好有 <a href="https://primedice.com/">https://primedice.com/</a> 这样的赌博网站，好吧，我羞耻的承认，我在它上面玩了上千万盘，当然是模拟盘。</p>
+
+<p>因为这个网站是投入真金白银的BTC，并且基于各个用户的计算机产生随机数的，0.01的误差重复1000次也足以让你归零；从它成立至今还欣欣向荣的发展势头来看，它的随机数之随机，绝对要比一些嘴炮科学家来的靠谱；毕竟，你不随机，早就倒闭了。</p>
+
+<p>让我作为一个赌了上千万盘的资深玩家告诉大家，用最简单的赌徒谬误方法：<code>赌大小，输了加倍赌</code>，这种办法取得的最好成绩是连续54胜(如果我没记错的话)，因为它提供的模拟盘最大资金量有限制，这就是极限了。我毫不怀疑如果投注的次数足够多，可以出现连续百胜千胜的机率也是有的。当然，你赢了也没有一点用，只要不收手，总会归零，赌徒谬误在绝对随机的情况下是百分百归零的，这个在数学上很容易证明。</p>
+
+<p>同理可以推想，难道巴菲特不是特别幸运的，连赢1000次的那个人吗？</p>
+
+<p>这个还是无法证伪。</p>
+
+<p>赌徒谬误在primedice上面完全失败，恰恰说明相对于彩票的胜率，primedice的胜率明显更为公平。所以我毫不怀疑区块链技术将长期服务于投机赌博行业。在<code>是否存在完全的独立随机事件</code>这个问题无法证伪的前提下，区块链博彩纯粹是数学问题。</p>
+
+<p>我对于primedice的感激，在于它真正提供了一个让你随机测试各种谬误策略的地方，当然所有的策略都是永动机，科学上都没啥依据，仅仅有娱乐价值。</p>
+
+<h4>悲剧的是理性的赌徒从来很少</h4>
+
+<p>如果一个人是完全理性的，那他永远都不会去赌。他会调查出门交通安全度，吃东西注重科学养生，然后不抽烟喝酒 ~~~，然而并没有什么卵用；</p>
+
+<ul>
+<li><p>我爷爷抽烟喝酒，天天管闲事，活了九十九</p></li>
+<li><p>我注重养生、天天锻炼，从来不管闲事，被911飞机砸死了</p></li>
+</ul>
+
+
+<p>一个赌博的场子需要传奇，疯子，人们厌倦一潭死水；这就是随机、投资、婚姻、生活等等一切人生轨迹的现实投射。</p>
+
+<p>数学角度上来看，活着就是瞎折腾。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[读<价值平均策略>随想]]></title>
@@ -241,9 +325,9 @@
 
 <p>然后来创造一个和立方体A价格相同的立方体B。为此，我们要买下美国所有的耕地（4亿英亩，年产值2000亿美元），以及16家埃克森美孚公司（全球利润最高的公司，年利润超过400亿美元）。买下这些以后，我们还有1万亿美元可以用来零花。你能想象到，一个9.6万亿美元在手的投资者会选立方体A还是立方体B？</p>
 
-<p>我自己最青睐的——你知道，就要讲到了——是我们的第三类资产：投资于有生产力的资产，无论是企业、农场，还是房地产。在理想的情况下，这些资产应该能在通胀时期让产出保持自身的购买力价值，同时只需要尽可能最少的新增资本投入。农场、房地产和可口可乐、IBM这样的很多企业，以及我们自己的See&rsquo;s  Candy（译注：逾90年历史的美国老牌糖果与巧克力食品公司）都能满足这双重考验。其他特定的公司——比如我们那些受管制的公共事业公司——都不能通过上述考验，因为它们在通胀的环境下需要大量资本。为了增加收益，它们的所有者必须增加投资。即便如此，第三类投资也仍会超越毫无生产力和以货币为基础的资产</p>
+<p>我自己最青睐的——你知道，就要讲到了——是我们的第三类资产：投资于有生产力的资产，无论是企业、农场，还是房地产。在理想的情况下，这些资产应该能在通胀时期让产出保持自身的购买力价值，同时只需要尽可能最少的新增资本投入。农场、房地产和可口可乐、IBM这样的很多企业，以及我们自己的See&rsquo;s  Candy（译注：逾90年历史的美国老牌糖果与巧克力食品公司）都能满足这双重考验。其他特定的公司——比如我们那些受管制的公共事业公司——都不能通过上述考验，因为它们在通胀的环境下需要大量资本。为了增加收益，它们的所有者必须增加投资。即便如此，第三类投资也仍会超越毫无生产力和以货币为基础的资产</p></blockquote>
 
-<p>这段话毫无疑问的说明了，巴菲特将黄金、钻石或者诸如此类的数字货币都看成是郁金香的一种而已</p></blockquote>
+<p>这段话毫无疑问的说明了，巴菲特将黄金、钻石或者诸如此类的数字货币都看成是郁金香的一种而已</p>
 
 <p>其实挺好玩的，一个靠交易积累财富的人，最看重的是生产。</p>
 
@@ -2438,48 +2522,6 @@ sneks  | 50%            | 10%    | 20%          | 20%
 <h3>PS:</h3>
 
 <p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Get Intersection of Two Big Files]]></title>
-    <link href="http://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files/"/>
-    <updated>2018-05-01T22:18:33+08:00</updated>
-    <id>http://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files</id>
-    <content type="html"><![CDATA[<p>两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。</p>
-
-<p>用sort+uniq直接搞定:</p>
-
-<h2>交集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt | sort | uniq -d</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>并集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat a.txt b.txt | sort | uniq</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>差集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt bb.txt | sort | uniq -u</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
-</ul>
-
 ]]></content>
   </entry>
   
