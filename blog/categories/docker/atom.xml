@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Docker | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/docker/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-10T06:09:13+08:00</updated>
+  <updated>2018-09-10T12:16:42+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,116 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Running Many Containers Requires Bumping Up Inotify Limits]]></title>
+    <link href="http://happy123.me/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits/"/>
+    <updated>2016-05-11T15:11:19+08:00</updated>
+    <id>http://happy123.me/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits</id>
+    <content type="html"><![CDATA[<p>when we see <code>Too many open files - failed to inotify_init</code>, we could either bump up the limit automatically, or tell the user.</p>
+
+<p>just exec:</p>
+
+<pre><code>sysctl -w fs.file-max=64000
+sysctl -w fs.inotify.max_user_instances=8192
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Multiline Comments in Docker File]]></title>
+    <link href="http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file/"/>
+    <updated>2015-04-10T09:07:36+08:00</updated>
+    <id>http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file</id>
+    <content type="html"><![CDATA[<p>为了减少Image的fs layout数目，Dockerfile中经常会把多个命令集中到一个 <code>RUN</code> 指令下。</p>
+
+<p>多行之后可读性就很差了。</p>
+
+<p>有个比较偏门的写注释的方法:</p>
+
+<p>```
+RUN mkdir -p /home/build/npm3 &amp;&amp; \</p>
+
+<pre><code>mkdir -p /home/build/smartprobe &amp;&amp; \
+mkdir -p /home/build/bpc3 &amp;&amp; \
+`#====================================================` \
+`#=============checkout and install rpms==============` \
+svn export xxx &amp;&amp; \
+rpm -ivh --force --nodeps *.rpm &amp;&amp; \
+`#====================================================` \
+`#=============checkout and install python==============` \
+... &amp;&amp; \
+</code></pre>
+
+<p>```</p>
+
+<p>比较实用，推荐之。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Different Users in Same Unix Group Can Not Run Mongod]]></title>
+    <link href="http://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/"/>
+    <updated>2015-04-10T08:44:42+08:00</updated>
+    <id>http://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod</id>
+    <content type="html"><![CDATA[<p>事情的缘起是这样的&hellip;&hellip;.</p>
+
+<p>想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到)</p>
+
+<p>Docker build不支持 &mdash;privileged，所以默认的/etc/init.d/mongod  这个脚本中的</p>
+
+<p><code>
+runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'
+</code></p>
+
+<p>这种写法就死翘翘了。</p>
+
+<p>github上有这个Issue:</p>
+
+<p><a href="https://github.com/docker/docker/issues/1916">https://github.com/docker/docker/issues/1916</a></p>
+
+<p>大家讨论了1年多，对于怎么解决，还是没有个所以然。(话说要再吐槽一下github的issue了，一般大一点的项目，一个issue跨度以年来论，长篇大论读完也不容易呀)</p>
+
+<p>最后只好在Dockerfile中这么搞:</p>
+
+<p>```</p>
+
+<pre><code>mongod --fork -f /etc/mongod.conf &amp;&amp; \
+mongod --shutdown -f /etc/mongod.conf &amp;&amp; \
+chown mongod:mongod /opt/lib/mongodbpath -R
+</code></pre>
+
+<p>```</p>
+
+<p>这样build就顺利完成了。</p>
+
+<p>可是启动这个image为container后，执行:</p>
+
+<p><code>
+/etc/init.d/mongod start
+</code></p>
+
+<p>报错:</p>
+
+<p><code>
+ [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted
+</code></p>
+
+<p>虾米，明明已经加了mongod的group了。而且errorno是1，不是 <code>"errno:13 Permission denied"</code>，有点奇怪。</p>
+
+<p>问题在这里:</p>
+
+<p><a href="https://jira.mongodb.org/browse/SERVER-7583">https://jira.mongodb.org/browse/SERVER-7583</a></p>
+
+<p>要再加一个指令:</p>
+
+<p><code>
+setcap cap_fowner+ep /usr/bin/mongod
+</code></p>
+
+<p>就是这么折腾。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Docker中的网络]]></title>
@@ -115,6 +225,96 @@ ip addr add 10.12.0.117/21 dev em1</p>
 
 
 <p><a href="https://github.com/docker/docker/issues/8951">https://github.com/docker/docker/issues/8951</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Docker Cheat Sheet]]></title>
+    <link href="http://happy123.me/blog/2014/09/18/docker-cheat-sheet/"/>
+    <updated>2014-09-18T09:09:52+08:00</updated>
+    <id>http://happy123.me/blog/2014/09/18/docker-cheat-sheet</id>
+    <content type="html"><![CDATA[<h1>container相关</h1>
+
+<p><code>
+$ docker run -it xxx /bin/bash                                      // 启动一个container
+$ docker rm -f xxx                                                  // 结束一个container，加-f表示删除掉，这样比较干净
+$ docker run -it --add-host host:ip xxx /bin/bash                   // 启动一个container,增加/etc/hosts设定
+$ docker run -d -p 127.0.0.1:5000:5000 webapp python app.py         // 启动一个container,映射本地的5000端口
+</code></p>
+
+<h1>image 相关</h1>
+
+<p>```
+$ docker rmi -f xxx                                                 // 删除一个image，以下情况下不能删除:</p>
+
+<pre><code>                                                                // * 有其他image依赖于这个image
+                                                                // * 有已创建的container依赖于这个image
+                                                                // build的过程会出现很多&lt;none&gt;的临时image，最好不要去手工清除
+</code></pre>
+
+<p>$ docker build tag Dockerfile_dir                                   // build一个image
+```</p>
+
+<h1>docker service 相关</h1>
+
+<h2>配置文件位置</h2>
+
+<ul>
+<li><p>ubuntu: /etc/default/docker</p></li>
+<li><p>centos: /etc/sysconfig/docker</p></li>
+</ul>
+
+
+<h3>配置参数</h3>
+
+<pre><code>DOCKER_OPTS
+</code></pre>
+
+<h4>增加docker 仓库验证</h4>
+
+<pre><code>--insecure-registry own-docker.com
+</code></pre>
+
+<h4>设置storage backend</h4>
+
+<pre><code>-s overlay
+</code></pre>
+
+<p>使用overlay极大提升性能和稳定性，建议开启。但是有两个问题:</p>
+
+<ul>
+<li><p>编译centos镜像时，调用yum会报checksum错误，所以基本上不能在overlay上面构建redhat系的镜像</p></li>
+<li><p>不支持 <code>inotify_add_watch</code> 调用，<code>tail -f</code> 类的命令会有问题，具体见:<a href="https://github.com/docker/docker/issues/11705">https://github.com/docker/docker/issues/11705</a></p></li>
+</ul>
+
+
+<h1>相关工具:</h1>
+
+<h4>docker镜像瘦身工具</h4>
+
+<p><a href="https://github.com/jwilder/docker-squash">https://github.com/jwilder/docker-squash</a></p>
+
+<h4>nsenter, docker inspect的增强版</h4>
+
+<p><a href="https://github.com/jpetazzo/nsenter">https://github.com/jpetazzo/nsenter</a></p>
+
+<h4>dockerfly，自己写的一个构建工具</h4>
+
+<p><a href="https://github.com/memoryboxes/dockerfly">https://github.com/memoryboxes/dockerfly</a></p>
+
+<h4>shipyard，还算是比较靠谱的监控工具</h4>
+
+<p><a href="https://github.com/shipyard/shipyard">https://github.com/shipyard/shipyard</a></p>
+
+<h1>一些坑:</h1>
+
+<ul>
+<li>centos 在4.0.0-1.el6.elrepo.x86_64内核下，启动xfs+overlay，删除文件夹会有问题</li>
+<li>overlay下，tail命令会有问题</li>
+<li>overlay下，docker build，yum的checksum会有问题</li>
+<li>devicemapper效率巨慢无比，不要用</li>
+</ul>
+
 ]]></content>
   </entry>
   
