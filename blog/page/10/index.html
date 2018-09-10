@@ -80,6 +80,74 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/07/crontab-eight-comm/">Crontab Eight Comm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-07T18:11:11+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/08/07/crontab-eight-comm/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2015/08/07/crontab-eight-comm/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>网上收集，多次踩坑，立此存照</p>
+
+<h2>crontab八诫</h2>
+
+<ul>
+<li><p>不要假定cron知道所需要的特殊环境，它其实并不知道。所以你要保证在shelll脚本中提供所有必要的路径和环境变量，除了一些自动设置的全局变量。所以注意如下2点：</p>
+
+<ul>
+<li>脚本中涉及文件路径时写全局路径；</li>
+<li><p>脚本执行要用到java或其他环境变量时，通过source命令引入环境变量，如：</p>
+
+<pre><code>  #!/bin/sh
+  source /etc/profile
+  export RUN_CONF=/home/xxxx/boss.conf
+  /usr/local/jboss-4.0.5/bin/run.sh -c mev &amp;
+</code></pre></li>
+</ul>
+</li>
+<li><p>当手动执行脚本OK，但是crontab死活不执行时。这时必须大胆怀疑是环境变量惹的祸，并可以尝试在crontab中直接引入环境变量解决问题。如：</p>
+
+<pre><code>  0 * * * * . /etc/profile;/bin/sh /var/www/java/audit_no_count/bin/restart_audit.sh
+</code></pre></li>
+<li><p>新创建的cron job，不会马上执行，至少要过2分钟才执行。如果重启cron则马上执行。</p></li>
+<li><p>每条 JOB 执行完毕之后，系统会自动将输出发送邮件给当前系统用户。日积月累，非常的多，甚至会撑爆整个系统。所以每条 JOB 命令后面进行重定向处理是非常必要的: <code>&gt;/dev/null 2&gt;&amp;1</code>, 前提是对 Job 中的命令需要正常输出已经作了一定的处理, 比如追加到某个特定日志文件。</p></li>
+<li><p>当crontab突然失效时，可以尝试<code>/etc/init.d/crond restart</code>解决问题。或者查看日志看某个job有没有执行/报错 <code>tail -f /var/log/cron</code>。</p></li>
+<li><p>千万别乱运行 <code>crontab -r</code>。它从Crontab目录（/var/spool/cron）中删除用户的Crontab文件。删除了该用户的所有crontab都没了。</p></li>
+<li><p>在crontab中%是有特殊含义的，表示换行的意思。如果要用的话必须进行转义 <code>\%</code>，如经常用的<code>date '+%Y%m%d'</code>在crontab里是不会执行的，应该换成 <code>date '+\%Y\%m\%d'</code>。</p></li>
+<li><p>永远要手工验证一下crontab中的命令</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/07/zhuang-fu-wu-qi-ou-de/">装服务器偶得</a></h1>
     
     
@@ -1099,150 +1167,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/03/huarongdao/">第一个AndroidApp-华容道</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-03T08:19:39+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2015</time>
-        
-           | <a href="/blog/2015/03/03/huarongdao/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2015/03/03/huarongdao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>第一个Android APP上线，很简单的一个小游戏：智取华容道</h2>
-
-<p>GooglePlay:
-<a href="https://play.google.com/store/apps/details?id=me.happy123.aklotski">https://play.google.com/store/apps/details?id=me.happy123.aklotski</a></p>
-
-<p>百度应用下载地址:
-<a href="http://shouji.baidu.com/game/item?docid=7547918">http://shouji.baidu.com/game/item?docid=7547918</a></p>
-
-<p>小米商店下载地址:
-<a href="http://app.mi.com/detail/87656">http://app.mi.com/detail/87656</a></p>
-
-<p>老是对自己说，要不断学习，跟上时代浪潮。但是悲哀的发现，自己是跟的越来越吃力了。</p>
-
-<p>早在大连搞电视机的时候，那时候Android刚出来，就对自己说，要好好看看。无奈之后各处辗转，这事就搁下了。</p>
-
-<p>非不能也，实不为也！</p>
-
-<p>过年空出来一个周，Python党也要写Android App了。</p>
-
-<p>找了本 <code>HeadFirst Java</code> ，一天的时间扫了一遍Java的语法，写了几个小例子练练手。之后直接对着Android官方文档开干了。</p>
-
-<p>流程就是 google &ndash;> 坑 &ndash;> 继续google &hellip;.，如此循环不已&hellip;&hellip;</p>
-
-<p>用父亲打扑克的机器，开个Eclipse基本上卡半天，本着一颗折腾的心，硬是PS出来几张背景图，小游戏&lt;华容道>出炉啦。</p>
-
-<p>图片和关卡都来自于代码发芽网，作者非常大度的授权我使用，非常感谢:</p>
-
-<p><a href="http://fayaa.com/">http://fayaa.com/</a></p>
-
-<h2>开发日志:</h2>
-
-<p>很巧的，我在知乎看到了类似&#8221;如何20天零基础开发Android游戏&#8221; 的问题。大家都是对这种问题不屑一顾的，但我从开始到完成恰好十来天，可以作为参考记录一下。</p>
-
-<h4>Day1</h4>
-
-<p>确立市场方向，要做个益智类游戏，啥好呢？啥好呢？我把所有的Android的华容道下载下来玩了一遍，嗯，都很粗糙，看来有的玩，就是它了。</p>
-
-<p>这个时候，其实你已经完成一半工作了。没错，就是那句什么 <code>决定出发的时候，旅行就完成了一半</code>。 这个时候就不要纠结于做什么了，关键是如何做。</p>
-
-<h4>Day2</h4>
-
-<p>开始搭建开发环境，先后折腾了Android Studio和Eclipse，家里翻墙实在慢呀，另外我用父亲打扑克的机器跑Android Studio是在跑不动啊，最后装了Eclipse。推荐个链接，有兄弟收集了开发环境套装国内下载，你值得拥有。</p>
-
-<p><a href="http://www.cnblogs.com/bjzhanghao/archive/2012/11/14/android-platform-sdk-download-mirror.html">http://www.cnblogs.com/bjzhanghao/archive/2012/11/14/android-platform-sdk-download-mirror.html</a></p>
-
-<h4>Day3</h4>
-
-<p>开始学习Java，神马?你都不会Java还来搞Android。嗯，我也没想到，有一天我要搞Java！要搞Java啊，我对它的印象还是航空母舰啊~~~。没办法，找了本 <code>Head First Java</code> 电子书，照着书里面的例子一个个敲，没错，不论懂不懂，就一个个敲。，幸亏 <code>Head First</code> 系列专门照顾低智商读者的，像我这样的一天敲到了300多页的例子。</p>
-
-<h4>Day4</h4>
-
-<p>不知不觉就把600页的书敲完了。嗯，看来那种xx天精通xxx，也不是骗人的，现在我的状态，估计能出去忽悠一些HR了。</p>
-
-<h4>Day5</h4>
-
-<p>先不管Android，搞一个穷人版的华容道。就开始封装三个类，什么接口啊，多态啊，统统不用，就是简单继承。搞了个核心库，棋盘就用 0011 先画出来了。嗯，最后可以玩了。不过只有我一个人懂得怎么玩。 不过很有成就感啊，看来一天写个俄罗斯方块之类的不是难事啊。</p>
-
-<h4>Day6</h4>
-
-<p>这个核心库很关键啊，挂了直接影响后面的开发啊。但是我用 0011 看的很累啊。赶紧google之，看看Java怎么搞测试~~~，好，最后集成了JUnit，顺便学了学怎么在Eclipse里面跑测试，最后写了一堆测试用例，果然发现了BUG，某些棋子竟然能对角线走动，罪过罪过。</p>
-
-<h4>Day7</h4>
-
-<p>Android程序怎么搞，现在八字还没一撇呢。热情啊，就要消耗光了。</p>
-
-<p>赶紧找了本网上号称最简单的Android开发教程 <code>第一行代码</code> ，再开始对着敲。没错，我就是只会这一招。</p>
-
-<h4>Day8</h4>
-
-<p>还在敲~~~，敲不完了。不是打字慢，而是电脑一开Android 手机模拟器就陷入昏睡模式，一气之下不敲了，直接接上手机开干。</p>
-
-<h4>Day9-Day13</h4>
-
-<p>游戏逻辑早写完了，我对Android App的开发印象就是:画View。没错，就是处理各种图像拉伸，各种尺寸适配，各种布局位置，各种奇葩的手机尺寸，各种API新老接口整合。</p>
-
-<p>简单列举下中间遇到的坑:</p>
-
-<ul>
-<li><p>怎么在各种尺寸下画出一个比较漂亮的棋盘布局</p></li>
-<li><p>怎么用相对布局把几个菜单搞得整齐一点</p></li>
-<li><p>怎么PS出一个不那么生硬的背景，没错，我还同时开了Photoshop做美工，这个时候电脑已经处在超脱状态</p></li>
-<li><p>怎么在两个View直接传数据，怎么处理活动的生存周期</p></li>
-<li><p>怎么加背景音乐，怎么搞成服务，怎么能让程序退出的时候结束服务，怎么搞得好听一点，没错，这个时候我又客串DJ，研究了MP3各码率下音质和文件大小的关系，最后以专业乐评人的视角选择了一首古筝曲</p></li>
-<li><p>晕，现在为止还是只有一关呢，怎么办？我到 <code>代码发芽</code> 网上，写个Python脚本爬下来了所有关卡，同时邮件问作者申请授权</p></li>
-<li><p>到底是拖动棋子效果好呢，还是点击移动棋子效果好呢？我又化身PM，反反复复走最简单的一关， <code>十八步</code> ，最后确定还是点击效果好。没错，到目前为止，这个游戏我只玩通了三关，我的智商就是这样。最后我爸还解决了 <code>横刀立马</code> ，我怎么也不行。</p></li>
-<li><p>发现一个重大问题，原来我一直以为只有五虎上将的，一共五横五竖十个长条棋子，突然发现有一关里面出现了魏延，我晕，再调吧</p></li>
-<li><p>又发现个问题，Android的默认sqlite模块好像没说怎么把已有的数据库集成进去，怎么办，Google吧</p></li>
-</ul>
-
-
-<h4>Day14</h4>
-
-<p>到各个Android市场注册账号，提交APP，等审核，之间经历若干PS工作，这也是辛苦活啊。</p>
-
-<p>~~~~~</p>
-
-<p>就是这样，我在各种大坑小坑瞎搞之后，瞎搞出来了。。。</p>
-
-<h2>结论</h2>
-
-<ul>
-<li><p>所谓零基础xx天搞APP是可以的，但是有条件，你只是Android零基础或者Java零基础，其它编程基础还是要有的，不然期间大坑小坑肯定要浪费很多时间</p></li>
-<li><p>熟练工和初级工效率差距巨大，一天写个游戏APP不是开玩笑</p></li>
-<li><p>这样写出的APP完成度低，要加入完整的体验流程，工作量还是很大的</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/11/">&larr; Older</a>
@@ -1260,6 +1184,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/09/10/yun-ji-suan-de-dan-sheng/">云计算的诞生</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/">为什么不用MAC地址来定位机器</a>
       </li>
     
@@ -1273,10 +1201,6 @@
     
       <li class="post">
         <a href="/blog/2018/08/25/cong-webassemblyshuo-kai-qu/">从WebAssembly说开去</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/08/25/fei-tang-ji-tun/">非烫即屯</a>
       </li>
     
   </ul>
@@ -1365,7 +1289,7 @@
 <li class='category'><a href='/blog/categories/mongoexport/'>mongoexport (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>mysql (1)</a></li>
 <li class='category'><a href='/blog/categories/netcat/'>netcat (1)</a></li>
-<li class='category'><a href='/blog/categories/network/'>network (14)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (15)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (1)</a></li>
 <li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
 <li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>

@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-10T12:21:49+08:00</updated>
+  <updated>2018-09-10T15:05:57+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,140 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[云计算的诞生]]></title>
+    <link href="http://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng/"/>
+    <updated>2018-09-10T13:39:29+08:00</updated>
+    <id>http://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng</id>
+    <content type="html"><![CDATA[<p>有一个很经典的问题: java和javascript是什么关系？</p>
+
+<p>然后小伙伴们是这样回答的:</p>
+
+<!-- more -->
+
+
+<ul>
+<li><p>人民政府和为人民服务的关系</p></li>
+<li><p>对象和对象的关系&hellip;</p></li>
+<li><p>老婆和老婆饼的关系</p></li>
+<li><p>苹果和苹果手机的关系</p></li>
+<li><p>卡巴斯基和巴基斯坦的关系</p></li>
+<li><p>印度和印度尼西亚的关系</p></li>
+<li><p>黑客和博客的关系</p></li>
+<li><p>北大和北大青鸟的关系</p></li>
+<li><p>dog和hotdog的关系</p></li>
+<li><p>人民和人民大会堂的关系</p></li>
+<li><p>天真和天真热的关系</p></li>
+<li><p>梁山和梁山伯的关系</p></li>
+</ul>
+
+
+<p>&hellip;&hellip;</p>
+
+<p>怎么样，同志你是不是对他们的关系有了更深入的了解呢？</p>
+
+<p>我只能说，在计算机工程领域，话语权没有掌握在傻写代码的码农手里，他们顶多就是个苦力外包民工；真正主导一门技术发展的，是天才的营销人员，尤其是：擅长起华丽的名字的那波人。</p>
+
+<p>来来来，这只是一个引子，让我们来唠唠一个非常非常火爆的科技名词，只要这个词从你嘴里说出来，立马就能将你加成为<code>拳打比尔盖茨，脚踢苹果谷歌</code>的霸道总裁，引起台下众人的谜之膜拜。&mdash; 云计算(Cloud Compute)</p>
+
+<p>不过，这个词是怎么来的呢？</p>
+
+<h4>懵懂岁月</h4>
+
+<p>云计算和Cloud Computing这个词原本在中文和英文中，都是不存在的。Cloud Computing作为一个单词，在2006年之前在英文中并不存在。2006年前后，CloudComputing这个单词开始偶尔出现。2007年末，Cloud Computing出现的频率迅速增加。2008年初，Cloud Computing在中文中开始被翻译为“云计算”。</p>
+
+<p>有人将云计算的基本思想-共享资源，往前推到1955年。单词“人工智能”的发明者、计算机科学家John McCarthy提出了“time-sharing”理论，即不同的用户复用、分享一台计算机。那是大型主机的年代，不同用户可以通过终端使用同一台主机。到了七十年代，有了被称之为虚拟机（Virtual Machine）的东西，IBM做的。即每个VM在逻辑上拥有独立的内存、处理器，但共用同一台服务器硬件。</p>
+
+<p>而云计算的基本思-公共信息基础设施，可以追溯到上世纪六十年代。当时，在较广泛的范围讨论过computing utility。</p>
+
+<p>John McCarthy，还是上面这个科学家，说计算机应该形成一个公用基础设施-computer utility，就像电话网络那样。原话是这样：</p>
+
+<blockquote><p>&ldquo;If computers of the kind I have advocatedbecome the computers of the future, then computing may someday be organized asa public utility just as the telephone system is a public utility&hellip; Thecomputer utility could become the basis of a new and important industry.&rdquo;</p></blockquote>
+
+<p>1965年4月30日，美国电报公司Western Union发布了一篇战略计划文档，提出建立计算基础设施“computing utility“：一个全国性的信息基础设施，让订阅者便宜、高效、迅速地获取所需的信息流，以便创建商业业务和其他东西。</p>
+
+<h4>初试啼声</h4>
+
+<p>1995年，SUN公司提出了“Network Computer”，将当时的PC简化，以降低硬件成本，客户端的计算机具备很少的固化软件，其他的系统软件和应用软件从网络下载。Network Computer的软件不是机器代码，而是一种通用的中间代码(如Java bytecode)。</p>
+
+<p>Technology Review的Fechar janela认为是George Favaloro和Sean O’Sullivan最早使用cloud computing这个单词。</p>
+
+<p>1996年，那还是Netscape的年代，在康柏（Compaq Computer）的办公室里，一群技术管理者在讨论互联网业务的未来时，称之为“cloud computing”。这群人的战略颇有先见之明。他们认为，不仅所有的商业软件都会转移到网络上，而且“cloud computing”驱动的应用，比如用户文件存储在网上，也会普及。对于当时在房间里的康柏市场主管George Favaloro，和年轻的技术专家Sean O’Sullivan来说，云计算的主意将意味着与以前不同的收入。对康柏来说，这是一个每年20亿美元的生意，卖服务器给互联网服务商。</p>
+
+<p>在1997年5月，美国公司NetCentric试图将“Cloud Computinig”申请为商标，但在1999年4月放弃了，专利号75291765。NetCentric当时准备用这个商标来进行教育服务，比如课程和研讨会。NetCentric当时正在与康柏进行一个商业计划，计划中大量使用cloud computing这个单词，并且对其的描述与后来有很多相似之处。</p>
+
+<p>O’Sullivan的创业公司正在与康柏谈判一笔500万美元的投资，而Favaloro刚被康柏委任负责互联网服务商业务。在他们的计划书里面，有这样的业务构想：用户用18.5美元购买37分钟的视频会议，用4.95美元购买253MB网络存储，3.95美元看一场泰森的拳赛。</p>
+
+<p>NetCentric准备做一套软件，能让ISP（互联网服务商）们实现和对数百甚至数千个这样的服务进行收费。他们称之为“‘cloud computing’-enabled applications”。当然，康柏将在方案里卖硬件。Favaloro 和 O’Sullivan谁最先说出cloud computing已经不可考了，因为两个当事人回忆不起来这个单词被说出来的准确时间。</p>
+
+<p>他们两都同意cloud computing被创造出来，是作为一个市场营销词汇。那时，电信网络已经被用cloud来；在工程图里，一朵云就代表网络。他们需要找一个广告语，将快速发展的互联网机会与康柏的业务联系起来。Favaloro说“计算是康柏的基石，而那朵朵云正快速发展，我们需要把两者联系起来”。</p>
+
+<p>他们的业务并不好，NetCentric也在失望中放弃了这个业务，转而推广互联网传真服务，但是最后关门了。O’Sullivan说“我们窥见了一个机会，但我们最终没有推出大量的云计算应用，这些让我难以忘怀”。</p>
+
+<h4>浮华人世</h4>
+
+<p>2001年，纽约时报的JohnMarkoff，写了一篇Dave Winer对微软新的.net服务平台Hailstorm的负面评价时，使用了“cloud’ of computers”一词。Hailstorm当年，被设计为整合各种设备、数据和服务，为用户提供简洁、实用的计算方案，但受制于当时的技术和应用环境，Hailstorm并没有取得成功。可以看成是Windows Azure的祖先了。</p>
+
+<p>2006年8月9日的战略大会上，谷歌CEO施密特在与Danny Sullivan对话时，谈到广告和互联网时有一段原话：</p>
+
+<blockquote><p>What&rsquo;s interesting [now] is that there is anemergent new model, and you all are here because you are part of that newmodel. I don&rsquo;t think people have really understood how big this opportunityreally is. It starts with the premise that the data services and architectureshould be on servers. We call it cloudcomputing – they should be in a &ldquo;cloud&rdquo; somewhere. And that ifyou have the right kind of browser or the right kind of access, it doesn&#8217;tmatter whether you have a PC or a Mac or a mobile phone or a BlackBerry or whathave you – or new devices still to be developed – you can get access to thecloud. There are a number of companies that have benefited from that.Obviously, Google, Yahoo!, eBay, Amazon come to mind. The computation and thedata and so forth are in the servers.</p></blockquote>
+
+<p>施密特大概是第一个说出cloud computing的公众人物，并被大众媒体报道。但是，很可惜，它用这个词是为了解释互联网，用cloud computing来指代服务器-浏览器架构中的服务器。这是一种当时已经存在的技术和架构。特别的，施密说这个词时，特并不是在指一种新的技术、产品、服务、商业模式。</p>
+
+<p>但真正让云计算落地的商业产品——亚马逊AWS EC2，即ElasticComputing Cloud，在施密特参加搜索引擎战略会议会议两周后，2006年8月24日上线，沿用了以前将Cloud指代服务器集群的含义和说法，在其新闻稿里也没有提到Cloud Computing，而是这样描述EC2和S3：Amazon Elastic Compute Cloud (Amazon EC2) is a web service thatprovides resizable compute capacity in the cloud. Just as Amazon Simple StorageService (Amazon S3) enables storage in the cloud, Amazon EC2 enables “compute”in the cloud.</p>
+
+<p>彼时，亚马逊等还不认为Cloud Computing是一个单词，仍然用Cloud指代服务器集群。亚马逊虽然已经在2006年3月13日推出了简单存储服务S3，并在8月24日推出了被后来看作是云计算产品真正到了的EC2，但亚马逊和当时的业界并不认为Cloud Computing是一个单词。</p>
+
+<p>到此时，亚马逊还没有使用Cloud Computinig这个单词。而且亚马逊用来命名和描述其EC2产品的用词Computing Cloud 或者“compute” in the cloud与当时在一定范围内存在的说法并没有不同。Computing Cloud也好，“compute”in the cloud也好，与施密特的Cloud Computing在技术上并没有本质不同。</p>
+
+<p>EC2最大的不同是，它是第一个让“compute” in the cloud商业化的产品，是第一个把让公司外的用户能够“compute” in the 亚马逊的cloud。施密特的Cloud Computing停留在技术架构层面，而且指的是一个公司内部从浏览器到数据中心的“compute” in the cloud。</p>
+
+<p>谷歌在营销上开启了cloud computing的序幕，亚马逊AWS EC2 在产品和商业模式上开启了cloud computing的序幕。</p>
+
+<h4>一锤定音</h4>
+
+<p>云计算的概念在2008年2009年经过无数先驱的创造、争论、整理，才形成了如今比较统一的概念和认识。</p>
+
+<p>2011年9月，NIST（美国国家标准与技术研究所）发布了最终版的《 The NIST Definition of Cloud Computing》,标志着云计算定义的争论已经平息。这是一个兼容并包的、标准的云计算定义，总结了市面上所有云计算服务的通用特征。</p>
+
+<h4>事后诸葛</h4>
+
+<p>自从云计算诞生起，就不乏反对声音。比如Oracle的埃里森斥责云计算是胡言乱语，当然后来变成云的粉丝。百度CEO李彦宏称云计算为新瓶装旧酒，同时发明了框计算，当然，2015年亚马逊发布财报后，又决定搞一下云计算。</p>
+
+<p>更多人，知识把云计算当成广告语，能贴到产品上去就好。云计算都没有拒绝，知道云计算被泛华为基于互联网的任何企业或个人服务。</p>
+
+<p>这似乎回到了起点：云计算就是互联网，或互联网服务的服务器部分。</p>
+
+<p>有人事后诸葛亮了：转了一圈，这云计算不还是互联网嘛，我当时就这么说的。</p>
+
+<p>云计算在大部分时候，确实只是一个营销术语。但不幸的是，它不仅仅是一个广告词，它背后的本质、创新、技术、战略代表了一个新时代的开始。</p>
+
+<h4>一声叹息</h4>
+
+<p>有人创造了一个新单词新概念，却一无所获，有人无心插柳被人贴上标签，却赚的盆满钵满，怎么就这么不平等呢？</p>
+
+<p>在笔者上学的时候，系里面有个教授数据库知识的专业老师。这位老师的特点非常明显，上课打开PPT文档，从设计原理到历史段子，滔滔不绝，绝对引人入胜。</p>
+
+<p>在一个学期的最后一堂课上，我记得这位老师为了来一把实践，打开Win2000 SQL server，想要敲一个join的嵌套查询语句秀一下，悲剧的是电脑就是不给面子，折腾了半个小时总是报语法错，最后他只能尴尬的回到PPT讲学模式继续。</p>
+
+<p>从此，我对哪些满口浮华词汇的人抱有深深的怀疑。</p>
+
+<h3>广告和产品谁更重要</h3>
+
+<p>在商业的世界里，真相并不重要，重要的是利益在哪里。</p>
+
+<p>现在想来，这位老师早已深得<code>无招胜有招</code>的真谛。当你能通过PPT创造世界的时候，何苦亲自动手呢？有一批傻傻的码农们帮你干活呢！掌握利益才是关键！</p>
+
+<p>这个词给我们启示就是，在某个情形下，创造出一个名词的力量，远远大于产品本身。营销也是产品的一部分&mdash;很多时候是最重要的那一部分。</p>
+
+<h4>传说在蛮荒的魔法时代，创造一样新事物的办法就是为它想一个好名字，掌握这项技艺的人被尊称为巫术大师。</h4>
+
+<p>少年，我想说，下次听到这样的宣传，先不要急着笑，要看看它的利益在哪里，那位大师的目的何在？</p>
+
+<blockquote><p>朋友们，我们有一个划时代的产品，它的底层采用了人工智能技术，整合了整个股票市场100年来的大数据，并存储在区块链上，现在，我们有好几组顶尖专家看好的量化策略，正用强大的量子计算机做回归测试。更妙的是，整套系统采用光伏能源，并由石墨烯材料打造一个稳定的能量转换站，可以无限运行下去；现在，我们就等你们来投资数钱了，还等什么，马上拿起电话，拨打xxxxxx ~~~</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[为什么不用MAC地址来定位机器]]></title>
@@ -2295,219 +2429,6 @@ sneks  | 50%            | 10%    | 20%          | 20%
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Improve Performance Your Cmd by Parallel]]></title>
-    <link href="http://happy123.me/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel/"/>
-    <updated>2018-05-06T09:32:03+08:00</updated>
-    <id>http://happy123.me/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel</id>
-    <content type="html"><![CDATA[<p>有很多时候，处理一个大文件，常规命令并不能很好的利用多核</p>
-
-<!-- more -->
-
-
-<p>例如，一个1T的文本，百亿条数据，我想要:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>wc -l test.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>fgrep xxxx test.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>一般机器就会自觉进入<code>一核有难，其它核点赞</code>的看戏模式。</p>
-
-<p>我花钱配了这么多核，加了这么多内存，不是让大家来看戏的。于是祭出<code>parallel</code>~</p>
-
-<h2>原理</h2>
-
-<p>parallel 是一个perl脚本，通过分割输入，并行处理的方式来加速执行命令。</p>
-
-<p>例如:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>wc -l test.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>简单想想就是用个for循环split文件，挨个wc，然后相加。parallel就是自动帮你把这类事情做掉而已。大道不过两三行，所谓外部排序，Map-Reduce莫不如是。</p>
-
-<h2>安装 (ubuntu 16.04LTS)</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> apt-get install parallel</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>示例</h2>
-
-<h4>最快的办法计算一个大文件的行数</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --pipe wc -l | awk '{s+=$1} END {print s}'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>非常的巧妙，先使用parallel命令‘mapping’出大量的wc -l调用，形成子计算，最后通过管道发送给awk进行汇总</p>
-
-<h4>SED, 想在一个巨大的文件里使用sed命令做大量的替换操作吗？</h4>
-
-<p>常规做法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sed s^old^new^g bigfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在你可以：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --pipe sed s^old^new^g</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>GREP 一个非常大的文本文件</h4>
-
-<p>以前你可能会这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep pattern bigfile.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在你可以这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --pipe grep 'pattern'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --block 10M --pipe grep 'pattern'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这第二种用法使用了 –block 10M参数，这是说每个内核处理1千万行——你可以用这个参数来调整每个CUP内核处理多少行数据。</p>
-
-<h4>压缩一个非常大的文件</h4>
-
-<p>bzip2是比gzip更好的压缩工具，但它很慢！别折腾了，我们有办法解决这问题。</p>
-
-<p>以前的做法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.bin | bzip2 --best &gt; compressedfile.bz2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.bin | parallel --no-notice --pipe --recend '' -k bzip2 --best &gt; compressedfile.bz2</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>扩展</h2>
-
-<p>作为一个Python党，经常写一些<code>用过即弃</code>的边角料脚本</p>
-
-<p>比如最近要把一个1T的文件汉字全部转换为拼音，初版当然是这样的:</p>
-
-<h4>版本1</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>with io.open(sys.argv[1], encoding='utf-8') as fp:
-</span><span class='line'>    for line in fp:
-</span><span class='line'>        print(lazy_pinyin(line))</span></code></pre></td></tr></table></div></figure>
-
-
-<p>lazy_pinyin的效率奇慢无比，这回陷入了一核有难，其它核+内存+磁盘全部看戏模式</p>
-
-<p>作为一个初级合格的Python开发人员，你当然说要用process，于是我们有了第二版:</p>
-
-<h4>版本2</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from multiprocessing import Pool
-</span><span class='line'>pool = Pool(16)
-</span><span class='line'>with io.open(sys.argv[1], encoding='utf-8') as fp:
-</span><span class='line'>    pool.map(lazy_pinyin, fp, 16)
-</span><span class='line'>    pool.close()
-</span><span class='line'>    pool.join()</span></code></pre></td></tr></table></div></figure>
-
-
-<p>嗯，很好，16个核都跑起来了；但是你有很快尴尬的发现，map把文件一把load进来，内存有难了</p>
-
-<h4>~~~~</h4>
-
-<p>作为一个初级合格的Python开发人员，你当然说不要一把读进来，要用chunk_read，一次读一块，或者更高级一点，直接用mmap映射进内存巴拉巴拉</p>
-
-<h4>少年，这还是那个边角料脚本吗，你已经在它上面操心一个小时了，还能不能愉快的玩耍了</h4>
-
-<p>让 parallel来拯救你</p>
-
-<h4>版本3</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import fileinput
-</span><span class='line'>
-</span><span class='line'>if __name__ == '__main__':
-</span><span class='line'>    for line in fileinput.input():
-</span><span class='line'>        lazy_pinyin(line)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后执行:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt| parallel --no-notice --pipe python pinyinconv.py &gt; pinyin.result</span></code></pre></td></tr></table></div></figure>
-
-
-<p>享受所有CPU满负荷运载的工头压榨工人的快感吧</p>
-
-<h2>一些扩展</h2>
-
-<ul>
-<li>为啥所有的parallel都带有一个奇怪的&mdash;no-notice?</li>
-</ul>
-
-
-<p>嗯，虽然这个作者非常非常好，但是他总是在命令前面输出一些捐助提示；当然我并不是讨厌这种做法，但看多了总有些疲劳，你懂的~~</p>
-
-<ul>
-<li>我有一些参数想传给程序，怎么办？</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> seq 3|parallel --no-notice -q echo seq{}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>这个命令很好，但是语法好像啰嗦了一些，还有其它的替代命令吗？</li>
-</ul>
-
-
-<p>嗯~ o(<em>￣▽￣</em>)o，还是有的，xargs有个-n参数，类似的效果，不过功能弱化很多，基本上是鸡肋</p>
-
-<h2>参考:</h2>
-
-<h4>手册:</h4>
-
-<p><a href="https://www.gnu.org/software/parallel/parallel_tutorial.html">https://www.gnu.org/software/parallel/parallel_tutorial.html</a></p>
-
-<h4>资料:</h4>
-
-<p><a href="http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html">http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html</a></p>
-
-<p>我的博客即将搬运同步至腾讯云+社区，邀请大家一同入驻：<a href="https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t">https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t</a></p>
 ]]></content>
   </entry>
   
