@@ -80,6 +80,176 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/">The Minimum Fee of Bitcoin Transaction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-09-11T15:13:35+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/#disqus_thread"
+             data-disqus-identifier="http://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨天看到地球人都知道的1号地址转了<a href="https://btc.com/b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2">0.00000555个币进来</a>，也不知道是谁在做测试，恶作剧心起，遂想要转掉这点娱乐币。</p>
+
+<p>默认Bitcoin Core 0.15之后的客户端貌似都不能调节transaction fee大小了，老实说，自从Segwit升级完毕之后，我很少用core钱包了。这次没办法，为了构造一笔最小手续费用的交易，采取如下动作:</p>
+
+<ol>
+<li>先看一下vout和txid:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli listunspent</span></code></pre></td></tr></table></div></figure>
+
+
+<p>输出里面找到 <code>12AKRNHpFhDSBDD9rSn74VAzZSL3774PxQ</code>的vout为0， txid是<code>b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2</code></p>
+
+<ol>
+<li>创建转账交易</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli createrawtransaction "[{\"txid\":\"b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2\",\"vout\":0}]" "{\"1HB1Efu8RkEpxzTHYd1E7NgdimL1ddDhkR\":0.0000055}"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>得到十六进制输出</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b90000000000ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>签名之</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli signrawtransaction  "0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b90000000000ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>得到十六进制输出</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "hex": "0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b9000000008a47304402202a51aa8eb0593a4b48880712c3ee70b7d6ca74ed313ef93e9c92489616587a2c022048c87fde75761e2a9cc9fef7dc8d0d9961ef1df89e22f88e5e3902567ec956f8014104fdf4907810a9f5d9462a1ae09feee5ab205d32798b0ffcc379442021f84c5bbfc891eb16b0faef4bef99ba6d522fb85470a20df730808e583778aa35c7af98f5ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000",
+</span><span class='line'>  "complete": true
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>激动人心的时刻来了，广播之:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli sendrawtransaction  "0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b9000000008a47304402202a51aa8eb0593a4b48880712c3ee70b7d6ca74ed313ef93e9c92489616587a2c022048c87fde75761e2a9cc9fef7dc8d0d9961ef1df89e22f88e5e3902567ec956f8014104fdf4907810a9f5d9462a1ae09feee5ab205d32798b0ffcc379442021f84c5bbfc891eb16b0faef4bef99ba6d522fb85470a20df730808e583778aa35c7af98f5ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后得到报错:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>error message:
+</span><span class='line'>66: min relay fee not met</span></code></pre></td></tr></table></div></figure>
+
+
+<p>喵喵喵，怎么回事，我记得2016年的时候还是允许0.00000001的手续费的，比如下面这笔交易:</p>
+
+<pre><code>https://blockchain.info/tx/d36a18d1fa4c6ccc4b90ab8a13dd3e55b396ac07bf7fbbee281c1025da2b86fc
+</code></pre>
+
+<ol>
+<li>没办法，我只能在createrawtransaction的时候手工指定手续费为0.000001，心痛啊，手续费是转账金额的20%~</li>
+</ol>
+
+
+<p>然后又得到了这个错:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mempool min fee not met</span></code></pre></td></tr></table></div></figure>
+
+
+<p>怒了，又去翻了一下代码，还是由mempoolminfee 决定的啊，执行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli getmempoolinfo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在是够的啊，搞不明白了；不行，再等别人就转走了，得争分夺秒啊2333</p>
+
+<ol>
+<li>只能去找几个大矿池在线广播了，我无奈的先后使用了:</li>
+</ol>
+
+
+<p><a href="https://btc.com/tools/tx/publish">https://btc.com/tools/tx/publish</a></p>
+
+<p><a href="https://www.blockchain.com/btc/pushtx">https://www.blockchain.com/btc/pushtx</a></p>
+
+<p><a href="https://live.blockcypher.com/btc/pushtx/">https://live.blockcypher.com/btc/pushtx/</a></p>
+
+<p>统统失败，还测试出blockcypher有个500，它的后台没处理好。悲剧了</p>
+
+<ol>
+<li>万般无奈之下我将手续费用继续提高为0.000002，然后得到下面的报错:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dust transction</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一顿google之下发现0.15版本以后，bitcoin core的<a href="https://bitcoin.stackexchange.com/questions/10986/what-is-meant-by-bitcoin-dust">dust判定标准是546 satoshins</a>，这笔交易的金额正好处于这么一个微妙的位置。</p>
+
+<ol>
+<li>一通操作之后，发现这笔钱是无论如何不能立即拿出来了；于是写个脚本暴力广播之，总有mempool size下来的时候吧，我幻想着，说不定能中奖呢23333</li>
+</ol>
+
+
+<h4>结局</h4>
+
+<p>昨晚有个土豪加上另外一个vout提走了，额，为了提0.00000555BTC，土豪动用了88BTC的vout作为陪练，并留下了0.00000400 的矿工费，交易记录在此:</p>
+
+<p><a href="https://btc.com/d6d59802eb987fe96b9e827c07a1acff5e80ba5e9dae3f6f56f9ea427d98e585">https://btc.com/d6d59802eb987fe96b9e827c07a1acff5e80ba5e9dae3f6f56f9ea427d98e585</a></p>
+
+<p>土豪，是在下输了。</p>
+
+<p>这件事情挺有意思的，作为傻逼的记录，我老老实实记一下。</p>
+
+<p>现在minimum fee的行情是0.00001/KB，下次我得记好了，方便抽奖。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/09/10/yun-ji-suan-de-dan-sheng/">云计算的诞生</a></h1>
     
     
@@ -513,52 +683,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/">史上最可怕的赌局FOMO3D(2)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-07-31T12:53:58+08:00" pubdate data-updated="true">Jul 31<span>st</span>, 2018</time>
-        
-           | <a href="/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/#disqus_thread"
-             data-disqus-identifier="http://happy123.me/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这几天又仔细读了一遍FOMO 3D和P3D的代码，又生出一些想法；发现这个团队围绕P3D构造的这个生态系统实在不简单，非常非常有意思，继续推演一下</p>
-
-<h4>再提醒一遍，这就是个骗局，创始团队也不讳言这是个骗局，他们明晃晃在官网wiki上，Twitter上提醒人们，我就是来骗你们的，不要上当。</h4>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -574,6 +698,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/">The Minimum Fee of Bitcoin Transaction</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/09/10/yun-ji-suan-de-dan-sheng/">云计算的诞生</a>
       </li>
     
@@ -587,10 +715,6 @@
     
       <li class="post">
         <a href="/blog/2018/09/08/du-jie-zhi-ping-jun-ce-lue-sui-xiang/">读<价值平均策略>随想</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/08/25/cong-webassemblyshuo-kai-qu/">从WebAssembly说开去</a>
       </li>
     
   </ul>
@@ -646,8 +770,8 @@
 <li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
-<li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (2)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (23)</a></li>
+<li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (24)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
