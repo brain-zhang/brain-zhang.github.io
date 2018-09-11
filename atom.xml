@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-10T15:12:16+08:00</updated>
+  <updated>2018-09-11T13:44:19+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -667,6 +667,8 @@
 <p>很快FOMO3D就会沦为一个平庸的庞氏骗局Game Over。但是P3D最终会怎样呢？</p>
 
 <p>我认为会有一个沉寂期，然后在一个意想不到的时机又吸引一波赌徒入场。</p>
+
+<p>PS:加一个技术流分析:<a href="https://paper.seebug.org/681/">智能合约游戏之殇——类 Fomo3D 攻击分析</a></p>
 ]]></content>
   </entry>
   
