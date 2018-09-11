@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Bitcoin | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/bitcoin/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-11T16:02:13+08:00</updated>
+  <updated>2018-09-11T16:07:24+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -28,7 +28,7 @@
 <p>1.先看一下vout和txid:</p>
 
 <p><code>
-bitcoin-cli listunspent
+bitcoin-cli listunspent 0 9999999 "[\"12AKRNHpFhDSBDD9rSn74VAzZSL3774PxQ\"]"
 </code>
 输出里面找到 <code>12AKRNHpFhDSBDD9rSn74VAzZSL3774PxQ</code>的vout为0， txid是<code>b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2</code></p>
 
