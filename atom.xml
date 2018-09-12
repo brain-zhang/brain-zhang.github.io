@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-12T11:17:28+08:00</updated>
+  <updated>2018-09-12T11:21:38+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,18 +18,18 @@
     <link href="http://happy123.me/blog/2018/09/12/the-history-of-x86/"/>
     <updated>2018-09-12T10:22:01+08:00</updated>
     <id>http://happy123.me/blog/2018/09/12/the-history-of-x86</id>
-    <content type="html"><![CDATA[<p>我们平时老看到<code>X86指令集</code>, <code>X86架构</code>等等词汇，很容易就猜到这个86来源于Intel那款名动天现的处理器&mdash;8086，那么8086的名字又是怎么来的呢？</p>
+    <content type="html"><![CDATA[<p>我们平时老看到<code>X86指令集</code>, <code>X86架构</code>等等词汇，很容易就猜到这个86来源于Intel那款名动天下的处理器&mdash;8086，那么8086的名字又是怎么来的呢？</p>
 
 <!-- more -->
 
 
-<p>这是一个遥远的传说，各种解释众说纷纭，挑两个由说服力的段子吧:</p>
+<p>这是一个遥远的传说，各种解释众说纷纭，挑两个有说服力的段子吧:</p>
 
 <h4>说法1</h4>
 
-<p>当intel发明第一颗4位的位处理器的时候，intel把他叫4004.在当时，intel也没有意识到这就是微处理器，（估计微处理器是现在人启名字），intel当时只是给做手持计算器的厂家来定制处理器。</p>
+<p>当intel发明第一颗4位的位处理器的时候，intel把他叫4004。在当时，intel也没有意识到这就是微处理器，（估计微处理器是现在人启名字），intel当时只是给做手持计算器的厂家来定制处理器。</p>
 
-<p>因为4004的指令集很有限，所以又搞出来了一个升级版本4040.</p>
+<p>因为4004的指令集很有限，所以又搞出来了一个升级版本4040。</p>
 
 <p>8008是4004的8位版，8080是4040的8位版。</p>
 
