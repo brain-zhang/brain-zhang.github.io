@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="http://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="http://happy123.me/"/>
-  <updated>2018-09-11T16:11:13+08:00</updated>
+  <updated>2018-09-12T11:17:28+08:00</updated>
   <id>http://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,92 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The History of X86]]></title>
+    <link href="http://happy123.me/blog/2018/09/12/the-history-of-x86/"/>
+    <updated>2018-09-12T10:22:01+08:00</updated>
+    <id>http://happy123.me/blog/2018/09/12/the-history-of-x86</id>
+    <content type="html"><![CDATA[<p>我们平时老看到<code>X86指令集</code>, <code>X86架构</code>等等词汇，很容易就猜到这个86来源于Intel那款名动天现的处理器&mdash;8086，那么8086的名字又是怎么来的呢？</p>
+
+<!-- more -->
+
+
+<p>这是一个遥远的传说，各种解释众说纷纭，挑两个由说服力的段子吧:</p>
+
+<h4>说法1</h4>
+
+<p>当intel发明第一颗4位的位处理器的时候，intel把他叫4004.在当时，intel也没有意识到这就是微处理器，（估计微处理器是现在人启名字），intel当时只是给做手持计算器的厂家来定制处理器。</p>
+
+<p>因为4004的指令集很有限，所以又搞出来了一个升级版本4040.</p>
+
+<p>8008是4004的8位版，8080是4040的8位版。</p>
+
+<p>8085是8080的单5伏电压版。</p>
+
+<p>8085升级到16位后，就叫8086了。</p>
+
+<p>嗯，还是很有逻辑的。</p>
+
+<h4>说法2</h4>
+
+<p>微处理器是在70年代末发明的。 接近80年，所以，前两个数字就是这么来的;</p>
+
+<p>当时微处理器是8位的，因此，第3个数字是8;</p>
+
+<p>在8085和8086 cpu之前，8080处理器是需要+5-5和12v电压来工作。 随着技术的进步，只需要单一的5v供电了，因此，最后一个数字是5;</p>
+
+<p>8085升级到16位后，就叫8086了;</p>
+
+<p>好吧，也说得通。</p>
+
+<h4>不管怎么说，反正Intel推出的8086在历史上的经典地位不容置疑；那我们来回顾一下Intel CPU发展的经典历史吧</h4>
+
+<ul>
+<li><p>20世纪70年代末，Intel生产了著名的16位8086处理器，之后又推出了80186与80286；</p></li>
+<li><p>1985年，Intel继摩托罗拉之后，第二个研制出32位的微处理器80386；</p></li>
+<li><p>8086、80286、80386等等，这一系列CPU就称作x86，正式一点称作IA-32（Intel Architecture 32-bit）。正是这个架构开启了Intel在个人PC CPU领域的无敌之路，后来的操作系统、编译器、应用软件无一不是把<code>适配X86指令</code>作为核心竞争力；</p></li>
+<li><p>1989年，Intel推出80486处理器，具有浮点运算功能；</p></li>
+<li><p>因为当初与Intel竞争微处理器的摩托罗拉公司是以86开头的，如68000，68010，68020，而且AMD也崭露头角，他们也搞出来AM386，AM486等等，令Intel不胜其烦；于是1993年，Intel推出奔腾(Pentium)处理器，不再以数字命名其产品；Pentium刚刚推出的时候，命名及其混乱，有人叫I586，有人叫P5,不管怎么说，这个时候伴随我们记忆的不只是这个Pentium这个名字，还有那个经典的"等等等你等"的广告音乐，Intel又凭借Pentium这个架构继续无敌并寂寞着</p></li>
+<li><p>在Pentium时代，其实AMD也不是毫无作为，老一代DIY玩家们一定还对Athlon K7的传说记忆犹新，尤其是当时那些拉风的译名，什么"速龙"、"毒龙"、"钻龙"等等，我得说，这个时期的农企实在是很时髦，远远不像他们后来的市场部那么傻13</p></li>
+<li><p>当然，当时最璀璨的舞者，我只献给活在DIYer心里那个最美好的名字&mdash;图拉丁赛扬；正是这款CPU成为了许多人的电脑时代的启蒙者</p></li>
+<li><p>2001年开始，Intel将用于服务器以及工作站的Pentium 4 Xeon独立成全新的品牌“Xeon”（至强）)；正如这个名字所蕴含的霸气一样，这个品牌延续到了今天</p></li>
+<li><p>2006年，Intel发布“Core”（酷睿）品牌，用作英特尔的旗舰级处理器系列的新品品牌； 然后，这个品牌经历了数代架构更迭，一直伴随我们到了今天</p></li>
+<li><p>同样的，围绕指令集从32位跃迁到64位的过程中，AMD和Interl在这段时间还爆发了一场惊天缠斗；Intel作为CPU市场的领跑者，觉得自己理应主导32位到64位时代跃进的浪潮；早在Pentium时代，他们就制定了Intel 64计划；然而，由于一个大公司内部的种种政治斗争，市场斗争，人的本性里面悲剧的傲慢，这个过程种出现了种种败着昏棋，最终AMD64架构在IA-32上新增了64位寄存器，并兼容早期的16位和32位软件，可使现有以x86为对象的编译器容易转为AMD64版本，在2003年9月推出了AMD64；在64位时代由追随者变成领跑者</p></li>
+<li><p>Intel此时如梦方醒，慌忙将AMD的指令集拿过来稍作加工推出自己的兼容产品；然后就是两个公司营销和市场人员、法律人员旷日持久的撕逼大战；中间诞生了许许多多匪夷所思的营销名词，比如A64, I64, IA32E,iAMD64，Intel64，X86-64等等等等；如果你是一个Linux爱好者，很容看到各个软件包都会注明Amd64, X86_64等等，这是那场混乱大战的遗留物</p></li>
+</ul>
+
+
+<h4>总结一下现在的主流</h4>
+
+<ul>
+<li><p>32/64 位系统编译在32位系统上运行 => x86</p></li>
+<li><p>32 系统上编译64位系统上运行 => x86_amd64</p></li>
+<li><p>64 系统上编译在64位系统上运行 => amd64</p></li>
+</ul>
+
+
+<h4>看看MSDN的解释:</h4>
+
+<blockquote><p>The following list describes the various versions of cl.exe (the Visual C++ compiler):</p>
+
+<p>x86 on x86
+Allows you to create output files for x86 machines. This version of cl.exe runs as a 32-bit process, native on an x86 machine and under WOW64 on a 64-bit Widows operating system.
+Itanium on x86 (Itanium cross-compiler)
+Allows you to create output files for Itanium. This version of cl.exe runs as a 32-bit process, native on an x86 machine and under WOW64 on a 64-bit Widows operating system.</p>
+
+<p>x64 on x86 (x64 cross-compiler)
+Allows you to create output files for x64. This version of cl.exe runs as a 32-bit process, native on an x86 machine and under WOW64 on a 64-bit Widows operating system.</p>
+
+<p>Itanium on Itanium
+Allows you to create output files for Itanium. This version of cl.exe runs as a native process on an Itanium machine.</p>
+
+<p>x64 on x64
+Allows you to create output files for x64. This version of cl.exe runs as a native process on an x64 machine.</p></blockquote>
+
+<h4>总之CPU的历史生动说明了了计算机界的很多老梗是如何诞生的，比如很多人都疑惑为什么Windows的发布名称是Win95->W98->W98SE->Win2000(NT)&ndash;>WinXP->Vista->Win7->Win10，等等等等；这种现象是商业环境、市场营销、法律风险以及随意拍脑门的高管，放荡不羁的开发团队合力促成的~~~</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[从WebAssembly说开去]]></title>
@@ -289,7 +375,7 @@ db.create_tables([User])
 
 <p>```</p>
 
-<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#x68;&#x65;&#x6c;&#108;&#111;&#64;&#x77;&#111;&#x72;&#x6c;&#100;&#x2e;&#99;&#111;&#x6d;">&#x68;&#101;&#x6c;&#108;&#111;&#64;&#x77;&#111;&#114;&#x6c;&#100;&#x2e;&#99;&#111;&#109;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
+<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#104;&#101;&#108;&#x6c;&#111;&#64;&#x77;&#x6f;&#x72;&#108;&#100;&#x2e;&#99;&#111;&#109;">&#x68;&#101;&#x6c;&#x6c;&#111;&#64;&#x77;&#x6f;&#x72;&#x6c;&#100;&#46;&#x63;&#111;&#x6d;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
 user_record.save()</p></blockquote></blockquote></blockquote>
 
 <p>```</p>
@@ -326,103 +412,6 @@ for user in User.select().where(User.username.contains(username)):</p>
 
 <blockquote><blockquote><blockquote><p>db.close()
 ```</p></blockquote></blockquote></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python处理中文标点符号]]></title>
-    <link href="http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao/"/>
-    <updated>2018-05-14T09:03:13+08:00</updated>
-    <id>http://happy123.me/blog/2018/05/14/pythonchu-li-zhong-wen-biao-dian-fu-hao</id>
-    <content type="html"><![CDATA[<p>中文文本中可能出现的标点符号来源比较复杂，通过匹配等手段对他们处理的时候需要格外小心，防止遗漏。以下为在下处理中文标点的时候采用的两种方法:</p>
-
-<!-- more -->
-
-
-<h3>中文标点集合</h3>
-
-<h4>比较常见标点有这些：</h4>
-
-<p><code>
-！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.
-</code></p>
-
-<p>调用zhon包的zhon.hanzi.punctuation函数即可得到这些中文标点。</p>
-
-<p>如果想用英文的标点，则可调用string包的string.punctuation函数可得到：</p>
-
-<p><code>
-!"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~
-</code></p>
-
-<p>因此，比如需要将所有标点符号去除，可以进行以下操作：</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>import re
-from zhon.hanzo import punctuation
-line = &ldquo;测试。。去除标点。。&rdquo;
-print re.sub(&ldquo;[{}]+&rdquo;.format(punctuation), &ldquo;&rdquo;, line.decode(&ldquo;utf-8&rdquo;)) # 需要将str转换为unicode
-```</p></blockquote></blockquote></blockquote>
-
-<p>当然，如果想去除重复的符号而只保留一个，那么可以用\1指明：比如</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>re.sub(ur"([{}])+&ldquo;.format(punctuation), &rdquo;\1", line.decode(&ldquo;utf-8&rdquo;))
-```</p></blockquote></blockquote></blockquote>
-
-<p>你也可以手工指定这些标点符号</p>
-
-<p><code>
-punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
-re_punctuation = "[{}]+".format(punctuation)
-line = re.sub(re_punctuation, "", line)
-</code></p>
-
-<h3>可以通过直接指定unicode码范围的办法来strip，比如:</h3>
-
-<p>去除所有半角全角符号，只留字母、数字、中文</p>
-
-<p>```
-def remove_punctuation(line):</p>
-
-<pre><code>rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
-line = rule.sub('',line)
-return line
-</code></pre>
-
-<p>```</p>
-
-<p>汉字的范围为”\u4e00-\u9fa5“，这个是用Unicode表示的，所以前面必须要加”u“；字符”r“的意思是表示忽略后面的转义字符，这样简化了后面正则表达式里每遇到一个转义字符还得挨个转义的麻烦</p>
-
-<h3>最后可以组合成为一个函数</h3>
-
-<p>```
-def remove_punctuation(line, strip_all=True):</p>
-
-<pre><code>if strip_all:
-    rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
-    line = rule.sub('',line)
-else:
-    punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
-    re_punctuation = "[{}]+".format(punctuation)
-    line = re.sub(re_punctuation, "", line)
-
-return line.strip()
-</code></pre>
-
-<p>```</p>
-
-<h3>清洗完毕后，有时候我们希望按照多个标点符号来分割</h3>
-
-<p>比如只要遇到中文或英文的逗号和句号等符号就分割，可以直接用translate把这些符号翻译为统一的分隔符，再split:</p>
-
-<p><code>
-strip_chars = '？"。.，,《》[]〖〗“”'
-single_line = single_line.translate(str.maketrans(dict.fromkeys(strip_chars, '#')))
-single_line = single_line.split('#')
-</code></p>
 ]]></content>
   </entry>
   
