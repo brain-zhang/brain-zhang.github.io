@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Docker | Living a Simple Life is a Happy Life]]></title>
-  <link href="http://happy123.me/blog/categories/docker/atom.xml" rel="self"/>
-  <link href="http://happy123.me/"/>
-  <updated>2018-09-13T09:07:09+08:00</updated>
-  <id>http://happy123.me/</id>
+  <link href="https://happy123.me/blog/categories/docker/atom.xml" rel="self"/>
+  <link href="https://happy123.me/"/>
+  <updated>2018-09-19T09:22:22+08:00</updated>
+  <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Many Containers Requires Bumping Up Inotify Limits]]></title>
-    <link href="http://happy123.me/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits/"/>
+    <link href="https://happy123.me/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits/"/>
     <updated>2016-05-11T15:11:19+08:00</updated>
-    <id>http://happy123.me/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits</id>
+    <id>https://happy123.me/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits</id>
     <content type="html"><![CDATA[<p>when we see <code>Too many open files - failed to inotify_init</code>, we could either bump up the limit automatically, or tell the user.</p>
 
 <p>just exec:</p>
@@ -30,9 +30,9 @@ sysctl -w fs.inotify.max_user_instances=8192
   
   <entry>
     <title type="html"><![CDATA[Multiline Comments in Docker File]]></title>
-    <link href="http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file/"/>
+    <link href="https://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file/"/>
     <updated>2015-04-10T09:07:36+08:00</updated>
-    <id>http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file</id>
+    <id>https://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file</id>
     <content type="html"><![CDATA[<p>为了减少Image的fs layout数目，Dockerfile中经常会把多个命令集中到一个 <code>RUN</code> 指令下。</p>
 
 <p>多行之后可读性就很差了。</p>
@@ -61,9 +61,9 @@ rpm -ivh --force --nodeps *.rpm &amp;&amp; \
   
   <entry>
     <title type="html"><![CDATA[Different Users in Same Unix Group Can Not Run Mongod]]></title>
-    <link href="http://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/"/>
+    <link href="https://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/"/>
     <updated>2015-04-10T08:44:42+08:00</updated>
-    <id>http://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod</id>
+    <id>https://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod</id>
     <content type="html"><![CDATA[<p>事情的缘起是这样的&hellip;&hellip;.</p>
 
 <p>想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到)</p>
@@ -125,9 +125,9 @@ setcap cap_fowner+ep /usr/bin/mongod
   
   <entry>
     <title type="html"><![CDATA[Docker中的网络]]></title>
-    <link href="http://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo/"/>
+    <link href="https://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo/"/>
     <updated>2014-12-08T08:25:53+08:00</updated>
-    <id>http://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo</id>
+    <id>https://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo</id>
     <content type="html"><![CDATA[<p>Docker的默认网络是非常弱的，他使用的是一个虚拟网桥和container中的veth pair通信，在container中，默认是没有对外的IP的，外部主机或容器只能通过NAT，或者自定义iptable来实现主机或容器间的互联互通。
 这种局限性非常明显:</p>
 
@@ -230,9 +230,9 @@ ip addr add 10.12.0.117/21 dev em1</p>
   
   <entry>
     <title type="html"><![CDATA[Docker Cheat Sheet]]></title>
-    <link href="http://happy123.me/blog/2014/09/18/docker-cheat-sheet/"/>
+    <link href="https://happy123.me/blog/2014/09/18/docker-cheat-sheet/"/>
     <updated>2014-09-18T09:09:52+08:00</updated>
-    <id>http://happy123.me/blog/2014/09/18/docker-cheat-sheet</id>
+    <id>https://happy123.me/blog/2014/09/18/docker-cheat-sheet</id>
     <content type="html"><![CDATA[<h1>container相关</h1>
 
 <p><code>

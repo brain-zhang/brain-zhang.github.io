@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
-  <link href="http://happy123.me/atom.xml" rel="self"/>
-  <link href="http://happy123.me/"/>
-  <updated>2018-09-13T09:07:09+08:00</updated>
-  <id>http://happy123.me/</id>
+  <link href="https://happy123.me/atom.xml" rel="self"/>
+  <link href="https://happy123.me/"/>
+  <updated>2018-09-19T09:22:22+08:00</updated>
+  <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[自由交易创造财富?]]></title>
-    <link href="http://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu/"/>
+    <link href="https://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu/"/>
     <updated>2018-09-12T15:44:14+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu</id>
+    <id>https://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu</id>
     <content type="html"><![CDATA[<p>有人调侃说，这世上有些事人人都觉得自己懂：音乐，政治，和经济。</p>
 
 <!-- more -->
@@ -273,9 +273,9 @@
   
   <entry>
     <title type="html"><![CDATA[The History of X86]]></title>
-    <link href="http://happy123.me/blog/2018/09/12/the-history-of-x86/"/>
+    <link href="https://happy123.me/blog/2018/09/12/the-history-of-x86/"/>
     <updated>2018-09-12T10:22:01+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/12/the-history-of-x86</id>
+    <id>https://happy123.me/blog/2018/09/12/the-history-of-x86</id>
     <content type="html"><![CDATA[<p>我们平时老看到<code>X86指令集</code>, <code>X86架构</code>等等词汇，很容易就猜到这个86来源于Intel那款名动天下的处理器&mdash;8086，那么8086的名字又是怎么来的呢？</p>
 
 <!-- more -->
@@ -359,9 +359,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[The Minimum Fee of Bitcoin Transaction]]></title>
-    <link href="http://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/"/>
+    <link href="https://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/"/>
     <updated>2018-09-11T15:13:35+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction</id>
+    <id>https://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction</id>
     <content type="html"><![CDATA[<p>昨天看到地球人都知道的1号地址转了<a href="https://btc.com/b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2">0.00000555个币进来</a>，也不知道是谁在做测试，恶作剧心起，遂想要转掉这点娱乐币。</p>
 
 <p>默认Bitcoin Core 0.15之后的客户端貌似都不能调节transaction fee大小了，老实说，自从Segwit升级完毕之后，我很少用core钱包了。这次没办法，为了构造一笔最小手续费用的交易，采取如下动作:</p>
@@ -477,9 +477,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[云计算的诞生]]></title>
-    <link href="http://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng/"/>
+    <link href="https://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng/"/>
     <updated>2018-09-10T13:39:29+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng</id>
+    <id>https://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng</id>
     <content type="html"><![CDATA[<p>有一个很经典的问题: java和javascript是什么关系？</p>
 
 <p>然后小伙伴们是这样回答的:</p>
@@ -615,9 +615,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[为什么不用MAC地址来定位机器]]></title>
-    <link href="http://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/"/>
+    <link href="https://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/"/>
     <updated>2018-09-09T15:09:42+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi</id>
+    <id>https://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi</id>
     <content type="html"><![CDATA[<p>在知乎看到了这个问题，MAC地址48Bit, IP地址32Bit，完全可以用MAC划分出一个段来作为IP的映射，或者干脆不用IP了，有啥不可以呢？</p>
 
 <p>我觉得问题挺有意思的。我推测了一下。</p>
@@ -636,9 +636,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[真的存在独立随机事件吗]]></title>
-    <link href="http://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma/"/>
+    <link href="https://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma/"/>
     <updated>2018-09-09T10:29:21+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma</id>
+    <id>https://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma</id>
     <content type="html"><![CDATA[<p>比特币的block hash value一般被认为是一个真随机值，也被各种dice机制用来做seed.</p>
 
 <p>但是我老是在想：世界上存在真正的随机吗？或者再进一步，存在真正的<code>随机+独立</code>事件吗？</p>
@@ -728,9 +728,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[读<价值平均策略>随想]]></title>
-    <link href="http://happy123.me/blog/2018/09/08/du-jie-zhi-ping-jun-ce-lue-sui-xiang/"/>
+    <link href="https://happy123.me/blog/2018/09/08/du-jie-zhi-ping-jun-ce-lue-sui-xiang/"/>
     <updated>2018-09-08T17:26:51+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/08/du-jie-zhi-ping-jun-ce-lue-sui-xiang</id>
+    <id>https://happy123.me/blog/2018/09/08/du-jie-zhi-ping-jun-ce-lue-sui-xiang</id>
     <content type="html"><![CDATA[<p>周末读了<a href="https://book.douban.com/subject/2991567/">《价值平均策略》</a> 这本书，又生出一些无厘头的想法，记录一下。</p>
 
 <p>这本书短小精悍，通篇探讨比较了三种定投策略，并用1926-1990年的美股市场数据进行了回测。</p>
@@ -1037,9 +1037,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[从WebAssembly说开去]]></title>
-    <link href="http://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu/"/>
+    <link href="https://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu/"/>
     <updated>2018-08-25T11:14:39+08:00</updated>
-    <id>http://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu</id>
+    <id>https://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu</id>
     <content type="html"><![CDATA[<p>科技界历史循环，轨迹无法量化预测。</p>
 
 <p>前几天看到bellard都在浏览器里面用WebAssembly跑虚拟机了，点进去试试，竟然模拟Win2000都有模有样了。</p>
@@ -1087,9 +1087,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[非烫即屯]]></title>
-    <link href="http://happy123.me/blog/2018/08/25/fei-tang-ji-tun/"/>
+    <link href="https://happy123.me/blog/2018/08/25/fei-tang-ji-tun/"/>
     <updated>2018-08-25T09:34:43+08:00</updated>
-    <id>http://happy123.me/blog/2018/08/25/fei-tang-ji-tun</id>
+    <id>https://happy123.me/blog/2018/08/25/fei-tang-ji-tun</id>
     <content type="html"><![CDATA[<p>好久没有打开过VC++了，今天为了修改一个远古控件打开了久违的VC++，DEBUG模式下又看到了久违的&#8221;烫烫烫烫烫&#8221;~~~~</p>
 
 <!-- more -->
@@ -1109,9 +1109,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[史上最可怕的赌局FOMO3D(4)]]></title>
-    <link href="http://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4/"/>
+    <link href="https://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4/"/>
     <updated>2018-08-22T20:07:49+08:00</updated>
-    <id>http://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4</id>
+    <id>https://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4</id>
     <content type="html"><![CDATA[<p>呵呵，FOMO3D 第一轮今天结束了，奖金10469ETH。</p>
 
 <p>惊奇的是最后的<a href="https://etherscan.io/tx/0xe08a519c03cb0aed0e04b33104112d65fa1d3a48cd3aeab65f047b2abce9d508">幸运儿</a>并没有买断最近的块或是依赖DDOS获胜，他纯粹是涓滴投注的策略流获胜。</p>
@@ -1136,9 +1136,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[巴菲特致股东的信 1957-2018 中英文整理]]></title>
-    <link href="http://happy123.me/blog/2018/08/14/ba-fei-te-zhi-gu-dong-de-xin-1957-2018-zhong-ying-wen-zheng-li/"/>
+    <link href="https://happy123.me/blog/2018/08/14/ba-fei-te-zhi-gu-dong-de-xin-1957-2018-zhong-ying-wen-zheng-li/"/>
     <updated>2018-08-14T14:19:43+08:00</updated>
-    <id>http://happy123.me/blog/2018/08/14/ba-fei-te-zhi-gu-dong-de-xin-1957-2018-zhong-ying-wen-zheng-li</id>
+    <id>https://happy123.me/blog/2018/08/14/ba-fei-te-zhi-gu-dong-de-xin-1957-2018-zhong-ying-wen-zheng-li</id>
     <content type="html"><![CDATA[<p>我非常奇怪网上并没有找到一本比较完整的伯克希尔.哈撒韦每年致股东公开信的整理集。</p>
 
 <p>伯克希尔.哈撒韦的官网上只有1977-2018年的的PDF整理，至于中文没有比较权威的翻译，大多是零零碎碎的整理。</p>
@@ -1520,9 +1520,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[史上最可怕的赌局FOMO3D(3)]]></title>
-    <link href="http://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3/"/>
+    <link href="https://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3/"/>
     <updated>2018-08-06T09:29:46+08:00</updated>
-    <id>http://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3</id>
+    <id>https://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3</id>
     <content type="html"><![CDATA[<p>目前FOMO 3D的赌局剩余时间已经有多次下降到3小时以下了。</p>
 
 <p>官方非常贴心的为我们指出了最后关头可能会发生的事情:</p>
@@ -1568,9 +1568,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[史上最可怕的赌局FOMO3D(2)]]></title>
-    <link href="http://happy123.me/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/"/>
+    <link href="https://happy123.me/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2/"/>
     <updated>2018-07-31T12:53:58+08:00</updated>
-    <id>http://happy123.me/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2</id>
+    <id>https://happy123.me/blog/2018/07/31/shi-shang-zui-ke-pa-de-du-ju-fomo3d-2</id>
     <content type="html"><![CDATA[<p>这几天又仔细读了一遍FOMO 3D和P3D的代码，又生出一些想法；发现这个团队围绕P3D构造的这个生态系统实在不简单，非常非常有意思，继续推演一下</p>
 
 <h4>再提醒一遍，这就是个骗局，创始团队也不讳言这是个骗局，他们明晃晃在官网wiki上，Twitter上提醒人们，我就是来骗你们的，不要上当。</h4>
@@ -1671,9 +1671,9 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
   
   <entry>
     <title type="html"><![CDATA[史上最可怕的赌局FOMO3D]]></title>
-    <link href="http://happy123.me/blog/2018/07/27/shi-shang-zui-ke-pa-de-du-ju-fomo3d/"/>
+    <link href="https://happy123.me/blog/2018/07/27/shi-shang-zui-ke-pa-de-du-ju-fomo3d/"/>
     <updated>2018-07-27T03:32:39+08:00</updated>
-    <id>http://happy123.me/blog/2018/07/27/shi-shang-zui-ke-pa-de-du-ju-fomo3d</id>
+    <id>https://happy123.me/blog/2018/07/27/shi-shang-zui-ke-pa-de-du-ju-fomo3d</id>
     <content type="html"><![CDATA[<p>人类骨子里面存在赌博的基因。从形形色色的资本市场，到我今天几点起床，好听一点，是一种概率的博弈，难听一点，就是赌博。</p>
 
 <p>互联网伊始，在其他人纷纷吹嘘空中楼阁的时候，最先盈利的，是赌场。</p>
@@ -1980,9 +1980,9 @@ sneks  | 50%            | 10%    | 20%          | 20%
   
   <entry>
     <title type="html"><![CDATA[Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts]]></title>
-    <link href="http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/"/>
+    <link href="https://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/"/>
     <updated>2018-07-21T09:11:55+08:00</updated>
-    <id>http://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts</id>
+    <id>https://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts</id>
     <content type="html"><![CDATA[<p>虽然已经进入X时代了，但电脑城装机习惯性还是用Ghost，无他，习惯方便。</p>
 
 <p>Linux上面系统迁移，网上搜一搜，大批文章还是原始的dd, rsync之类；当然，不是说他不行，而是面向小白实在是有点坑啊。</p>
@@ -2063,9 +2063,9 @@ sneks  | 50%            | 10%    | 20%          | 20%
   
   <entry>
     <title type="html"><![CDATA[Crawler ABC]]></title>
-    <link href="http://happy123.me/blog/2018/07/04/crawler-abc/"/>
+    <link href="https://happy123.me/blog/2018/07/04/crawler-abc/"/>
     <updated>2018-07-04T19:04:58+08:00</updated>
-    <id>http://happy123.me/blog/2018/07/04/crawler-abc</id>
+    <id>https://happy123.me/blog/2018/07/04/crawler-abc</id>
     <content type="html"><![CDATA[<p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
 
 <!-- more -->
@@ -2329,9 +2329,9 @@ sneks  | 50%            | 10%    | 20%          | 20%
   
   <entry>
     <title type="html"><![CDATA[How to Grep Obtain Patterns From File]]></title>
-    <link href="http://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/"/>
+    <link href="https://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/"/>
     <updated>2018-07-04T18:06:55+08:00</updated>
-    <id>http://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file</id>
+    <id>https://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file</id>
     <content type="html"><![CDATA[<p>有一个100G的大文本文件 emailinfo.dict，包含邮箱及用户昵称; 格式为</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -2373,9 +2373,9 @@ sneks  | 50%            | 10%    | 20%          | 20%
   
   <entry>
     <title type="html"><![CDATA[Peewee ABC]]></title>
-    <link href="http://happy123.me/blog/2018/07/03/peewee-abc/"/>
+    <link href="https://happy123.me/blog/2018/07/03/peewee-abc/"/>
     <updated>2018-07-03T11:10:09+08:00</updated>
-    <id>http://happy123.me/blog/2018/07/03/peewee-abc</id>
+    <id>https://happy123.me/blog/2018/07/03/peewee-abc</id>
     <content type="html"><![CDATA[<p>在我用了又一个小时的时间去温习sqlchemy丰富的文档后，我放弃治疗了。</p>
 
 <p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
@@ -2465,9 +2465,9 @@ sneks  | 50%            | 10%    | 20%          | 20%
   
   <entry>
     <title type="html"><![CDATA[How to Set Proxy for Git]]></title>
-    <link href="http://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git/"/>
+    <link href="https://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git/"/>
     <updated>2018-06-11T11:12:20+08:00</updated>
-    <id>http://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git</id>
+    <id>https://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git</id>
     <content type="html"><![CDATA[<h3>全局设置和取消:</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -2510,9 +2510,9 @@ sneks  | 50%            | 10%    | 20%          | 20%
   
   <entry>
     <title type="html"><![CDATA[Becoming Warren Buffett]]></title>
-    <link href="http://happy123.me/blog/2018/06/10/becoming-warren-buffett/"/>
+    <link href="https://happy123.me/blog/2018/06/10/becoming-warren-buffett/"/>
     <updated>2018-06-10T23:04:31+08:00</updated>
-    <id>http://happy123.me/blog/2018/06/10/becoming-warren-buffett</id>
+    <id>https://happy123.me/blog/2018/06/10/becoming-warren-buffett</id>
     <content type="html"><![CDATA[<p>看了一遍 《Becoming Warren Buffett》 这部纪录片。</p>
 
 <p>印象里巴菲特总是与成功学书籍联系在一起，作为股神，他的公司Berkshire Hathaway的股票价格达到了近$300,000一股，实在是让人叹为观止。</p>

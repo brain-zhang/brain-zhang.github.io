@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: SVN | Living a Simple Life is a Happy Life]]></title>
-  <link href="http://happy123.me/blog/categories/svn/atom.xml" rel="self"/>
-  <link href="http://happy123.me/"/>
-  <updated>2018-09-13T09:07:09+08:00</updated>
-  <id>http://happy123.me/</id>
+  <link href="https://happy123.me/blog/categories/svn/atom.xml" rel="self"/>
+  <link href="https://happy123.me/"/>
+  <updated>2018-09-19T09:22:22+08:00</updated>
+  <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[svn1.7+ Zsh报错]]></title>
-    <link href="http://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/"/>
+    <link href="https://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/"/>
     <updated>2014-09-17T08:40:14+08:00</updated>
-    <id>http://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo</id>
+    <id>https://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo</id>
     <content type="html"><![CDATA[<p>更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。</p>
 
 <p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>

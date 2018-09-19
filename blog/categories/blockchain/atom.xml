@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
-  <link href="http://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
-  <link href="http://happy123.me/"/>
-  <updated>2018-09-13T09:07:09+08:00</updated>
-  <id>http://happy123.me/</id>
+  <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
+  <link href="https://happy123.me/"/>
+  <updated>2018-09-19T09:22:22+08:00</updated>
+  <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[自由交易创造财富?]]></title>
-    <link href="http://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu/"/>
+    <link href="https://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu/"/>
     <updated>2018-09-12T15:44:14+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu</id>
+    <id>https://happy123.me/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu</id>
     <content type="html"><![CDATA[<p>有人调侃说，这世上有些事人人都觉得自己懂：音乐，政治，和经济。</p>
 
 <!-- more -->
@@ -273,9 +273,9 @@
   
   <entry>
     <title type="html"><![CDATA[The Minimum Fee of Bitcoin Transaction]]></title>
-    <link href="http://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/"/>
+    <link href="https://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/"/>
     <updated>2018-09-11T15:13:35+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction</id>
+    <id>https://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction</id>
     <content type="html"><![CDATA[<p>昨天看到地球人都知道的1号地址转了<a href="https://btc.com/b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2">0.00000555个币进来</a>，也不知道是谁在做测试，恶作剧心起，遂想要转掉这点娱乐币。</p>
 
 <p>默认Bitcoin Core 0.15之后的客户端貌似都不能调节transaction fee大小了，老实说，自从Segwit升级完毕之后，我很少用core钱包了。这次没办法，为了构造一笔最小手续费用的交易，采取如下动作:</p>
@@ -386,9 +386,9 @@ dust transaction
   
   <entry>
     <title type="html"><![CDATA[真的存在独立随机事件吗]]></title>
-    <link href="http://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma/"/>
+    <link href="https://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma/"/>
     <updated>2018-09-09T10:29:21+08:00</updated>
-    <id>http://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma</id>
+    <id>https://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma</id>
     <content type="html"><![CDATA[<p>比特币的block hash value一般被认为是一个真随机值，也被各种dice机制用来做seed.</p>
 
 <p>但是我老是在想：世界上存在真正的随机吗？或者再进一步，存在真正的<code>随机+独立</code>事件吗？</p>
@@ -478,9 +478,9 @@ dust transaction
   
   <entry>
     <title type="html"><![CDATA[史上最可怕的赌局FOMO3D(4)]]></title>
-    <link href="http://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4/"/>
+    <link href="https://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4/"/>
     <updated>2018-08-22T20:07:49+08:00</updated>
-    <id>http://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4</id>
+    <id>https://happy123.me/blog/2018/08/22/shi-shang-zui-ke-pa-de-du-ju-fomo3d-4</id>
     <content type="html"><![CDATA[<p>呵呵，FOMO3D 第一轮今天结束了，奖金10469ETH。</p>
 
 <p>惊奇的是最后的<a href="https://etherscan.io/tx/0xe08a519c03cb0aed0e04b33104112d65fa1d3a48cd3aeab65f047b2abce9d508">幸运儿</a>并没有买断最近的块或是依赖DDOS获胜，他纯粹是涓滴投注的策略流获胜。</p>
@@ -505,9 +505,9 @@ dust transaction
   
   <entry>
     <title type="html"><![CDATA[史上最可怕的赌局FOMO3D(3)]]></title>
-    <link href="http://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3/"/>
+    <link href="https://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3/"/>
     <updated>2018-08-06T09:29:46+08:00</updated>
-    <id>http://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3</id>
+    <id>https://happy123.me/blog/2018/08/06/shi-shang-zui-ke-pa-de-du-ju-fomo3d-3</id>
     <content type="html"><![CDATA[<p>目前FOMO 3D的赌局剩余时间已经有多次下降到3小时以下了。</p>
 
 <p>官方非常贴心的为我们指出了最后关头可能会发生的事情:</p>
