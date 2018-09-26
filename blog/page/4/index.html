@@ -80,6 +80,53 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/04/27/how-to-sort-big-files/">How to Sort Big Files</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-27T17:03:22+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/04/27/how-to-sort-big-files/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/04/27/how-to-sort-big-files/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在linux要排序一个100G的文件，压力比较大</p>
+
+<p>并行解决之:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort -S 50% --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/04/27/a-strange-bitcoin-transaction/">A Strange Bitcoin Transaction</a></h1>
     
     
@@ -536,54 +583,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">比特币POW难度调节分析</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-02-12T20:50:34+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2018</time>
-        
-           | <a href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>比特币白皮书在工作量证明章节中解释了工作量证明（PoW）的方式：</p>
-
-<blockquote><p>我们在区块中补增一个随机数(Nonce)，这个随机数要使得该给定区块的随机散列值出现了所需的那么多个0。我们通过反复尝试来找到这个随机数，直到找到为止，这样我们就构建了一个工作量证明机制。只要该CPU耗费的工作量能够满足该工作量证明机制，那么除非重新完成相当的工作量，该区块的信息就不可更改。由于之后的区块是链接在该区块之后的，所以想要更改该区块中的信息，就还需要重新完成之后所有区块的全部工作量。</p></blockquote>
-
-<p>那这个随机数难度值是怎么产生的呢？</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -601,6 +600,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/09/26/li-man-cai-xiang-de-zheng-ming-hui-dui-jia-mi-huo-bi-chan-sheng-ying-xiang-ma/">黎曼猜想的证明会对加密货币产生影响吗?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/09/12/zi-you-jiao-yi-chuang-zao-cai-fu/">自由交易创造财富?</a>
       </li>
     
@@ -614,10 +617,6 @@
     
       <li class="post">
         <a href="/blog/2018/09/10/yun-ji-suan-de-dan-sheng/">云计算的诞生</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/">为什么不用MAC地址来定位机器</a>
       </li>
     
   </ul>
@@ -674,7 +673,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (25)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (26)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
