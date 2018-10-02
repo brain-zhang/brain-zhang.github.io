@@ -80,6 +80,81 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/06/11/how-to-set-proxy-for-git/">How to Set Proxy for Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-06-11T11:12:20+08:00" pubdate data-updated="true">Jun 11<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/06/11/how-to-set-proxy-for-git/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>全局设置和取消:</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global https.proxy http://127.0.0.1:1080
+</span><span class='line'>
+</span><span class='line'>git config --global https.proxy https://127.0.0.1:1080
+</span><span class='line'>
+</span><span class='line'>git config --global --unset http.proxy
+</span><span class='line'>
+</span><span class='line'>git config --global --unset https.proxy</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>local设置和取消:</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config  https.proxy http://127.0.0.1:1080
+</span><span class='line'>
+</span><span class='line'>git config  https.proxy https://127.0.0.1:1080
+</span><span class='line'>
+</span><span class='line'>git config  --unset http.proxy
+</span><span class='line'>
+</span><span class='line'>git config  --unset https.proxy</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/06/10/becoming-warren-buffett/">Becoming Warren Buffett</a></h1>
     
     
@@ -619,49 +694,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/">How to Compress All Find Files to Single Line Argv</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-30T10:39:39+08:00" pubdate data-updated="true">Apr 30<span>th</span>, 2018</time>
-        
-           | <a href="/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/04/30/how-to-compress-all-find-files-to-single-line-argv/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有时候find的所有文件要合并为一个argv管道到一个命令里面:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -679,6 +711,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/10/02/yong-wiresharkfen-xi-wang-luo/">用wireshark分析网络</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/09/26/li-man-cai-xiang-de-zheng-ming-hui-dui-jia-mi-huo-bi-chan-sheng-ying-xiang-ma/">黎曼猜想的证明会对加密货币产生影响吗?</a>
       </li>
     
@@ -692,10 +728,6 @@
     
       <li class="post">
         <a href="/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/">The Minimum Fee of Bitcoin Transaction</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/10/yun-ji-suan-de-dan-sheng/">云计算的诞生</a>
       </li>
     
   </ul>
@@ -784,7 +816,7 @@
 <li class='category'><a href='/blog/categories/mongoexport/'>mongoexport (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>mysql (1)</a></li>
 <li class='category'><a href='/blog/categories/netcat/'>netcat (1)</a></li>
-<li class='category'><a href='/blog/categories/network/'>network (15)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (16)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (1)</a></li>
 <li class='category'><a href='/blog/categories/openvswitch/'>openvswitch (1)</a></li>
 <li class='category'><a href='/blog/categories/panic/'>panic (1)</a></li>

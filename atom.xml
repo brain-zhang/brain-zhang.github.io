@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-09-26T11:21:32+08:00</updated>
+  <updated>2018-10-02T21:42:02+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,155 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用wireshark分析网络]]></title>
+    <link href="https://happy123.me/blog/2018/10/02/yong-wiresharkfen-xi-wang-luo/"/>
+    <updated>2018-10-02T21:36:37+08:00</updated>
+    <id>https://happy123.me/blog/2018/10/02/yong-wiresharkfen-xi-wang-luo</id>
+    <content type="html"><![CDATA[<p>这两天看了两本有意思的书，<a href="https://book.douban.com/subject/26268767/">Wireshark网络分析就这么简单</a>、<a href="https://book.douban.com/subject/26710788/">wireshark网络分析的艺术</a>。</p>
+
+<p>之前工作中就常常用到这个软件，好多时候总是感叹<code>这个软件实在太NB了</code>，这本书作者也是个实战派，采用种种案例展示了如何用Wireshark探索网络现象，实在是很迷人。</p>
+
+<p>开篇有一个很有意思的小问题，我思考了一下，觉得很容易作为网络理解的小case用在课堂ABC上，记录一下。</p>
+
+<!-- more -->
+
+
+<h3>问题：两台服务器A和B的网络配置如下</h3>
+
+<ul>
+<li>服务器A:
+
+<ul>
+<li>IP:192.168.26.129</li>
+<li>Mask: 255.255.255.0</li>
+<li>Gateway: 192.160.26.2</li>
+</ul>
+</li>
+</ul>
+
+
+<p> 服务器B:
+  &ndash; IP:192.168.26.3
+  &ndash; Mask: 255.255.255.224
+  &ndash; Gateway: 192.160.26.2</p>
+
+<p>B的子网掩码本应该是255.255.255.0，被不小心配成了255.255.255.224。它们还能正常通信吗？</p>
+
+<p>哈哈，我就喜欢这样简单明快的问题。看似简单，其实想想还是有点陷阱的。而且这种问题有个共同点，就是如果你不懂原理，也没关系；喜欢瞎动手的童鞋一般都会去试试这种情况，所以能把答案<code>碰出来</code>。我就见到过这种·自学成才·的老师，他们从来没有在学校里系统学过什么TCP/IP或者老破旧的ISO 7层模型，照样能对网络和路由配置如数家珍，他们的能力完全建立在实战的基础上。</p>
+
+<p>让我们好好分析一下这个问题。</p>
+
+<p>首先B的子网掩码配置决定了它和A不在一个子网上，我们在书本上学到的知识，如果两台机器不在一个子网上，能够通信吗？</p>
+
+<p>哈，如果死读书不实践的人肯定会说:不能通信，不在一个子网嘛。</p>
+
+<p>那么我们照这个逻辑，公司里岂不是不同子网的机器老死不相往来了？</p>
+
+<h4>看吧，这是第一个陷阱，两台机器跨子网能否通信，取决于网关。</h4>
+
+<p>如果没有网关服务器，或者网关服务器限制的话，肯定是不能通信的，虽然A和B物理上处于同一个子网，但是这个时候可以看成有一道防火墙在两台机器之间。</p>
+
+<h4>其实大部分网络管理员都会把网关设置为不同子网间相互转发的，不然一个公司各部门间的机器不能互访，岂不是很悲剧。</h4>
+
+<p>那么在网关能正常转发的情况下，我们来脑补一下两个场景，B访问A，A访问B的具体过程。</p>
+
+<h4>B Ping => A</h4>
+
+<ol>
+<li>B首先检查到A和它不在一个子网，这个时候它需要网关来转发数据包</li>
+<li>B发一个网关IP的ARP请求</li>
+<li>网关(192.168.26.2) 回复B的ARP请求，告诉它俺的MAC 地址是XXX</li>
+<li>有了网关的MAC，B就可以直接发包给网关了，它告诉网关，我要你帮我转发包给A</li>
+<li>如果网关没有限制的话，它就会把包转发给A</li>
+<li>A收到B的请求，他就会问，这个B是谁呀？A检查一番，发现B和自己在一个子网</li>
+<li>既然一个子网，那么A就不会走网关了，它直接发出ARP请求在以太网上广播，谁是B呀，MAC地址回我一个</li>
+<li>B在物理上实际上是和A在一起的，所以直接响应A，俺的MAC地址是这个</li>
+<li>A收到B的ARP响应，就很HAPPY的跳过网关，直接给B响应包啦</li>
+<li>这样的结果就是B发给A的包需要走网关，A发给B的包直接广播到以太网上，由B直接接收</li>
+<li>最终的效果就是B能和A正常通信，虽然B的通信绕了一点远路</li>
+</ol>
+
+
+<h4>A Ping => B</h4>
+
+<p>这个过程其实跟上面一样，A发出ARP请求直接找到了B，所以A发包给B是不用走网关的，B的响应还要走网关。</p>
+
+<p>怎么样，这么看看，是不是问题就很明晰了呢。大部分情况下(网关没有特殊配置)，A和B是能够正常通信的。</p>
+
+<p>有点小得意的说，这个问题我很快就反应过来了；因为我和作者一样是野路子出家，实战瞎鼓捣过，所以这类小Case恰好是尝过的菜。</p>
+
+<p>咳咳，真是有点自吹自擂了；其实绝大多数网络问题最后找到原因都很简单，但是当一个大型的网络里面发生诡异的情况时，能迅速定位问题点是很不容易的。我又回想起来之前工作时，在一个客户现场遇到的坑。</p>
+
+<h4>很久很久以前~~~</h4>
+
+<p>咳咳，其实也不是多久，但那个时候我已经工作挺长时间了，虽然没有经过什么系统理论培训，但是靠着大量野路子实践，我觉得也算是见过很多网络万年坑了，我去客户现场从来不怵头，但就是那一次，差点阴沟里翻船~~</p>
+
+<p>我去国内的某家大型券商部署项目，那家券商真是壕啊，从服务器到网络设备都是定制的特别高端的一批货，然后我熟门熟路的安装好Centos7.1，他们的系统管理员按照内部规定，做了安全防护之后，我们从他们的顶层小机房转移到操作办公室，准备部署应用软件。</p>
+
+<p>这家券商的网络大部分已经迁移到SDN上面，办公室的终端机器经过两层跳板，跳到一个云主机的shell上面，然后再远程ssh连接到我们刚刚装好的服务器上，准备大展拳脚~~~~</p>
+
+<p>根据故事的发展，这个时候就出现了诡异的事情，随机过20~40分钟后，我们的ssh连接就会卡一段时间，然后有几率断掉，之前所有工作都是正常的，而且有时候能正常个1小时，但是最后总是会开始卡。</p>
+
+<p>唉，网络卡死，网络时不时断掉，真的是现场网络工程师人生中的一大悲剧，这类问题感觉天天遇见，但是总是没有一个固定的套路去解决它。</p>
+
+<p>我们的终端机经过了两重跳板，然后ssh客户端和服务器之间，还有一个庞大的网络拓扑，跋山涉水十万八千里才能相见，然后就被某个不知名的幽灵生生拆散了，想象他们艰难的会师路径，我不禁打个冷颤。</p>
+
+<h4>肯定不能先去怀疑他们的会师历程，我们先去查找最简单的，也是最容易出错的部分，就是服务端的sshd配置</h4>
+
+<p>因为安装完系统后，客户的管理员根据他们的安全管理条例，运行了自己开发一个脚本进行了系统加固，很自然的，我们怀疑这个脚本是不是有什么地方配置不对，导致问题</p>
+
+<p>在对服务器配置稳健和脚本代码详细检查之后，我失望的判定，人家的脚本没问题</p>
+
+<h4>配置没有问题，那就看看是不是ssh终端软件有问题呢</h4>
+
+<p>我反复使用ssh登陆不同的服务器，惊奇的发现，凡是登陆我们刚安装好的这批服务器，就会时不时断掉，其它服务器就没有问题；
+但是悲剧的是我们的服务器所在的机房，没有其它测试机，所以只能证明ssh终端软件没问题</p>
+
+<h4>不到万不得已，我是不想怀疑中间庞大的网络路径的，谁知道是不是什么抽风的防火墙规则呢</h4>
+
+<h4>我抱着笔记本，跑到楼上服务器的小机房直联看看，发现直联好得很</h4>
+
+<p>现在说起来简单，其实跑一趟机房需要审批、内部人员带路一堆手续，累的客户跟我上上下下，验证一次需要1个小时以上，而且重现时间是随机的，这就是一线人员苦逼的地方啊。</p>
+
+<h4>看起来一切都导向那个我最不愿意看到的结果，好像是通信中间有个什么诡异的防火墙规则之类的~~，但是这么庞大的网络拓扑，怎么定位问题呢？</h4>
+
+<h4>到了此时，客户不再纠结于安全管理条例，我们小心翼翼的祭出了·抓包·这个手段</h4>
+
+<ul>
+<li><p>不到万不得已，其实大家都不想抓包的；金融行业的客户群，重视安全问题甚于生命，所以能在生产环境中让你抓包，其实已经是皇恩浩荡了。</p></li>
+<li><p>经过了几十分钟苦苦等待，终于问题又重现了，我们小心翼翼的把抓到的包存到本地，用wireshark打开，像欣赏小电影一样仔仔细细~~~</p></li>
+<li><p>果然有问题，那台服务器的ARP响应包里面，MAC地址竟然会变！</p></li>
+<li><p>奇哉怪哉，我们刚配好这台服务器，怎么就让人ARP欺骗了呢？而且如果是他们的网络里面有ARP病毒，为啥就只找我们的服务器呢？</p></li>
+</ul>
+
+
+<h4>当时已经从早上折腾到下午3点种左右，虽然有了重大发现，但是也有了更大的迷惑</h4>
+
+<p>突然我灵光一闪，服务器接了两根网线，一根是管理口为了方便管理，这个一直没有动过，会不会是~~~</p>
+
+<p>我立马报着笔记本和一台小交换机跑上楼去</p>
+
+<h4>将服务器和笔记本通过一台小交换机联到一个小局域网络中，再抓包发现了真相</h4>
+
+<p>这台定制的服务器是浪潮提供的，而浪潮的管理口有个奇怪的设定，它和服务器上的多个网卡被绑定成一个NIC Teaming，类型为Transmit Load Balancing（TLB）。TLB的特点就是收包工作只由一个网卡负责，发包工作则分摊给所有网卡，但是管理口的默认配置有问题，有时候莫名其妙会共享同一个IP，回应ARP请求的时候把自己的MAC地址发回去，但是系统中管理口是没有配置的，所以这台服务器莫名其妙就自己变成了一台ARP欺骗源。</p>
+
+<p>问题定位了，我们打电话找浪潮的供应商；供应商也非常奇怪，表明是第一次碰到这种问题，可能是由于定制的机器，考虑不周导致的。</p>
+
+<p>然后我们的解决方法就是，将笔记本直联服务器，在笔记本上运行一个DHCP 服务，这样管理口在开机的时候会被分配一个IP地址，我们再通过这个IP地址登陆服务器管理界面，配置一个静态IP，就OK了。</p>
+
+<p>虽然最后是一个简单至极的ARP欺骗问题，但是发生在一个庞大的网络拓扑中，调试手段被限制，发生时间随机，楼上物理距离和安全条例导致你重现一次成本极为高昂，你还能·镇定自若，指挥谈笑间·吗，这是一次一波三折的排障经历啊。</p>
+
+<p>我这么详细的回忆一次折腾的排障经历，是因为我在这本书里发现了作者和我一摸一样的苦逼例子，在&lt;wireshark网络分析的艺术>这本书里，大家有兴趣可以自己去翻翻。</p>
+
+<p>其实这两本书真可谓是作者的网络排障手记，因为我也有那么一段跑在一线的日子，读起来格外亲切。这就是一线工程师的日常啊。</p>
+
+<p>曾经，我以为熟读&lt;TCP/IP详解>和&lt;Unix网络编程>就能成为无所不能的网络大拿；曾经，我以为独立实现一个网络协议栈就是开创天地的神邸；后来，我明白了，网络的海洋无穷无尽，虽然规则是死的，但是现实世界实在不可预测，也许下一分钟就会有一个匪夷所思的case来纠缠你，嘲笑你的妄自尊大。</p>
+
+<p>在网络世界迈入SDN之际，我非常惶恐，因为我明白以我的智商，不可能成为什么·专家·了；我想，未来，可能只有在AWS或者Google Cloud浸淫数十年的人，才能小心翼翼的称自己为·真专家·；面对网络知识的变幻莫测，总有一种·生有涯，知无涯·的惶恐；我总是会感叹，网络这个东西实在是太神奇了，真不知道如何形容这份感觉，就是只有·神奇·来形容</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[黎曼猜想的证明会对加密货币产生影响吗?]]></title>
@@ -2530,51 +2679,6 @@ sneks  | 50%            | 10%    | 20%          | 20%
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; db.close()</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Set Proxy for Git]]></title>
-    <link href="https://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git/"/>
-    <updated>2018-06-11T11:12:20+08:00</updated>
-    <id>https://happy123.me/blog/2018/06/11/how-to-set-proxy-for-git</id>
-    <content type="html"><![CDATA[<h3>全局设置和取消:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global https.proxy http://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config --global https.proxy https://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config --global --unset http.proxy
-</span><span class='line'>
-</span><span class='line'>git config --global --unset https.proxy</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>local设置和取消:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config  https.proxy http://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config  https.proxy https://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config  --unset http.proxy
-</span><span class='line'>
-</span><span class='line'>git config  --unset https.proxy</span></code></pre></td></tr></table></div></figure>
-
-
 
 ]]></content>
   </entry>
