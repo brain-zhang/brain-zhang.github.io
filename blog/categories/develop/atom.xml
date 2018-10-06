@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-10-04T22:00:33+08:00</updated>
+  <updated>2018-10-06T17:35:48+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,494 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Evolution of a Programmer]]></title>
+    <link href="https://happy123.me/blog/2018/10/06/the-evolution-of-a-programmer/"/>
+    <updated>2018-10-06T17:22:54+08:00</updated>
+    <id>https://happy123.me/blog/2018/10/06/the-evolution-of-a-programmer</id>
+    <content type="html"><![CDATA[<p>快有二十年的老段子了，最近又看到很多次，莫非是邪恶旧势力的崛起？存档一下。</p>
+
+<!-- more -->
+
+
+<h4>High School/Jr.High</h4>
+
+<p><code>
+  10 PRINT "HELLO WORLD"
+  20 END
+</code></p>
+
+<h4>First year in College</h4>
+
+<p>```
+  program Hello(input, output)</p>
+
+<pre><code>begin
+  writeln('Hello World')
+end.
+</code></pre>
+
+<p>```</p>
+
+<h4>Senior year in College</h4>
+
+<p>```
+  (defun hello</p>
+
+<pre><code>(print
+  (cons 'Hello (list 'World))))
+</code></pre>
+
+<p>```</p>
+
+<h4>New professional</h4>
+
+<p>```
+  #include &lt;stdio.h>
+  void main(void)
+  {</p>
+
+<pre><code>char *message[] = {"Hello ", "World"};
+int i;
+
+for(i = 0; i &lt; 2; ++i)
+  printf("%s", message[i]);
+printf("\n");
+</code></pre>
+
+<p>  }
+```</p>
+
+<h4>Seasoned professional</h4>
+
+<p>```
+  #include &lt;iostream.h>
+  #include &lt;string.h></p>
+
+<p>  class string
+  {
+  private:</p>
+
+<pre><code>int size;
+char *ptr;
+</code></pre>
+
+<p>  string() : size(0), ptr(new char[1]) { ptr[0] = 0; }</p>
+
+<pre><code>string(const string &amp;s) : size(s.size)
+{
+  ptr = new char[size + 1];
+  strcpy(ptr, s.ptr);
+}
+
+~string()
+{
+  delete [] ptr;
+}
+
+friend ostream &amp;operator &lt;&lt;(ostream &amp;, const string &amp;);
+string &amp;operator=(const char *);
+</code></pre>
+
+<p>  };</p>
+
+<p>  ostream &amp;operator&lt;&lt;(ostream &amp;stream, const string &amp;s)
+  {</p>
+
+<pre><code>return(stream &lt;&lt; s.ptr);
+</code></pre>
+
+<p>  }</p>
+
+<p>  string &amp;string::operator=(const char *chrs)
+  {</p>
+
+<pre><code>if (this != &amp;chrs)
+{
+  delete [] ptr;
+ size = strlen(chrs);
+  ptr = new char[size + 1];
+  strcpy(ptr, chrs);
+}
+return(*this);
+</code></pre>
+
+<p>  }</p>
+
+<p>  int main()
+  {</p>
+
+<pre><code>string str;
+
+str = "Hello World";
+cout &lt;&lt; str &lt;&lt; endl;
+
+return(0);
+</code></pre>
+
+<p>  }
+```</p>
+
+<h4>Master Programmer</h4>
+
+<p>```
+  [
+  uuid(2573F8F4-CFEE-101A-9A9F-00AA00342820)
+  ]
+  library LHello
+  {</p>
+
+<pre><code>  // bring in the master library
+  importlib("actimp.tlb");
+  importlib("actexp.tlb");
+
+  // bring in my interfaces
+  #include "pshlo.idl"
+
+  [
+  uuid(2573F8F5-CFEE-101A-9A9F-00AA00342820)
+  ]
+  cotype THello
+</code></pre>
+
+<p>   {
+   interface IHello;
+   interface IPersistFile;
+   };
+  };</p>
+
+<p>  [
+  exe,
+  uuid(2573F890-CFEE-101A-9A9F-00AA00342820)
+  ]
+  module CHelloLib
+  {</p>
+
+<pre><code>  // some code related header files
+  importheader(&lt;windows.h&gt;);
+  importheader(&lt;ole2.h&gt;);
+  importheader(&lt;except.hxx&gt;);
+  importheader("pshlo.h");
+  importheader("shlo.hxx");
+  importheader("mycls.hxx");
+
+  // needed typelibs
+  importlib("actimp.tlb");
+  importlib("actexp.tlb");
+  importlib("thlo.tlb");
+
+  [
+  uuid(2573F891-CFEE-101A-9A9F-00AA00342820),
+  aggregatable
+  ]
+  coclass CHello
+</code></pre>
+
+<p>   {
+   cotype THello;
+   };
+  };</p>
+
+<p>  #include &ldquo;ipfix.hxx&rdquo;</p>
+
+<p>  extern HANDLE hEvent;</p>
+
+<p>  class CHello : public CHelloBase
+  {
+  public:</p>
+
+<pre><code>  IPFIX(CLSID_CHello);
+
+  CHello(IUnknown *pUnk);
+  ~CHello();
+
+  HRESULT  __stdcall PrintSz(LPWSTR pwszString);
+</code></pre>
+
+<p>  private:</p>
+
+<pre><code>  static int cObjRef;
+</code></pre>
+
+<p>  };</p>
+
+<p>  #include &lt;windows.h>
+  #include &lt;ole2.h>
+  #include &lt;stdio.h>
+  #include &lt;stdlib.h>
+  #include &ldquo;thlo.h&rdquo;
+  #include &ldquo;pshlo.h&rdquo;
+  #include &ldquo;shlo.hxx&rdquo;
+  #include &ldquo;mycls.hxx&rdquo;</p>
+
+<p>  int CHello::cObjRef = 0;</p>
+
+<p>  CHello::CHello(IUnknown *pUnk) : CHelloBase(pUnk)
+  {</p>
+
+<pre><code>  cObjRef++;
+  return;
+</code></pre>
+
+<p>  }</p>
+
+<p>  HRESULT  __stdcall  CHello::PrintSz(LPWSTR pwszString)
+  {</p>
+
+<pre><code>  printf("%ws
+</code></pre>
+
+<p>&ldquo;, pwszString);</p>
+
+<pre><code>  return(ResultFromScode(S_OK));
+</code></pre>
+
+<p>  }</p>
+
+<p>  CHello::~CHello(void)
+  {</p>
+
+<p>  // when the object count goes to zero, stop the server
+  cObjRef&mdash;;
+  if( cObjRef == 0 )</p>
+
+<pre><code>  PulseEvent(hEvent);
+</code></pre>
+
+<p>  return;
+  }</p>
+
+<p>  #include &lt;windows.h>
+  #include &lt;ole2.h>
+  #include &ldquo;pshlo.h&rdquo;
+  #include &ldquo;shlo.hxx&rdquo;
+  #include &ldquo;mycls.hxx&rdquo;</p>
+
+<p>  HANDLE hEvent;</p>
+
+<p>   int _cdecl main(
+  int argc,
+  char * argv[]
+  ) {
+  ULONG ulRef;
+  DWORD dwRegistration;
+  CHelloCF *pCF = new CHelloCF();</p>
+
+<p>  hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);</p>
+
+<p>  // Initialize the OLE libraries
+  CoInitializeEx(NULL, COINIT_MULTITHREADED);</p>
+
+<p>  CoRegisterClassObject(CLSID_CHello, pCF, CLSCTX_LOCAL_SERVER,</p>
+
+<pre><code>  REGCLS_MULTIPLEUSE, &amp;dwRegistration);
+</code></pre>
+
+<p>  // wait on an event to stop
+  WaitForSingleObject(hEvent, INFINITE);</p>
+
+<p>  // revoke and release the class object
+  CoRevokeClassObject(dwRegistration);
+  ulRef = pCF->Release();</p>
+
+<p>  // Tell OLE we are going away.
+  CoUninitialize();</p>
+
+<p>  return(0); }</p>
+
+<p>  extern CLSID CLSID_CHello;
+  extern UUID LIBID_CHelloLib;</p>
+
+<p>  CLSID CLSID_CHello = { /<em> 2573F891-CFEE-101A-9A9F-00AA00342820 </em>/</p>
+
+<pre><code>  0x2573F891,
+  0xCFEE,
+  0x101A,
+  { 0x9A, 0x9F, 0x00, 0xAA, 0x00, 0x34, 0x28, 0x20 }
+</code></pre>
+
+<p>  };</p>
+
+<p>  UUID LIBID_CHelloLib = { /<em> 2573F890-CFEE-101A-9A9F-00AA00342820 </em>/</p>
+
+<pre><code>  0x2573F890,
+  0xCFEE,
+  0x101A,
+  { 0x9A, 0x9F, 0x00, 0xAA, 0x00, 0x34, 0x28, 0x20 }
+</code></pre>
+
+<p>  };</p>
+
+<p>  #include &lt;windows.h>
+  #include &lt;ole2.h>
+  #include &lt;stdlib.h>
+  #include &lt;string.h>
+  #include &lt;stdio.h>
+  #include &ldquo;pshlo.h&rdquo;
+  #include &ldquo;shlo.hxx&rdquo;
+  #include &ldquo;clsid.h&rdquo;</p>
+
+<p>  int <em>cdecl main(
+  int argc,
+  char * argv[]
+  ) {
+  HRESULT  hRslt;
+  IHello        *pHello;
+  ULONG  ulCnt;
+  IMoniker * pmk;
+  WCHAR  wcsT[</em>MAX_PATH];
+  WCHAR  wcsPath[2 * _MAX_PATH];</p>
+
+<p>  // get object path
+  wcsPath[0] = &lsquo;\0&rsquo;;
+  wcsT[0] = &lsquo;\0&rsquo;;
+  if( argc > 1) {</p>
+
+<pre><code>  mbstowcs(wcsPath, argv[1], strlen(argv[1]) + 1);
+  wcsupr(wcsPath);
+  }
+</code></pre>
+
+<p>  else {</p>
+
+<pre><code>  fprintf(stderr, "Object path must be specified\n");
+  return(1);
+  }
+</code></pre>
+
+<p>  // get print string
+  if(argc > 2)</p>
+
+<pre><code>  mbstowcs(wcsT, argv[2], strlen(argv[2]) + 1);
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>  wcscpy(wcsT, L"Hello World");
+</code></pre>
+
+<p>  printf(&ldquo;Linking to object %ws\n&rdquo;, wcsPath);
+  printf(&ldquo;Text String %ws\n&rdquo;, wcsT);</p>
+
+<p>  // Initialize the OLE libraries
+  hRslt = CoInitializeEx(NULL, COINIT_MULTITHREADED);</p>
+
+<p>  if(SUCCEEDED(hRslt)) {</p>
+
+<pre><code>  hRslt = CreateFileMoniker(wcsPath, &amp;pmk);
+  if(SUCCEEDED(hRslt))
+</code></pre>
+
+<p>   hRslt = BindMoniker(pmk, 0, IID_IHello, (void **)&amp;pHello);</p>
+
+<pre><code>  if(SUCCEEDED(hRslt)) {
+</code></pre>
+
+<p>   // print a string out
+   pHello->PrintSz(wcsT);</p>
+
+<p>   Sleep(2000);
+   ulCnt = pHello->Release();
+   }</p>
+
+<pre><code>  else
+</code></pre>
+
+<p>   printf(&ldquo;Failure to connect, status: %lx&rdquo;, hRslt);</p>
+
+<pre><code>  // Tell OLE we are going away.
+  CoUninitialize();
+  }
+</code></pre>
+
+<p>  return(0);
+  }
+```</p>
+
+<h4>Apprentice Hacker</h4>
+
+<p>```
+  #!/usr/local/bin/perl
+  $msg=&ldquo;Hello, world.\n&rdquo;;
+  if ($#ARGV >= 0) {</p>
+
+<pre><code>while(defined($arg=shift(@ARGV))) {
+  $outfilename = $arg;
+  open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
+  print (FILE $msg);
+  close(FILE) || die "Can't close $arg: $!\n";
+}
+</code></pre>
+
+<p>  } else {</p>
+
+<pre><code>print ($msg);
+</code></pre>
+
+<p>  }
+  1;
+```</p>
+
+<h4>Experienced Hacker</h4>
+
+<p><code>
+  #include &lt;stdio.h&gt;
+  #define S "Hello, World\n"
+  main(){exit(printf(S) == strlen(S) ? 0 : 1);}
+</code></p>
+
+<h4>Seasoned Hacker</h4>
+
+<p><code>
+  % cc -o a.out ~/src/misc/hw/hw.c
+  % a.out
+</code></p>
+
+<h4>Guru Hacker</h4>
+
+<p><code>
+  % echo "Hello, world."
+</code></p>
+
+<h4>New Manager</h4>
+
+<p><code>
+  10 PRINT "HELLO WORLD"
+  20 END
+</code></p>
+
+<h4>Middle Manager</h4>
+
+<p><code>
+  mail -s "Hello, world." bob@b12
+  Bob, could you please write me a program that prints "Hello, world."?
+  I need it by tomorrow.
+  ^D
+</code></p>
+
+<h4>Senior Manager</h4>
+
+<p><code>
+  % zmail jim
+  I need a "Hello, world." program by this afternoon.
+</code></p>
+
+<h4>Chief Executive</h4>
+
+<p><code>
+  % letter
+  letter: Command not found.
+  % mail
+  To: ^X ^F ^C
+  % help mail
+  help: Command not found.
+  % damn!
+  !: Event unrecognized
+  % logout
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The History of X86]]></title>
@@ -330,88 +818,6 @@ return login_info.strip() == email
 </code></pre>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Peewee ABC]]></title>
-    <link href="https://happy123.me/blog/2018/07/03/peewee-abc/"/>
-    <updated>2018-07-03T11:10:09+08:00</updated>
-    <id>https://happy123.me/blog/2018/07/03/peewee-abc</id>
-    <content type="html"><![CDATA[<p>在我用了又一个小时的时间去温习sqlchemy丰富的文档后，我放弃治疗了。</p>
-
-<p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
-
-<h2>定义Model</h2>
-
-<p>```
-from peewee import SqliteDatabase, Model, CharField</p>
-
-<p>db = SqliteDatabase(&lsquo;testdb.sqlite3&rsquo;)</p>
-
-<p>class User(Model):</p>
-
-<pre><code>username = CharField(index=True)
-password = CharField()
-email = CharField(index=True)
-birthday = DateField()
-is_relative = BooleanField()
-
-class Meta:
-    database = db
-</code></pre>
-
-<p>```</p>
-
-<h2>创建</h2>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>db.connect()
-db.create_tables([User])
-```</p></blockquote></blockquote></blockquote>
-
-<h2>保存</h2>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>user_record = User(name=&lsquo;Bob&rsquo;, password=&ldquo;&rdquo;, email=&ldquo;<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#x6c;&#x6f;&#x40;&#119;&#x6f;&#x72;&#108;&#x64;&#x2e;&#x63;&#111;&#109;">&#104;&#x65;&#x6c;&#x6c;&#x6f;&#x40;&#x77;&#111;&#x72;&#108;&#100;&#46;&#x63;&#x6f;&#109;</a>&rdquo;, birthday=date(1960, 1, 15), is_relative=True)
-user_record.save()</p></blockquote></blockquote></blockquote>
-
-<p>```</p>
-
-<h2>批量插入</h2>
-
-<p>```
-fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
-user_records.append(</p>
-
-<pre><code>(username, password, email, birthday, True),
-(username, password, email, birthday, True),
-(username, password, email, birthday, True),
-</code></pre>
-
-<p>)
-User.insert_many(user_records, fields=fields).execute()</p>
-
-<p>```</p>
-
-<h2>查询</h2>
-
-<p>```
-for user in User.select().where(User.username.contains(username)):</p>
-
-<pre><code>print(user.username ....)
-</code></pre>
-
-<p>```</p>
-
-<h2>关闭</h2>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>db.close()
-```</p></blockquote></blockquote></blockquote>
 ]]></content>
   </entry>
   
