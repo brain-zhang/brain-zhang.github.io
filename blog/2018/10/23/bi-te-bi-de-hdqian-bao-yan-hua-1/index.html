@@ -20,6 +20,8 @@ Alice把信放在一个盒子里，她上了锁， &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
 
   
   <link rel="canonical" href="https://happy123.me/blog/2018/10/23/bi-te-bi-de-hdqian-bao-yan-hua-1">
@@ -296,7 +298,7 @@ Alice把信放在一个盒子里，她上了锁， &hellip;">
 
 <p>我们看到了，非对称加密的核心，依赖于一个非常健壮的单向函数。RSA采用的是大素数分解的单向函数。这基于一个十分简单的数论事实：将两个大素数相乘十分容易，但是想要对其乘积进行因式分解却极其困难。大质数分解问题一直是数学里面的热门问题。</p>
 
-<p>即便如此，因式分解在位对位基础里不是最难的问题.这些因式分解算法随着被因式分解的数字变得越大而变得越有效率。因式分解大批数字和乘以大批数字的难度的差距随着数字（即秘钥的字节长度）变大而缩小。随着有效解码数字的资源增加，秘钥的大小必须更快增长。对限制计算能力的手机和低功率设备来说，这不是一个可持续的情况。从长期来看，因式分解和乘法的差距是不可持续的。</p>
+<p>即便如此，因式分解在位对位基础里不是最难的问题。这些因式分解算法随着被因式分解的数字变得越大而变得越有效率。因式分解大批数字和乘以大批数字的难度的差距随着数字（即秘钥的字节长度）变大而缩小。随着有效解码数字的资源增加，秘钥的大小必须更快增长。对限制计算能力的手机和低功率设备来说，这不是一个可持续的情况。从长期来看，因式分解和乘法的差距是不可持续的。</p>
 
 <p>所有这一切意味着RSA不是理想的系统对将来的密码学来说。在一个完美的trapdoor函数里，对于数字大小的问题，简单方法和困难方法都一同样的速率变难。所以我们需要一个基于更好的trapdoor的公钥系统。</p>
 
@@ -366,7 +368,9 @@ Alice把信放在一个盒子里，她上了锁， &hellip;">
 
 <p>其中，</p>
 
-<p>x = F028892BAD7ED57D2FB57BF33081D5CFCF6F9ED3D3D7F159C2E2FFF579DC341A y = 07CF33DA18BD734C600B96A72BBC4749D5141C90EC8AC328AE52DDFE2E505BDB</p>
+<p>x = F028892BAD7ED57D2FB57BF33081D5CFCF6F9ED3D3D7F159C2E2FFF579DC341A</p>
+
+<p>y = 07CF33DA18BD734C600B96A72BBC4749D5141C90EC8AC328AE52DDFE2E505BDB</p>
 
 <p>为了展示整数点的乘法，我们将使用较为简单的实数范围的椭圆曲线。请记住，其中的数学原理是相同的。我们的目标是找到生成点G的倍数kG。也就是将G相加k次。在椭圆曲线中，点的相加等同于从该点画切线找到与曲线相交的另一 点，然后翻折到x轴。</p>
 
@@ -380,7 +384,15 @@ Alice把信放在一个盒子里，她上了锁， &hellip;">
 
 <ol>
 <li>选定了secp256k1算法，其实是通用的椭圆曲线的特化(a=0, b=7)，另外选定一个非常大的模除数字p</li>
-<li>选定了一个G点，<code>G = 04 79BE667E F9DCBBAC 55A06295 CE870B07 029BFCDB 2DCE28D9 59F2815B 16F81798 483ADA77 26A3C465 5DA4FBFC 0E1108A8 FD17B448 A6855419 9C47D08F FB10D4B8</code></li>
+<li>选定了一个G点</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>G = 04 79BE667E F9DCBBAC 55A06295 CE870B07 029BFCDB 2DCE28D9 59F2815B 16F81798 483ADA77 26A3C465 5DA4FBFC 0E1108A8 FD17B448 A6855419 9C47D08F FB10D4B8`</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
 <li>随机生成了一个私钥k</li>
 <li>求得公钥K = k * G，这里对G进行了k次翻转，一个不可逆的操作得到公钥K</li>
 <li>对K再做后续变形，最终得到比特币账户的地址，这个变形又是一系列神操作，我们在后面的文章会讲</li>
