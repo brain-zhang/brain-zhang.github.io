@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-10-23T19:01:07+08:00</updated>
+  <updated>2018-10-23T19:07:30+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -194,14 +194,14 @@ y = 453^x % 21997
 <li>复杂的情况出现了。Eve想欺骗Alice，他偷偷使用了Alice的电脑，用自己的公钥换走了鲍勃的公钥。此时，Alice实际拥有的是Eve的公钥，但是还以为这是Bob的公钥。因此，Eve就可以冒充Bob，用自己的私钥做成"数字签名"，写信给Alice，让Alice用假的Bob公钥进行解密。</li>
 <li>后来，Alice感觉不对劲，发现自己无法确定公钥是否真的属于Bob。每次都去寻找Bob的个人网页去比对也很麻烦；她想到了一个办法，要求Bob去找"证书中心"（certificate authority，简称CA），为公钥做认证。证书中心用自己的私钥，对Bob的公钥和一些相关信息一起加密，生成"数字证书"（Digital Certificate）。</li>
 <li>Bob拿到数字证书以后，就可以放心了。以后再给Alice写信，只要在签名的同时，再附上数字证书就行了。</li>
-<li>苏Alice信后，用CA的公钥解开数字证书，就可以拿到Bob真实的公钥了，然后就能证明"数字签名"是否真的是Bob签的。</li>
+<li>Alice收到信后，用CA的公钥解开数字证书，就可以拿到Bob真实的公钥了，然后就能证明"数字签名"是否真的是Bob签的。</li>
 <li>以上过程涉及了<code>非对称加密</code>，<code>HASH</code>，<code>签名</code>,<code>Digest</code>，<code>CA</code>等等名词，没错，我们说的就是HTTPS</li>
 </ol>
 
 
 <p>完整的资料参看这里：</p>
 
-<p><a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html">http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html</a></p>
+<p><a href="http://www.youdzone.com/signature.html">http://www.youdzone.com/signature.html</a></p>
 
 <h2>椭圆曲线ECC加密算法（Elliptic Curve Cryptography）</h2>
 
