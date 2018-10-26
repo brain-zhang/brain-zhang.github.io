@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>用Pyinstaller打包python脚本适配windows - Living a Simple Life is a Happy Life</title>
+  <title>Bitcoin-cli Cheat - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="一行命令的事，纯python脚本打包出来一般5Mb左右，大小还可以接收。 首先在脚本同目录下加入一个pyinstaller.py: #!/usr/bin/env python
-from PyInstaller.__main__ import run
-run() 然后执行: python &hellip;">
+  <meta name="description" content="今天踩了一个巨坑。 我一直以为bitcoin-cli sendfrom命令是可以花费uncomfirmed UTXO的。 然后今天发现bitcoin-core 0.17版本已经开始废弃这个命令和bitcoin account的支持了。于是去修改万年之前的一个脚本。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +20,7 @@ run() 然后执行: python &hellip;">
   
 
   
-  <link rel="canonical" href="https://happy123.me/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows">
+  <link rel="canonical" href="https://happy123.me/blog/2018/10/26/bitcoin-cli-cheat">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -81,7 +79,7 @@ run() 然后执行: python &hellip;">
   
   <header>
     
-      <h1 class="entry-title">用Pyinstaller打包python脚本适配windows</h1>
+      <h1 class="entry-title">Bitcoin-cli Cheat</h1>
     
     
       <p class="meta">
@@ -97,7 +95,7 @@ run() 然后执行: python &hellip;">
   
 
 
-<time datetime="2017-02-14T16:13:52+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2017</time>
+<time datetime="2018-10-26T16:28:23+08:00" pubdate data-updated="true">Oct 26<span>th</span>, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://happy123.me">Comments</a>
@@ -107,25 +105,57 @@ run() 然后执行: python &hellip;">
   </header>
 
 
-<div class="entry-content"><p>一行命令的事，纯python脚本打包出来一般5Mb左右，大小还可以接收。</p>
+<div class="entry-content"><p>今天踩了一个巨坑。</p>
 
-<p>首先在脚本同目录下加入一个pyinstaller.py:</p>
+<p>我一直以为<code>bitcoin-cli sendfrom</code>命令是可以花费uncomfirmed UTXO的。</p>
 
-<pre><code>#!/usr/bin/env python
-from PyInstaller.__main__ import run
-run()
-</code></pre>
+<!-- more -->
 
-<p>然后执行:</p>
 
-<pre><code>python pyinstaller.py -c -F &lt;xxxx.py&gt; -p &lt;sdk&gt;
-</code></pre>
+<p>然后今天发现bitcoin-core 0.17版本已经开始废弃这个命令和<code>bitcoin account</code>的支持了。于是去修改万年之前的一个脚本。</p>
 
-<ul>
-<li>&lt;xxxx.py> 为脚本名称</li>
-<li><sdk> 为三方包目录</li>
-</ul>
+<p>然后我切换到TESTNET里面发了几笔交易，惊奇的发现sendfrom并不能花费uncomfirmed UTXO。执行:</p>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; bitcoin-cli sendfrom "" "1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd" 0.01 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>明明我已经发给测试账户0.1BTC过去了，getwalletinfo可以看到这个币了，我也把minconf设为0了，却在执行sendfrom的时候总是提示我<code>Account has insufficient funds</code>；</p>
+
+<p>我一路代码追下去，在这里:</p>
+
+<p><a href="https://github.com/bitcoin/bitcoin/blob/e44150feed53317677b1e2073f3cb0cfc67b691c/src/wallet/rpcwallet.cpp#L915">https://github.com/bitcoin/bitcoin/blob/e44150feed53317677b1e2073f3cb0cfc67b691c/src/wallet/rpcwallet.cpp#L915</a></p>
+
+<p>惊奇的发现只有自己的找零才会在uncomfirmed的情况下被计入credit fund，震惊了。我这个脚本运行了半年了，才发现这个坑。</p>
+
+<p>没办法，自己又封装了一遍<code>createrawtransaction</code>，<code>signrawtransaction</code>, <code>sendrawtransaction</code>，来代替sendfrom的功能。</p>
+
+<p>找这个问题我在TESTNET里面发了不下一百笔交易，wallet部分的代码已经翻遍了，我深深为之感叹bitcoin core实现wallet这部分的精巧，好多地方的细节已经不是人类能理解的了；太可怕了。</p>
+
+<p>另外记一下远程调用bitcoind rpc接口的套路:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;bitcoin_cli --rpcconnect=192.168.2.7 --rpcpassword="xxxxx" --rpcuser=test getwalletinfo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>相应的，bitcoin.conf也要允许远端调用rpc接口的权限:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpcuser=test
+</span><span class='line'>rpcpassword=xxxxx
+</span><span class='line'>rpcallowip=192.168.2.0/255.255.255.0
+</span><span class='line'>rpcport=8332
+</span><span class='line'>rpcthreads=10
+</span><span class='line'>server=1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ps: bitcoin.conf 可以直接放到blockchain的数据目录，反正我看0.15的代码，已经把这个路径默认加到path搜索里面了。</p>
 </div>
 
 
@@ -148,12 +178,12 @@ run()
   
 
 
-<time datetime="2017-02-14T16:13:52+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2017</time>
+<time datetime="2018-10-26T16:28:23+08:00" pubdate data-updated="true">Oct 26<span>th</span>, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/develop/'>develop</a>, <a class='category' href='/blog/categories/windows/'>windows</a>
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
   
 </span>
 
@@ -169,10 +199,8 @@ run()
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/" title="Previous Post: Python在windows CMD中输出中文">&laquo; Python在windows CMD中输出中文</a>
+        <a class="basic-alignment left" href="/blog/2018/10/23/bi-te-bi-de-hdqian-bao-yan-hua-1/" title="Previous Post: 比特币的HD钱包演化-1">&laquo; 比特币的HD钱包演化-1</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/03/07/ant-pool-support-bitcoin-ulimited/" title="Next Post: ant pool support Bitcoin Ulimited">ant pool support Bitcoin Ulimited &raquo;</a>
       
     </p>
   </footer>
@@ -294,8 +322,8 @@ run()
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://happy123.me/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/';
-        var disqus_url = 'https://happy123.me/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/';
+        var disqus_identifier = 'https://happy123.me/blog/2018/10/26/bitcoin-cli-cheat/';
+        var disqus_url = 'https://happy123.me/blog/2018/10/26/bitcoin-cli-cheat/';
         var disqus_script = 'embed.js';
       
     (function () {
