@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/git/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-10-26T16:55:08+08:00</updated>
+  <updated>2018-10-29T11:25:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -358,6 +358,9 @@ git diff --stat
 
 # 显示两次更改之间所有的文件名
 git diff-tree -r --no-commit-id --name-only --diff-filter=ACMRTD HEAD HEAD^
+
+# diff两个分支
+git diff master branch/1.1 --
 </code></pre>
 
 <h2>其他</h2>
