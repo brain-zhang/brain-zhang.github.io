@@ -118,13 +118,13 @@
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;printf "satoshi"|sha256sum
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; printf "satoshi"|sha256sum
 </span><span class='line'>da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f  -</span></code></pre></td></tr></table></div></figure>
 
 
 <p>得到私钥为<code>da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</code></p>
 
-<h2>用WIF表示私钥</h2>
+<h2>用WIF (Wallet Import Format)表示私钥</h2>
 
 <p>我们看到私钥本质上是256bit的数字，他可以用二进制表示，也可以用16进制字符串表示，也可以用Base58Check来表示；为了在不同的钱包中方便的导入导出私钥，也为了方便二维码的生成，比特币采用了名为<code>WIF</code>的表示方法，下面列一个表格来说明:</p>
 
@@ -298,7 +298,7 @@
 
 <p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181102/bg1.jpg" alt="img" /></p>
 
-<p>引入Python代码计算一下 <code>satoshi</code>作为seed的地址</p>
+<p><code>satoshi</code>作为seed计算出私钥，进而计算出公钥K之后，最终进一步生成地址</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -314,7 +314,7 @@
 </span><span class='line'>    return addr</span></code></pre></td></tr></table></div></figure>
 
 
-<p>因为公钥由压缩形式和非压缩两种形式，所以完整的结果是:</p>
+<p>因为公钥存在压缩形式和非压缩两种形式，所以完整的结果是:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -329,7 +329,7 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>seed: satoshi
-</span><span class='line'>sha256: da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f
+</span><span class='line'>sha256 private key: da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f
 </span><span class='line'>
 </span><span class='line'>compress address
 </span><span class='line'>WIF: L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6
