@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-02T13:44:53+08:00</updated>
+  <updated>2018-11-02T13:52:37+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -205,7 +205,7 @@
 
 <p>最后综合起来，从公钥K到比特币地址完整的示意图如下:</p>
 
-<p><img src="http://upload-images.jianshu.io/upload_images/1785959-6fc43eee55666ff2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181102/bg1.jpg" alt="img" /></p>
 
 <p>引入Python代码计算一下 <code>satoshi</code>作为seed的地址</p>
 
@@ -935,7 +935,8 @@
 <li>有很多部门需要批准获取一些资金，比如研发要用啦做测试，市场部门要用来搞活动等等</li>
 <li>最后，私钥最好只能由少数人，最好只有我本人来掌握，不然私钥的传播过程中，随便一个人就能让你万劫不复</li>
 <li>我如果有一些合伙人的话，肯定也希望能掌管一部分资金</li>
-<li>最后，如果有突发情况，我能迅速把公司账上所有的币都转移到另外一个安全的账户上，这有可能是要迅速完成上万笔的交易转移</li>
+<li>如果有突发情况，我能迅速把公司账上所有的币都转移到另外一个安全的账户上，这有可能是要迅速完成上万笔的交易转移</li>
+<li>最后，我希望所有的交易，签署和广播是在不同的机器上进行的，存有私钥的机器不能联网，这台机器签名完毕后，调用远端的服务端广播交易，这样完全实现钱包的冷隔离</li>
 </ul>
 
 
@@ -945,7 +946,7 @@
 
 <p>那到底要怎么做呢？</p>
 
-<p>我们已经探索了这么远，估计你也不耐烦了，但是我们还要说，这还早的远呢！那么下次文章再见。</p>
+<p>我们已经探索了这么远，估计你也不耐烦了，但是我们还要说，这还早的很呢！那么下次文章再见。</p>
 ]]></content>
   </entry>
   
