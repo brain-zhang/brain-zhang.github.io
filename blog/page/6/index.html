@@ -82,6 +82,63 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-01-09T16:42:45+08:00" pubdate data-updated="true">Jan 9<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/01/09/block-chain-white-papers/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/01/09/block-chain-white-papers/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>比特币白皮书</h2>
+
+<h4>中文版</h4>
+
+<p><a href="http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system">http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system</a></p>
+
+<h4>英文版</h4>
+
+<p><a href="https://bitcoin.org/bitcoin.pdf">https://bitcoin.org/bitcoin.pdf</a></p>
+
+<h2>以太坊白皮书</h2>
+
+<h4>中文版</h4>
+
+<p><a href="http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6">http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6</a></p>
+
+<h4>英文版</h4>
+
+<p><a href="https://github.com/ethereum/wiki/wiki/White-Paper">https://github.com/ethereum/wiki/wiki/White-Paper</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/12/07/nicehashbei-dao/">NiceHash被盗</a></h1>
     
     
@@ -663,73 +720,6 @@ firewall-cmd --reload
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">How to Update to gcc4.9.x on Centos7</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-04-15T15:50:53+08:00" pubdate data-updated="true">Apr 15<span>th</span>, 2017</time>
-        
-           | <a href="/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>现在很多软件包默认编译要求GLIBCXX >=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件>=4.9.1。</p>
-
-<p>CentOS下升级gcc版本有两个途径，一个是添加其他源进行自动升级，一个是手动编译升级，这里先顺便讲下自动升级的两个办法：</p>
-
-<h3>添加Fedora源</h3>
-
-<p>在 /etc/yum.repos.d 目录中添加文件 FedoraRepo.repo ，并输入以下内容:</p>
-
-<pre><code>[warning:fedora]
-name=fedora
-mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-23&amp;arch=$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://getfedora.org/static/34EC9CBA.txt
-</code></pre>
-
-<p>然后执行</p>
-
-<pre><code>yum update gcc gcc-c++
-</code></pre>
-
-<h3>使用Devtoolset-4升级</h3>
-
-<pre><code>yum install centos-release-scl
-yum install devtoolset-4-gcc*
-scl enable devtoolset-4 bash
-which gcc
-gcc --version
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -747,6 +737,10 @@ gcc --version
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">比特币的HD钱包演化-2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/10/26/bitcoin-cli-cheat/">Bitcoin-cli Cheat</a>
       </li>
     
@@ -760,10 +754,6 @@ gcc --version
     
       <li class="post">
         <a href="/blog/2018/10/06/the-evolution-of-a-programmer/">The Evolution of a Programmer</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/10/04/liang-ge-jing-dian-de-pai-zhang-gu-shi/">两个经典的排障故事</a>
       </li>
     
   </ul>
@@ -820,7 +810,7 @@ gcc --version
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (28)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (29)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
