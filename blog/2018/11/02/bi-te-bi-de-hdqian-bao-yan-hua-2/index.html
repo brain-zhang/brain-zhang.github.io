@@ -1068,6 +1068,161 @@
 
 <p>不过我们就不要讲故事了，总之Bitcoin Cash分叉诞生后，为了和传统的Bitcoin地址相区别，自己又做了一下改动。</p>
 
+<p>快速看看BCH新老地址的对比：</p>
+
+<ol>
+<li><p>新地址是和老地址一一对应的，它们对应了同一个私钥，只是换了种写法</p></li>
+<li><p>新地址可以发送余额给老地址，老地址可以发送余额到新地址</p></li>
+<li><p>新地址是大小写不敏感的，可以全部转成大写，也可以全部转成小写，优先小写格式，同一地址不能大小写混用</p></li>
+<li><p>新地址的前缀可写可不写，老地址没有前缀，通过首字符来标识类型</p></li>
+<li><p>新地址用base32编码，老地址用base58编码</p></li>
+</ol>
+
+
+<p>官方文档描述参见<a href="https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md">这里</a>，让我们从seed <code>satoshi</code> 生成一个bitcoin cash 地址演示一遍。</p>
+
+<h4>规范</h4>
+
+<p>新的bitcoin cash地址是由：</p>
+
+<ul>
+<li>能够表示该地址有效的网络的前缀，一般为主网(bitcoincash)、测试网(bchtest)、回归测试网(bchreg)三种。</li>
+<li>一个分隔符：<code>:</code></li>
+<li>一个base32编码的payload，表示这个地址的目的地和包含的checksum（校验和）。</li>
+</ul>
+
+
+<h4>Payload</h4>
+
+<p>payload是base32编码的数据流，由三个元素组成:</p>
+
+<ul>
+<li>指示地址字节的版本类型</li>
+</ul>
+
+
+<p>共8bits, 1bit(0) + 4bits (地址类型：Type bits) + 3bits (hash长度：Size bits)</p>
+
+<table>
+<thead>
+<tr>
+<th>Type bits (二进制) </th>
+<th> 地址类型 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0000 </td>
+<td> P2PKH</td>
+</tr>
+<tr>
+<td>1000 </td>
+<td> P2SH</td>
+</tr>
+<tr>
+<td>0000 </td>
+<td> P2PKH-TESTNET</td>
+</tr>
+<tr>
+<td>1000 </td>
+<td> P2SH-TESTNET</td>
+</tr>
+</tbody>
+</table>
+
+
+<table>
+<thead>
+<tr>
+<th>Size bits (二进制) </th>
+<th> 代表hash长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>000 </td>
+<td> 160</td>
+</tr>
+<tr>
+<td>001 </td>
+<td> 192</td>
+</tr>
+<tr>
+<td>010 </td>
+<td> 224</td>
+</tr>
+<tr>
+<td>011 </td>
+<td> 256</td>
+</tr>
+<tr>
+<td>100 </td>
+<td> 320</td>
+</tr>
+<tr>
+<td>101 </td>
+<td> 384</td>
+</tr>
+<tr>
+<td>110 </td>
+<td> 448</td>
+</tr>
+<tr>
+<td>111 </td>
+<td> 512</td>
+</tr>
+</tbody>
+</table>
+
+
+<ul>
+<li>一个hash值</li>
+</ul>
+
+
+<p>hash含义取决于版本字段。它是表示数据的hash，即P2KH的pubkey hash和P2SH的reedemScript哈希。这个需要我们在比特币交易格式解析的时候才能讲到。</p>
+
+<ul>
+<li>一个40字节的校验和</li>
+</ul>
+
+
+<p>校验和根据以下代码计算：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>uint64_t PolyMod(const data &v) {
+</span><span class='line'>    uint64_t c = 1;
+</span><span class='line'>    for (uint8_t d : v) {
+</span><span class='line'>        uint8_t c0 = c &gt;&gt; 35;
+</span><span class='line'>        c = ((c & 0x07ffffffff) &lt;&lt; 5) ^ d;
+</span><span class='line'>        
+</span><span class='line'>        if (c0 & 0x01) c ^= 0x98f2bc8e61;
+</span><span class='line'>        if (c0 & 0x02) c ^= 0x79b76d99e2;
+</span><span class='line'>        if (c0 & 0x04) c ^= 0xf33e5fb3c4;
+</span><span class='line'>        if (c0 & 0x08) c ^= 0xae2eabe2a8;
+</span><span class='line'>        if (c0 & 0x10) c ^= 0x1e4f43e470;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return c ^ 1;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>待续~~~</p>
+
 <h2>总结</h2>
 
 <p>以上长篇大论了比特币系统的地址是如何生成的，当然我们也略过了许多细节，比如钱包如何加salt，如何加passphrase等等，这些直接去读BIP 规范更为精确；但是一个完整的钱包，可不仅仅是要解决地址生成这个问题，还要能方便的管理私钥。</p>
