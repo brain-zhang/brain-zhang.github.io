@@ -1229,10 +1229,42 @@
 <li>取<code>satoshi</code> 生成的非压缩地址<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
 <li>这个地址是一个主网地址，前缀为<code>bitcoincash:xxxxx</code></li>
 <li>这个地址类型为<code>P2PKH</code>，version_bits为0000</li>
-<li><code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>进行base58 Decode，去掉末尾的4字节checksum，得到的hash值用list表示<code>[101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</code></li>
-<li>加入version前缀，<code>payload = [0, 101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</code></li>
-<li>将hash进行8bits->5bits BCH码的转换，<code>payload = [0, 1, 18, 16, 26, 1, 4, 23, 28, 0, 10, 14, 12, 3, 10, 6, 16, 3, 30, 14, 13, 6, 11, 29, 8, 1, 14, 30, 4, 25, 7, 16, 8, 8]</code></li>
-<li>计算校验和:<code>checksum=[24, 25, 19, 1, 12, 3, 18, 8]</code></li>
+<li><code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>进行base58 Decode，去掉末尾的4字节checksum，得到的hash值用list表示</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>payload = [101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>加入version前缀</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>payload = [0, 101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>将hash进行8bits->5bits BCH码的转换</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>payload = [0, 1, 18, 16, 26, 1, 4, 23, 28, 0, 10, 14, 12, 3, 10, 6, 16, 3, 30, 14, 13, 6, 11, 29, 8, 1, 14, 30, 4, 25, 7, 16, 8, 8]</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>计算校验和</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>checksum=[24, 25, 19, 1, 12, 3, 18, 8]</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
 <li>对payload + checksum进行base32编码，得到<code>qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
 <li>加入前缀<code>bitcoincash:</code>，组合得到最后地址<code>bitcoincash:qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
 </ol>
