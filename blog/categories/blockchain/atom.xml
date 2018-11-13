@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-13T21:29:24+08:00</updated>
+  <updated>2018-11-13T21:31:25+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -368,7 +368,7 @@ print(root.ExtendedKey())</p></blockquote>
 
 <p>为了应对这种风险，HD钱包使用一种叫做硬化衍生(hardened derivation）的替代衍生函数。这就“打破”了母公钥以及子链码之间的关系。这个硬化衍生函数使用了母私钥去推导子链码，而不是母公钥。这就在母/子顺序中创造了一道“防火墙”——有链码但并不能够用来推算子链码或者姊妹私钥。强化衍生函数看起来几乎与一般的衍生的子私钥相同，不同的是母私钥被用来输入散列函数中而不是母公钥，如图所示。</p>
 
-<p><img src="http://upload-images.jianshu.io/upload_images/1785959-da0636d43b3579ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181113/bg5.jpg" alt="img" /></p>
 
 <p>当强化私钥衍生函数被使用时，得到的子私钥以及链码与使用一般衍生函数所得到的结果完全不同。得到的密钥“分支”可以被用来生产不易被攻击的扩展公钥，因为它所含的链码不能被用来开发或者暴露任何私钥。强化衍生也因此被用在上一层级，使用扩展公钥的密钥树中创造“间隙”。</p>
 
