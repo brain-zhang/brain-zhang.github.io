@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-13T21:31:25+08:00</updated>
+  <updated>2018-11-13T21:37:25+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -3297,7 +3297,7 @@
 
 <p>黎曼1859年在他的论文《论小于已知数的素数个数》提出了这个著名的猜想，但它并非该论文的中心目的，他也没有试图给出证明。这个猜想描述如下:</p>
 
-<p><img src="https://ws1.sinaimg.cn/large/893d6e9dly1fvmquq5a8ej211y04wgqb.jpg" alt="黎曼猜想" /></p>
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20180926/bg1.jpg" alt="黎曼猜想" /></p>
 
 <p>这个函数称之为黎曼 zeta 函数。黎曼给出了一个推测：黎曼 zeta 函数的所有非平凡零点可能都全部位于实部等于1/2的直线上。上述公式中的第二项，x 的 ρ 次幂的ρ就是黎曼 zeta 函数非平凡零点。</p>
 
