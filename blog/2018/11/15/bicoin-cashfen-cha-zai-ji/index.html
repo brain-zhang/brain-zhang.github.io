@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bicoin Cash分叉在即 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="Bitcoin Cash 将于UNIX时间1542300000 (即香港时间2018年11月16日00：40)发生硬分叉; 分叉两派是比特大陆为首支持的Bitcoin ABC实现，以及Craig Steven Wright为首的BItcoin SV实现。 两派的恩恩怨怨政治斗争无心吐槽， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2018/11/15/bicoin-cashfen-cha-zai-ji">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bicoin Cash分叉在即</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-11-15T15:08:32+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Bitcoin Cash 将于UNIX时间1542300000 (即香港时间2018年11月16日00：40)发生硬分叉;</p>
+
+<p>分叉两派是比特大陆为首支持的<a href="https://github.com/Bitcoin-ABC/bitcoin-abc">Bitcoin ABC</a>实现，以及Craig Steven Wright为首的<a href="https://github.com/bitcoin-sv/bitcoin-sv">BItcoin SV</a>实现。</p>
+
+<p>两派的恩恩怨怨政治斗争无心吐槽，咱也没有明确的倾向；但是作为码农咱要黑一黑；</p>
+
+<p>&lt;&mdash;! more &mdash;></p>
+
+<p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/2ab7775797a5a37ab311ab9a067771e5c1bfe22a">这里</a>是bitcoin SV 从Bitcoin ABC项目里面开始folk出来的修改；截至他们发布Bitcoin SV Beta1.0；最后提交的代码是<a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/1dcf61c6fd2898e506a9b9f1fe954d0ec46b2d12">1dcf61c6fd2898e506a9b9f1fe954d0ec46b2d12</a>；</p>
+
+<p>执行 <code>git diff 802629f 1dcf61c --stat</code> 瞄一眼:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> .arcconfig                                               |    9 -
+</span><span class='line'> .arclint                                                 |   18 -
+</span><span class='line'> .teamcity/.gitignore                                     |    3 -
+</span><span class='line'> .teamcity/BitcoinABC/Project.kt                          |   18 -
+</span><span class='line'> .teamcity/BitcoinABC/buildTypes/BitcoinABCMasterLinux.kt |   49 --
+</span><span class='line'> .teamcity/BitcoinABC/settings.kts                        |   41 --
+</span><span class='line'> .teamcity/BitcoinABC/vcsRoots/BitcoinABCGit.kt           |   18 -
+</span><span class='line'> .teamcity/pom.xml                                        |  114 -----
+</span><span class='line'> .travis.yml                                              |   89 ----
+</span><span class='line'> CMakeLists.txt                                           |    2 +-
+</span><span class='line'> CONTRIBUTING.md                                          |  193 +-------
+</span><span class='line'> COPYING                                                  |    1 +
+</span><span class='line'> INSTALL.md                                               |    2 +-
+</span><span class='line'> README.md                                                |   33 +-
+</span><span class='line'> arcanist/.phutil_module_cache                            |    1 -
+</span><span class='line'> arcanist/__phutil_library_init__.php                     |    3 -
+</span><span class='line'> arcanist/__phutil_library_map__.php                      |   20 -
+</span><span class='line'> arcanist/linter/AutoPEP8Linter.php                       |   79 ----
+</span><span class='line'> arcanist/linter/ClangFormatLinter.php                    |   79 ----
+</span><span class='line'> src/Makefile.am                                          |    2 +
+</span><span class='line'> src/Makefile.test.include                                |    2 +-
+</span><span class='line'> src/clientversion.cpp                                    |    4 +-
+</span><span class='line'> src/config.cpp                                           |    8 +
+</span><span class='line'> src/config/CMakeLists.txt                                |    2 +-
+</span><span class='line'> src/consensus/consensus.h                                |    4 +-
+</span><span class='line'> src/init.cpp                                             |   22 +-
+</span><span class='line'> src/miner.cpp                                            |    4 +-
+</span><span class='line'> src/policy/policy.h                                      |    2 +-
+</span><span class='line'> src/rpc/misc.cpp                                         |   11 +-
+</span><span class='line'> src/script/interpreter.cpp                               |  133 +++++-
+</span><span class='line'> src/script/interpreter.h                                 |   95 +---
+</span><span class='line'> src/script/script.h                                      |    8 +
+</span><span class='line'> src/script/script_flags.h                                |  108 +++++
+</span><span class='line'> src/test/CMakeLists.txt                                  |    2 +-
+</span><span class='line'> src/test/data/script_tests.json                          |  118 ++++-
+</span><span class='line'> src/test/excessiveblock_tests.cpp                        |   23 +-
+</span><span class='line'> src/test/miner_tests.cpp                                 |    8 +-
+</span><span class='line'> src/test/monolith_opcodes.cpp                            |  789 --------------------------------
+</span><span class='line'> src/test/net_tests.cpp                                   |    4 +-
+</span><span class='line'> src/test/opcode_tests.cpp                                | 1171 ++++++++++++++++++++++++++++++++++++++++++++++++
+</span><span class='line'> src/test/rpc_tests.cpp                                   |   13 +
+</span><span class='line'> src/test/scriptflags.cpp                                 |    2 +
+</span><span class='line'> src/validation.cpp                                       |   45 +-
+</span><span class='line'> src/validation.h                                         |    6 +
+</span><span class='line'> test/functional/abc-cmdline.py                           |   10 +-
+</span><span class='line'> test/functional/abc-p2p-compactblocks.py                 |    3 +-
+</span><span class='line'> test/functional/abc-rpc.py                               |    8 +-
+</span><span class='line'> test/functional/bsv-128Mb-blocks.py                      |  237 ++++++++++
+</span><span class='line'> test/functional/bsv-blocksize-params.py                  |   40 ++
+</span><span class='line'> test/functional/magnetic-activation.py                   |  182 ++++++++
+</span><span class='line'> test/functional/prioritise_transaction.py                |    3 +-
+</span><span class='line'> 51 files changed, 2152 insertions(+), 1689 deletions(-)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从头review一遍，他们从2018-08-22搞到现在，啥改动都没有，就开了几个操作码，改了几个测试；原本MAXBLOCKSIZE就变成可配置的了，他们不过是稍稍改了一下判断条件而已，改动最大的反而是README文件，最值得吐槽的就是这个提交：</p>
+
+<p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/db8190ab5fb5262a6d3701017d733f106308fd0d">https://github.com/bitcoin-sv/bitcoin-sv/commit/db8190ab5fb5262a6d3701017d733f106308fd0d</a></p>
+
+<p>凭良心说，Bitcoin ABC的开发比不上Bitcoin Core的活跃，但起码Bitcoin Core有什么更新，人家能及时Merge过来啊！</p>
+
+<p>曾经，像Bitcoin Gold之流，改个POW算法就出来割韭菜了，大家还愤愤不平；</p>
+
+<p>Litcoin和Dogcoin还是改了改币数上限和出块时间的，这是在早期，咱们也忍了~~</p>
+
+<p>如今Bitcoin SV的代码库让我见识了什么叫任性！我觉得这种代码出来分叉真的是对开发人员赤裸裸的打脸。</p>
+
+<p>如果不赞成升级，原版代码运行就是；现在哥们，你们倒是增加了操作码！但是操作码执行实现的部分在哪里，对应的测试在哪里？就两天时间开放出来不怕出BUG吗？</p>
+
+<p>我觉得数字货币这个场子没啥正义公理可言，就是中本聪重现人间，相信说话也没多大分量了；但是代码质量是没办法靠嘴炮提升的；Bitcoin SV这个代码质量得不到码农的信赖。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-11-15T15:08:32+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/11/07/bi-te-bi-de-hdqian-bao-yan-hua-3/" title="Previous Post: 比特币的HD钱包演化-3">&laquo; 比特币的HD钱包演化-3</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2018/11/15/bicoin-cashfen-cha-zai-ji/">Bicoin Cash分叉在即</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/07/bi-te-bi-de-hdqian-bao-yan-hua-3/">比特币的HD钱包演化-3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">比特币的HD钱包演化-2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/10/26/bitcoin-cli-cheat/">Bitcoin-cli Cheat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/10/23/bi-te-bi-de-hdqian-bao-yan-hua-1/">比特币的HD钱包演化-1</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2018/11/15/bicoin-cashfen-cha-zai-ji/';
+        var disqus_url = 'https://happy123.me/blog/2018/11/15/bicoin-cashfen-cha-zai-ji/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
