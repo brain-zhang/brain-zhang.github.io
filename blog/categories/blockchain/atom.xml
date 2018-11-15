@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-15T15:30:06+08:00</updated>
+  <updated>2018-11-15T16:06:04+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,77 +18,30 @@
     <link href="https://happy123.me/blog/2018/11/15/bicoin-cashfen-cha-zai-ji/"/>
     <updated>2018-11-15T15:08:32+08:00</updated>
     <id>https://happy123.me/blog/2018/11/15/bicoin-cashfen-cha-zai-ji</id>
-    <content type="html"><![CDATA[<p>Bitcoin Cash 将于UNIX时间1542300000 (即香港时间2018年11月16日00：40)发生硬分叉;</p>
+    <content type="html"><![CDATA[<p>Bitcoin Cash 将于UNIX时间1542300000 (即北京时间2018年11月16日00：40)发生硬分叉;</p>
 
 <p>分叉两派是比特大陆为首支持的<a href="https://github.com/Bitcoin-ABC/bitcoin-abc">Bitcoin ABC</a>实现，以及Craig Steven Wright为首的<a href="https://github.com/bitcoin-sv/bitcoin-sv">BItcoin SV</a>实现。</p>
 
 <p>两派的恩恩怨怨政治斗争无心吐槽，咱也没有明确的倾向；但是作为码农咱要黑一黑；</p>
 
-<p>&lt;&mdash;! more &mdash;></p>
+<!-- more -->
 
-<p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/2ab7775797a5a37ab311ab9a067771e5c1bfe22a">这里</a>是bitcoin SV 从Bitcoin ABC项目里面开始folk出来的修改；截至他们发布Bitcoin SV Beta1.0；最后提交的代码是<a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/1dcf61c6fd2898e506a9b9f1fe954d0ec46b2d12">1dcf61c6fd2898e506a9b9f1fe954d0ec46b2d12</a>；</p>
 
-<p>执行 <code>git diff 802629f 1dcf61c --stat</code> 瞄一眼:</p>
+<p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/2ab7775797a5a37ab311ab9a067771e5c1bfe22a">这里</a>是bitcoin SV 从Bitcoin ABC项目里面开始folk出来的修改；截至他们发布Bitcoin SV Beta1.0；最后提交的代码是<a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/d9b12a23dbf0d2afc5f488fa077d762b302ba873">d9b12a23dbf0d2afc5f488fa077d762b302ba873</a></p>
 
-<p>```
- .arcconfig                                               |    9 &ndash;
- .arclint                                                 |   18 &ndash;
- .teamcity/.gitignore                                     |    3 &ndash;
- .teamcity/BitcoinABC/Project.kt                          |   18 &ndash;
- .teamcity/BitcoinABC/buildTypes/BitcoinABCMasterLinux.kt |   49 &mdash;
- .teamcity/BitcoinABC/settings.kts                        |   41 &mdash;
- .teamcity/BitcoinABC/vcsRoots/BitcoinABCGit.kt           |   18 &ndash;
- .teamcity/pom.xml                                        |  114 &mdash;&mdash;&ndash;
- .travis.yml                                              |   89 &mdash;&mdash;
- CMakeLists.txt                                           |    2 +&ndash;
- CONTRIBUTING.md                                          |  193 +&mdash;&mdash;&mdash;&ndash;
- COPYING                                                  |    1 +
- INSTALL.md                                               |    2 +&ndash;
- README.md                                                |   33 +&ndash;
- arcanist/.phutil_module_cache                            |    1 &ndash;
- arcanist/<strong>phutil_library_init</strong>.php                     |    3 &ndash;
- arcanist/<strong>phutil_library_map</strong>.php                      |   20 &ndash;
- arcanist/linter/AutoPEP8Linter.php                       |   79 &mdash;&mdash;
- arcanist/linter/ClangFormatLinter.php                    |   79 &mdash;&mdash;
- src/Makefile.am                                          |    2 +
- src/Makefile.test.include                                |    2 +&ndash;
- src/clientversion.cpp                                    |    4 +&ndash;
- src/config.cpp                                           |    8 +
- src/config/CMakeLists.txt                                |    2 +&ndash;
- src/consensus/consensus.h                                |    4 +&ndash;
- src/init.cpp                                             |   22 +&ndash;
- src/miner.cpp                                            |    4 +&ndash;
- src/policy/policy.h                                      |    2 +&ndash;
- src/rpc/misc.cpp                                         |   11 +&ndash;
- src/script/interpreter.cpp                               |  133 +++++&ndash;
- src/script/interpreter.h                                 |   95 +&mdash;&ndash;
- src/script/script.h                                      |    8 +
- src/script/script_flags.h                                |  108 +++++
- src/test/CMakeLists.txt                                  |    2 +&ndash;
- src/test/data/script_tests.json                          |  118 ++++&ndash;
- src/test/excessiveblock_tests.cpp                        |   23 +&ndash;
- src/test/miner_tests.cpp                                 |    8 +&ndash;
- src/test/monolith_opcodes.cpp                            |  789 &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
- src/test/net_tests.cpp                                   |    4 +&ndash;
- src/test/opcode_tests.cpp                                | 1171 ++++++++++++++++++++++++++++++++++++++++++++++++
- src/test/rpc_tests.cpp                                   |   13 +
- src/test/scriptflags.cpp                                 |    2 +
- src/validation.cpp                                       |   45 +&ndash;
- src/validation.h                                         |    6 +
- test/functional/abc-cmdline.py                           |   10 +&ndash;
- test/functional/abc-p2p-compactblocks.py                 |    3 +&ndash;
- test/functional/abc-rpc.py                               |    8 +&ndash;
- test/functional/bsv-128Mb-blocks.py                      |  237 ++++++++++
- test/functional/bsv-blocksize-params.py                  |   40 ++
- test/functional/magnetic-activation.py                   |  182 ++++++++
- test/functional/prioritise_transaction.py                |    3 +&ndash;
- 51 files changed, 2152 insertions(+), 1689 deletions(&ndash;)</p>
+<p>执行 <code>git diff 802629f d9b12a --stat</code> 瞄一眼:</p>
 
-<p>```</p>
+<p><code>
+699 files changed, 11634 insertions(+), 197401 deletions(-)
+</code></p>
 
-<p>从头review一遍，他们从2018-08-22搞到现在，啥改动都没有，就开了几个操作码，改了几个测试；原本MAXBLOCKSIZE就变成可配置的了，他们不过是稍稍改了一下判断条件而已，改动最大的反而是README文件，最值得吐槽的就是这个提交：</p>
+<p>看起来改了不少，但是从头review一遍，他们从2018-08-22搞到现在，啥实质改动都没有，就开了几个操作码，改了几个测试；原本MAXBLOCKSIZE就变成可配置的了，他们不过是稍稍改了一下判断条件而已，改动最大的反而是README文件，最值得吐槽的就是这个提交：</p>
 
 <p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/db8190ab5fb5262a6d3701017d733f106308fd0d">https://github.com/bitcoin-sv/bitcoin-sv/commit/db8190ab5fb5262a6d3701017d733f106308fd0d</a></p>
+
+<p>好吧，也不能无脑黑你，你还是修掉了一个比较重要的BUG的:</p>
+
+<p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/a8ab90a375db85b192057aa11f56bfa0612d7e86">https://github.com/bitcoin-sv/bitcoin-sv/commit/a8ab90a375db85b192057aa11f56bfa0612d7e86</a></p>
 
 <p>凭良心说，Bitcoin ABC的开发比不上Bitcoin Core的活跃，但起码Bitcoin Core有什么更新，人家能及时Merge过来啊！</p>
 
