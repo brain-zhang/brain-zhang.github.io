@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>货币、支付、清算漫谈 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="又看了一遍这本书，果然常读常新啊；又有很多想法冒出来，结合最近的BCH分叉事件，我不禁又开始思考货币的两种主要用途：清算和支付，究竟会如何发展？ 我从事银行业务系统监控很长时间，结合咱的职业生涯所学，再重新梳理一遍支付和清算的发展史吧。 除了支付和清算，还有一个拓展概念，即结算。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2018/11/19/huo-bi-%2C-zhi-fu-%2C-qing-suan-man-tan">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">货币、支付、清算漫谈</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-11-19T16:55:29+08:00" pubdate data-updated="true">Nov 19<span>th</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>又看了一遍<a href="https://book.douban.com/subject/26802686/"><The book of Satoshi></a>这本书，果然常读常新啊；又有很多想法冒出来，结合最近的BCH分叉事件，我不禁又开始思考货币的两种主要用途：清算和支付，究竟会如何发展？</p>
+
+<p>我从事银行业务系统监控很长时间，结合咱的职业生涯所学，再重新梳理一遍支付和清算的发展史吧。</p>
+
+<!-- more -->
+
+
+<p>除了支付和清算，还有一个拓展概念，即结算。看一下权威机构的定义:</p>
+
+<p>按照国际清算银行支付结算委员会的定义，所有涉及到资金转移的行为，都可视作支付行为，支付的概念最大，清算和结算属于支付过程中的特定环节，其中，清算是发生在结算前的支付环节，该环节的功能主要是为了提高结算的标准化水平和结算的效率。</p>
+
+<ul>
+<li><p>支付：完成付款人向收款人转移可以接受的货币债权的过程，包括交易过程、清算过程和结算过程等三个过程。</p></li>
+<li><p>清算：包含了在收付款人金融机构之间交换支付工具以及计算金融机构之间待结算的债权，支付工具的交换也包括交易撮合、交易清分、数据收集等。</p></li>
+<li><p>结算：该过程是完成债权最终转移的过程，包括收集待结算的债权并进行完整性检验、保证结算资金具有可用性、结清金融机构之间的债券债务以及记录和通知各方。</p></li>
+</ul>
+
+
+<h2>史前阶段</h2>
+
+<p>支付清算的历史其实要比货币历史久远的多，但货币的演变是支付清算体系发展的原动力。</p>
+
+<p>在货币产生前，物物交换其实就是一种支付行为，比如原始人甲有桃子，但喜欢苹果，而此时刚好碰到原始人乙，乙有苹果，但喜欢桃子，这样两个人就刚好满足双方的需求，甲向乙支付桃子，得到苹果，乙向甲支付苹果，得到桃子。这就是最原始的“支付”。随着持有香蕉的原始人丙也加入上述交易，那么必须形成需求的闭环，而且随着交易的物品数量、种类逐渐增多，就需要再找一个不参与交易的原始人丁专门做交易的分类、计数和记录，并且甲乙丙在丁面前都作出承诺：一是手里的桃子、苹果、香蕉都是真实存在的。二是交易的意愿都是真实的，不会拿了人家的东西却不给出自己的东西。那么丁做的事情就是最原始的“清算”。之后，桃子、苹果、香蕉交割到了新的主人手中，此时丁宣布交易成功结束，甲乙丙三方各不相欠&mdash;最原始的“结算”。</p>
+
+<p>此时丁付出信用，承担了清算的网关。当然，这种清算是非常粗糙的，作为一个支付行为的环节不明显。</p>
+
+<p>后来随着商品交换规模的扩大，统一的支付媒介就出现了。从最原始的贝壳，到铁器铜币，再到金银物品，形成了人们统一承认的货币媒介。实物货币如金银货币的出现极大地提升了商品交易的成功率，形成了以货币为核心和交易媒介的支付清算体系雏形，极大地推动了贸易和经济社会发展。</p>
+
+<p>此时的清算其实和支付行为频率差不多的，因为当时的贸易市场并不繁荣，货币媒介还很粗笨，可以说每一笔支付就伴随着一笔清算，清算如此重要，以至于此时的货币市场上最重要的并不是货币本身，而是记账的权力，最经典的例子就是我们前面文章中提到的雅浦岛的石币故事。</p>
+
+<h2>纸币阶段</h2>
+
+<p>但随着商品交易规模和范围的不断扩大，金银货币越来越不能更好地满足贸易经济大规模发展的需要，人们就开始尝试以收兑金银之后的收据代替金银实物进行流通，随着这种收据广为人们接受，纸币就此诞生了&mdash;这是货币发展史上的一个重要突破。当然，纸币是要与其背后的金银货币的成色、数量挂钩的，也就是金银本位制，而且发行纸币的单位是多样的，可以是国家，也可以是有实力有信誉的金银铸造商等等。这时的纸币仅仅只是一种“表征货币”。纸币的出现极大地提升了支付的便利性，但由于纸币的伪造难度和成本比金银货币低太多，如何避免收到假冒伪劣的纸币甚至防止纸币超发成为突出的难题。自此，支付的便利性与安全性因为支付工具（如纸币）从交易媒介（如金银货币）分离独立而始终成为一对矛盾。</p>
+
+<p>纸币阶段其实和金银实体是并存的，这个时候的清算行为其实更好分辨；拿我们熟悉的晋商作为例子：</p>
+
+<blockquote><p>早在清道光（1823年）年间，山西平遥商人就创立了“日升昌”等专门办理汇款业务的票号（古代的票号、钱庄就是现代银行的雏形）。
+著名的红顶商人胡雪岩就是做票号生意起家的。
+当时的票号支持异地汇款业务：客户来日升昌汇款，交了银子之后，票号就开出汇票给客户。
+跟银行一样，票号也有总号和分号，客户可以携带汇票或者把票寄给亲人，只要凭票就可以到日升昌全国各地的分号兑出银子，分号给客户兑换之后先记内部账，日后再和总号清算债务。
+从此之后，商人在城市之间贸易可以不用携带大量的银子。而汇票在不同城市的各个分号之间流转也形成了很多债务，有大量的银子需要周转，镖局就专为票号来运送银子以及为商人运送票据，有点类似于现在为银行押钞的威豹，不过镖局的手续费可是高达5%！</p></blockquote>
+
+<p>整个过程中，每个月或年底各个分号之间周转银子，轧平账目的过程就是清算。虽然清算是整个支付环节的一部分，但是清算的频率比较低，平均下来多笔支付可能才发生一笔清算，所以此时表面上看货币是非常活跃的，清算作为一种记账行为默默引申到了后台。</p>
+
+<h2>信用阶段</h2>
+
+<p>牛顿爵士开创了金本位，其实在整个货币史上不过短短一段时间，然后我们现在就飞速的跳跃到了信用货币阶段，信用货币发展的技术基础，就是越来越完善普及的电子设备。可以想象，将来即使在非洲，持有一个智能电子钱包(不一定是手机)的成本也会小于持有纸币的成本，所以货币电子化的趋势不可逆转。</p>
+
+<p>铸币信用化，表现形式电子化之后，最明显的一个改变，就是<code>清算</code>这个行为，夹杂在整个支付过程中越来越频繁了；</p>
+
+<ul>
+<li>原来钱庄分号之间轧账，周期可能半年一年记</li>
+<li>金银铸币时代，两国之间的轧账，也可能持续几周</li>
+<li>纸币化之后，可能国际汇兑、债券市场之间的清算，通过电报以及联行信件，就缩短到几天了</li>
+<li>到了今天，跨行汇款，已经缩短到分钟级别了；移动支付，都可以到秒级了</li>
+</ul>
+
+
+<p>此时清算的次数又大致跟支付行为一个量级了，记账的技术又开始一轮飞跃；</p>
+
+<p>放到我国来，伴随着改革开放，我们的金融市场30年走完了欧美100年的历史，其中支付清算系统的发展就是经典的代表，这段历史我比较熟悉，下面就我国的支付清算系统建设流水账一番;</p>
+
+<h3>全国手工联行系统 (1949-1990)</h3>
+
+<p>建国初期的银行是比较LOW的，那个时候的银行是沿袭历史发展过来的。因此银行之间的资金往来(通存通兑)，其实跟晋商时代的票号差不多，每个银行都和其它大行之间签订协议，开设备付金账户，实现互兑。</p>
+
+<p>比如三家银行： 工行、建行、招行，他们每家银行都要在另外两家银行开设账户，存入准备金，不同银行间的业务往来像票号一样定期轧账。</p>
+
+<p>此时，每家银行都是一个清算机构，为银行间的资金往来做清算。</p>
+
+<p>这种清算方式无疑是低效的，每成立一家银行，要开启业务，都得一家家的在同行那里开设账户，费时费力。所幸那个时候的银行少，而且计划经济金融业务少，这么多年就凑合过来了。</p>
+
+<p>一直到1984年中国人民银行专门行使中央银行职能之后，我们国家确立了法定存款准备金制度。央行的备付金系统正式确立。此时，银行跨行的资金清算有两种选择：</p>
+
+<ul>
+<li>用老办法，在所有有往来的银行开立清算账户清算</li>
+<li>所有金融机构都在央行开立清算账户，由央行为商业银行统一清算</li>
+</ul>
+
+
+<p>显然大家都想用第二个方案。然而在那个时代，央行能承担的职责是很有限的，各银行内部数据还没有集中，没有电子化的记账系统，国内甚至都还没有银行卡，客户要转账也没有满大街的ATM。总之一句话，国内的金融环境还没有达到让央行推行全国统一结算制度的客观条件。</p>
+
+<p>为了满足跨行结算的需求，央行当时提出商业银行要“自成联行系统，跨行直接通汇，相互发报移卡，及时清算资金”。也就是说同一家银行的总行及分支机构称为“联行系统”。同一联行内的资金结算，由联行总行自己做。这样，建行深圳分行和建行北京分行之间的资金清算由建行自己内部解决。跨银行之间要能支持直接汇款。跨行业务可以由央行清算，也可以由商业银行自己清算。</p>
+
+<p>这是个各家银行系统很不智能，体验很差的时期，我们称为“全国手工联行”时期。于是，每家银行都可以接受跨行的汇款，银行每天自行轧差，各种交易汇总计算后，需要告知其他行的交易信息写成一张张特定的公文，加盖印鉴后在银行间送来送去。这种公文叫做联行信件，而收发联行信件就是当时邮电局的重要业务。</p>
+
+<h3>全国电子联行系统EIS (1989-2005)</h3>
+
+<p>随着银行业的不断发展，银行每天处理各类跨行业务的数量增多，各家银行之间的债权债务关系变得非常复杂，由各家银行自行轧差进行清算变得非常困难。这种状况要求央行必须承担起一个全国清算中心的角色。于是，央行在1989年12月6日，发布了“关于改革联行清算制度的通知”。</p>
+
+<p>随后在1990年，中国人民银行清算中心建成，专门为金融机构提供支付清算服务。这个清算中心包括NPC和CCPC：</p>
+
+<ul>
+<li>NPC（National Process Center，国家金融清算总中心</li>
+<li>CCPC（City Clearing Processing Center，城市处理中心）</li>
+</ul>
+
+
+<p>1991年4月1日，基于金融卫星通讯网的应用系统——全国电子联行系统（EIS）开始试运行。EIS是人民银行专门用于处理异地（包括跨行和行内）资金清算和资金划拨的系统。它连接了商业银行、央行、NPC和CCPC。</p>
+
+<p>假设客户在深圳建行汇款给北京工行，通过EIS处理一次跨行汇款的流程如下：</p>
+
+<p><img src="https://pic1.zhimg.com/80/35461f0ed13ef9dd9385997ff7b7a5dc_hd.png" alt="img" /></p>
+
+<p>可以看到，清算中心在各地建立了一个个分站，分站和总中心通过卫星网络互联，总站和分站共同构成了清算网络，为其它接入EIS的各家商业银行提供清算服务。</p>
+
+<p>从此之后，各个银行之间的跨行汇款，以及同一银行的异地分行，就可以直接通过这样的电子化操作来完成了，客户的资金在途时间缩短到了一两天，这也算是中国金融系统的一大里程碑了。</p>
+
+<p>PS: 直到2015年，我都在一些银行的老系统中见过EIS，这个东东真的很经典，生命力很顽强啊。</p>
+
+<h3>现代支付系统CNAPS (1991-现在)</h3>
+
+<p>991年EIS试运行后，又发生了两件大事：</p>
+
+<ul>
+<li><p>各大银行核心系统投产各家商业银行的内部联网系统纷纷建成投产</p>
+
+<p>  银行内部资金划转都可以通过自己的核心系统解决了。这意味着各大行都可以做电子化的行内清算了，行内异地转账就不用再依赖EIS。笔者跑过许多银行，见识了许多核心系统的投产，几乎所有的核心系统设计都是一个套路，将来有时间可以再有一篇文章细说一下。</p></li>
+<li><p>中国现代化支付系统（CNAPS）开始设计</p>
+
+<p>  1991年10月，中国开始着手建设中国国家金融通信网（CNFN）和中国现代化支付系统（CNAPS，China National Automatic Payment System）。从此，全国电子联行（EIS）系统逐步向CNAPS过渡。到了二十一世纪，IT技术飞速发展，央行的CNAPS一代系统（大小额支付系统）也开始走上历史舞台。中国的支付清算步入了现代化支付系统CNAPS的时代。</p></li>
+</ul>
+
+
+<p>CNAPS值得我们大说特说，今天银行的主力业务都跑在它的基础上，它的发展历史上有几件大事:</p>
+
+<ol>
+<li>2002年，央行大额实时支付系统（HVPS）投产，用于处理同城和异地的商业银行跨行之间（也包括行内一定金额以上的）大额贷记业务。</li>
+<li>2005年，央行小额批量支付系统（BEPS）投产，用来处理同城和异地纸凭证截留的借记支付业务以及每笔金额在5万以下的小额贷记支付业务。</li>
+</ol>
+
+
+<p>这两个业务统称为大小额系统，我们平时的跨行转账，走的就是这两个系统，他们之间有如下区别:</p>
+
+<ul>
+<li>首先，大小额的开放时间不同</li>
+</ul>
+
+
+<p>大额系统是工作日的 8:30 ~ 17:00，所以在节假日经常会收到银行通知说某些业务暂停了经常就是因为央行在节假日对大额系统做维护。小额系统全年无休，7*24小时工作。</p>
+
+<ul>
+<li>业务处理上不同</li>
+</ul>
+
+
+<p>大额是每笔交易都实时发送，实时清算的，所以基本上能实时到账，跨行资金零在途。小额系统是在收集若干笔交易后打一个包统一处理，定时清算。所以，用小额系统转账经常要几分钟甚至半个小时才能到账，银行间头寸交割也是非实时的。尽管理论上跨行转账业务不管用大额还是小额，一般在几分钟内都能到账，但是因为要经过央行，所以在这一时期基本没有银行敢向客户承诺资金多久能到账。比如我们早期银行卡转账，一半会发现一个<code>两小时内到账</code>的提醒，这就说明他走的是小额支付系统。</p>
+
+<ul>
+<li>金额不同</li>
+</ul>
+
+
+<p>大额系统没有金额限制，小额系统支持的单笔金额上限是5万元。从用途上讲，大额系统侧重于资金转移的时效性，主要用于资本市场、货币市场交易和大额贸易资金结算。小额系统对数据吞吐量要求较高，主要用于小额贸易支付和个人消费服务。</p>
+
+<p>下面一张图就说明了CNAPS大小额的业务实现:</p>
+
+<p><a href="https://pic3.zhimg.com/80/a0c9d5a2e040931b20fe9d0fb05c48e2_hd.png">!img</a></p>
+
+<p>目前大部分手机网银跨行转账都没有手续费。所以如果你在晚上10点想跨行转账10万元，此时大额转账系统已经关闭了，建议你分成两个5万并且用加急方式来转账。</p>
+
+<p>不管怎么说，现在我们的跨行汇款速度总算提高到小时级别了。</p>
+
+<p>PS: 大小额支付的协议细节非常复杂，协议规范有上千页文档，是我去现场部署监控系统时永远的痛啊~~~</p>
+
+<h3>第二代现代支付系统CNAPS2 (2013-现在)</h3>
+
+<p>大小额系统已经很好用了，但是随着金融市场发展，业务需求是无穷无尽的；2013年10月6日，央行的第二代支付系统(CNAPS2)正式投产运行，其中包括2010年就推出的网上支付跨行清算系统（俗称“超级网银”）。超级网银是对大小额支付系统的一个补充，有两大亮点：</p>
+
+<ul>
+<li>接入机构不再限于银行</li>
+</ul>
+
+
+<p>支付宝、财付通等第三方支付也可以接入，所以有的第三方支付给商户提供的提现代发功能就是基于超级网银做的。</p>
+
+<ul>
+<li>7*24小时实时到账，单笔上限5万元</li>
+</ul>
+
+
+<p>这就相当于在非工作日非营业时间增加了一种大额支付系统特性的渠道了。只不过金额限制是跟小额系统一致的。</p>
+
+<p>最后来一张总体架构图:</p>
+
+<p><img src="https://pic3.zhimg.com/7189674a96a6d2eadfa1b5dd20e7ee06_b.jpg" alt="img" /></p>
+
+<p>PS: 现场协议监控部署，<code>人行二代支付</code>是我听了上万遍的词汇啊，睡觉都无法摆脱~~~</p>
+
+<h3>三方支付渠道</h3>
+
+<p>人行的CNAPS2为不同银行间提供了清算服务，银行内部的核心系统为自己不同的分行间提供了清算服务。这两块已经覆盖了大多数的银行业务场景，包括:</p>
+
+<ul>
+<li>银行柜台&mdash;直接大小额转账</li>
+<li>手机网银&mdash;大小额转账+超级网银</li>
+</ul>
+
+
+<p>但是还有一部分商业市场没有涉及到，就是我们常说的三方支付。我把它又分为两个场景:</p>
+
+<ol>
+<li>ATM 刷卡取款和POS机刷卡</li>
+<li>网银支付</li>
+</ol>
+
+
+<p>在支付宝普及之前，POS机刷卡以及ATM取款都是我们日常生活中比较常见的资金流转渠道。相信大家都有不少储蓄卡即信用卡有着<code>银联</code>标识。这个银联又是何方神圣？</p>
+
+<p>银联全称<code>中国银联银行卡跨行支付系统</code>，英文缩写为CUPS；我们说支付市场是很大而且油水很足的，人行作为银行的妈，建设清算系统主要是政治考量，而商业银行进军支付领域是要挣钱，所以2002年3月26日，经中国人民银行批准,各大发卡行的商业银行参股，成立了银联。</p>
+
+<p>银联的目的就是提供人行二代支付之外的资金清算渠道，在支付场景捞油水。我们看一下ATM刷卡和POS机业务中，音量发挥的作用。</p>
+
+<h4>POS机刷卡</h4>
+
+<p>POS机刷卡的参与方比较多。以你在星巴克刷卡为例：</p>
+
+<ul>
+<li>持卡人——你</li>
+<li>发卡行——你办这张卡的银行，我们假设是工行</li>
+<li>商户——星巴克，我们假设星巴克的账户开在建行</li>
+<li>收单行——星巴克的刷卡机的归属银行，假设也是建行</li>
+<li>转接机构——银联</li>
+<li>清算机构——银联和人行</li>
+</ul>
+
+
+<p>于是，当你用工行卡在星巴克消费的时候，资金流和现金流是这样发生的：</p>
+
+<ol>
+<li>你在收单行（建行）的POS机上刷卡消费</li>
+<li>建行将消费报文发送给银联</li>
+<li>银联交易系统记录交易数据，将消费报文给你的发卡行（工行）</li>
+<li>工行从你的卡中实时扣费，完成实时结算，并回复报文给银联</li>
+<li>银联更新交易数据，回复报文给建行的POS机</li>
+<li>银联在其清算系统完成清分</li>
+<li>银联通过大额支付系统，完成工行与建行清算账户的资金划拨（跨行清算）</li>
+<li>银联通过小额支付系统或当地票据交换系统，完成建行和星巴克结算账户的资金划拨（收单清算）</li>
+</ol>
+
+
+<p>在这个过程中，银联提供两种清算：</p>
+
+<p>1.建行和工行的清算叫“跨行清算”；
+2.建行和星巴克的建行账户之间的清算叫“收单清算”；</p>
+
+<p>无论是跨行清算还是收单清算，银联都是作为CNAPS的一个特许参与者，使用大小额支付清算系统，完成银行卡业务的资金划拨。本质上，银联提供交易转接、清分和对账，人行提供结算。</p>
+
+<h4>ATM跨行取款</h4>
+
+<p>你拿着一张工行卡去建行的ATM取了100元，这个跨行业务在CNAPS体系中的过程如下：</p>
+
+<ol>
+<li>你在建行ATM上输入100元按下取款按钮</li>
+<li>建行将报文信息发送给银联</li>
+<li>银联交易系统记录交易数据，将报文给你的发卡行(工行)</li>
+<li>工行从你的卡中实时扣费，完成实时结算，并回复报文给银联</li>
+<li>银联更新交易数据，回复报文给建行ATM</li>
+<li>银联在其清算系统完成清分</li>
+<li>银联通过大额支付系统，完成工行与建行清算账户的资金划拨（跨行清算）</li>
+</ol>
+
+
+<p>我们看到，ATM和POS渠道，是由银联的CUPS来对接各大商业银行做支付转接，解决信息流问题；银联同时提供清分和对账服务，对完账之后再调用央行大小额系统解决资金流问题；</p>
+
+<p>当央行系统升级的时候，通过银行柜台和手机银行是不能做跨行转账的，但是通过ATM和POS却可以跨行取款和跨行转账，这是因为银联暂且处理了清分和对账，等到央行系统升级完毕后，他们才进行清算；</p>
+
+<p>所以一般央行挑放假的日子升级系统，这个时候对公业务一般办不了，但是我们平常的刷卡消费可以正常进行。</p>
+
+<p>另外，我们说，资金跨行清算的发展中，出现了一位豪杰，就是三方支付的大佬：支付宝</p>
+
+<h4>支付宝的发展</h4>
+
+<h3>#</h3>
+
+<h4>引用：</h4>
+
+<p><a href="http://www.gongxiangcj.com/posts/1478">http://www.gongxiangcj.com/posts/1478</a></p>
+
+<p><a href="https://www2.deloitte.com/content/dam/Deloitte/cn/Documents/about-deloitte/dttp/deloitte-cn-dttp-v2ch1-zh-150127.pdf">https://www2.deloitte.com/content/dam/Deloitte/cn/Documents/about-deloitte/dttp/deloitte-cn-dttp-v2ch1-zh-150127.pdf</a></p>
+
+<p><a href="https://www.zhihu.com/question/22148261">https://www.zhihu.com/question/22148261</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-11-19T16:55:29+08:00" pubdate data-updated="true">Nov 19<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/11/17/bchfen-cha-cheng-dan-de-feng-xian-51-percent-gong-ji-zhe-gai-lu-wen-ti/" title="Previous Post: BCH分叉承担的风险--51%攻击者概率问题">&laquo; BCH分叉承担的风险--51%攻击者概率问题</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2018/11/19/huo-bi-%2C-zhi-fu-%2C-qing-suan-man-tan/">货币、支付、清算漫谈</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/17/bchfen-cha-cheng-dan-de-feng-xian-51-percent-gong-ji-zhe-gai-lu-wen-ti/">BCH分叉承担的风险--51%攻击者概率问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/15/bicoin-cashfen-cha-zai-ji/">Bicoin Cash分叉在即</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/07/bi-te-bi-de-hdqian-bao-yan-hua-3/">比特币的HD钱包演化-3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">比特币的HD钱包演化-2</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2018/11/19/huo-bi-%2C-zhi-fu-%2C-qing-suan-man-tan/';
+        var disqus_url = 'https://happy123.me/blog/2018/11/19/huo-bi-%2C-zhi-fu-%2C-qing-suan-man-tan/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
