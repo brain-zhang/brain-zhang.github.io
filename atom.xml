@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-20T15:44:15+08:00</updated>
+  <updated>2018-11-20T15:49:55+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -120,7 +120,7 @@
 
 <p>假设客户在深圳建行汇款给北京工行，通过EIS处理一次跨行汇款的流程如下：</p>
 
-<p><img src="https://pic1.zhimg.com/80/35461f0ed13ef9dd9385997ff7b7a5dc_hd.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181120/bg1.png" alt="img" /></p>
 
 <p>可以看到，清算中心在各地建立了一个个分站，分站和总中心通过卫星网络互联，总站和分站共同构成了清算网络，为其它接入EIS的各家商业银行提供清算服务。</p>
 
@@ -199,7 +199,7 @@
 
 <p>最后来一张总体架构图:</p>
 
-<p><img src="https://pic3.zhimg.com/7189674a96a6d2eadfa1b5dd20e7ee06_b.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181120/bg2.jpg" alt="img" /></p>
 
 <p>PS: 现场协议监控部署，<code>人行二代支付</code>是我听了上万遍的词汇啊，睡觉都无法摆脱~~~</p>
 
