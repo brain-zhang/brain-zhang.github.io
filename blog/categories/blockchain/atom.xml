@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-20T15:49:55+08:00</updated>
+  <updated>2018-11-20T15:55:05+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -319,7 +319,7 @@
 
 <h4>容量</h4>
 
-<p>首先比特币由于是去中心化的网络，处理能力是非常低的；即使引入了Segwit附带一点扩容效果，也不过是3~4 TPS，和中心化的清算网关相比，简直可怜。</p>
+<p>首先比特币由于是去中心化的网络，处理能力是非常低的；即使引入了Segwit附带一点扩容效果，目前也不过是3~4 TPS，和中心化的清算网关相比，简直可怜。</p>
 
 <p>但是比特币系统的特殊之处就在于，他没有集中的账户管理节点，这意味着网络中的每个全节点都承担清算网关的职能，每一笔支付必然带有一笔清算，清算率100%。</p>
 
@@ -334,7 +334,7 @@
 </ul>
 
 
-<p>主要路线是Segwit 解决交易延展性问题，然后在此基础上实现二层闪电网络。目前来看，Segwit已经占了主网交易的半壁江山，估计扩容到4-8 TPS，这当然不够用。所以二层网络的闪电网络至关重要。</p>
+<p>主要路线是Segwit 解决交易延展性问题，然后在此基础上实现二层闪电网络。目前来看，Segwit已经占了主网交易的半壁江山，估计最终能扩容到4-8 TPS，这当然不够用。所以二层网络的闪电网络至关重要。</p>
 
 <p>闪电网络目前还是处于试验阶段，虽然推出了一些应用，但总体还是和比特币早期发展一样，只是部分Geek在使用。</p>
 
