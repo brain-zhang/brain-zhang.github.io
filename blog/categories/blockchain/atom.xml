@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-21T13:35:49+08:00</updated>
+  <updated>2018-11-23T10:05:48+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,7 +18,7 @@
     <link href="https://happy123.me/blog/2018/11/19/huo-bi-%2C-zhi-fu-%2C-qing-suan-man-tan/"/>
     <updated>2018-11-19T16:55:29+08:00</updated>
     <id>https://happy123.me/blog/2018/11/19/huo-bi-,-zhi-fu-,-qing-suan-man-tan</id>
-    <content type="html"><![CDATA[<p>又看了一遍 <a href="https://book.douban.com/subject/26802686/">The book of Satoshi</a> 这本书，果然常读常新啊；又有很多想法冒出来，结合最近的BCH分叉事件，我不禁又开始思考货币的两种主要用途：清算和支付，究竟会如何发展？</p>
+    <content type="html"><![CDATA[<p>又看了一遍 <a href="https://book.douban.com/subject/26802686/">The book of Satoshi</a> 这本书，果然常读常新啊；又有很多想法冒出来，结合最近的BCH分叉事件，我不禁又开始思考金融系统的两大环节：清算和支付，究竟会如何发展？</p>
 
 <p>我从事银行业务系统监控很长时间，结合咱的职业生涯所学，再重新梳理一遍支付和清算的发展史吧。</p>
 
@@ -111,7 +111,7 @@
 <p>随后在1990年，中国人民银行清算中心建成，专门为金融机构提供支付清算服务。这个清算中心包括NPC和CCPC：</p>
 
 <ul>
-<li>NPC（National Process Center，国家金融清算总中心</li>
+<li>NPC（National Process Center，国家金融清算总中心）</li>
 <li>CCPC（City Clearing Processing Center，城市处理中心）</li>
 </ul>
 
@@ -133,7 +133,7 @@
 <p>1991年EIS试运行后，又发生了两件大事：</p>
 
 <ul>
-<li><p>各大银行核心系统投产各家商业银行的内部联网系统纷纷建成投产</p>
+<li><p>各大银行核心系统投产，各家商业银行的内部联网系统纷纷建成投产</p>
 
 <p>  银行内部资金划转都可以通过自己的核心系统解决了。这意味着各大行都可以做电子化的行内清算了，行内异地转账就不用再依赖EIS。笔者跑过许多银行，见识了许多核心系统的投产，几乎所有的核心系统设计都是一个套路，将来有时间可以再有一篇文章细说一下。</p></li>
 <li><p>中国现代化支付系统（CNAPS）开始设计</p>
@@ -413,7 +413,7 @@
 <li>现在的保险行业，比如车险，保险的时段只能一整块时段，同样买了一辆车，有的几个司机合伙24*365天天在外跑，有的上下班每周就几个小时的使用时间，交一样的钱其实不公平；未来可能只有你的引擎发动之后，真正在路上跑了，按照分钟收费，你的钱要一点一点打到保险公司账户上，这样比较合理</li>
 <li>娱乐消费行业，目前也是整段时间收费，未来你听一首歌，可能按照 0.0000001元/秒的速度慢慢付款给音乐公司</li>
 <li>公益行业: 真正的贫困人口可以开设经过认证的账号，这样土豪捐款的时候可以绕过红十字会，平均账户发放救济金之类，而且可以有各种算法监控，比如每个月固定发个100元，这个账户之后走的是哪个清算单元，进行了什么消费，杜绝骗子的不正当用途</li>
-<li>资金审计: 将来的所有公益和对公账户，审计不再是一个问题了，因为你可以追踪所有的清算单元，用只能算法来判断资金最终的流向和目的，财务造假的难度大大增加</li>
+<li>资金审计: 将来的所有公益和对公账户，审计不再是一个问题了，因为你可以追踪所有的清算单元，用智能算法来判断资金最终的流向和目的，财务造假的难度大大增加</li>
 </ul>
 
 
