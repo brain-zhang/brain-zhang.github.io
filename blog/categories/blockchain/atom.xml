@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-23T10:05:48+08:00</updated>
+  <updated>2018-11-23T18:49:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,256 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币的交易-1]]></title>
+    <link href="https://happy123.me/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/"/>
+    <updated>2018-11-23T18:48:39+08:00</updated>
+    <id>https://happy123.me/blog/2018/11/23/bi-te-bi-de-jiao-yi-1</id>
+    <content type="html"><![CDATA[<p>在我们我们前面的文章中，我们提到，从建设银行转账到工商银行10w元，过程其实是这样的:</p>
+
+<ol>
+<li>建设银行发送报文到人行CNAPS系统</li>
+<li>人行CNAPS发送转账报文到工商银行</li>
+<li>工商银行发送响应报文给人行CNAPS</li>
+<li>人行发送响应报文给建设银行</li>
+<li>转账成功，建设银行、人行、工商银行各自更新账本</li>
+</ol>
+
+
+<p>整个过程中，有几个很有趣的事实：</p>
+
+<ol>
+<li>所谓的转账交易，不过是账本上数字的加加减减</li>
+<li>我们的账户，除了各自在工行、建行开设的户头之外，在人行还有一个总账；人行是所有银行的妈，你在任何银行开设的账户，人行都有一个总账；所以打印征信的时候我们要到人行打印</li>
+<li>建设银行和工商银行间的转账需要人行做清算，人行提供了信用；建行和工行相信人行不会造假</li>
+<li>我们需要信任三个机构：人行、工行、建行，我们相信他们不会造假</li>
+<li>人行是所有账目的中心节点，人行的账本对不上了，中国的金融系统就乱套了</li>
+</ol>
+
+
+<p>然后作为对比，我们来看看比特币是怎样设计的。</p>
+
+<p>中本聪创造比特币之初，在<a href="https://en.bitcoin.it/wiki/Genesis_block">Genesis Block</a>里面付了一句有名的话:&ldquo;The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"。在白皮书中他很自豪的宣称:"We have proposed a system for electronic transactions without relying on trust. &rdquo; 去中心化一直是比特币的指导纲领，那么问题来了，如果让我们来设计一个去中心化的账本，将会面临哪些技术问题，又该如何解决呢？</p>
+
+<p>很自然的，我们设想的是一个类似于分布式数据库的系统，整个系统维护着唯一的账本，每个节点（node）都是一个副本（Replica Set），每个副本保有完全的账本数据，并且节点间相互同步数据，如果部分节点挂掉，不影响整个系统的运行。</p>
+
+<p>用户转账的行为，其实就是这个分布式账本的增删查改。当然，为了简化设计，我们这个账本可以只支持账目写入，不支持删改。</p>
+
+<p>我们开始思考这个分布式账本要解决的两个核心问题：</p>
+
+<h4>什么样的交易是一笔合法的交易</h4>
+
+<ul>
+<li>一笔交易中，如何保证交易账户的完全所有权；如果保证用户A的资金不会被用户B盗用</li>
+<li>用户A本来有1000元，如何保证他不会转出2000元？</li>
+</ul>
+
+
+<h4>哪个节点有记账的权力，如何保证整个账本是唯一且不可篡改的</h4>
+
+<ul>
+<li>如果有部分节点是不诚实的，它就会有动机去伪造不存在的交易来获取利益，如何识别并排除不诚实的节点？(拜占庭将军问题)</li>
+<li>如果A的账户有1000元，发送了1000元给B，由于是分布式系统，部分节点收到了这笔交易，这时候A又发送了1000元给C，另一部分收到了这笔交易，这时候该如何处理？如何保证一笔钱不会被花两次？ (双重支付问题)</li>
+</ul>
+
+
+<p>为了解决这两个问题，比特币引入了三个核心技术：UTXO交易模型、POW工作量证明、blockchain数据结构组织。且让我们一一道来。</p>
+
+<h2>初版交易设计</h2>
+
+<p>如果读了之前我们的&lt;比特币HD钱包>系列文章；天然的，我们意识到非对称加密方法是在分布式账本中建立账户的天选之术；</p>
+
+<h4>存款</h4>
+
+<p>用户A想要建立一个账户，只要在帐目中增加一笔 <code>公钥+金额</code> 的记录就可以了。我们用一个表格表示整个账本，用户A以及用户B各存入50个币的动作可以记作:</p>
+
+<table>
+<thead>
+<tr>
+<th>账目ID </th>
+<th> 原始交易细节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 </td>
+<td> Trans1:存入(A公钥+50)</td>
+</tr>
+<tr>
+<td>2 </td>
+<td> Trans2:存入(B公钥+50)</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>这个原始存入的资金我们先不去纠结怎么来的，总之此时账本中有两笔交易，代表着A以及B各自有50个币</p>
+
+<h4>验证</h4>
+
+<p>在账目1中，如何验证A确实是这笔资金的拥有者呢？非常简单，就是账户资金增加的时候，A对这笔交易数据的摘要用私钥做一个签名，然后再把公钥附在后面就可以了，这样账目就变成了这样:</p>
+
+<table>
+<thead>
+<tr>
+<th>账目ID </th>
+<th> 原始交易细节 </th>
+<th> 所有权证明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 </td>
+<td> Trans1:存入(A公钥+50) </td>
+<td> signature(digest(Trans1))+A公钥</td>
+</tr>
+<tr>
+<td>2 </td>
+<td> Trans2:存入(B公钥+50) </td>
+<td> signature(digest(Trans2))+B公钥</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>任何一个要验证账户A的节点或第三方，对其所有权证明用公钥解密，然后对照摘要(digest)即可。</p>
+
+<h4>转账</h4>
+
+<p>如果A要向B转账20个币呢，我们最简单的设计，就是构造Trans1 &ndash; 20，然后同样的方法构造签名即可，这样账本如下:</p>
+
+<table>
+<thead>
+<tr>
+<th>账目ID </th>
+<th> 原始交易细节 </th>
+<th> 所有权证明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 </td>
+<td> Trans1:存入(A公钥+50) </td>
+<td> signature(digest(Trans1))+A公钥</td>
+</tr>
+<tr>
+<td>2 </td>
+<td> Trans2:存入(B公钥+50) </td>
+<td> signature(digest(Trans2))+B公钥</td>
+</tr>
+<tr>
+<td>3 </td>
+<td> Trans3:Trans1-20 &ndash;> B</td>
+<td> signature(digest(Trans1 &ndash; 20 &ndash;> B))+A公钥</td>
+</tr>
+<tr>
+<td>4 </td>
+<td> Trans4:存入(B公钥+20) </td>
+<td> signature(digest(Trans4))+B公钥</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>看起来一切还好，但是这个时候我们发现了一些缺点</p>
+
+<ol>
+<li>收到汇款的时候因为要添加所有权证明，账户拥有者得一直在线监控自己的账户地址</li>
+<li>收款人还得验证汇款人的合法性，感觉都点怪；我收钱就好了，还得去管这个钱合不合法？</li>
+<li>如果多重转账，或者一对多，或多对一，这个记录格式就复杂了</li>
+<li>用户B要验证一笔交易合法性的时候，可能要回溯到账本非常深的位置，因为上一笔交易可能发生在很久之前，这种交易记录的存储设计很难高效查询</li>
+<li>最后，这个账目设计中，所有账户的公钥是暴漏在外的；虽然椭圆曲线算法目前看来牢不可破，但是整个安全体系只依赖一个非对称加密算法，比较脆弱</li>
+</ol>
+
+
+<p>解决方法其实也简单，换个思路，就是A转账给B，B是不需要验证的，只要A提供账户所有权的证明就好了，想想我们平时转账，不也是这样的吗？</p>
+
+<p>那么最简洁的设计，就是借鉴现实世界。每一笔交易都看作是硬币的流转，硬币其实没有特征，它只是从A的保险箱转移到了B的保险箱而已，那么，采用什么办法来表示：<code>这是A的保险箱中的一堆硬币</code>这个譬喻呢？</p>
+
+<h4>UTXO 模型</h4>
+
+<p>比特币的账本世界，构筑在UTXO (Unspent Transaction Output)之上；其实每个UTXO代表着未花费的一笔硬币(数额可大可小，没有限制)；一个账户的资金，其实就是一堆UTXO的集合；转账交易，就是一个或多个UTXO的输入再输出为另外的UTXO而已。你可以想象成现实世界中金银铸币的流通。</p>
+
+<p>那么一个UTXO中包含什么呢？如何作为输入呢？如何构造输出呢？这就是比特币交易的核心技术。</p>
+
+<ul>
+<li>我们用下面一张图来表示<code>A保险箱里面的50个硬币</code> 这件事：</li>
+</ul>
+
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg1.jpg" alt="img" /></p>
+
+<p>把它想象成一个邮筒构造的保险箱，在不打开的前提下，投币是只进不出的。可以注意到，我们并没有直接将Public Key明晃晃暴露在外面，而是先HASH一下，然后贴到保险箱子上面，想要存币的人，只要知道这个HASH值，作为保险箱的ID，就可以直接投币进去啦。</p>
+
+<p>但是保险箱的锁在哪里呢？</p>
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg2.jpg" alt="img" /></p>
+
+<ul>
+<li>这张图中，我们引入了一个脚本，称之为 <code>Pubkey Script</code>；具体内容是:</li>
+</ul>
+
+
+<p><code>
+OP_DUP OP_HASH160 &lt;PubkeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG
+</code></p>
+
+<p>呵呵，像天书吧，不要怕；这是我们特有的保险锁构造。细节会在后面讲到。这里你可以这样简单理解：</p>
+
+<p>为了锁住这个保险箱里的资金，比特币系统设置了一个谜题作为锁。解开这个谜题，才能转移里面的资金。</p>
+
+<p>这个谜题是这样构造的:</p>
+
+<ol>
+<li>记录了A的公开的<code>Public key hash</code>值，开锁的人，需要提供A的<code>full public key</code>，同时验证 <code>hash160(public key) == Public key hash</code></li>
+<li>需要提供A的私钥基于这笔交易的签名Signature, 这样系统可以用<code>full public key</code>来验证公私钥是否匹配</li>
+</ol>
+
+
+<p>这个过程是通过上面的脚本指令通过入栈出栈执行的，这也为比特币系统验证更复杂的交易逻辑提供了基础，甚至能作为一个简单的虚拟机执行更复杂的组合指令。</p>
+
+<p>整个过程组织如下图：</p>
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg3.jpg" alt="img" /></p>
+
+<p>当我提供一个signature以及full public key的时候，就可以开锁了，开锁下一步自然就是转移资金啦。我们给B汇款50个币，而B的保险箱又是怎么表示的呢？和A保险箱是一样的。</p>
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg4.jpg" alt="img" /></p>
+
+<ul>
+<li><p>带有<code>public key hash</code> ID的保险箱是一个UTXO，这个保险箱用<code>public key hash</code>上锁，而提供<code>signature</code>和<code>full public key</code>开锁，转移资金的过程，就是花费UTXO的过程，其实就是把A的UTXO转移到B的UTXO的过程，这就是比特币最简单的一笔交易</p></li>
+<li><p>我们可以继续拓展下去，可以1对多支付，多对1支付，多对多支付，更复杂的多签名支付，延迟支付等等，今后我们会详细介绍</p></li>
+</ul>
+
+
+<p>这个系统有如下有点:</p>
+
+<ol>
+<li>所有的交易都抽象为了UTXO的交易</li>
+<li>用户其实可以不检查交易的合法行，只要运行分布式账本的所有节点检查通过合法后，确保写入账本就保证资金的安全转移了</li>
+<li>每个账户的拥有者在真正花费UTXO之前，是不用暴露公钥的</li>
+<li>验证UTXO交易合法行的函数，抽象为几个指令的集合，这个验证行为指令通用化，为智能合约编写创造了条件</li>
+<li>这样的交易记录非常容易组织，我们以后可以看到；把这些交易批量打包，组织成名为blockchain的精巧数据结构，有许多优点</li>
+</ol>
+
+
+<h2>小结</h2>
+
+<p>好啦，看到这里，我们对比特币的最简单的交易构造已经有感性认识了。但是俗话说得好: <code>光说不练假把式</code>，下篇文章我们就会手工构造一笔完整的交易，让你搞明白其中细节。</p>
+
+<p>另外，我们前面提出了好几个问题:</p>
+
+<ul>
+<li>原始资金从何处来？</li>
+<li>节点如何解决拜占庭将军问题？</li>
+<li>节点如何解决双重支付问题？</li>
+</ul>
+
+
+<p>后面我们会一一解答，那么，下次再见。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[货币、支付、清算漫谈]]></title>
@@ -1168,905 +1418,6 @@ m / purpose' / coin_type' / account' / change / address_index
 <p>但是比特币的交易构造之精巧，又胜过钱包十倍。走了这么远的路，还是那句话，还早得很呢。</p>
 
 <p>那么，比特币的交易构造又是怎样的呢？我们下次文章再见。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[比特币的HD钱包演化-2]]></title>
-    <link href="https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/"/>
-    <updated>2018-11-02T13:31:50+08:00</updated>
-    <id>https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2</id>
-    <content type="html"><![CDATA[<p>好了，有了上一篇文章的基础，我们可以从零开始完全探究数字货币的地址生成、管理方法；下面的代码均使用Linux Bash shell和Python3来处理；另外需要安装<a href="https://github.com/richardkiss/pycoin">pycoin</a>这个库。</p>
-
-<!-- more -->
-
-
-<h2>生成私钥</h2>
-
-<p>一般来说，私钥是个256bit的随机字符。为了演示方便，我们用一个人民大众喜闻乐见的地址生成为例子，私钥选取为 sha256(&ldquo;satoshi&rdquo;)</p>
-
-<p>```</p>
-
-<blockquote><p>printf &ldquo;satoshi&rdquo;|sha256sum
-da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f  &ndash;
-```</p></blockquote>
-
-<p>得到私钥为<code>da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</code></p>
-
-<h2>用WIF (Wallet Import Format)表示私钥</h2>
-
-<p>我们看到私钥本质上是256bit的数字，他可以用二进制表示，也可以用16进制字符串表示，也可以用Base58Check来表示；为了在不同的钱包中方便的导入导出私钥，也为了方便二维码的生成，比特币采用了名为<code>WIF</code>的表示方法，下面列一个表格来说明:</p>
-
-<table>
-<thead>
-<tr>
-<th>Type </th>
-<th> Prefix </th>
-<th> Description </th>
-<th> Private key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Raw </td>
-<td> None </td>
-<td> 32 bytes binary </td>
-<td>  11011010001010000&hellip;&hellip;&hellip;..</td>
-</tr>
-<tr>
-<td>HEX </td>
-<td> None </td>
-<td> 64 hexadecimal digits </td>
-<td> da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</td>
-</tr>
-<tr>
-<td>WIF </td>
-<td> 5 </td>
-<td> Base58Check encoding </td>
-<td> 5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk</td>
-</tr>
-<tr>
-<td>WIF-compressed </td>
-<td> K or L </td>
-<td> Base58Check encoding </td>
-<td> L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>得到WIF 代码示例:</p>
-
-<p>```
-def gen_pubk_from_privk(private_key, compressed=True):</p>
-
-<pre><code># private_key = codecs.encode(os.urandom(32), 'hex').decode()
-secret_exponent = int('0x' + private_key, 0)
-print('WIF: ' + encoding.secret_exponent_to_wif(secret_exponent, compressed=compressed))
-public_pair = ecdsa.public_pair_for_secret_exponent(ecdsa.secp256k1.generator_secp256k1, secret_exponent)
-print('public pair:', public_pair)
-return public_pair
-</code></pre>
-
-<p>```</p>
-
-<p>WIF格式分为非压缩和压缩格式，压缩私钥其实是对非压缩私钥后缀追加了01之后的Base58Check编码，具体生成过程为:</p>
-
-<ul>
-<li>压缩私钥: 私钥前缀80+私钥本体+压缩私钥后缀01 + 校验</li>
-<li>非压缩私钥: 私钥前缀80+私钥本体+校验</li>
-</ul>
-
-
-<p>和字面意思相相反的是，压缩私钥比非压缩私钥还长。为啥这么折腾呢？这个我们在公钥生成的部分说明。</p>
-
-<h2>生成公钥</h2>
-
-<p>我们之前的文章介绍了，公钥是在椭圆曲线上的一个点，由一对坐标（x，y）组成。公钥通常表示为前缀04紧接着两个256比特的数字。其中一个256比特数字是公钥的x坐标，另一个256比特数字是y坐标。前缀04是用来区分非压缩格式公钥， 压缩格式公钥是以02或者03开头。</p>
-
-<p>下面是由前文中的私钥所生成的公钥，其坐标x和y如下:</p>
-
-<ul>
-<li><p>public pair:</p>
-
-<ul>
-<li>x = 89077434373547985693783396961781741114890330080946587550950125758215996319671</li>
-<li>y = 114001858762817543140175961139571810325965930451644331549950109688554928624341</li>
-</ul>
-</li>
-</ul>
-
-
-<p>加上前缀04，完整的公钥为:</p>
-
-<p><code>
-K = 0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341
-</code></p>
-
-<h4>为什么要区分压缩格式和非压缩格式</h4>
-
-<p>这是一个历史问题，初版比特币运行时，中本聪没有考虑到一个问题:</p>
-
-<p>一个公钥是一个椭圆曲线上的点(x,y)。而椭圆曲线实际是一个数学方程，曲线上的点实际是该方程的一个解。因此，如果我们知道了公钥的x坐标，就可以通过解方程 <code>y^2 % p = (x^3 + 7) % p</code>得到y坐 标。这种方案可以让我们只存储公钥的x坐标，略去y坐标，从而将公钥的大小和存储空间减少了256 bits。如果每笔交易所 需要的字节数减少了近一半，随着时间推移，节省的数据传输和存储空间还是很客观的。</p>
-
-<p>所以后来开发团队推出了压缩公钥，为了跟之前老版本的非压缩公钥相区分，就加上了02和03作为前缀。</p>
-
-<p>那么为什么要加两个前缀(02,03)呢？</p>
-
-<p>因为椭圆曲线加密的公式的左边是y2 ，也就是说y的解是来自于一个平方根，可能是正值也可能是负值。更形象地说，y坐标可能在 x坐标轴的上面或者下面。椭圆曲线图中曲线是对称的，从x轴看就像对称的镜子两面。因此，如果我们略去y坐标，就必须储存y的符号（正值或者负值）。换句话说，对于给定的x值，我们需要知道y值在x轴的上面还是下面，因为它们代表椭圆曲线上不同的点，即不同的公钥。当我们在素数p阶的有限域上使用二进制算术计算椭圆曲线的时候，y坐标可能是奇数或者偶数，分别对应前面所讲的y值的正负符号。因此，为了区分y坐标的两种可能值，我们在生成压缩格式公钥时，如果y是偶数，则使用02作为前缀；如果y是奇数，则使用03作为前缀。这样就可以根据公钥中给定的x值，正确推导出对应的y坐标，从而将公钥解压缩为在椭圆曲线上的完整的点坐标。</p>
-
-<p>总结出来，一个公钥的表现形式可以又两种:</p>
-
-<ol>
-<li>04开头的非压缩公钥: (130位十六进制 2+64+64)</li>
-<li>02或03开头的压缩公钥:（66位十六进制 2+64）</li>
-</ol>
-
-
-<p>这样继续推导，两种表现形式可以推导出两个地址，也就是手握一个私钥，可以推导出两个合法的比特币地址。</p>
-
-<p>这样又间接解释了为什么会有压缩私钥和非压缩私钥两种表现：</p>
-
-<ul>
-<li>当中本聪实现第一版比特币客户端钱包的时候，没有考虑到公钥可以压缩，所以采用了最原始直接的办法存储公钥和私钥</li>
-<li>后来人们发现公钥可以简化存储来节省一部分空间，于是加入了压缩公钥格式，为了跟之前的非压缩公钥区分，引入了前缀</li>
-<li>同样，使用压缩公钥格式的钱包导入导出私钥时，为了区分，也必须为私钥标明它对应的公钥是否压缩格式，所以也为私钥的表示引入了后缀</li>
-<li>压缩私钥的意思是，由这个私钥导出的公钥表示方法是压缩的，私钥本身还需要引入一个01作为后缀，长度反而多了一个字节</li>
-</ul>
-
-
-<h2>从公钥到比特币地址</h2>
-
-<p>得出公钥之后，地址的生成还要经过三重变换， 公钥为K，变换过程如下:</p>
-
-<ol>
-<li>首先计算 A = SHA256(K)</li>
-<li>计算 B = RIPEMD160(A)</li>
-<li>Addr = Base58Check（prefix + B）</li>
-</ol>
-
-
-<h4>为什么要有RIPEMD160(SHA256(K)) 的过程</h4>
-
-<p>因为中本聪设计之初充分考虑到了安全性方面的问题，一笔交易广播后，并不是直接把公钥K暴漏在外，如果你不花费这个UTXO，暴漏的只有<code>RIPEMD160(SHA256(K))</code>这个值。假如将来有一种计算机的计算能力得到指数级别的提升，有一定可能暴力破解椭圆曲线算法。解决方案就是引入<code>RIPEMD160(SHA256(K))</code>的过程，这样要破解一个未花费的UTXO，需要逆向RIPEMD160，SHA256，secp256k1三种不同的算法，即使将来量子计算发展到实用阶段，也很难做到吧。</p>
-
-<p>但是根据比特币交易的设计，一个地址重复使用就会暴露公钥K，所以我们推荐的安全做法就是一笔UTXO花费后就更换地址。这也是所有安全钱包的默认实现方法。</p>
-
-<p>这个设计的唯一的瑕疵，在我看来，就是RIPEMD160将公钥的碰撞空间减小了，由 2<sup>256</sup> 减小到了 2<sup>160</sup>，当然 2<sup>160</sup> 的碰撞空间对于现有计算能力也是个天文数字，我想中本聪没有选择SHA3等算法的原因，应该是充分考虑了散列算法的复杂度和差异度，最后选择的RIPEMD160吧。</p>
-
-<h4>Base58Check编码</h4>
-
-<p>WIF格式和比特币地址都是用Base58Check编码表示的，Base58是Base64基础上发展来的，它具有以下功能:</p>
-
-<ul>
-<li>一个任意大小的payload。</li>
-<li>一组58个字母数字符号，由易于区分的大小写字母组成(不使用0OIl)</li>
-<li>一个字节的版本/应用程序信息。比特币地址为这个字节使用0x00</li>
-<li>四个字节（32位）基于SHA256的错误检查代码。此代码可用于自动检测并可能纠正排版错误。</li>
-<li>保留数据中零开头的额外步骤</li>
-</ul>
-
-
-<p>创建过程:</p>
-
-<ol>
-<li><p>获取版本字节和payload字节，并将它们连接在一起（按字节顺序）。</p></li>
-<li><p>取SHA256(SHA256(步骤1的结果))的前四个字节</p></li>
-<li><p>将步骤1的结果和步骤2的结果连在一起（按字节顺序）。</p></li>
-<li><p>处理步骤3的结果 &ndash; 一系列字节 &ndash; 作为单个大端序号，使用正常的数学步骤（bignumber division）和下面描述的base-58字母表转换为base-58。结果应该被标准化为没有任何前导零（字符'1'）的base-58。</p></li>
-<li><p>在base58中，值为零的前导字符'1'被保留用于表示整个前导零字节，就像它处于前导位置时一样，没有值作为base-58符号。必要时可以有一个或多个前导'1'来表示一个或多个前导零字节。计算步骤3结果中的前导零字节数（对于旧的比特币地址，至少有一个用于版本/应用程序字节;对于新地址，将永远不会有）。每个前导零字节在最终结果中应由其自己的字符'1'表示。</p></li>
-<li><p>将步骤5中的1与步骤4 的结果连接起来。这是Base58Check的结果。</p></li>
-</ol>
-
-
-<p>最后综合起来，从公钥K到比特币地址完整的示意图如下:</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181102/bg1.jpg" alt="img" /></p>
-
-<p><code>satoshi</code>作为seed计算出私钥，进而计算出公钥K之后，最终进一步生成地址</p>
-
-<p>```
-def genaddress_from_pubk(compressed=True)</p>
-
-<pre><code># 首先计算 RIPEMD160(SHA256(K))
-ripemd160 = encoding.public_pair_to_hash160_sec(public_pair, compressed=compressed)
-# 再用Base58Check计算最终地址
-addr = encoding.hash160_sec_to_bitcoin_address(ripemd160)
-return addr
-</code></pre>
-
-<p>```</p>
-
-<p>因为公钥存在压缩形式和非压缩两种形式，所以完整的结果是:</p>
-
-<p>```
-seed: satoshi
-sha256 private key: da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</p>
-
-<p>compress address
-WIF: L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6
-hash160: 0a8ba9e453383d4561cbcdda36e5789c2870dd41
-Bitcoin address:1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V</p>
-
-<p>uncompress address
-WIF: 5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
-hash160: 650d0497e014e60d4680fce6997d405de264f042
-Bitcoin address:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE
-```</p>
-
-<p><code>satoshi</code>作为seed生成了两个地址:</p>
-
-<p><code>1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V</code>和<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>，这都是两个正在使用的地址哦，到今天为止还有热心人源源不断的为<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>转账一些零钱作为中本聪的纪念。你可以将WIF导入钱包，然后运行一个全节点，在bitcoin.conf文件中加入<code>walletnotify</code>这个选项，关联一个脚本，当收到比特币时就自动转账到自己的地址，参与这两个地址的抽奖哦。</p>
-
-<h2>一些Base58Check版本前缀和编码后的结果</h2>
-
-<p>看到这里，我们发现Base58Check 编码的过程中，最后一步会引入一个前缀。而在比特币中，除了WIF私钥和地址，大多数需要向用户展示的数据都使用Base58Check编码，理所当然的，引入了不同的前缀来区分不同的信息，下面展示了一些版本前缀和他们对应的Base58格式:</p>
-
-<table>
-<thead>
-<tr>
-<th>Type </th>
-<th> Version prefix </th>
-<th> Base58 result prefix</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bitcoin Address </td>
-<td> 0x00 </td>
-<td> 1</td>
-</tr>
-<tr>
-<td>Pay to Script Hash Address </td>
-<td> 0x05 </td>
-<td> 3</td>
-</tr>
-<tr>
-<td>Bitcoin Testnet Address </td>
-<td> 0x5F </td>
-<td> m or n</td>
-</tr>
-<tr>
-<td>Private Key WIF </td>
-<td> 0x80 </td>
-<td> 5, K or L</td>
-</tr>
-<tr>
-<td>BIP-38 Encrypted Private Key </td>
-<td> 0x0142 </td>
-<td> 6P</td>
-</tr>
-<tr>
-<td>BIP-32 Encrypted public Key </td>
-<td> 0x0488B21E </td>
-<td> xpub</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>除了我们已经提到的WIF和Bitcoin Address，我们还发现了奇怪的BIP-38和BIP-32，这个需要到解释比特币原始交易编码的时候来讲解。</p>
-
-<h2>Brain Wallet</h2>
-
-<p>好啦，我们上面已经完整的再现了由一个 seed单词 <code>satoshi</code>，导出两个比特币地址的过程；你只要记好<code>satoshi</code>这个单词，就可以在世界上的任何地方，任何时间，掌管发送给<code>1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V</code>和<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>这两个地址的比特币了。</p>
-
-<p>你不需要银行账号，不需要密保卡，只需要有个可以联网的地方，就能秘密发送交易啦。将来有了免费的卫星网络的话，我想你都不用登陆互联网，可能在家里屋顶上架个锅，淘宝买些零件天线DIY一个设备，要转帐的时候，只要输入<code>satoshi</code>就可以秘密完成数亿美元的汇款，而且丝毫不用担心这个账户被政府查封，世界上也只有你一个人能动用这个账户，真是完美的洗钱逃汇工具！也难怪有人说，比特币是人类历史上第一次用技术手段保证了财产的完全私有权。</p>
-
-<p>这个<code>satoshi</code>的seed，就是所谓脑钱包的口令，相对于天书一般的256 bits私钥无疑更好记忆，早期这样的工具非常受欢迎，到现在为止你也可以到这个<a href="https://brainwalletx.github.io/">在线工具</a> 去重复我们以上推导的所有过程。</p>
-
-<p>但是这个方法有个致命的弱点，他的安全性完全取决于seed这个单词的复杂度，像<code>satoshi</code>这样的seed，就像<code>123456</code>的密码一样，不用说大家都知道安全度为0啊。</p>
-
-<p>而且你自以为选取生日啊、姓名缩写啊、恋人海誓山盟的话语啊，这些东西作为seed，其实也是非常脆弱的。总有人孜孜不倦的遍历所有可能的seed。这在后期导致了非常多的hack事件。</p>
-
-<p>截至2018-10，我检索区块链，统计公开的比特币地址已经超过了3亿个，如果有万分之一的地址是由脑钱包生成的话，不安全的地址也超过了3w个，所以后来脑钱包这种方式就不被推荐了。</p>
-
-<p>下面可以列举一些已经公开的seed，这都是我用一些公开语料库随意碰撞出来的，你就知道这种方法的危险性啦：</p>
-
-<p><code>
-FINAL_CRACK_ADDRESS: hash160:sha256:seed:address:wif-priv
-FINAL_CRACK_ADDRESS:0a8ba9e453383d4561cbcdda36e5789c2870dd41:c:sha256:satoshi:1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V:L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6
-FINAL_CRACK_ADDRESS:650d0497e014e60d4680fce6997d405de264f042:u:sha256:satoshi:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE:5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
-FINAL_CRACK_ADDRESS:c71e3a0989754d4ffae45a1c6ef8e348539cd83c:u:sha256:satoshinakamoto:1K9qgN3H2wB2v3LwJEBDbRRJ3znHXEQP4Y:5HqE1vZMMLc7jZRF5wZb79QexyCguNeNdaHLdKTGndvLBrCHD31
-FINAL_CRACK_ADDRESS:ec42ad7fd54f931274b83f6137379206e458b106:u:sha256:1satoshi:1NYEM85RpgkSofLqDfwjb21o3MD4ibSo49:5JSGPQ2Jw1P5cVi2L8LeuWnMF5H8rLGrPPgVM2XE1cahG1BQDzY
-FINAL_CRACK_ADDRESS:fd8d22e02b3a41bc38f69516c43f7ebd6268e16b:u:sha256:satoshi nakamoto:1Q7f2rL2irjpvsKVys5W2cmKJYss82rNCy:5K7EWwEuJu9wPi4q7HmWQ7xgv8GxZ2KqkFbjYMGvTCXmY22oCbr
-FINAL_CRACK_ADDRESS:0000d85a71f305a1c907cdc7437c43b2eecc35e5:u:sha256:CHARINA143:11121ioKu4MCB1LLzPF98AVtzFsEg7UYKm:5JhayTrDhzDHqCg2v16Y2gZWi4kWF6BFoZR3MyaaxWtyKHzKJ8d
-FINAL_CRACK_ADDRESS:0002439f087ffefb973c5b9bbd52f509984d3cbe:c:sha256:purple99:113iKJcZeRxEYRVcWNgVxmjodPAisDZ45:KxFLoyseSyVtKGXQNkYBajT8EqviQSuH64Y6GE1g6KXuvcFaSrqc
-FINAL_CRACK_ADDRESS:00027a0ef2b9295011b10b089c8caf2e69f6b6f7:u:sha256:bridesmaid:113y6FCRm2WHh5Aru2R7ot37wkNDtxqf3:5JsYc8oXiHBJm9rzRPJHaCSYBBx7KCTx5L81rqRMZBArsdZTsan
-FINAL_CRACK_ADDRESS:00030fa763130b5310afe68b12204009e60e935c:u:sha256:masturbating:114fh9qiRhubJJDV5rCthFxmGyYeLQ2B6:5J8TgeF9jU3BPRrsCD75Ks4a6aWxgzLKENDSbsLufDTWq7evCQa
-FINAL_CRACK_ADDRESS:0005736b486f87e5823909a89eb48dda185d3956:u:sha256:nitro:117XjTn3UdBNjVo3KsB17WRFDDmcW2pPa:5JkUWsPzNEZEvMFwWQjoXCeem5LL6LDcC7K6H1LWiwXFAA9LFo1
-FINAL_CRACK_ADDRESS:00080beae5c3a433fbae8ff0b69e705ac3ce5464:u:sha256:resultantly:11Ae5tbiSZ7QJWh4okWJhDKuPfAvk3a13:5KftjbtsSmhy5Y42AYpfEAm4U4vQKP9VhjbS6xtFqBDhUfAGaFj
-FINAL_CRACK_ADDRESS:00083c18c738e883ebc1b5ca270569ee8f9f790e:u:sha256:suggestively:11AsAKWdMZj5ScSYRoAQ8xG4J7Y6s7cW9:5JvrusiSgSmCTV7x7f5vgdWUMLjwk153j9UXmNHvRAJ8m7rtsJD
-FINAL_CRACK_ADDRESS:000e4d1774a3fc0251e9e6caf0a8617639e80093:u:sha256:dezoxiribonukleinsav:11J8fK9qhgxdQ96ZvvXExkfFvQSPQiPKN:5KSkRxaAbk94wzzzynDNj2bzRFmJZXCrhtYj3iGU9JjUxnRXTYM
-FINAL_CRACK_ADDRESS:00135d1c8f99cc657ad1f246bc5051ad03f95d32:u:sha256:Mussolini:11QCR3sk9r4jeyMqCKGEYabGTfjzhgGdZ:5K2x6UanMSevNX7f19oB4to46C3zXoGTUBGVqv8WNtCRwJNGBGC
-FINAL_CRACK_ADDRESS:001ed6fae0af0b37126004029defcc4521b300dd:u:sha256:meagerness:11dwnVzCyGoMZcGDndQteWgR9b7FKsJMu:5JKVJhbZWXmHxj2MuttZCDaFk7TC9KBVYjbPRjztP63mmAUV6Vm
-FINAL_CRACK_ADDRESS:002607c11a2311825a087f37c95d7816e0491a9d:u:sha256:vertebrate:11nZPfxYPeDm4d4fd93BaFa1BezFRTP6F:5HsBbgzEXZEaeLRCZHs66ho2ekpFEqeAJyyBPe8YyMkCqCHWv6j
-...
-</code></p>
-
-<p>不过我们现在已经掌握到了比特币地址的生成原理，所以如何提高安全性就不用我再啰嗦了，相信你心中已有答案。</p>
-
-<h2>那些山寨币们</h2>
-
-<p>比特币项目是2009-01-03正式开始运行的，之后简单的复制一下比特币的代码，稍作修改就推出的山寨币们数不胜数；这些山寨币第一个要修改的，就是地址格式，以免和比特币地址混淆；</p>
-
-<p>怎么修改呢？注意到前面Base58Check Encode的最后一步了吗？那个时候我们需要引入一个前缀作为地址的区分；得益于比特币这种前瞻性的设计，山寨币们只要改动一下这个前缀就可以了，下面列举一下我所知道的山寨币的实现：</p>
-
-<p>引用自:
-<a href="https://github.com/walletgeneratornet/WalletGenerator.net">https://github.com/walletgeneratornet/WalletGenerator.net</a></p>
-
-<p>```
-name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start
-&ldquo;2GIVE&rdquo;,               0x27, 0xa7, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;42coin&rdquo;,              0x08, 0x88, &ldquo;5&rdquo;,    &ldquo;M&rdquo;
-&ldquo;Acoin&rdquo;,               0x17, 0xe6, &ldquo;8&rdquo;,    &ldquo;b&rdquo;
-&ldquo;AGAcoin&rdquo;,             0x53, 0xd3, &ldquo;8&rdquo;,    &ldquo;Y&rdquo;
-&ldquo;Alphacoin&rdquo;,           0x52, 0xd2, &ldquo;8&rdquo;,    &ldquo;Y&rdquo;
-&ldquo;Alqo&rdquo;,                0x17, 0xc1, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;Animecoin&rdquo;,           0x17, 0x97, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;Anoncoin&rdquo;,            0x17, 0x97, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;Apexcoin&rdquo;,            0x17, 0x97, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;Auroracoin&rdquo;,          0x17, 0x97, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Aquariuscoin&rdquo;,        0x17, 0x97, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;Axe&rdquo;,                 0x4B, 0xCB, &ldquo;7&rdquo;,    &ldquo;X&rdquo;
-&ldquo;BBQcoin&rdquo;,             0x55, 0xd5, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Biblepay&rdquo;,            0x19, 0xb6, &ldquo;7&rdquo;,    &ldquo;[TU]&rdquo;
-&ldquo;Bitcoin&rdquo;,             0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;BitcoinCash&rdquo;,         0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;BitcoinDark&rdquo;,         0x3c, 0xbc, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Bitcore&rdquo;,             0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;BitcoinGold&rdquo;,         0x26, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Bitconnect&rdquo;,          0x12, 0x92, &ldquo;5&rdquo;,    &ldquo;N&rdquo;
-&ldquo;Birdcoin&rdquo;,            0x2f, 0xaf, &ldquo;6&rdquo;,    &ldquo;[ST]&rdquo;
-&ldquo;BitSynq&rdquo;,             0x3f, 0xbf, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;BitZeny&rdquo;,             0x51, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Blackcoin&rdquo;,           0x19, 0x99, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;BlackJack&rdquo;,           0x15, 0x95, &ldquo;[56]&rdquo;, &ldquo;P&rdquo;
-&ldquo;BlockNet&rdquo;,            0x1a, 0x9a, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;BolivarCoin&rdquo;,         0x55, 0xd5, &ldquo;8&rdquo;,    &ldquo;Y&rdquo;
-&ldquo;BoxyCoin&rdquo;,            0x4b, 0xcb, &ldquo;7&rdquo;,    &ldquo;X&rdquo;
-&ldquo;BunnyCoin&rdquo;,           0x1a, 0x9a, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;Cagecoin&rdquo;,            0x1f, 0x9f, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;CampusCoin&rdquo;,          0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;CanadaeCoin&rdquo;,         0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;CannabisCoin&rdquo;,        0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Capricoin&rdquo;,           0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;CassubianDetk&rdquo;,       0x1e, 0x9e, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;CashCoin&rdquo;,            0x22, 0xa2, &ldquo;6&rdquo;,    &ldquo;[QR]&rdquo;
-&ldquo;Catcoin&rdquo;,             0x15, 0x95, &ldquo;[56]&rdquo;, &ldquo;P&rdquo;
-&ldquo;ChainCoin&rdquo;,           0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;ColossusCoinXT&rdquo;,      0x1e, 0xd4, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Condensate&rdquo;,          0x3c, 0xbc, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Copico&rdquo;,              0x1c, 0x90, &ldquo;5&rdquo;,    &ldquo;N&rdquo;
-&ldquo;CopperCoin&rdquo;,          0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Corgicoin&rdquo;,           0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;CryptoBullion&rdquo;,       0x0b, 0x8b, &ldquo;5&rdquo;,    &ldquo;M&rdquo;
-&ldquo;CryptoClub&rdquo;,          0x23, 0xa3, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;Cryptoescudo&rdquo;,        0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Cryptonite&rdquo;,          0x1c, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;CryptoWisdomCoin&rdquo;,    0x49, 0x87, &ldquo;5&rdquo;,    &ldquo;[LM]&rdquo;
-&ldquo;C2coin&rdquo;,              0x1c, 0x9c, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Dash&rdquo;,                0x4c, 0xcc, &ldquo;7&rdquo;,    &ldquo;X&rdquo;
-&ldquo;DeafDollars&rdquo;,         0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;DeepOnion&rdquo;,           0x1f, 0x9f, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Deutsche eMark&rdquo;,      0x35, 0xb5, &ldquo;7&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Devcoin&rdquo;,             0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;DigiByte&rdquo;,            0x1e, 0x9e, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Digitalcoin&rdquo;,         0x1e, 0x9e, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Dimecoin&rdquo;,            0x0f, 0x8f, &ldquo;5&rdquo;,    &ldquo;N&rdquo;
-&ldquo;DNotes&rdquo;,              0x1f, 0x9f, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Dogecoin&rdquo;,            0x1e, 0x9e, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;DogecoinDark&rdquo;,        0x1e, 0x9e, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;eGulden&rdquo;,             0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;eKrona&rdquo;,              0x2d, 0xad, &ldquo;6&rdquo;,    &ldquo;S&rdquo;
-&ldquo;ELECTRA&rdquo;,             0x21, 0xa1, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Ember&rdquo;,               0x5c, 0x32, &ldquo;2&rdquo;,    &ldquo;8&rdquo;
-&ldquo;Emerald&rdquo;,             0x22, 0xa2, &ldquo;6&rdquo;,    &ldquo;[QR]&rdquo;
-&ldquo;Emercoin&rdquo;,            0x21, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;EnergyCoin&rdquo;,          0x5c, 0xdc, &ldquo;8&rdquo;,    &ldquo;Z&rdquo;
-&ldquo;Espers&rdquo;,              0x21, 0x90, &ldquo;5&rdquo;,    &ldquo;N&rdquo;
-&ldquo;Fastcoin&rdquo;,            0x60, 0xe0, &ldquo;8&rdquo;,    &ldquo;a&rdquo;
-&ldquo;Feathercoin&rdquo;,         0x0e, 0x8e, &ldquo;5&rdquo;,    &ldquo;N&rdquo;
-&ldquo;Fedoracoin&rdquo;,          0x21, 0x80, &ldquo;5&rdquo;,    &ldquo;[KL]&rdquo;
-&ldquo;Fibre&rdquo;,               0x23, 0xa3, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;Florincoin&rdquo;,          0x23, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Flurbo&rdquo;,              0x23, 0x30, &ldquo;6&rdquo;,    &ldquo;8&rdquo;
-&ldquo;Fluttercoin&rdquo;,         0x23, 0xa3, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;FrazCoin&rdquo;,            0x23, 0xA3, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;Freicoin&rdquo;,            0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;FUDcoin&rdquo;,             0x23, 0xa3, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;Fuelcoin&rdquo;,            0x24, 0x80, &ldquo;5&rdquo;,    &ldquo;[KL]&rdquo;
-&ldquo;Fujicoin&rdquo;,            0x24, 0xa4, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;GabenCoin&rdquo;,           0x10, 0x90, &ldquo;5&rdquo;,    &ldquo;N&rdquo;
-&ldquo;Garlicoin&rdquo;,           0x26, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;GlobalBoost&rdquo;,         0x26, 0xa6, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;Goodcoin&rdquo;,            0x26, 0xa6, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;GridcoinResearch&rdquo;,    0x3e, 0xbe, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;Gulden&rdquo;,              0x26, 0xa6, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;Guncoin&rdquo;,             0x27, 0xa7, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;HamRadioCoin&rdquo;,        0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;LK&rdquo;
-&ldquo;HFRcoin&rdquo;,             0x10, 0x90, &ldquo;5&rdquo;,    &ldquo;N&rdquo;
-&ldquo;HOdlcoin&rdquo;,            0x28, 0xa8, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;HTMLCoin&rdquo;,            0x29, 0xa9, &ldquo;6&rdquo;,    &ldquo;S&rdquo;
-&ldquo;HyperStake&rdquo;,          0x75, 0xf5, &ldquo;9&rdquo;,    &ldquo;d&rdquo;
-&ldquo;ImperiumCoin&rdquo;,        0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;IncaKoin&rdquo;,            0x35, 0xb5, &ldquo;7&rdquo;,    &ldquo;T&rdquo;
-&ldquo;IncognitoCoin&rdquo;,       0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;LK&rdquo;
-&ldquo;Influxcoin&rdquo;,          0x66, 0xe6, &ldquo;8&rdquo;,    &ldquo;b&rdquo;
-&ldquo;Innox&rdquo;,               0x4b, 0xcb, &ldquo;7&rdquo;,    &ldquo;X&rdquo;
-&ldquo;IridiumCoin&rdquo;,         0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;iCash&rdquo;,               0x66, 0xcc, &ldquo;7&rdquo;,    &ldquo;X&rdquo;
-&ldquo;iXcoin&rdquo;,              0x8a, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Judgecoin&rdquo;,           0x2b, 0xab, &ldquo;6&rdquo;,    &ldquo;S&rdquo;
-&ldquo;Jumbucks&rdquo;,            0x2b, 0xab, &ldquo;6&rdquo;,    &ldquo;S&rdquo;
-&ldquo;KHcoin&rdquo;,              0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;KittehCoin&rdquo;,          0x2d, 0xad, &ldquo;6&rdquo;,    &ldquo;S&rdquo;
-&ldquo;Lanacoin&rdquo;,            0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Latium&rdquo;,              0x17, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;LBRY Credits&rdquo;,        0x55, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Litecoin&rdquo;,            0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;LiteDoge&rdquo;,            0x5a, 0xab, &ldquo;6&rdquo;,    &ldquo;S&rdquo;
-&ldquo;LoMoCoin&rdquo;,            0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;MadbyteCoin&rdquo;,         0x32, 0x6e, &ldquo;4&rdquo;,    &ldquo;H&rdquo;
-&ldquo;MagicInternetMoney&rdquo;,  0x30, 0xb0, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Magicoin&rdquo;,            0x14, 0x94, &ldquo;5&rdquo;,    &ldquo;[NP]&rdquo;
-&ldquo;Marscoin&rdquo;,            0x32, 0xb2, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;MarteXcoin&rdquo;,          0x32, 0xb2, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;MasterDoge&rdquo;,          0x33, 0x8b, &ldquo;5&rdquo;,    &ldquo;M&rdquo;
-&ldquo;Mazacoin&rdquo;,            0x32, 0xe0, &ldquo;8&rdquo;,    &ldquo;a&rdquo;
-&ldquo;Megacoin&rdquo;,            0x32, 0xb2, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;MintCoin&rdquo;,            0x33, 0xb3, &ldquo;[67]&rdquo;, &ldquo;T&rdquo;
-&ldquo;MobiusCoin&rdquo;,          0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;MonetaryUnit&rdquo;,        0x10, 0x7e, &ldquo;5&rdquo;,    &ldquo;K&rdquo;
-&ldquo;Monocle&rdquo;,             0x32, 0xb2, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;MoonCoin&rdquo;,            0x03, 0x83, &ldquo;5&rdquo;,    &ldquo;L&rdquo;
-&ldquo;Myriadcoin&rdquo;,          0x32, 0xb2, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;NameCoin&rdquo;,            0x34, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Navcoin&rdquo;,             0x35, 0x96, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;NeedleCoin&rdquo;,          0x35, 0xb5, &ldquo;7&rdquo;,    &ldquo;T&rdquo;
-&ldquo;NEETCOIN&rdquo;,            0x35, 0xb5, &ldquo;7&rdquo;,    &ldquo;T&rdquo;
-&ldquo;NYC&rdquo;,                 0x3c, 0xbc, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Neoscoin&rdquo;,            0x35, 0xb1, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Nevacoin&rdquo;,            0x35, 0xb1, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;Novacoin&rdquo;,            0x08, 0x88, &ldquo;5&rdquo;,    &ldquo;M&rdquo;
-&ldquo;Nubits&rdquo;,              0x19, 0xbf, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;Nyancoin&rdquo;,            0x2d, 0xad, &ldquo;6&rdquo;,    &ldquo;S&rdquo;
-&ldquo;Ocupy&rdquo;,               0x73, 0xf3, &ldquo;9&rdquo;,    &ldquo;[cd]&rdquo;
-&ldquo;Omnicoin&rdquo;,            0x73, 0xf3, &ldquo;9&rdquo;,    &ldquo;[cd]&rdquo;
-&ldquo;Onyxcoin&rdquo;,            0x73, 0xf3, &ldquo;9&rdquo;,    &ldquo;[cd]&rdquo;
-&ldquo;PacCoin&rdquo;,             0x18, 0x98, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;Particl&rdquo;,             0x38, 0x6c, &ldquo;4&rdquo;,    &ldquo;[HG]&rdquo;
-&ldquo;Paycoin&rdquo;,             0x37, 0xb7, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Pandacoin&rdquo;,           0x37, 0xb7, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;ParkByte&rdquo;,            0x37, 0xb7, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Peercoin&rdquo;,            0x37, 0xb7, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Pesetacoin&rdquo;,          0x2f, 0xaf, &ldquo;6&rdquo;,    &ldquo;[ST]&rdquo;
-&ldquo;PHCoin&rdquo;,              0x37, 0xb7, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;PhoenixCoin&rdquo;,         0x38, 0xb8, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;PiggyCoin&rdquo;,           0x76, 0xf6, &ldquo;9&rdquo;,    &ldquo;d&rdquo;
-&ldquo;Pinkcoin&rdquo;,            0x3,  0x83, &ldquo;[RQP]&rdquo;,&ldquo;L&rdquo;
-&ldquo;PIVX&rdquo;,                0x1e, 0xd4, &ldquo;8&rdquo;,    &ldquo;Y&rdquo;
-&ldquo;Peercoin&rdquo;,            0x37, 0xb7, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Potcoin&rdquo;,             0x37, 0xb7, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Primecoin&rdquo;,           0x17, 0x97, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;ProsperCoinClassic&rdquo;,  0x3a, 0xba, &ldquo;7&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Quark&rdquo;,               0x3a, 0xba, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Qubitcoin&rdquo;,           0x26, 0xe0, &ldquo;8&rdquo;,    &ldquo;a&rdquo;
-&ldquo;Reddcoin&rdquo;,            0x3d, 0xbd, &ldquo;7&rdquo;,    &ldquo;[UV]&rdquo;
-&ldquo;Riecoin&rdquo;,             0x3c, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Rimbit&rdquo;,              0x3c, 0xbc, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;ROIcoin&rdquo;,             0x3c, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Rubycoin&rdquo;,            0x3c, 0xbc, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Rupaya&rdquo;,              0x3c, 0xbc, &ldquo;7&rdquo;,    &ldquo;U&rdquo;
-&ldquo;Sambacoin&rdquo;,           0x3e, 0xbe, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;SecKCoin&rdquo;,            0x3f, 0xbf, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;SibCoin&rdquo;,             0x3f, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;SixEleven&rdquo;,           0x34, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;SmileyCoin&rdquo;,          0x19, 0x99, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;SongCoin&rdquo;,            0x3f, 0xbf, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;SpreadCoin&rdquo;,          0x3f, 0xbf, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;StealthCoin&rdquo;,         0x3e, 0xbe, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;Stratis&rdquo;,             0x3f, 0xbf, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;SwagBucks&rdquo;,           0x3f, 0x99, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;Syscoin&rdquo;,             0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Tajcoin&rdquo;,             0x41, 0x6f, &ldquo;6&rdquo;,    &ldquo;H&rdquo;
-&ldquo;Terracoin&rdquo;,           0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Titcoin&rdquo;,             0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;TittieCoin&rdquo;,          0x41, 0xc1, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;Topcoin&rdquo;,             0x42, 0xc2, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;TransferCoin&rdquo;,        0x42, 0x99, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;TreasureHuntCoin&rdquo;,    0x32, 0xb2, &ldquo;6&rdquo;,    &ldquo;T&rdquo;
-&ldquo;TrezarCoin&rdquo;,          0x42, 0xC2, &ldquo;7&rdquo;,    &ldquo;V&rdquo;
-&ldquo;Unobtanium&rdquo;,          0x82, 0xe0, &ldquo;8&rdquo;,    &ldquo;a&rdquo;
-&ldquo;USDe&rdquo;,                0x26, 0xa6, &ldquo;6&rdquo;,    &ldquo;R&rdquo;
-&ldquo;Vcash&rdquo;,               0x47, 0xc7, &ldquo;7&rdquo;,    &ldquo;W&rdquo;
-&ldquo;Versioncoin&rdquo;,         0x46, 0xc6, &ldquo;7&rdquo;,    &ldquo;W&rdquo;
-&ldquo;VergeCoin&rdquo;,           0x1e, 0x9e, &ldquo;6&rdquo;,    &ldquo;Q&rdquo;
-&ldquo;Vertcoin&rdquo;,            0x47, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Viacoin&rdquo;,             0x47, 0xc7, &ldquo;7&rdquo;,    &ldquo;W&rdquo;
-&ldquo;VikingCoin&rdquo;,          0x46, 0x56, &ldquo;3&rdquo;,    &ldquo;D&rdquo;
-&ldquo;W2Coin&rdquo;,              0x49, 0xc9, &ldquo;7&rdquo;,    &ldquo;W&rdquo;
-&ldquo;WACoins&rdquo;,             0x49, 0xc9, &ldquo;7&rdquo;,    &ldquo;W&rdquo;
-&ldquo;WankCoin&rdquo;,            0x00, 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;WeAreSatoshiCoin&rdquo;,    0x87, 0x97, &ldquo;6&rdquo;,    &ldquo;P&rdquo;
-&ldquo;WorldCoin&rdquo;,           0x49, 0xc9, &ldquo;7&rdquo;,    &ldquo;W&rdquo;
-&ldquo;XP&rdquo;,                  0x4b, 0xcb, &ldquo;7&rdquo;,    &ldquo;X&rdquo;
-&ldquo;Yenten&rdquo;,              0x4e, 0x7b, &ldquo;5&rdquo;,    &ldquo;K&rdquo;
-&ldquo;Zcash&rdquo;,        [0x1c,0xb8], 0x80, &ldquo;5&rdquo;,    &ldquo;[LK]&rdquo;
-&ldquo;Zetacoin&rdquo;,            0x50, 0xE0, &ldquo;8&rdquo;,    &ldquo;a&rdquo;
-&ldquo;Testnet Bitcoin&rdquo;,     0x6f, 0xef, &ldquo;9&rdquo;,    &ldquo;c&rdquo;
-&ldquo;Testnet Dogecoin&rdquo;,    0x71, 0xf1, &ldquo;9&rdquo;,    &ldquo;c&rdquo;
-&ldquo;Testnet MonetaryUnit&rdquo;,0x26, 0x40, &ldquo;3&rdquo;,    &ldquo;A&rdquo;
-&ldquo;Testnet PIVX&rdquo;,        0x8b, 0xef, &ldquo;9&rdquo;,    &ldquo;c&rdquo;
-&ldquo;Testnet WACoins&rdquo;,     0x51, 0xd1, &ldquo;8&rdquo;,    &ldquo;[XY]&rdquo;</p>
-
-<p>```</p>
-
-<p>哈哈，洋洋大观啊。这也说明了folk一个山寨币的成本是如何的低；然后有了以太坊的ERC20之后，发一个新币的成本简直低到令人发指，也无怪乎场子里面骗子横行了。</p>
-
-<h2>以太坊的地址生成</h2>
-
-<p>Ethereum项目是不走寻常路的，他作为比特币之后最具创新性的后辈，地址设计反而简单的多。</p>
-
-<p>直到生成公钥这一步，以太坊和比特币都是一致的，采用了secp256k1算法，只是最后的地址生成以太坊很简洁，直接Keccak256 hash，然后取最后的40位16进制字符得到的。</p>
-
-<p>为什么比特币实现复杂呢？这是因为比特币的交易是以UTXO为核心的，每个UTXO包含其所有者及价值信息，系统中的每一笔的交易由若干UTXO输入和若干UTXO输出组成。UTXO无法只提取部分，每次必须完整的使用，这有点像我们生活现实中的现金。比特币系统中，一个用户的“余额”是该用户的私钥能够有效签名的所有UTXO的总和。要深刻的理解这一点，还需要我们了解了比特币的交易数据构成之后才能探讨。我们后面会写文章解释这一点啦。</p>
-
-<p>而以太坊采用了与比特币不同的实现方式——账户，类似我们生活中的银行卡。以账户为核心的设计比较节省空间,而且以太坊的block组织更为精巧。另外，以太坊的设计目标和比特币是不同的：</p>
-
-<ul>
-<li>首先以太坊的账户除了普通的收发币的账户(俗称外部账户EOA)，还有合约账户，合约账户需要一个固定的地址，不然每次调用合约都会很麻烦；这样就要求以太坊的合约账户不像比特币交易那样频繁的更换地址；</li>
-<li>他并不执着于强迫用户去注意隐私问题，以太坊的态度是，如果用户注重隐私问题，你就自己搞定；你需要通过合约中的签名数据包协议来建立一个加密“混合器”进行加密。</li>
-<li>总之以太坊因为要实现的目标更为宏大，他的设计理念是根据最初的用户都是一群Geek们来建立的；Geek们最喜欢啥？就是不要过度设计，让我来自己搞定</li>
-</ul>
-
-
-<p>所以在以太坊系统中，账户是一个20字节的地址，他关联的信息包含四个部分：</p>
-
-<ol>
-<li><p>随机数，用于确定每笔交易只能被处理一次的计数器</p></li>
-<li><p>账户目前的以太币余额</p></li>
-<li><p>账户的合约代码，如果有的话</p></li>
-<li><p>账户的存储（默认为空）</p></li>
-</ol>
-
-
-<p>可以采用<a href="https://github.com/ethereum/pyethereum">pyethereum</a>这个库，用以下代码模拟以太坊地址的生成:</p>
-
-<p>```</p>
-
-<h1>&ndash;<em>&ndash; coding: utf-8 &ndash;</em>&ndash;</h1>
-
-<p>&ldquo;&rdquo;&ldquo;doctopt ethereum address generate tools</p>
-
-<p>Usage:
-  genaddr.py p2addr         <private>
-  genaddr.py word2addr      <word></p>
-
-<p>Options:
-  -h &mdash;help                                             Show this screen.
-  &mdash;version                                             Show version.</p>
-
-<p>Example:</p>
-
-<pre><code>genaddr.py p2addr 6bd3b27c591                                         # gen address from private 0x6bd3b27c591=&gt;1PiFuqGpG8yGM5v6rNHWS3TjsG6awgEGA1
-genaddr.py word2addr 'Money is the root of all evil.'                 # gen address from private wordlist
-</code></pre>
-
-<p>&ldquo;&rdquo;"</p>
-
-<p>from docopt import docopt</p>
-
-<p>import os
-import sys
-from ethereum import utils</p>
-
-<p>if <strong>name</strong> == &lsquo;<strong>main</strong>&rsquo;:</p>
-
-<pre><code>arguments = docopt(__doc__, version='1.0')
-
-if arguments['p2addr']:
-    private_key = bytes.fromhex(arguments['&lt;private&gt;'])
-    passpharse = b'unknown'
-
-elif arguments['word2addr']:
-    passpharse = arguments['&lt;word&gt;'].encode('utf-8')
-    private_key = utils.sha3(passpharse)
-
-raw_address = utils.privtoaddr(private_key)
-account_address = utils.checksum_encode(raw_address)
-print("word:{}:private:{}:address:{}".format(passpharse.decode('utf-8'), private_key.hex(), account_address))
-</code></pre>
-
-<p>```</p>
-
-<p>```</p>
-
-<blockquote><p>python genaddr.py word2addr &lsquo;hello&rsquo;</p></blockquote>
-
-<p>word:hello:private:1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8:address:0x5ccfa55C29F0522f062E3C15004E35a69dD45F6B
-```</p>
-
-<p>以太坊账户方式的一个弱点是：为了阻止重放攻击，每笔交易必须有nonce。这就使得账户需要跟踪nonce的使用情况。而且，不再使用的账户，无法从账户状态中移除。</p>
-
-<p>关于重放攻击，我们会在后面说明。</p>
-
-<h2>重放攻击</h2>
-
-<p>在网络中重放攻击是一种很常见的hack方式，关于相关攻防有足够丰富的案例；但是在区块链历史上却是一个悲伤的故事；在此我们用一点点篇幅回忆一下区块链上第一次大规模的重放攻击(replay Attack)。</p>
-
-<h4>缘起</h4>
-
-<p>众所周知，以太坊作为<code>智能合约</code>的首创者，在区块链技术史上是继比特币之后最大的创新。在V神于2015-07-30正式推出运行后，立即吸引了众多Geek来探究如何实现白皮书中所说的去中心化程序。其中最受关注的就是2016-04-30日开始募资的<a href="https://etherscan.io/address/0xbb9bc244d798123fde783fcc1c72d3bb8c189413">The DAO</a>项目。</p>
-
-<p>关于这个项目的始末，实在是槽点满满。即使已经两年后的今天，估计你去搜索这起著名的事件，非码农人士也很难搞明白。简而言之，就是<code>The DAO</code>作为一个去中心化的项目基金会开始募资，令人觉得神奇的是，这个项目背后没有一个控制人！即使这个项目筹到一大笔钱，也没有一个人有权利单独动用它，只能所有投资人投票才能决定资金的使用，这是写在区块链代码上的铁律，这就是去中心化的魅力！</p>
-
-<p>但是一个没有控制人，没有开发目标，拿到了钱也不知道今后要干啥的项目组织，说要募资了，然后人们纷纷掏钱买股权，是不是很神奇！</p>
-
-<p>咱们说传销还得有个愿景呢！但是当时<code>去中心化程序</code>的概念横空出世，官网页面美轮美奂，诸多<code>专家</code>纷纷发表晦涩难懂的高大上文章齐赞<code>The DAO</code>的历史意义，就在那种巨大的泡沫环境中，人们害怕的是错过发财的上车机会，于是根本搞不明白这是个什么东西，就慷慨解囊。</p>
-
-<p>你可能觉得好笑，可是看看今天，那些所谓的高大上的区块链项目，所谓的伟大愿景，那些山寨币，那些要颠覆这颠覆那的各路神仙，和当时何其相似！熙熙攘攘的投资人群中，有几人能花时间去搞明白比特币和以太坊的白皮书？</p>
-
-<p>所谓的区块链技术的发展，充斥着贪婪和诈骗。就和人性一样。</p>
-
-<h4>崩溃</h4>
-
-<p>同样，人类的愚蠢也是不变的，贪婪之下，BUG是无法避免的。</p>
-
-<p>截至2016-05-15，<code>The DAO</code>项目的合约募集了大约当时价值约1.5亿美元Ether，占当时Ether发行总量的15%。讽刺的是，这个项目募集了巨大的金额，却没有一个像样的专家去做一个合约代码安全审计！</p>
-
-<p>终于，THE DAO创始人之一Stephan Tual发现其合约代码有部分缺陷，他于6月12日宣布，他们发现了软件中存在的“递归调用漏洞”问题，不过对DAO资金来说则不会出现风险。讽刺的是还是没有多少人注意到这个问题。</p>
-
-<p>2016-06-17，一名黑客在编码上发现了真正的漏洞，使得他可以从<code>The Dao</code>上抽走资金。在攻击的头几个小时，360万的Ether被转出，在当时价值相当于七千万美元。当时引起的混乱可想而知，社区采用紧急措施冻结了所有的币，但是只要以太坊的根基代码不变，就无法阻止黑客取现这些财富。</p>
-
-<p>你可以想象当时那些投资人的反应，有人气急败坏要求以太坊开发团队立即采取措施，作废黑客的攻击行为，回退区块链并退回所有投资人的Ether。</p>
-
-<p>而真正的区块链信徒认为<code>代码即正义、代码即法律</code>，传统世界中的法律不能应用到cyberpunk世界中，即使是黑客的盗窃行为，也理应收到这种正义保护！回退作废Block的行为其实就是否认区块链的技术意义，它会毁灭以太坊项目。</p>
-
-<p>你可以想象，当你损失了几十万美元，对面的一群码农却做出这种<code>奇谈怪论</code>，肯定是想砍人的心都有了。当时的各路利益纠葛者吵了一个翻天覆地。甚至黑客本人也跳出来发表了一通公开信，先为自己的盗窃行为辩护一番，然后承诺只要社区不回退，就会返还一部分金额。整个事件好一场精彩大戏。</p>
-
-<h4>分裂</h4>
-
-<p>经历了无休止的利益、法律、技术等等辩论后，以太坊社区分裂了。争论的结果就是诞生了ETH Classic (即ETC)项目；一批坚持<code>代码即正义</code>者分裂出来创造了ETH Classic 网络，这个项目称自己才是真正的以太坊，并承认黑客的攻击行为且继续将这条链运行下去。而现在仍旧运行的Ethereum网络保护了投资者的利益，做出了妥协；</p>
-
-<p>这个分叉开启于Ethereum网络Block编号为<a href="https://gastracker.io/block/0x94365e3a8c0b35089c1d1195081fe7489b528a84b22199c916180db8b28ade7f">1920000</a>区块。</p>
-
-<p>这是世界上第一次公开的人为的区块链分叉事件。但是好戏才刚刚开始。</p>
-
-<h4>重放攻击</h4>
-
-<p>以太坊硬分叉出现了ETH和ETC两条链，两条链上的交易数据结构是完全一样的，因此一笔交易在ETH上是有效的， 那它在ETC上同样会被接受，反之亦然。 因为当时所有人都认为ETC将不会再存在，所以分叉前没人意识到两条链会产生相互重放问题。 后来还有许多矿工继续在维持ETC链时， 大家发现在ETH链上的交易拿到ETC链继续重放（广播）仍然是有效的。</p>
-
-<p>因为没经验，以太坊分叉时几乎所有交易所也都没意识到这个问题，更没有提前做ETH和ETC分离， 这时候只要有人从交易所提取ETH币，就有可能得到同等数量的ETC币。许多人利用这个漏洞，不断在交易所充币和提币（ETH）， 从而获取额外的ETC。 当时云币、BTC-E等交易所发布说自己被重放攻击了，被骗取了几乎所有ETC。“重放攻击”也就此闻名于币圈。</p>
-
-<p>解决这个问题也很简单，或者就是两边的原始交易数据要有所区别:</p>
-
-<ul>
-<li>或者地址前缀做一下改动</li>
-<li>或者交易数据签名增加一个标志</li>
-</ul>
-
-
-<p>因为以太坊地址没有像比特币一样的前缀，ETC和ETH社区经过讨论，简单的提出了<a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md">EIP-155</a> 作为解决方案。简而言之，就是判断分叉的区块编号，引入一个CHAIN ID新值来解决这个问题。</p>
-
-<p>耐人寻味的是，Ethereum团队此时对于ETC分叉的态度是支持的。就像中本聪早期提到的那样，没有一个人可以集权控制一条链，算力说话。因此ETC活了下来。也因为以太坊的创始人Vitalik Buterin是个非常年轻的天才，整个开发团队洋溢着一种骑士精神;他们对于自由竞争出生的ETC非常包容，不管将来结果如何，我认为这种态度是非常了不起的。</p>
-
-<p>当然，个人感情的说一下。此事说明了投资所谓的区块链项目，究竟有多大的风险！以太坊基础代码有许多人审核，有一定的安全保证，但是形形色色的智能合约就不好说了。后来像DAO一样的hack事件数不胜数！</p>
-
-<p>我得说，当你想要投资一个所谓<code>未来项目</code>时，除了你自己的知识和判断，没有任何一个人是可信的！我是说，只能靠自己，其他任何人，甚至创始者的意见也不可信。</p>
-
-<h2>Bitcoin Cash地址生成</h2>
-
-<p>关于Bitcoin Cash的诞生，其过程之离奇曲折，胜过ETH分叉百倍。这是一个比最精彩的侦探小说还要反转反转再反转的故事。</p>
-
-<p>不过我们就不要讲故事了，总之Bitcoin Cash分叉诞生后，为了和传统的Bitcoin地址相区别，自己又做了一下改动。</p>
-
-<p>快速看看BCH新老地址的对比：</p>
-
-<ol>
-<li><p>新地址是和老地址一一对应的，它们对应了同一个私钥，只是换了种写法</p></li>
-<li><p>新地址可以发送余额给老地址，老地址可以发送余额到新地址</p></li>
-<li><p>新地址是大小写不敏感的，可以全部转成大写，也可以全部转成小写，优先小写格式，同一地址不能大小写混用</p></li>
-<li><p>新地址的前缀可写可不写，老地址没有前缀，通过首字符来标识类型</p></li>
-<li><p>新地址用base32编码，老地址用base58编码</p></li>
-</ol>
-
-
-<p>官方文档描述参见<a href="https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md">这里</a>，让我们从seed <code>satoshi</code> 生成一个bitcoin cash 地址演示一遍。</p>
-
-<h4>规范</h4>
-
-<p>新的bitcoin cash地址是由：</p>
-
-<ul>
-<li>能够表示该地址有效的网络的前缀，一般为主网(bitcoincash)、测试网(bchtest)、回归测试网(bchreg)三种。</li>
-<li>一个分隔符：<code>:</code></li>
-<li>一个base32编码的payload，表示这个地址的目的地和包含的checksum（校验和）。</li>
-</ul>
-
-
-<h4>Payload</h4>
-
-<p>payload是base32编码的数据流，由三个元素组成:</p>
-
-<ul>
-<li>指示地址字节的版本类型</li>
-</ul>
-
-
-<p>共8bits, 1bit(0) + 4bits (地址类型：Type bits) + 3bits (hash长度：Size bits)</p>
-
-<table>
-<thead>
-<tr>
-<th>Type bits (二进制) </th>
-<th> 地址类型 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0000 </td>
-<td> P2PKH</td>
-</tr>
-<tr>
-<td>1000 </td>
-<td> P2SH</td>
-</tr>
-<tr>
-<td>0000 </td>
-<td> P2PKH-TESTNET</td>
-</tr>
-<tr>
-<td>1000 </td>
-<td> P2SH-TESTNET</td>
-</tr>
-</tbody>
-</table>
-
-
-<table>
-<thead>
-<tr>
-<th>Size bits (二进制) </th>
-<th> 代表hash长度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>000 </td>
-<td> 160</td>
-</tr>
-<tr>
-<td>001 </td>
-<td> 192</td>
-</tr>
-<tr>
-<td>010 </td>
-<td> 224</td>
-</tr>
-<tr>
-<td>011 </td>
-<td> 256</td>
-</tr>
-<tr>
-<td>100 </td>
-<td> 320</td>
-</tr>
-<tr>
-<td>101 </td>
-<td> 384</td>
-</tr>
-<tr>
-<td>110 </td>
-<td> 448</td>
-</tr>
-<tr>
-<td>111 </td>
-<td> 512</td>
-</tr>
-</tbody>
-</table>
-
-
-<ul>
-<li>一个hash值</li>
-</ul>
-
-
-<p>hash含义取决于版本字段。它是表示数据的hash，即P2KH的pubkey hash和P2SH的reedemScript哈希。这个可以直接从BTC地址里面推出，这个hash值导出后需要用40Bits的BCH码来表示，这样做之后，地址大小写不敏感。</p>
-
-<ul>
-<li>一个40字节的校验和</li>
-</ul>
-
-
-<p>这个校验和的计算比较繁琐，它是在GF（2 ^ 5）上定义的40bits的BCH码，校验和根据以下代码计算：</p>
-
-<p>```
-uint64_t PolyMod(const data &amp;v) {</p>
-
-<pre><code>uint64_t c = 1;
-for (uint8_t d : v) {
-    uint8_t c0 = c &gt;&gt; 35;
-    c = ((c &amp; 0x07ffffffff) &lt;&lt; 5) ^ d;
-
-    if (c0 &amp; 0x01) c ^= 0x98f2bc8e61;
-    if (c0 &amp; 0x02) c ^= 0x79b76d99e2;
-    if (c0 &amp; 0x04) c ^= 0xf33e5fb3c4;
-    if (c0 &amp; 0x08) c ^= 0xae2eabe2a8;
-    if (c0 &amp; 0x10) c ^= 0x1e4f43e470;
-}
-
-return c ^ 1;
-</code></pre>
-
-<p>}
-```
-具体的规则可以详细参考<a href="https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md">这里</a>。</p>
-
-<h4>地址转换生成</h4>
-
-<ul>
-<li>1.取<code>satoshi</code> 生成的非压缩地址<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
-<li>2.这个地址是一个主网地址，前缀为<code>bitcoincash:xxxxx</code></li>
-<li>3.这个地址类型为<code>P2PKH</code>，version_bits为0000</li>
-<li>4.<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>进行base58 Decode，去掉末尾的4字节checksum，得到的hash值用list表示
-<code>
-payload = [101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]
-</code></li>
-<li>5.加入version前缀
-<code>
-payload = [0, 101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]
-</code></li>
-<li>6.将hash进行8bits->5bits BCH码的转换
-<code>
-payload = [0, 1, 18, 16, 26, 1, 4, 23, 28, 0, 10, 14, 12, 3, 10, 6, 16, 3, 30, 14, 13, 6, 11, 29, 8, 1, 14, 30, 4, 25, 7, 16, 8, 8]
-</code></li>
-<li>7.计算校验和
-<code>
-checksum=[24, 25, 19, 1, 12, 3, 18, 8]
-</code></li>
-<li>8.对payload + checksum进行base32编码，得到<code>qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
-<li>9.加入前缀<code>bitcoincash:</code>，组合得到最后地址<code>bitcoincash:qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
-</ul>
-
-
-<p>有许多在线转换工具可以验证，比如:</p>
-
-<p><a href="https://bch.btc.com/tools/address-converter">https://bch.btc.com/tools/address-converter</a></p>
-
-<h2>总结</h2>
-
-<p>以上长篇大论了比特币系统的地址是如何生成的，当然我们也略过了许多细节，比如钱包如何加salt，如何加passphrase等等，这些直接去读BIP 规范更为精确；但是一个完整的钱包，可不仅仅是要解决地址生成这个问题，还要能方便的管理私钥。</p>
-
-<p>在比特币早期，私钥的管理是非常粗暴的，就是每次创建新钱包时，系统自动随机生成100个私钥，然后随着用户交易增多用光之后，再生成100个私钥；钱包文件就是一个二进制文件，即使加了密码保护，也很容易暴力破解泄密；</p>
-
-<p>这导致了无穷多的hack事件；不管你信不信，初期很多从事比特币交易的网站，其wallet.dat文件就明晃晃的放在服务器上，管理员粗心大意，完全可以形容为 <code>没头脑+不高兴</code>，很多人连个最基本的密码保护也不设置；另外也发生过很多悲剧的<code>rm -rf</code>事件，我认为由于这样的失误导致的比特币丢失至少在100w+ 币的级别；换算今天的汇率，你能相信有个银行将数亿美元现金的保险柜不加锁，明晃晃的摆在大堂上摆阔吗？</p>
-
-<p>在一连串的悲剧事件中(具体是哪些悲剧可以写一本书哦)，作为登峰造极者，mtgox当之无愧！ 80多万个比特币的丢失，史上独一份。这个交易所的老板也是心大，80w+币的钱包密码也不设置一个，就在那里任由黑客予取予求；还不是一天两天哦，是持续好几周的hack事件！</p>
-
-<p>mtgox是比特币历史上巨大的迷雾，他不光牵扯到许多比特币的早期玩家，还有BTC-E, FBI牵涉其中，我认为这是仅次于<code>中本聪到底何方神圣</code>的谜题。所幸法胖还活着，我希望有生之年能读到这个事件的完整披露。</p>
-
-<p>好了，假如你是一个交易所的老板，你会很快发现自己面临着以下问题：</p>
-
-<ul>
-<li>不需要给每个用户的账户都建立一个钱包文件，我希望能有一个总的账户管理方案</li>
-<li>可能交易所有1000个大户，你希望他们的钱包是冷存储的，提币的时候他们可以耐心等一段时间，但是剩下的100000个普通用户的账户就要存放到一个热钱包上，只留有部分资产来应付流动性</li>
-<li>有很多部门需要批准获取一些资金，比如研发要用来做测试，市场部门要用来搞活动等等</li>
-<li>最后，私钥最好只能由少数人，最好只有我本人来掌握，不然私钥的传播过程中，随便一个人就能让你万劫不复</li>
-<li>我如果有一些合伙人的话，肯定也希望能掌管一部分资金</li>
-<li>如果有突发情况，我能迅速把公司账上所有的币都转移到另外一个安全的账户上，这有可能是要迅速完成上万笔的交易转移</li>
-<li>最后，我希望所有的交易，签署和广播是在不同的机器上进行的，存有私钥的机器不能联网，这台机器签名完毕后，调用远端的服务端广播交易，这样完全实现钱包的冷隔离</li>
-</ul>
-
-
-<p>好啦，假如我们现在只有前面那种一个wallet.dat钱包的管理方案，要怎么做呢？</p>
-
-<p>很明显的，这种管理太粗糙了。社区们经过不断的探索，提出了BIP-32，BIP-39，BIP-44等规范，以绝妙的办法解决了这些问题。这就是比特币HD钱包的由来。同时这些规范不仅仅适用于比特币系统，还适用于所有的电子货币方案，也许今后，你可以同时在一个钱包里管理你的ETH, BTC, 支付宝余额等等~~~</p>
-
-<p>那到底要怎么做呢？</p>
-
-<p>我们已经探索了这么远，估计你也不耐烦了，但是我们还要说，这还早的很呢！那么下次文章再见。</p>
 ]]></content>
   </entry>
   
