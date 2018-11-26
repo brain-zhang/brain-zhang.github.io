@@ -9,7 +9,7 @@
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="bitcoin core 0.17版本开始废弃了不少RPC调用，另外RPC配置增加了test.rpc参数，存一份模板: 1
+  <meta name="description" content="bitcoin core 0.17版本开始废弃了不少RPC调用，另外RPC配置增加了test.rpcport参数，存一份模板: 1
 2
 3
 4
@@ -21,8 +21,7 @@
 rpcuser=xxxx
 rpcpassword=xxxx
 rpcallowip=127.0.0.1
-rpcport=18332
-test. &hellip;">
+rpcport=18332 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -118,7 +117,7 @@ test. &hellip;">
   </header>
 
 
-<div class="entry-content"><p>bitcoin core 0.17版本开始废弃了不少RPC调用，另外RPC配置增加了test.rpc参数，存一份模板:</p>
+<div class="entry-content"><p>bitcoin core 0.17版本开始废弃了不少RPC调用，另外RPC配置增加了test.rpcport参数，存一份模板:</p>
 
 <!-- more -->
 
@@ -147,7 +146,7 @@ test. &hellip;">
 
 <p>另外<code>getaddressesbyaccount</code>即将废弃，可以使用<code>getaddressesbylabel</code>代替</p>
 
-<p><code>signrawtransaction</code>即将废弃，实在要用的话只能在启动命令行中加deprecatedropc指定。</p>
+<p><code>signrawtransaction</code>即将废弃，实在要用的话只能在启动命令行中加deprecatedrpc指定。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>bin/bitcoind --conf=/xxx/bitcoin.conf --datadir=/xxx/blockdata/mainnet --deprecatedrpc=signrawtransaction</span></code></pre></td></tr></table></div></figure>
