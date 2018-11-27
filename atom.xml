@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-11-26T15:00:33+08:00</updated>
+  <updated>2018-11-27T16:07:42+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Event-stream]]></title>
+    <link href="https://happy123.me/blog/2018/11/27/event-stream/"/>
+    <updated>2018-11-27T16:06:38+08:00</updated>
+    <id>https://happy123.me/blog/2018/11/27/event-stream</id>
+    <content type="html"><![CDATA[<p>几天前有人在github创建了一个issue:</p>
+
+<p><a href="https://github.com/dominictarr/event-stream/issues/116">https://github.com/dominictarr/event-stream/issues/116</a></p>
+
+<p>标题为：&#8221;I don&rsquo;t know what to say.&ldquo;，翻译过来大概就是“我无语了”。因为 event-stream 包突然多出了一个名为 flatmap-stream 的依赖项，而这个依赖项正在窃取用户的数字货币。</p>
+
+<!-- more -->
+
+
+<p>event-stream 被很多的前端流行框架和库使用，每月有几千万的下载量。作为最流行的前端框架之一，在 Vue 的官方脚手架 vue-cli 中也使用了这个依赖，作为最流行的前端框架之一，这个影响还是挺大的，这个影响还是挺大的。而 React 则躲过了。</p>
+
+<p>flatmap-stream 中的恶意代码会扫描用户的 nodemodules 目录，因为所有从 npm 下载的模块都会放在此目录。如果发现了在 nodemodules 存在特定的模块，则将恶意代码注入进去，从而盗取用户的数字货币。</p>
+
+<p>COPAY钱包因为引用了event-stream库，它在今年9、10、以及11月27日之前发布的所有版本都受到了感染，COPAY是bitpay旗下的开源钱包，市场占有率不可小觑；下面这个链接进行了分析，使用被感染钱包的用户很有可能被窃取私钥:</p>
+
+<p><a href="https://github.com/bitpay/copay/issues/9346">https://github.com/bitpay/copay/issues/9346</a></p>
+
+<p>COPAY紧急发布了5.2.2修正版本：</p>
+
+<p><a href="https://github.com/bitpay/copay/pull/9348">https://github.com/bitpay/copay/pull/9348</a></p>
+
+<h2>使用COPY钱包的人，请立即升级新版本，并且生成新的钱包，把老钱包里面的币转走。</h2>
+
+<p>这个恶意模块更可怕之处，在于背后的骇客是个深谋远虑、精于社工的人。</p>
+
+<p>这个人的github账号叫做<a href="https://github.com/right9ctrl">right9ctrl</a>，他应该是精心分析了COPAY引用的所有模块，发现event-stream有机可乘。于是给event-stream的创始人-<code>dominictarr</code>发去了邮件，承诺会自愿维护这个项目。</p>
+
+<p><code>dominictarr</code>是一个高产的开发者，他维护着近400个NPM包，有人能自愿分担他的工作自然是高兴之至，于是将这个模块的仓库哦控制权移交给了<code>right9ctl</code>。</p>
+
+<p>刚开始的时候，<code>right9ctl</code>非常小心的进行着常规的维护。一段时间后，即在 3 个月前，黑客在 GitHub 上新建了一个 flatmap-stream 仓库（内含恶意代码），并在这个项目中引用了自己的仓库。</p>
+
+<p>直到几天前这个有漏洞的仓库才被发现，然后 npm 紧急将这个含有恶意代码的 flatmap-stream 模块删除了。</p>
+
+<p>这个模块的攻击行为也很隐蔽，首先他只有引用了 event-stream 这个库，并且依赖引用了 flatmap-stream，用户在编译自己的项目时，才会感染恶意代码。</p>
+
+<p>感染恶意代码的程序，也不会全部发作。只有COPAY钱包运行时，他才会悄悄的窃取用户信息，并发送到下面这几台服务器：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>copayapi.host
+</span><span class='line'>51.38.112.212
+</span><span class='line'>145.249.104.239
+</span><span class='line'>111.90.151.134</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我不知道截止到现在黑客获取了多少币，但整个事件非常惊悚。而且这个漏洞刚刚被发现，我认为还会持续有消息不灵通的受害者。</p>
+
+<p>另外，如果想查看自己的项目是否受到影响，可以运行：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm ls event-stream flatmap-stream...flatmap-stream@0.1.1...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果在输出里面包含了 flatmap-stream 则说明你也可能被攻击。</p>
+
+<p>如果使用 yarn 则可以运行：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ yarn why flatmap-stream</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>区块链历史中的传奇HACK手段</h2>
+
+<p>我在以前的文章中多次感叹所谓的区块链技术出来后，简直是黑客的黄金年代！大概从2011年开始，精彩的HACK事件层出不穷，如果要全部整理出来，可能会是一部让所谓的<code>区块链专家</code>和<code>区块链投资者</code>冷汗直流，后怕不已的手册。</p>
+
+<p>撇开这几天的市场动荡，币价大跌不提，单单从技术上评估，能有多少人意识到他们所谓的投资的技术风险！</p>
+
+<p>我随意的说几件印象非常深刻的HACK事件。</p>
+
+<h4>整个国家DNS 流量劫持事件</h4>
+
+<p>我记得大概是2015年，巴西的骨干网DNS整个被黑客劫持了，导致当时的blockchain.info 在线钱包有几个小时的流量完全被导向了钓鱼网站，这次事件导致的丢币数目不可统计。</p>
+
+<p>但是给你一个启示，当利益足够大的时候，任何设施，包括国家设施都是不可信、不安全的。结合这两天发现的jd.com流量返利劫持，你就知道：网络世界里，有的组织或者个人，完全可以劫持一个国家的网络流量，这不是天方夜谭。</p>
+
+<h4>官方域名劫持事件</h4>
+
+<p>今年二月份的时候，有人花大价钱买了&#8221;electrumltc.org&#8221;这个域名，仿照&#8221;<a href="https://electrum-ltc.org/">https://electrum-ltc.org/</a>&ldquo;官网，精心炮制了一个以假乱真的网站，然后把下载链接改成了恶意钱包，并且做了Google SEO，把自己的骗子网站搜索结果推到了第一名；有人因此丢了2399个LTC，那个时候可是不少钱。</p>
+
+<p>很讽刺的是，恰恰是因为真正的开发者买不起这个域名，才搞了一个山寨的域名发布自己的软件，让骇客有机可乘。</p>
+
+<p>讽刺吧，原作者辛辛苦苦开发，却因为没钱买域名不得已搞个屌丝网站，骇客财大气粗，直接买下第一官方域名然后钓鱼，并且真的获取巨大收益。</p>
+
+<p>这种钓鱼手法在多个钱包、多个网站上面一再重演，受害小白不计其数！</p>
+
+<p><code>杀人放火金腰带，修桥补路无尸骸。</code>这个世界就是这样。</p>
+
+<p>整个事件回顾：</p>
+
+<p><a href="https://github.com/pooler/electrum-ltc/issues/176">https://github.com/pooler/electrum-ltc/issues/176</a></p>
+
+<h4>~~~~</h4>
+
+<p>这么罗列下去，我可以轻易列举出更多的涉及上亿美元的hack事件。每个事件说起来好像天方夜谭一样，不明技术的小白可能会惊叹：怎么可能有这种事情？！</p>
+
+<p>但是事实就是这样，而且将来这样的悲剧会一再重复下去，说再多也没用，人的安全意识总敌不过懒惰、贪婪等等等等，可悲的人性啊。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Bitcoind Conf Template]]></title>
@@ -4950,98 +5056,6 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
 <p>所以结论很明显，在早期只有局域网的时代，诞生了MAC地址这种硬件地址规定；后来联网机器越来越多，TCP/IP 成为主流联网协议，但是它的年龄和MAC地址是差不多的，也不可能再重新搞，为了适配现有的局域网模式，开发了ARP等协议；</p>
 
 <p>计算机很多问题都是工程问题、商业问题，并不是技术完美就通吃天下，很多东西都是历史积淀、为了兼容现有系统而发展出来的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[真的存在独立随机事件吗]]></title>
-    <link href="https://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma/"/>
-    <updated>2018-09-09T10:29:21+08:00</updated>
-    <id>https://happy123.me/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma</id>
-    <content type="html"><![CDATA[<p>比特币的block hash value一般被认为是一个真随机值，也被各种dice机制用来做seed.</p>
-
-<p>但是我老是在想：世界上存在真正的随机吗？或者再进一步，存在真正的<code>随机+独立</code>事件吗？</p>
-
-<!-- more -->
-
-
-<p>比如大刘的小说《镜子》就幻想了一种计算模型，从宇宙大爆炸那一刻开始，设定初始条件的组合再穷举，总能得到一个宇宙状态，这个宇宙就是我们现在所处的宇宙，你就能预测所有古往今来从诞生到毁灭的一切了；照这个道道来看，如果有一天能拥有无尽的算力，模拟预测亿万的宇宙都是可以的。</p>
-
-<p>但是<code>无限</code>这个东西实在是个逻辑上的概念，物理世界里面存在<code>无限</code>吗？又是一个挠头的问题。</p>
-
-<p>简而言之，因为物理世界种尚未发现这样一种东西，它的存在时间无限，计算能力无限，所以才会有<code>独立随机</code>这种概念。</p>
-
-<p>所以我觉得概率这种东西是物理学上的东东，反而不能从数学上来认知。因为它的存在根本是无法证伪的。</p>
-
-<p>正如相对论出世之前，牛顿三定律就能很好解释地球范围内的极大多数现象了；人们由于<code>时间+算力</code>的限制，只能从统计学上承认<code>独立随机事件</code>的存在，而无法在数学上去证明。</p>
-
-<p>瞎扯这么多，主要是我想起来几年前做过的两件消遣事：</p>
-
-<h4>抛硬币真的事一个随机事件吗？</h4>
-
-<p>嗨嗨，我就是这么无聊。我确实拿着一个2005年的1元硬币抛了上万次，研究抛硬币这个东西是不是真的是个随机事件。说到这里我都佩服自己了:真的是傻逼到一定境界的人。</p>
-
-<p>结论其实很无聊，其实抛个几百次就很容易看出来，至少在一个海拔水平面上，在一个刚性物体上面抛2005年铸造的1元硬币，不是随机事件，某一面向上的机率明显更大。而且与你抛硬币的方法有很大关系。</p>
-
-<ul>
-<li><p>2005年版的1元硬币如果立起来，重心并不是平均的，一面字、一面花，中心肯定会偏向比较重的那一面；这样的话，如果你把硬币立起来，用水平旋转的方法抛硬币，肯定会有一面的概率压倒性的大</p></li>
-<li><p>如果是力量比较平均的人，抛个一万次并不会对身体造成太大负荷，结合硬币的重心不平均，这就造成了抛上去掉下来的抛法肯定也是有一面向上的概率大</p></li>
-</ul>
-
-
-<p>这个是经过实证的，至少我可以保证，在某地、我的某个状态下，抛某个硬币，我去赌博，是很容易下注的，我知道哪面向上的概率大。</p>
-
-<p>所以一定要小心下次跟你赌抛硬币的人，他的硬币有可能做了手脚，或者他练习过手法，或者他知道这一版硬币的重心在何方。</p>
-
-<p>当然，你也可以反对，说我抛硬币概率巴拉巴拉，或者说一万次样本太小巴拉巴拉，或者说你一个人抛样本太小巴拉巴拉~~，总之就是基于统计学的实验无法证伪。</p>
-
-<p>再说说我的实验B</p>
-
-<h4>存在完全随机的数字吗？</h4>
-
-<p>大家普遍承认计算机产生的随机数是个伪随机数。为了解决这个问题，死宅们研究出了:</p>
-
-<p><a href="https://www.random.org/">https://www.random.org/</a></p>
-
-<p>这种接口，利用大气随机噪音来生成随机数；当然有很多人更相信量子态的随机，用量子发生器来产生随机数等等等等；</p>
-
-<p>这些方法共同的问题还是无法证伪，谁能保证你是真随机呢？</p>
-
-<p>幸好有 <a href="https://primedice.com/">https://primedice.com/</a> 这样的赌博网站，好吧，我羞耻的承认，我在它上面玩了上白万盘，当然是模拟盘。</p>
-
-<p>因为这个网站是投入真金白银的BTC，并且基于各个用户的计算机产生随机数的，0.01的误差重复1000次也足以让你归零；从它成立至今还欣欣向荣的发展势头来看，它的随机数之随机，绝对要比一些嘴炮科学家来的靠谱；毕竟，你不随机，早就倒闭了。</p>
-
-<p>让我作为一个赌了上白万盘的资深玩家告诉大家，用最简单的赌徒谬误方法：<code>赌大小，输了加倍赌</code>，这种办法取得的最好成绩是连续54胜(如果我没记错的话)，因为它提供的模拟盘最大资金量有限制，这就是极限了。我毫不怀疑如果投注的次数足够多，可以出现连续百胜千胜的机率也是有的。当然，你赢了也没有一点用，只要不收手，总会归零，赌徒谬误在绝对随机的情况下是百分百归零的，这个在数学上很容易证明。</p>
-
-<p>同理可以推想，难道巴菲特不是特别幸运的，连赢1000次的那个人吗？</p>
-
-<p>这个还是无法证伪。</p>
-
-<p>赌徒谬误在primedice上面完全失败，恰恰说明相对于彩票的胜率，primedice的胜率明显更为公平。所以我毫不怀疑区块链技术将长期服务于投机赌博行业。在<code>是否存在完全的独立随机事件</code>这个问题无法证伪的前提下，区块链博彩纯粹是数学问题。</p>
-
-<p>我对于primedice的感激，在于它真正提供了一个让你随机测试各种谬误策略的地方，当然所有的策略都是永动机，科学上都没啥依据，仅仅有娱乐价值。</p>
-
-<h4>悲剧的是理性的赌徒从来很少</h4>
-
-<p>如果一个人是完全理性的，那他永远都不会去赌。他会调查出门交通安全度，吃东西注重科学养生，然后不抽烟喝酒 ~~~，然而并没有什么卵用；</p>
-
-<ul>
-<li><p>我爷爷抽烟喝酒，天天管闲事，活了九十九</p></li>
-<li><p>我注重养生、天天锻炼，从来不管闲事，被911飞机砸死了</p></li>
-</ul>
-
-
-<p>一个赌博的场子需要传奇，疯子，人们厌倦一潭死水；这就是随机、投资、婚姻、生活等等一切人生轨迹的现实投射。</p>
-
-<p>统计学角度上来看，活着就是瞎折腾。</p>
-
-<p>把一个人的一生按照时间切成一段一段，每一段的生活选择都是一种独立随机事件，人自以为是能掌控生活的，其实这么看来，命运是一种统计学上的东西。</p>
-
-<p>我又想起来那个“阿基里斯悖论&#8221;。原来我觉得这个悖论有个很明显的解答，就是时间是有粒度的，不能无限分割，当阿基里斯距离乌龟达到时间的基本粒度时，就可以一步超越它了；换算成相对论的解释，就是空间也是有粒度的，当阿基里斯追赶乌龟，实际上是两个人的加速度不一样，尺缩效应强度不一，阿基里斯在空间上越来越接近乌龟，直到达到空间上的最小粒度，之后就超越它了。</p>
-
-<p>其实还有一个统计学意义上的解释，就是阿基里斯追赶的每一小块时间，都充斥着独立随机事件，他不论赶上或赶不上乌龟，其实只是命运的摆弄罢了。</p>
-
-<p>人生苦短，导致投机，真的很悲剧。</p>
 ]]></content>
   </entry>
   
