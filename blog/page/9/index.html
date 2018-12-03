@@ -82,6 +82,59 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/">比特币总量为什么是2100万</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-08T22:28:27+08:00" pubdate data-updated="true">Jul 8<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>比特币第二次减半将至，为什么比特币总量设置为2100万呢？这篇文章谈笑中有几分戏谑，但都是有的放矢，值得一读。
+{:.info}</p>
+
+<h2>正文</h2>
+
+<p>比特币总量2100万个，这可能是刚接触比特币的小白们记得最清楚，也是最迷惑的数字。</p>
+
+<p>中本聪没在任何公开的言论中提到：为什么选这个数字，于是网上出现了各种各样的猜测和逻辑推理。</p>
+
+<p>我们就来聊聊这个数：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/07/08/bi-te-bi-zong-liang-wei-shi-yao-shi-2100mo/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">How to Change Systemd Service Timeout Value</a></h1>
     
     
@@ -610,93 +663,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/05/tcp-slash-ip-illustrated-note1/">TCP/IP Illustrated Note1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-05T21:59:52+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/05/tcp-slash-ip-illustrated-note1/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/06/05/tcp-slash-ip-illustrated-note1/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>又开始重读&lt;TCP/IP详解>。发现真的是年纪大了&hellip;.T_T，看了就忘，做笔记也用处不大。</p>
-
-<p>打算每天读完一部分，在这里捡一些重要的地方记一下。</p>
-
-<h2>ARP</h2>
-
-<p>习得技能:</p>
-
-<ul>
-<li><code>tcpdump -e</code> 可以显示硬件层地址</li>
-</ul>
-
-
-<h2>IP</h2>
-
-<p>重要提示:</p>
-
-<ul>
-<li>传输之前需要把首部转换成网络字节序。注意，仅仅是首部就可以。</li>
-</ul>
-
-
-<h2>ICMP</h2>
-
-<p>重要提示:</p>
-
-<ul>
-<li><p>在对ICMP差错报文响应时，永远不会生成另一份ICMP差错报文</p></li>
-<li><p>当发放一份ICMP差错报文时，始终包含IP首部和产生ICMP差错报文的IP数据包的前8个字节。这样就可以精准知道谁产生的ICMP差错</p></li>
-<li><p>ICMP的典型应用:</p>
-
-<ul>
-<li><p>掩码请求和应答 (大多数主机在收到请求后都会产生应答，而不是指定的主机应答，这其实是实现上的冗余)</p></li>
-<li><p>时间戳请求和应答</p></li>
-</ul>
-</li>
-<li><p>多宿主机发送报文给自己的某个接口，其实都是给回环地址的，这样产生的ICMP应答其实搞不明白原始报文发给哪个接口</p></li>
-</ul>
-
-
-<h2>Ping</h2>
-
-<p>习得技能:</p>
-
-<ul>
-<li><p><code>Ping -S</code> 每秒一个往返请求</p></li>
-<li><p><code>Ping -R</code> 记录路由，但是有限制，最大只能存放9个IP地址，而且只记录路由出口</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -714,6 +680,10 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/11/27/event-stream/">Event-stream,一次可怕的社工</a>
       </li>
     
@@ -727,10 +697,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
     
       <li class="post">
         <a href="/blog/2018/11/19/huo-bi-%2C-zhi-fu-%2C-qing-suan-man-tan/">货币、支付、清算漫谈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/11/17/bchfen-cha-cheng-dan-de-feng-xian-51-percent-gong-ji-zhe-gai-lu-wen-ti/">BCH分叉承担的风险&#8211;51%攻击者概率问题</a>
       </li>
     
   </ul>
@@ -787,7 +753,7 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (36)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (37)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

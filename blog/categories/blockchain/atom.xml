@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-12-03T12:57:22+08:00</updated>
+  <updated>2018-12-03T18:07:38+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,272 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币的交易-2]]></title>
+    <link href="https://happy123.me/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/"/>
+    <updated>2018-12-03T18:06:46+08:00</updated>
+    <id>https://happy123.me/blog/2018/12/03/bi-te-bi-de-jiao-yi-2</id>
+    <content type="html"><![CDATA[<p>之前的文章我们说过，比特币的所有交易抽象成了UTXO的转移。所谓转移，可以这么理解：</p>
+
+<ul>
+<li>有M个UTXO作为输入 (M >= 0)</li>
+<li>有N个UTXO作为输出 (N > 0)</li>
+<li>输入的UTXO总额==输出的UTXO总额</li>
+<li>输入的UTXO来源于支付方控制的私钥账户</li>
+<li>输出的UTXO流向收款方的公钥地址</li>
+</ul>
+
+
+<p>那么具体是怎么转移的？怎样手工的构造一笔交易呢？我们就在这篇文章里面详细的演示一遍。</p>
+
+<p>首先科普一下常见的交易类型:</p>
+
+<!-- more -->
+
+
+<h4>Generation TX</h4>
+
+<p>这种交易我们称之为是产量交易(Generation TX)，即矿工挖出一个新的Block时，系统允许这个矿工在块头构造一笔奖励自己的交易，这笔奖励金额被称之为Coinbase奖励，最初一个block挖出的奖励是50BTC，后来就是我们大家所熟知的四年减半原则啦。这样大家明白比特币整个账本里面的初始资金是怎么来的啦。就是系统通过Generation TX向矿工发放奖励产生的BTC。</p>
+
+<p>矿工们计算随机数，竞争打包Generation TX的权力，就是挖矿。具体的细节我们会在以后的文章中介绍。</p>
+
+<p>现在每笔Generation TX的奖励金额是12.5BTC，预计下个减半周期在2020年年中。</p>
+
+<p>注意：Generation TX中的BTC是无中生有的，所以只有输出的UTXO，没有输入的UTXO。</p>
+
+<p>PS:Coinbase作为一个很经典的技术名词，其<code>coinbase.com</code>域名被现在美国著名的交易所coinbase Pro 注册持有。</p>
+
+<h4>Script Hash TX</h4>
+
+<p>也被成为P2SH（Pay-to-Script-Hash）交易。</p>
+
+<p>该类交易目前不是很常见，大部分人可能没有听说过，但是非常有意义。未来应该会在某些场合频繁使用。该类交易的接受地址不是通常意义的地址，而是一个合成地址，以<code>3</code>开头 (Segwit交易其实也可以看成是Script Hash TX)。比如三对公私钥，可以生成一个合成地址。在生成过程时指定n of 3中的n，n范围是[1, 3]，若n=1，则仅需一个私钥签名即可花费该地址的币，若n=3，则需要三把私钥依次签名才可以。 这种类型的交易适合比较复杂的保险、证券场景。</p>
+
+<h4>Pubkey Hash TX</h4>
+
+<p>也被称为P2PKH（Pay-to-Public-Key-Hash）交易。</p>
+
+<p>该类是最常见的交易类型，由N个输入、M个输出构成。交易地址都是以<code>1</code>开头。这种交易也是目前比特币网络中最典型的交易类型，也最简明，容易分析。下面我们就先拿它作为例子，开始探究一笔比特币交易的细节。</p>
+
+<h2>数据结构</h2>
+
+<h3>输入输出</h3>
+
+<p>简单来看，一笔完整的P2PKH交易包含有两个部分:输入UTXO &ndash;> 输出UTXO，而每一个输入UTXO其实是上一笔交易的输出UTXO，这么说可能有点绕口，来张图解释一下：</p>
+
+<p><img src="https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/en-tx-overview.svg" alt="img" /></p>
+
+<p>首先最前面的字段是版本号，每一个交易具有一个四字节的交易版本号，它告知比特币节点和矿工应使用哪一套规则来验证它。这使得开发者在为未来的交易创建新规则时可以不验证之前的交易。</p>
+
+<p>接着就是输入的M个UTXO和输出的N个UTXO，代表着我要把一堆UTXO转移(支付)给谁。</p>
+
+<p>最后是一个字段是锁定事件(Locktime)。Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。</p>
+
+<p>如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。</p>
+
+<p>一笔交易中，构造的输出UTXO会完全花费掉输入的UTXO，注意：是完全花费掉。如果输出UTXO的总额小于输入UTXO的话，那么差值就会被系统作为矿工费奖励打包到Generation TX当中。所以所有的比特币钱包实现中，如果你有10BTC的UTXO集合，想要花掉9BTC，那么输出UTXO中，除了支付给收款方的UTXO，还一定要构造发送给自己的找零UTXO。曾经有人构造交易时忘记找零，发生了<a href="https://blockchain.info/tx/4ed20e0768124bc67dc684d57941be1482ccdaa45dadb64be12afba8c8554537">支付 200 BTC 的矿工费</a>的惨案，所幸的是收录该笔交易的Block由著名挖矿团队“烤猫（Friedcat）”挖得，该团队非常厚道的<a href="https://blockchain.info/tx/b18abce37b48a5f434f108ae7ce34f22aa2bfbd9eb9310314029e4b9e3c7cf95">退回了多余费用</a>。</p>
+
+<p>早期Geek们比较作死，特别喜欢命令行构造发送交易，像是忘记构造找零而当了冤大头的人数不胜数，那么为什么是这么奇葩的设计呢？为什么一笔交易中，一定要花费所有的输入UTXO呢？</p>
+
+<p>大家还记得我们的上一篇文章吧，一个分布式的账本，最容易的设计就是只支持<code>append</code>这个动作，诸如<code>update</code>、<code>delete</code>这种操作在区块链账本的设计中会引入额外的复杂性，尤其是后面我们讲述blockchain的组织的时候，你就会理解，这种设计的必要性。</p>
+
+<h3>细节</h3>
+
+<p>一笔完整的P2PKH 交易是这样的：</p>
+
+<p><img src="https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/en-tx-overview-spending.svg" alt="img" /></p>
+
+<p>我们用之前文章中，利用<code>satoshi</code>生成的地址(<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>)做例子，来研究它花费的<a href="https://www.blockchain.com/btc/tx/3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517">一笔交易</a>。</p>
+
+<p>用<a href="http://chainquery.com/bitcoin-api/getrawtransaction/3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517/1">在线getrawtransaction工具</a> 解码一下这笔交易，得到输出：</p>
+
+<p>```
+{</p>
+
+<pre><code>"result": {
+    "txid": "3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517",
+    "hash": "3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517",
+    "version": 1,
+    "size": 233,
+    "vsize": 233,
+    "locktime": 0,
+    "vin": [
+        {
+            "txid": "b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b",
+            "vout": 0,
+            "scriptSig": {
+                "asm": "304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0[ALL] 04c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5",
+                "hex": "47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5"
+            },
+            "sequence": 4294967295
+        }
+    ],
+    "vout": [
+        {
+            "value": 0.00007000,
+            "n": 0,
+            "scriptPubKey": {
+                "asm": "03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603 OP_CHECKSIG",
+                "hex": "2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac",
+                "reqSigs": 1,
+                "type": "pubkey",
+                "addresses": [
+                    "1aau2Kgn7xBRWS6gPkYXWiw4cnzyKi7rR"
+                ]
+            }
+        }
+    ],
+    "hex": "01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000",
+    "blockhash": "0000000000000000001b29c4b36a6f9ccbb0213b02c7eb659c0eaee1244586fb",
+    "confirmations": 85331,
+    "time": 1494823668,
+    "blocktime": 1494823668
+},
+"error": null,
+"id": null
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>字段说明</h4>
+
+<ul>
+<li>txid (hash)</li>
+</ul>
+
+
+<p>Tx Hash (3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517)，俗称交易ID，由hex得出：Tx Hash = SHA256(SHA256(hex))。由于每个交易只能成为下一个的输入，有且仅有一次，那么不存在输入完全相同的交易。因为SHA256碰撞的概率极小，所以理论上存在相同的Tx Hash 的概率非常小。</p>
+
+<p>即便如此，在系统里依然产生了相同的Tx Hash，是不知道哪位矿工挖出Block后，打包Block时忘记修改Generation Tx coinbase字段的值，币量相同且输出至相同的地址，那么就构造了两个完全一模一样的交易，分别位于两个Block的第一个位置。这个对系统不会产生什么问题，但只要花费其中一笔，另一个也被花费了。相同的Generation Tx相当于覆盖了另一个，白白损失了挖出的币。该交易ID为<a href="https://blockchain.info/tx/e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468">e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468</a>，第一次出现在<a href="https://blockchain.info/block/00000000000271a2dc26e7667f8419f2e15416dc6955e5a6c6cdf3f2574dd08e">#91722</a>，第二次出现在<a href="https://blockchain.info/block/00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721">#91880</a>。</p>
+
+<ul>
+<li>vin (输入UTXO)</li>
+</ul>
+
+
+<p>vin是一个数组，里面即M个输入UTXO，每个UTXO都来自上一笔交易的一个UTXO输出，这笔交易的vin只有一个UTXO，它由以下几个字段组成</p>
+
+<pre><code>- txid: 上一笔关联交易的hash值
+- vout: 上一笔交易输出的N个UTXO里面的序号
+- scriptSig: 对这笔UTXO的签名，还记得我们之前的文章吗？只有对一个UTXO签名才能证明其所有权，才能花费它
+- sequence: 序列号。这个序列号来源比较复杂；还记得上面讲的locktime有所关联：
+</code></pre>
+
+<blockquote><p>Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。
+如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。</p>
+
+<p>Bitcoin Core 的早期版本提供了一个可以防止签名者使用上述方法取消locktime 交易的功能。 后来为了防止大量的延时交易攻击网络，这个功能被禁用了。但是该系统还留下了这样的设置，每个输入会分配一个四字节的序列号。序列号的目的旨在允许多个签名者同意更新交易。</p>
+
+<p>如果sequence number设置为0，就按照locktime执行入块操作，如果出现一笔新的交易，sequence大于原来的sequence，这笔新交易就会取代原来的交易；所以一般为了即刻入块，交易的sequence number一般设置为四字节的的无符号最大值(0xffffffff),使得交易的locktime 仍然有效的情况下，打包交易进块。</p>
+
+<p>即使今天，如果所有的input 的sequence number都是最大值，locktime锁就会失效。所以如果想使用locktime，至少一个input的sequence number要小于最大值。由于sequence number不用于其他目的，任何sequence number 为零的交易都会启动locktime 功能。后面我们会看到，sequence number会在闪电网络中发挥作用</p></blockquote>
+
+<p>vin的所有UTXO 余额相加，就是这笔交易的转账总额。</p>
+
+<ul>
+<li><p>vout (输出UTXO)</p>
+
+<ul>
+<li>value: 转账金额</li>
+<li>n: 作为第N个UTXO输出</li>
+<li>scriptPubKey: 这是设置的谜题，后来人想要花费这笔UTXO，必须提供scriptSig来解答这个谜题才可以</li>
+</ul>
+</li>
+<li><p>vin 的总额 &ndash; vout的总额 == 打包费用 &ndash;> 奖励给打包矿工</p></li>
+</ul>
+
+
+<h4>交易十六进制解析</h4>
+
+<p>spec规范在<a href="https://en.bitcoin.it/wiki/Protocol_documentation#tx">这里</a></p>
+
+<p>这笔交易的vin及vout中各有一个UTXO，我们解析下它的十六进制原始数据:</p>
+
+<p><code>
+01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000
+</code></p>
+
+<ul>
+<li>version (4字节): 刚开始的4个字节是version，小端排序(Little Endian)，因此version为<code>0x00000001</code></li>
+</ul>
+
+
+<blockquote><p>ps:关于小端排序的设计，社区里面还有过小争论，见<a href="https://bitcointalk.org/index.php?topic=4278.0">这里</a></p></blockquote>
+
+<ul>
+<li><p>flag (2字节，可选): 如果是<code>0001</code>，代表是witness交易；如果不是，就代表没有这个flag字段；这是一笔普通的交易，因此没有flag字段</p></li>
+<li><p>vin count (>=1字节): vin数目，此交易为<code>01</code>，采用的是<a href="https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer">var_int</a>表示法，这样我们能方便的测算它的长度</p></li>
+<li><p>vin (>=41字节): 所有的输入tx，是一个数组；这里只有一个tx，数据是:
+<code>
+3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff
+</code></p></li>
+</ul>
+
+
+<p>简单说下vin中一笔tx内部结构:</p>
+
+<pre><code>- previous_output (32字节): 上一笔交易的HASH值，即这个花费的输入交易ID: 
+
+3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0
+-&gt; 转为大端排序  
+b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
+
+- previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是`00000000`
+
+- script length (var_int变长，代表script的长度): 这里是`0x8a`，表示script长度为138字节
+
+- signature script (整个解密脚本)： 这个结构我们之后会具体分析
+</code></pre>
+
+<p><code>
+47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5
+</code></p>
+
+<pre><code>- sequence no (4个字节): `ffffffff`
+</code></pre>
+
+<ul>
+<li><p>vout count (>=1字节): vout数目，此处为<code>01</code></p></li>
+<li><p>vout (>=9字节): 所有的输出tx，是一个数组；这里只有一个tx，数据是:
+<code>
+581b0000000000002103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac
+</code></p></li>
+</ul>
+
+
+<p>简单说下vout中一笔tx内部结构:</p>
+
+<pre><code>- value (8字节): 转账到这个地址上的金额， 这里是`581b000000000000`小端排序，十六进制为`00000000000000581b`，即转账7000 satoshis
+- pk_script length (&gt;=1, var_int类型): 输出脚本的长度，这里是`0x21`，代表33字节长度
+- pk script: 输出脚本，其实就是包含转账地址的脚本，这里是`03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac`
+</code></pre>
+
+<ul>
+<li>locktime: 最后4个字节是locktime，这笔交易设置为0；就是立即打包</li>
+</ul>
+
+
+<h3>总览</h3>
+
+<p>最后一张表格说明问题：</p>
+
+<p><img src="https://ws1.sinaimg.cn/large/893d6e9dly1fxtpsr4wzsj20p60dumzf.jpg" alt="img" /></p>
+
+<h2>参考资料:</h2>
+
+<p><a href="https://en.bitcoin.it/wiki/Protocol_documentation">https://en.bitcoin.it/wiki/Protocol_documentation</a></p>
+
+<p><a href="http://learnmeabitcoin.com/">http://learnmeabitcoin.com/</a></p>
+
+<p><a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html</a></p>
+
+<p><a href="https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/standard_transactions.html">https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/standard_transactions.html</a></p>
+
+<p><a href="https://www.8btc.com/article/24637">https://www.8btc.com/article/24637</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Event-stream,一次可怕的社工]]></title>
@@ -815,229 +1081,6 @@ OP_DUP OP_HASH160 &lt;PubkeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG
 <p><a href="https://www2.deloitte.com/content/dam/Deloitte/cn/Documents/about-deloitte/dttp/deloitte-cn-dttp-v2ch1-zh-150127.pdf">https://www2.deloitte.com/content/dam/Deloitte/cn/Documents/about-deloitte/dttp/deloitte-cn-dttp-v2ch1-zh-150127.pdf</a></p>
 
 <p><a href="https://www.zhihu.com/question/22148261">https://www.zhihu.com/question/22148261</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[BCH分叉承担的风险--51%攻击者概率问题]]></title>
-    <link href="https://happy123.me/blog/2018/11/17/bchfen-cha-cheng-dan-de-feng-xian-51-percent-gong-ji-zhe-gai-lu-wen-ti/"/>
-    <updated>2018-11-17T18:42:09+08:00</updated>
-    <id>https://happy123.me/blog/2018/11/17/bchfen-cha-cheng-dan-de-feng-xian-51-percent-gong-ji-zhe-gai-lu-wen-ti</id>
-    <content type="html"><![CDATA[<p>2018-11-16 01:40(UTC+8)发生的BCH分叉实在好看，转载一下进程说明:</p>
-
-<!-- more -->
-
-
-<blockquote><p>  “分叉前夕：
-  BCH硬分叉过程中：第一个区块由澳本聪阵营svpool爆出，区块大小为51.385KB，区块高度为556761。BCH硬分叉连续爆出6个区块才会正式开始分叉。</p>
-
-<p>  BCH硬分叉过程中：第二个区块由澳本聪阵营coingeek爆出，区块大小为8.24kB，区块高度为556762。</p>
-
-<p>  BCH硬分叉过程中：第三个区块由澳本聪阵营SVPool爆出，区块大小为29.44kB，区块高度为556763。</p>
-
-<p>  在BCH硬分叉过程中，ABC阵营开始反击，比特大陆旗下第一大矿池BTC.com已经获得部分客户同意，切换算力支援BCH ABC。ABC阵营Bitcoin.com矿池的BCH算力在分叉前24小时大增1593.09%，超过澳本聪阵营的Coingeek矿池，排名第一。</p>
-
-<p>  BCH硬分叉过程中：第四个区块由吴忌寒阵营Bitcoin.com挖出。区块大小为57.11 kB，区块高度为556764。</p>
-
-<p>  BCH硬分叉过程中：第五个区块由吴忌寒阵营ViaBTC爆出，区块大小为315.40 kB，区块高度为556765。</p>
-
-<p>  BCH硬分叉过程中：第六个区块由澳本聪阵营SVPool爆出，区块大小为2597.76 kB，区块高度为556766。</p>
-
-<p>  区块高度556766：正式分叉。算力大战正式开始。随后比特大陆阵营率先出两个块，并保持持续领先。”</p></blockquote>
-
-<p>Bitcoin.com矿池临时集了4000P的算力，巅峰时Bitcoin ABC的算力达到了8500P，而Bitcoin SV始终没有超过5000P。分叉当晚，实力差距明显。</p>
-
-<p><a href="https://cash.coin.dance/blocks/hashrate">https://cash.coin.dance/blocks/hashrate</a></p>
-
-<p>但是Bitcoin SV目前没有放弃的意思，而且Bitcoin.com抽调的算力会慢慢撤回去，因为SV链没有重放保护，如果一直烧钱维护下去，现在还不能称胜负已分。</p>
-
-<p>Bitcoin SV作为进攻方，按照现在1T算力0.1元/小时的价格计算，每天SV要烧掉$200W 维持这场战争。而且目前在BCH链上挖矿收益绝对小于BTC链，如此烧钱确实是土豪行径。如果CSW始终不加重放保护跟Bitcoin ABC死磕，确实是下决心了。但是如果怂了开始炒作Bitcoin SV，那就说明他也不过是个出来割韭菜的。</p>
-
-<p>但是群众其实也不关心鹿死谁手，反正分叉明朗之前不动就可以了。看戏之余，不妨回顾一下中本聪白皮书中关于51%攻击的计算:</p>
-
-<p>(参考第十一章:计算)</p>
-
-<p><a href="https://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system/">https://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system/</a></p>
-
-<p>这个计算过程还是很有意思的，我们天天听各种媒体讲<code>51%攻击</code>，那么现实世界中，现在确实发生了两方争霸的情况，我们定义几个变量:</p>
-
-<ul>
-<li>P = 诚实节点制造下一个节点的概率</li>
-<li>Q = 攻击者制造下一个节点的概率</li>
-<li>Qz = 攻击者追上诚实节点z个区块的差距</li>
-</ul>
-
-
-<p>目前(2018-11-17 17:00 UTC+8)Bitcoin SV链算力4278PH，Bitcoin ABC链算力5677PH，Bitcoin SV落后7个Block。Bitcoin ABC为防守方，Bitcoin SV为进攻方，假如Bitcoin SV就这么死磕到底的话，算力保持不变的情况下，有多大机率能51%攻击呢？如果要提高攻击成功的概率，Bitcoin SV又需要多大的算力呢？</p>
-
-<p>我们又要复习一下概率论里面的ABC了，搬来小方凳，数学课开始~~~~</p>
-
-<h2>酒鬼漫步问题</h2>
-
-<p>当一个喝大了的酒鬼在路上摇摇晃晃时，你是否会担心他还有能力避开一切障碍，成功找到家门而不是掉到某个下水沟里吗？</p>
-
-<p>实际上，这正是非常有趣的酒鬼漫步问题，不妨让这个酒鬼的处境更夸张一些，设想他站在悬崖边，面前就是万丈深渊。如果他往后退一步远离悬崖的概率是 2/3 , 向前一步靠近悬崖的概率则是 1/3。那他摔下悬崖的概率是多少?</p>
-
-<p>答案肯定不会是简单的 1/3。那不如先来看看酒鬼最初的几步会发生什么。下图是对这个酒鬼最初几步所有可能的轨迹的枚举。</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg1.png" alt="img" /></p>
-
-<p>从图中可以看到，达到<code>0</code> 即意味着跌落悬崖。所以在 <code>0</code> 的那些概率的和便是酒鬼前六步掉下悬崖的概率。这个图可以无限推演下去。</p>
-
-<p>所以让我们把这个场景放到数轴上，换一种方式来看。如此一来醉鬼悬崖边漫步就相当于质点沿轴心运动这类问题了。酒鬼在这个数轴上随意地左右走动， 走到 x = 0 的位置意味着被吸收 ，也就是摔下了悬崖。</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg2.png" alt="img" /></p>
-
-<p>假设他向右一步的概率为 <code>p</code>，向左的概率为 <code>1－p</code>。当他在 <code>x = n（n&gt;0）</code> 的位置的时候，不是向右就是向左。记 <code>P（n）</code>为从 <code>x = n</code> 的位置出发，最后到达 <code>x = 0</code> 被吸收的概率。酒鬼一开始在 <code>x = 1</code> 的位置，我们要求的就是他到 0 的概率。</p>
-
-<p>当酒鬼走完第一步后，他要么到了 <code>x = 0</code>（此事件发生的概率是 1－p），要么到了 <code>x = 2</code> 的位置（此事件发生的概率是 p），他再从 <code>x = 2</code> 出发最终走到 <code>x = 0</code> 被吸收的概率就是 <code>P（2）</code>。这时我们可以得到方程1:</p>
-
-<p><code>
-P(1) = 1 - p + p * P(2)
-</code></p>
-
-<p>而自 <code>x =2</code> 走出并最终到达 <code>x = 0</code> 的情况可以分解为两个阶段：先从 <code>x = 2</code> 到 <code>x = 1</code>（可以走任意步）, 然后从 <code>x = 1</code>到 <code>x = 0</code>（同样可以走任意步）。我们知道后一个的概率是 P（1）,那么前一个呢？其实是一样的，也是 P（1），它可以看作后一种情况的平移。又因为这两个事件相互独立，所以得到方程2:</p>
-
-<p><code>
-P(2) = P(1)²
-</code></p>
-
-<p>将方程2代入方程1，得到一个简单的一元二次方程:</p>
-
-<p><code>
-P(1) = 1 - p + p* P(1)²
-</code></p>
-
-<p>解得  <code>P(1) = 1</code>  或者   <code>P(1) = (1-p)／p</code></p>
-
-<p>注意到这里 p 表示的是酒鬼每次向x轴正方向前进一步的概率，也就是他站在悬崖边上向后退的概率。我们不妨根据这个概率的取值情况来对酒鬼悬崖漫步这个问题做个总结。</p>
-
-<p>当 p 等于 0 或 1 时，这显然就成了必然事件，酒鬼一定掉下悬崖或者一定能安全地离开。</p>
-
-<p>但有趣的是，即便当 p 不是 0，在它小于等于 &frac12; 时，这个酒鬼一样难逃失足的厄运。</p>
-
-<p>当 <code>p = 1/2</code>时， P(1) = 1</p>
-
-<p>众所周知，一个事件发生的概率不会超过 1。所以从上面可以看出，当 <code>p ≤  1/2</code>时，也就是这个酒鬼每步选择向后退的概率不足一半时，不管他能离开悬崖有多远，最终都必将粉身碎骨。</p>
-
-<p>而如果 p 在 （1/2 , 1） 这个区间里，这时候酒鬼摔落悬崖的概率实际上是一个关于 p 的连续函数。我们可以做出 P(1) 的图像如下</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg3.png" alt="img" /></p>
-
-<p>现在让我们回答最初的问题，当酒鬼向后走的概率为2/3时，他摔下悬崖的概率为 &frac12; 。 很违背直觉的结果，保持一半清醒是不够的，最少要2/3的清醒。</p>
-
-<h2>从酒鬼漫步到赌徒破产</h2>
-
-<p>把酒鬼徘徊应用到赌博中会得到一个不可思议的结论。假设一个赌徒的赌金是 n，每次的下注金额是 1，而每盘赌局输赢概率各是 1／2。如果一直赌下去的话，赌徒输光的概率是多少呢？</p>
-
-<p>由前面的分析可知，他破产的概率就是前面定义的 <code>P（n）</code>。 <code>P（n）</code>是 <code>P（1）</code> 的 n 次方，而 <code>P（1）</code> 在酒鬼等概率地向两个方向迈步的时候等于 1,所以 <code>P（n）＝1</code> ！这告诉我们，即使是公平赌局，你跟赌场玩，最后也一定会输光的！</p>
-
-<p>这就是著名的赌徒破产问题（Gambler’s ruin）。</p>
-
-<p>显然，赌徒的钱越多，输光需要的局数也越多。当赌徒的赌金是 n 时，我们记输光的概率为 p(n)。因为每次赌局有一半的可能赢，一半的可能输，赢的时候赌金变成 <code>n + 1</code>，输的时候变成 <code>n - 1</code>，所以 <code>p(n) = (p(n + 1) + p(n - 1))／2</code>。当 <code>n = 0</code> 的时候，即使不用赌，所有东西也都输光了，所以 <code>p(0) = 1</code>。</p>
-
-<p>由此，p 可以看作一个满足下列递推关系的数列</p>
-
-<p>```
-p(0) = 1</p>
-
-<p>p(n+1) = 2 * p(n) &ndash; p(n-1)，</p>
-
-<p>```</p>
-
-<p>也就是
-<code>
-p(n+1) - p(n) = p(n) - p(n-1)
-</code></p>
-
-<p>容易验证 <code>p(n) = n * p(1) - (n-1)</code> 正好符合上面的递推关系。</p>
-
-<p>又因为<code>p(n) ≥ 0</code>，所以对于任意的 n，必定有 <code>p(1) ≥ 1 - 1／n</code>。因此 <code>p(1) = 1</code>。那么对于所有的 n，则有 <code>p(n) = 1</code>。这意味着，在无限次的赌博中，赌徒在某一次赌博中输光的概率是 1。</p>
-
-<p>这个发现其实和经典的赌徒谬误异曲同工。上帝创造这个世界的一些规则真是意味深长啊，当你要赌的时候，50%的胜率是不够的，一定要有>50%的把握!</p>
-
-<h2>从赌徒破产到算力攻击</h2>
-
-<p>将上面两个例子映射到区块链算力争霸的过程中，发现有惊人的相似点。</p>
-
-<h4>情况1</h4>
-
-<p>当两条分叉从同一起点开始竞争时，就是一个酒鬼漫步问题；攻击者一方相当于不断的要逼近诚实者一方挖出的区块高度；</p>
-
-<ul>
-<li>诚实节点：block1&mdash;&mdash;&mdash;block2&mdash;&mdash;&mdash;block3&mdash;&mdash;&mdash;block4&mdash;&mdash;&mdash;</li>
-<li>攻击节点：block1&mdash;&mdash;&mdash;block2A&mdash;&mdash;-block3A&mdash;&mdash;&ndash;</li>
-</ul>
-
-
-<p>攻击节点从block2开始攻击，尝试双花其中的交易，并挖出区块block2A。攻击节点挖出的链要比诚实节点挖出的链长——在本例中，它至少要挖到block5——才算攻击成功。我们把诚实节点的链长度减去攻击节点的链长度，得到的差记为n。诚实节点每挖出一个块则n+1；攻击节点每挖出一个块则n-1。我们把n放到数轴上<code>n-1  ←  n  → n+1</code>；攻击节点挖出一个块，相当于酒鬼向左移一步；诚实节点挖出一个块，相当于酒鬼向右移一步。设诚实节点领先n个块，如果攻击节点的算力达到或超过了全网的50%，那么它一定能把n减到0。而如果攻击者算力小于50%，则n越大，也就是确认数越多越安全。从这里你们也可以看出来，我们通常所说的51%攻击，是一个没看懂白皮书的人定下的名词。其实应该定名为50%攻击，攻击者不需要大于50%的算力就能成功。</p>
-
-<p>在BCH的分叉战中，如果有一条链的算力一开始能达到算力的50%并保持下去，就可以杀死另外一条链；</p>
-
-<h4>情况2</h4>
-
-<p>但是随着链的延长，两边的算力便会拉开差距，挖出的快总是有多有少；算力战预测的初始条件变成了这样:</p>
-
-<p>从交易被收录进区块的时候开始，诚实矿工出了z个块。攻击矿工在此期间出块数记为k，只要攻击者不广播别人就不知道，k可能等于0、1、2……直到无穷大。</p>
-
-<ul>
-<li>若k>z，攻击直接成功；若k&lt;=z，攻击者仍有可能追上，其成功的可能性即赌徒破产问题。因为攻击失败的情况有限，所以计算成功概率改为计算等价的<code>1-攻击失败的概率</code>。</li>
-</ul>
-
-
-<p>首先研究k，假定诚实矿工以均匀的速度出块，则k近似服从泊松分布：<code>P(k, λ)</code>；</p>
-
-<p>就是“在一个指定长度的固定区间内有k个点（事件）”的概率。诚实矿工出z块的时间即“指定长度的固定区间”，攻击矿工出块次数k即“事件”，每种k出现的概率是:
-<img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg4.png" alt="img" /></p>
-
-<p>其中λ是攻击矿工出块的期望，假设比特币的算力简化计算为:</p>
-
-<p>速度 * 时间 = 工作量。</p>
-
-<p>z是防御者的工作量，p是防御者的速度，z/p是防御者消耗的时间。防御者的时间=攻击者的时间。攻击者的速度=q；</p>
-
-<p><code>攻击者的工作量期望 = 攻击者的速度 * 攻击者的时间 = q * z / p</code>。 即 <code>λ = z*q/p</code>。</p>
-
-<p>根据赌徒破产问题，在落后了z-k个块之后仍旧能追上的概率是:
-<img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg5.png" alt="img" /></p>
-
-<p>追不上的概率为:
-<img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg6.png" alt="img" /></p>
-
-<p>每种k (k&lt;=z)出现的概率，乘以它追不上的概率，就是这个k的失败率:
-<img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg7.png" alt="img" /></p>
-
-<p>1-所有攻击失败情况的概率之和，就是攻击成功的概率:
-<img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181117/bg8.png" alt="img" /></p>
-
-<h2>总结</h2>
-
-<p>当前Bitcoin SV算力占总算力的43%，落后7个block，取q=0.43, p=0.57, 计算成功率已然小于10%了。</p>
-
-<p>那么，Bitcoin SV要把算力提高到多少，才能有50%的希望追上Bitcoin ABC呢？ 这是个复杂的问题啊，首先从分叉一晚的算力战来看，目前BitcoinABC可以调动的算力总量为8500P，所以Bitcoin SV目前一定要调动>8500P的算力，才能有翻盘的机会，至于需要多大才能把翻盘机会搞到50%，课后作业计算吧。</p>
-
-<blockquote><p>PS:有个小漏洞，因为BCH的难度计算和BTC是不一样的，我不是很确定情况2的计算是否可以假设为泊松分布。</p></blockquote>
-
-<p>当然，这是一个模拟，真实情况是，发生危机时，bitmain会不断的从BTC那边调集算力过来；这其实是BCH在吸血BTC的算力；</p>
-
-<p>目前来看，BTC的算力有46EH，目前市场上所有的SHA256算力可能总共>60EH；如果算力占再升级，都可以看成是BCH链对BTC链的攻击了。而且只要Bitcoin SV一天不加重放保护，那么交易所就不太可能开放冲提币，这样BCH 链上的交易就会继续停滞，表面上来看是Bitcoin SV一方在烧钱，其实是BCH整条链都在烧钱。现在真正是考验信仰的时候，短期来看，输家会一无所有。赢家也未必能赚到什么。非常残酷的算力战。这真是难得一见，再过10年，真的像中本聪预测的那样，比特币广泛应用后，这种算力战出现的概率极小。某种意义上来说，这个热闹真好看啊:</p>
-
-<p>每天投入$200W的豪赌!</p>
-
-<p>这也进一步验证了，同一个POW算法，最多只能存在一条链，因为即使加了重放保护分叉，还是无法逃脱算力威胁；BCH是一条非常非常特殊的链，它是由bitmain大算力保证的小算力链；这么说可能有点绕口，可以看成BTC和BCH的战争会持续下去，我认为一定会有一方死亡！至于持续多长时间就不好说了，但是我认为这种平衡不可能无限保持下去，必然会发生黑天鹅事件。</p>
-
-<p>另外，像PPC等SHA256 POW币，或者ETC之于ETH，也是同样的情况；我抱持一种观点：</p>
-
-<blockquote><p>同样的POW算法，如果有大算力存在的情况下，一定归于一条链；
-中间可能会多链并存很长时间，但总会发生黑天鹅事件将其它链清零</p></blockquote>
-
-<h4>引用:</h4>
-
-<p><a href="https://www.guokr.com/article/59575/?page=3">https://www.guokr.com/article/59575/?page=3</a></p>
-
-<p><a href="https://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system/">https://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system/</a></p>
-
-<p><a href="https://www.zhihu.com/question/263764571">https://www.zhihu.com/question/263764571</a></p>
 ]]></content>
   </entry>
   
