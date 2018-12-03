@@ -147,9 +147,7 @@
 
 <h4>Pubkey Hash TX</h4>
 
-<p>也被称为P2PKH（Pay-to-Public-Key-Hash）交易。</p>
-
-<p>该类是最常见的交易类型，由N个输入、M个输出构成。交易地址都是以<code>1</code>开头。这种交易也是目前比特币网络中最典型的交易类型，也最简明，容易分析。下面我们就先拿它作为例子，开始探究一笔比特币交易的细节。</p>
+<p>也被称为P2PKH（Pay-to-Public-Key-Hash）交易。该类是最常见的交易类型，由N个输入、M个输出构成。交易地址都是以<code>1</code>开头。这种交易也是目前比特币网络中最典型的交易类型，也最简明，容易分析。下面我们就先拿它作为例子，开始探究一笔比特币交易的细节。</p>
 
 <h2>数据结构</h2>
 
@@ -359,7 +357,7 @@ b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
 
 - script length (var_int变长，代表script的长度): 这里是`0x8a`，表示script长度为138字节
 
-- signature script (整个解密脚本)： 这个结构我们之后会具体分析
+- criptSig (整个解密脚本)： 这个结构我们之后会具体分析
 </code></pre>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -382,8 +380,8 @@ b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
 <p>简单说下vout中一笔tx内部结构:</p>
 
 <pre><code>- value (8字节): 转账到这个地址上的金额， 这里是`581b000000000000`小端排序，十六进制为`00000000000000581b`，即转账7000 satoshis
-- pk_script length (&gt;=1, var_int类型): 输出脚本的长度，这里是`0x21`，代表33字节长度
-- pk script: 输出脚本，其实就是包含转账地址的脚本，这里是`03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac`
+- scriptPubKey length (&gt;=1, var_int类型): 输出脚本的长度，这里是`0x21`，代表33字节长度
+- scriptPubKey: 输出脚本，其实就是包含转账地址的脚本，这里是`03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac`
 </code></pre>
 
 <ul>
@@ -395,7 +393,13 @@ b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
 
 <p>最后一张表格说明问题：</p>
 
-<p><img src="https://ws1.sinaimg.cn/large/893d6e9dly1fxtpsr4wzsj20p60dumzf.jpg" alt="img" /></p>
+<p><img src="https://ws1.sinaimg.cn/large/893d6e9dly1fxtq1vq3b1j20pc0e3gma.jpg" alt="img" /></p>
+
+<h3>scriptSig与scriptPubKey</h3>
+
+<p>目前为止，我们还没有解析vin中的scriptSig，以及vout中的scriptPubKey；这两个东东才是交易的核心，他们有什么作用呢？</p>
+
+<p>~~ 待续</p>
 
 <h2>参考资料:</h2>
 
