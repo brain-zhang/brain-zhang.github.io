@@ -393,7 +393,44 @@
 </table>
 
 
+<p>我们最常见的一些地址格式:</p>
+
+<ul>
+<li>一个是以<code>1</code>打头，这是用途最广泛的交易，用作Pay to public key hash，简称P2PKH交易；它表示的是最简单的、用一对私钥和公钥控制的钱包。例如上面的<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
+<li>还有一种是<code>3</code>打头，用作Pay to Script Hash，简称P2SH。多重签名、SegWit以及一些智能合约（没错，比特币也支持简单的智能合约）通常都采用这种“3”型地址.例如<code>331jjM5a3HgiDqMuSxeiwTUQFCkM71c5VW</code></li>
+<li>以<code>2</code>、<code>m</code>或<code>n</code>开头的地址非常罕见，仅仅被用于比特币的测试网络。</li>
+<li>首字符是<code>5</code>、<code>K</code>或<code>L</code>的不是地址，而是WIF（Wallet Import Format）格式的私钥，务必要妥善保管，不可泄漏。</li>
+</ul>
+
+
 <p>除了我们已经提到的WIF和Bitcoin Address，我们还发现了奇怪的BIP-38和BIP-32，这个需要到解释比特币原始交易编码的时候来讲解。</p>
+
+<h2>Segwit</h2>
+
+<p>比特币的地址规范定义之后，一直平稳运行了8年；直到2017-08-24，<a href="https://www.reddit.com/r/Bitcoin/comments/6vnqi2/btccom_mines_the_481823rd_block_segwit_is_on_stage/">第一个Segwit block</a>被挖出；事情有了新变化。</p>
+
+<p>比特币进行Segwit升级之后，地址需要做区分，因为Segwit也可以归类为简单的合约交易，所以在早期钱包还没有足够兼容的时候，Segwit地址都用<code>3</code>打头的合约地址。</p>
+
+<p>但是Segwit交易其实是很特殊的，另外后来有了BCH分叉，越来越多的人闹不清其分叉地址搞丢过一些BCH币；后面为了解决Segwit交易的标识，大部分钱包逐渐实现了<a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP-0173规范</a>；即我们今天可以见到的称之为<code>bech32</code>格式的地址。</p>
+
+<p>这类地址统一以<code>bc</code>开头，后面接着一个版本号，目前只用了<code>1</code>，所以我们可以简单认为这类地址统一以<code>bc1</code>开头；比如:<code>bc1zw508d6qejxtdg4y5r3zarvaryvg6kdaj</code>；</p>
+
+<p>bech32地址使用的字符比当前的地址格式要少， 由42个符号组成，小写字母和大写字母之间不再有区别。</p>
+
+<p>这类地址在Bitcoin Core 0.16版本之后的钱包才支持，Bech32地址本身就与SegWit兼容。这意味着交易不需要额外的空间就能将SegWit放入P2SH地址，所以交易费用比较低，Segwit交易目前也逐渐占到了主网交易量的一半；但直到现在，还有很多交易所的BTC提现不支持这类地址；</p>
+
+<p>详细的计算过程其实和base58大同小异，我们就不啰嗦了，可以自己看规范，或示例代码：</p>
+
+<p><a href="https://github.com/sipa/bech32/blob/master/ref/python/segwit_addr.py">https://github.com/sipa/bech32/blob/master/ref/python/segwit_addr.py</a></p>
+
+<p>再小小总结一下，目前为止，我们最常见的有三类地址:</p>
+
+<ol>
+<li><code>1</code>开头，最常见</li>
+<li><code>3</code>开头，合约、多重签名、Segwit交易</li>
+<li><code>bc1</code>开头，segwit交易</li>
+</ol>
+
 
 <h2>Brain Wallet</h2>
 
