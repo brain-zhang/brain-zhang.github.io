@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>比特币的HD钱包演化-4 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="之前我们学习了比特币的HD钱包的技术部分，写着写着我都觉得太无聊了，其实我觉得比特币归根结底还是一个很Geek的东西，初期被它吸引的人估计心底里都有一个独立自由的梦，甚至很多人都想要独立建国；它的技术发展史上也出现过很多有意思的事情，于是增加一篇娱乐性文章； &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">比特币的HD钱包演化-4</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-05T16:04:29+08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>之前我们学习了比特币的HD钱包的技术部分，写着写着我都觉得太无聊了，其实我觉得比特币归根结底还是一个很Geek的东西，初期被它吸引的人估计心底里都有一个独立自由的梦，甚至很多人都想要独立建国；它的技术发展史上也出现过很多有意思的事情，于是增加一篇娱乐性文章；</p>
+
+<h3>让我们好好八卦一下比特币历史上那些有意思的地址</h3>
+
+<!-- more -->
+
+
+<h4>satoshi的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</a></p>
+
+<p>该地址属于比特币创始人中本聪，是比特币的创世地址，地址内的比特币从未移动过，其中的50币因为技术上的设计原因也无法进行移动。(卖个关子，具体啥原因关注我们后续的文章哦)</p>
+
+<p>具体请参考:<a href="https://en.bitcoin.it/wiki/Genesis_block">Genesis block</a></p>
+
+<p>直到今天，还有源源不断的小额转账给这个地址，纪念satoshi。</p>
+
+<h4>Hal Finney的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3">1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3</a></p>
+
+<p>比特币历史上第一笔交易发生在<a href="https://www.blockchain.com/btc/tx/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16">f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16</a>；是中本聪发送给我们熟知的<a href="https://en.wikipedia.org/wiki/Hal_Finney_(computer_scientist">Hal Finney</a>)先生的。这笔交易发送了10个BTC，被收录在第<a href="https://www.blockchain.com/zh/btc/block-height/170">170 Block</a>中。</p>
+
+<p>可以肯定，第170 block之前所有的地址都是中本聪本人的钱包地址，如果有人再跳出来说自己是中本聪的话，我们什么都不相信，只会问他两个问题：</p>
+
+<ul>
+<li>您能花费一笔第170 block之前的比特币吗？</li>
+<li>或者您能出示 <code>I am xxx, happy bitcoiner guys, and today is 2xxx/xx/xx, i prove i am satoshi</code> 这句话的签名，并让我们用早期的公钥来验证一下吗？</li>
+</ul>
+
+
+<h4>Laszlo Hanyecz 的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1XPTgDRhN8RFnzniWCddobD9iKZatrvH4">1XPTgDRhN8RFnzniWCddobD9iKZatrvH4</a></p>
+
+<p>没错，这就是著名的<a href="http://link.zhihu.com/?target=https%3A//bitcointalk.org/index.php%3Ftopic%3D137.0">比特币披萨日</a>事件中的主人公。</p>
+
+<p>当时<a href="https://www.blockchain.com/btc/tx/a1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d">这笔2010-05-22的交易</a>中，Laszlo Hanyecz花费了10000个币买了两个pizza；造就了比特币历史上第二个节日：披萨日。撒花~~~ (PS:我把比特币的第一个节日归为比特币的生日，<a href="https://20090103.com">2009/01/03</a>)</p>
+
+<p>后来比特币价格不断波动，人们就不断的调侃史上最贵的pizza，史上价格变化最快的pizza等等~~~</p>
+
+<p>Laszlo Hanyecz是个真正的Geek，他应该是已知的显卡挖矿第一人，在这个地址上，他大概挖到了80000枚币，所以当时花费10000币买个pizza可以理解；</p>
+
+<p>当年买了Laszlo一万个比特币的Jercos当然也是这次历史时刻的另一个主角。他在去年的时候接受了一家媒体的访问，并漏出了自己的真实身份。</p>
+
+<p>原来Jercos非常的年轻，现在也只有25岁（买10000个比特币那年仅仅19岁）。他告诉记者说自己在bitcoin刚创世的2009年就关注了这项技术，并成为了出入各大极客论坛的一员。他与卖披萨的Laszlo并不认识，但是总是在同一个IRC（聊天室）出入，在当时算是对ID比较相熟。</p>
+
+<p>谈到一万个比特币的去向时，他表示在第二年他把这一万枚比特币以400美金的价格出售了，回报率在十倍。（虽然十倍但是还是很可惜了。。）如今他对区块链的技术还是十分看好，对以太坊也十分看好。</p>
+
+<p>Laszlo Hanyecz与Jercos的比特币经历可谓是大风大浪了，以后可以跟后来人好好说说<code>当年~~~</code>；</p>
+
+<p>如果你这样想，那就Out了，真正的Geek永远是站在潮流前头的，同样的，2018-02-05，闪电网络运行后，Laszlo Hanyecz又花费了0.00649枚比特币通过闪电网络买了两块披萨，续写了比特币披萨的传奇；</p>
+
+<p>少年，当你在为所谓<code>10000个比特币买披萨是不是很后悔</code>这种问题纠结时，人家早就又一次站在潮头浪尖了；所以~~~</p>
+
+<h5>让我们努力学习吧。</h5>
+
+<p>这个地址至今仍然非常活跃，Laszlo Hanyecz仍然是比特币世界中的Geek先锋，并且他用自己的乐观幽默为全世界的bitcoiner创造了一个节日，Hi, Laszlo Hanyecz，谢谢你！</p>
+
+<h4>Bitcoin Faucet donation的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC?offset=0&amp;filter=6">15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC</a></p>
+
+<p>这个地址属于比特币先驱<a href="https://en.bitcoinwiki.org/wiki/Gavin_Andresen">Gavin Andresen</a>在2010年建立的一个网站:</p>
+
+<p><a href="https://freebitcoins.appspot.com/">https://freebitcoins.appspot.com/</a></p>
+
+<p>当时Gavin Andresen作为中本聪之后的主力开发者，非常希望普及比特币，于是建立了<a href="https://bitcointalk.org/index.php?topic=183.0">Bitcoin Faucet donation</a>这个项目，免费发送比特币给人们，这个地址总共免费发放了超过10000个币；</p>
+
+<p>Gavin Andresen为比特币的开发，普及做出了巨大的贡献，Hi, 了不起Gavin，向你致敬！</p>
+
+<h4>Andreas M. Antonopoulos 的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1andreas3batLhQa2FawWjeyjCqyBzypd">1andreas3batLhQa2FawWjeyjCqyBzypd</a></p>
+
+<p>Andreas M. Antonopoulos是比特币社区里令人肃然起敬的人物，他从非常非常早期(2012)就开始比特币相关知识的布道；我得说，凡是有严肃的学习比特币、区块链知识愿望的人们，观看Andreas M. Antonopoulos的讲演视频是绝佳途径，他的Yotube主页：</p>
+
+<p><a href="https://www.youtube.com/channel/UCJWCJCWOxBYSi5DhCieLOLQ">https://www.youtube.com/channel/UCJWCJCWOxBYSi5DhCieLOLQ</a></p>
+
+<p>Andreas M. Antonopoulos对比特币布道激励了非常多的人，但是作为先驱，他却没有收到多少报酬，这完全是<a href="https://twitter.com/aantonop/status/938147200978374662?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E938147200978374662&amp;ref_url=https%3A%2F%2Fqz.com%2F1151233%2Fandreas-antonopoulos-got-1-5-million-in-bitcoin-donations-after-roger-ver-bitshamed-him%2F">公益的工作</a>。怎么能让真正输出价值的人受到冷落呢？为了感谢他，在2017-12，粉丝们为他的地址发送了近100个bitcoin的捐款。但是我们这里很高兴的引用一句俗语：<code>黄金有价，知识无价</code>；Hi, Antonopoulos，<code>比特有价，知识无价</code>，期待收到你更多的教诲。</p>
+
+<h4>美国法警局的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55">1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</a></p>
+
+<p>所有者为美国法警局，该地址内的比特币来自被查获的丝绸之路，后在第一次拍卖会中将币转移给中标人<a href="https://www.blockchain.com/btc/tx/9e95c3c3c96f57527cdc649550bf8e92892f7651f718d846033798aee333b0c3">29,658BTC交易</a>。</p>
+
+<p>2018年这个地址还有小额的零星收入，不知转入者是谁。</p>
+
+<h4>Tim Draper的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1a8LDh3qtCdMFAgRXzMrdvB8w1EG4h1Xi">1a8LDh3qtCdMFAgRXzMrdvB8w1EG4h1Xi</a></p>
+
+<p>这个哥们是bitcoin的铁杆粉丝；它是风险投资公司Draper Fisher Jurvetson的创始人，作为硅谷投资教父，投资了SpaceX、Tesla、Thumbtack，Baidu，Hotmail，Skype等耳熟能详的公司；</p>
+
+<p>这个地址就是当时他购买美国法警局拍卖丝绸之路BTC的转移地址；</p>
+
+<p>作为bitcoin铁粉，这个老哥早期投资了蝴蝶矿机，最著名的故事就是在Mt.Gox事件中损失惨重后仍然多次买买买，即使去年的大涨风潮中也一币不卖；他对于比特币的信心估计就是中本聪本人也不及，如果你去google <code>Tim Draper</code>，估计排在前面的就是$250K， 即他相信2022年一币250000$，让我们祝福这位老哥。</p>
+
+<h4>Carl M. Force的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/14rE7Jqy4a6P27qWCCsngkUfBxtevZhPHB">14rE7Jqy4a6P27qWCCsngkUfBxtevZhPHB</a></p>
+
+<p>该地址属于“法国女仆”，又名Carl M. Force，是美国联邦缉毒局的一名探员，在参与调查丝绸之路时，Force化名“法国女仆”利用职务之便勒索罗斯乌布利希，并将赃款汇入该地址内，但Force最终被抓住并遭到起诉。</p>
+
+<p>这应该是有据可查的第一起比特币偷盗破获案件。Hi, Carl M. Force，不要沮丧哦，你已经青史留名了。</p>
+
+<p>不过悲伤的是，之后发生的偷盗事件数不胜数，却没有多少案件能被破获。</p>
+
+<h4>真土豪的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv">1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv</a></p>
+
+<p>该地址发生了一笔历史上最大额的交易，一次性转移了500,000 BTC，创历史之最，虽然是发生在2011年的事情，但是按币本位算，估计这个数额很难打破了。</p>
+
+<p>这个地址2017年还被使用过，观看它的交易记录，我严重怀疑这是国内某一个大佬的地址，并且与Mt.Gox有牵连。</p>
+
+<h4>wiki的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v">1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v</a></p>
+
+<p>这是维基解密用来接受比特币捐赠的地址，维基解密的创始人，阿桑奇，也是比特币社区最早的支持者；我得说，这位阿桑奇，真是一条汉子；</p>
+
+<p>希望能看到你收到更多的捐赠，wikileaks！</p>
+
+<h4>Bitstamp被盗地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf">1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf</a></p>
+
+<p>Bitstamp遭窃的热钱包地址，黑客在2015年1月5日时陆续从该地址内盗取了大约19,000BTC 。</p>
+
+<p>事件调查可以参考这里:</p>
+
+<p><a href="https://www.reddit.com/r/Bitcoin/comments/3bpdb4/bitstamp_incident_report_22015/">https://www.reddit.com/r/Bitcoin/comments/3bpdb4/bitstamp_incident_report_22015/</a></p>
+
+<p>这个地址非常奇怪，之后还陆陆续续有交易发生；并且在2017年，有人考证一币Tether的hack事件和Bitstamp被盗事件是同一个黑客：</p>
+
+<p><a href="https://www.reddit.com/r/CryptoCurrency/comments/7eho5y/tether_was_hacked_by_the_same_person_who_hacked/">https://www.reddit.com/r/CryptoCurrency/comments/7eho5y/tether_was_hacked_by_the_same_person_who_hacked/</a></p>
+
+<p>一个疑问重重的故事。</p>
+
+<h4>Bitfinex被盗地址</h4>
+
+<p><a href="https://gist.github.com/MrChrisJ/4a959a51a0d2be356cc2e89566fc1d87">地址列表</a></p>
+
+<p>2016-08-03，<a href="https://www.reddit.com/r/Bitcoin/comments/5vr8xg/confirmed_120000_bitcoins_from_the_bitfinex_hack/">reddit</a>上面已经有人确认，Bitfinex被盗119756个btc.</p>
+
+<p>查看黑客的接收地址，有些币至今未动。</p>
+
+<p>bitfinex后来通过发行USDT起死回生，这种神操作说起来好像是天方夜谈，呵呵，比最诡异的侦探小说还诡异的故事。</p>
+
+<h4>NiceHash被盗地址</h4>
+
+<p><a href="https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq">1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq</a></p>
+
+<p>2017-12-06，Nicehash 被盗 4700+币</p>
+
+<p><a href="https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/">https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/</a></p>
+
+<p>呵呵，说下去都不好意思了；黑客的黄金年代啊</p>
+
+<h4>mtbox</h4>
+
+<p><a href="https://www.cryptoground.com/mtgox-cold-wallet-monitor/">https://www.cryptoground.com/mtgox-cold-wallet-monitor/</a></p>
+
+<p>作为史上之最，Mtgox事件聚集了一切传奇侦探小说都有的元素，就等着将来一位福尔摩斯来为我们排疑解惑了；期待着那一天的到来</p>
+
+<h4>官方土豪</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1EBHA1ckUWzNKN7BMfDwGTx6GKEbADUozX">1EBHA1ckUWzNKN7BMfDwGTx6GKEbADUozX</a></p>
+
+<p>之前我们说50w币转账的土豪毕竟是萌芽时期，只能说是个野生土豪。来来来，让我们活捉一位官方土豪。</p>
+
+<p>就在前几天，2018-12-03，发生了<a href="https://www.blockchain.com/btc/tx/244c71c790eb327eb8bbf66aa2d0a75bac7c1fe7b55d1161c316c6f93292d376">一笔66233比特币的转账</a>。以当前的币价来算，可谓是天文数字了。这笔交易主要是将老地址的币逐步迁移到bech32地址上去。(什么是bech32地址？复习我们之前的文章哦)</p>
+
+<p>这个地址的土豪还关联着9个地址，总币量加起来大概55w币。</p>
+
+<p>有人推测这是coinbase.com的冷钱包。</p>
+
+<p>嗯哼，应该是继中本聪之后最大的壕。</p>
+
+<p>&hellip;&hellip;</p>
+
+<h4>好像一篇文章列举下去远远不够哈，实在是写累了，我们以后心情好的时候继续更新</h4>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-05T16:04:29+08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/" title="Previous Post: 比特币的交易-2">&laquo; 比特币的交易-2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/">比特币的HD钱包演化-4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/27/event-stream/">Event-stream,一次可怕的社工</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/26/bitcoind-conf-template/">Bitcoind Conf Template</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/">比特币的交易-1</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/';
+        var disqus_url = 'https://happy123.me/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

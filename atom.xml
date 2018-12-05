@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-12-05T11:06:07+08:00</updated>
+  <updated>2018-12-05T16:05:18+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,198 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币的HD钱包演化-4]]></title>
+    <link href="https://happy123.me/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/"/>
+    <updated>2018-12-05T16:04:29+08:00</updated>
+    <id>https://happy123.me/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4</id>
+    <content type="html"><![CDATA[<p>之前我们学习了比特币的HD钱包的技术部分，写着写着我都觉得太无聊了，其实我觉得比特币归根结底还是一个很Geek的东西，初期被它吸引的人估计心底里都有一个独立自由的梦，甚至很多人都想要独立建国；它的技术发展史上也出现过很多有意思的事情，于是增加一篇娱乐性文章；</p>
+
+<h3>让我们好好八卦一下比特币历史上那些有意思的地址</h3>
+
+<!-- more -->
+
+
+<h4>satoshi的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</a></p>
+
+<p>该地址属于比特币创始人中本聪，是比特币的创世地址，地址内的比特币从未移动过，其中的50币因为技术上的设计原因也无法进行移动。(卖个关子，具体啥原因关注我们后续的文章哦)</p>
+
+<p>具体请参考:<a href="https://en.bitcoin.it/wiki/Genesis_block">Genesis block</a></p>
+
+<p>直到今天，还有源源不断的小额转账给这个地址，纪念satoshi。</p>
+
+<h4>Hal Finney的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3">1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3</a></p>
+
+<p>比特币历史上第一笔交易发生在<a href="https://www.blockchain.com/btc/tx/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16">f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16</a>；是中本聪发送给我们熟知的<a href="https://en.wikipedia.org/wiki/Hal_Finney_(computer_scientist">Hal Finney</a>)先生的。这笔交易发送了10个BTC，被收录在第<a href="https://www.blockchain.com/zh/btc/block-height/170">170 Block</a>中。</p>
+
+<p>可以肯定，第170 block之前所有的地址都是中本聪本人的钱包地址，如果有人再跳出来说自己是中本聪的话，我们什么都不相信，只会问他两个问题：</p>
+
+<ul>
+<li>您能花费一笔第170 block之前的比特币吗？</li>
+<li>或者您能出示 <code>I am xxx, happy bitcoiner guys, and today is 2xxx/xx/xx, i prove i am satoshi</code> 这句话的签名，并让我们用早期的公钥来验证一下吗？</li>
+</ul>
+
+
+<h4>Laszlo Hanyecz 的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1XPTgDRhN8RFnzniWCddobD9iKZatrvH4">1XPTgDRhN8RFnzniWCddobD9iKZatrvH4</a></p>
+
+<p>没错，这就是著名的<a href="http://link.zhihu.com/?target=https%3A//bitcointalk.org/index.php%3Ftopic%3D137.0">比特币披萨日</a>事件中的主人公。</p>
+
+<p>当时<a href="https://www.blockchain.com/btc/tx/a1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d">这笔2010-05-22的交易</a>中，Laszlo Hanyecz花费了10000个币买了两个pizza；造就了比特币历史上第二个节日：披萨日。撒花~~~ (PS:我把比特币的第一个节日归为比特币的生日，<a href="https://20090103.com">2009/01/03</a>)</p>
+
+<p>后来比特币价格不断波动，人们就不断的调侃史上最贵的pizza，史上价格变化最快的pizza等等~~~</p>
+
+<p>Laszlo Hanyecz是个真正的Geek，他应该是已知的显卡挖矿第一人，在这个地址上，他大概挖到了80000枚币，所以当时花费10000币买个pizza可以理解；</p>
+
+<p>当年买了Laszlo一万个比特币的Jercos当然也是这次历史时刻的另一个主角。他在去年的时候接受了一家媒体的访问，并漏出了自己的真实身份。</p>
+
+<p>原来Jercos非常的年轻，现在也只有25岁（买10000个比特币那年仅仅19岁）。他告诉记者说自己在bitcoin刚创世的2009年就关注了这项技术，并成为了出入各大极客论坛的一员。他与卖披萨的Laszlo并不认识，但是总是在同一个IRC（聊天室）出入，在当时算是对ID比较相熟。</p>
+
+<p>谈到一万个比特币的去向时，他表示在第二年他把这一万枚比特币以400美金的价格出售了，回报率在十倍。（虽然十倍但是还是很可惜了。。）如今他对区块链的技术还是十分看好，对以太坊也十分看好。</p>
+
+<p>Laszlo Hanyecz与Jercos的比特币经历可谓是大风大浪了，以后可以跟后来人好好说说<code>当年~~~</code>；</p>
+
+<p>如果你这样想，那就Out了，真正的Geek永远是站在潮流前头的，同样的，2018-02-05，闪电网络运行后，Laszlo Hanyecz又花费了0.00649枚比特币通过闪电网络买了两块披萨，续写了比特币披萨的传奇；</p>
+
+<p>少年，当你在为所谓<code>10000个比特币买披萨是不是很后悔</code>这种问题纠结时，人家早就又一次站在潮头浪尖了；所以~~~</p>
+
+<h5>让我们努力学习吧。</h5>
+
+<p>这个地址至今仍然非常活跃，Laszlo Hanyecz仍然是比特币世界中的Geek先锋，并且他用自己的乐观幽默为全世界的bitcoiner创造了一个节日，Hi, Laszlo Hanyecz，谢谢你！</p>
+
+<h4>Bitcoin Faucet donation的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC?offset=0&amp;filter=6">15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC</a></p>
+
+<p>这个地址属于比特币先驱<a href="https://en.bitcoinwiki.org/wiki/Gavin_Andresen">Gavin Andresen</a>在2010年建立的一个网站:</p>
+
+<p><a href="https://freebitcoins.appspot.com/">https://freebitcoins.appspot.com/</a></p>
+
+<p>当时Gavin Andresen作为中本聪之后的主力开发者，非常希望普及比特币，于是建立了<a href="https://bitcointalk.org/index.php?topic=183.0">Bitcoin Faucet donation</a>这个项目，免费发送比特币给人们，这个地址总共免费发放了超过10000个币；</p>
+
+<p>Gavin Andresen为比特币的开发，普及做出了巨大的贡献，Hi, 了不起Gavin，向你致敬！</p>
+
+<h4>Andreas M. Antonopoulos 的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1andreas3batLhQa2FawWjeyjCqyBzypd">1andreas3batLhQa2FawWjeyjCqyBzypd</a></p>
+
+<p>Andreas M. Antonopoulos是比特币社区里令人肃然起敬的人物，他从非常非常早期(2012)就开始比特币相关知识的布道；我得说，凡是有严肃的学习比特币、区块链知识愿望的人们，观看Andreas M. Antonopoulos的讲演视频是绝佳途径，他的Yotube主页：</p>
+
+<p><a href="https://www.youtube.com/channel/UCJWCJCWOxBYSi5DhCieLOLQ">https://www.youtube.com/channel/UCJWCJCWOxBYSi5DhCieLOLQ</a></p>
+
+<p>Andreas M. Antonopoulos对比特币布道激励了非常多的人，但是作为先驱，他却没有收到多少报酬，这完全是<a href="https://twitter.com/aantonop/status/938147200978374662?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E938147200978374662&amp;ref_url=https%3A%2F%2Fqz.com%2F1151233%2Fandreas-antonopoulos-got-1-5-million-in-bitcoin-donations-after-roger-ver-bitshamed-him%2F">公益的工作</a>。怎么能让真正输出价值的人受到冷落呢？为了感谢他，在2017-12，粉丝们为他的地址发送了近100个bitcoin的捐款。但是我们这里很高兴的引用一句俗语：<code>黄金有价，知识无价</code>；Hi, Antonopoulos，<code>比特有价，知识无价</code>，期待收到你更多的教诲。</p>
+
+<h4>美国法警局的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55">1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</a></p>
+
+<p>所有者为美国法警局，该地址内的比特币来自被查获的丝绸之路，后在第一次拍卖会中将币转移给中标人<a href="https://www.blockchain.com/btc/tx/9e95c3c3c96f57527cdc649550bf8e92892f7651f718d846033798aee333b0c3">29,658BTC交易</a>。</p>
+
+<p>2018年这个地址还有小额的零星收入，不知转入者是谁。</p>
+
+<h4>Tim Draper的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1a8LDh3qtCdMFAgRXzMrdvB8w1EG4h1Xi">1a8LDh3qtCdMFAgRXzMrdvB8w1EG4h1Xi</a></p>
+
+<p>这个哥们是bitcoin的铁杆粉丝；它是风险投资公司Draper Fisher Jurvetson的创始人，作为硅谷投资教父，投资了SpaceX、Tesla、Thumbtack，Baidu，Hotmail，Skype等耳熟能详的公司；</p>
+
+<p>这个地址就是当时他购买美国法警局拍卖丝绸之路BTC的转移地址；</p>
+
+<p>作为bitcoin铁粉，这个老哥早期投资了蝴蝶矿机，最著名的故事就是在Mt.Gox事件中损失惨重后仍然多次买买买，即使去年的大涨风潮中也一币不卖；他对于比特币的信心估计就是中本聪本人也不及，如果你去google <code>Tim Draper</code>，估计排在前面的就是$250K， 即他相信2022年一币250000$，让我们祝福这位老哥。</p>
+
+<h4>Carl M. Force的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/14rE7Jqy4a6P27qWCCsngkUfBxtevZhPHB">14rE7Jqy4a6P27qWCCsngkUfBxtevZhPHB</a></p>
+
+<p>该地址属于“法国女仆”，又名Carl M. Force，是美国联邦缉毒局的一名探员，在参与调查丝绸之路时，Force化名“法国女仆”利用职务之便勒索罗斯乌布利希，并将赃款汇入该地址内，但Force最终被抓住并遭到起诉。</p>
+
+<p>这应该是有据可查的第一起比特币偷盗破获案件。Hi, Carl M. Force，不要沮丧哦，你已经青史留名了。</p>
+
+<p>不过悲伤的是，之后发生的偷盗事件数不胜数，却没有多少案件能被破获。</p>
+
+<h4>真土豪的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv">1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv</a></p>
+
+<p>该地址发生了一笔历史上最大额的交易，一次性转移了500,000 BTC，创历史之最，虽然是发生在2011年的事情，但是按币本位算，估计这个数额很难打破了。</p>
+
+<p>这个地址2017年还被使用过，观看它的交易记录，我严重怀疑这是国内某一个大佬的地址，并且与Mt.Gox有牵连。</p>
+
+<h4>wiki的地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v">1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v</a></p>
+
+<p>这是维基解密用来接受比特币捐赠的地址，维基解密的创始人，阿桑奇，也是比特币社区最早的支持者；我得说，这位阿桑奇，真是一条汉子；</p>
+
+<p>希望能看到你收到更多的捐赠，wikileaks！</p>
+
+<h4>Bitstamp被盗地址</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf">1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf</a></p>
+
+<p>Bitstamp遭窃的热钱包地址，黑客在2015年1月5日时陆续从该地址内盗取了大约19,000BTC 。</p>
+
+<p>事件调查可以参考这里:</p>
+
+<p><a href="https://www.reddit.com/r/Bitcoin/comments/3bpdb4/bitstamp_incident_report_22015/">https://www.reddit.com/r/Bitcoin/comments/3bpdb4/bitstamp_incident_report_22015/</a></p>
+
+<p>这个地址非常奇怪，之后还陆陆续续有交易发生；并且在2017年，有人考证一币Tether的hack事件和Bitstamp被盗事件是同一个黑客：</p>
+
+<p><a href="https://www.reddit.com/r/CryptoCurrency/comments/7eho5y/tether_was_hacked_by_the_same_person_who_hacked/">https://www.reddit.com/r/CryptoCurrency/comments/7eho5y/tether_was_hacked_by_the_same_person_who_hacked/</a></p>
+
+<p>一个疑问重重的故事。</p>
+
+<h4>Bitfinex被盗地址</h4>
+
+<p><a href="https://gist.github.com/MrChrisJ/4a959a51a0d2be356cc2e89566fc1d87">地址列表</a></p>
+
+<p>2016-08-03，<a href="https://www.reddit.com/r/Bitcoin/comments/5vr8xg/confirmed_120000_bitcoins_from_the_bitfinex_hack/">reddit</a>上面已经有人确认，Bitfinex被盗119756个btc.</p>
+
+<p>查看黑客的接收地址，有些币至今未动。</p>
+
+<p>bitfinex后来通过发行USDT起死回生，这种神操作说起来好像是天方夜谈，呵呵，比最诡异的侦探小说还诡异的故事。</p>
+
+<h4>NiceHash被盗地址</h4>
+
+<p><a href="https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq">1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq</a></p>
+
+<p>2017-12-06，Nicehash 被盗 4700+币</p>
+
+<p><a href="https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/">https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/</a></p>
+
+<p>呵呵，说下去都不好意思了；黑客的黄金年代啊</p>
+
+<h4>mtbox</h4>
+
+<p><a href="https://www.cryptoground.com/mtgox-cold-wallet-monitor/">https://www.cryptoground.com/mtgox-cold-wallet-monitor/</a></p>
+
+<p>作为史上之最，Mtgox事件聚集了一切传奇侦探小说都有的元素，就等着将来一位福尔摩斯来为我们排疑解惑了；期待着那一天的到来</p>
+
+<h4>官方土豪</h4>
+
+<p><a href="https://www.blockchain.com/btc/address/1EBHA1ckUWzNKN7BMfDwGTx6GKEbADUozX">1EBHA1ckUWzNKN7BMfDwGTx6GKEbADUozX</a></p>
+
+<p>之前我们说50w币转账的土豪毕竟是萌芽时期，只能说是个野生土豪。来来来，让我们活捉一位官方土豪。</p>
+
+<p>就在前几天，2018-12-03，发生了<a href="https://www.blockchain.com/btc/tx/244c71c790eb327eb8bbf66aa2d0a75bac7c1fe7b55d1161c316c6f93292d376">一笔66233比特币的转账</a>。以当前的币价来算，可谓是天文数字了。这笔交易主要是将老地址的币逐步迁移到bech32地址上去。(什么是bech32地址？复习我们之前的文章哦)</p>
+
+<p>这个地址的土豪还关联着9个地址，总币量加起来大概55w币。</p>
+
+<p>有人推测这是coinbase.com的冷钱包。</p>
+
+<p>嗯哼，应该是继中本聪之后最大的壕。</p>
+
+<p>&hellip;&hellip;</p>
+
+<h4>好像一篇文章列举下去远远不够哈，实在是写累了，我们以后心情好的时候继续更新</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[比特币的交易-2]]></title>
@@ -5249,144 +5441,6 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
 <p>这件事情挺有意思的，我相信还有很多自动机器人在hunter这几个大众抽奖地址，为了不到1分钱，真是<code>一通操作猛如虎，回头一看啥没有</code>。而且中间还有一笔流入，我放过了；作为傻逼的记录，我老老实实记一下。</p>
 
 <p>现在minimum fee的行情是0.00001/KB，下次我得记好了，方便抽奖。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[云计算的诞生]]></title>
-    <link href="https://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng/"/>
-    <updated>2018-09-10T13:39:29+08:00</updated>
-    <id>https://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng</id>
-    <content type="html"><![CDATA[<p>有一个很经典的问题: java和javascript是什么关系？</p>
-
-<p>然后小伙伴们是这样回答的:</p>
-
-<!-- more -->
-
-
-<ul>
-<li><p>人民政府和为人民服务的关系</p></li>
-<li><p>对象和对象的关系&hellip;</p></li>
-<li><p>老婆和老婆饼的关系</p></li>
-<li><p>苹果和苹果手机的关系</p></li>
-<li><p>卡巴斯基和巴基斯坦的关系</p></li>
-<li><p>印度和印度尼西亚的关系</p></li>
-<li><p>黑客和博客的关系</p></li>
-<li><p>北大和北大青鸟的关系</p></li>
-<li><p>dog和hotdog的关系</p></li>
-<li><p>人民和人民大会堂的关系</p></li>
-<li><p>天真和天真热的关系</p></li>
-<li><p>梁山和梁山伯的关系</p></li>
-</ul>
-
-
-<p>&hellip;&hellip;</p>
-
-<p>怎么样，同志你是不是对他们的关系有了更深入的了解呢？</p>
-
-<p>我只能说，在计算机工程领域，话语权没有掌握在傻写代码的码农手里，他们顶多就是个苦力外包民工；真正主导一门技术发展的，是天才的营销人员，尤其是：擅长起华丽的名字的那波人。</p>
-
-<p>来来来，这只是一个引子，让我们来唠唠一个非常非常火爆的科技名词，只要这个词从你嘴里说出来，立马就能将你加成为<code>拳打比尔盖茨，脚踢苹果谷歌</code>的霸道总裁，引起台下众人的谜之膜拜。&mdash; 云计算(Cloud Computing)</p>
-
-<p>不过，这个词是怎么来的呢？</p>
-
-<h4>懵懂岁月</h4>
-
-<p>云计算和Cloud Computing这个词原本在中文和英文中，都是不存在的。Cloud Computing作为一个单词，在2006年之前在英文中并不存在。2006年前后，CloudComputing这个单词开始偶尔出现。2007年末，Cloud Computing出现的频率迅速增加。2008年初，Cloud Computing在中文中开始被翻译为“云计算”。</p>
-
-<p>有人将云计算的基本思想-共享资源，往前推到1955年。单词“人工智能”的发明者、计算机科学家John McCarthy提出了“time-sharing”理论，即不同的用户复用、分享一台计算机。那是大型主机的年代，不同用户可以通过终端使用同一台主机。到了七十年代，有了被称之为虚拟机（Virtual Machine）的东西，IBM做的。即每个VM在逻辑上拥有独立的内存、处理器，但共用同一台服务器硬件。</p>
-
-<p>而云计算的基本思-公共信息基础设施，可以追溯到上世纪六十年代。当时，在较广泛的范围讨论过computing utility。</p>
-
-<p>John McCarthy，还是上面这个科学家，说计算机应该形成一个公用基础设施-computer utility，就像电话网络那样。原话是这样：</p>
-
-<blockquote><p>&ldquo;If computers of the kind I have advocatedbecome the computers of the future, then computing may someday be organized asa public utility just as the telephone system is a public utility&hellip; Thecomputer utility could become the basis of a new and important industry.&rdquo;</p></blockquote>
-
-<p>1965年4月30日，美国电报公司Western Union发布了一篇战略计划文档，提出建立计算基础设施“computing utility“：一个全国性的信息基础设施，让订阅者便宜、高效、迅速地获取所需的信息流，以便创建商业业务和其他东西。</p>
-
-<h4>初试啼声</h4>
-
-<p>1995年，SUN公司提出了“Network Computer”，将当时的PC简化，以降低硬件成本，客户端的计算机具备很少的固化软件，其他的系统软件和应用软件从网络下载。Network Computer的软件不是机器代码，而是一种通用的中间代码(如Java bytecode)。</p>
-
-<p>Technology Review的Fechar janela认为是George Favaloro和Sean O’Sullivan最早使用cloud computing这个单词。</p>
-
-<p>1996年，那还是Netscape的年代，在康柏（Compaq Computer）的办公室里，一群技术管理者在讨论互联网业务的未来时，称之为“cloud computing”。这群人的战略颇有先见之明。他们认为，不仅所有的商业软件都会转移到网络上，而且“cloud computing”驱动的应用，比如用户文件存储在网上，也会普及。对于当时在房间里的康柏市场主管George Favaloro，和年轻的技术专家Sean O’Sullivan来说，云计算的主意将意味着与以前不同的收入。对康柏来说，这是一个每年20亿美元的生意，卖服务器给互联网服务商。</p>
-
-<p>在1997年5月，美国公司NetCentric试图将“Cloud Computinig”申请为商标，但在1999年4月放弃了，专利号75291765。NetCentric当时准备用这个商标来进行教育服务，比如课程和研讨会。NetCentric当时正在与康柏进行一个商业计划，计划中大量使用cloud computing这个单词，并且对其的描述与后来有很多相似之处。</p>
-
-<p>O’Sullivan的创业公司正在与康柏谈判一笔500万美元的投资，而Favaloro刚被康柏委任负责互联网服务商业务。在他们的计划书里面，有这样的业务构想：用户用18.5美元购买37分钟的视频会议，用4.95美元购买253MB网络存储，3.95美元看一场泰森的拳赛。</p>
-
-<p>NetCentric准备做一套软件，能让ISP（互联网服务商）们实现和对数百甚至数千个这样的服务进行收费。他们称之为“‘cloud computing’-enabled applications”。当然，康柏将在方案里卖硬件。Favaloro 和 O’Sullivan谁最先说出cloud computing已经不可考了，因为两个当事人回忆不起来这个单词被说出来的准确时间。</p>
-
-<p>他们两都同意cloud computing被创造出来，是作为一个市场营销词汇。那时，电信网络已经被用cloud来；在工程图里，一朵云就代表网络。他们需要找一个广告语，将快速发展的互联网机会与康柏的业务联系起来。Favaloro说“计算是康柏的基石，而那朵朵云正快速发展，我们需要把两者联系起来”。</p>
-
-<p>他们的业务并不好，NetCentric也在失望中放弃了这个业务，转而推广互联网传真服务，但是最后关门了。O’Sullivan说“我们窥见了一个机会，但我们最终没有推出大量的云计算应用，这些让我难以忘怀”。</p>
-
-<h4>浮华人世</h4>
-
-<p>2001年，纽约时报的JohnMarkoff，写了一篇Dave Winer对微软新的.net服务平台Hailstorm的负面评价时，使用了“cloud’ of computers”一词。Hailstorm当年，被设计为整合各种设备、数据和服务，为用户提供简洁、实用的计算方案，但受制于当时的技术和应用环境，Hailstorm并没有取得成功。可以看成是Windows Azure的祖先了。</p>
-
-<p>2006年8月9日的战略大会上，谷歌CEO施密特在与Danny Sullivan对话时，谈到广告和互联网时有一段原话：</p>
-
-<blockquote><p>What&rsquo;s interesting [now] is that there is anemergent new model, and you all are here because you are part of that newmodel. I don&rsquo;t think people have really understood how big this opportunityreally is. It starts with the premise that the data services and architectureshould be on servers. We call it cloudcomputing – they should be in a &ldquo;cloud&rdquo; somewhere. And that ifyou have the right kind of browser or the right kind of access, it doesn&#8217;tmatter whether you have a PC or a Mac or a mobile phone or a BlackBerry or whathave you – or new devices still to be developed – you can get access to thecloud. There are a number of companies that have benefited from that.Obviously, Google, Yahoo!, eBay, Amazon come to mind. The computation and thedata and so forth are in the servers.</p></blockquote>
-
-<p>施密特大概是第一个说出cloud computing的公众人物，并被大众媒体报道。但是，很可惜，它用这个词是为了解释互联网，用cloud computing来指代服务器-浏览器架构中的服务器。这是一种当时已经存在的技术和架构。特别的，施密说这个词时，特并不是在指一种新的技术、产品、服务、商业模式。</p>
-
-<p>但真正让云计算落地的商业产品——亚马逊AWS EC2，即ElasticComputing Cloud，在施密特参加搜索引擎战略会议会议两周后，2006年8月24日上线，沿用了以前将Cloud指代服务器集群的含义和说法，在其新闻稿里也没有提到Cloud Computing，而是这样描述EC2和S3：Amazon Elastic Compute Cloud (Amazon EC2) is a web service thatprovides resizable compute capacity in the cloud. Just as Amazon Simple StorageService (Amazon S3) enables storage in the cloud, Amazon EC2 enables “compute”in the cloud.</p>
-
-<p>彼时，亚马逊等还不认为Cloud Computing是一个单词，仍然用Cloud指代服务器集群。亚马逊虽然已经在2006年3月13日推出了简单存储服务S3，并在8月24日推出了被后来看作是云计算产品真正到了的EC2，但亚马逊和当时的业界并不认为Cloud Computing是一个单词。</p>
-
-<p>到此时，亚马逊还没有使用Cloud Computinig这个单词。而且亚马逊用来命名和描述其EC2产品的用词Computing Cloud 或者“compute” in the cloud与当时在一定范围内存在的说法并没有不同。Computing Cloud也好，“compute”in the cloud也好，与施密特的Cloud Computing在技术上并没有本质不同。</p>
-
-<p>EC2最大的不同是，它是第一个让“compute” in the cloud商业化的产品，是第一个把让公司外的用户能够“compute” in the 亚马逊的cloud。施密特的Cloud Computing停留在技术架构层面，而且指的是一个公司内部从浏览器到数据中心的“compute” in the cloud。</p>
-
-<p>谷歌在营销上开启了cloud computing的序幕，亚马逊AWS EC2 在产品和商业模式上开启了cloud computing的序幕。</p>
-
-<h4>一锤定音</h4>
-
-<p>云计算的概念在2008年2009年经过无数先驱的创造、争论、整理，才形成了如今比较统一的概念和认识。</p>
-
-<p>2011年9月，NIST（美国国家标准与技术研究所）发布了最终版的《 The NIST Definition of Cloud Computing》,标志着云计算定义的争论已经平息。这是一个兼容并包的、标准的云计算定义，总结了市面上所有云计算服务的通用特征。</p>
-
-<h4>事后诸葛</h4>
-
-<p>自从云计算诞生起，就不乏反对声音。比如Oracle的埃里森斥责云计算是胡言乱语，当然后来变成云的粉丝。百度CEO李彦宏称云计算为新瓶装旧酒，同时发明了框计算，当然，2015年亚马逊发布财报后，又决定搞一下云计算。</p>
-
-<p>更多人，只是把云计算当成广告语，能贴到产品上去就好。云计算都没有拒绝，知道云计算被泛华为基于互联网的任何企业或个人服务。</p>
-
-<p>这似乎回到了起点：云计算就是互联网，或互联网服务的服务器部分。</p>
-
-<p>有人事后诸葛亮了：转了一圈，这云计算不还是互联网嘛，我当时就这么说的。</p>
-
-<p>云计算在大部分时候，确实只是一个营销术语。但不幸的是，它不仅仅是一个广告词，它背后的本质、创新、技术、战略代表了一个新时代的开始。</p>
-
-<h4>一声叹息</h4>
-
-<p>有人创造了一个新单词新概念，却一无所获，有人无心插柳被人贴上标签，却赚的盆满钵满，怎么就这么不平等呢？</p>
-
-<p>在笔者上学的时候，系里面有个教授数据库知识的专业老师。这位老师的特点非常明显，上课打开PPT文档，从设计原理到历史段子，滔滔不绝，绝对引人入胜。</p>
-
-<p>在一个学期的最后一堂课上，我记得这位老师为了来一把实践，打开Win2000 SQL server，想要敲一个join的嵌套查询语句秀一下，悲剧的是电脑就是不给面子，折腾了半个小时总是报语法错，最后他只能尴尬的回到PPT讲学模式继续。</p>
-
-<p>从此，我对哪些满口浮华词汇的人抱有深深的怀疑。</p>
-
-<h3>广告和产品谁更重要</h3>
-
-<p>在商业的世界里，真相并不重要，重要的是利益在哪里。</p>
-
-<p>现在想来，这位老师早已深得<code>无招胜有招</code>的真谛。当你能通过PPT创造世界的时候，何苦亲自动手呢？有一批傻傻的码农们帮你干活呢！掌握利益才是关键！</p>
-
-<p>这个词给我们启示就是，在某个情形下，创造出一个名词的力量，远远大于产品本身。营销也是产品的一部分&mdash;很多时候是最重要的那一部分。</p>
-
-<h4>传说在蛮荒的魔法时代，创造一样新事物的办法就是为它想一个好名字，掌握这项技艺的人被尊称为巫术大师。</h4>
-
-<p>少年，我想说，下次听到这样的宣传，先不要急着笑，要看看它的利益在哪里，那位大师的目的何在？</p>
-
-<blockquote><p>朋友们，我们有一个划时代的产品，它的底层采用了人工智能技术，整合了整个股票市场100年来的大数据，并存储在区块链上，现在，我们有好几组顶尖专家看好的量化策略，正用强大的量子计算机做回归测试。更妙的是，整套系统采用光伏能源，并由石墨烯材料打造一个稳定的能量转换站，可以无限运行下去；现在，我们就等你们来投资数钱了，还等什么，马上拿起电话，拨打xxxxxx ~~~</p></blockquote>
-
-<h4>引用:</h4>
-
-<p><a href="http://www.infoq.com/cn/articles/romance-of-cloud-computing--part01">http://www.infoq.com/cn/articles/romance-of-cloud-computing&#8211;part01</a></p>
 ]]></content>
   </entry>
   

@@ -82,6 +82,113 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">批量删除mongo Collections</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-27T09:24:04+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>mongodb没有批量删除collecton的命令，平常建立了很多a1,a2,a3的表删除有些麻烦，写个小脚本方便些。</p>
+
+<pre><code>mongorm.sh -d database -c a*
+</code></pre>
+
+<p>就很方便删除了。</p>
+
+<pre><code>#!/bin/bash
+# remove mongodb's collections with command "mongn rm app*"
+# Usage `mongorm &lt;-c collections*&gt; &lt;-d dababase&gt;`
+
+E_BADARGS=85
+E_NOFILE=86
+
+DATABASE=''
+COLLECTIONS=''
+
+while getopts "c:d:h" arg
+do
+        case $arg in
+             c)
+                echo "-c $OPTARG"
+                COLLECTIONS=$OPTARG
+                ;;
+             d)
+                echo "-d $OPTARG"
+                DATABASE=$OPTARG
+                ;;
+             h)
+                 echo "mongorm &lt;-d database&gt; &lt;-c collections&gt;"
+                 echo "for exp:"
+                 echo "        mongorm -d bpc -c app*"
+                 ;;
+             ?)
+                echo "unkonw argument"
+        exit 1
+        ;;
+        esac
+done
+
+if [[ -z "$DATABASE" ]]
+    # Correct number of arguments passed to script?
+then
+    echo 'Usage: -d database'
+    echo 'please do mongorm.sh -h to get more info'
+    exit $E_BADARGS
+fi
+
+if [[ -z "$COLLECTIONS" ]]
+    # Correct number of arguments passed to script?
+then
+    echo 'Usage: -c collections'
+    echo 'please do mongorm.sh -h to get more info'
+    exit $E_BADARGS
+fi
+
+mongojs_rm_function=`cat &lt;&lt; EOF
+db.getCollectionNames().forEach(function(c) {
+    if(c.match("$COLLECTIONS")) {
+                db.getCollection(c).drop();
+                    }
+                  });
+EOF
+`
+echo $mongojs_rm_function&gt;remove.js
+
+mongo 127.0.0.1:27017/$DATABASE remove.js
+rm -rf remove.js
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">解决tmux下vim Colorscheme失效的问题</a></h1>
     
     
@@ -239,6 +346,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/">比特币的HD钱包演化-4</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a>
       </li>
     
@@ -252,10 +363,6 @@
     
       <li class="post">
         <a href="/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/">比特币的交易-1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/11/19/huo-bi-%2C-zhi-fu-%2C-qing-suan-man-tan/">货币、支付、清算漫谈</a>
       </li>
     
   </ul>
@@ -312,7 +419,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (37)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (38)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
