@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-12-07T11:59:24+08:00</updated>
+  <updated>2018-12-09T15:47:47+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,411 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币的交易-3]]></title>
+    <link href="https://happy123.me/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/"/>
+    <updated>2018-12-09T15:46:05+08:00</updated>
+    <id>https://happy123.me/blog/2018/12/09/bi-te-bi-de-jiao-yi-3</id>
+    <content type="html"><![CDATA[<h2>scriptSig与scriptPubKey</h2>
+
+<p>继续解析我们上篇文章的交易(<code>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</code>)</p>
+
+<p>目前为止，我们还没有解析vin中的scriptSig，以及vout中的scriptPubKey；这两个东东才是交易的核心，他们有什么作用呢？</p>
+
+<!-- more -->
+
+
+<p>scriptSig是一笔UTXO的开锁脚本，scriptPubKey是输出UTXO的加锁脚本，一笔交易就是打开上家的保险箱，将资金转移到下家的保险箱并重新加锁的过程:</p>
+
+<ul>
+<li>上家-TransA: id(b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b) &ndash;> vout scriptPubkey (转移到保险箱A，并给A上锁)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     {
+</span><span class='line'>          "value": 0.00010000,
+</span><span class='line'>          "n": 0,
+</span><span class='line'>          "scriptPubKey": {
+</span><span class='line'>              "asm": "OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG",
+</span><span class='line'>              "hex": "76a914650d0497e014e60d4680fce6997d405de264f04288ac",
+</span><span class='line'>              "reqSigs": 1,
+</span><span class='line'>              "type": "pubkeyhash",
+</span><span class='line'>              "addresses": [
+</span><span class='line'>                  "1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE"
+</span><span class='line'>              ]
+</span><span class='line'>          }</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>转移-TransB: id(3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517) &ndash;> vin scriptSig (解锁保险箱A，拿出资金)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     {
+</span><span class='line'>          "txid": "b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b",
+</span><span class='line'>          "vout": 0,
+</span><span class='line'>          "scriptSig": {
+</span><span class='line'>              "asm": "304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0[ALL] 04c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5",
+</span><span class='line'>              "hex": "47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5"
+</span><span class='line'>          },
+</span><span class='line'>          "sequence": 4294967295
+</span><span class='line'>      }</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>下家-TransB: id(3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517) &ndash;>vout scriptPubkey (转移到保险箱B，并给B上锁)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     {
+</span><span class='line'>          "value": 0.00007000,
+</span><span class='line'>          "n": 0,
+</span><span class='line'>          "scriptPubKey": {
+</span><span class='line'>              "asm": "03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603 OP_CHECKSIG",
+</span><span class='line'>              "hex": "2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac",
+</span><span class='line'>              "reqSigs": 1,
+</span><span class='line'>              "type": "pubkey",
+</span><span class='line'>              "addresses": [
+</span><span class='line'>                  "1aau2Kgn7xBRWS6gPkYXWiw4cnzyKi7rR"
+</span><span class='line'>              ]
+</span><span class='line'>          }
+</span><span class='line'>      }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>具体怎么理解这两个东东呢？我们还需要一点前置知识。</p>
+
+<h2>比特币脚本语言系统 scripting language</h2>
+
+<p>scriptPubkey以及scriptSig是一种脚本语言。比特币的脚本语言被设计为一种类 Forth 栈语言。拥有成无状态和非图灵完备的性质。无状态性保证了一旦一个交易被区块打包，这个交易就是可用的。图灵非完备性（具体来说，缺少循环和goto 语句）使得比特币的脚本语言更加不灵活和更可预测，从而大大简化了安全模型。</p>
+
+<p>如果大家之前做过汇编开发的话，就会发现这跟汇编的指令码是非常相似的东东。</p>
+
+<p>先来一个在线解析工具:</p>
+
+<p><a href="https://bitcoin-script-debugger.visvirial.com/">https://bitcoin-script-debugger.visvirial.com/</a></p>
+
+<p>再来一个视频讲解：</p>
+
+<p><a href="https://www.youtube.com/watch?v=4qz7XehSBCc">https://www.youtube.com/watch?v=4qz7XehSBCc</a></p>
+
+<p>比较简单的教程:</p>
+
+<p><a href="https://davidederosa.com/basic-blockchain-programming/bitcoin-script-language-part-one/">https://davidederosa.com/basic-blockchain-programming/bitcoin-script-language-part-one/</a></p>
+
+<ul>
+<li>额，我知道大部分人跟我一样懒得去翻阅上面这些资料，所以我们简单传送一下：</li>
+</ul>
+
+
+<h3>一个最小脚本集</h3>
+
+<p>现在想象我们有一台非常简单的计算器，它的CPU只有一个16位的寄存器，以及非常小的内存(1KB)；我们需要设计一种语言，实现一些最简单的计算，比如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>x = 0x23
+</span><span class='line'>x += 0x4b
+</span><span class='line'>x *= 0x1e</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后转换为类似汇编语言的比较简单的操作码形式, 我们需要以下指令集：</p>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding </th>
+<th> 操作码</th>
+<th> 操作数(V值) </th>
+<th> explained</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SET(V) </td>
+<td> <code>ab</code> V </td>
+<td> <code>0xab</code> </td>
+<td> 16bits(0x23) </td>
+<td> 将V(0x23)载入到寄存器中</td>
+</tr>
+<tr>
+<td>ADD(V) </td>
+<td> <code>ac</code> V </td>
+<td> <code>0xac</code> </td>
+<td> 16bits(0x4b) </td>
+<td> 寄存器值+0x4b; <code>0x23 + 0x4b = 0x6e</code></td>
+</tr>
+<tr>
+<td>MUL(V) </td>
+<td> <code>ad</code> V </td>
+<td> <code>0xad</code> </td>
+<td> 16bits(0x1e) </td>
+<td> 寄存器值*0x1e; <code>0x6e * 0x1e = 0x0ce4</code></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>在上面这个表格中，我们定义了三种最简单的操作码：<code>0xab, 0xac, 0xad</code>，跟在这三个操作码后面的2个字节就是操作数；将上面的计算步骤用代码表示如下(小端排序):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ab 23 00 ac 4b 00 ad 1e 00</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们可以实现一个最简单的脚本逻辑，顺序parse这段代码，并转换为相应的操作码，然后进行运算；</p>
+
+<p>我们实现了一个非常迷你的脚本集。</p>
+
+<h3>栈设计</h3>
+
+<p>上面的操作只涉及到了寄存器，但是现实情况中，我们通常要做多个计算步骤，并将临时变量存到内存中，另外会把复杂的程序组织为一个个函数；这种时候，最常见的内存组织方法是什么呢？</p>
+
+<p>没错，就是我们最常用的数据结构：栈(STACK)。</p>
+
+<p>比如下面这个函数:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int foo() {
+</span><span class='line'>
+</span><span class='line'>    /* 1 */
+</span><span class='line'>
+</span><span class='line'>    /* 2 */
+</span><span class='line'>    uint8_t a = 0x12;
+</span><span class='line'>    uint16_t b = 0xa4;
+</span><span class='line'>    uint32_t c = 0x2a5e7;
+</span><span class='line'>
+</span><span class='line'>    /* 3 */
+</span><span class='line'>    uint32_t d = a + b + c;
+</span><span class='line'>
+</span><span class='line'>    return d;
+</span><span class='line'>
+</span><span class='line'>    /* 4 */
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>第一步函数刚刚跳转执行，栈初始化为空。[]</li>
+<li>第二步，三个变量<code>a,b,c</code>压入栈中(PUSH STACK)</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[12]
+</span><span class='line'>[12, a4 00]
+</span><span class='line'>[12, a4 00, e7 a5 02 00]</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>结合我们上面的操作码，计算<code>a,b,c</code>的和，并将结果压栈</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[12, a4 00, e7 a5 02 00, 9d a6 02 00]</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>返回结果，并将栈元素弹出(POP STACK)，恢复到初始状态。</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[12, a4 00, e7 a5 02 00]
+</span><span class='line'>[12, a4 00]
+</span><span class='line'>[12]
+</span><span class='line'>[]</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Script Language</h3>
+
+<p>机器码设计了指令的表示方法，栈设计规定了数据的存储方法；将机器码与栈设计结合起来，就是Bitcoin Script Language。它有两个明显的特点：</p>
+
+<ul>
+<li>脚本没有循环:这意味着脚本不能无限运行</li>
+<li>脚本的内存访问是基于栈的:这意味着脚本中不存在命名变量这种东西，所有的操作码和操作数都表示为栈上的运算；通常，推入的栈项将成为后续操作码的操作数。在脚本的末尾，最上面的堆栈项是返回值。</li>
+</ul>
+
+
+<p>举个最简单的例子，bitcoin script language支持下面两个操作码：</p>
+
+<h4>压栈操作码</h4>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding </th>
+<th> explained</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OP_0 </td>
+<td> 0x00 </td>
+<td> 将0x00压入栈中</td>
+</tr>
+<tr>
+<td>OP_1 &mdash; OP_16 </td>
+<td> 0x51 &mdash; 0x60 </td>
+<td> 将0x01 &mdash; 0x10 压入栈中</td>
+</tr>
+</tbody>
+</table>
+
+
+<blockquote><p>PS: OP_0, OP_1还代表着布尔值False,True</p></blockquote>
+
+<p>然后下面一段示例脚本代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0x54 0x57 0x00 0x60</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者直接翻译为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OP_4 OP_7 OP_0 OP_16</span></code></pre></td></tr></table></div></figure>
+
+
+<p>作用就是将四个值依次压栈，栈状态可以表示为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[]
+</span><span class='line'>[0x04]
+</span><span class='line'>[0x04, 0x07]
+</span><span class='line'>[0x04, 0x07, 0x00]
+</span><span class='line'>[0x04, 0x07, 0x00, 0x10]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此时栈顶元素值为0x10，前面我们说了，栈顶元素即返回值，所以这个脚本的返回值为0x10。当然，这个脚本现在就是将四个值压栈，并没有什么实际作用。</p>
+
+<h4>PUSHDATA操作码</h4>
+
+<p>简单的压栈操作码只能压入1个字节的数据，如果我们想以此压入多个字节的数据，需要用到 <code>PUSH DATA</code>操作码。</p>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding </th>
+<th> L (length) </th>
+<th> D (data)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OP_PUSHDATA1 </td>
+<td> <code>0x4c</code> L D </td>
+<td> 8bits </td>
+<td> L bytes</td>
+</tr>
+<tr>
+<td>OP_PUSHDATA2 </td>
+<td> <code>0x4d</code> L D </td>
+<td> 16bits</td>
+<td> L bytes</td>
+</tr>
+<tr>
+<td>OP_PUSHDATA3 </td>
+<td> <code>0x4e</code> L D </td>
+<td> 32bits</td>
+<td> L bytes</td>
+</tr>
+</tbody>
+</table>
+
+
+<ul>
+<li>L 代表需要压入的字节长度，它可以有8bits, 16bits，或者32bits，这三个操作码可以最大压入2<sup>8</sup>-1=255字节、2<sup>16</sup>-1=65535字节、2<sup>32</sup>字节</li>
+<li>D 代表实际的数据</li>
+</ul>
+
+
+<p>举个例子:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>4c 14 11 06 03 55 04 8a
+</span><span class='line'>0c 70 3e 63 2e 31 26 30
+</span><span class='line'>24 06 6c 95 20 30</span></code></pre></td></tr></table></div></figure>
+
+
+<p>前面的<code>0x4c</code>代表是<code>OP_PUSHDATA1</code>操作符，后面的<code>0x14</code>代表压入20个字节，然后后面跟着20字节的数据</p>
+
+<p>此时栈状态可以表示为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[11 06 03 55 04 8a 0c 70
+</span><span class='line'> 3e 63 2e 31 26 30 24 06
+</span><span class='line'> 6c 95 20 30]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>~~ 待续</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[比特币的HD钱包演化-4]]></title>
@@ -300,7 +705,7 @@
 
 <p>接着就是输入的M个UTXO和输出的N个UTXO，代表着我要把一堆UTXO转移(支付)给谁。</p>
 
-<p>最后是一个字段是锁定事件(Locktime)。Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。</p>
+<p>最后是一个字段是锁定时间(Locktime)。Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。</p>
 
 <p>如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。</p>
 
@@ -410,27 +815,23 @@
 
 <h4>字段说明</h4>
 
-<ul>
-<li>txid (hash)</li>
-</ul>
-
+<h5>txid (hash)</h5>
 
 <p>Tx Hash (3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517)，俗称交易ID，由hex得出：Tx Hash = SHA256(SHA256(hex))。由于每个交易只能成为下一个的输入，有且仅有一次，那么不存在输入完全相同的交易。因为SHA256碰撞的概率极小，所以理论上存在相同的Tx Hash 的概率非常小。</p>
 
 <p>即便如此，在系统里依然产生了相同的Tx Hash，是不知道哪位矿工挖出Block后，打包Block时忘记修改Generation Tx coinbase字段的值，币量相同且输出至相同的地址，那么就构造了两个完全一模一样的交易，分别位于两个Block的第一个位置。这个对系统不会产生什么问题，但只要花费其中一笔，另一个也被花费了。相同的Generation Tx相当于覆盖了另一个，白白损失了挖出的币。该交易ID为<a href="https://blockchain.info/tx/e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468">e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468</a>，第一次出现在<a href="https://blockchain.info/block/00000000000271a2dc26e7667f8419f2e15416dc6955e5a6c6cdf3f2574dd08e">#91722</a>，第二次出现在<a href="https://blockchain.info/block/00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721">#91880</a>。</p>
 
-<ul>
-<li>vin (输入UTXO)</li>
-</ul>
-
+<h5>vin (输入UTXO)</h5>
 
 <p>vin是一个数组，里面即M个输入UTXO，每个UTXO都来自上一笔交易的一个UTXO输出，这笔交易的vin只有一个UTXO，它由以下几个字段组成</p>
 
-<pre><code>- txid: 上一笔关联交易的hash值
-- vout: 上一笔交易输出的N个UTXO里面的序号
-- scriptSig: 对这笔UTXO的签名，还记得我们之前的文章吗？只有对一个UTXO签名才能证明其所有权，才能花费它
-- sequence: 序列号。这个序列号来源比较复杂；还记得上面讲的locktime有所关联：
-</code></pre>
+<ol>
+<li>txid: 上一笔关联交易的hash值</li>
+<li>vout index: 上一笔交易输出的N个UTXO里面的序号</li>
+<li>scriptSig: 对这笔UTXO的签名，还记得我们之前的文章吗？只有对一个UTXO签名才能证明其所有权，才能花费它</li>
+<li>sequence: 序列号。这个序列号来源比较复杂；还记得上面讲的locktime有所关联：</li>
+</ol>
+
 
 <blockquote><p>Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。
 如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。</p>
@@ -443,17 +844,14 @@
 
 <p>vin的所有UTXO 余额相加，就是这笔交易的转账总额。</p>
 
-<ul>
-<li><p>vout (输出UTXO)</p>
+<h5>vout (输出UTXO)</h5>
 
-<ul>
+<ol>
 <li>value: 转账金额</li>
 <li>n: 作为第N个UTXO输出</li>
-<li>scriptPubKey: 这是设置的谜题，后来人想要花费这笔UTXO，必须提供scriptSig来解答这个谜题才可以</li>
-</ul>
-</li>
+<li><p>scriptPubKey: 这是设置的谜题，后来人想要花费这笔UTXO，必须提供scriptSig来解答这个谜题才可以</p></li>
 <li><p>vin 的总额 &ndash; vout的总额 == 打包费用 &ndash;> 奖励给打包矿工</p></li>
-</ul>
+</ol>
 
 
 <h4>交易十六进制解析</h4>
@@ -466,19 +864,15 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>version (4字节): 刚开始的4个字节是version，小端排序(Little Endian)，因此version为<code>0x00000001</code></li>
-</ul>
-
+<h5>version (4字节): 刚开始的4个字节是version，小端排序(Little Endian)，因此version为<code>0x00000001</code></h5>
 
 <blockquote><p>ps:关于小端排序的设计，社区里面还有过小争论，见<a href="https://bitcointalk.org/index.php?topic=4278.0">这里</a></p></blockquote>
 
-<ul>
-<li><p>flag (2字节，可选): 如果是<code>0001</code>，代表是witness交易；如果不是，就代表没有这个flag字段；这是一笔普通的交易，因此没有flag字段</p></li>
-<li><p>vin count (>=1字节): vin数目，此交易为<code>01</code>，采用的是<a href="https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer">var_int</a>表示法，这样我们能方便的测算它的长度</p></li>
-<li><p>vin (>=41字节): 所有的输入tx，是一个数组；这里只有一个tx，数据是:</p></li>
-</ul>
+<h5>flag (2字节，可选): 如果是<code>0001</code>，代表是witness交易；如果不是，就代表没有这个flag字段；这是一笔普通的交易，因此没有flag字段</h5>
 
+<h5>vin count (>=1字节): vin数目，此交易为<code>01</code>，采用的是<a href="https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer">var_int</a>表示法，这样我们能方便的测算它的长度</h5>
+
+<h5>vin (>=41字节): 所有的输入tx，是一个数组；这里只有一个tx，数据是:</h5>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff</span></code></pre></td></tr></table></div></figure>
@@ -486,31 +880,38 @@
 
 <p>简单说下vin中一笔tx内部结构:</p>
 
-<pre><code>- previous_output (32字节): 上一笔交易的HASH值，即这个花费的输入交易ID: 
+<ol>
+<li>previous_output (32字节): 上一笔交易的HASH值，即这个花费的输入交易ID:</li>
+</ol>
 
-3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0
--&gt; 转为大端排序  
-b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
 
-- previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是`00000000`
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0
+</span><span class='line'>-&gt; 转为大端排序  
+</span><span class='line'>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</span></code></pre></td></tr></table></div></figure>
 
-- script length (var_int变长，代表script的长度): 这里是`0x8a`，表示script长度为138字节
 
-- criptSig (整个解密脚本)： 这个结构我们之后会具体分析
-</code></pre>
+<ol>
+<li><p>previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是<code>00000000</code></p></li>
+<li><p>script length (var_int变长，代表script的长度): 这里是<code>0x8a</code>，表示script长度为138字节</p></li>
+<li><p>criptSig (整个解密脚本)： 这个结构我们之后会具体分析</p></li>
+</ol>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code></pre></td></tr></table></div></figure>
 
 
-<pre><code>- sequence no (4个字节): `ffffffff`
-</code></pre>
+<ol>
+<li>sequence no (4个字节): <code>ffffffff</code></li>
+</ol>
 
-<ul>
-<li><p>vout count (>=1字节): vout数目，此处为<code>01</code></p></li>
-<li><p>vout (>=9字节): 所有的输出tx，是一个数组；这里只有一个tx，数据是:</p></li>
-</ul>
 
+<h5>vout count (>=1字节): vout数目，此处为<code>01</code></h5>
+
+<h5>vout (>=9字节): 所有的输出tx，是一个数组；这里只有一个tx，数据是:</h5>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>581b0000000000002103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</span></code></pre></td></tr></table></div></figure>
@@ -518,27 +919,30 @@ b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
 
 <p>简单说下vout中一笔tx内部结构:</p>
 
-<pre><code>- value (8字节): 转账到这个地址上的金额， 这里是`581b000000000000`小端排序，十六进制为`00000000000000581b`，即转账7000 satoshis
-- scriptPubKey length (&gt;=1, var_int类型): 输出脚本的长度，这里是`0x21`，代表33字节长度
-- scriptPubKey: 输出脚本，其实就是包含转账地址的脚本，这里是`03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac`
-</code></pre>
-
-<ul>
-<li>locktime: 最后4个字节是locktime，这笔交易设置为0；就是立即打包</li>
-</ul>
+<ol>
+<li>value (8字节): 转账到这个地址上的金额， 这里是<code>581b000000000000</code>小端排序，十六进制为<code>00000000000000581b</code>，即转账7000 satoshis</li>
+<li>scriptPubKey length (>=1, var_int类型): 输出脚本的长度，这里是<code>0x21</code>，代表33字节长度</li>
+<li>scriptPubKey: 输出脚本，其实就是包含转账地址的脚本，这里是<code>03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</code></li>
+</ol>
 
 
-<h3>总览</h3>
+<h5>locktime: 最后4个字节是locktime，这笔交易设置为0；就是立即打包</h5>
 
-<p>最后一张表格说明问题：</p>
+<h2>总览</h2>
+
+<h5>最后一张表格说明问题：</h5>
 
 <p><img src="https://ws1.sinaimg.cn/large/893d6e9dly1fxtq1vq3b1j20pc0e3gma.jpg" alt="img" /></p>
 
-<h3>scriptSig与scriptPubKey</h3>
+<h5>再来一张交易的总体示意图:</h5>
 
-<p>目前为止，我们还没有解析vin中的scriptSig，以及vout中的scriptPubKey；这两个东东才是交易的核心，他们有什么作用呢？</p>
+<p><img src="https://davidederosa.com/s/f/basic-blockchain-programming/scripts-transaction-propagation.svg" alt="img" /></p>
 
-<p>~~ 待续</p>
+<p>好了，到这里；我们对于一笔最简单的比特币的交易结构已经详细分析了一遍；但是在全网中，交易是怎样验证的呢？一笔资金从A转移到B，全节点怎么验证这次转移的合法性呢？</p>
+
+<p>这就用到了比特币的脚本语言系统，具体到上面的示例交易，就是scriptSig与scriptPubKey；</p>
+
+<p>那么scriptSig与scriptPubKey是怎么工作的呢？我们下次文章再会。</p>
 
 <h2>参考资料:</h2>
 
@@ -5361,124 +5765,6 @@ Allows you to create output files for Itanium. This version of cl.exe runs as a 
 Allows you to create output files for x64. This version of cl.exe runs as a native process on an x64 machine.</p></blockquote>
 
 <h4>总之CPU的历史生动说明了了计算机界的很多老梗是如何诞生的，比如很多人都疑惑为什么Windows的发布名称是Win95->W98->W98SE->Win2000(NT)&ndash;>WinXP->Vista->Win7->Win10，等等等等；这种现象是商业环境、市场营销、法律风险以及随意拍脑门的高管，放荡不羁的开发团队合力促成的~~~</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Minimum Fee of Bitcoin Transaction]]></title>
-    <link href="https://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction/"/>
-    <updated>2018-09-11T15:13:35+08:00</updated>
-    <id>https://happy123.me/blog/2018/09/11/the-minimum-fee-of-bitcoin-transaction</id>
-    <content type="html"><![CDATA[<p>昨天看到地球人都知道的1号地址转了<a href="https://btc.com/b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2">0.00000555个币进来</a>，也不知道是谁在做测试，恶作剧心起，遂想要转掉这点娱乐币。</p>
-
-<p>默认Bitcoin Core 0.15之后的客户端貌似都不能调节transaction fee大小了，老实说，自从Segwit升级完毕之后，我很少用core钱包了。这次没办法，为了构造一笔最小手续费用的交易，采取如下动作:</p>
-
-<!-- more -->
-
-
-<p>1.先看一下vout和txid:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli listunspent 0 9999999 "[\"12AKRNHpFhDSBDD9rSn74VAzZSL3774PxQ\"]"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出里面找到 <code>12AKRNHpFhDSBDD9rSn74VAzZSL3774PxQ</code>的vout为0， txid是<code>b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2</code></p>
-
-<p>2.创建转账交易</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli createrawtransaction "[{\"txid\":\"b9a6f0b287646c30bdafa08cc997d7af93ca20eb7b2d09084ddf7a7a075394b2\",\"vout\":0}]" "{\"1HB1Efu8RkEpxzTHYd1E7NgdimL1ddDhkR\":0.0000055}"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>得到十六进制输出</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b90000000000ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3.签名之</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli signrawtransaction  "0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b90000000000ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>得到十六进制输出</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "hex": "0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b9000000008a47304402202a51aa8eb0593a4b48880712c3ee70b7d6ca74ed313ef93e9c92489616587a2c022048c87fde75761e2a9cc9fef7dc8d0d9961ef1df89e22f88e5e3902567ec956f8014104fdf4907810a9f5d9462a1ae09feee5ab205d32798b0ffcc379442021f84c5bbfc891eb16b0faef4bef99ba6d522fb85470a20df730808e583778aa35c7af98f5ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000",
-</span><span class='line'>  "complete": true
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4.激动人心的时刻来了，广播之:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli sendrawtransaction  "0200000001b29453077a7adf4d08092d7beb20ca93afd797c98ca0afbd306c6487b2f0a6b9000000008a47304402202a51aa8eb0593a4b48880712c3ee70b7d6ca74ed313ef93e9c92489616587a2c022048c87fde75761e2a9cc9fef7dc8d0d9961ef1df89e22f88e5e3902567ec956f8014104fdf4907810a9f5d9462a1ae09feee5ab205d32798b0ffcc379442021f84c5bbfc891eb16b0faef4bef99ba6d522fb85470a20df730808e583778aa35c7af98f5ffffffff0126020000000000001976a914b1665e71006dbfbabb69cbcdc5717b11abdb89e888ac00000000"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后得到报错:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>error message:
-</span><span class='line'>66: min relay fee not met</span></code></pre></td></tr></table></div></figure>
-
-
-<p>喵喵喵，怎么回事，我记得2016年的时候还是允许0.00000001的手续费的，比如下面这笔交易:</p>
-
-<p><a href="https://blockchain.info/tx/d36a18d1fa4c6ccc4b90ab8a13dd3e55b396ac07bf7fbbee281c1025da2b86fc">https://blockchain.info/tx/d36a18d1fa4c6ccc4b90ab8a13dd3e55b396ac07bf7fbbee281c1025da2b86fc</a></p>
-
-<p>5.没办法，我只能在createrawtransaction的时候手工指定手续费为0.000001，心痛啊，手续费是转账金额的20%~</p>
-
-<p>然后又得到了这个错:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mempool min fee not met</span></code></pre></td></tr></table></div></figure>
-
-
-<p>怒了，又去翻了一下代码，还是由mempoolminfee 决定的啊，执行:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bitcoin-cli getmempoolinfo</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在是够的啊，搞不明白了；不行，再等别人就转走了，得争分夺秒啊2333</p>
-
-<p>6.只能去找几个大矿池在线广播了，我无奈的先后使用了:</p>
-
-<p><a href="https://btc.com/tools/tx/publish">https://btc.com/tools/tx/publish</a></p>
-
-<p><a href="https://www.blockchain.com/btc/pushtx">https://www.blockchain.com/btc/pushtx</a></p>
-
-<p><a href="https://live.blockcypher.com/btc/pushtx/">https://live.blockcypher.com/btc/pushtx/</a></p>
-
-<p>统统失败，悲剧了；还测试出blockcypher有个500，它的后台没处理好，直接就挂掉了；btc.com是个鬼精灵，把所有的异常一把抓，就不告诉你出了啥错；值得表扬的是blockchain.info，完美显示了bitcoin core抛出的错误，嗯嗯嗯，记住，以后可以用极小值的手续费广播来测试这几个网站的后台bitcoind 实现版本，不要干坏事哦~~</p>
-
-<p>7.万般无奈之下我将手续费用继续提高为0.000002，然后得到下面的报错:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>dust transaction</span></code></pre></td></tr></table></div></figure>
-
-
-<p>一顿google之下发现0.15版本以后，bitcoin core的<a href="https://bitcoin.stackexchange.com/questions/10986/what-is-meant-by-bitcoin-dust">dust判定标准是546 satoshins</a>，这笔交易的金额正好处于这么一个微妙的位置。</p>
-
-<p>8.一通操作之后，发现这笔钱是无论如何不能立即拿出来了；于是写个脚本暴力广播之，总有mempool size下来的时候吧，我幻想着，说不定能中奖呢23333</p>
-
-<h4>结局</h4>
-
-<p>昨晚有个土豪加上另外一个vout提走了，额，为了提0.00000555BTC，土豪动用了88BTC的vout作为陪练，并留下了0.00000400(高达90%) 的矿工费，交易记录在此:</p>
-
-<p><a href="https://btc.com/d6d59802eb987fe96b9e827c07a1acff5e80ba5e9dae3f6f56f9ea427d98e585">https://btc.com/d6d59802eb987fe96b9e827c07a1acff5e80ba5e9dae3f6f56f9ea427d98e585</a></p>
-
-<p>土豪，是在下输了。</p>
-
-<p>这件事情挺有意思的，我相信还有很多自动机器人在hunter这几个大众抽奖地址，为了不到1分钱，真是<code>一通操作猛如虎，回头一看啥没有</code>。而且中间还有一笔流入，我放过了；作为傻逼的记录，我老老实实记一下。</p>
-
-<p>现在minimum fee的行情是0.00001/KB，下次我得记好了，方便抽奖。</p>
 ]]></content>
   </entry>
   

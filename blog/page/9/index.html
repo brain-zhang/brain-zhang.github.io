@@ -82,6 +82,200 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/28/cisco-3560x-config-cheat/">Cisco 3560X Config Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-28T10:02:06+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/28/cisco-3560x-config-cheat/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/07/28/cisco-3560x-config-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>工作需要，学习了Cisco的路由器配置，记一下:</p>
+
+<ul>
+<li>查看所有信息</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show run</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看span</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show span</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>为某个vlan id建立spanning-tree</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>取消某个vlan id的spanning-tree</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>将某个端口加入vlan中</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh run init gi 0/39
+</span><span class='line'>config t
+</span><span class='line'>switchport access vlan 14</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>保存配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>do wr
+</span><span class='line'>copy running-config startup-config</span></code></pre></td></tr></table></div></figure>
+
+
+<p>顺便记一下cisco catalyst交换机配置</p>
+
+<ul>
+<li>登陆交换机</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看现有配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>show running-config</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#conf t
+</span><span class='line'>(config)#int ra g0/37 -39
+</span><span class='line'>(config-if-range)#sw mo acc
+</span><span class='line'>(config-if-range)#sw acc vl 15
+</span><span class='line'>(config-if-range)#exit
+</span><span class='line'>(config)#int ra g0/41 -46
+</span><span class='line'>(config-if-range)#sw tr e d
+</span><span class='line'>(config-if-range)#sw mo tr
+</span><span class='line'>(config-if-range)#end
+</span><span class='line'>#wr</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>开启/关闭端口</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TEST3#conf t
+</span><span class='line'>Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class='line'>TEST3(config)#int g0/41
+</span><span class='line'>TEST3(config-if)#sh
+</span><span class='line'>TEST3(config-if)#shutdown
+</span><span class='line'>TEST3(config-if)#no shutdown
+</span><span class='line'>TEST3(config-if)#end
+</span><span class='line'>TEST3#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如 配置vlan15 和 trunk:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>interface GigabitEthernet0/39
+</span><span class='line'> switchport access vlan 15
+</span><span class='line'>  switchport mode access
+</span><span class='line'>
+</span><span class='line'>interface GigabitEthernet0/46
+</span><span class='line'> switchport trunk encapsulation dot1q
+</span><span class='line'>  switchport mode trunk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>去掉</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>no switchport access vlan 15</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/12/bi-te-bi-shi-shang-de-jiu-da-bei-ju/">比特币史上的九大悲剧</a></h1>
     
     
@@ -605,61 +799,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/07/zui-feng-kuang-de-bi-te-bi-yong-hu/">最疯狂的比特币用户</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-07T21:42:36+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/07/zui-feng-kuang-de-bi-te-bi-yong-hu/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/06/07/zui-feng-kuang-de-bi-te-bi-yong-hu/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这是比较早期的文章，文章的作者老端属于国内最早的玩家之一，现在也是英雄总被雨打风吹去了。老端也早就由粉转黑，不过现在看看，不失为介绍比特币的一篇妙文。
-{:.info}</p>
-
-<h2>正文</h2>
-
-<p>看完这篇文章，我相信你一定会说，我靠，这世界上什么事情都会有！</p>
-
-<p>最近老端一直在向大家介绍一种叫做“比特币”的东西，事实上我自己也囤积了不少，因为我非常看好这东西的前景，不仅如此，我还帮我的朋友代购了一些，但我不推荐他们买太多，这个购买量应该是即使全部损失也不影响生活的限度。可我忽然发现，这世界上原来有比我们疯狂几百倍的人。一位叫做Rickard Falkvinge的瑞典人，他将自己的全部资产换成了比特币。</p>
-
-<p>Rickard在自己的博客的<a href="http://www.8btc.com/why-bitcoin">《为什么我把我的积蓄全部投入Bitcoin？》</a>中写道：过去的几天里，我做了很多关于比特币的思考，最后我决定把我所有的积蓄，和所有我能借到的钱都投到比特币里面。</p>
-
-<p>Rickard列出了三个他这么做的理由：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/06/07/zui-feng-kuang-de-bi-te-bi-yong-hu/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -677,6 +816,10 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/">比特币的交易-3</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/">比特币的HD钱包演化-4</a>
       </li>
     
@@ -690,10 +833,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
     
       <li class="post">
         <a href="/blog/2018/11/26/bitcoind-conf-template/">Bitcoind Conf Template</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/">比特币的交易-1</a>
       </li>
     
   </ul>
@@ -750,7 +889,7 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (38)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (39)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

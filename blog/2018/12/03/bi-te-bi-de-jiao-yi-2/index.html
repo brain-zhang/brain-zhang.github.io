@@ -161,7 +161,7 @@
 
 <p>接着就是输入的M个UTXO和输出的N个UTXO，代表着我要把一堆UTXO转移(支付)给谁。</p>
 
-<p>最后是一个字段是锁定事件(Locktime)。Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。</p>
+<p>最后是一个字段是锁定时间(Locktime)。Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。</p>
 
 <p>如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。</p>
 
@@ -271,27 +271,23 @@
 
 <h4>字段说明</h4>
 
-<ul>
-<li>txid (hash)</li>
-</ul>
-
+<h5>txid (hash)</h5>
 
 <p>Tx Hash (3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517)，俗称交易ID，由hex得出：Tx Hash = SHA256(SHA256(hex))。由于每个交易只能成为下一个的输入，有且仅有一次，那么不存在输入完全相同的交易。因为SHA256碰撞的概率极小，所以理论上存在相同的Tx Hash 的概率非常小。</p>
 
 <p>即便如此，在系统里依然产生了相同的Tx Hash，是不知道哪位矿工挖出Block后，打包Block时忘记修改Generation Tx coinbase字段的值，币量相同且输出至相同的地址，那么就构造了两个完全一模一样的交易，分别位于两个Block的第一个位置。这个对系统不会产生什么问题，但只要花费其中一笔，另一个也被花费了。相同的Generation Tx相当于覆盖了另一个，白白损失了挖出的币。该交易ID为<a href="https://blockchain.info/tx/e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468">e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468</a>，第一次出现在<a href="https://blockchain.info/block/00000000000271a2dc26e7667f8419f2e15416dc6955e5a6c6cdf3f2574dd08e">#91722</a>，第二次出现在<a href="https://blockchain.info/block/00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721">#91880</a>。</p>
 
-<ul>
-<li>vin (输入UTXO)</li>
-</ul>
-
+<h5>vin (输入UTXO)</h5>
 
 <p>vin是一个数组，里面即M个输入UTXO，每个UTXO都来自上一笔交易的一个UTXO输出，这笔交易的vin只有一个UTXO，它由以下几个字段组成</p>
 
-<pre><code>- txid: 上一笔关联交易的hash值
-- vout: 上一笔交易输出的N个UTXO里面的序号
-- scriptSig: 对这笔UTXO的签名，还记得我们之前的文章吗？只有对一个UTXO签名才能证明其所有权，才能花费它
-- sequence: 序列号。这个序列号来源比较复杂；还记得上面讲的locktime有所关联：
-</code></pre>
+<ol>
+<li>txid: 上一笔关联交易的hash值</li>
+<li>vout index: 上一笔交易输出的N个UTXO里面的序号</li>
+<li>scriptSig: 对这笔UTXO的签名，还记得我们之前的文章吗？只有对一个UTXO签名才能证明其所有权，才能花费它</li>
+<li>sequence: 序列号。这个序列号来源比较复杂；还记得上面讲的locktime有所关联：</li>
+</ol>
+
 
 <blockquote><p>Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。
 如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。</p>
@@ -304,17 +300,14 @@
 
 <p>vin的所有UTXO 余额相加，就是这笔交易的转账总额。</p>
 
-<ul>
-<li><p>vout (输出UTXO)</p>
+<h5>vout (输出UTXO)</h5>
 
-<ul>
+<ol>
 <li>value: 转账金额</li>
 <li>n: 作为第N个UTXO输出</li>
-<li>scriptPubKey: 这是设置的谜题，后来人想要花费这笔UTXO，必须提供scriptSig来解答这个谜题才可以</li>
-</ul>
-</li>
+<li><p>scriptPubKey: 这是设置的谜题，后来人想要花费这笔UTXO，必须提供scriptSig来解答这个谜题才可以</p></li>
 <li><p>vin 的总额 &ndash; vout的总额 == 打包费用 &ndash;> 奖励给打包矿工</p></li>
-</ul>
+</ol>
 
 
 <h4>交易十六进制解析</h4>
@@ -327,19 +320,15 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>version (4字节): 刚开始的4个字节是version，小端排序(Little Endian)，因此version为<code>0x00000001</code></li>
-</ul>
-
+<h5>version (4字节): 刚开始的4个字节是version，小端排序(Little Endian)，因此version为<code>0x00000001</code></h5>
 
 <blockquote><p>ps:关于小端排序的设计，社区里面还有过小争论，见<a href="https://bitcointalk.org/index.php?topic=4278.0">这里</a></p></blockquote>
 
-<ul>
-<li><p>flag (2字节，可选): 如果是<code>0001</code>，代表是witness交易；如果不是，就代表没有这个flag字段；这是一笔普通的交易，因此没有flag字段</p></li>
-<li><p>vin count (>=1字节): vin数目，此交易为<code>01</code>，采用的是<a href="https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer">var_int</a>表示法，这样我们能方便的测算它的长度</p></li>
-<li><p>vin (>=41字节): 所有的输入tx，是一个数组；这里只有一个tx，数据是:</p></li>
-</ul>
+<h5>flag (2字节，可选): 如果是<code>0001</code>，代表是witness交易；如果不是，就代表没有这个flag字段；这是一笔普通的交易，因此没有flag字段</h5>
 
+<h5>vin count (>=1字节): vin数目，此交易为<code>01</code>，采用的是<a href="https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer">var_int</a>表示法，这样我们能方便的测算它的长度</h5>
+
+<h5>vin (>=41字节): 所有的输入tx，是一个数组；这里只有一个tx，数据是:</h5>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff</span></code></pre></td></tr></table></div></figure>
@@ -347,31 +336,38 @@
 
 <p>简单说下vin中一笔tx内部结构:</p>
 
-<pre><code>- previous_output (32字节): 上一笔交易的HASH值，即这个花费的输入交易ID: 
+<ol>
+<li>previous_output (32字节): 上一笔交易的HASH值，即这个花费的输入交易ID:</li>
+</ol>
 
-3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0
--&gt; 转为大端排序  
-b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
 
-- previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是`00000000`
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0
+</span><span class='line'>-&gt; 转为大端排序  
+</span><span class='line'>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</span></code></pre></td></tr></table></div></figure>
 
-- script length (var_int变长，代表script的长度): 这里是`0x8a`，表示script长度为138字节
 
-- criptSig (整个解密脚本)： 这个结构我们之后会具体分析
-</code></pre>
+<ol>
+<li><p>previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是<code>00000000</code></p></li>
+<li><p>script length (var_int变长，代表script的长度): 这里是<code>0x8a</code>，表示script长度为138字节</p></li>
+<li><p>criptSig (整个解密脚本)： 这个结构我们之后会具体分析</p></li>
+</ol>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code></pre></td></tr></table></div></figure>
 
 
-<pre><code>- sequence no (4个字节): `ffffffff`
-</code></pre>
+<ol>
+<li>sequence no (4个字节): <code>ffffffff</code></li>
+</ol>
 
-<ul>
-<li><p>vout count (>=1字节): vout数目，此处为<code>01</code></p></li>
-<li><p>vout (>=9字节): 所有的输出tx，是一个数组；这里只有一个tx，数据是:</p></li>
-</ul>
 
+<h5>vout count (>=1字节): vout数目，此处为<code>01</code></h5>
+
+<h5>vout (>=9字节): 所有的输出tx，是一个数组；这里只有一个tx，数据是:</h5>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>581b0000000000002103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</span></code></pre></td></tr></table></div></figure>
@@ -379,27 +375,30 @@ b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
 
 <p>简单说下vout中一笔tx内部结构:</p>
 
-<pre><code>- value (8字节): 转账到这个地址上的金额， 这里是`581b000000000000`小端排序，十六进制为`00000000000000581b`，即转账7000 satoshis
-- scriptPubKey length (&gt;=1, var_int类型): 输出脚本的长度，这里是`0x21`，代表33字节长度
-- scriptPubKey: 输出脚本，其实就是包含转账地址的脚本，这里是`03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac`
-</code></pre>
-
-<ul>
-<li>locktime: 最后4个字节是locktime，这笔交易设置为0；就是立即打包</li>
-</ul>
+<ol>
+<li>value (8字节): 转账到这个地址上的金额， 这里是<code>581b000000000000</code>小端排序，十六进制为<code>00000000000000581b</code>，即转账7000 satoshis</li>
+<li>scriptPubKey length (>=1, var_int类型): 输出脚本的长度，这里是<code>0x21</code>，代表33字节长度</li>
+<li>scriptPubKey: 输出脚本，其实就是包含转账地址的脚本，这里是<code>03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</code></li>
+</ol>
 
 
-<h3>总览</h3>
+<h5>locktime: 最后4个字节是locktime，这笔交易设置为0；就是立即打包</h5>
 
-<p>最后一张表格说明问题：</p>
+<h2>总览</h2>
+
+<h5>最后一张表格说明问题：</h5>
 
 <p><img src="https://ws1.sinaimg.cn/large/893d6e9dly1fxtq1vq3b1j20pc0e3gma.jpg" alt="img" /></p>
 
-<h3>scriptSig与scriptPubKey</h3>
+<h5>再来一张交易的总体示意图:</h5>
 
-<p>目前为止，我们还没有解析vin中的scriptSig，以及vout中的scriptPubKey；这两个东东才是交易的核心，他们有什么作用呢？</p>
+<p><img src="https://davidederosa.com/s/f/basic-blockchain-programming/scripts-transaction-propagation.svg" alt="img" /></p>
 
-<p>~~ 待续</p>
+<p>好了，到这里；我们对于一笔最简单的比特币的交易结构已经详细分析了一遍；但是在全网中，交易是怎样验证的呢？一笔资金从A转移到B，全节点怎么验证这次转移的合法性呢？</p>
+
+<p>这就用到了比特币的脚本语言系统，具体到上面的示例交易，就是scriptSig与scriptPubKey；</p>
+
+<p>那么scriptSig与scriptPubKey是怎么工作的呢？我们下次文章再会。</p>
 
 <h2>参考资料:</h2>
 
@@ -506,6 +505,10 @@ b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/">比特币的交易-3</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/">比特币的HD钱包演化-4</a>
       </li>
     
@@ -519,10 +522,6 @@ b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b
     
       <li class="post">
         <a href="/blog/2018/11/26/bitcoind-conf-template/">Bitcoind Conf Template</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/">比特币的交易-1</a>
       </li>
     
   </ul>
