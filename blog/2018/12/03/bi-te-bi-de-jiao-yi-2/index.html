@@ -360,7 +360,7 @@
 <ol>
 <li><p>previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是<code>00000000</code></p></li>
 <li><p>script length (var_int变长，代表script的长度): 这里是<code>0x8a</code>，表示script长度为138字节</p></li>
-<li><p>criptSig (整个解密脚本)： 这个结构我们之后会具体分析</p></li>
+<li><p>scriptSig (整个解密脚本)： 这个结构我们之后会具体分析</p></li>
 </ol>
 
 
@@ -401,6 +401,19 @@
 <h5>再来一张交易的总体示意图:</h5>
 
 <p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181203/bg4.jpg" alt="img" /></p>
+
+<ol>
+<li>TX0， input0即 vin0，里面有一笔100K satoshis比特币(1btc=10<sup>8</sup> satoshi)</li>
+<li>TX1、TX2 花费了 TX0-vin0，分成了TX1-vin0(40k satoshi)，以及TX2-vin0(50k satoshi)，还有10k satoshi作为交易费给矿工</li>
+<li>TX3花费了TX1-vin0 (30k satoshi)，付出了10k satoshi 交易费</li>
+<li>TX4、TX5 花费了 TX2-vin0，分成了TX4-vin0(20k satoshi)，以及TX5-vin0(20k satohsi)，付出了10k satoshi交易费</li>
+<li>TX6花费了TX4-vin0 + TX-5-vin0，共20K(satoshi)，其余的20k satoshi为交易费</li>
+<li>最后又花费了TX3-vin0中的20k satoshi, 10k satoshi作为交易费</li>
+<li>最后又花费了TX6-vin0，TX6-vin1中的10k satoshi, 10k satoshi作为交易费</li>
+</ol>
+
+
+<h2>小结</h2>
 
 <p>好了，到这里；我们对于一笔最简单的比特币的交易结构已经详细分析了一遍；但是在全网中，交易是怎样验证的呢？一笔资金从A转移到B，全节点怎么验证这次转移的合法性呢？</p>
 
