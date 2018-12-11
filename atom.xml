@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2018-12-09T15:47:47+08:00</updated>
+  <updated>2018-12-11T15:26:29+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,7 +18,7 @@
     <link href="https://happy123.me/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/"/>
     <updated>2018-12-09T15:46:05+08:00</updated>
     <id>https://happy123.me/blog/2018/12/09/bi-te-bi-de-jiao-yi-3</id>
-    <content type="html"><![CDATA[<h2>scriptSig与scriptPubKey</h2>
+    <content type="html"><![CDATA[<h2>scriptSig与scriptPubKey概览</h2>
 
 <p>继续解析我们上篇文章的交易(<code>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</code>)</p>
 
@@ -145,7 +145,7 @@
 
 <h3>一个最小脚本集</h3>
 
-<p>现在想象我们有一台非常简单的计算器，它的CPU只有一个16位的寄存器，以及非常小的内存(1KB)；我们需要设计一种语言，实现一些最简单的计算，比如：</p>
+<p>现在想象我们有一台非常简单的计算器，它的CPU只有一个16位的寄存器，以及非常小的内存(520B)；我们需要设计一种语言，实现一些最简单的计算，比如：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -285,10 +285,12 @@
 
 <h3>Script Language</h3>
 
-<p>机器码设计了指令的表示方法，栈设计规定了数据的存储方法；将机器码与栈设计结合起来，就是Bitcoin Script Language。它有两个明显的特点：</p>
+<p>机器码设计了指令的表示方法，栈设计规定了数据的存储方法；将机器码与栈设计结合起来，就是Bitcoin Script Language。它有几个明显的特点：</p>
 
 <ul>
 <li>脚本没有循环:这意味着脚本不能无限运行</li>
+<li>栈空间只有520字节</li>
+<li>整形常量4字节</li>
 <li>脚本的内存访问是基于栈的:这意味着脚本中不存在命名变量这种东西，所有的操作码和操作数都表示为栈上的运算；通常，推入的栈项将成为后续操作码的操作数。在脚本的末尾，最上面的堆栈项是返回值。</li>
 </ul>
 
@@ -325,7 +327,7 @@
 <p>然后下面一段示例脚本代码：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0x54 0x57 0x00 0x60</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>54 57 00 60</span></code></pre></td></tr></table></div></figure>
 
 
 <p>或者直接翻译为:</p>
@@ -342,15 +344,15 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>[]
-</span><span class='line'>[0x04]
-</span><span class='line'>[0x04, 0x07]
-</span><span class='line'>[0x04, 0x07, 0x00]
-</span><span class='line'>[0x04, 0x07, 0x00, 0x10]</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>[04]
+</span><span class='line'>[04, 07]
+</span><span class='line'>[04, 07, 00]
+</span><span class='line'>[04, 07, 00, 10]</span></code></pre></td></tr></table></div></figure>
 
 
 <p>此时栈顶元素值为0x10，前面我们说了，栈顶元素即返回值，所以这个脚本的返回值为0x10。当然，这个脚本现在就是将四个值压栈，并没有什么实际作用。</p>
 
-<h4>PUSHDATA操作码</h4>
+<h4>PUSH DATA操作码</h4>
 
 <p>简单的压栈操作码只能压入1个字节的数据，如果我们想以此压入多个字节的数据，需要用到 <code>PUSH DATA</code>操作码。</p>
 
@@ -387,7 +389,7 @@
 
 
 <ul>
-<li>L 代表需要压入的字节长度，它可以有8bits, 16bits，或者32bits，这三个操作码可以最大压入2<sup>8</sup>-1=255字节、2<sup>16</sup>-1=65535字节、2<sup>32</sup>字节</li>
+<li>L 代表需要压入的字节长度，它可以有8bits, 16bits，或者32bits，这三个操作码可以最大压入2<sup>8</sup> &ndash; 1 = 255字节、2<sup>16</sup> &ndash; 1 = 65535字节、2<sup>32</sup>字节</li>
 <li>D 代表实际的数据</li>
 </ul>
 
@@ -414,7 +416,409 @@
 </span><span class='line'> 6c 95 20 30]</span></code></pre></td></tr></table></div></figure>
 
 
-<p>~~ 待续</p>
+<p>另外，为了节省空间，还有一个非常取巧的设计:
+对于非常短的数据有一种特殊的编码。如果一个操作码位于01到4b之间(包括在内)，它就是一个push数据操作，其中操作码本身就是字节长度:</p>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding </th>
+<th> L (length) </th>
+<th> D (data)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L </td>
+<td> L D </td>
+<td> 8bits (0x01-0x4b) </td>
+<td> L bytes</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>比如下面的例子:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>07 8f 49 b2 e2 ec 7c 44</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最前面的<code>07</code>代表着直接将后面7个字节压栈</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[8f 49 b2 e2 ec 7c 44]</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>算术操作码</h4>
+
+<p>算术操作码都是基于栈元素操作的，所以他没有显式的传入参数。</p>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OP_ADD </td>
+<td> 0x93</td>
+</tr>
+<tr>
+<td>OP_SUB </td>
+<td> 0x94</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>这两个操作符都需要从栈顶一次弹出两个元素作为操作数。</p>
+
+<p>例如:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>55 59 93 56 94</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者直接翻译为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OP_5 OP_9 OP_ADD OP_6 OP_SUB</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每一步操作的栈状态:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[]              # 初始化
+</span><span class='line'>[5]             # OP_5
+</span><span class='line'>[5, 9]          # OP_9
+</span><span class='line'>[14]            # POP; POP; OP_ADD(5, 9)
+</span><span class='line'>[14, 6]         # OP_6
+</span><span class='line'>[8]             # POP; POP; OP_SUB(14, 6)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后的结果是8</p>
+
+<h4>比较操作码</h4>
+
+<p>比较用于判断语句，作用比较简单。同样的，它需要从栈顶弹出两个元素来比较。</p>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OP_EQUAL </td>
+<td> 0x87</td>
+</tr>
+<tr>
+<td>OP_EQUALVERIFY </td>
+<td> 0x88</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>OP_EQUALVERIFY跟OP_EQUAL作用相同，但是比较之后还要执行一个 OP_VERIFY操作。OP_VERIFY检查栈顶元素，如果栈顶元素不为真，就出栈并标记交易无效。</p>
+
+<p>跟之前的算术操作码结合起来的一个例子:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>02 c3 72 02 03 72 01 c0 93 87</span></code></pre></td></tr></table></div></figure>
+
+
+<p>翻译为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[c3 72] [03 72] [c0] OP_ADD OP_EQUAL</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行起来是这样子的：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[]                      # 栈初始化
+</span><span class='line'>[c3 72]                 # `02 c3 72`代表c3 72两个字节直接入栈
+</span><span class='line'>[c3 72, 03 72]          # `02 03 72`代表03 72两个字节直接入栈
+</span><span class='line'>[c3 72, 03 72, c0]      # `01 c0`代表c0直接入栈
+</span><span class='line'>[c3 72, c3 72]          # 栈顶弹出c000, 0372, 相加得 c3 72
+</span><span class='line'>[1]                     # 栈顶弹出c372，c372，比较为真</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后这个表达式结果为1。</p>
+
+<h4>栈操作码</h4>
+
+<p>这个操作码比较特殊，它得作用是直接将栈顶元素复制一份，然后入栈。</p>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OP_DUP </td>
+<td> 0x76</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>例子:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>04 b9 0c a2 fe 76 87</span></code></pre></td></tr></table></div></figure>
+
+
+<p>翻译为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[b9 0c a2 fe] OP_DUP OP_EQUAL</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行起来是这样子的：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[]                          # 栈初始化
+</span><span class='line'>[b9 0c a2 fe]               # 04代表后面4个字节压栈
+</span><span class='line'>[b9 0c a2 fe, b9 0c a2 fe]  # 复制栈顶4字节然后压栈
+</span><span class='line'>[1]                         # 弹出栈顶8字节，比较结果为真</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看出来，如果OP_DUP后面跟着OP_EQUAL，执行结果永远为真。</p>
+
+<h4>加解密操作码</h4>
+
+<p>这几个操作码是比特币交易验证得核心操作码，也是做事情最多的：</p>
+
+<table>
+<thead>
+<tr>
+<th>opcode </th>
+<th> encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OP_HASH160 </td>
+<td> 0xa9</td>
+</tr>
+<tr>
+<td>OP_CHECKSIG </td>
+<td> 0xac</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>OP_HASH160 弹出顶部堆栈项，在其上执行sha256=>hash160，然后返回结果。</p>
+
+<p>OP_CHECKSIG 弹出前两个堆栈项，第一个是ECDSA公钥，第二个是der编码的ECDSA签名。之后，如果签名对该公钥有效，则推送OP_TRUE，否则推送OP_FALSE。它是OpenSSL的ECDSA_verify的脚本实现。</p>
+
+<h5>有了以上的知识，我们就能深入解析比特币交易加锁解锁的细节啦</h5>
+
+<h2>深入解析scriptPubkey与scripSig</h2>
+
+<h4>首先然我们来解析一下TransA的 scritPubkey 加锁脚本</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>76a914650d0497e014e60d4680fce6997d405de264f04288ac</span></code></pre></td></tr></table></div></figure>
+
+
+<p>翻译为</p>
+
+<ol>
+<li>0x76代表OP_DUP</li>
+<li>0xa9代笔OP_HASH160</li>
+<li>0x14代表后面20个字节<code>650d0497e014e60d4680fce6997d405de264f042</code>直接入栈，这20个字节其实是转账地址的pubKeyHash</li>
+<li>0x88代表OP</li>
+<li>0xac代表OP_EQUALVERIFY</li>
+</ol>
+
+
+<p>最后翻译为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再简化一下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OP_DUP OP_HASH160 &lt;PubkeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这段脚本代表 TransA的发起者把一笔钱转入到保险箱后，用这个脚本设置了一把锁，谁能提供另外一个脚本，跟此脚本合并运算后，栈元素全部出栈，并且最后出栈元素为真，那么就视为解锁成功，可以花费这笔钱。</p>
+
+<p>仔细看看，解开这把锁需要我们提供什么信息呢？</p>
+
+<ol>
+<li>首先我们要提供一个公钥，确保这个公钥执行 OP_HASH160操作后，与PubKeyHASH相匹配，其意义就是证明你拥有这个转账地址的公钥</li>
+<li>光证明拥有公钥不安全，毕竟如果这个地址之前花费过，公钥就明晃晃暴漏了；所以你还要提供一个对这个脚本的签名，并通过OP_CHECKSIG验证，证明你还拥有和公钥相对的私钥；而私钥只有拥有人才知道，它是永远不会暴露的</li>
+<li><p>同时进行公钥、私钥的验证保证了比特币的安全性，毕竟，即使量子计算机成真，它也需要同时攻破三重保险：</p>
+
+<ul>
+<li>逆向sha256</li>
+<li>逆向ripemd160</li>
+<li>逆向ECDSA</li>
+</ul>
+</li>
+</ol>
+
+
+<p>如果能做到这个，那么，全世界的银行、金融、所有的信息系统都不安全了。如果真的到了那个时候，比特币的安全就不值一提了。</p>
+
+<h4>那么我们提供的解锁脚本TransB的scriptSig 同样解析一遍看一下</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解析为:</p>
+
+<p>1.0x47代表后面71个字节入栈，这其实就是签名<code>Sig</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac001</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.0x41后面代表65个字节入栈，这是<code>Pubkey</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>04c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最终简化为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Sig&gt; &lt;PubKey&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这就是我们开锁的钥匙！</p>
+
+<h4>合并运算</h4>
+
+<p>我们把两个脚本来合并运算(把钥匙插进锁孔里)</p>
+
+<ul>
+<li>scriptPubKey (锁):</li>
+</ul>
+
+
+<p><code>OP_DUP OP_HASH160 &lt;PubkeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG</code></p>
+
+<ul>
+<li>scriptSig (钥匙):</li>
+</ul>
+
+
+<p><code>&lt;Sig&gt; &lt;PubKey&gt;</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[]                                                              # 初始化
+</span><span class='line'>[Sig]                                                           # 将scriptSig中的sig信息入栈
+</span><span class='line'>[Sig, PubKey]                                                   # 将scriptSig中的Pubkey入栈
+</span><span class='line'>[Sig, PubKey, OP_DUP]                                           # 将scriptPubKey中的 OP_DUP入栈
+</span><span class='line'>[Sig, Pubkey, Pubkey]                                           # 执行OP_DUP，复制栈顶元素PubKey
+</span><span class='line'>[Sig, Pubkey, Pubkey, OP_HASH160]                               # 将scriptPubKey中的 OP_HASH160入栈
+</span><span class='line'>[Sig, Pubkey, hash160(Pubkey)]                                  # 执行OP_HASH160
+</span><span class='line'>[Sig, Pubkey, hash160(Pubkey), PubkeyHash]                      # 将scriptPubKey中的 PubKeyHash入栈
+</span><span class='line'>[Sig, Pubkey, hash160(Pubkey), PubkeyHash, OP_EQUALVERIFY]      # 将scriptPubKey中的 OP_QUEALVERIFY入栈
+</span><span class='line'>[Sig, Pubkey]                                                   # 检查公钥是否有效，如果有效，出栈
+</span><span class='line'>[Sig, Pubkey, OP_CHECKSIG]                                      # 将scriptPubKey中的 OP_CHECKSIG入栈
+</span><span class='line'>[1]                                                             # 执行OP_CHECKSIG，用Pubkey检查Sig的有效性；检查通过
+</span><span class='line'>[]                                                              # Gooooooooood!! 钥匙合法，开锁成功</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后合并运算的结果返回为True。解锁成功。</p>
+
+<p>然后我们用一张语法树解析图再现整个过程：</p>
+
+<p><img src="https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/en-p2pkh-stack.png" alt="img" /></p>
+
+<h5>这就是一笔标准的P2PKH(Pay to Public Key Hash)交易的全解析。</h5>
+
+<h4>Pay to PubKey</h4>
+
+<p>既然已经开锁，我们就可以像TransA的scriptPubKey一样，再构造TransB的scriptPubkey，将资金转到新的保险箱中，并重新加锁。</p>
+
+<p>TransB的scriptPubkey 构造为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603 OP_CHECKSIG</span></code></pre></td></tr></table></div></figure>
+
+
+<p>?? 这怎么跟我们上一笔TransA的scriptPubkey长的不一样？</p>
+
+<p>没错，这笔交易的输出小任性了一把，我们说标准的输出是要求提供一个公钥来验证 Public Key hash值的，但是这笔交易的转移者非常有自信，他说，你直接提供私钥签名就可以花费了，不用那么麻烦了。</p>
+
+<p>这种交易称之为Pay to Pubkey，安全性肯定不如Pay to Public Key Hash交易的；但是因为比较方便，早期有一些交易采用了这种形式，但是现在已经越来越少了；</p>
+
+<p>要解开这把锁，只需要提供签名就好了，更简单。</p>
+
+<p>总结一下这种交易的scriptPubkey加锁脚本以及scriptSig解锁脚本：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scriptPubkey: &lt;pubkey&gt; OP_CHECKSIG
+</span><span class='line'>scriptSig: &lt;sig&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你感兴趣的话，自己去找找这笔交易对应的scriptSig吧。</p>
+
+<h2>小结</h2>
+
+<p>这篇文章中我们从最基本的栈脚本操作码讲起，然后一步一步说明了比特币的脚本系统是如何设计、运作的。</p>
+
+<p>最后，我们详细解析了一笔完整的标准Pay to Public Key Hash 交易；看到这里，你已经完全理解了比特币运作的基础；你已经是货真价实的<code>专家</code>啦；撒花庆祝~~~</p>
+
+<p>但是，正如我们前一篇文章介绍的，除了Pay to public key Hash交易，还有其它比较复杂的交易类型，用于更丰富的金融场景中（比如合约、公证等等），另外，还有挖矿奖励是怎么来的？这个还没说来。</p>
+
+<p>那么，我们下篇文章再见。</p>
+
+<h4>引用资料:</h4>
+
+<p><a href="https://en.bitcoin.it/wiki/Script">https://en.bitcoin.it/wiki/Script</a></p>
+
+<p><a href="https://davidederosa.com/basic-blockchain-programming/bitcoin-script-language-part-two/">https://davidederosa.com/basic-blockchain-programming/bitcoin-script-language-part-two/</a></p>
+
+<p><a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.htlm">http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.htlm</a></p>
+
+<p><a href="https://github.com/petertodd/python-bitcoinlib/blob/master/bitcoin/core/script.py">https://github.com/petertodd/python-bitcoinlib/blob/master/bitcoin/core/script.py</a></p>
 ]]></content>
   </entry>
   
@@ -685,9 +1089,17 @@
 
 <h4>Script Hash TX</h4>
 
-<p>也被成为P2SH（Pay-to-Script-Hash）交易。</p>
+<p>也被称为P2SH（Pay-to-Script-Hash）交易。</p>
 
 <p>该类交易目前不是很常见，大部分人可能没有听说过，但是非常有意义。未来应该会在某些场合频繁使用。该类交易的接受地址不是通常意义的地址，而是一个合成地址，以<code>3</code>开头 (Segwit交易其实也可以看成是Script Hash TX)。比如三对公私钥，可以生成一个合成地址。在生成过程时指定n of 3中的n，n范围是[1, 3]，若n=1，则仅需一个私钥签名即可花费该地址的币，若n=3，则需要三把私钥依次签名才可以。 这种类型的交易适合比较复杂的保险、证券场景。</p>
+
+<h4>多重签名脚本|Multisig</h4>
+
+<p>尽管P2SH 多重签名脚本一般用于多重签名的交易，但是这个基础性的脚本也可以用于这种场景：当一个UTXO被使用之前，需要多重签名验证。</p>
+
+<p>多重签名公钥脚本可以一般称为 m-of-n，至少需要m 个匹配公钥，n提供的公钥总数。m 和n 都应当根据需要的数量进行从OP_1到OP_16运算。</p>
+
+<p>多重签名的交易细节更多，待我们搞明白最标准的比特币交易后，再来探究它。</p>
 
 <h4>Pubkey Hash TX</h4>
 
