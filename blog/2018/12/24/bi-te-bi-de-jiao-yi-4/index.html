@@ -253,7 +253,7 @@
 
 <p>ASCII解码为:  The Times 03/Jan/2009 Chancellor on brink of second bailout for banks</p>
 
-<p>这是2009年1月3日泰晤士报当天的头版文章标题，这是一个时间证明，证明比特币于2019-01-03开始运行，也顺便对传统的金融体系小小嘲讽一下。</p>
+<p>这是2009年1月3日泰晤士报当天的头版文章标题，这是一个时间证明，证明比特币于2009-01-03开始运行，也顺便对传统的金融体系小小嘲讽一下。</p>
 
 <h2>挖矿</h2>
 
@@ -269,7 +269,33 @@
 
 <p><a href="https://www.8btc.com/article/108894">区块链核心技术演进之路 &ndash; 挖矿演进</a></p>
 
-<p>其实我觉得nonce字段最初最好设置为16字节，就没这么多事情了。</p>
+<p>其实我觉得nonce字段最初最好设置为32字节，就没这么多事情了。</p>
+
+<h2>有钱任性的矿工们</h2>
+
+<p>矿工们早期是一批劳苦大众死宅，后来优胜劣汰只剩下了打扰；在挖矿故事里，还是有几个有意思的故事说道说道的：</p>
+
+<ul>
+<li>TXID 相同的交易</li>
+</ul>
+
+
+<p>一笔交易的id值是SHA(TX HEX)算出来的，因为每一笔交易的vin, vout不同，很难得到相同的txid值。但是在Generation TX里面，输出的数目和地址很有可能都是一样的。所以需要矿工自己构造一个随机的coinbase内容，防止产生相同的TXID值。</p>
+
+<p>早期一位矿工挖出Block后，打包Block时忘记修改Generation Tx coinbase字段的值，币量相同且输出至相同的地址，那么就构造了两个完全一模一样的交易，分别位于两个Block的第一个位置。这个对系统不会产生什么问题，但只要花费其中一笔，另一个也被花费了。相同的Generation Tx相当于覆盖了另一个，白白损失了挖出的币。该交易ID为<a href="https://blockchain.info/tx/e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468">e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468</a>，第一次出现在<a href="https://blockchain.info/block/00000000000271a2dc26e7667f8419f2e15416dc6955e5a6c6cdf3f2574dd08e">#91722</a>，第二次出现在<a href="https://blockchain.info/block/00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721">#91880</a>。</p>
+
+<ul>
+<li>忘了接收奖励的矿工</li>
+</ul>
+
+
+<p>2017-12-30 20:55:00，有个矿工挖到了一个区块之后，竟然丢弃了12.5BTC的奖励！</p>
+
+<p><a href="https://btc.com/0000000000000000004b27f9ee7ba33d6f048f684aaeb0eea4befd80f1701126">区块0000000000000000004b27f9ee7ba33d6f048f684aaeb0eea4befd80f1701126</a></p>
+
+<p>我们不知道这位矿工是用的哪个版本的挖矿软件，但是他们挖到一个区块之后，竟然没有构造地址来领取这笔奖励(价值20W USD)。难道他们真刀真枪上阵之前从来不测试一下吗？或者他们就是有钱任性的真土豪，我只能说:</p>
+
+<p>土豪我们做朋友吧~~~</p>
 
 <h2>coinbase</h2>
 
@@ -279,7 +305,7 @@
 
 <h2>刻字服务</h2>
 
-<p>当然，区块链刻字，还有更丧心病狂的手段；里面的内容更是洋洋洒洒，可以参考这篇文章：</p>
+<p>当然，coinbase区块链刻字，必须挖矿出块才行；后来有了还有更方便的手段；里面的内容更是洋洋洒洒，可以参考这篇文章：</p>
 
 <p><a href="http://www.righto.com/2014/02/ascii-bernanke-wikileaks-photographs.html">http://www.righto.com/2014/02/ascii-bernanke-wikileaks-photographs.html</a></p>
 
