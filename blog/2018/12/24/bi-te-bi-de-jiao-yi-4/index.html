@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>比特币的交易-4 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="前面的文章中我们分析了一笔标准的Pay to Public Key HASH(P2PKH)交易。看起来其实结构挺简单的，这篇文章我们乘胜追击，看一下矿工们领取系统奖励时，构造的coinbase交易。 Coinbase交易规范的叫法是Generation TX， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2018/12/24/bi-te-bi-de-jiao-yi-4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">比特币的交易-4</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-24T18:41:36+08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>前面的文章中我们分析了一笔标准的Pay to Public Key HASH(P2PKH)交易。看起来其实结构挺简单的，这篇文章我们乘胜追击，看一下矿工们领取系统奖励时，构造的coinbase交易。</p>
+
+<!-- more -->
+
+
+<p>Coinbase交易规范的叫法是Generation TX，每一个block有且只有一笔Genration TX，该类交易的币是矿工挖矿凭空产生的，所以没有vin。比特币系统所有的币都产自于这里。</p>
+
+<p>我们就以最常见创世块的交易作为示例来分析吧。</p>
+
+<p><a href="https://www.blockchain.com/btc/block/000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f">000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</a>这个创始块中只有一笔交易，就是中本聪手工构造发给自己的币：</p>
+
+<p><a href="https://www.blockchain.com/btc/tx/4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b">4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b</a></p>
+
+<h4>区块原始数据</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>00000000   01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ................
+</span><span class='line'>00000010   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ................
+</span><span class='line'>00000020   00 00 00 00 3B A3 ED FD  7A 7B 12 B2 7A C7 2C 3E   ....;£íýz{.²zÇ,&gt;
+</span><span class='line'>00000030   67 76 8F 61 7F C8 1B C3  88 8A 51 32 3A 9F B8 AA   gv.a.È.ÃˆŠQ2:Ÿ¸ª
+</span><span class='line'>00000040   4B 1E 5E 4A 29 AB 5F 49  FF FF 00 1D 1D AC 2B 7C   K.^J)«_Iÿÿ...¬+|
+</span><span class='line'>00000050   01 01 00 00 00 01 00 00  00 00 00 00 00 00 00 00   ................
+</span><span class='line'>00000060   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ................
+</span><span class='line'>00000070   00 00 00 00 00 00 FF FF  FF FF 4D 04 FF FF 00 1D   ......ÿÿÿÿM.ÿÿ..
+</span><span class='line'>00000080   01 04 45 54 68 65 20 54  69 6D 65 73 20 30 33 2F   ..EThe Times 03/
+</span><span class='line'>00000090   4A 61 6E 2F 32 30 30 39  20 43 68 61 6E 63 65 6C   Jan/2009 Chancel
+</span><span class='line'>000000A0   6C 6F 72 20 6F 6E 20 62  72 69 6E 6B 20 6F 66 20   lor on brink of 
+</span><span class='line'>000000B0   73 65 63 6F 6E 64 20 62  61 69 6C 6F 75 74 20 66   second bailout f
+</span><span class='line'>000000C0   6F 72 20 62 61 6E 6B 73  FF FF FF FF 01 00 F2 05   or banksÿÿÿÿ..ò.
+</span><span class='line'>000000D0   2A 01 00 00 00 43 41 04  67 8A FD B0 FE 55 48 27   *....CA.gŠý°þUH'
+</span><span class='line'>000000E0   19 67 F1 A6 71 30 B7 10  5C D6 A8 28 E0 39 09 A6   .gñ¦q0·.\Ö¨(à9.¦
+</span><span class='line'>000000F0   79 62 E0 EA 1F 61 DE B6  49 F6 BC 3F 4C EF 38 C4   ybàê.aÞ¶Iö¼?Lï8Ä
+</span><span class='line'>00000100   F3 55 04 E5 1E C1 12 DE  5C 38 4D F7 BA 0B 8D 57   óU.å.Á.Þ\8M÷º..W
+</span><span class='line'>00000110   8A 4C 70 2B 6B F1 1D 5F  AC 00 00 00 00            ŠLp+kñ._¬....</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后我们解析拿我们以前文章的方法来解析一下这笔交易(因为这个区块中只包含了唯一一笔交易，我们顺便解析一下区块构造):</p>
+
+<h4>block header 部分</h4>
+
+<ol>
+<li>首先是version字段:<code>01000000</code></li>
+<li>然后是32字节代表上一个block的hash id(因为这笔交易所属block是第一个block，所以人为设置为0): <code>0000000000000000000000000000000000000000000000000000000000000000</code></li>
+<li>接着是32字节的merkle root(关于merkle root，我们会在后面的文章中详解): <code>3BA3EDFD7A7B12B27AC72C3E67768F617FC81BC3888A51323A9FB8AA4B1E5E4A</code></li>
+<li>4字节的时间戳: <code>29AB5F49</code></li>
+<li>接着是目标难度(bits): <code>FFFF001D</code> 代表着挖矿难度，具体含义可参考我们之前的<a href="https://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">比特币POW难度调节分析</a>。</li>
+<li>nonce: <code>1DAC2B7C</code>，同样的挖矿调节参数，我们老是说比特币系统就是在算一个 &ldquo;毫无意义的随机数字&#8221;，没错，这就是毫无意义君。</li>
+<li>这个区块包含的总交易数目：<code>01</code></li>
+</ol>
+
+
+<p>最好来个结构明细表格：</p>
+
+<table>
+<thead>
+<tr>
+<th>Field </th>
+<th> Size </th>
+<th>  Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Version </td>
+<td>4 bytes </td>
+<td> Little-endian</td>
+</tr>
+<tr>
+<td>Previous Block Hash </td>
+<td> 32 bytes </td>
+<td>    Big-endian</td>
+</tr>
+<tr>
+<td>Merkle Root </td>
+<td> 32 bytes  </td>
+<td> Big-endian</td>
+</tr>
+<tr>
+<td>Time </td>
+<td>  4 bytes </td>
+<td>   Little-endian</td>
+</tr>
+<tr>
+<td>Bits </td>
+<td>  4 bytes </td>
+<td>   Little-endian</td>
+</tr>
+<tr>
+<td>Nonce</td>
+<td>  4 bytes </td>
+<td>   Little-endian</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>交易部分</h4>
+
+<ol>
+<li>version: <code>01000000</code></li>
+<li>input数目 01</li>
+<li>prev output: <code>0000000000000000000000000000000000000000000000000000000000000000FFFFFFFF</code></li>
+<li>script length: <code>4d</code></li>
+<li>coinbase (2-100字节): 04FFFF001D0104455468652054696D65732030332F4A616E2F32303039204368616E63656C6C6F72206F6E206272696E6B206F66207365636F6E64206261696C6F757420666F722062616E6B73</li>
+<li>sequence: FFFFFFFF</li>
+<li>outputs数目: 01</li>
+<li>btc数目: 00F2052A01000000 &ndash; 50 BTC</li>
+<li>pk_script length: 43</li>
+<li>pk_script: 41 04678AFDB0FE5548271967F1A67130B7105CD6A828E03909A67962E0EA1F61DEB649F6BC3F4CEF38C4F35504E51EC112DE5C384DF7BA0B8D578A4C702B6BF11D5F  AC
+
+<ul>
+<li>0x41代表着后面65个字节入栈</li>
+<li>04678AFDB0FE5548271967F1A67130B7105CD6A828E03909A67962E0EA1F61DEB649F6BC3F4CEF38C4F35504E51EC112DE5C384DF7BA0B8D578A4C702B6BF11D5F</li>
+<li>0xAC代表着OP_CHECKSIG</li>
+<li>整个合起来就是输出脚本为: <Pubkey> &lt;OP_CHECKSIG></li>
+</ul>
+</li>
+<li>lock time: 00000000</li>
+</ol>
+
+
+<p>这笔交易跟我们上一篇文章中的TransB构造是一样的，想要花费的话提供签名就OK了。不过这笔交易没有vin，取代的字段是coinbase。这个字段是可以随意调整的，中本聪在这里留存了一句非常有名的话：</p>
+
+<p>04678AFDB0FE5548271967F1A67130B7105CD6A828E03909A67962E0EA1F61DEB649F6BC3F4CEF38C4F35504E51EC112DE5C384DF7BA0B8D578A4C702B6BF11D5F</p>
+
+<p>ASCII解码为:  The Times 03/Jan/2009 Chancellor on brink of second bailout for banks</p>
+
+<p>这是2009年1月3日泰晤士报当天的头版文章标题，这是一个时间证明，证明比特币于2019-01-03开始运行，也顺便对传统的金融体系小小嘲讽一下。</p>
+
+<h2>挖矿</h2>
+
+<p>Generation TX交易需要Coinbase字段有两个原因:</p>
+
+<ol>
+<li>但是4字节的nonce字段随机性是不够的，需要引入更长的extra nonce，所以有了长度可以灵活调节(2-100字节)的coinbase字段</li>
+<li>作为一个附言留给矿工来发表意见</li>
+</ol>
+
+
+<p>其实我对于coinbase字段没有啥意见，但是最初的nonce字段只有32个字节，意味着每秒钟只有4G的碰撞空间，很快全网就超出了这个限制，所以Coinbase字段立即就派上用场了。后来slushpool矿池发明了stratum挖矿架构，彻底进入了大算力组团挖矿的时代；这些变迁可以参考这篇文章，讲的非常清晰：</p>
+
+<p><a href="https://www.8btc.com/article/108894">区块链核心技术演进之路 &ndash; 挖矿演进</a></p>
+
+<p>其实我觉得nonce字段最初最好设置为16字节，就没这么多事情了。</p>
+
+<h2>coinbase</h2>
+
+<p>因为coinbase是矿工们发挥自己灵感的地方，所以最初作为<code>区块永留存</code>的手段之一，大家纷纷刻字留念。</p>
+
+<p>有刻字到此一游的，有山盟海誓秀恩爱的，有炫耀生孩子的，有申诉政治诉求的，有吟诗作对，弘扬中国传统文化的；总之这100个字节表示鸭梨很大。</p>
+
+<h2>刻字服务</h2>
+
+<p>当然，区块链刻字，还有更丧心病狂的手段；里面的内容更是洋洋洒洒，可以参考这篇文章：</p>
+
+<p><a href="http://www.righto.com/2014/02/ascii-bernanke-wikileaks-photographs.html">http://www.righto.com/2014/02/ascii-bernanke-wikileaks-photographs.html</a></p>
+
+<p>有个网站专门parse了所有区块的文本数据供大家瞻仰：</p>
+
+<p><a href="http://bitcoinstrings.com/">http://bitcoinstrings.com/</a></p>
+
+<p>里面记录了许多尘封的历史，篇幅最大的就是扩容大战；完整的将当时社区争论刻进了区块链中，这是人类历史上第一次区块链圆桌访谈录，值得仔细瞻仰。</p>
+
+<h2>小结</h2>
+
+<p>好了，到了这里，我们对于比特币的开采交易，普通交易都理解了；</p>
+
+<p>下一步我们将一步步手工代码构造十六进制数据，然后形成一笔完整的交易去广播；完全吃透一笔交易的来龙去脉；</p>
+
+<p>那么，下次再见。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-24T18:41:36+08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/" title="Previous Post: 比特币的交易-3">&laquo; 比特币的交易-3</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2018/12/24/bi-te-bi-de-jiao-yi-4/">比特币的交易-4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/">比特币的交易-3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/">比特币的HD钱包演化-4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/11/27/event-stream/">Event-stream,一次可怕的社工</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2018/12/24/bi-te-bi-de-jiao-yi-4/';
+        var disqus_url = 'https://happy123.me/blog/2018/12/24/bi-te-bi-de-jiao-yi-4/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
