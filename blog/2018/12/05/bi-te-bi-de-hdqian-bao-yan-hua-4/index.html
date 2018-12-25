@@ -128,7 +128,7 @@
 
 <p>比特币历史上第一笔交易发生在<a href="https://www.blockchain.com/btc/tx/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16">f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16</a>；是中本聪发送给我们熟知的<a href="https://en.wikipedia.org/wiki/Hal_Finney_(computer_scientist">Hal Finney</a>)先生的。这笔交易发送了10个BTC，被收录在第<a href="https://www.blockchain.com/zh/btc/block-height/170">170 Block</a>中。</p>
 
-<p>Hal曾经在论坛上说自己时第二个运行比特币软件的人，他挖到的第一个区块大概是第70 Block，可以肯定，第70 block之前所有的地址都是中本聪本人的钱包地址，如果有人再跳出来说自己是中本聪的话，我们什么都不相信，只会问他两个问题：</p>
+<p>Hal曾经在论坛上说自己是第二个运行比特币软件的人，他挖到的第一个区块大概是第70 Block，可以肯定，第70 block之前所有的地址都是中本聪本人的钱包地址，如果有人再跳出来说自己是中本聪的话，我们什么都不相信，只会问他两个问题：</p>
 
 <ul>
 <li>您能花费一笔第70 block之前的比特币吗？</li>
@@ -325,6 +325,60 @@
 <p>难道是去求助魔法师的水晶球吗23333?</p>
 
 <p>&hellip;&hellip;</p>
+
+<h4>虚荣地址(Vanity Address)</h4>
+
+<p>有时候我们会见到一个很有型的地址，比如这个:</p>
+
+<p>1LoveYoURwCeQu6dURqTQ7hrhYXDA4eJyn</p>
+
+<p>这是神鱼结婚，想要送给老婆比特币作为爱的永恒证明，特意生成了这么一个地址，同样还有一笔虐狗交易:</p>
+
+<p><a href="https://www.blockchain.com/zh-cn/btc/tx/e250c6d7ea4c5037fb96de1a2cb169850be792474401bae140fce784940f1dd3?show_adv=true">e250c6d7ea4c5037fb96de1a2cb169850be792474401bae140fce784940f1dd3</a></p>
+
+<p>区块链中刻字的办法我们后面会介绍，不过这个虚荣地址(Vanity Address)是怎么生成的呢？</p>
+
+<p>其实道理很简单，还记得我们之前的钱包系列教程吗？</p>
+
+<p>比特币的地址编码最终是base58的字符集合。所以最简单的办法就是暴力穷举碰撞。</p>
+
+<p>在这方面最好用的软件是<a href="https://en.bitcoin.it/wiki/Vanitygen">Vanitygen</a>，在一块GTX 750 Ti上，速率能达到15M/s，也就是一秒钟碰撞1500w次。</p>
+
+<p>而1LoveYou 开头八位，大概需要碰撞58<sup>8</sup>次，需要半年左右吧。当然你有100台机器一起来算就提速100倍。</p>
+
+<h4>虚荣地址在线生成服务</h4>
+
+<p>如果你要生成一个八位字母开头的虚荣地址，个人是很难拥有100台机器的算力的，因此网上有人提供了此方面服务，允许你付款生成一个虚荣地址。</p>
+
+<p>但是生成地址的人肯定私钥也知道了，这样的地址是没人要的，该怎么办呢？</p>
+
+<p>又得复习我们之前的文章了。我们说比特币的地址来源于椭圆曲线算法生成的<code>私钥--公钥</code>对，而这个算法的<code>私钥--公钥</code>对是满足<code>加法、乘法律</code>的;</p>
+
+<p>对于私钥-公钥对(R1,U1)和(R2,U2)来说，如果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>U3=U1+U2
+</span><span class='line'>R3=R1+R2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么U3、R3是一对（也就是说，私钥R3的公钥是U3），乘运算同理。</p>
+
+<p>于是有人拍脑袋想出了一种虚荣地址的在线安全生成方法，描述如下：</p>
+
+<ol>
+<li>客户首先自己生成一个 <code>私钥~公钥对</code>: (R1,U1)</li>
+<li>客户给生成方发送U1</li>
+<li>生成方在U1的基础上暴力碰撞jjjjjjjj，最后得到一个(R2,U2)，确保<code>U1+U2 -&gt; vanity address</code></li>
+<li>客户验证U2，确保符合要求</li>
+<li>客户最后用<code>(R1+R2, U1+u2)</code>作为公私钥</li>
+<li>因为生成方是没有R1的，所以没法得到最终私钥，所以这个地址是可以安全使用的。</li>
+</ol>
+
+
+<p>这个服务名字叫做<a href="https://en.bitcoin.it/wiki/Split-key_vanity_address#Address_generation">split-key vanity address generator</a>，好一个商业模式，我认为将来电子货币系统极大繁荣的时候，这个业务可以长期做，其实跟银行的个性信用卡是一样的。</p>
+
+<h4>一些YY</h4>
 
 <p>说了这么多，我又开始YY未来的钱包形态了。</p>
 
