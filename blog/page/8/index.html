@@ -82,6 +82,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/06/06/set-local-repo-by-iso/">Set Local Repo by Iso</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-06T22:15:22+08:00" pubdate data-updated="true">Jun 6<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/06/06/set-local-repo-by-iso/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2017/06/06/set-local-repo-by-iso/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>想要挂载一个iso安装镜像作为本地repo</p>
+
+<h2>mount iso</h2>
+
+<pre><code>mkdir -p /mnt/cdrom
+mount -t iso9660 -o loop /home/Centosxxxx.iso /mnt/cdrom
+</code></pre>
+
+<h2>set local repo</h2>
+
+<pre><code>vi /etc/yum.repos.d/local.repo
+
+[localrepo]
+name=Unixmen Repository
+baseurl=file:///mnt/cdrom
+gpgcheck=0
+enabled=1
+</code></pre>
+
+<h2>set up</h2>
+
+<pre><code>yum clean all
+yum repolist
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a></h1>
     
     
@@ -570,50 +632,6 @@ if sys.stdout.encoding == 'cp936':
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/05/megacli-cheat/">Megacli Cheat</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-08-05T03:21:49+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/08/05/megacli-cheat/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/08/05/megacli-cheat/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>做Raid，用到了megacli，又学了一套命令.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/08/05/megacli-cheat/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -631,6 +649,10 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/12/28/bi-te-bi-de-jiao-yi-5/">比特币的交易-5</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/12/24/bi-te-bi-de-jiao-yi-4/">比特币的交易-4</a>
       </li>
     
@@ -644,10 +666,6 @@ if sys.stdout.encoding == 'cp936':
     
       <li class="post">
         <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/11/27/event-stream/">Event-stream,一次可怕的社工</a>
       </li>
     
   </ul>
@@ -704,7 +722,7 @@ if sys.stdout.encoding == 'cp936':
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (40)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (41)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

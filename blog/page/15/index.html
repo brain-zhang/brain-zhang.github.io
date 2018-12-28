@@ -82,6 +82,130 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/09/18/docker-cheat-sheet/">Docker Cheat Sheet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-18T09:09:52+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/18/docker-cheat-sheet/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/09/18/docker-cheat-sheet/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>container相关</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ docker run -it xxx /bin/bash                                      // 启动一个container
+</span><span class='line'>$ docker rm -f xxx                                                  // 结束一个container，加-f表示删除掉，这样比较干净
+</span><span class='line'>$ docker run -it --add-host host:ip xxx /bin/bash                   // 启动一个container,增加/etc/hosts设定
+</span><span class='line'>$ docker run -d -p 127.0.0.1:5000:5000 webapp python app.py         // 启动一个container,映射本地的5000端口</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>image 相关</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ docker rmi -f xxx                                                 // 删除一个image，以下情况下不能删除:
+</span><span class='line'>                                                                    // * 有其他image依赖于这个image
+</span><span class='line'>                                                                    // * 有已创建的container依赖于这个image
+</span><span class='line'>                                                                    // build的过程会出现很多&lt;none&gt;的临时image，最好不要去手工清除
+</span><span class='line'>$ docker build tag Dockerfile_dir                                   // build一个image</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>docker service 相关</h1>
+
+<h2>配置文件位置</h2>
+
+<ul>
+<li><p>ubuntu: /etc/default/docker</p></li>
+<li><p>centos: /etc/sysconfig/docker</p></li>
+</ul>
+
+
+<h3>配置参数</h3>
+
+<pre><code>DOCKER_OPTS
+</code></pre>
+
+<h4>增加docker 仓库验证</h4>
+
+<pre><code>--insecure-registry own-docker.com
+</code></pre>
+
+<h4>设置storage backend</h4>
+
+<pre><code>-s overlay
+</code></pre>
+
+<p>使用overlay极大提升性能和稳定性，建议开启。但是有两个问题:</p>
+
+<ul>
+<li><p>编译centos镜像时，调用yum会报checksum错误，所以基本上不能在overlay上面构建redhat系的镜像</p></li>
+<li><p>不支持 <code>inotify_add_watch</code> 调用，<code>tail -f</code> 类的命令会有问题，具体见:<a href="https://github.com/docker/docker/issues/11705">https://github.com/docker/docker/issues/11705</a></p></li>
+</ul>
+
+
+<h1>相关工具:</h1>
+
+<h4>docker镜像瘦身工具</h4>
+
+<p><a href="https://github.com/jwilder/docker-squash">https://github.com/jwilder/docker-squash</a></p>
+
+<h4>nsenter, docker inspect的增强版</h4>
+
+<p><a href="https://github.com/jpetazzo/nsenter">https://github.com/jpetazzo/nsenter</a></p>
+
+<h4>dockerfly，自己写的一个构建工具</h4>
+
+<p><a href="https://github.com/memoryboxes/dockerfly">https://github.com/memoryboxes/dockerfly</a></p>
+
+<h4>shipyard，还算是比较靠谱的监控工具</h4>
+
+<p><a href="https://github.com/shipyard/shipyard">https://github.com/shipyard/shipyard</a></p>
+
+<h1>一些坑:</h1>
+
+<ul>
+<li>centos 在4.0.0-1.el6.elrepo.x86_64内核下，启动xfs+overlay，删除文件夹会有问题</li>
+<li>overlay下，tail命令会有问题</li>
+<li>overlay下，docker build，yum的checksum会有问题</li>
+<li>devicemapper效率巨慢无比，不要用</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/17/python2-dot-x%3Aerror-when-printing-an-exception-containing-a-unicode-string/">python2.x：Error When Printing an Exception Containing a Unicode String</a></h1>
     
     
@@ -856,53 +980,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Export Json by Mongoexport</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-03T08:46:23+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2014</time>
-        
-           | <a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Exp:</p>
-
-<pre><code>mongoexport -d foo -c exp -o exp.json -q '{"ts":{"$gte":0}}'
-</code></pre>
-
-<p>Notice:</p>
-
-<pre><code>You should use `"`  not  `'` in query string
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -920,6 +997,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/12/28/bi-te-bi-de-jiao-yi-5/">比特币的交易-5</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/12/24/bi-te-bi-de-jiao-yi-4/">比特币的交易-4</a>
       </li>
     
@@ -933,10 +1014,6 @@
     
       <li class="post">
         <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/11/27/event-stream/">Event-stream,一次可怕的社工</a>
       </li>
     
   </ul>
@@ -993,7 +1070,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (40)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (41)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

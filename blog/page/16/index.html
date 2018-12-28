@@ -82,6 +82,53 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Export Json by Mongoexport</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-03T08:46:23+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2014</time>
+        
+           | <a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Exp:</p>
+
+<pre><code>mongoexport -d foo -c exp -o exp.json -q '{"ts":{"$gte":0}}'
+</code></pre>
+
+<p>Notice:</p>
+
+<pre><code>You should use `"`  not  `'` in query string
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/03/26/freeze-svn-externals-for-tags/">Freeze Svn:externals for Tags/branch</a></h1>
     
     
@@ -663,6 +710,10 @@ rm -rf remove.js
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2018/12/28/bi-te-bi-de-jiao-yi-5/">比特币的交易-5</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/12/24/bi-te-bi-de-jiao-yi-4/">比特币的交易-4</a>
       </li>
     
@@ -676,10 +727,6 @@ rm -rf remove.js
     
       <li class="post">
         <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/11/27/event-stream/">Event-stream,一次可怕的社工</a>
       </li>
     
   </ul>
@@ -736,7 +783,7 @@ rm -rf remove.js
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (40)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (41)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
