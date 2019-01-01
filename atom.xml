@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-01T19:53:02+08:00</updated>
+  <updated>2019-01-01T20:12:59+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币的交易-6]]></title>
+    <link href="https://happy123.me/blog/2019/01/01/bi-te-bi-de-jiao-yi-6/"/>
+    <updated>2019-01-01T20:10:54+08:00</updated>
+    <id>https://happy123.me/blog/2019/01/01/bi-te-bi-de-jiao-yi-6</id>
+    <content type="html"><![CDATA[<p>好啦，这篇文章中，我们要来探讨大名鼎鼎的Segwit。</p>
+
+<p>这个词一说起来就头疼啊，他牵扯到旷日持久的扩容大战，无穷尽的争论以及分裂。我们的立场就是不去站队任何组织，单纯从技术的角度去理解这个东西。</p>
+
+<!-- more -->
+
+
+<p>待续~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[比特币的交易-5]]></title>
@@ -6542,77 +6558,6 @@
 <p>曾经，我以为熟读&lt;TCP/IP详解>和&lt;Unix网络编程>就能成为无所不能的网络大拿；曾经，我以为独立实现一个网络协议栈就是开创天地的神邸；后来，我明白了，网络的海洋无穷无尽，虽然规则是死的，但是现实世界实在不可预测，也许下一分钟就会有一个匪夷所思的case来纠缠你，嘲笑你的妄自尊大。</p>
 
 <p>在网络世界迈入SDN之际，我非常惶恐，因为我明白以我的智商，不可能成为什么·专家·了；我想，未来，可能只有在AWS或者Google Cloud浸淫数十年的人，才能小心翼翼的称自己为·真专家·；面对网络知识的变幻莫测，总有一种·生有涯，知无涯·的惶恐；我总是会感叹，网络这个东西实在是太神奇了，真不知道如何形容这份感觉，就是只有·神奇·来形容</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[黎曼猜想的证明会对加密货币产生影响吗?]]></title>
-    <link href="https://happy123.me/blog/2018/09/26/li-man-cai-xiang-de-zheng-ming-hui-dui-jia-mi-huo-bi-chan-sheng-ying-xiang-ma/"/>
-    <updated>2018-09-26T10:19:00+08:00</updated>
-    <id>https://happy123.me/blog/2018/09/26/li-man-cai-xiang-de-zheng-ming-hui-dui-jia-mi-huo-bi-chan-sheng-ying-xiang-ma</id>
-    <content type="html"><![CDATA[<p>当今资讯发达，娱乐界、学术界以及投机赌博界已然不分家了。</p>
-
-<p>Michael Atiyah老爷子来一场数学报告，已然惊动众多娱乐媒体和赌徒大佬。老爷子的秀场视频在这里，快去瞻仰:</p>
-
-<p><a href="https://www.youtube.com/watch?v=oe4Jo4i3w_w">https://www.youtube.com/watch?v=oe4Jo4i3w_w</a></p>
-
-<p>为了跟上时代的步伐，民工也要求上进啊，只能又去填鸭科普了一下数学ABC。</p>
-
-<!-- more -->
-
-
-<h3>黎曼猜想是啥</h3>
-
-<p>黎曼猜想起源于素数的研究。素数在自然数中是一种特别的数，它只能被1和自己整除。而且素数的个数是无限的。</p>
-
-<p>素数如此特别，数学家们试图搞清楚如何判断一个数是素数。给你一个小的数，例如7，你很容易判断它是素数。但是当给你一个很大的数字时，判断一个数是否为素数，是需要方法的。由此产生了素数判定的算法。</p>
-
-<p>为了更好地理解素数，数学家们在 19 世纪便不再尝试预测素数的精确位置，转而将素数的现象视为一个整体。这个预测素数分布规律的挑战吸引了众多大佬，包括我们的数学王子gauss，独行侠Selberg等等，最著名的还是Riemann hypothesis提出的黎曼猜想。这段历史可以参考卢昌海老师的<a href="https://www.changhai.org/articles/science/mathematics/riemann_hypothesis/index.php">科普文</a>。</p>
-
-<p>黎曼1859年在他的论文《论小于已知数的素数个数》提出了这个著名的猜想，但它并非该论文的中心目的，他也没有试图给出证明。这个猜想描述如下:</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20180926/bg1.jpg" alt="黎曼猜想" /></p>
-
-<p>这个函数称之为黎曼 zeta 函数。黎曼给出了一个推测：黎曼 zeta 函数的所有非平凡零点可能都全部位于实部等于1/2的直线上。上述公式中的第二项，x 的 ρ 次幂的ρ就是黎曼 zeta 函数非平凡零点。</p>
-
-<h4>简而言之，任意给定一个自然数x，通过这个公式能更精确的得出 x 以内素数的个数。</h4>
-
-<p>那么这个公式是正确的吗，通过现在的计算机暴力计算，不能证伪，好像是正确的。但是也没有人能给出严格的证明，所以称之为是猜想。</p>
-
-<h3>如果猜想被证明，对安全界有什么影响</h3>
-
-<p>这又得从我们码农熟知的非对称加密算法开始说起了。众所周知，SSL/TLS(https)等一系列安全协议都是建立在RSA算法之上的，而RSA作为非对称加密算法的典型代表，又是建立在大素数分解的基础上的。这部分可以参考阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">科普文</a>。</p>
-
-<p>那么黎曼猜想如果被证明，是不是意味着RSA算法就不再安全了呢？作为吃瓜群众，大可不必去跟风娱乐媒体，不需要多高深的数学知识就能自己来判断:</p>
-
-<ol>
-<li><p>黎曼猜想是在1859年提出的，虽然没人能证明，但是也没人能证伪，这说明这个方法作为一个判别素数个数分布的工具，已然被广泛运用多年了</p></li>
-<li><p>非对称加密是在20世纪70年代末提出的，如果黎曼猜想能加速大素数分解的计算，那么其实1970s左右，RSA诞生之初，就已经面临重大威胁了</p></li>
-<li><p>素数检测和整数分解是两回事，至今还没有人找到他们之间有何联系</p></li>
-<li><p>如果素数的检测能加速分解计算的话，即使有某个人或某个组织掌握了这个技术，那么全世界的网络，包括各大银行、金融、政府组织，都会受到严重威胁；但是目前为止还没有啥迹象；</p></li>
-</ol>
-
-
-<h3>如果猜想被证明，对加密数字货币(如比特币)有什么影响</h3>
-
-<p>我们知道，比特币的安全设计是远远领先于时代的，我们之前在<a href="https://happy123.me/blog/2018/04/24/cryptocurrency-security/">这篇文章</a>中，曾经谈到过比特币的地址安全问题。</p>
-
-<ol>
-<li><p>基本上所有加密货币的地址都是参考比特币，采用椭圆曲线非对称加密算法为基础生成的</p></li>
-<li><p>椭圆曲线和RSA的套路完全不同，和素数分解也没啥关系，即使RSA被破解了，和比特币也是雷峰塔倒掉和学雷锋的关系&mdash;&mdash;就是没关系</p></li>
-<li><p>大多数加密货币的挖矿采用了许多不同的单向散列(HASH)函数，目前理论来看，这基本上也和素数分布没啥关系</p></li>
-</ol>
-
-
-<h2>结论</h2>
-
-<ol>
-<li><p>黎曼猜想能不能成功证明、有没有人能理解这个证明还是两说</p></li>
-<li><p>即使黎曼猜想不能被证明，它作为一个检测素数分布的工具使用已经好多年了，如果真的对基于素数分解的非对称加密算法有威胁，100多年了，早也应该暴雷了吧</p></li>
-<li><p>即使RSA GAME OVER了，对于以椭圆曲线为基础的比特币等加密货币，没啥影响</p></li>
-<li><p>估计娱乐媒体又要对中本聪一顿<code>先知</code>神吹了</p></li>
-</ol>
-
 ]]></content>
   </entry>
   
