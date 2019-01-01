@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-01T14:54:04+08:00</updated>
+  <updated>2019-01-01T15:49:02+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -520,9 +520,45 @@ nslookup bitseed.xf2.org
 
 <p>有刻字到此一游的，有山盟海誓秀恩爱的，有炫耀生孩子的，有申诉政治诉求的，有吟诗作对，弘扬中国传统文化的；总之这100个字节表示鸭梨很大。</p>
 
+<h2>OP_RETURN</h2>
+
+<p>coinbase留言是有实力的矿工才有资格搞的；没有足够算力怎么办呢？</p>
+
+<p>早期Geek比较多，大家就纷纷构造不能花费的交易，在vout中用PUSHDATA来填充内容。</p>
+
+<p>运用比特币的区块链技术存储与比特币支付不相关数据的做法是一个有争议的话题。许多开发者认为其有滥用的嫌疑，因而试图予以阻止。另一些开发者则将之视为区块链技术强大功能的有力证明，从而试图给予大力支持。那些反对非支付相关应用的开发者认为这样做将引致“区块链膨胀”，因为所有的区块链节点都将以消耗磁盘存储空间为成本，负担存储此类 数据的任务。</p>
+
+<p>更为严重的是，此类交易仅将比特币地址当作自由组合的20个字节而使用，进而会产生不能用于交易的UTXO。因为比特币地址只是被当作数据使用，并不与私钥相匹配，所以会导致UTXO不能被用于交易，因而是一种伪支付行为。因此，这些交易永远不会被花费，所以永远不会从UTXO集中删除，并导致UTXO数据库的大小永远增加或“膨胀”。</p>
+
+<p>后来人们又发明出来OP_RETURN留言法：</p>
+
+<p>在0.9版的比特币核心客户端上，通过采用Return操作符最终实现了妥协。Return允许开发者在交易输出上增加80字节的非交易数据。然后，与伪交易型的UTXO不同，Return创造了一种明确的可复查的非交易型输出，此类数据无需存储于UTXO集。Return输出被记录在区块链上，它们会消耗磁盘空间，也会导致区块链规模的增加，但 它们不存储在UTXO集中，因此也不会使得UTXO内存膨胀，更不会以消耗代价高昂的内存为代价使全节点都不堪重负。 RETURN 脚本的样式：</p>
+
+<p><code>
+  RETURN &lt;data&gt;
+</code></p>
+
+<p>“data”部分被限制为80字节，且多以哈希方式呈现，如32字节的SHA256算法输出。许多应用都在其前面加上前缀以辅助认定。例如，电子公正服务的证明材料采用8个字节的前缀“DOCPROOF”，在十六进制算法中，相应的ASCII码为 <code>44 4f 43 50 52 4f 4f 46</code>。</p>
+
+<p> RETURN 不涉及可用于支付的解锁脚本的特点， RETURN 不能使用其输出中所锁定的资金，因此它也就没有必要记录在蕴含潜在成本的UTXO集中，所以 RETURN 实际是没有成本的。</p>
+
+<p>RETURN 常为一个金额为0的比特币输出， 因为任何与该输出相对应的比特币都会永久消失。假如一笔 RETURN 被作为一笔交易的输入，脚本验证引擎将会阻止验证脚本的执行，将标记交易为无效。如果你碰巧将 RETURN 的输出作为另一笔交易的输入，则该交易是无效的。</p>
+
+<p>一笔标准交易（通过了 isStandard() 函数检验的）只能有一个 RETURN 输出。但是单个RETURN 输出能与任意类型的输出交易进行组合。</p>
+
+<p>PS: 最初提出了RETURN，限制为80字节，但是当功能被释放时，限制被减少到40字节。 2015年2月，在Bitcoin Core的0.10版本中，限制提高到80字节。 节点可以选择不中继或重新启动RETURN，或者只能中继和挖掘包含少于80字节数据的RETURN。</p>
+
+<h4>例子</h4>
+
+<p>这里比特币就见证了一场成功的求婚：</p>
+
+<p><a href="https://blockchain.info/tx/b17a027a8f7ae0db4ddbaa58927d0f254e97fce63b7e57e8e50957d3dad2e66e">https://blockchain.info/tx/b17a027a8f7ae0db4ddbaa58927d0f254e97fce63b7e57e8e50957d3dad2e66e</a></p>
+
+<p><a href="https://blockchain.info/tx/e89e09ac184e1a175ce748775b3e63686cb1e5fe948365236aac3b3aef3fedd0">https://blockchain.info/tx/e89e09ac184e1a175ce748775b3e63686cb1e5fe948365236aac3b3aef3fedd0</a></p>
+
 <h2>刻字服务</h2>
 
-<p>当然，coinbase区块链刻字，必须挖矿出块才行；后来有了还有更方便的手段；里面的内容更是洋洋洒洒，可以参考这篇文章：</p>
+<p>后来有人提供了比较简单的刻字服务，只要你付点小费，就可以将想要说的话永久上链；里面的内容更是洋洋洒洒，可以参考这篇文章：</p>
 
 <p><a href="http://www.righto.com/2014/02/ascii-bernanke-wikileaks-photographs.html">http://www.righto.com/2014/02/ascii-bernanke-wikileaks-photographs.html</a></p>
 
@@ -539,6 +575,10 @@ nslookup bitseed.xf2.org
 <p>下一步我们将一步步手工代码构造十六进制数据，然后形成一笔完整的交易去广播；完全吃透一笔交易的来龙去脉；</p>
 
 <p>那么，下次再见。</p>
+
+<h2>工具</h2>
+
+<p><a href="https://sites.google.com/site/nathanlexwww/tools/utf8-convert">https://sites.google.com/site/nathanlexwww/tools/utf8-convert</a></p>
 ]]></content>
   </entry>
   
