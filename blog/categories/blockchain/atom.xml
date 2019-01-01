@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-01T19:47:11+08:00</updated>
+  <updated>2019-01-01T19:49:04+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -1265,6 +1265,22 @@ scriptSig: &lt;sig&gt;
 
 <p>如果你感兴趣的话，自己去找找这笔交易对应的scriptSig吧。</p>
 
+<h2>一些神奇的操作符</h2>
+
+<h4>OP_CHECKLOCKTIMEVERIFY</h4>
+
+<p>也有人把这个操作符称之为OP_CLTV，或者昵称为OP_HODL；什么意思呢？就是这个操作符允许你发送一笔钱给一个地址，并且用OP_HODL指定一个时间，只有过了这个时间之后，才能花费这笔资金！</p>
+
+<p>这个操作符在<a href="https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki">BIP65</a>中定义，2015-11-30在Bitcoin Core 0.11.2版本中激活。</p>
+
+<p>之前我们介绍过交易中有个locktime字段，功能是类似的；区别在于，locktime交易在指定到达交易时间之前，是不入区块链的，所以如果设置了RBF的话，可以随时取消；</p>
+
+<p>但是OP_HODL是入块的，真正落子无悔!</p>
+
+<p>这个操作符最大的作用，让我来看就是让真正的比特币死忠实现<code>屯币不动</code>。死忠们经常说一币一别墅，一币$250K，但是稍微有个风吹草动就卖掉了；如果你对比特币的信心无可匹敌的话，就用<code>OP_HODL</code>操作符将自己的币锁定10年吧。</p>
+
+<p>持币10年之后再看比特币兴衰，才是真死忠。</p>
+
 <h2>小结</h2>
 
 <p>这篇文章中我们从最基本的栈脚本操作码讲起，然后一步一步说明了比特币的脚本系统是如何设计、运作的。</p>
@@ -1288,22 +1304,6 @@ scriptSig: &lt;sig&gt;
 <p>当然，除了Pay to public key Hash交易，比特币还支持其它比较复杂的交易类型，用于更丰富的金融场景中（比如合约、公证等等），另外，还有挖矿奖励是怎么来的？这个还没说来。</p>
 
 <p>那么，我们下篇文章再见。</p>
-
-<h2>一些神奇的操作符</h2>
-
-<h4>OP_CHECKLOCKTIMEVERIFY</h4>
-
-<p>也有人把这个操作符称之为OP_CLTV，或者昵称为OP_HODL；什么意思呢？就是这个操作符允许你发送一笔钱给一个地址，并且用OP_HODL指定一个时间，只有过了这个时间之后，才能花费这笔资金！</p>
-
-<p>这个操作符在<a href="https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki">BIP65</a>中定义，2015-11-30在Bitcoin Core 0.11.2版本中激活。</p>
-
-<p>之前我们介绍过交易中有个locktime字段，功能是类似的；区别在于，locktime交易在指定到达交易时间之前，是不入区块链的，所以如果设置了RBF的话，可以随时取消；</p>
-
-<p>但是OP_HODL是入块的，真正落子无悔!</p>
-
-<p>这个操作符最大的作用，让我来看就是让真正的比特币死忠实现<code>屯币不动</code>。死忠们经常说一币一别墅，一币$250K，但是稍微有个风吹草动就卖掉了；如果你对比特币的信心无可匹敌的话，就用<code>OP_HODL</code>操作符将自己的币锁定10年吧。</p>
-
-<p>持币10年之后再看比特币兴衰，才是真死忠。</p>
 
 <h2>工具</h2>
 
