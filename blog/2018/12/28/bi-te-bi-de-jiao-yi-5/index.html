@@ -9,7 +9,7 @@
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="我们还是拿3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517做例子。 准备工作 私钥-公钥 在前面的文章中，我们已经算出来私钥的WIF表示: 1 &hellip;">
+  <meta name="description" content="我们还是拿3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517做例子。 这篇文章需要结合比特币的交易-3这篇文章来理解，我们在这里也直接复用TransA、TransB的说法。 准备工作 私钥-公钥 在比特币的HD钱包-2中 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -107,6 +107,8 @@
 
 <div class="entry-content"><p>我们还是拿<a href="http://chainquery.com/bitcoin-api/getrawtransaction/3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517/1">3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517</a>做例子。</p>
 
+<p>这篇文章需要结合<a href="https://happy123.me/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/">比特币的交易-3</a>这篇文章来理解，我们在这里也直接复用TransA、TransB的说法。</p>
+
 <!-- more -->
 
 
@@ -114,7 +116,7 @@
 
 <h4>私钥-公钥</h4>
 
-<p>在<a href="https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">前面的文章</a>中，我们已经算出来私钥的WIF表示:</p>
+<p>在<a href="https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">比特币的HD钱包-2</a>中，我们已经算出来私钥的WIF表示:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk</span></code></pre></td></tr></table></div></figure>
@@ -159,7 +161,7 @@
 </ol>
 
 
-<h4>然后我们实现一个函数，将这些变量组合，最后得到原始交易值(对应bitcoin-cli的createrawTransa)</h4>
+<h4>然后我们实现一个函数，将这些变量组合，最后得到原始交易值(对应bitcoin-cli的createrawTransaction)</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -184,8 +186,8 @@
 </span><span class='line'># outputs is a list of [redeemptionSatoshis, outputScript]
 </span><span class='line'>def makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs):
 </span><span class='line'>    def makeOutput(data):
-</span><span class='line'>        redemptionSatoshis, outputScript = data
-</span><span class='line'>        return (struct.pack("&lt;Q", redemptionSatoshis).encode('hex') +
+</span><span class='line'>        redeemptionSatoshis, outputScript = data
+</span><span class='line'>        return (struct.pack("&lt;Q", redeemptionSatoshis).encode('hex') +
 </span><span class='line'>        '%02x'.format(len(outputScript.decode('hex'))) + outputScript)
 </span><span class='line'>    formattedOutputs = ''.join(map(makeOutput, outputs))
 </span><span class='line'>    return (
@@ -203,7 +205,17 @@
 
 <h4>outputs构造</h4>
 
-<p>上面这个函数中，我们发现需要我们计算的参数只有一个，就是outputs。outputs是包含多个output的数组。在这个例子中，我们打算只构造一个output。结合我们之前的文章，就是构造一个bitcoin scriptPubKey，设置一把新锁。</p>
+<p>在构造一笔完整的交易之前，我们需要手工做两件事情：</p>
+
+<ol>
+<li>构造一个output输出</li>
+<li>对vin中的UTXO签名，构造scriptSig</li>
+</ol>
+
+
+<p>outputs的构造比scriptSig简单一点，我们先来解决这个问题。</p>
+
+<p>outputs是包含多个output的数组。在这个例子中，我们打算只构造一个output。结合我们之前的文章，就是构造一个bitcoin scriptPubKey，设置一把新锁。</p>
 
 <p>这个scriptPubkey是这样子的:</p>
 
@@ -212,16 +224,6 @@
 
 
 <p>PubKeyHash其实就是收币的地址，其它操作符都是现成的。</p>
-
-<h4>小结</h4>
-
-<p>在构造一笔完整的交易之前，我们需要手工做两件事情：</p>
-
-<ol>
-<li>构造一个output输出</li>
-<li>对vin中的UTXO签名，构造scriptSig</li>
-</ol>
-
 
 <h2>如何构造一笔output</h2>
 
@@ -257,13 +259,101 @@
 
 <h2>如何对一笔交易签名(scriptSig)</h2>
 
-<p>在构造一笔交易的过程中，签署交易是一个非常麻烦的过程。其基本思想是使用ECDSA椭圆曲线算法和私钥生成交易的数字签名，但细节比较复杂。签名过程通过10个步骤描述。下面的缩略图说明了详细的流程。</p>
+<p>在构造一笔交易的过程中，签署交易是一个非常麻烦的过程。其基本思想是使用ECDSA椭圆曲线算法和私钥生成交易的数字签名，但细节比较复杂。</p>
+
+<p>我们可以先通过验证签名的过程来理解以下，验证签名过程的通过10个步骤描述。下面的缩略图说明了详细的流程。</p>
 
 <p><img src="https://en.bitcoin.it/w/images/en/7/70/Bitcoin_OpCheckSig_InDetail.png" alt="img" /></p>
 
 <p>这张图出自于<a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">这里</a>，里面的TX ID是不同的，但基本步骤一样。</p>
 
-<p>准备工作: 首先要验证上一笔交易，即<code>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</code>的有效性。即对我们上一篇文章的bitcoin script系统验证交易的vin, vout 有效性。</p>
+<h4>一些约定:</h4>
+
+<ol>
+<li>TransA代表TxPrev，TransB代笔TxNew</li>
+</ol>
+
+
+<h4>步骤:</h4>
+
+<ol>
+<li>首先解析TransB涨vin中的scriptSig，得到sigStr以及pubkeyStr</li>
+<li>从TransA中拿出对应的vout ，从scriptPub脚本中截取需要的部分(subScript)：即 <code>OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG</code>；截取规则就是检索最后一个<code>OP_CODESEPARATOR</code>的位置，在这之后的脚本段就是我们要截取的对象</li>
+<li>如果subScript中包含了签名，移除掉(在scriptPub中包含签名是很特殊的情况，一般出现在P2SH交易中，普通交易不需要这一步)</li>
+<li>如果脚本中有<code>OP_CODESEPARATORS</code>操作符，移除</li>
+<li>检测一步解析出来的scriptSig最后一个字节的HashType，扩展为4字节(小端排序)备用</li>
+<li>将TransB 复制一份，变为TransBCopy</li>
+<li>将TransBCopy中所有的Vin以及Vout 移除，同时将length字段置为0</li>
+<li>将第4步中的subScript根据vin sequence填充到TransBCopy对应的位置</li>
+<li>最后将交易TransBCopy序列化(采用DER编码)，并在末尾添加第5步中得到的HashType，得到签名的原始数据</li>
+<li>最后执行签名验证过程: ECDSA_CheckSignature(pubkeyStr, sigStr, double_sha256(TransBCopy))</li>
+</ol>
+
+
+<h4>疑点解惑</h4>
+
+<h5>为什么这么麻烦，不能直接对TransB签名吗？</h5>
+
+<p>因为最终的签名是包含在TransB当中的，签名是不能对自身来签名的；所以要签名的原始数据不能包含签名本身；</p>
+
+<p>说句题外话，由于ECDSA的签名算法的局限，这个结构组织方式最终导致了一个顽疾，即交易延展性问题，也被翻译为交易可锻性（Transaction Malleability）。</p>
+
+<p>简单来说，就是攻击者可以生成不同但是合法的scriptSig，虽然vin，vout金额和地址不变，但是TX ID会发生变化，从而导致用户找不到发送的交易。</p>
+
+<p>这对于交易所是一个威胁，为了解决这个问题，core开发者提出了segwit解决方案(即隔离验证)，后来随着政治斗争、市场斗争的激化，一个技术问题最终演化成了扩容派的分裂。</p>
+
+<p>总之还是那句话，关于segwit, 闪电网络，期待我们后面的文章吧。</p>
+
+<h5>为什么要用上一笔交易vout来填充这个位置呢？</h5>
+
+<p>我们说验证签名的过程，其实有三个作用:</p>
+
+<ol>
+<li>签名证明私钥的所有者，即资金所有者，已经授权支出这些资金</li>
+<li>授权证明是不可否认的（不可否认性）</li>
+<li>签名证明交易（或交易的具体部分）在签字之后没有也不能被任何人修改</li>
+</ol>
+
+
+<p>我们提供签名、私钥即承诺了第1点，对TransBCopy 签名承诺了第2点，但是要做到第3点，就需要对于引用UTXO的信息做承诺；</p>
+
+<p>我们会问，单纯的prev TX ID和vout sequence no不能证明我要花费的哪一笔UTXO吗？</p>
+
+<p>是的，这还是不够的，我们需要另外的信息熵的引入，就是这个UTXO的scriptPub。具体为什么，是ECDSA的数学特性决定的。请参考:</p>
+
+<p><a href="https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/">https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/</a></p>
+
+<p>老实说，关于ECDSA的签名验证，我在学习了很长时间以后，还是非常担心，因为签名生成算法使用随机密钥k作为临时私有-公钥对的基础，这个K值的随机性一定要人工保证，比特币的每笔交易验证，离不开签名验证，而这个签名验证如此复杂，确实让人心生忐忑。</p>
+
+<h5>这个OP_CODESEPARATORS是什么东东？</h5>
+
+<p>哈，到目前为止，我们接触到的都是比特币最简单、最基本、当然也是应用最广泛的交易类型，但是比特币还支持P2SH的高级交易，在这种交易中，vout里面可能会嵌入非常复杂的脚本，所以系统引入了OP_CODESEPARATORS作为复杂脚本的分隔符，以后的文章我们会详细讲解；</p>
+
+<p>OP_CODESEPARATOR属于一种看起来<code>过度设计</code>的特性，老实说，我没有在比特币主网上发现像样的使用这个特性的交易，我也需要更多时间的学习才能搞明白这个东西，以下是一些参考资料：</p>
+
+<p><a href="https://github.com/bitcoin/bips/blob/master/bip-0017.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0017.mediawiki</a></p>
+
+<p><a href="https://bitcointalk.org/index.php?topic=164655.0">https://bitcointalk.org/index.php?topic=164655.0</a></p>
+
+<h5>这个HashType是什么东东？</h5>
+
+<p>嗯哼，又是一个非常棘手但是有意思的问题。</p>
+
+<p>我们说比特币有了script之后，功能是非常非常丰富的，不仅仅局限于支付场景，他可以应用到许多非常复杂的场景中。</p>
+
+<p>比如现在让我们考虑一个外贸公司的业务，这个公司的对公账户每天都要接受许多客户的付款，处于安全考虑，我作为公司的CEO，希望能跟财务主管共同管理公司的对公账户，当需要支出时，一定要我跟财务主管都签字同意才可以。</p>
+
+<p>这就衍生出了所谓的M-N交易类型，即多重签名交易。</p>
+
+<p>在多重签名交易中，要花费一笔UTXO，可能需要多个签名，或者有这种语义：&#8221;一定要CEO的签名，如果没有CEO的签名，需要COO和CFO的联合签名&#8221;，为了表示这些，引入了SIGHASH这个字段，就是我们所说的HashType啦。</p>
+
+<p>要考虑SIGHASH，实际上已经牵涉到了bitcoin的高级交易类型(P2SH)，还是那句话，关注后面的文章吧。</p>
+
+<h4>反向代码</h4>
+
+<p>嗯哼，把验证签名的步骤反向来一遍，就是签名的过程了。</p>
+
+<p>代码表示如下:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -292,6 +382,98 @@
 </span><span class='line'>    verifyTxnSignature(signed_txn)
 </span><span class='line'>    return signed_txn</span></code></pre></td></tr></table></div></figure>
 
+
+<h2>广播交易</h2>
+
+<p>好啦，构造了vin, vout，以及组合成一笔完整的交易，剩下的就是广播出去啦：</p>
+
+<p>比特币的网络协议非常简单，设置好一个Magic Number就可以加入，以下时广播代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>magic = 0xd9b4bef9
+</span><span class='line'>
+</span><span class='line'>def makeMessage(magic, command, payload):
+</span><span class='line'>    checksum = hashlib.sha256(hashlib.sha256(payload).digest()).digest()[0:4]
+</span><span class='line'>    return struct.pack('L12sL4s', magic, command, len(payload), checksum) + payload
+</span><span class='line'>
+</span><span class='line'>def getVersionMsg():
+</span><span class='line'>    version = 60002
+</span><span class='line'>    services = 1
+</span><span class='line'>    timestamp = int(time.time())
+</span><span class='line'>    addr_me = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
+</span><span class='line'>    addr_you = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
+</span><span class='line'>    nonce = random.getrandbits(64)
+</span><span class='line'>    sub_version_num = utils.varstr('')
+</span><span class='line'>    start_height = 0
+</span><span class='line'>    
+</span><span class='line'>def getTxMsg(payload):
+</span><span class='line'>  return makeMessage(magic, 'tx', payload)
+</span><span class='line'>
+</span><span class='line'>sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</span><span class='line'>HOST_IP ="x.x.x.x"
+</span><span class='line'>sock.connect(HOST_IP, 8333)
+</span><span class='line'>
+</span><span class='line'>sock.send(msgUtils.getVersionMsg())
+</span><span class='line'>sock.recv(1000) # receive version
+</span><span class='line'>sock.recv(1000) # receive verack
+</span><span class='line'>sock.send(msgUtils.getTxMsg("01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000".decode('hex')))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>HOST IP 怎么获取呢？</p>
+
+<p>如果你有一个全节点，可以直接调用RPC接口的getpeers函数。或者你直接执行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nslookup bitseed.xf2.org</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从公共服务器里面检索nodes，里面随便挑一个IP 吧。</p>
+
+<h2>小结</h2>
+
+<p>以上就是一笔完整交易的构造过程。</p>
+
+<p>这笔交易结构非常简单，只有一个vin，一个vout。</p>
+
+<p>如果有多个vin, 多个vout的情况，就需要每个vin都签署一遍。</p>
+
+<p>我们发现，一笔比特币交易的构造过程，最复杂的，就是签名以及验证的过程。它的步骤及其繁琐，而且椭圆曲线的签名算法及其复杂。如果在更高级的比特币交易中，比如P2SH，或者多重签名交易，或者Segwit交易，包含了更复杂的脚本和执行逻辑，事情很快就变得不可控制起来。</p>
+
+<p>这是我在学习比特币知识时遇到的最大的恐惧，如果将来比特币系统出现什么致命BUG，很大可能就在这里暴雷。</p>
+
+<p>也许早期的开发者也觉得不放心，于是禁用了不少操作符。而目前Bitcoin SV和Bitcoin Cash的发展方向，是将这些操作符一一解放出来。</p>
+
+<p>更强大的功能？还是更稳妥的基础设施？究竟怎样的做法是正确的，我也没有定论，只是告诉大家现在社区的发展方向就好了，大家自己做判断。</p>
+
+<h2>参考资料:</h2>
+
+<p><a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html</a></p>
 </div>
 
 
@@ -446,7 +628,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - memoryboxes -
+  Copyright &copy; 2019 - memoryboxes -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
