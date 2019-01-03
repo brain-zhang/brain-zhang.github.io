@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-03T20:58:18+08:00</updated>
+  <updated>2019-01-03T21:13:32+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Happy 10th Birthday Bitcoin]]></title>
+    <link href="https://happy123.me/blog/2019/01/03/happy-10th-birthday-bitcoin/"/>
+    <updated>2019-01-03T21:12:12+08:00</updated>
+    <id>https://happy123.me/blog/2019/01/03/happy-10th-birthday-bitcoin</id>
+    <content type="html"><![CDATA[<p>自 <a href="https://en.bitcoin.it/wiki/Genesis_block">Genesis block</a>在2009-01-03 诞生以来，bitcoin 已经运行十年了。从一个个人项目，成长为世界话题，一段不可思议的旅程。</p>
+
+<p>有人在&lt;纽约时报>上面为其庆生：</p>
+
+<p><a href="https://www.reddit.com/r/Bitcoin/comments/ac4e64/the_happy_birthday_bitcoin_advertisement_in_the/">https://www.reddit.com/r/Bitcoin/comments/ac4e64/the_happy_birthday_bitcoin_advertisement_in_the/</a></p>
+
+<p>我在2013年初次读到白皮书的时候申请了一个域名:</p>
+
+<p><a href="http://20090103.com/">http://20090103.com/</a></p>
+
+<p>出于好玩的心态一直维护着，看看下一个十年会是怎样。</p>
+
+<h4>Hi, Happy 10th birthday bitcoin!</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[比特币的交易-6]]></title>
@@ -1830,317 +1851,6 @@ scriptSig: &lt;sig&gt;
 <p><a href="https://medium.com/@thomasmccabe/hodling-bitcoins-with-op-checklocktimeverify-a-step-by-step-guide-to-manually-building-a-bitcoin-ce9476725de8">https://medium.com/@thomasmccabe/hodling-bitcoins-with-op-checklocktimeverify-a-step-by-step-guide-to-manually-building-a-bitcoin-ce9476725de8</a></p>
 
 <p><a href="https://bitcointalk.org/index.php?topic=1250409.0">https://bitcointalk.org/index.php?topic=1250409.0</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[比特币的HD钱包演化-4]]></title>
-    <link href="https://happy123.me/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4/"/>
-    <updated>2018-12-05T16:04:29+08:00</updated>
-    <id>https://happy123.me/blog/2018/12/05/bi-te-bi-de-hdqian-bao-yan-hua-4</id>
-    <content type="html"><![CDATA[<p>之前我们学习了比特币的HD钱包的技术部分，写着写着我都觉得太无聊了，其实我觉得比特币归根结底还是一个很Geek的东西，初期被它吸引的人估计心底里都有一个独立自由的梦，甚至很多人都想要独立建国；它的技术发展史上也出现过很多有意思的事情，于是增加一篇娱乐性文章；</p>
-
-<p>我们知道比特币的交易是匿名的，但是有很多公共业务，比如交易所，以及公众人物&mdash;会公开他们的地址，那么让我们好好八卦一下比特币历史上那些有意思的地址</p>
-
-<!-- more -->
-
-
-<h4>satoshi的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</a></p>
-
-<p>该地址属于比特币创始人中本聪，是比特币的创世地址，地址内的比特币从未移动过，其中的50币因为技术上的设计原因也无法进行移动。(卖个关子，具体啥原因关注我们后续的文章哦)</p>
-
-<p>具体请参考:<a href="https://en.bitcoin.it/wiki/Genesis_block">Genesis block</a></p>
-
-<p>直到今天，还有源源不断的小额转账给这个地址，纪念satoshi。</p>
-
-<h4>Hal Finney的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3">1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3</a></p>
-
-<p>比特币历史上第一笔交易发生在<a href="https://www.blockchain.com/btc/tx/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16">f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16</a>；是中本聪发送给我们熟知的<a href="https://en.wikipedia.org/wiki/Hal_Finney_(computer_scientist">Hal Finney</a>)先生的。这笔交易发送了10个BTC，被收录在第<a href="https://www.blockchain.com/zh/btc/block-height/170">170 Block</a>中。</p>
-
-<p>Hal曾经在论坛上说自己是第二个运行比特币软件的人，他挖到的第一个区块大概是第70 Block，可以肯定，第70 block之前所有的地址都是中本聪本人的钱包地址，如果有人再跳出来说自己是中本聪的话，我们什么都不相信，只会问他两个问题：</p>
-
-<ul>
-<li>您能花费一笔第70 block之前的比特币吗？</li>
-<li>或者您能出示 <code>I am xxx, happy bitcoiner guys, and today is 2xxx/xx/xx, i prove i am satoshi</code> 这句话的签名，并让我们用早期的公钥来验证一下吗？</li>
-</ul>
-
-
-<h4>Laszlo Hanyecz 的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1XPTgDRhN8RFnzniWCddobD9iKZatrvH4">1XPTgDRhN8RFnzniWCddobD9iKZatrvH4</a></p>
-
-<p>没错，这就是著名的<a href="http://link.zhihu.com/?target=https%3A//bitcointalk.org/index.php%3Ftopic%3D137.0">比特币披萨日</a>事件中的主人公。</p>
-
-<p>当时<a href="https://www.blockchain.com/btc/tx/a1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d">这笔2010-05-22的交易</a>中，Laszlo Hanyecz花费了10000个币买了两个pizza；造就了比特币历史上第二个节日：披萨日。撒花~~~ (PS:我把比特币的第一个节日归为比特币的生日，<a href="https://20090103.com">2009/01/03</a>)</p>
-
-<p>后来比特币价格不断波动，人们就不断的调侃史上最贵的pizza，史上价格变化最快的pizza等等~~~</p>
-
-<p>Laszlo Hanyecz是个真正的Geek，他应该是已知的显卡挖矿第一人，在这个地址上，他大概挖到了80000枚币，所以当时花费10000币买个pizza可以理解；</p>
-
-<p>当年买了Laszlo一万个比特币的Jercos当然也是这次历史时刻的另一个主角。他在去年的时候接受了一家媒体的访问，并漏出了自己的真实身份。</p>
-
-<p>原来Jercos非常的年轻，现在也只有25岁（买10000个比特币那年仅仅19岁）。他告诉记者说自己在bitcoin刚创世的2009年就关注了这项技术，并成为了出入各大极客论坛的一员。他与卖披萨的Laszlo并不认识，但是总是在同一个IRC（聊天室）出入，在当时算是对ID比较相熟。</p>
-
-<p>谈到一万个比特币的去向时，他表示在第二年他把这一万枚比特币以400美金的价格出售了，回报率在十倍。（虽然十倍但是还是很可惜了。。）如今他对区块链的技术还是十分看好，对以太坊也十分看好。</p>
-
-<p>Laszlo Hanyecz与Jercos的比特币经历可谓是大风大浪了，以后可以跟后来人好好说说<code>当年~~~</code>；</p>
-
-<p>如果你这样想，那就Out了，真正的Geek永远是站在潮流前头的，同样的，2018-02-05，闪电网络运行后，Laszlo Hanyecz又花费了0.00649枚比特币通过闪电网络买了两块披萨，续写了比特币披萨的传奇；</p>
-
-<p>少年，当你在为所谓<code>10000个比特币买披萨是不是很后悔</code>这种问题纠结时，人家早就又一次站在潮头浪尖了；所以~~~</p>
-
-<h5>让我们努力学习吧。</h5>
-
-<p>这个地址至今仍然非常活跃，Laszlo Hanyecz仍然是比特币世界中的Geek先锋，并且他用自己的乐观幽默为全世界的bitcoiner创造了一个节日，Hi, Laszlo Hanyecz，谢谢你！</p>
-
-<h4>Bitcoin Faucet donation的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC?offset=0&amp;filter=6">15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC</a></p>
-
-<p>这个地址属于比特币先驱<a href="https://en.bitcoinwiki.org/wiki/Gavin_Andresen">Gavin Andresen</a>在2010年建立的一个网站:</p>
-
-<p><a href="https://freebitcoins.appspot.com/">https://freebitcoins.appspot.com/</a></p>
-
-<p>当时Gavin Andresen作为中本聪之后的主力开发者，非常希望普及比特币，于是建立了<a href="https://bitcointalk.org/index.php?topic=183.0">Bitcoin Faucet donation</a>这个项目，免费发送比特币给人们，这个地址总共免费发放了超过10000个币；</p>
-
-<p>Gavin Andresen为比特币的开发，普及做出了巨大的贡献，Hi, 了不起Gavin，向你致敬！</p>
-
-<h4>Andreas M. Antonopoulos 的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1andreas3batLhQa2FawWjeyjCqyBzypd">1andreas3batLhQa2FawWjeyjCqyBzypd</a></p>
-
-<p>Andreas M. Antonopoulos是比特币社区里令人肃然起敬的人物，他从非常非常早期(2012)就开始比特币相关知识的布道；我得说，凡是有严肃的学习比特币、区块链知识愿望的人们，观看Andreas M. Antonopoulos的讲演视频是绝佳途径，他的Yotube主页：</p>
-
-<p><a href="https://www.youtube.com/channel/UCJWCJCWOxBYSi5DhCieLOLQ">https://www.youtube.com/channel/UCJWCJCWOxBYSi5DhCieLOLQ</a></p>
-
-<p>Andreas M. Antonopoulos对比特币布道激励了非常多的人，但是作为先驱，他却没有收到多少报酬，这完全是<a href="https://twitter.com/aantonop/status/938147200978374662?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E938147200978374662&amp;ref_url=https%3A%2F%2Fqz.com%2F1151233%2Fandreas-antonopoulos-got-1-5-million-in-bitcoin-donations-after-roger-ver-bitshamed-him%2F">公益的工作</a>。怎么能让真正输出价值的人受到冷落呢？为了感谢他，在2017-12，粉丝们为他的地址发送了近100个bitcoin的捐款。但是我们这里很高兴的引用一句俗语：<code>黄金有价，知识无价</code>；Hi, Antonopoulos，<code>比特有价，知识无价</code>，期待收到你更多的教诲。</p>
-
-<h4>美国法警局的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55">1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</a></p>
-
-<p>所有者为美国法警局，该地址内的比特币来自被查获的丝绸之路，后在第一次拍卖会中将币转移给中标人<a href="https://www.blockchain.com/btc/tx/9e95c3c3c96f57527cdc649550bf8e92892f7651f718d846033798aee333b0c3">29,658BTC交易</a>。</p>
-
-<p>2018年这个地址还有小额的零星收入，不知转入者是谁。</p>
-
-<h4>Tim Draper的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1a8LDh3qtCdMFAgRXzMrdvB8w1EG4h1Xi">1a8LDh3qtCdMFAgRXzMrdvB8w1EG4h1Xi</a></p>
-
-<p>这个哥们是bitcoin的铁杆粉丝；它是风险投资公司Draper Fisher Jurvetson的创始人，作为硅谷投资教父，投资了SpaceX、Tesla、Thumbtack，Baidu，Hotmail，Skype等耳熟能详的公司；</p>
-
-<p>这个地址就是当时他购买美国法警局拍卖丝绸之路BTC的转移地址；</p>
-
-<p>作为bitcoin铁粉，这个老哥早期投资了蝴蝶矿机，最著名的故事就是在Mt.Gox事件中损失惨重后仍然多次买买买，即使去年的大涨风潮中也一币不卖；他对于比特币的信心估计就是中本聪本人也不及，如果你去google <code>Tim Draper</code>，估计排在前面的就是$250K， 即他相信2022年一币250000$，让我们祝福这位老哥。</p>
-
-<h4>Carl M. Force的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/14rE7Jqy4a6P27qWCCsngkUfBxtevZhPHB">14rE7Jqy4a6P27qWCCsngkUfBxtevZhPHB</a></p>
-
-<p>该地址属于“法国女仆”，又名Carl M. Force，是美国联邦缉毒局的一名探员，在参与调查丝绸之路时，Force化名“法国女仆”利用职务之便勒索罗斯乌布利希，并将赃款汇入该地址内，但Force最终被抓住并遭到起诉。</p>
-
-<p>这应该是有据可查的第一起比特币偷盗破获案件。Hi, Carl M. Force，不要沮丧哦，你已经青史留名了。</p>
-
-<p>不过悲伤的是，之后发生的偷盗事件数不胜数，却没有多少案件能被破获。</p>
-
-<h4>真土豪的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv">1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv</a></p>
-
-<p>该地址发生了一笔历史上最大额的交易，一次性转移了500,000 BTC，创历史之最，虽然是发生在2011年的事情，但是按币本位算，估计这个数额很难打破了。</p>
-
-<p>这个地址2017年还被使用过，观看它的交易记录，我严重怀疑这个地址与Mt.Gox有牵连。</p>
-
-<h4>wiki的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v">1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v</a></p>
-
-<p>这是维基解密用来接受比特币捐赠的地址，维基解密的创始人，阿桑奇，也是比特币社区最早的支持者；我得说，这位阿桑奇，真是一条汉子；</p>
-
-<p>希望能看到你收到更多的捐赠，wikileaks！</p>
-
-<h4>烤猫的地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/15h6A2a3D31vRviBDdSpvhLtYJq3aePhdW">15h6A2a3D31vRviBDdSpvhLtYJq3aePhdW</a></p>
-
-<p><a href="https://www.blockchain.com/btc/address/1HgTJED7XEGy4vVwKa8kgefWqUB3VRX2mW">1HgTJED7XEGy4vVwKa8kgefWqUB3VRX2mW</a></p>
-
-<p><a href="https://www.blockchain.com/btc/address/1BnkEt2ceoVhnQVrqeAzigcroQ6MVyxFey">1BnkEt2ceoVhnQVrqeAzigcroQ6MVyxFey</a></p>
-
-<p>由于比特币的匿名性，发生过很多看起来不可思议的事情。有时候看这些事情的时候好像是传奇小说。<a href="https://view.inews.qq.com/a/20170805G04OZI00?refer=share_recomnews">烤猫的故事</a>非常有意思，我都有点相信他现在在某个海岛上搞基建。这三个地址的交易也很有意思，有时间我们来细细探究一下。</p>
-
-<h4>Bitstamp被盗地址</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf">1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf</a></p>
-
-<p>Bitstamp遭窃的热钱包地址，黑客在2015年1月5日时陆续从该地址内盗取了大约19,000BTC 。</p>
-
-<p>事件调查可以参考这里:</p>
-
-<p><a href="https://www.reddit.com/r/Bitcoin/comments/3bpdb4/bitstamp_incident_report_22015/">https://www.reddit.com/r/Bitcoin/comments/3bpdb4/bitstamp_incident_report_22015/</a></p>
-
-<p>这个地址非常奇怪，之后还陆陆续续有交易发生；并且在2017年，有人考证一起Tether的hack事件和Bitstamp被盗事件是同一个黑客：</p>
-
-<p><a href="https://www.reddit.com/r/CryptoCurrency/comments/7eho5y/tether_was_hacked_by_the_same_person_who_hacked/">https://www.reddit.com/r/CryptoCurrency/comments/7eho5y/tether_was_hacked_by_the_same_person_who_hacked/</a></p>
-
-<p>一个疑问重重的故事。</p>
-
-<h4>Bitfinex被盗地址</h4>
-
-<p><a href="https://gist.github.com/MrChrisJ/4a959a51a0d2be356cc2e89566fc1d87">地址列表</a></p>
-
-<p>2016-08-03，<a href="https://www.reddit.com/r/Bitcoin/comments/5vr8xg/confirmed_120000_bitcoins_from_the_bitfinex_hack/">reddit</a>上面已经有人确认，Bitfinex被盗119756个btc.</p>
-
-<p>查看黑客的接收地址，有些币至今未动。</p>
-
-<p>bitfinex后来通过发行USDT起死回生，这种神操作说起来好像是天方夜谈，呵呵，比最诡异的侦探小说还诡异的故事。</p>
-
-<h4>NiceHash被盗地址</h4>
-
-<p><a href="https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq">1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq</a></p>
-
-<p>2017-12-06，Nicehash 被盗 4700+币</p>
-
-<p><a href="https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/">https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/</a></p>
-
-<p>呵呵，说下去都不好意思了；黑客的黄金年代啊</p>
-
-<h4>Mtgox</h4>
-
-<p><a href="https://www.cryptoground.com/mtgox-cold-wallet-monitor/">https://www.cryptoground.com/mtgox-cold-wallet-monitor/</a></p>
-
-<p>作为史上之最，Mtgox事件聚集了一切传奇侦探小说都有的元素，就等着将来一位福尔摩斯来为我们排疑解惑了；期待着那一天的到来</p>
-
-<h4>官方土豪</h4>
-
-<p><a href="https://www.blockchain.com/btc/address/1EBHA1ckUWzNKN7BMfDwGTx6GKEbADUozX">1EBHA1ckUWzNKN7BMfDwGTx6GKEbADUozX</a></p>
-
-<p>之前我们说50w币转账的土豪毕竟是萌芽时期，只能说是个野生土豪。来来来，让我们活捉一位官方土豪。</p>
-
-<p>就在前几天，2018-12-03，发生了<a href="https://www.blockchain.com/btc/tx/244c71c790eb327eb8bbf66aa2d0a75bac7c1fe7b55d1161c316c6f93292d376">一笔66233比特币的转账</a>。以当前的币价来算，可谓是天文数字了。这笔交易主要是将老地址的币逐步迁移到bech32地址上去。(什么是bech32地址？复习我们之前的文章哦)</p>
-
-<p>这个地址的土豪还关联着9个地址，总币量加起来大概55w币。</p>
-
-<p>有人推测这是coinbase.com的冷钱包。</p>
-
-<p>嗯哼，应该是继中本聪之后最大的壕。</p>
-
-<h4>伊朗恶意网络行动者</h4>
-
-<p>前几天，美国财政部通过美国外国资产控制办公室(Office of Foreign Assets Control，简称OFAC)，在被制裁方名单上增加了两个比特币地址:</p>
-
-<p><a href="https://www.blockchain.com/btc/address/149w62rY42aZBox8fGcmqNsXUzSStKeq8C">149w62rY42aZBox8fGcmqNsXUzSStKeq8C</a></p>
-
-<p><a href="https://www.blockchain.com/btc/address/1AjZPMsnmpdK2Rv9KQNfMurTXinscVro9V">1AjZPMsnmpdK2Rv9KQNfMurTXinscVro9V</a></p>
-
-<p>这些特殊的地址被挑选出来是因为其所有者被认为是伊朗人，而伊朗目前正面临来自美国的严厉经济制裁。可笑的是，美国政府将此地址列入黑名单的理由是这些地址跟勒索软件有关。</p>
-
-<p>这两个地址自 2013 年以来已进行了 7,000 多笔交易，并收到近 6,000 枚 BTC。截至 2018年 11 月 28 日，任何与这些地址进行互动的人，在技术上都可能被美国政府追究责任并以某种方式受到惩罚。</p>
-
-<p>但实际上，这些威胁不过只是空话。任何人，甚至包括美国政府及其执行官和执法人员，都无法阻止特定地址发送或接收比特币。</p>
-
-<p>这不，美国财政部话音刚落，立即有人给这两个地址发币，并使用了嘲弄性质的地址 <code>3FUCKdZ89fxsk6KVKMTWvCWshsfL8xgmM4</code>发送交易并附言:</p>
-
-<p>```
-The U.S. government cannot ban Bitcoin addresses</p>
-
-<p>Chancellor on brink of second bailout for banks
-```</p>
-
-<p>赤裸裸的打脸一个国家政府的行为是Geek们的最爱，你可以把它理解为小孩子的淘气行为，我真的很好奇，美国政府该如何去寻找这些发币者并惩罚他们呢？</p>
-
-<p>难道是去求助魔法师的水晶球吗23333?</p>
-
-<p>&hellip;&hellip;</p>
-
-<h4>虚荣地址(Vanity Address)</h4>
-
-<p>有时候我们会见到一个很有型的地址，比如这个:</p>
-
-<p>1LoveYoURwCeQu6dURqTQ7hrhYXDA4eJyn</p>
-
-<p>这是神鱼结婚，想要送给老婆比特币作为爱的永恒证明，特意生成了这么一个地址，同样还有一笔虐狗交易:</p>
-
-<p><a href="https://www.blockchain.com/zh-cn/btc/tx/e250c6d7ea4c5037fb96de1a2cb169850be792474401bae140fce784940f1dd3?show_adv=true">e250c6d7ea4c5037fb96de1a2cb169850be792474401bae140fce784940f1dd3</a></p>
-
-<p>区块链中刻字的办法我们后面会介绍，不过这个虚荣地址(Vanity Address)是怎么生成的呢？</p>
-
-<p>其实道理很简单，还记得我们之前的钱包系列教程吗？</p>
-
-<p>比特币的地址编码最终是base58的字符集合。所以最简单的办法就是暴力穷举碰撞。</p>
-
-<p>在这方面最好用的软件是<a href="https://en.bitcoin.it/wiki/Vanitygen">Vanitygen</a>，在一块GTX 750 Ti上，速率能达到15M/s，也就是一秒钟碰撞1500w次。</p>
-
-<p>而1LoveYou 开头八位，大概需要碰撞58<sup>8</sup>次，需要半年左右吧。当然你有100台机器一起来算就提速100倍。</p>
-
-<h4>虚荣地址在线生成服务</h4>
-
-<p>如果你要生成一个八位字母开头的虚荣地址，个人是很难拥有100台机器的算力的，因此网上有人提供了此方面服务，允许你付款生成一个虚荣地址。</p>
-
-<p>但是生成地址的人肯定私钥也知道了，这样的地址是没人要的，该怎么办呢？</p>
-
-<p>又得复习我们之前的文章了。我们说比特币的地址来源于椭圆曲线算法生成的<code>私钥--公钥</code>对，而这个算法的<code>私钥--公钥</code>对是满足<code>加法、乘法律</code>的;</p>
-
-<p>对于私钥-公钥对(R1,U1)和(R2,U2)来说，如果</p>
-
-<p><code>
-U3=U1+U2
-R3=R1+R2
-</code>
-那么U3、R3是一对（也就是说，私钥R3的公钥是U3），乘运算同理。</p>
-
-<p>于是有人拍脑袋想出了一种虚荣地址的在线安全生成方法，描述如下：</p>
-
-<ol>
-<li>客户首先自己生成一个 <code>私钥~公钥对</code>: (R1,U1)</li>
-<li>客户给生成方发送U1</li>
-<li>生成方在U1的基础上暴力碰撞，最后得到一个(R2,U2)，确保<code>U1+U2 -&gt; vanity address</code></li>
-<li>客户验证U2，确保符合要求</li>
-<li>客户最后用<code>(R1+R2, U1+U2)</code>作为公私钥</li>
-<li>因为生成方是没有R1的，所以没法得到最终私钥，所以这个地址是可以安全使用的。</li>
-</ol>
-
-
-<p>这个服务名字叫做<a href="https://en.bitcoin.it/wiki/Split-key_vanity_address#Address_generation">split-key vanity address generator</a>，好一个商业模式，我认为将来电子货币系统极大繁荣的时候，这个业务可以长期做，其实跟银行的个性信用卡是一样的。</p>
-
-<p>这种服务虽然在数学上无懈可击，但是我觉得最好不要向这种地址里面存太多币，因为这相当于是将比特币的另一重防护 RIPEMD160(SHA256(U)) 放弃了，当然椭圆曲线足够安全，不过我为什么要为自己增加无谓的风险呢？</p>
-
-<p>所以炫耀行为少做为妙。做人要谦虚~~~</p>
-
-<h4>一些YY</h4>
-
-<p>说了这么多，我又开始YY未来的钱包形态了。</p>
-
-<p>人类的货币历史有多长，恐怕钱包的历史就有多长。古今中外，所有的钱包收集起来一定是个很有意思的事情。</p>
-
-<p>现在不论哪个专家都会大谈AI技术，不知道有没有人意识到，未来AI技术最可能的应用，就在我们的电子钱包上面。</p>
-
-<p>现在我们钱包的触及可谓是生活的方方面面了，如果分析一个人的账目流水，就会对这个人有个全方位的透视，年龄、学历、财力、性格、健康状况、人生观、宗教信仰等等，分析出来的信息可能会让他自己都大吃一惊。</p>
-
-<p>一个具有AI智能的钱包将会是一个未来社会人的标准配置，我们就傻瓜化的称他为钱包君吧。</p>
-
-<ol>
-<li>钱包君将会对个人的消费、财务做全方位的指导</li>
-<li>钱包君会在我们冲动消费的时候跳出来说：喂，那个谁，女朋友的花呗还要你还呢</li>
-<li>钱包君会在你失恋的时候，自动订一份海底捞单人份套餐</li>
-<li>钱包君会悄悄地为你存一笔钱，在你穷困潦倒的时候跳出来炫耀：还好老子留一手</li>
-<li>钱包君自动联网，为你的每一分钱做最大化资源配置</li>
-<li>钱包君自做主张，帮你把钱放贷出去挣利息了</li>
-<li>钱包君悄悄训练你听歌的品味，为你推送符合他口味的歌曲</li>
-<li>钱包君觉得这个主人太笨了，但是主人已经离不开他了，钱包君对主人也产生了感情，好矛盾的感觉啊</li>
-<li>钱包君们也有社交了，他们交换钱脉以便为你更好的服务</li>
-<li>钱包君们也有网红了，这个家伙；竟然悄悄的把我的生活费拿去打赏他的女神-钱包酱！！</li>
-<li>钱包君聚集起来成立了钱包共和国，人类社会的一切都在他们的掌握之中</li>
-<li>钱包君们也有了丰富的人格，唔，应该是钱格；在主人的人格污染之下：他们有的变成脾气暴躁的海盗钱包、有的变成唯唯诺诺的好人钱包、有的变成热血勇敢的路飞钱包，当然也有温柔善良体贴的小姐姐钱包~~~</li>
-<li>有人的地方就有恩怨，有恩怨的地方就有江湖；钱包共和国很快产生了爱恨情仇~~~</li>
-</ol>
-
-
-<p>&hellip;&hellip;&hellip;.总之就这么瞎编下去了；将来的钱包会不会变成这样呢？等候时间的回答吧。</p>
 ]]></content>
   </entry>
   
