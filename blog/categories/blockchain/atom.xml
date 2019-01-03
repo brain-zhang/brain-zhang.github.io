@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-03T20:50:10+08:00</updated>
+  <updated>2019-01-03T20:56:32+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -46,7 +46,7 @@
 <li>sig是由两个值组成的，Sig=(R,S)</li>
 <li>sig是嵌入在scriptSig中，用一种名为<code>DER-encoded ASN.1 octet representation</code>的编码方式编码的。OpenSSL并没有强制要求每个签名编码结果只能有一个值。</li>
 <li>对于每一个 ECDSA <code>signature(R,S)</code>，还存在相同消息的另外一个有效签名: <code>signature(R,-S(mod N))</code></li>
-<li>一个恶意攻击者得到Sig之后，可以手工构造另外一个signature(R,-S(mod N))嵌入到scriptSig中，这和之前的scriptSig不一样，所以TX ID也会发生变化</li>
+<li>一个恶意攻击者得到Sig之后，可以手工构造另外一个<code>signature(R,-S(mod N))</code>嵌入到scriptSig中，这和之前的scriptSig不一样，所以TX ID也会发生变化</li>
 <li>这笔新的交易输入输出跟原来的交易完全一样，也是合法的，但是TX ID不同了。</li>
 </ol>
 
@@ -104,8 +104,6 @@
 <p>最主要的描述在BIP141中:</p>
 
 <p><a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki</a></p>
-
-<p><a href="https://bbs.huaweicloud.com/blogs/710256bf476611e89fc57ca23e93a89f">https://bbs.huaweicloud.com/blogs/710256bf476611e89fc57ca23e93a89f</a></p>
 
 <h2>原理</h2>
 
@@ -322,7 +320,7 @@ return commitment;
 
 <p>而隔离验证是个软分叉，为啥不能顺便再搞一点优化呢？毕竟软分叉的机会不多啊。于是开发者们顺便修改了四个签名验证函数（CHECKSIG，CHECKSIGVERIFY，CHECKMULTISIG和CHECKMULTISIGVERIFY）的语义，改变了交易承诺散列的计算方式。</p>
 
-<p>下面的说明引用自<Master Bitcoin>:</p>
+<p>下面的说明引用自 Master Bitcoin:</p>
 
 <blockquote><p>比特币交易中的签名应用于交易哈希，交易数据计算，锁定数据的特定部分，表明签名者对这些值的承诺。例如，在简单的SIGHASH_ALL类型签名中，承诺哈希包括所有的输入和输出。</p>
 
@@ -383,8 +381,6 @@ return commitment;
 
 <h2>优点</h2>
 
-<p><a href="https://github.com/tianmingyun/MasterBitcoin2CN/blob/master/appdx-segwit.md">https://github.com/tianmingyun/MasterBitcoin2CN/blob/master/appdx-segwit.md</a></p>
-
 <p>说了这么多，当然Segwit的升级还是又非常多的好处的~~~</p>
 
 <h4>可以用软分叉增加最大区块容量:</h4>
@@ -425,7 +421,7 @@ Total size是包含了witness数据的总大小
 
 <h4>为闪电网络的实施铺平了道路</h4>
 
-<p>闪电网络应该是继中本聪创造比特币之后最重量级的创新，支持者和反对者为其炒了一个天翻地覆，这个值得我们后面写文章大书特书，还是那句话，后文再见吧。</p>
+<p>闪电网络应该是继中本聪创造比特币之后最重量级的创新，支持者和反对者为其吵了一个天翻地覆，这个值得我们后面写文章大书特书，还是那句话，后文再见吧。</p>
 
 <h2>副作用</h2>
 
@@ -469,6 +465,12 @@ block weight &lt;= 4M</p>
 
 <p>老实说，这个论据仔细读读还是蛮有道理的，但是实在说的太深刻太哲理了，码农对这种东西天生无感，我就不啰嗦了，大家感兴趣可以自己去搜索这方面资料。</p>
 
+<h2>小结</h2>
+
+<p>以上就是对隔离见证这个东东最简单的描述，我尽力做到简洁中立；但是实际上我觉得整个过程写一本书也不为过；</p>
+
+<p>那么，隔离见证实施之后；就是闪电网络的崛起了，我们下篇文章再见。</p>
+
 <h2>参考</h2>
 
 <h4>四份有关隔离见证的比特币改善方案:</h4>
@@ -489,11 +491,9 @@ block weight &lt;= 4M</p>
 
 <p><a href="https://blockchain.info/tx/bb41a757f405890fb0f5856228e23b715702d714d59bf2b1feb70d8b2b4e3e08">https://blockchain.info/tx/bb41a757f405890fb0f5856228e23b715702d714d59bf2b1feb70d8b2b4e3e08</a></p>
 
-<h2>小结</h2>
+<h4>其它资料</h4>
 
-<p>以上就是对隔离见证这个东东最简单的描述，我尽力做到简洁中立；但是实际上我觉得整个过程写一本书也不为过；</p>
-
-<p>那么，隔离见证实施之后；就是闪电网络的崛起了，我们下篇文章再见。</p>
+<p><a href="https://github.com/tianmingyun/MasterBitcoin2CN/blob/master/appdx-segwit.md">https://github.com/tianmingyun/MasterBitcoin2CN/blob/master/appdx-segwit.md</a></p>
 ]]></content>
   </entry>
   
