@@ -82,6 +82,130 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">用TCP/IP进行网际互连 (笔记)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-05T08:19:18+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/11/05/yong-tcp-slash-ipjin-xing-wang-ji-hu-lian-bi-ji/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>还是要补习基础知识啊。</p>
+
+<p>譬如TCP的状态机转换，我每次都得花很长很长的时间才能反应过来什么时候会进入TIME_WAIT,CLOSE_WAIT&hellip;.</p>
+
+<p>譬如一个pcap包，看了很长很长时间才发现是个规避糊涂窗口的Nagle算法&hellip;</p>
+
+<p>譬如这本书，每次扫一遍好像都能知道怎么回事，过了段时间就又雾里看花了&hellip;.</p>
+
+<p>这次通读一遍，又发现一些有意思的东西，记一下:</p>
+
+<h3>底层网络技术回顾</h3>
+
+<ul>
+<li><p>最初的电话系统是面向连接的电路交换，后期(就是现在)的IP网络是基于分组交换的</p>
+
+<p>  讲起来很简单，实际上为了实现分组交换网上的通信质量达到电路直接交换的效果，还是要付出很大努力，才能克服时延、抖动、通信质量等多个问题</p></li>
+<li><p>以太网容量</p>
+
+<p>  当前以太网不是为一对计算机之间提供可能的最高吞吐率而优化的，而是为更多网点介入和更多通信总量优化的。当前10G以太网的帧长度和格式还是保持10M网的标准，从这方面看，10G以太网在物理层的协议上还是有优化余地的。</p></li>
+<li><p>POE可以提供48V,不超过15.4W的功率消耗，这个数字还是挺可观的</p></li>
+<li><p>关于以太网的一些特点</p>
+
+<p>  CSMA/CD 是很简单但有效的手段，值得后来的分布式系统借鉴</p>
+
+<p>  以太网在物理层上只是&#8221;尽最大努力交付(best effort delivery)&ldquo;，但如果碰到问题，错误不会得到通知，数据包会丢弃</p>
+
+<p>  frame帧大小 64B~1518B</p>
+
+<p>  线缆的集合造就集线器，集线器升级为连接任意多的以太网就变成网桥，网桥提供自适应的帧转发，这样任意多的以太网就集合为一个物理网络，他们也遵循CSMA/CD。网桥提供更完善的隔离和配置方案就变成了交换机。</p>
+
+<p>  以太网的地址(MAC)是要向IEEE买的</p>
+
+<p>  以太网基础上升级为WIFI就有了两个很重要的技能:</p>
+
+<pre><code>* 可作为接入点基站
+* 可作为接入点连接(点对点),也就是WI-MAX
+</code></pre></li>
+</ul>
+
+
+<h3>网际互联的模型</h3>
+
+<ul>
+<li><p>路由器的工作，某种情况下和DHT很相似，不过实现的约束更多一些</p></li>
+<li><p>定向广播地址，主机号都为1</p></li>
+<li><p>受限广播地址，255.255.255.255 (本地子网广播)</p></li>
+<li><p>0.0.0.0有时候也用于广播，这是早期BSD实现的一个bug。后来有些软件为了兼容，也这么实现了。</p></li>
+<li><p>0.0.0.0 表示无路由目标，有些应用把绑定这个的设置，认为是绑定全部本地IP。类似于一些设置中，设为0就相当于该项设置无限制。</p></li>
+<li><p>127.0.0.1 是本地环回地址, 专供自己访问自己, 速度大( 不用经过整个协议栈 )</p></li>
+<li><p>地址管理早期是由<a href="https://www.iana.org/about">IANA</a> 管理的，早期的IANA地址维护者仅仅是一个人,<a href="http://en.wikipedia.org/wiki/Jon_Postel">Jon Postel</a>，这位传奇人物在1998年过世，后来IANA成长为更完善的组织，ICANN是也,目前由ICANN管理地址相关分配工作。</p></li>
+<li><p>IBM的地址段是9.0.0.0，AT&amp;T的地址段是12.0.0.0</p></li>
+</ul>
+
+
+<h3>ARP</h3>
+
+<ul>
+<li>没什么好讲的了，这个是最熟悉的</li>
+</ul>
+
+
+<h3>无连接网络</h3>
+
+<pre><code>* 错误会被丢弃!!!
+
+* IP报文已经包含了源-目的地址
+
+* 分片控制
+
+* 优先级
+
+* 校验和
+
+* 路由信息和时间戳
+</code></pre>
+
+<h3>ICMP</h3>
+
+<ul>
+<li>最好和Ping结合起来学习</li>
+</ul>
+
+
+<p>最后，读这本书后面的应用层也很好玩，能延伸想象很多东西，比如现在Linux下虚拟网卡的实现，Vmware如何虚拟物理网卡的，还有早期浩方上如果实现虚拟局域网的，很多原来看起来Magic的东西，其实原理很简单，平时多想想会很有趣。</p>
+
+<p>从TCP/IP的设计来看，我们的网络应用还是停留在很&#8221;初级&#8221;的阶段，还没有完全发挥出他的潜力。未来肯定还会出现像P2P软件这样神奇的颠覆者，TCP/IP所承载的流量也会一次次变化，如果把TCP/IP比作海的话，不知道下一位弄潮儿是谁。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/">Uwsgi部署django程序</a></h1>
     
     
@@ -988,55 +1112,6 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/auto-reload-modules-in-django-shell/">Auto Reload Modules in Django Shell</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T08:36:01+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/17/auto-reload-modules-in-django-shell/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2014/09/17/auto-reload-modules-in-django-shell/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>python manage.py shell</code></p>
-
-<p>太常用了，但是每次修改模块代码后，总要 exit—>reset 才能重新load一遍代码，实在是不爽。</p>
-
-<p>也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。</p>
-
-<p>最近发现一个扩展，django-externsions:</p>
-
-<p><a href="https://github.com/django-extensions/django-extensions">https://github.com/django-extensions/django-extensions</a></p>
-
-<p>装上好用不少，貌似还比较靠谱，推荐之。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -1054,6 +1129,10 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/01/16/wsl-best-practice/">Wsl Best Practice</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/01/16/alias-rm-to-mv/">Alias Rm to Mv</a>
       </li>
     
@@ -1067,10 +1146,6 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
     
       <li class="post">
         <a href="/blog/2019/01/01/bi-te-bi-de-jiao-yi-6/">比特币的交易-6</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/12/28/bi-te-bi-de-jiao-yi-5/">比特币的交易-5</a>
       </li>
     
   </ul>
@@ -1171,7 +1246,7 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (61)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (62)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

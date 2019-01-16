@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-16T14:07:23+08:00</updated>
+  <updated>2019-01-16T14:23:56+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Wsl Best Practice]]></title>
+    <link href="https://happy123.me/blog/2019/01/16/wsl-best-practice/"/>
+    <updated>2019-01-16T14:13:58+08:00</updated>
+    <id>https://happy123.me/blog/2019/01/16/wsl-best-practice</id>
+    <content type="html"><![CDATA[<p>WSL用了一年，感觉还不错。尤其是在我的机器上pypy3.5版本的计算性能竟然超越了原生Linux和Windows。成为Python运行效率最高的平台，实在是匪夷所思的事情。</p>
+
+<p>WSL最让我满意的，是命令行里面可以结合Windows和Linux的命令行工具来管道处理，这个实在是太赞了。纯粹计算类的程序，Windows上面有很多现成的命令行工具，现在终于能:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样来搞了，事实上，我自己写了很多Python脚本来处理Powershell自带的很多工具输出的内容，能直接重定向到Linux上面实在太好了。</p>
+
+<p>另外，WSL网络协议栈和Windows是共享的，倒是直接省了一个事，我直接把http_proxy配置成本地的shadowsock服务就很安逸的翻墙了；方便。</p>
+
+<p>最后，就等着磁盘性能的改善了。</p>
+
+<p>下面记一下常用的坑：</p>
+
+<ul>
+<li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo umount /mnt/g && sudo mount -t drvfs "G:" /mnt/g</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
+</ul>
+
+
+<p>目前无解；要么禁用卡巴斯基的HTTP过滤功能，要么回退2018版本</p>
+
+<p>最后，多个版本实验之后，锁定Win10 1709我也能连续3个月不关机了，稳定性可喜可贺。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Alias Rm to Mv]]></title>
@@ -6445,156 +6486,6 @@ block weight &lt;= 4M</p>
 <p><a href="https://book.douban.com/subject/30280401/">https://book.douban.com/subject/30280401/</a></p>
 
 <p><a href="https://book.douban.com/subject/1036413/">https://book.douban.com/subject/1036413/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[我们的货币超发了吗]]></title>
-    <link href="https://happy123.me/blog/2018/10/16/wo-men-de-huo-bi-chao-fa-liao-ma/"/>
-    <updated>2018-10-16T19:21:08+08:00</updated>
-    <id>https://happy123.me/blog/2018/10/16/wo-men-de-huo-bi-chao-fa-liao-ma</id>
-    <content type="html"><![CDATA[<p>这是一个没有公认答案的问题，但是从央行的角度来说说，真有点冤；</p>
-
-<p>看看一些数据吧：</p>
-
-<!-- more -->
-
-
-<h4>美国 (单位：亿美元)</h4>
-
-<table>
-<thead>
-<tr>
-<th>Year</th>
-<th> M0  </th>
-<th> M2 </th>
-<th> GDP</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>2008</td>
-<td>8370 </td>
-<td>74574  </td>
-<td>144776</td>
-</tr>
-<tr>
-<td>2018</td>
-<td>38500</td>
-<td>138344 </td>
-<td>193906</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>来源：<a href="https://stock-ai.com/eom-1-M2SL.php">https://stock-ai.com/eom-1-M2SL.php</a></p>
-
-<h4>中国 (单位:亿元)</h4>
-
-<table>
-<thead>
-<tr>
-<th>Year</th>
-<th> M0 </th>
-<th> M2 </th>
-<th>GDP</th>
-<th> 外汇储备(亿美元)</th>
-<th> 外汇占款(亿元) </th>
-<th> 汇率</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>2008 </td>
-<td>  36673 </td>
-<td> 403442.2 </td>
-<td> 265810.30 </td>
-<td> 15898.10 </td>
-<td> 115168.71 </td>
-<td> 7.4</td>
-</tr>
-<tr>
-<td>2018 </td>
-<td>  70645 </td>
-<td> 1676800 </td>
-<td> 827122.00 </td>
-<td> 31399.49 </td>
-<td> 214788 </td>
-<td> 6.6</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>来源：<a href="http://www.pbc.gov.cn/diaochatongjisi/116219/index.html">http://www.pbc.gov.cn/diaochatongjisi/116219/index.html</a></p>
-
-<p>Tooltips:</p>
-
-<h3>m2对应的只是存款，没有包含所有的可变现金融资产。另外中美M2统计口径不同</h3>
-
-<h4>美国M2包含零售的货币市场基金份额，是指在售的部分，美国M1、M2的统计口径分别如下：</h4>
-
-<ul>
-<li><p>M1：包括：</p>
-
-<p>  1）美国财政部、联邦储备银行以及存款货币机构之外的现金；
-  2）旅行支票；
-  3）商业银行活期存款；
-  4）其他可支付存款；NOW；ATS以及储蓄贷款协会的定期存款。</p></li>
-<li><p>M2：包括M1，以及
-  1）储蓄存款（包括货币市场存款账户）；
-  2）小额定期存款（即10万美元以下）；
-  3）零售的货币市场基金份额。</p></li>
-</ul>
-
-
-<p>当前美国货币统计口径最大的M2并未包括机构的大额存款以及境外流入的资金，主要是个人的储蓄存款以及机构的小额定期存款。美国的M2仅大致相当于中国的M1加上储蓄存款，即小于中国M2的统计口径。</p>
-
-<h4>中国的M2包括了货币和准货币，基本上代表了货币总量即广义货币。但是，国际上并不存在这样的约定俗成：M2即是广义货币。</h4>
-
-<h3>中国M2是否超发</h3>
-
-<h4>统计方法差异</h4>
-
-<p>2016-06的统计数据，美国GDP总量17.87万亿美元，中国GDP总量10.42万亿美元，美国总量是中国的1.7倍。美国M2总量12万亿，中国M2总量22万亿，中国M2是1.83倍，看起来似乎人民币超发了。</p>
-
-<p>但是美国基金行业总量17.8万亿美元，中国基金行业总量仅1.2万亿美元，美国国债规模12万亿美元，中国国债规模3万亿美元</p>
-
-<p>美国的财富更多通过直接投资来体现，不体现在M2中，比如同样是购买债券，中国的模式是“个人存银行－》银行购买国债”，而美国的模式是“个人购买债券基金－》债券基金购买国债”或者“个人和机构直接购买国债”。</p>
-
-<p>如果 <code>P＝M2+开放式基金余额＋国债余额</code></p>
-
-<ul>
-<li>P（美国）＝12+17.8+12=41.8</li>
-<li>P（中国）＝22+3+1.2=26.2</li>
-</ul>
-
-
-<p>那么P（美国）／P（中国）＝1.6</p>
-
-<p>这样看又是正常的</p>
-
-<p>链接：<a href="https://xueqiu.com/5819606767/70273695">https://xueqiu.com/5819606767/70273695</a></p>
-
-<h4>外汇占款理解</h4>
-
-<ul>
-<li><p>从<code>M0/外汇占款</code>来看，并没有超发；汇率也是正常的波动</p></li>
-<li><p>从美国自己的M2膨胀来看，美元购买力其实下降了，我们的外汇占款发行方式其实吃了美国QE的亏，这是强势美元全世界割韭菜，怨不得央行</p></li>
-</ul>
-
-
-<h3>结论</h3>
-
-<ul>
-<li><p>央行对外通过购买美国国债对抗美元通胀，对内实行外汇占款为基础的本币发行，佐以发行国债冲销干预M2超发隐患，操作水平是非常高的，没有可黑的地方;</p></li>
-<li><p>除去M2的统计差异，我们的M2/M0比值相对于美国过高；货币周转快，这是我们处于发展相对高速的周期决定的</p></li>
-<li><p>美元的通胀和我们高速的货币周转共同造成了国内通胀压力，这不能全部甩锅货币政策</p></li>
-<li><p>M2迅猛增长还是经济周期的大势决定，经济周期是逃不开的；</p></li>
-<li><p>我们已经享受了很长时间的高增长繁荣，这是不可持续的，有繁荣就有衰落，平常心对待之</p></li>
-</ul>
-
 ]]></content>
   </entry>
   
