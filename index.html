@@ -82,6 +82,63 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/01/16/alias-rm-to-mv/">Alias Rm to Mv</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-01-16T14:00:18+08:00" pubdate data-updated="true">Jan 16<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/01/16/alias-rm-to-mv/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2019/01/16/alias-rm-to-mv/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前一直简单的用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias rm='mv -f $@ ~/.trash'</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>取代rm命令。</p>
+
+<p>这样用着有个不便的地方，就是有时候做个脚本命令，带个<code>;</code>的时候会解析有问题。今天突然发现一个用函数来替代的好办法，记一下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考资料：</p>
+
+<p><a href="https://www.cnblogs.com/f-ck-need-u/p/7385133.html">https://www.cnblogs.com/f-ck-need-u/p/7385133.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/01/06/bi-te-bi-de-jiao-yi-7/">比特币的交易-7</a></h1>
     
     
@@ -519,50 +576,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/11/26/bitcoind-conf-template/">Bitcoind Conf Template</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-11-26T14:51:43+08:00" pubdate data-updated="true">Nov 26<span>th</span>, 2018</time>
-        
-           | <a href="/blog/2018/11/26/bitcoind-conf-template/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/11/26/bitcoind-conf-template/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>bitcoin core 0.17版本开始废弃了不少RPC调用，另外RPC配置增加了test.rpcport参数，存一份模板:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/11/26/bitcoind-conf-template/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -578,6 +591,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/01/16/alias-rm-to-mv/">Alias Rm to Mv</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/01/06/bi-te-bi-de-jiao-yi-7/">比特币的交易-7</a>
       </li>
     
@@ -591,10 +608,6 @@
     
       <li class="post">
         <a href="/blog/2018/12/28/bi-te-bi-de-jiao-yi-5/">比特币的交易-5</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/12/24/bi-te-bi-de-jiao-yi-4/">比特币的交易-4</a>
       </li>
     
   </ul>
@@ -695,7 +708,7 @@
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (60)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (61)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
