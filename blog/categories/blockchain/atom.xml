@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-18T10:42:51+08:00</updated>
+  <updated>2019-01-18T13:29:40+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -98,9 +98,9 @@ sort 4prefix.addr|uniq -c|sort -nr
 
 <p>而且另外一个无法预测的情况就是，将来人们的安全意识加强，一般一个地址只要用过就会丢弃掉，所以最终bloomfilter的条目变化会非常频繁，还要考虑一个数量级的损耗。</p>
 
-<p>目前测算，随着手续费用的提高，即使多次减半，将来挖矿的收益估计很长期稳定1-10btc/block级别，在如果将来以1年时间碰撞一个私钥的概率期望测算的话，一年大概是2<sup>30</sup> 秒，这样碰撞效率至少要提高到 2<sup>90</sup> 级别，才能达到<code>破解私钥得利</code>><code>挖矿得利</code> 的效果；</p>
+<p>目前测算，随着手续费用的提高，即使多次减半，将来挖矿的收益估计很长期稳定1-10btc/block级别，在如果将来以1年时间碰撞一个私钥的概率期望测算的话，一年大概是2<sup>25</sup> 秒，这样碰撞效率至少要提高到 2<sup>95</sup> 级别，才能达到<code>破解私钥得利</code>><code>挖矿得利</code> 的效果；</p>
 
-<p>算力提高到2<sup>90</sup>，不管用什么技术，即使是量子计算，也很难想象能到这个量级啊；</p>
+<p>算力提高到2<sup>95</sup>，不管用什么技术，即使是量子计算，也很难想象能到这个量级啊；</p>
 
 <p>而且，即使到了这一天，把RIPEMD替换成一种碰撞空间更大的算法就OK了。</p>
 
