@@ -82,6 +82,64 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-21T09:11:55+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2018</time>
+        
+           | <a href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然已经进入X时代了，但电脑城装机习惯性还是用Ghost，无他，习惯方便。</p>
+
+<p>Linux上面系统迁移，网上搜一搜，大批文章还是原始的dd, rsync之类；当然，不是说他不行，而是面向小白实在是有点坑啊。</p>
+
+<p>云时代，不同厂商间基本都提供了<code>快照</code>+<code>在线热迁移</code>的方案了，用起来也很舒服。</p>
+
+<p>那么，作为一个VPS小白用户，怎么在不同的账号，或者说不同的厂商之间，迁移我的Linux系统呢？</p>
+
+<p>比如我在vultr上面有两个账号，vultr的快照功能是很赞的，免费、速度快、生成虚机靠谱；</p>
+
+<p>那么问题来了，怎么把账号A的Linux A迁移到账号B的Linux B虚机上呢？</p>
+
+<p>官方回复是还没有考虑这个功能，然后Linux怎么可能做不到这种简单的事情呢？当然立刻就有人回复了详细的搞法，还贴心的附录了视频:</p>
+
+<p><a href="https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2">https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a></h1>
     
     
@@ -650,81 +708,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">How to Sort a Very Very Very Big File</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-05-03T07:21:50+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2018</time>
-        
-           | <a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
-
-<p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
-
-<p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
-
-<p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割手动外排搞定~~</p>
-
-<h3>把大象装进冰箱分为几步？</h3>
-
-<h3>三步:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>split -l 1000000000 huge-file small-chunk
-</span><span class='line'>
-</span><span class='line'>for X in small-chunk*; do sort -u &lt; $X &gt; sorted-$X; done
-</span><span class='line'>
-</span><span class='line'>sort -u -m sorted-small-chunk* &gt; sorted-huge-file && rm -rf small-chunk* sorted-small-chunk*</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>小TIPS:</h3>
-
-<p>如果只要去重不要排序的话，尽量不要用 sort -u或者sort | uniq，这个是nLog(n)的效率，让人捉急。</p>
-
-<p>可以利用awk的数组是内存hash表的特性，直接awk来做，前提是你内存够大，瞎估估需要十倍于数据的内存吧:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>PS:</h3>
-
-<p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -742,6 +725,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/">一种提高比特币私钥碰撞机率的思路</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/01/16/wsl-best-practice/">Wsl Best Practice</a>
       </li>
     
@@ -755,10 +742,6 @@
     
       <li class="post">
         <a href="/blog/2019/01/03/happy-10th-birthday-bitcoin/">Happy 10th Birthday Bitcoin</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/01/bi-te-bi-de-jiao-yi-6/">比特币的交易-6</a>
       </li>
     
   </ul>
@@ -815,7 +798,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (44)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (45)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

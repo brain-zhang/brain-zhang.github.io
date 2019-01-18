@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Megacli Cheat - Living a Simple Life is a Happy Life</title>
+  <title>一种提高比特币私钥碰撞机率的思路 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="做Raid，用到了megacli，又学了一套命令. 显示Rebuid进度 1
-/opt/MegaRAID/MegaCli/MegaCli64 -PDRbld -ShowProg -physdrv[20:2] -aALL 查看ES 1
-/opt/MegaRAID/MegaCli/MegaCli64 &hellip;">
+  <meta name="description" content="之前的文章里面我们提到了一个名为LBC的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。 这个项目本身详尽计算了这种碰撞成功的几率，目前碰撞空间大概在 2136 级别。 目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的: 1
+AWS p2 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +21,7 @@
   
 
   
-  <link rel="canonical" href="https://happy123.me/blog/2016/08/05/megacli-cheat">
+  <link rel="canonical" href="https://happy123.me/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -81,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">Megacli Cheat</h1>
+      <h1 class="entry-title">一种提高比特币私钥碰撞机率的思路</h1>
     
     
       <p class="meta">
@@ -97,7 +96,7 @@
   
 
 
-<time datetime="2016-08-05T03:21:49+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2016</time>
+<time datetime="2019-01-18T10:41:40+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2019</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://happy123.me">Comments</a>
@@ -107,160 +106,103 @@
   </header>
 
 
-<div class="entry-content"><p>做Raid，用到了megacli，又学了一套命令.</p>
+<div class="entry-content"><p>之前的文章里面我们提到了一个名为<a href="https://lbc.cryptoguru.org">LBC</a>的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。</p>
+
+<p>这个项目本身详尽<a href="https://lbc.cryptoguru.org/stats">计算了这种碰撞成功的几率</a>，目前碰撞空间大概在 2<sup>136</sup> 级别。</p>
+
+<p>目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AWS p2.8xlarge   32 vCores Xeon v4, 8x K80 GPUs (50% each)   ~80-88M/s</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2^136 / 2^30 = 2 ^106</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2<sup>106</sup> 级别的碰撞效率还是遥遥无期啊；</p>
 
 <!-- more -->
 
 
-<ul>
-<li>显示Rebuid进度</li>
-</ul>
+<p>如果通读我们之前的文章就知道，比特币地址的生成，主要花费在ECDSA、SHA256, RIPEMD 这三个算法的操作之上，但其实用GPU计算，这三个步骤花费的时间是很少的，在整个碰撞过程中，其实大部分时间是耗费在bloomfilter上面的；</p>
 
+<p>而bloomfilter的原理，采用的是多级HASHMAP，常理来看，这已经是判断一个元素是否存在某集合的极限效率了；</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -PDRbld -ShowProg -physdrv[20:2] -aALL</span></code></pre></td></tr></table></div></figure>
+<p>但是有一点我们不要忘记，比特币的地址采用base58编码，他的地址空间是有规律的，简单来说，就是所有比特币地址的前缀分布，是有规律可循的，他应该在base58的编码范围内成正态分布；而bloomfilter的HASHMAP是没有这种条件优化的，所以说bloomfilter的算法我们可以再改进一下，提升效率。</p>
 
-
-<ul>
-<li>查看ES</li>
-</ul>
-
+<p>我分析了截至2018-12以前的所有比特币地址，简便起见，提取了所有的P2PKH地址(共
+377059211个地址)，取其前4个字符地址前缀；执行:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -PDList -aAll -NoLog | grep -Ei "(enclosure|slot)"</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort 4prefix.addr|uniq -c|sort -nr</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>查看所有硬盘的状态</li>
-</ul>
+<p>得到了所有地址前缀的分布列表，差不多是个正态分布。</p>
 
+<p>列举一下最常用的地址前缀TOP10:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -LDInfo -LALL -aAll
-</span><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -PDList -aAll -NoLog</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  23600 1bit
+</span><span class='line'>  23086 1btc
+</span><span class='line'>  21895 13vs
+</span><span class='line'>  21329 1gbx
+</span><span class='line'>  21267 1gbt
+</span><span class='line'>  21267 1gba
+</span><span class='line'>  21210 1gbb
+</span><span class='line'>  21206 1gbf
+</span><span class='line'>  21196 1gbu
+</span><span class='line'>  21189 1gbr</span></code></pre></td></tr></table></div></figure>
 
 
-<p>如果RAID卡被设置成了writethrough。这个是完全不利用卡上内存的一种做法，操作系统需要确认磁盘全部写入后再返回，io latency很大，而且性能差。</p>
+<p>最常见的是1bit和1btc这两个前缀，各比第三名多出了10000个左右，这多出来20000个地址应该是Geek们自己生成的虚荣地址。</p>
 
-<p>可以强制让他一定使用writeback模式，命令：</p>
+<p>所有的比特币P2PKH地址，4字母前缀共有42877种组合。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaCli64 -LDSetProp -ForcedWB -Immediate -Lall –aAll</span></code></pre></td></tr></table></div></figure>
+<p>好了，这就是我们可以优化的地方，把bloomfilter的第一级HASHMAP，采用这些前缀组合先来一把过滤，再去执行常规的Bloomfilter，碰撞效率会再提高一个数量级。</p>
 
+<p>我在自己机器上实验了一下，在GTX750Ti 2G显卡上面，最终效率可以达到 10M/s。</p>
 
-<p>RAID卡上电池没电，单个盘损坏，都会造成RAID策略的变化，所以需要及时检测。</p>
+<p>瓶颈现在又变成了genaddress环节，我估计在一块RX480卡上面，可以达到和AWS顶配GPU一样的效率；</p>
 
-<ul>
-<li>查看所有Virtual Disk的状态</li>
-</ul>
+<p>不过，效率提升十倍，也不过是 2<sup>100</sup> 的碰撞范围，还是遥遥无期啊。</p>
 
+<h4>更深入的分析</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -LdPdInfo -aAll -NoLog</span></code></pre></td></tr></table></div></figure>
+<p>早期在bitcointalk.org论坛上，Laszlo Hanyecz曾经有过一个想法，就是随着硬件性能的发展，最终碰撞比特币私钥的收益会不会超过挖矿的收益？</p>
 
+<p>中本聪当时的回答是，要达到这个碰撞算力很远很远。</p>
 
-<p>RAID Level对应关系：</p>
+<p>我们来仔细分析一下：</p>
 
-<pre><code>RAID Level : Primary-1, Secondary-0, RAID Level Qualifier-0 RAID 1
-RAID Level : Primary-0, Secondary-0, RAID Level Qualifier-0 RAID 0
-RAID Level : Primary-5, Secondary-0, RAID Level Qualifier-3 RAID 5
-RAID Level : Primary-1, Secondary-3, RAID Level Qualifier-0 RAID 10
-</code></pre>
+<p>比特币的地址生成是很容易硬件ASIC化的，如果用这种前缀过滤法，也不需要多少内存，所以可以近似认为：如果硬件化，比特币私钥碰撞的效率和挖矿效率是差不多的。</p>
 
-<ul>
-<li>在线做Raid</li>
-</ul>
+<p>目前比特币全网算力在40EH左右，就是2<sup>62</sup>，这已经是相当于400w台蚂蚁S9的机器同时24X365 运行了；消耗的电力估计已经超过了上海市的居民用电，比特币矿机的能源消耗，完全可以说是抵得上一个小型国家的能源消耗了。</p>
 
+<p>如果私钥碰撞达到2<sup>62</sup>级别，那么毛估估，碰撞几率就能减小到 &frac12;<sup>60</sup> 级别了；</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -CfgLdAdd -r0[0:11] WB NORA Direct CachedBadBBU -strpsz64 -a0 -NoLog
-</span><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -CfgLdAdd -r5 [12:2,12:3,12:4,12:5,12:6,12:7] WB Direct -a0</span></code></pre></td></tr></table></div></figure>
+<p>但是这个概率还是太低了。</p>
 
+<p>而且另外一个无法预测的情况就是，将来人们的安全意识加强，一般一个地址只要用过就会丢弃掉，所以最终bloomfilter的条目变化会非常频繁，还要考虑一个数量级的损耗。</p>
 
-<ul>
-<li>点亮指定硬盘（定位）</li>
-</ul>
+<p>目前测算，随着手续费用的提高，即使多次减半，将来挖矿的收益估计很长期稳定1-10btc/block级别，在如果将来以1年时间碰撞一个私钥的概率期望测算的话，一年大概是2<sup>30</sup> 秒，这样碰撞效率至少要提高到 2<sup>90</sup> 级别，才能达到<code>破解私钥得利</code>><code>挖矿得利</code> 的效果；</p>
 
+<p>算力提高到2<sup>90</sup>，不管用什么技术，即使是量子计算，也很难想象能到这个量级啊；</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -PdLocate -start -physdrv[252:2] -a0</span></code></pre></td></tr></table></div></figure>
+<p>而且，即使到了这一天，把RIPEMD替换成一种碰撞空间更大的算法就OK了。</p>
 
-
-<ul>
-<li>清除Foreign状态</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -CfgForeign -Clear -a0</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查看RAID阵列中掉线的盘</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -pdgetmissing -a0</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>替换坏掉的模块</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -pdreplacemissing -physdrv[12:10] -Array5 -row0 -a0</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>手动开启rebuid</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -pdrbld -start -physdrv[12:10] -a0</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查看Megacli的log</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -FwTermLog dsply -a0 &gt; adp2.log</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>设置HotSpare</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -pdhsp -set [-Dedicated [-Array2]] [-EnclAffinity] [-nonRevertible] -PhysDrv[4:11] -a0
-</span><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -pdhsp -set [-EnclAffinity] [-nonRevertible] -PhysDrv[32：1}] -a0</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>关闭Rebuild</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -AdpAutoRbld -Dsbl -a0</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>设置rebuild的速率</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/opt/MegaRAID/MegaCli/MegaCli64 -AdpSetProp RebuildRate -30 -a0</span></code></pre></td></tr></table></div></figure>
-
+<p>这样看来，bitcoin的安全性还是无懈可击。</p>
 </div>
 
 
@@ -283,12 +225,12 @@ RAID Level : Primary-1, Secondary-3, RAID Level Qualifier-0 RAID 10
   
 
 
-<time datetime="2016-08-05T03:21:49+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2016</time>
+<time datetime="2019-01-18T10:41:40+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2019</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
   
 </span>
 
@@ -304,10 +246,8 @@ RAID Level : Primary-1, Secondary-3, RAID Level Qualifier-0 RAID 10
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/08/03/bitfinexyan-chu-de-di-shi-da-bei-ju/" title="Previous Post: Bitfinex演出的第十大悲剧">&laquo; Bitfinex演出的第十大悲剧</a>
+        <a class="basic-alignment left" href="/blog/2019/01/16/wsl-best-practice/" title="Previous Post: wsl best practice">&laquo; wsl best practice</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/08/22/how-to-write-standard-startup-script/" title="Next Post: how to write standard startup script">how to write standard startup script &raquo;</a>
       
     </p>
   </footer>
@@ -429,8 +369,8 @@ RAID Level : Primary-1, Secondary-3, RAID Level Qualifier-0 RAID 10
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://happy123.me/blog/2016/08/05/megacli-cheat/';
-        var disqus_url = 'https://happy123.me/blog/2016/08/05/megacli-cheat/';
+        var disqus_identifier = 'https://happy123.me/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/';
+        var disqus_url = 'https://happy123.me/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/';
         var disqus_script = 'embed.js';
       
     (function () {

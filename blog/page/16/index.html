@@ -82,6 +82,157 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/">自定义Django的密码策略</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:38:03+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Django 从1.4 版本开始，包含了一些安全方面的重要提升。其中一个是使用 PBKDF2 密码加密算法代替了 SHA1 。另外一个特性是你可以添加自己的密码加密方法。</p>
+
+<p>Django 会使用你提供的第一个密码加密方法（在你的 setting.py 文件里要至少有一个方法）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
+</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+</span><span class='line'>    'django.contrib.auth.hashers.BCryptPasswordHasher',
+</span><span class='line'>    'django.contrib.auth.hashers.SHA1PasswordHasher', # Insecure Hashes
+</span><span class='line'>    'django.contrib.auth.hashers.MD5PasswordHasher', # Insecure Hashes
+</span><span class='line'>    'django.contrib.auth.hashers.CryptPasswordHasher', # Insecure Hashes
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但Django默认生成的密码策略往往会带上 md5_xxx, pbkdf2_xxx，同其他系统整合的时候，一般是没有这些前缀的，这就需要我们自定义一个密码策略。</p>
+
+<p>下面介绍下如何定义一个简单的 <code>md5(md5(password, salt))</code> 密码策略。</p>
+
+<h3>step1</h3>
+
+<p>建立一个app，django-admin.py startapp ownmd5</p>
+
+<h3>step2</h3>
+
+<p>在 ownmd5中 建立 hashers.py 文件，加入 OwnMd5PasswordHasher 类</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import hashlib
+</span><span class='line'>from django.utils.translation import ugettext_noop as _
+</span><span class='line'>from django.utils.datastructures import SortedDict
+</span><span class='line'>from django.utils.crypto import constant_time_compare
+</span><span class='line'>from django.utils.encoding import force_bytes, force_str, force_text
+</span><span class='line'>from django.contrib.auth.hashers import BasePasswordHasher, mask_hash
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>class OwnMD5PasswordHasher(BasePasswordHasher):
+</span><span class='line'>    """
+</span><span class='line'>    The Salted MD5 password hashing algorithm (not recommended)
+</span><span class='line'>    """
+</span><span class='line'>    algorithm = "ownmd5"
+</span><span class='line'>
+</span><span class='line'>    def encode(self, password, salt):
+</span><span class='line'>        assert password is not None
+</span><span class='line'>        assert salt and '$' not in salt
+</span><span class='line'>        hash = hashlib.md5(hashlib.md5(force_bytes(salt + password)).hexdigest()).hexdigest()
+</span><span class='line'>        return hash
+</span><span class='line'>
+</span><span class='line'>    def verify(self, password, encoded, salt):
+</span><span class='line'>        encoded_2 = self.encode(password, salt)
+</span><span class='line'>        return constant_time_compare(encoded, encoded_2)
+</span><span class='line'>
+</span><span class='line'>    def safe_summary(self, encoded, salt):
+</span><span class='line'>        return SortedDict([
+</span><span class='line'>            (_('algorithm'), self.algorithm),
+</span><span class='line'>            (_('salt'), mask_hash(salt, show=4)),
+</span><span class='line'>            (_('hash'), mask_hash(hash)),
+</span><span class='line'>        ])</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>step3</h3>
+
+<p>将 OwnMD5PasswordHasher 加入到settings.py 中:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
+</span><span class='line'>    'ownmd5.hashers.OwnMD5PasswordHasher',
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样，默认的user及auth模块都会采用自定义的md5算法。</p>
+
+<p>参考:</p>
+
+<p><a href="https://docs.djangoproject.com/en/1.6/topics/auth/passwords/">https://docs.djangoproject.com/en/1.6/topics/auth/passwords/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/17/auto-reload-modules-in-django-shell/">Auto Reload Modules in Django Shell</a></h1>
     
     
@@ -954,69 +1105,6 @@ rm -rf remove.js
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">解决tmux下vim Colorscheme失效的问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-25T08:05:48+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2014/02/25/jie-jue-tmuxxia-vim-colorschemeshi-xiao-de-wen-ti/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在tmux(v1.6)默认配置下，vim的主题solarized, molokai等颜色设置都会失效</p>
-
-<p>这是由于tmux term设置的问题。</p>
-
-<p>需要在~/.bashrc中添加:
-<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
-
-<p>再在~/.tmux.conf中添加:
-<code>set -g default-terminal "xterm"</code></p>
-
-<p>如果是osx，可能在~/.bashrc要添加:
-<code>alias tmux="TERM=screen-256color-bce tmux"</code></p>
-
-<p>在~/.tmux.conf中添加:
-<code>set -g default-terminal "screen-256color"</code></p>
-
-<p>最后执行
-<code>$ source ~/.bashrc</code></p>
-
-<p>就OK了。</p>
-
-<p>参考:</p>
-
-<p><a href="http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode">http://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux-mode</a>
-<a href="http://rhnh.net/2011/08/20/vim-and-tmux-on-osx">http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/17/">&larr; Older</a>
@@ -1034,6 +1122,10 @@ rm -rf remove.js
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/">一种提高比特币私钥碰撞机率的思路</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/01/16/wsl-best-practice/">Wsl Best Practice</a>
       </li>
     
@@ -1047,10 +1139,6 @@ rm -rf remove.js
     
       <li class="post">
         <a href="/blog/2019/01/03/happy-10th-birthday-bitcoin/">Happy 10th Birthday Bitcoin</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/01/bi-te-bi-de-jiao-yi-6/">比特币的交易-6</a>
       </li>
     
   </ul>
@@ -1107,7 +1195,7 @@ rm -rf remove.js
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (44)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (45)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
