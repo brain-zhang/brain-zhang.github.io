@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-18T13:29:40+08:00</updated>
+  <updated>2019-01-21T17:45:42+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币的blockchain-1]]></title>
+    <link href="https://happy123.me/blog/2019/01/21/bi-te-bi-de-blockchain-1/"/>
+    <updated>2019-01-21T17:44:54+08:00</updated>
+    <id>https://happy123.me/blog/2019/01/21/bi-te-bi-de-blockchain-1</id>
+    <content type="html"><![CDATA[<p>blockchain是个新造词，至少在2008年之前网上是搜索不到这个词的；</p>
+
+<p>比特币的白皮书里面出现过<code>chain of blocks</code>的描述，但是没有直接用<code>block chain</code>的句子;</p>
+
+<p>在早期bitcointalk.org上面的讨论中，为了方便讨论，早期参与者频繁引用<code>chain of blocks</code>的主题，但是谁是最早的引用者，已不可考据。</p>
+
+<p>如果真正要较真blockchain这个单词第一次出现的地方，我想大概是中本聪的第一版bitcoin 源代码中；</p>
+
+<p>bitcoin v0.01源代码中，中本聪第一次在<a href="https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.h#L596">函数注释中</a> 完整的引用了<code>block chain</code>这个术语，鉴于中本聪在比特币白皮书发表的2年前已经开始编写源码；所以有理由确认：</p>
+
+<ol>
+<li>blockchain这个名词是2007-2008年间诞生于世间的</li>
+<li>中本聪是比特币之父，比特币是blockchain之母</li>
+</ol>
+
+
+<p>现在有一种说法，是比特币和区块链是不同的，比特币是个没有什么前途的庞氏货币，而区块链作为一种新兴的基础技术将会在很多领域发扬光大，前景光明；</p>
+
+<p>对于这个说法，我认为Andreas的一场演讲值得一看：</p>
+
+<p><a href="https://www.youtube.com/watch?v=SMEOKDVXlUo">https://www.youtube.com/watch?v=SMEOKDVXlUo</a></p>
+
+<!-- more -->
+
+
+<p>好了，八卦完毕，我们开始探究比特币里面的blockchain究竟是个什么样的技术，它是解决什么问题的，实现细节是怎样的；</p>
+
+<p>然后我们一贯的风格是:<code>光说不练假把式</code>；在原理说明中，我们会用代码parse真正的比特币区块链文件来一探究竟。</p>
+
+<h2>由来</h2>
+
+<p>还记得我们<a href="https://happy123.me/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/">之前的文章</a>里面提到的，如果要建立一个分布式的账本，要解决两个问题:</p>
+
+<ol>
+<li>什么样的交易是一笔合法的交易</li>
+<li>哪个节点有记账的权力，如何保证整个账本是唯一且不可篡改的</li>
+</ol>
+
+
+<p>我们在比特币交易的系列文章中解答了第一个问题，现在是解决第二个问题的时候了。</p>
+
+<p>先思考一下货币发行的问题，比特币网络中，会有成千上万的节点参与者，哪些节点能获得发币的权利呢？或者说，凭什么这些节点能发币呢？</p>
+
+<p>人们在金银货币大行其道的时代，发币是通过开采金矿来实现的；采矿者承担了勘探、挖掘的风险，大家认可其开采成果并承认其铸币权；那么映射到电子世界中，能不能有一种类似的挖矿的机制呢？</p>
+
+<p>中本聪的回答就是POW (proof of work&mdash;工作量证明)；全网的所有节点一起算一个毫无意义的随机数字，这个数字满足以下的条件，凡是能算出这个数字的人，我们就承认他有一次的记账权：即一次铸币的权利；这个条件如下：</p>
+
+<h4>在一个计算周期内，计算出来的这个数字R满足 F(Chain, R) &lt; Diffculty；其中F是SHA256算法，Chain是账本，Diffculty是不断减小的，这意味着寻找R的几率会越来越小</h4>
+
+<p>中本聪认为算力是非常公平的、不可伪造的一种证明手段；凡是能在规定周期内正确解答谜题的人，理应获得回报；所有加入到这个比特币网络的人，都应该承认这一点，如果你不承认，那比特币网络就不欢迎你；</p>
+
+<p>那么，铸币的问题解决了；但是如何防止有的节点获取记账权之后，伪造账本呢？</p>
+
+<p>答案是将POW的计算结果嵌入到账本中，每一次新周期的计算，其结果必须在之前所有计算结果的基础上完成；这样如果有人想要伪造账本，他就必须在一个计算周期内伪造更多的账目；如果想要伪造整个账本，就需要将比特币创世之初的所有POW重新计算一遍，而能够获得这样的算力，基本上是不可能的。</p>
+
+<p>那么，如何将这个计算证明过程嵌入到账本里面呢？</p>
+
+<p>答案就是每个计算周期生成一个block，这个block包含了这个周期内全网的交易，然后将block用HASH值作为指针串联起来，构造成一条坚不可摧的chain；这就是blockchain的由来。</p>
+
+<h2>区块结构</h2>
+
+<p>如果你运行bitcond，会发现在数据目录有四类文件:</p>
+
+<h4>区块头</h4>
+
+<h4>标识符</h4>
+
+<h4>区块高度</h4>
+
+<h4>coinbase</h4>
+
+<h4>创世区块</h4>
+
+<h4>隔离见证</h4>
+
+<h2>区块链接成为区块链</h2>
+
+<h2>Merkle树</h2>
+
+<h4>SPV(简单支付)</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一种提高比特币私钥碰撞机率的思路]]></title>
@@ -1068,329 +1156,6 @@ block weight &lt;= 4M</p>
 <h4>其它资料</h4>
 
 <p><a href="https://github.com/tianmingyun/MasterBitcoin2CN/blob/master/appdx-segwit.md">https://github.com/tianmingyun/MasterBitcoin2CN/blob/master/appdx-segwit.md</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[比特币的交易-5]]></title>
-    <link href="https://happy123.me/blog/2018/12/28/bi-te-bi-de-jiao-yi-5/"/>
-    <updated>2018-12-28T21:08:25+08:00</updated>
-    <id>https://happy123.me/blog/2018/12/28/bi-te-bi-de-jiao-yi-5</id>
-    <content type="html"><![CDATA[<p>我们还是拿<a href="http://chainquery.com/bitcoin-api/getrawtransaction/3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517/1">3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517</a>做例子。</p>
-
-<p>这篇文章需要结合<a href="https://happy123.me/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/">比特币的交易-3</a>这篇文章来理解，我们在这里也直接复用TransA、TransB的说法。</p>
-
-<!-- more -->
-
-
-<h2>准备工作</h2>
-
-<h4>私钥-公钥</h4>
-
-<p>在<a href="https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">比特币的HD钱包-2</a>中，我们已经算出来私钥的WIF表示:</p>
-
-<p><code>
-5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
-</code></p>
-
-<p>以及公钥:</p>
-
-<p><code>
-0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341
-</code></p>
-
-<h4>交易body</h4>
-
-<p>这笔交易有1个vin，1个vout；然后再把我们之前的结构分析图拿来，看看具体需要哪些参数传入:</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181203/bg3.jpg" alt="img" /></p>
-
-<h4>需要手工构造input</h4>
-
-<ol>
-<li>指定上一笔vout的txid，是已知参数(outputTransactionHash):<code>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</code></li>
-<li>指定上一笔vout的index，是已知参数(sourceIndex):<code>00000000</code></li>
-<li>构造scriptSig，即对这个UTXO签名。我们需要用私钥签名，这个是难点，我们后面来计算</li>
-</ol>
-
-
-<h4>需要手工构造output</h4>
-
-<ol>
-<li>设置矿工费用，从而计算输出值</li>
-<li>构造scriptPubKey</li>
-</ol>
-
-
-<h4>最后组合成为一笔交易</h4>
-
-<ol>
-<li>增加version字段：<code>01000000</code></li>
-<li>增加inputCount字段: <code>01</code></li>
-<li>增加outputCount字段: <code>01</code></li>
-<li>增加block lock time字段: <code>00000000</code></li>
-</ol>
-
-
-<h4>然后我们实现一个函数，将这些变量组合，最后得到原始交易值(对应bitcoin-cli的createrawTransaction)</h4>
-
-<p>```</p>
-
-<h1>Makes a transaction from the inputs</h1>
-
-<h1>outputs is a list of [redeemptionSatoshis, outputScript]</h1>
-
-<p>def makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs):</p>
-
-<pre><code>def makeOutput(data):
-    redeemptionSatoshis, outputScript = data
-    return (struct.pack("&lt;Q", redeemptionSatoshis).encode('hex') +
-    '%02x'.format(len(outputScript.decode('hex'))) + outputScript)
-formattedOutputs = ''.join(map(makeOutput, outputs))
-return (
-    "01000000" + # 4 bytes version
-    "01" + # varint for number of inputs
-    outputTransactionHash.decode('hex')[::-1].encode('hex') + # reverse outputTransactionHash
-    struct.pack('&lt;L', sourceIndex).encode('hex') +
-    '%02x'.format(len(scriptSig.decode('hex'))) + scriptSig +
-    "ffffffff" + # sequence
-    "%02x".format(len(outputs)) + # number of outputs
-    formattedOutputs +
-    "00000000" # lockTime
-    )
-</code></pre>
-
-<p>```</p>
-
-<h4>outputs构造</h4>
-
-<p>在构造一笔完整的交易之前，我们需要手工做两件事情：</p>
-
-<ol>
-<li>构造一个output输出</li>
-<li>对vin中的UTXO签名，构造scriptSig</li>
-</ol>
-
-
-<p>outputs的构造比scriptSig简单一点，我们先来解决这个问题。</p>
-
-<p>outputs是包含多个output的数组。在这个例子中，我们打算只构造一个output。结合我们之前的文章，就是构造一个bitcoin scriptPubKey，设置一把新锁。</p>
-
-<p>这个scriptPubkey是这样子的:</p>
-
-<p><code>
-&lt;pubkey&gt;  OP_CHECKSIG
-</code></p>
-
-<p>PubKeyHash其实就是收币的地址，其它操作符都是现成的。</p>
-
-<h2>如何构造一笔output</h2>
-
-<p>一笔output的构造是简单的，所有东西都是现成的，而且这笔交易是个P2PK交易，输出非常简化，我们仅仅需要构造<code>&lt;pubkey&gt;  OP_CHECKSIG</code>即可:</p>
-
-<p>```
-def makeOutput(value,  index, pubkey):</p>
-
-<pre><code>OP_CHECKSIG =  'ac'
-value = "{:0&lt;16x}".format(int(struct.pack('&lt;I', int(value)).hex(), 16))
-index = "{:02x}".format(int(index))
-pubkey = pubkey
-pubkey_length = "{:02x}".format(len(pubkey)/2)
-return value + index = pubkey_length + pubkey + OP_CHECKSIG
-</code></pre>
-
-<blockquote><p>print(makeOutput(7000, 0, &lsquo;2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac&rsquo;))
-581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac
-outputs = [&lsquo;581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac&rsquo;]</p></blockquote>
-
-<p>```</p>
-
-<h2>如何对一笔交易签名(scriptSig)</h2>
-
-<p>在构造一笔交易的过程中，签署交易是一个非常麻烦的过程。其基本思想是使用ECDSA椭圆曲线算法和私钥生成交易的数字签名，但细节比较复杂。</p>
-
-<p>我们可以先通过验证签名的过程来理解以下，验证签名过程的通过10个步骤描述。下面的缩略图说明了详细的流程。</p>
-
-<p><img src="https://en.bitcoin.it/w/images/en/7/70/Bitcoin_OpCheckSig_InDetail.png" alt="img" /></p>
-
-<p>这张图出自于<a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">这里</a>，里面的TX ID是不同的，但基本步骤一样。</p>
-
-<h4>一些约定:</h4>
-
-<ol>
-<li>TransA代表TxPrev，TransB代笔TxNew</li>
-</ol>
-
-
-<h4>步骤:</h4>
-
-<ol>
-<li>首先解析TransB涨vin中的scriptSig，得到sigStr以及pubkeyStr</li>
-<li>从TransA中拿出对应的vout ，从scriptPub脚本中截取需要的部分(subScript)：即 <code>OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG</code>；截取规则就是检索最后一个<code>OP_CODESEPARATOR</code>的位置，在这之后的脚本段就是我们要截取的对象</li>
-<li>如果subScript中包含了签名，移除掉(在scriptPub中包含签名是很特殊的情况，一般出现在P2SH交易中，普通交易不需要这一步)</li>
-<li>如果脚本中有<code>OP_CODESEPARATORS</code>操作符，移除</li>
-<li>检测一步解析出来的scriptSig最后一个字节的HashType，扩展为4字节(小端排序)备用</li>
-<li>将TransB 复制一份，变为TransBCopy</li>
-<li>将TransBCopy中所有的Vin以及Vout 移除，同时将length字段置为0</li>
-<li>将第4步中的subScript根据vin sequence填充到TransBCopy对应的位置</li>
-<li>最后将交易TransBCopy序列化(采用DER编码)，并在末尾添加第5步中得到的HashType，得到签名的原始数据</li>
-<li>最后执行签名验证过程: ECDSA_CheckSignature(pubkeyStr, sigStr, double_sha256(TransBCopy))</li>
-</ol>
-
-
-<h4>疑点解惑</h4>
-
-<h5>为什么这么麻烦，不能直接对TransB签名吗？</h5>
-
-<p>因为最终的签名是包含在TransB当中的，签名是不能对自身来签名的；所以要签名的原始数据不能包含签名本身；</p>
-
-<p>说句题外话，由于ECDSA的签名算法的局限，这个结构组织方式最终导致了一个顽疾，即交易延展性问题，也被翻译为交易可锻性（Transaction Malleability）。</p>
-
-<p>简单来说，就是攻击者可以生成不同但是合法的scriptSig，这样虽然vin，vout金额和地址不变，但是TX ID会发生变化，从而导致用户找不到发送的交易。</p>
-
-<p>这对于交易所是一个威胁，某个居心不良的用户可能充值了一笔资金，然后重新生成scriptSig又广播了一笔交易，然后欺骗交易所，说第一笔交易没收到，交易所检查以下果然如此，于是又发送了一笔资金给用户，这样用户就实现了double withdraw，白赚了一笔。MTGOX早期就是这么被坑的，后来也出现过一些损人不利己的脚本小子们公然利用这个漏洞攻击比特币网络；为了解决这个问题，core开发者提出了segwit解决方案(即隔离见证)，后来随着政治斗争、市场斗争的激化，一个技术问题最终演化成了扩容派的分裂。</p>
-
-<p>总之还是那句话，关于segwit, 闪电网络，期待我们后面的文章吧。</p>
-
-<h5>为什么要用上一笔交易vout来填充这个位置呢？</h5>
-
-<p>我们说验证签名的过程，其实有三个作用:</p>
-
-<ol>
-<li>签名证明私钥的所有者，即资金所有者，已经授权支出这些资金</li>
-<li>授权证明是不可否认的（不可否认性）</li>
-<li>签名证明交易（或交易的具体部分）在签字之后没有也不能被任何人修改</li>
-</ol>
-
-
-<p>我们提供签名、私钥即承诺了第1点，对TransBCopy 签名承诺了第2点，但是要做到第3点，就需要对于引用UTXO的信息做承诺；</p>
-
-<p>我们会问，单纯的prev TX ID和vout sequence no不能证明我要花费的哪一笔UTXO吗？</p>
-
-<p>是的，这还是不够的，我们需要另外的信息熵的引入，就是这个UTXO的scriptPub。具体为什么，是ECDSA的数学特性决定的。请参考:</p>
-
-<p><a href="https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/">https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/</a></p>
-
-<p>老实说，关于ECDSA的签名验证，我在学习了很长时间以后，还是非常担心，因为签名生成算法使用随机密钥k作为临时私有-公钥对的基础，这个K值的随机性一定要人工保证，比特币的每笔交易验证，离不开签名验证，而这个签名验证如此复杂，确实让人心生忐忑。</p>
-
-<h5>这个OP_CODESEPARATORS是什么东东？</h5>
-
-<p>哈，到目前为止，我们接触到的都是比特币最简单、最基本、当然也是应用最广泛的交易类型，但是比特币还支持P2SH的高级交易，在这种交易中，vout里面可能会嵌入非常复杂的脚本，所以系统引入了OP_CODESEPARATORS作为复杂脚本的分隔符，以后的文章我们会详细讲解；</p>
-
-<p>OP_CODESEPARATOR属于一种看起来<code>过度设计</code>的特性，老实说，我没有在比特币主网上发现像样的使用这个特性的交易，我也需要更多时间的学习才能搞明白这个东西，以下是一些参考资料：</p>
-
-<p><a href="https://github.com/bitcoin/bips/blob/master/bip-0017.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0017.mediawiki</a></p>
-
-<p><a href="https://bitcointalk.org/index.php?topic=164655.0">https://bitcointalk.org/index.php?topic=164655.0</a></p>
-
-<h5>这个HashType是什么东东？</h5>
-
-<p>嗯哼，又是一个非常棘手但是有意思的问题。</p>
-
-<p>我们说比特币有了script之后，功能是非常非常丰富的，不仅仅局限于支付场景，他可以应用到许多非常复杂的场景中。</p>
-
-<p>比如现在让我们考虑一个外贸公司的业务，这个公司的对公账户每天都要接受许多客户的付款，处于安全考虑，我作为公司的CEO，希望能跟财务主管共同管理公司的对公账户，当需要支出时，一定要我跟财务主管都签字同意才可以。</p>
-
-<p>这就衍生出了所谓的M-N交易类型，即多重签名交易。</p>
-
-<p>在多重签名交易中，要花费一笔UTXO，可能需要多个签名，或者有这种语义："一定要CEO的签名，如果没有CEO的签名，需要COO和CFO的联合签名"，为了表示这些，引入了SIGHASH这个字段，就是我们所说的HashType啦。</p>
-
-<p>要考虑SIGHASH，实际上已经牵涉到了bitcoin的高级交易类型(P2SH)，还是那句话，关注后面的文章吧。</p>
-
-<h4>反向代码</h4>
-
-<p>嗯哼，把验证签名的步骤反向来一遍，就是签名的过程了。</p>
-
-<p>代码表示如下:</p>
-
-<p>```</p>
-
-<p>def makeSignedTransaction(privateKey, outputTransactionHash, sourceIndex, scriptPubKey, outputs):</p>
-
-<pre><code>myTxn_forSig = (makeRawTransaction(outputTransactionHash, sourceIndex, scriptPubKey, outputs)
-     + "01000000") # hash code
-
-s256 = hashlib.sha256(hashlib.sha256(myTxn_forSig.decode('hex')).digest()).digest()
-sk = ecdsa.SigningKey.from_string(privateKey.decode('hex'), curve=ecdsa.SECP256k1)
-sig = sk.sign_digest(s256, sigencode=ecdsa.util.sigencode_der) + '\01' # 01 is hashtype
-pubKey = keyUtils.privateKeyToPublicKey(privateKey)
-scriptSig = utils.varstr(sig).encode('hex') + utils.varstr(pubKey.decode('hex')).encode('hex')
-signed_txn = makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs)
-verifyTxnSignature(signed_txn)
-return signed_txn
-</code></pre>
-
-<p>```</p>
-
-<h2>广播交易</h2>
-
-<p>好啦，构造了vin, vout，以及组合成一笔完整的交易，剩下的就是广播出去啦：</p>
-
-<p>比特币的网络协议非常简单，设置好一个Magic Number就可以加入，以下时广播代码：</p>
-
-<p>```
-magic = 0xd9b4bef9</p>
-
-<p>def makeMessage(magic, command, payload):</p>
-
-<pre><code>checksum = hashlib.sha256(hashlib.sha256(payload).digest()).digest()[0:4]
-return struct.pack('L12sL4s', magic, command, len(payload), checksum) + payload
-</code></pre>
-
-<p>def getVersionMsg():</p>
-
-<pre><code>version = 60002
-services = 1
-timestamp = int(time.time())
-addr_me = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
-addr_you = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
-nonce = random.getrandbits(64)
-sub_version_num = utils.varstr('')
-start_height = 0
-</code></pre>
-
-<p>def getTxMsg(payload):
-  return makeMessage(magic, &lsquo;tx&rsquo;, payload)</p>
-
-<p>sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-HOST_IP =&ldquo;x.x.x.x&rdquo;
-sock.connect(HOST_IP, 8333)</p>
-
-<p>sock.send(msgUtils.getVersionMsg())
-sock.recv(1000) # receive version
-sock.recv(1000) # receive verack
-sock.send(msgUtils.getTxMsg(&ldquo;01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000&rdquo;.decode(&lsquo;hex&rsquo;)))
-```</p>
-
-<p>HOST IP 怎么获取呢？</p>
-
-<p>如果你有一个全节点，可以直接调用RPC接口的getpeers函数。或者你直接执行:</p>
-
-<p><code>
-nslookup bitseed.xf2.org
-</code></p>
-
-<p>从公共服务器里面检索nodes，里面随便挑一个IP 吧。</p>
-
-<h2>小结</h2>
-
-<p>以上就是一笔完整交易的构造过程。</p>
-
-<p>这笔交易结构非常简单，只有一个vin，一个vout。</p>
-
-<p>如果有多个vin, 多个vout的情况，就需要每个vin都签署一遍。</p>
-
-<p>我们发现，一笔比特币交易的构造过程，最复杂的，就是签名以及验证的过程。它的步骤极其繁琐，而且椭圆曲线的签名算法极其复杂。如果在更高级的比特币交易中，比如P2SH，或者多重签名交易，或者Segwit交易，包含了更复杂的脚本和执行逻辑，事情很快就变得不可控制起来。</p>
-
-<p>这是我在学习比特币知识时遇到的最大的恐惧，我认为如果将来比特币系统出现什么致命BUG，很大可能就在这里暴雷。</p>
-
-<p>也许早期的开发者也觉得不放心，于是禁用了不少操作符。而目前Bitcoin SV和Bitcoin Cash的发展方向，是将这些操作符一一解放出来。</p>
-
-<p>更强大的功能？还是更稳妥的基础设施？究竟怎样的做法是正确的，我也没有定论，只是告诉大家现在社区的发展方向就好了，大家自己做判断。</p>
-
-<h2>参考资料:</h2>
-
-<p><a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html</a></p>
 ]]></content>
   </entry>
   

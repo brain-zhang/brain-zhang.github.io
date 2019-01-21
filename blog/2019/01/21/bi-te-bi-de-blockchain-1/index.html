@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ant Pool Support Bitcoin Ulimited - Living a Simple Life is a Happy Life</title>
+  <title>比特币的blockchain-1 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="比特币诞生8年来最大波澜即将到来，大家拭目以待。
-{:.info} 北京时间2017年3月7日凌晨2点半左右，当前比特币全网算力排名第一的矿池蚁池（AntPool）的某个节点通过替代版比特币软件Bitcoin Unlimited（BU）挖到了一个新区块，这标志着蚁池正式向Bitcoin &hellip;">
+  <meta name="description" content="blockchain是个新造词，至少在2008年之前网上是搜索不到这个词的； 比特币的白皮书里面出现过chain of blocks的描述，但是没有直接用block chain的句子; 在早期bitcointalk.org上面的讨论中，为了方便讨论，早期参与者频繁引用chain of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +20,7 @@
   
 
   
-  <link rel="canonical" href="https://happy123.me/blog/2017/03/07/ant-pool-support-bitcoin-ulimited">
+  <link rel="canonical" href="https://happy123.me/blog/2019/01/21/bi-te-bi-de-blockchain-1">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -80,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Ant Pool Support Bitcoin Ulimited</h1>
+      <h1 class="entry-title">比特币的blockchain-1</h1>
     
     
       <p class="meta">
@@ -96,7 +95,7 @@
   
 
 
-<time datetime="2017-03-07T21:58:17+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2017</time>
+<time datetime="2019-01-21T17:44:54+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2019</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://happy123.me">Comments</a>
@@ -106,16 +105,86 @@
   </header>
 
 
-<div class="entry-content"><p>比特币诞生8年来最大波澜即将到来，大家拭目以待。
-{:.info}</p>
+<div class="entry-content"><p>blockchain是个新造词，至少在2008年之前网上是搜索不到这个词的；</p>
 
-<p>北京时间2017年3月7日凌晨2点半左右，当前比特币全网算力排名第一的矿池蚁池（AntPool）的某个节点通过替代版比特币软件Bitcoin Unlimited（BU）挖到了一个<a href="https://btc.com/00000000000000000204cd2c9840023f1434f3dcdd7f471e4b8c8638d14d7006">新区块</a>，这标志着蚁池正式向Bitcoin Unlimited（BU）开放投票。</p>
+<p>比特币的白皮书里面出现过<code>chain of blocks</code>的描述，但是没有直接用<code>block chain</code>的句子;</p>
 
-<p>目前蚁池的算力占全网算力的13%左右，加上已有的支持BU的算力，BU支持率达到30%以上。</p>
+<p>在早期bitcointalk.org上面的讨论中，为了方便讨论，早期参与者频繁引用<code>chain of blocks</code>的主题，但是谁是最早的引用者，已不可考据。</p>
 
-<p>也许未来一个月很快就会发生一些有趣的事情，这是Bitcoin系统运行8年来的最大波澜。</p>
+<p>如果真正要较真blockchain这个单词第一次出现的地方，我想大概是中本聪的第一版bitcoin 源代码中；</p>
 
-<p>大家拭目以待。</p>
+<p>bitcoin v0.01源代码中，中本聪第一次在<a href="https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.h#L596">函数注释中</a> 完整的引用了<code>block chain</code>这个术语，鉴于中本聪在比特币白皮书发表的2年前已经开始编写源码；所以有理由确认：</p>
+
+<ol>
+<li>blockchain这个名词是2007-2008年间诞生于世间的</li>
+<li>中本聪是比特币之父，比特币是blockchain之母</li>
+</ol>
+
+
+<p>现在有一种说法，是比特币和区块链是不同的，比特币是个没有什么前途的庞氏货币，而区块链作为一种新兴的基础技术将会在很多领域发扬光大，前景光明；</p>
+
+<p>对于这个说法，我认为Andreas的一场演讲值得一看：</p>
+
+<p><a href="https://www.youtube.com/watch?v=SMEOKDVXlUo">https://www.youtube.com/watch?v=SMEOKDVXlUo</a></p>
+
+<!-- more -->
+
+
+<p>好了，八卦完毕，我们开始探究比特币里面的blockchain究竟是个什么样的技术，它是解决什么问题的，实现细节是怎样的；</p>
+
+<p>然后我们一贯的风格是:<code>光说不练假把式</code>；在原理说明中，我们会用代码parse真正的比特币区块链文件来一探究竟。</p>
+
+<h2>由来</h2>
+
+<p>还记得我们<a href="https://happy123.me/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/">之前的文章</a>里面提到的，如果要建立一个分布式的账本，要解决两个问题:</p>
+
+<ol>
+<li>什么样的交易是一笔合法的交易</li>
+<li>哪个节点有记账的权力，如何保证整个账本是唯一且不可篡改的</li>
+</ol>
+
+
+<p>我们在比特币交易的系列文章中解答了第一个问题，现在是解决第二个问题的时候了。</p>
+
+<p>先思考一下货币发行的问题，比特币网络中，会有成千上万的节点参与者，哪些节点能获得发币的权利呢？或者说，凭什么这些节点能发币呢？</p>
+
+<p>人们在金银货币大行其道的时代，发币是通过开采金矿来实现的；采矿者承担了勘探、挖掘的风险，大家认可其开采成果并承认其铸币权；那么映射到电子世界中，能不能有一种类似的挖矿的机制呢？</p>
+
+<p>中本聪的回答就是POW (proof of work&mdash;工作量证明)；全网的所有节点一起算一个毫无意义的随机数字，这个数字满足以下的条件，凡是能算出这个数字的人，我们就承认他有一次的记账权：即一次铸币的权利；这个条件如下：</p>
+
+<h4>在一个计算周期内，计算出来的这个数字R满足 F(Chain, R) &lt; Diffculty；其中F是SHA256算法，Chain是账本，Diffculty是不断减小的，这意味着寻找R的几率会越来越小</h4>
+
+<p>中本聪认为算力是非常公平的、不可伪造的一种证明手段；凡是能在规定周期内正确解答谜题的人，理应获得回报；所有加入到这个比特币网络的人，都应该承认这一点，如果你不承认，那比特币网络就不欢迎你；</p>
+
+<p>那么，铸币的问题解决了；但是如何防止有的节点获取记账权之后，伪造账本呢？</p>
+
+<p>答案是将POW的计算结果嵌入到账本中，每一次新周期的计算，其结果必须在之前所有计算结果的基础上完成；这样如果有人想要伪造账本，他就必须在一个计算周期内伪造更多的账目；如果想要伪造整个账本，就需要将比特币创世之初的所有POW重新计算一遍，而能够获得这样的算力，基本上是不可能的。</p>
+
+<p>那么，如何将这个计算证明过程嵌入到账本里面呢？</p>
+
+<p>答案就是每个计算周期生成一个block，这个block包含了这个周期内全网的交易，然后将block用HASH值作为指针串联起来，构造成一条坚不可摧的chain；这就是blockchain的由来。</p>
+
+<h2>区块结构</h2>
+
+<p>如果你运行bitcond，会发现在数据目录有四类文件:</p>
+
+<h4>区块头</h4>
+
+<h4>标识符</h4>
+
+<h4>区块高度</h4>
+
+<h4>coinbase</h4>
+
+<h4>创世区块</h4>
+
+<h4>隔离见证</h4>
+
+<h2>区块链接成为区块链</h2>
+
+<h2>Merkle树</h2>
+
+<h4>SPV(简单支付)</h4>
 </div>
 
 
@@ -138,7 +207,7 @@
   
 
 
-<time datetime="2017-03-07T21:58:17+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2017</time>
+<time datetime="2019-01-21T17:44:54+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2019</time>
       
 
 <span class="categories">
@@ -159,10 +228,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/" title="Previous Post: 用Pyinstaller打包python脚本适配windows">&laquo; 用Pyinstaller打包python脚本适配windows</a>
+        <a class="basic-alignment left" href="/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/" title="Previous Post: 一种提高比特币私钥碰撞机率的思路">&laquo; 一种提高比特币私钥碰撞机率的思路</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/03/26/migarate-duoshuo-to-disqus/" title="Next Post: migarate duoshuo to disqus">migarate duoshuo to disqus &raquo;</a>
       
     </p>
   </footer>
@@ -284,8 +351,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://happy123.me/blog/2017/03/07/ant-pool-support-bitcoin-ulimited/';
-        var disqus_url = 'https://happy123.me/blog/2017/03/07/ant-pool-support-bitcoin-ulimited/';
+        var disqus_identifier = 'https://happy123.me/blog/2019/01/21/bi-te-bi-de-blockchain-1/';
+        var disqus_url = 'https://happy123.me/blog/2019/01/21/bi-te-bi-de-blockchain-1/';
         var disqus_script = 'embed.js';
       
     (function () {

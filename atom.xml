@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-18T13:29:40+08:00</updated>
+  <updated>2019-01-21T17:45:42+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[比特币的blockchain-1]]></title>
+    <link href="https://happy123.me/blog/2019/01/21/bi-te-bi-de-blockchain-1/"/>
+    <updated>2019-01-21T17:44:54+08:00</updated>
+    <id>https://happy123.me/blog/2019/01/21/bi-te-bi-de-blockchain-1</id>
+    <content type="html"><![CDATA[<p>blockchain是个新造词，至少在2008年之前网上是搜索不到这个词的；</p>
+
+<p>比特币的白皮书里面出现过<code>chain of blocks</code>的描述，但是没有直接用<code>block chain</code>的句子;</p>
+
+<p>在早期bitcointalk.org上面的讨论中，为了方便讨论，早期参与者频繁引用<code>chain of blocks</code>的主题，但是谁是最早的引用者，已不可考据。</p>
+
+<p>如果真正要较真blockchain这个单词第一次出现的地方，我想大概是中本聪的第一版bitcoin 源代码中；</p>
+
+<p>bitcoin v0.01源代码中，中本聪第一次在<a href="https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.h#L596">函数注释中</a> 完整的引用了<code>block chain</code>这个术语，鉴于中本聪在比特币白皮书发表的2年前已经开始编写源码；所以有理由确认：</p>
+
+<ol>
+<li>blockchain这个名词是2007-2008年间诞生于世间的</li>
+<li>中本聪是比特币之父，比特币是blockchain之母</li>
+</ol>
+
+
+<p>现在有一种说法，是比特币和区块链是不同的，比特币是个没有什么前途的庞氏货币，而区块链作为一种新兴的基础技术将会在很多领域发扬光大，前景光明；</p>
+
+<p>对于这个说法，我认为Andreas的一场演讲值得一看：</p>
+
+<p><a href="https://www.youtube.com/watch?v=SMEOKDVXlUo">https://www.youtube.com/watch?v=SMEOKDVXlUo</a></p>
+
+<!-- more -->
+
+
+<p>好了，八卦完毕，我们开始探究比特币里面的blockchain究竟是个什么样的技术，它是解决什么问题的，实现细节是怎样的；</p>
+
+<p>然后我们一贯的风格是:<code>光说不练假把式</code>；在原理说明中，我们会用代码parse真正的比特币区块链文件来一探究竟。</p>
+
+<h2>由来</h2>
+
+<p>还记得我们<a href="https://happy123.me/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/">之前的文章</a>里面提到的，如果要建立一个分布式的账本，要解决两个问题:</p>
+
+<ol>
+<li>什么样的交易是一笔合法的交易</li>
+<li>哪个节点有记账的权力，如何保证整个账本是唯一且不可篡改的</li>
+</ol>
+
+
+<p>我们在比特币交易的系列文章中解答了第一个问题，现在是解决第二个问题的时候了。</p>
+
+<p>先思考一下货币发行的问题，比特币网络中，会有成千上万的节点参与者，哪些节点能获得发币的权利呢？或者说，凭什么这些节点能发币呢？</p>
+
+<p>人们在金银货币大行其道的时代，发币是通过开采金矿来实现的；采矿者承担了勘探、挖掘的风险，大家认可其开采成果并承认其铸币权；那么映射到电子世界中，能不能有一种类似的挖矿的机制呢？</p>
+
+<p>中本聪的回答就是POW (proof of work&mdash;工作量证明)；全网的所有节点一起算一个毫无意义的随机数字，这个数字满足以下的条件，凡是能算出这个数字的人，我们就承认他有一次的记账权：即一次铸币的权利；这个条件如下：</p>
+
+<h4>在一个计算周期内，计算出来的这个数字R满足 F(Chain, R) &lt; Diffculty；其中F是SHA256算法，Chain是账本，Diffculty是不断减小的，这意味着寻找R的几率会越来越小</h4>
+
+<p>中本聪认为算力是非常公平的、不可伪造的一种证明手段；凡是能在规定周期内正确解答谜题的人，理应获得回报；所有加入到这个比特币网络的人，都应该承认这一点，如果你不承认，那比特币网络就不欢迎你；</p>
+
+<p>那么，铸币的问题解决了；但是如何防止有的节点获取记账权之后，伪造账本呢？</p>
+
+<p>答案是将POW的计算结果嵌入到账本中，每一次新周期的计算，其结果必须在之前所有计算结果的基础上完成；这样如果有人想要伪造账本，他就必须在一个计算周期内伪造更多的账目；如果想要伪造整个账本，就需要将比特币创世之初的所有POW重新计算一遍，而能够获得这样的算力，基本上是不可能的。</p>
+
+<p>那么，如何将这个计算证明过程嵌入到账本里面呢？</p>
+
+<p>答案就是每个计算周期生成一个block，这个block包含了这个周期内全网的交易，然后将block用HASH值作为指针串联起来，构造成一条坚不可摧的chain；这就是blockchain的由来。</p>
+
+<h2>区块结构</h2>
+
+<p>如果你运行bitcond，会发现在数据目录有四类文件:</p>
+
+<h4>区块头</h4>
+
+<h4>标识符</h4>
+
+<h4>区块高度</h4>
+
+<h4>coinbase</h4>
+
+<h4>创世区块</h4>
+
+<h4>隔离见证</h4>
+
+<h2>区块链接成为区块链</h2>
+
+<h2>Merkle树</h2>
+
+<h4>SPV(简单支付)</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一种提高比特币私钥碰撞机率的思路]]></title>
@@ -6215,65 +6303,6 @@ block weight &lt;= 4M</p>
 <p>那到底要怎么做呢？</p>
 
 <p>我们已经探索了这么远，估计你也不耐烦了，但是我们还要说，这还早的很呢！那么下次文章再见。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bitcoin-cli Cheat]]></title>
-    <link href="https://happy123.me/blog/2018/10/26/bitcoin-cli-cheat/"/>
-    <updated>2018-10-26T16:28:23+08:00</updated>
-    <id>https://happy123.me/blog/2018/10/26/bitcoin-cli-cheat</id>
-    <content type="html"><![CDATA[<p>今天踩了一个巨坑。</p>
-
-<p>我一直以为<code>bitcoin-cli sendfrom</code>命令是可以花费uncomfirmed UTXO的。</p>
-
-<!-- more -->
-
-
-<p>然后今天发现bitcoin-core 0.17版本已经开始废弃这个命令和<code>bitcoin account</code>的支持了。于是去修改万年之前的一个脚本。</p>
-
-<p>然后我切换到TESTNET里面发了几笔交易，惊奇的发现sendfrom并不能花费uncomfirmed UTXO。执行:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; bitcoin-cli sendfrom "" "1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd" 0.01 0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>明明我已经发给测试账户0.1BTC过去了，getwalletinfo可以看到这个币了，我也把minconf设为0了，却在执行sendfrom的时候总是提示我<code>Account has insufficient funds</code>；</p>
-
-<p>我一路代码追下去，在这里:</p>
-
-<p><a href="https://github.com/bitcoin/bitcoin/blob/e44150feed53317677b1e2073f3cb0cfc67b691c/src/wallet/rpcwallet.cpp#L915">https://github.com/bitcoin/bitcoin/blob/e44150feed53317677b1e2073f3cb0cfc67b691c/src/wallet/rpcwallet.cpp#L915</a></p>
-
-<p>惊奇的发现只有自己的找零才会在uncomfirmed的情况下被计入credit fund，震惊了。我这个脚本运行了半年了，才发现这个坑。</p>
-
-<p>没办法，自己又封装了一遍<code>createrawtransaction</code>，<code>signrawtransaction</code>, <code>sendrawtransaction</code>，来代替sendfrom的功能。</p>
-
-<p>找这个问题我在TESTNET里面发了不下一百笔交易，wallet部分的代码已经翻遍了，我深深为之感叹bitcoin core实现wallet这部分的精巧，好多地方的细节已经不是人类能理解的了；太可怕了。</p>
-
-<p>另外记一下远程调用bitcoind rpc接口的套路:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;bitcoin_cli --rpcconnect=192.168.2.7 --rpcpassword="xxxxx" --rpcuser=test getwalletinfo</span></code></pre></td></tr></table></div></figure>
-
-
-<p>相应的，bitcoin.conf也要允许远端调用rpc接口的权限:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpcuser=test
-</span><span class='line'>rpcpassword=xxxxx
-</span><span class='line'>rpcallowip=192.168.2.0/255.255.255.0
-</span><span class='line'>rpcport=8332
-</span><span class='line'>rpcthreads=10
-</span><span class='line'>server=1
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ps: bitcoin.conf 可以直接放到blockchain的数据目录，反正我看0.15的代码，已经把这个路径默认加到path搜索里面了。</p>
 ]]></content>
   </entry>
   
