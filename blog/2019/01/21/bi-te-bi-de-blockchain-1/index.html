@@ -371,6 +371,18 @@
 
 <h2>Merkle树</h2>
 
+<p>区块链的数据是永不删除的，随着交易量越来越大，整个区块数据量也越来越大，那么问题又来了，不可能每个节点都下载数百GB的数据来来验证一笔交易的合法性，而作为一个分布式系统，我们是不能信赖任何中心节点的！我们怎样在一个手机钱包软件里面验证一笔交易呢？</p>
+
+<p>答案是一个绝妙的数据结构: <code>Merkle</code>；</p>
+
+<p>将比特币系统的交易和区块用Merkle树组织起来，会获得一项不可思议的能力，即使整个区块达到数百GB，每个轻节点只需要接收少许数据(MB级别)，就可以完成交易的合法性校验，并且无需任何中心化的节点。</p>
+
+<p>初次接触到Merlke树算法的时候，我觉得这简直是为比特币系统量身定做的，我觉得这是整个系统里面最优美、最简单、最不可思议的算法。</p>
+
+<p>这是怎么做到的呢？呵呵，偶很懒，自己去翻参考资料吧。</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Merkle_tree">https://en.wikipedia.org/wiki/Merkle_tree</a></p>
+
 <h4>SPV(简单支付)</h4>
 </div>
 
@@ -418,6 +430,8 @@
         <a class="basic-alignment left" href="/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/" title="Previous Post: 一种提高比特币私钥碰撞机率的思路">&laquo; 一种提高比特币私钥碰撞机率的思路</a>
       
       
+        <a class="basic-alignment right" href="/blog/2019/01/23/bi-te-bi-de-blockchain-1/" title="Next Post: 比特币的blockchain-1">比特币的blockchain-1 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -464,6 +478,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/01/23/bi-te-bi-de-blockchain-1/">比特币的blockchain-1</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/01/21/bi-te-bi-de-blockchain-1/">比特币的blockchain-1</a>
       </li>
     
@@ -477,10 +495,6 @@
     
       <li class="post">
         <a href="/blog/2019/01/16/alias-rm-to-mv/">Alias Rm to Mv</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/06/bi-te-bi-de-jiao-yi-7/">比特币的交易-7</a>
       </li>
     
   </ul>
