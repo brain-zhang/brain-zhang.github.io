@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-23T19:10:05+08:00</updated>
+  <updated>2019-01-23T19:11:46+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -20,7 +20,7 @@
     <id>https://happy123.me/blog/2019/01/23/bi-te-bi-de-blockchain-2</id>
     <content type="html"><![CDATA[<p>比特币的发展史上，非常非常早期就出现了一种名为侧链(sideChain)的技术；</p>
 
-<p>这个技术早在2008年比特币代码尚未发布时，就在论坛上有所讨论，从最初的namecoin(域名币)，到后来的（Counterparty）、万事达币（Mastercoin）和彩色币（ColoredCoin）等附生链；再到后来百链齐开，大家试图在完全不同的链上转移交换资产；以及最近到blockstream的<a href="https://blockstream.com/liquid/">Liquid</a>，以及基于闪电网络的原子交换(Atomic)，这个技术的发展一直不温不火，但毫无疑问，侧链技术绝对是blockchain技术的重要组成部分。</p>
+<p>这个技术早在2008年比特币代码尚未发布时，就在论坛上有所讨论，从最初的namecoin(域名币)，到后来的（Counterparty）、万事达币（Mastercoin）和彩色币（ColoredCoin）等附生链；再到后来百链齐开，大家试图在完全不同的链上转移交换资产；以及最近到blockstream的<a href="https://blockstream.com/liquid/">Liquid</a>，以及基于闪电网络的原子交换(Atomic Swap)，这个技术的发展一直不温不火，但毫无疑问，侧链技术绝对是blockchain技术的重要组成部分。</p>
 
 <p>我初次接触到这个技术时，不禁感叹社区的强大，连这么匪夷所思的东东都能想出来，总之可以总结为:</p>
 
