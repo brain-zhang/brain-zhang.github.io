@@ -294,7 +294,9 @@
 
 <p>创世块的HASH值为<code>000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code>，这是一个32字节的HASH值，通过SHA256算法对区块头进行二次哈希计算而得到的数字指纹。注意，这个值仅仅是根据区块头得到的，即 <code>SHA256(SHA256(Block Header))</code>;</p>
 
-<p>仅仅依赖区块头就够了吗？是的，不要忘了，我们在区块头里面还有一个重要的HASH值，就是<code>Merkle Root</code>，<code>Merkle Root</code>标识了block中所有的交易，而<code>block Hash</code> 通过HASH包含了<code>Merkle Root</code>的<code>block header</code>，唯一、明确地标识了一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值。</p>
+<p>仅仅依赖区块头就够了吗？是的，不要忘了，我们在区块头里面还有一个重要的HASH值，就是<code>Merkle Root</code>，<code>Merkle Root</code>标识了block中所有的交易，而<code>Block Hash</code> 通过HASH包含了<code>Merkle Root</code>的<code>Block Header</code>，唯一、明确地标识了一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值。</p>
+
+<p>通过<code>Merkle Root</code>和<code>Block Hash</code>决定了，一个区块被铸造出来，恶意的第三方节点是无法修改它的；</p>
 
 <p>另外需要注意的一点是: 区块哈希值实际上并不包含在区块的数据结构里，不管是该区块在网络上传输时，抑或是它作为区块链的一部分被存储在某节点的永久性存储设备上时。相反，区块哈希值是当该区块从网络被接收时由每个节点计算出来的。区块的哈希值可能会作为区块元数据的一部分被存储在一个独立的数据库表中，以便于索引和更快地从磁盘检索区块。</p>
 
