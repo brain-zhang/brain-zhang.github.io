@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-23T11:29:36+08:00</updated>
+  <updated>2019-01-23T11:39:45+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -304,6 +304,28 @@
 <p><a href="https://en.wikipedia.org/wiki/Merkle_tree">https://en.wikipedia.org/wiki/Merkle_tree</a></p>
 
 <h4>SPV(简单支付)</h4>
+
+<p>Merkle树被SPV节点广泛使用。SPV节点不保存所有交易也不会下载整个区块，仅仅保存区块头。它们使用认证路径或者Merkle路径来验证交易存在于区块中，而不必下载区块中所有交易。</p>
+
+<p>例如，一个SPV节点想知道它钱包中某个比特币地址即将到达的支付。该节点会在节点间的通信链接上建立起bloom过滤器，限制只接受含有目标比特币地址的交易。当节点探测到某交易符合bloom过滤器，它将以Merkleblock消息的形式发送该区块。Merkleblock消息包含区块头和一条连接目标交易与Merkle根的Merkle路径。SPV节点能够使用该路径找到与该交易相关的区块，进而验证对应区块中该交易的有无。SPV节点同时也使用区块头去关联区块和区块链中的其余区块。这两种关联，交易与区块、区块和区块链，就可以证明交易存在于区块链。简而言之，SPV节点会收到少于1KB的有关区块头和Merkle路径的数据，其数据量比一个完整的区块（目前大约有1MB）少了一千多倍。</p>
+
+<h2>小结</h2>
+
+<p>blockchain作为比特币的基本技术支撑之一，毫无疑问是一项前无古人的真正创新；这项技术怎么高估都不过分，我认为数十年后，可能会作为一种工业革命的基础技术跟蒸汽机、电力应用、信息技术相提并论；</p>
+
+<p>比特币的链为我们提供了两项能力:</p>
+
+<ol>
+<li>不可伪造的电子时间戳证明；任何依赖于有序时间的处理程序(博彩、公证、法律等等)都可以上链</li>
+<li>提供了一个构造发行自定义资产(证券、股票、)的基础手段，货币只是一个基本应用，任何人都可以以比特币主链为基础，构造一条侧链，并在其之上实现自己的资产发行、定价、转移功能</li>
+</ol>
+
+
+<p>在未来的世界里，关于这方面的应用和创新简直层出不穷，例如预言机的实现，微支付通道，原子交换等等；我所读过的最好的关于blockchain的一些设想是这个：</p>
+
+<p><a href="https://medium.com/@creole">https://medium.com/@creole</a></p>
+
+<p>好啦，为了能在未来的世界里面不落人后，我们要继续学习，等我们之后的文章吧。</p>
 ]]></content>
   </entry>
   
