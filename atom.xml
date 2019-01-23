@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-01-23T09:27:41+08:00</updated>
+  <updated>2019-01-23T11:22:04+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -59,7 +59,7 @@
 
 <p>我们在比特币交易的系列文章中解答了第一个问题，现在是解决第二个问题的时候了。</p>
 
-<p>先思考一下货币发行的问题，比特币网络中，会有成千上万的节点参与者，哪些节点能获得发币的权利呢？或者说，凭什么这些节点能发币呢？</p>
+<p>先思考一下货币发行的问题，比特币网络中，会有成千上万的节点参与者，哪些节点能获得发币的权利呢？或者说，凭什么这些节点能有记账权呢？</p>
 
 <p>在金银货币时代，发币是通过开采金矿来实现的；采矿者承担了勘探、挖掘的风险，大家认可其开采成果并承认其铸币权；那么映射到电子世界中，能不能有一种类似的挖矿的机制呢？</p>
 
@@ -144,17 +144,141 @@
 
 <h4>Block Header</h4>
 
-<h4>标识符</h4>
+<p>区块头由三组区块元数据组成。</p>
+
+<p>首先是一组引用父区块哈希值的数据，这组元数据用于将该区块与区块链中前一区块相连接。就是我们前面讲的作为指针的HASH值。</p>
+
+<p>第二组元数据，即难度、时间戳和nonce，与挖矿竞争相关，本质上就是前面公式里面的R值和Target值。</p>
+
+<p>第三组元数据是merkle树根（一种用来有效地总结区块中所有交易的数据结构，我们在后面会介绍）。</p>
+
+<table>
+<thead>
+<tr>
+<th>Size </th>
+<th> Field </th>
+<th> Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4 bytes </td>
+<td> version </td>
+<td> 当前协议版本 |</td>
+</tr>
+<tr>
+<td>32 bytes </td>
+<td> Previous Block Hash </td>
+<td> 当前Chain上，前一个block的HASH值 |</td>
+</tr>
+<tr>
+<td>32 bytes </td>
+<td> Merkle Root </td>
+<td> 这个block中所有交易的Merkle root key |</td>
+</tr>
+<tr>
+<td>4 bytes </td>
+<td> Timestamp </td>
+<td> 当前block的创建时间 |</td>
+</tr>
+<tr>
+<td>4 bytes </td>
+<td> Difficulty Target </td>
+<td> 当前block的POW难度值 |</td>
+</tr>
+<tr>
+<td>4 bytes </td>
+<td> Nonce </td>
+<td> 这就是我们前面说的那个<code>毫无意义的随机数</code>，耗费巨大能源就是为了找到满足条件的Nonce |</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>PS:比特币客户端除了bitcoin core之外，任何团队都可以根据当前的协议开发自己的比特币软件，事实上当前也有不少其他的实现，而各个团队之间开发的不同客户端需要遵循同样的协议标准，这个协议的版本管理就是依靠开头的version字段，规则请参照<a href="https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki">BIP009</a></p>
+
+<h4>block标识符</h4>
+
+<p>block header中，我们有一个<code>Previous Block Hash</code>值，这就是我们所说的将block串联成为chain的指针。那么这个指针值是怎样计算出来的呢？</p>
+
+<p>还是以<a href="https://www.blockchain.com/btc/block/000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f">创世块</a>为例，让我们仔细研究下:</p>
+
+<p>创世块的HASH值为<code>000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code>，这是一个32字节的HASH值，通过SHA256算法对区块头进行二次哈希计算而得到的数字指纹。注意，这个值仅仅是根据区块头得到的，即 <code>SHA256(SHA256(Block Header))</code>;</p>
+
+<p>仅仅依赖区块头就够了吗？是的，不要忘了，我们在区块头里面还有一个重要的HASH值，就是<code>Merkle Root</code>，<code>Merkle Root</code>标识了block中所有的交易，而<code>block Hash</code> 通过HASH包含了<code>Merkle Root</code>的<code>block header</code>，唯一、明确地标识了一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值。</p>
+
+<p>另外需要注意的一点是: 区块哈希值实际上并不包含在区块的数据结构里，不管是该区块在网络上传输时，抑或是它作为区块链的一部分被存储在某节点的永久性存储设备上时。相反，区块哈希值是当该区块从网络被接收时由每个节点计算出来的。区块的哈希值可能会作为区块元数据的一部分被存储在一个独立的数据库表中，以便于索引和更快地从磁盘检索区块。</p>
+
+<p>当我parse block得到<code>previous block hash</code>值时，如何去判断存在上一个真正的block呢？一般都会到索引文件里面找，就是我们前面所说的 index/xxxx.ldb文件。</p>
 
 <h4>区块高度</h4>
 
-<h4>coinbase</h4>
+<p>除了这个HASH值作为区块标识符，我们一般还会在区块浏览器上面看到一个说明<code>Height</code>；比如创世块的<code>Height</code>就是0；</p>
+
+<p>这是程序员们按照block在chain上面的次序为block的编号，这个信息是不会写入blockchain的，只是作为<code>区块高度</code>在很多时候方便表示和计算；</p>
+
+<p>当节点接收来自比特币网络的区块时，会动态地识别该区块在区块链里的位置（区块高度）。 区块高度也可作为元数据存储在一个索引数据库表中以便快速检索。</p>
+
+<p>和区块哈希值不同的是，区块高度并不是唯一的标识符。虽然一个单一的区块总是会有一个明确的、固定的区块高度，但反过来却并不成立，一个区块高度并不总是识别一个单一的区块。两个或两个以上的区块可能有相同的区块高度，在区块链里争夺同一位置。这种情况是怎样发生的呢？</p>
+
+<p>因为一个全节点会时时刻刻接收全网的区块广播，在一个生产周期内，不可避免的，会产生两个或更多的符合条件的block，这个时候会发生什么呢？</p>
+
+<p>所有区块高度相同的区块会争夺成为链接上chain的权利，此时所有的矿工便会收集所有可能的chain分支，并选取最长的那一条在上面继续挖矿。</p>
+
+<p>如果把这个情景图像化，我们会看到blockchain时时刻刻都处在分叉状态中，新产生的block会在chain的末尾组成多个分支，就好像一条绳子的末端散开一样；</p>
+
+<p>关于这个情景，有个很诗意的描述词：<code>HASH DANCE</code>；</p>
+
+<p>作为一个Geek，这真是一场让人意醉神迷的数字之舞啊。</p>
 
 <h4>创世区块</h4>
 
+<p>区块链里的第一个区块创建于2009-01-03 18:15:05 GMT，被称为创世区块(Genesis block)。它是区块链里面所有区块的共同祖先，这意味着你从任一区块，循链向后回溯，最终都将到达创世区块。</p>
+
+<p>因为创世区块被编入到比特币客户端软件里，所以每一个节点都始于至少包含一个区块的区块链，这能确保创世区块不会被改变。每一个节点都“知道”创世区块的哈希值、结构、被创建的时间和里面的一个交易。因此，每个节点都把该区块作为区块链的首区块，从而构建了一个安全的、可信的区块链。</p>
+
+<p>创世块比较特殊，它不是挖出来的，是中本聪手工构造的；参见这里:</p>
+
+<p><a href="https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.cpp#L1439">https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.cpp#L1439</a></p>
+
+<p>关于创世块，之前我们提到一个有趣的事情：创世块的50BTC奖励是不能花的，这是为什么呢？</p>
+
+<p>这需要我们好好研究以下中本聪发布的v0.01版本的比特币源码：</p>
+
+<p><a href="https://github.com/memoryboxes/bitcoin_satoshi/tree/v0.01">https://github.com/memoryboxes/bitcoin_satoshi/tree/v0.01</a></p>
+
+<ol>
+<li>整个比特币系统接收一笔交易的时候怎么判断其合法性呢？就是判断这笔交易的vin是否关联着一笔合法交易的vout，这些vout统称UTXO，在初版比特币里面，判断一个合法的UTXO的标准就是有没有放进区块链的索引文件中；这个索引文件和区块链文件不是一个东西，他是单独的；如果你运行初版比特币软件(v0.01)；就可以看到中本聪把区块存储在blk0001.dat这样的文件里面，而把所有区块的索引存储在blkindex.dat这个文件里面；</li>
+<li>那么问题就出现了，blkindex.dat 什么时机才能写入呢？通读源码发现，只有自己挖矿挖到区块，或者收到周围的广播区块的时候，才有机会写入blkindex.dat这个文件;</li>
+<li>中本聪不知道有意无意，在前面手工构造创世区块的时候，没有构建索引写入blkindex.dat里面</li>
+<li><p>后来比特币的源码不断变迁，存储UTXO的方式由BDB变成了levelDB，但是创世块一直没有没有写入到索引文件里面，这样花费创世交易的时候，没有相应的索引，创世交易的UTXO就是非法的，所以没法花费</p></li>
+<li><p>那么如何解决呢？有两个办法：</p></li>
+<li><p>就是把创世区块写到区块索引里面</p></li>
+<li><p>或者在检查交易合法性的时候，单独的加一个判断条件，判断UTXO是否出自创世区块</p></li>
+<li><p>为什么迟迟没有修正：</p></li>
+<li><p>每个办法都需要一次硬分叉</p></li>
+<li>这需要全网节点都升级这个只影响创世块的50BTC，中本聪都不在乎，何苦为了50BTC就全网升级呢？</li>
+<li>最后，创世块见证着历史，其实不能花费挺好的。</li>
+</ol>
+
+
+<h4>coinbase</h4>
+
+<p>紧接着<code>block header</code>的，就是当前block的所有交易，其中第一笔交易就是coinbase 交易。关于coinbase交易，我们曾经在之前的文章中详细介绍过，这里就增加说明一点，coinbase交易的输出包括了所有交易的手续费，将来比特币网络的额定产出越来越少的时候，矿工们还是可以通过打包交易费用获利，来维持比特币网络的正常运转。</p>
+
+<p>就当前的情况来看，再来一次减半，基本上交易费用和新区快产出就对等了。</p>
+
 <h4>隔离见证</h4>
 
+<p>实施了隔离见证之后，对于<code>block header</code>和coinbase都有一些变化，我们以后会详细再提。</p>
+
 <h2>区块链接成为区块链</h2>
+
+<p>比特币的全节点在本地保存了区块链从创世区块起的完整副本。随着新的区块的产生，该区块链的本地副本会不断地更新用于扩展这个链条。当一个节点从网络接收传入的区块时，它会验证这些区块，然后链接到现有的区块链上。为建立一个连接，一个节点将检查传入的区块头并寻找该区块的“父区块哈希值”。</p>
+
+<p>最后所有区块组成了blockchain:</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1785959-778f551c409faeba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img" /></p>
 
 <h2>Merkle树</h2>
 
