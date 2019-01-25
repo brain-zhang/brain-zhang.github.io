@@ -82,6 +82,74 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/10/multiline-comments-in-docker-file/">Multiline Comments in Docker File</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-10T09:07:36+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/04/10/multiline-comments-in-docker-file/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>为了减少Image的fs layout数目，Dockerfile中经常会把多个命令集中到一个 <code>RUN</code> 指令下。</p>
+
+<p>多行之后可读性就很差了。</p>
+
+<p>有个比较偏门的写注释的方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RUN mkdir -p /home/build/npm3 && \
+</span><span class='line'>    mkdir -p /home/build/smartprobe && \
+</span><span class='line'>    mkdir -p /home/build/bpc3 && \
+</span><span class='line'>    `#====================================================` \
+</span><span class='line'>    `#=============checkout and install rpms==============` \
+</span><span class='line'>    svn export xxx && \
+</span><span class='line'>    rpm -ivh --force --nodeps *.rpm && \
+</span><span class='line'>    `#====================================================` \
+</span><span class='line'>    `#=============checkout and install python==============` \
+</span><span class='line'>    ... && \
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>比较实用，推荐之。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/">Different Users in Same Unix Group Can Not Run Mongod</a></h1>
     
     
@@ -1585,143 +1653,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/08/dockerzhong-de-wang-luo/">Docker中的网络</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-08T08:25:53+08:00" pubdate data-updated="true">Dec 8<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/12/08/dockerzhong-de-wang-luo/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Docker的默认网络是非常弱的，他使用的是一个虚拟网桥和container中的veth pair通信，在container中，默认是没有对外的IP的，外部主机或容器只能通过NAT，或者自定义iptable来实现主机或容器间的互联互通。
-这种局限性非常明显:</p>
-
-<ul>
-<li><p>如果我要配置一个sshd service，需要手工配置转发规则，非常不便</p></li>
-<li><p>无法使用DHCP</p></li>
-<li><p>NAT无法在宿主机上用一个端口提供不同服务，所以有多个container绑定到一个物理网卡时，因为无法分配多个对外IP，所以诸如Http 这样的服务只能跑在同一IP的不同端口上。</p></li>
-<li><p>在Container中无法正常tcpdump</p></li>
-</ul>
-
-
-<p>理想的容器内网卡应该像VMware的NSX那样，让你&#8217;基本上&#8217;感觉不到这是个虚拟的网卡，当然，这个和Docker的初衷有点不符了。但我们解决问题为先，工具是那一个，但不同人用法不同。</p>
-
-<p>将Docker Container连接到本地网络，有四种搞法 (具体请参考:<a href="http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/">http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/</a>)，下面简单描述下:</p>
-
-<ul>
-<li>采用官方默认的搞法，用NAT:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ip addr add 10.12.0.117/21 dev em1
-</span><span class='line'>
-</span><span class='line'>docker run -d --name web -p 10.12.0.117:80:80 centos/simpleweb</span></code></pre></td></tr></table></div></figure>
-
-
-<p>   这种方法简单，但也有上面所说的各种缺点</p>
-
-<ul>
-<li><p>建立自己的网桥和veth pair，为每个网桥分配一个IP，每个veth对绑定一个网桥，映射进docker容器，这样在容器内就得到了一个接近于真实的网卡。并且有能与本地网络的通信</p>
-
-<p>  这种办法其实是对默认docker网络实现的一种升级，但是解决了原来的诸多局限，缺点是操作比较麻烦，另外容器内用tcpdump也会有问题</p></li>
-<li><p>使用Open vSwitch Bridge，模拟第二种办法。</p>
-
-<p>  这种方法就是用Open vSwitch简化了操作，但是又引入了一套东西。</p></li>
-<li><p>建立macvlan虚拟网卡，容器启动后用nsenter工具映射到容器的network namespace中</p>
-
-<p>  这种办法我觉得是最干净简洁的，而且采用macvlan，还意外获得了一种能力，就是你能在宿主机上创建子macvlan设备，从而能向容器内的macvlan设备打入精确的流量。
-  采用这种方法得到的container，可以在里面启动sshd，远程ssh上去各种操作，这样使用同一般的虚拟机没有多大差别。
-  另外，在容器内tcpdump包也很完美，如果想捕获二层协议包，可以用macvtap替换macvlan。</p></li>
-</ul>
-
-
-<p>需要注意的是，如果想要tcpdump macvtap，需要linux kernel 3.14以上的支持，参见<a href="https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523">这里</a>。</p>
-
-<p>最后推荐为了简化macvlan的操作，我写的一个小工具:<a href="https://github.com/memoryboxes/dockerfly">dockerfly</a></p>
-
-<p>参考:</p>
-
-<ul>
-<li>Linux 上的基础网络设备详解</li>
-</ul>
-
-
-<p><a href="http://www.ibm.com/developerworks/cn/linux/1310_xiawc_networkdevice/index.html">http://www.ibm.com/developerworks/cn/linux/1310_xiawc_networkdevice/index.html</a></p>
-
-<ul>
-<li>Linux 上虚拟网络与真实网络的映射</li>
-</ul>
-
-
-<p><a href="http://www.ibm.com/developerworks/cn/linux/1312_xiawc_linuxvirtnet/index.html">http://www.ibm.com/developerworks/cn/linux/1312_xiawc_linuxvirtnet/index.html</a></p>
-
-<ul>
-<li>网络虚拟化技术: TUN/TAP MACVLAN MACVTAP</li>
-</ul>
-
-
-<p><a href="https://blog.kghost.info/2013/03/27/linux-network-tun/">https://blog.kghost.info/2013/03/27/linux-network-tun/</a></p>
-
-<ul>
-<li>Coupling Docker and Open vSwitch</li>
-</ul>
-
-
-<p><a href="http://fbevmware.blogspot.com/2013/12/coupling-docker-and-open-vswitch.html">http://fbevmware.blogspot.com/2013/12/coupling-docker-and-open-vswitch.html</a></p>
-
-<ul>
-<li>four ways to connect a docker</li>
-</ul>
-
-
-<p><a href="http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/">http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/</a></p>
-
-<ul>
-<li>Docker containers should not run an SSH server</li>
-</ul>
-
-
-<p><a href="https://news.ycombinator.com/item?id=7950326">https://news.ycombinator.com/item?id=7950326</a></p>
-
-<ul>
-<li>Proposal: Native Docker Multi-Host Networking</li>
-</ul>
-
-
-<p><a href="https://github.com/docker/docker/issues/8951">https://github.com/docker/docker/issues/8951</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -1739,6 +1670,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/01/25/bi-te-bi-de-guo-qu-%2Cxian-zai-he-wei-lai/">比特币的过去，现在和未来</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/01/23/bi-te-bi-de-blockchain-2/">比特币的blockchain-2</a>
       </li>
     
@@ -1752,10 +1687,6 @@
     
       <li class="post">
         <a href="/blog/2019/01/16/wsl-best-practice/">Wsl Best Practice</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/16/alias-rm-to-mv/">Alias Rm to Mv</a>
       </li>
     
   </ul>
@@ -1812,7 +1743,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (47)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (48)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
