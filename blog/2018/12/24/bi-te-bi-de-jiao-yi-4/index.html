@@ -245,7 +245,7 @@
 </ol>
 
 
-<p>这笔交易跟我们上一篇文章中的TransB构造是一样的，想要花费的话提供签名就OK了。不过这笔交易没有vin，取代的字段是coinbase。这个字段是可以随意调整的，中本聪在这里留存了一句非常有名的话：</p>
+<p>这笔交易跟我们上一篇文章中的TransB构造是一样的，想要花费的话提供签名就OK了。不过这笔交易没有vin，取代的字段是coinbase。这个字段是可以随意调整的(2-100字节)，中本聪在这里留存了一句非常有名的话：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>04678AFDB0FE5548271967F1A67130B7105CD6A828E03909A67962E0EA1F61DEB649F6BC3F4CEF38C4F35504E51EC112DE5C384DF7BA0B8D578A4C702B6BF11D5F</span></code></pre></td></tr></table></div></figure>
@@ -283,6 +283,8 @@
 <p>一笔交易的id值是SHA(TX HEX)算出来的，因为每一笔交易的vin, vout不同，很难得到相同的txid值。但是在Generation TX里面，输出的数目和地址很有可能都是一样的。所以需要矿工自己构造一个随机的coinbase内容，防止产生相同的TXID值。</p>
 
 <p>早期一位矿工挖出Block后，打包Block时忘记修改Generation Tx coinbase字段的值，币量相同且输出至相同的地址，那么就构造了两个完全一模一样的交易，分别位于两个Block的第一个位置。这个对系统不会产生什么问题，但只要花费其中一笔，另一个也被花费了。相同的Generation Tx相当于覆盖了另一个，白白损失了挖出的币。该交易ID为<a href="https://blockchain.info/tx/e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468">e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468</a>，第一次出现在<a href="https://blockchain.info/block/00000000000271a2dc26e7667f8419f2e15416dc6955e5a6c6cdf3f2574dd08e">#91722</a>，第二次出现在<a href="https://blockchain.info/block/00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721">#91880</a>。</p>
+
+<p>后来为了避免这个问题，社区讨论了提出 <a href="https://github.com/bitcoin/bips/blob/master/bip-0034.mediawiki">BIP 34 规范</a>，规定scriptSig字段，必须要把当前的区块高度(Height)放在最前。</p>
 
 <ul>
 <li>忘了接收奖励的矿工</li>
@@ -350,6 +352,16 @@
 <p><a href="http://bitcoinstrings.com/">http://bitcoinstrings.com/</a></p>
 
 <p>里面记录了许多尘封的历史，篇幅最大的就是扩容大战；完整的将当时社区争论刻进了区块链中，这是人类历史上第一次区块链圆桌访谈录，值得仔细瞻仰。</p>
+
+<h4>花费</h4>
+
+<p>Coinbase交易取得的比特币，必须要等100个区块高度之后才能花费。因为全网广播中，处于最头上的链是时时刻刻都在分叉的，这是一种保护措施。</p>
+
+<p>请参考：</p>
+
+<p><a href="https://github.com/bitcoin/bitcoin/search?q=COINBASE_MATURITY">https://github.com/bitcoin/bitcoin/search?q=COINBASE_MATURITY</a></p>
+
+<p><a href="http://bitcoin.stackexchange.com/questions/40655/coinbase-transactions-100-block-cooldown-period">http://bitcoin.stackexchange.com/questions/40655/coinbase-transactions-100-block-cooldown-period</a></p>
 
 <h2>小结</h2>
 
