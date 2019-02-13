@@ -5,15 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Cisco 3560X Config Cheat - Living a Simple Life is a Happy Life</title>
+  <title>关于GDP的一些随想 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="memoryboxes">
 
   
-  <meta name="description" content="工作需要，学习了Cisco的路由器配置，记一下: 查看所有信息 1
-show run 查看span 1
-show span 为某个vlan id建立spanning-tree 1
-spanning-tree vlan 15 取消某个vlan id的spanning-tree 1
-no &hellip;">
+  <meta name="description" content="GDP是什么 国内生产总值 (gross domestic product， GDP) 是在某一既定时期一个国家内生产的所有最终物品与劳务的市场价值。 GDP（用Y代表）被分为四个组成部分：消费（C）、投资（I）、政府购买（G）、净出口（NX）： 1
+Y = C ＋ I ＋ G ＋ NX 消费( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -24,7 +21,7 @@ no &hellip;">
   
 
   
-  <link rel="canonical" href="https://happy123.me/blog/2016/07/28/cisco-3560x-config-cheat">
+  <link rel="canonical" href="https://happy123.me/blog/2019/02/13/guan-yu-gdpde-sui-xiang">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -83,7 +80,7 @@ no &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Cisco 3560X Config Cheat</h1>
+      <h1 class="entry-title">关于GDP的一些随想</h1>
     
     
       <p class="meta">
@@ -99,7 +96,7 @@ no &hellip;">
   
 
 
-<time datetime="2016-07-28T10:02:06+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2016</time>
+<time datetime="2019-02-13T16:11:49+08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2019</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://happy123.me">Comments</a>
@@ -109,162 +106,116 @@ no &hellip;">
   </header>
 
 
-<div class="entry-content"><p>工作需要，学习了Cisco的路由器配置，记一下:</p>
+<div class="entry-content"><h2>GDP是什么</h2>
 
-<ul>
-<li>查看所有信息</li>
-</ul>
+<p>国内生产总值 (gross domestic product， GDP) 是在某一既定时期一个国家内生产的所有最终物品与劳务的市场价值。</p>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show run</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查看span</li>
-</ul>
-
+<p>GDP（用Y代表）被分为四个组成部分：消费（C）、投资（I）、政府购买（G）、净出口（NX）：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show span</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Y = C ＋ I ＋ G ＋ NX</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
 
 
 <ul>
-<li>为某个vlan id建立spanning-tree</li>
+<li>消费(consumption)是家庭用于物品和劳务的支出</li>
+<li>投资(investment)是将用于未来生产更多物品和劳务的物品购买。它是资本设备、存货和建筑物购买的总和。建筑物投资包括新住房支出。按习惯，新住房购买是划入投资而不划入消费的一种家庭支出形式。</li>
+<li>政府购买(government purchase)包括地方政府、州政府和联邦政府用于物品与劳务的支出。它包括政府员工的薪水和用于公务的支出。</li>
+<li>净出口(net export)等于外国人购买国内生产的物品(出口)减国内购买的外国物品(进口)。</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+<p>&mdash; 摘自曼昆的《经济学原理》</p>
 
+<h2>GDP怎样计算</h2>
 
-<ul>
-<li>取消某个vlan id的spanning-tree</li>
-</ul>
+<p>GDP有3种方法进行核算：生产法、收入法和支出法。</p>
 
+<h4>生产法</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
+<p>生产法是我国GDP的统计方法。</p>
 
+<p>我们把GDP从产业的角度，分成第一、二、三产业，分别算它们的增加值然后进行加总，当然还要从最终产品和中间投入两方面扣除通胀因素。</p>
 
-<ul>
-<li>将某个端口加入vlan中</li>
-</ul>
-
+<p>用生产法计算的GDP，是指各部门在核算期内的增加值。公式如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sh run init gi 0/39
-</span><span class='line'>config t
-</span><span class='line'>switchport access vlan 14</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GDP=各部门的总产出-各部门的中间消耗</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>保存配置</li>
-</ul>
+<p>对于第一产业的农林牧渔业，总产出就是多少斤粮食的价值；</p>
 
+<p>对于第二产业——工业，那就是生产出的所有商品的价值；</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>do wr
-</span><span class='line'>copy running-config startup-config</span></code></pre></td></tr></table></div></figure>
+<p>第三产业服务业的范围比较广，计算方法也更加复杂，比如说理发师理一次发的价值，律师咨询一次的劳务价值等等。中间消耗指的是生产过程中的消耗，但要记住：中间消耗不等于成本。举个栗子：</p>
 
+<p>工厂生产了1000个毛绒玩具，产值1万元，期间机器保养和修理花费了2000元，员工薪资4000元，那么按照生产法的话，笨笨工厂的GDP则是10000-2000=8000元。中间消耗你可以理解成为了产值而产生的费用，而成本则是一种固定的支出。就好比你今天去体彩中心领奖金10万块，请保镖花了300，但是你去体彩中心的路上打车花了20。如果要用生产法计算你为社会创造的GDP的话，那就是100000-20=99980块，因为你的“产值”是奖金，而不是保镖费。</p>
 
-<p>顺便记一下cisco catalyst交换机配置</p>
+<h4>收入法</h4>
 
-<ul>
-<li>登陆交换机</li>
-</ul>
-
+<p>收入法是从各个生产要素的收入角度来计算GDP。公式如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GDP=劳动者报酬+生产税净额+固定资本消耗+营业盈余</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>查看现有配置</li>
-</ul>
+<p>劳动者报酬就是个人劳动者的收入；</p>
 
+<p>生产税净额就是上交给国家的各种税费减去政府补贴；</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show running-config</span></code></pre></td></tr></table></div></figure>
+<p>营业盈余就相当于营业利润加上补贴，扣除工资和福利等。（但营业盈余不等于营业利润，营业盈余是生产概念，营业利润是销售概念）比如工厂生产了价值1万块钱的玩具，贡献了1万块的GDP（不考虑保养和修理费），拆分一下：员工薪资4000元（劳动者报酬）交税1000元，收到补贴500元，即净额500元（生产税净额）固定资本折旧500；剩下的就是营业盈余5000</p>
 
+<h4>支出法</h4>
 
-<ul>
-<li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
-</ul>
-
+<p>支出法其实就是曼昆的公式，即加总全社会各类货物和服务的最终消费总额：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#conf t
-</span><span class='line'>(config)#int ra g0/37 -39
-</span><span class='line'>(config-if-range)#sw mo acc
-</span><span class='line'>(config-if-range)#sw acc vl 15
-</span><span class='line'>(config-if-range)#exit
-</span><span class='line'>(config)#int ra g0/41 -46
-</span><span class='line'>(config-if-range)#sw tr e d
-</span><span class='line'>(config-if-range)#sw mo tr
-</span><span class='line'>(config-if-range)#end
-</span><span class='line'>#wr</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>（消费（C）+投资（I）+政府购买（G）），再加上净出口</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>开启/关闭端口</li>
-</ul>
-
+<p>公式变形如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TEST3#conf t
-</span><span class='line'>Enter configuration commands, one per line.  End with CNTL/Z.
-</span><span class='line'>TEST3(config)#int g0/41
-</span><span class='line'>TEST3(config-if)#sh
-</span><span class='line'>TEST3(config-if)#shutdown
-</span><span class='line'>TEST3(config-if)#no shutdown
-</span><span class='line'>TEST3(config-if)#end
-</span><span class='line'>TEST3#</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GDP=最终消费+资本形成总额+净出口</span></code></pre></td></tr></table></div></figure>
 
 
-<p>例如 配置vlan15 和 trunk:</p>
+<p>最终消费很简单，就是一国常住居民和政府部门在货物和服务上的总花费，比如你下班回家后买零食的花费，以及国防部买军舰坦克的花费。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>interface GigabitEthernet0/39
-</span><span class='line'> switchport access vlan 15
-</span><span class='line'>  switchport mode access
-</span><span class='line'>
-</span><span class='line'>interface GigabitEthernet0/46
-</span><span class='line'> switchport trunk encapsulation dot1q
-</span><span class='line'>  switchport mode trunk
-</span></code></pre></td></tr></table></div></figure>
+<p>资本形成总额资本形成总额指常住单位在一定时期内获得的减去处置的固定资产和存货的净额，就好比你搬家了，购置了冰箱和洗衣机，共花费3000块，然后卖掉了一台旧洗衣机500块，那么你的可以资本形成总额就是2500块。放在GDP角度，企业购置机器的钱，扣除处理旧机器的钱，就是企业的消费。</p>
 
+<p>净出口净出口指的是货物和服务总出口减去总进口。</p>
 
-<p>去掉</p>
+<p>多者相加，得出的即是支出法下的GDP。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>no switchport access vlan 15</span></code></pre></td></tr></table></div></figure>
+<p>引自:</p>
 
+<p><a href="https://zhuanlan.zhihu.com/p/34944269">https://zhuanlan.zhihu.com/p/34944269</a></p>
+
+<h2>中国历年GDP 计算</h2>
+
+<p><a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E5%9B%BD%E5%86%85%E7%94%9F%E4%BA%A7%E6%80%BB%E5%80%BC%E5%88%97%E8%A1%A8_(%E5%9B%BD%E9%99%85%E6%B1%87%E7%8E%87">wiki</a>)</p>
+
+<h2>神奇的官方预计与统计</h2>
+
+<p>每年开年，国家统计局都会发布新一年的GDP增速预测，而到了年底，也都会发布当年的实际GDP增速。</p>
+
+<p>比如:</p>
+
+<p><a href="http://www.stats.gov.cn/tjsj/zxfb/201901/t20190118_1645555.html">国家统计局关于2017年国内生产总值（GDP）最终核实的公告</a></p>
+
+<p>神奇的是，每次的预测与实际误差都在0.1%左右，而且连续10年预测神准。</p>
+
+<p>如果2019-01-01上证指数是2600点，有人信誓旦旦的对你说，我预测2019-12-30上证指数是 4236-4240 点，绝对在这个范围内！！</p>
+
+<p>你相信吗？</p>
+
+<p>现在国家统计局对你说，2019年国家GDP增速预计在 6.3%，然后年底一看，6.4%增速，误差千分之一，而且连续十年神准。</p>
+
+<p>不管你信不信，我是信了。</p>
 </div>
 
 
@@ -287,12 +238,12 @@ no &hellip;">
   
 
 
-<time datetime="2016-07-28T10:02:06+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2016</time>
+<time datetime="2019-02-13T16:11:49+08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2019</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/cisco/'>cisco</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/categories/life/'>life</a>
   
 </span>
 
@@ -308,10 +259,8 @@ no &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/07/12/bi-te-bi-shi-shang-de-jiu-da-bei-ju/" title="Previous Post: 比特币史上的九大悲剧">&laquo; 比特币史上的九大悲剧</a>
+        <a class="basic-alignment left" href="/blog/2019/02/13/2018nian-tou-zi-zong-jie/" title="Previous Post: 2018年投资总结">&laquo; 2018年投资总结</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/08/03/bitfinexyan-chu-de-di-shi-da-bei-ju/" title="Next Post: Bitfinex演出的第十大悲剧">Bitfinex演出的第十大悲剧 &raquo;</a>
       
     </p>
   </footer>
@@ -433,8 +382,8 @@ no &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://happy123.me/blog/2016/07/28/cisco-3560x-config-cheat/';
-        var disqus_url = 'https://happy123.me/blog/2016/07/28/cisco-3560x-config-cheat/';
+        var disqus_identifier = 'https://happy123.me/blog/2019/02/13/guan-yu-gdpde-sui-xiang/';
+        var disqus_url = 'https://happy123.me/blog/2019/02/13/guan-yu-gdpde-sui-xiang/';
         var disqus_script = 'embed.js';
       
     (function () {
