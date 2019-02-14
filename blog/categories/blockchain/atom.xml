@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-02-14T16:37:20+08:00</updated>
+  <updated>2019-02-14T16:49:57+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -799,12 +799,48 @@
 
 <p>再回忆一下我们前面提到的block header里面的所有字段：</p>
 
-<p>4 bytes | version | 当前协议版本 |
-32 bytes | Previous Block Hash | 当前Chain上，前一个block的HASH值 |
-32 bytes | Merkle Root | 这个block中所有交易的Merkle root key |
-4 bytes | Timestamp | 当前block的创建时间 |
-4 bytes | nBits | 当前block的POW难度值 |
-4 bytes | Nonce | 这就是我们前面说的那个<code>毫无意义的随机数</code>，耗费巨大能源就是为了找到满足条件的Nonce |</p>
+<table>
+<thead>
+<tr>
+<th>长度 </th>
+<th> 字段名 </th>
+<th> 作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4 bytes </td>
+<td> version </td>
+<td> 当前协议版本 |</td>
+</tr>
+<tr>
+<td>32 bytes </td>
+<td> Previous Block Hash </td>
+<td> 当前Chain上，前一个block的HASH值 |</td>
+</tr>
+<tr>
+<td>32 bytes </td>
+<td> Merkle Root </td>
+<td> 这个block中所有交易的Merkle root key |</td>
+</tr>
+<tr>
+<td>4 bytes </td>
+<td> Timestamp </td>
+<td> 当前block的创建时间 |</td>
+</tr>
+<tr>
+<td>4 bytes </td>
+<td> nBits </td>
+<td> 当前block的POW难度值 |</td>
+</tr>
+<tr>
+<td>4 bytes </td>
+<td> Nonce </td>
+<td> 这就是我们前面说的那个<code>毫无意义的随机数</code>，耗费巨大能源就是为了找到满足条件的Nonce |</td>
+</tr>
+</tbody>
+</table>
+
 
 <p>其中，矿工们能自由更改的：</p>
 
@@ -824,11 +860,13 @@ SHA256(SHA256(Blockherder)) &lt; F(nBits)
 
 <p>为了节约区块链存储空间，将256位的目标值通过一定变换无损压缩保存在32位的nBits字段里。具体变换方法为拆分利用nBits的4个字节，第1个字节代表右移的位数，用V1表示，后3个字节记录值，用V3表示，则有：</p>
 
-<p>F(nBits)=V_3 * 2<sup>8*(V_1-3) </sup></p>
+<p>F(nBits)=V3 * 2<sup>8*(V1-3) </sup></p>
 
 <p>此外难度有最低限制，也就是说 F(nBits) 有个最大值，比特币最低难度取值nBits=0x1d00ffff，对应的最大目标值为：0x00000000FFFF0000000000000000000000000000000000000000000000000000</p>
 
 <p>因此挖矿可以形象的类比抛硬币，好比有256枚硬币，给定编号1,2,3……256，每进行一次Hash运算，就像抛一次硬币，256枚硬币同时抛出，落地后要求编号前n的所有硬币全部正面向上。</p>
+
+<p>这里的详细计算可以参考我们之前的一篇<a href="https://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/">文章</a></p>
 
 <h4>CPU挖矿时代</h4>
 
