@@ -272,7 +272,7 @@
 </tr>
 <tr>
 <td>4 bytes </td>
-<td> Difficulty Target </td>
+<td> nbits </td>
 <td> 当前block的POW难度值 |</td>
 </tr>
 <tr>
@@ -294,9 +294,9 @@
 
 <p>创世块的HASH值为<code>000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code>，这是一个32字节的HASH值，通过SHA256算法对区块头进行二次哈希计算而得到的数字指纹。注意，这个值仅仅是根据区块头得到的，即 <code>SHA256(SHA256(Block Header))</code>;</p>
 
-<p>仅仅依赖区块头就够了吗？是的，不要忘了，我们在区块头里面还有一个重要的HASH值，就是<code>Merkle Root</code>，<code>Merkle Root</code>标识了block中所有的交易，而<code>Block Hash</code> 通过HASH包含了<code>Merkle Root</code>的<code>Block Header</code>，唯一、明确地标识了一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值。</p>
+<p>仅仅依赖区块头就够了吗？是的，不要忘了，我们在区块头里面还有一个重要的HASH值，就是<code>Merkle Tree Root Hash</code>，<code>Merkle Tree Root Hash</code>标识了block中所有的交易，而<code>Block Hash</code> 通过HASH包含了<code>Merkle Tree Root Hash</code>的<code>Block Header</code>，唯一、明确地标识了一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值。</p>
 
-<p>通过<code>Merkle Root</code>和<code>Block Hash</code>决定了，一个区块被铸造出来，恶意的第三方节点是无法修改它的；</p>
+<p>通过<code>Merkle Root</code>和<code>Block Hash</code>决定了，一个区块被铸造出来，恶意的第三方节点是无法修改它的 (关于Merkle，请参考后面的说明)；</p>
 
 <p>另外需要注意的一点是: 区块哈希值实际上并不包含在区块的数据结构里，不管是该区块在网络上传输时，抑或是它作为区块链的一部分被存储在某节点的永久性存储设备上时。相反，区块哈希值是当该区块从网络被接收时由每个节点计算出来的。区块的哈希值可能会作为区块元数据的一部分被存储在一个独立的数据库表中，以便于索引和更快地从磁盘检索区块。</p>
 
@@ -321,6 +321,8 @@
 <p>关于这个情景，有个很诗意的描述词：<code>HASH DANCE</code>；</p>
 
 <p>作为一个Geek，这真是一场让人意醉神迷的数字之舞啊。</p>
+
+<p>PS: 理论上，如果出现一台拥有着无限计算能力的新型的计算机，当然可以轻易伪造1000个或者更多的block，但是现实情况限制比较严格，当新生成的区块寿命过了100个区块高度之后，系统就不再接受重组了，这算是一个多重保险吧。</p>
 
 <h4>创世区块</h4>
 
@@ -373,14 +375,6 @@
 
 <p>实施了隔离见证之后，对于<code>block header</code>和coinbase都有一些变化，我们以后会详细再提。</p>
 
-<h2>区块链接成为区块链</h2>
-
-<p>比特币的全节点在本地保存了区块链从创世区块起的完整副本。随着新的区块的产生，该区块链的本地副本会不断地更新用于扩展这个链条。当一个节点从网络接收传入的区块时，它会验证这些区块，然后链接到现有的区块链上。为建立一个连接，一个节点将检查传入的区块头并寻找该区块的“父区块哈希值”。</p>
-
-<p>最后所有区块组成了blockchain:</p>
-
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190123/bg1.jpg" alt="img" /></p>
-
 <h2>Merkle树</h2>
 
 <p>区块链的数据是永不删除的，随着交易量越来越大，整个区块数据量也越来越大，那么问题又来了，不可能每个节点都下载数百GB的数据来来验证一笔交易的合法性，而作为一个分布式系统，我们是不能信赖任何中心节点的！我们怎样在一个手机钱包软件里面验证一笔交易呢？</p>
@@ -395,7 +389,101 @@
 
 <p><a href="https://en.wikipedia.org/wiki/Merkle_tree">https://en.wikipedia.org/wiki/Merkle_tree</a></p>
 
-<h4>SPV(简单支付)</h4>
+<h2>挖矿</h2>
+
+<p>内容引用自： <a href="https://www.8btc.com/article/108894">https://www.8btc.com/article/108894</a></p>
+
+<p>有了Merkle Tree这个数据结构之后，我们非常简单的就可以用一个root hash值来唯一的确定一个block中的所有交易及排列次序；所以要<code>证明</code>这个block中的交易没有被篡改，只要一个<code>Merkle Tree Root Hash</code>值就可以了；将这个值嵌入区块头，然后对整个区块头做HASH，这个过程一旦确定，基本上就不可逆了。</p>
+
+<p>那么终于到了我们前面提到的第二个问题，也是整个系统中最重要的问题:</p>
+
+<ol>
+<li>哪个节点有记账的权力，如何保证整个账本是唯一且不可篡改的</li>
+</ol>
+
+
+<p>这个问题的回答就是<code>POW挖矿</code>；大众喜闻乐见的一种行为；虽然挖矿的原理简单的不可思议，但是我觉得真正去花时间搞明白的人也没有几个；那么，我们简单说说吧：</p>
+
+<h4>毫无意义的随机数字</h4>
+
+<p>是的，朋友们，比特币本身是一个荒谬的东西，其中<code>挖矿</code>这种行为，更是荒谬中的荒谬：浪费一个小型国家的能源消耗，只为了计算一个<code>毫无意义的随机数字</code>，人类的荒谬性在此暴露无遗！好一场荒诞派戏剧 ！！所有的Bitoiners其实正参演着一场现代版的《等待戈多》！！！</p>
+
+<p>那么，让我们来看看，Nerd们在追求的这个<code>毫无意义的随机数字</code>究竟是什么吧。</p>
+
+<p>再回忆一下我们前面提到的block header里面的所有字段：</p>
+
+<p>4 bytes | version | 当前协议版本 |
+32 bytes | Previous Block Hash | 当前Chain上，前一个block的HASH值 |
+32 bytes | Merkle Root | 这个block中所有交易的Merkle root key |
+4 bytes | Timestamp | 当前block的创建时间 |
+4 bytes | nBits | 当前block的POW难度值 |
+4 bytes | Nonce | 这就是我们前面说的那个<code>毫无意义的随机数</code>，耗费巨大能源就是为了找到满足条件的Nonce |</p>
+
+<p>其中，矿工们能自由更改的：</p>
+
+<ol>
+<li>32 bytes的<code>Merkel Root Hash</code>值，这个可以通过调整交易的次序和block包括哪些交易来进行，但是每次调整需要一些计算</li>
+<li>4 bytes的Timestamp，调整范围大概在一个比特币的生产周期内(10分钟左右)，这个调整的空间很小</li>
+<li><p>Nonce，就是这个；中本聪初版发布时，其挖矿活动就是计算Nonce</p></li>
+<li><p>那么算出来的Nonce需要达到什么条件呢？</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SHA256(SHA256(Blockherder)) &lt; F(nBits)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，SHA256(SHA256(Blockherder))就是挖矿结果，F(nBits)是难度对应的目标值，两者都是256位，都当成大整数处理，直接对比大小以判断是否符合难度要求。</p>
+
+<p>为了节约区块链存储空间，将256位的目标值通过一定变换无损压缩保存在32位的nBits字段里。具体变换方法为拆分利用nBits的4个字节，第1个字节代表右移的位数，用V1表示，后3个字节记录值，用V3表示，则有：</p>
+
+<p>F(nBits)=V_3 * 2<sup>8*(V_1-3) </sup></p>
+
+<p>此外难度有最低限制，也就是说 F(nBits) 有个最大值，比特币最低难度取值nBits=0x1d00ffff，对应的最大目标值为：0x00000000FFFF0000000000000000000000000000000000000000000000000000</p>
+
+<p>因此挖矿可以形象的类比抛硬币，好比有256枚硬币，给定编号1,2,3……256，每进行一次Hash运算，就像抛一次硬币，256枚硬币同时抛出，落地后要求编号前n的所有硬币全部正面向上。</p>
+
+<h4>CPU挖矿时代</h4>
+
+<p>在Bitcoin早期，只有少数的几个Geek来尝试运行软件，此时的bitcoin core客户端集合了钱包、全节点、挖矿的所有功能；所以早期的节点挖矿过程非常简单：</p>
+
+<blockquote><p>构造区块，初始化区块头各个字段，计算Hash并验证区块，不合格则nNonce自增，再计算并验证，如此往复。在CPU挖矿时代，nNonce提供的4字节搜索空间完全够用（4字节即4G种可能，单核CPU运算Double SHA256算力一般是2M左右），其实nNonce只遍历完两个字节就返回去重构块</p></blockquote>
+
+<h4>GPU挖矿时代</h4>
+
+<p>很快，大家就发现挖矿这个行为只需要在一个block周期内定时获取区块头就可以，不需要每个矿机都运行一个全节点。于是最初的bitcoin软件支持了getwork 协议。</p>
+
+<p>getwork协议代表了GPU挖矿时代，需求主要源于挖矿程序与节点客户端分离，区块链数据与挖矿部件分离。其核心设计思路是：</p>
+
+<blockquote><p>由节点客户端构造区块，然后将区块头数据交给外部挖矿程序，挖矿程序遍历nNonce进行挖矿，验证合格后交付回给节点客户端，节点客户端验证合格后广播到全网。</p>
+
+<p>如前所述，区块头共80个字节，由于没有区块链数据和待确认交易池，nVersion，hashPrevBlock，nBits和hashMerkleRoot这4个字段共72个字节必须由节点客户端提供。挖矿程序主要是递增遍历nNonce，必要时候可以微调nTime字段。</p>
+
+<p>对于显卡GPU来说，其实不用担心nNonce的4字节搜索空间不足，而且挖矿程序从节点客户端那里拿到一份数据后，不应该埋头工作太久，不然很有可能这个块已经被其他人挖到，继续挖只能做无用功，对于比特币来说，虽然设计为每10分钟一个区块，良好的策略也应该在秒级内重新向节点申请新的挖矿数据。对于显卡来说，运行SHA256D算力一般介于200M~1G，nNonce提供4G搜索空间，也就是说再好的显卡也能支撑4秒左右，调整一次nTime，又可以再挖4秒，这个时间绰绰有余。</p>
+
+<p>节点提供RPC接口getwork，该接口有一个可选参数，如果不带参数，就是申请挖矿数据，如果带一个参数，就是提交挖到的块数据。</p></blockquote>
+
+<h4>GETBLOCKTEMPLATE</h4>
+
+<h4>矿池</h4>
+
+<h4>STRATUM</h4>
+
+<h4>AUXPOW (Auxiliary Blockchain) 混合挖矿</h4>
+
+<h2>区块链接成为区块链</h2>
+
+<p>比特币的全节点在本地保存了区块链从创世区块起的完整副本。每个计算周期内矿工们辛勤的工作，会不断产生新的区块，每个区块头都用<code>Merkle Tree Root Hash</code>证明其包含的所有交易的不可篡改性，而区块头中的Nonce又包含着巨大的运算量来保证整个区块的不可篡改性；而区块链的本地副本会不断地更新用于扩展这个链条。当一个节点从网络接收传入的区块时，它会验证这些区块，然后链接到现有的区块链上。</p>
+
+<p>最后，整条链凝结了全网矿工从比特币诞生以来的所有算力总和，这些巨大的算力保证了再伪造同样的一条链是近乎不能完成的任务。</p>
+
+<h4>此时整个账本是唯一且不可篡改的。</h4>
+
+<p>最后所有区块组成了blockchain:</p>
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190123/bg1.jpg" alt="img" /></p>
+
+<h2>SPV(简单支付)</h2>
 
 <p>Merkle树被SPV节点广泛使用。SPV节点不保存所有交易也不会下载整个区块，仅仅保存区块头。它们使用认证路径或者Merkle路径来验证交易存在于区块中，而不必下载区块中所有交易。</p>
 
