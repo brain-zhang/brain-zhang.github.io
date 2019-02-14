@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-02-14T16:49:57+08:00</updated>
+  <updated>2019-02-14T21:27:28+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -1232,13 +1232,101 @@
 
 <p>节点提供RPC接口getwork，该接口有一个可选参数，如果不带参数，就是申请挖矿数据，如果带一个参数，就是提交挖到的块数据。</p></blockquote>
 
+<p>我们先想一下，如果要挖矿，getwork返回的最小数据是哪些呢？</p>
+
+<p>只需要区块头的前76个字节就可以！ 通过nNonce和nTime，就能直接构造。</p>
+
+<p>但是getwork协议充分考虑各种情况，尽量帮助外部挖矿程序做力所能及的事，提供了一些额外字段。getwork的全部返字段如下：</p>
+
+<ul>
+<li>Data字段</li>
+</ul>
+
+
+<p>共128字节（80区块头字节 + 48补全字节），因为SHA256将输入数据切分成固定长度的分片处理，每个切片64字节，输入总长度必须是64字节的整数倍，输入长度一般不符合要求，则根据一定规则在元数据末端补全数据。</p>
+
+<ul>
+<li>Target字段</li>
+</ul>
+
+
+<p>即当前区块难度目标值，采用小头字节序，需要翻转才能使用。这其实是根据区块头的nBits计算出来的， getwork送佛送到西，直接帮你算好了。</p>
+
+<ul>
+<li>Midstate字段</li>
+</ul>
+
+
+<p>SHA256对输入数据分片处理，矿工拿到data数据后，第一个分片（头64字节）是固定不变的，midstate就是第一个分片的计算结果，节点帮忙计算出来了。 因此，在midstate字段辅助下，外部挖矿程序甚至只需要44字节数据就可以正常挖矿：32字节midstate + 第一个切片余下的12（76-64）字节数据。</p>
+
+<ul>
+<li>Hash1字段</li>
+</ul>
+
+
+<p>比特币挖矿每次都需要连续执行两次SHA256，第一次执行结果32字节，需要再补充32字节数据凑足64字节作为第二次执行SHA256的输入。hash1就是补全数据，同理，hash1也是固定不变的。</p>
+
+<blockquote><p>外部挖矿程序挖到合格区块后再次调用getwork接口将修改过的data字段提交给节点客户端。节点客户端要求返回的数据也必须是128字节。</p>
+
+<p>每次有外部无参调用一次getwork时，节点客户端构造一个新区块，在返回数据前，都要把新区块完整保存在内存，并用hashMerkleRoot作为唯一标识符，节点使用一个Map来存放所有构造的区块，当下一个块已经被其他人挖到时，立即清空Map。</p>
+
+<p>getwork收到一个参数后，首先从参数提取hashMerkleRoot，在Map中找出之前保存的区块，接着从参数中提取nNonce和nTime填充到区块的对应字段，就可以验证区块了，如果难度符合要求，说明挖到了一个块，节点将其广播到全网。</p>
+
+<p>getwork协议是最早版本挖矿协议，实现了节点和挖矿分离，经典的GPU挖矿驱动cgminer和sgminer，以及cpuminer都是使用getwork协议进行挖矿。getwork + cgminer一直是非常经典的配合，曾经很多新算法推出时，都快速被移植到cgminer。即便现在，除了BTC和LTC，其他众多竞争币都还在使用getwork协议进行挖矿。矿机出现之后，挖矿速度得到极大提高，当前比特币矿机算力已经达到10T/秒级别。而getwork只给外部挖矿程序提供32字节共4G的搜索空间，如果继续使用getwork协议，矿机需要频繁调用RPC接口，这显然不可行。如今BTC和LTC节点都已经禁用getwork协议，转向更新更高效的getblocktemplate协议。</p></blockquote>
+
 <h4>GETBLOCKTEMPLATE</h4>
+
+<p>getblocktemplate协议诞生于2012年中，此时矿池已经出现。矿池采用getblocktemplate协议与节点客户端交互，采用stratum协议与矿工交互，这是最典型的矿池搭建模式。</p>
+
+<p>与getwork相比，getblocktemplate协议最大的不同点是：getblocktemplate协议让矿工自行构造区块。如此一来，节点和挖矿完全分离。对于getwork来说，区块链是黑暗的，getwork对区块链一无所知，他只知道修改data字段的4个字节。对于getblocktemplate来说，整个区块链是透明的，getblocktemplate掌握区块链上与挖矿有关的所有信息，包括待确认交易池，getblocktemplate可以自己选择包含进区块的交易。</p>
+
+<p>getblocktemplate 在被开发出来后并非一成不变，在随后发行的各个版本客户端都有所升级改动，主要是增添一些字段，不过核心理念和核心字段不变。目前比特币客户端返回数据如下，考虑到篇幅限制，交易字段（transactions）只保留了一笔交易数据，其实根据当前实际情况，待确认交易池实时有上万笔交易，目前区块基本都是塞满的（1M容量限制），加上额外信息，因此每次调用getblocktemplate基本都有1.5M左右返回数据，相对于getwork的几百个字节而言，不可同日而语。</p>
+
+<p>来简单分析一下其中几个核心字段， Version，Previousblockhash，Bits这三个字段分别指区块版本号，前一个区块Hash，难度，矿工可以直接将数值填充区块头对应字段。</p>
+
+<p>Transactions，交易集合，不但给了每一笔交易的16进制数据，同时给了hash，交易费等信息。 Coinbaseaux，如果有想要写入区块链的信息，放在这个字段，类似中本聪的创世块宣言。 Coinbasevalue，挖下一个块的最大收益值，包括发行新币和交易手续费，如果矿工包含Transactions字段的所有交易，可以直接使用该值作为coinbase输出。 Target，区块难度目标值。 Mintime，指下一个区块时间戳最小值，Curtime指当前时间，这两个时间作为矿工调节nTime字段参考。 Height，下一个区块难度，目前协议规定要将这个值写入coinbase的指定位置。</p>
+
+<p>矿工拿到这些数据之后，挖矿步骤如下：</p>
+
+<p>构建coinbase交易，涉及到字段包括Coinbaseaux，Coinbasevalue，Transactions，Height等，当然最重要的是要指定一个收益地址。 构建hashMerkleRoot，将coinbase放在transactions字段包含的交易列表之前，然后对相邻交易两两进行SHA256D运算，最终可以构造交易的Merkle树。由于coinbase有很多字节可供矿工随意发挥，此外交易列表也可随意调换顺序或者增删，因而hashMerkleRoot值空间几乎可以认为是无限的。其实getblocktemplate协议设计的主要目标就是让矿工获得这个巨大的搜索空间。</p>
+
+<p>构建区块头，利用Version，Previousblockhash，Bits以及Curtime分别填充区块头对应字段，nNonce字段可默认置0。</p>
+
+<p>挖矿，矿工可在由nNonce，nTime，hashMerkleRoot提供的搜索空间里设计自己的挖矿策略。 上交数据，当矿工挖到一个块后当立即使用submitblock接口将区块完整数据提交给节点客户端，由节点客户端验证并广播。</p>
+
+<p>需要注意的是，与上文提到的GPU采用getwork挖矿一样，虽然getblocktemplate给矿工提供了巨大搜索空间，但矿工不应对一份请求数据挖矿太久，而应循环适时向节点索要最新区块和最新交易信息，以提高挖矿收益。</p>
 
 <h4>矿池</h4>
 
+<p>在很长一段时期内，大家都是各自为战；但随着全网难度上升，个人挖矿的成功率越来越低，很可能挖数年都不能爆一个块。于是有人提出了大家合作挖矿的办法。矿池挖矿时代来临了。</p>
+
+<p>矿池的核心工作是给矿工分配任务，统计工作量并分发收益。矿池将区块难度分成很多难度更小的任务下发给矿工计算，矿工完成一个任务后将工作量提交给矿池，叫提交一个share。假如全网区块难度要求Hash运算结果的前70个比特位都是0，那么矿池给矿工分配的任务可能只要求前30位是0（根据矿工算力调节），矿工完成指定难度任务后上交share，矿池再检测在满足前30位为0的基础上，看看是否碰巧前70位都是0。</p>
+
+<p>矿池会根据每个矿工的算力情况分配不同难度的任务，矿池是如何判断矿工算力大小以分配合适的任务难度呢？调节思路和比特币区块难度一样，矿池需要借助矿工的share率，矿池希望给每个矿工分配的任务都足够让矿工运算一定时间，比如说1秒，如果矿工在一秒之内完成了几次任务，说明矿池当前给到的难度低了，需要调高，反之。如此下来，经过一段时间调节，矿池能给矿工分配合理难度，并计算出矿工的算力。</p>
+
 <h4>STRATUM</h4>
 
-<h4>AUXPOW (Auxiliary Blockchain) 混合挖矿</h4>
+<p>矿池通过getblocktemplate协议与网络节点交互，以获得区块链的最新信息，通过stratum协议与矿工交互。此外，为了让之前用getwork协议挖矿的软件也可以连接到矿池挖矿，矿池一般也支持getwork协议，通过阶层挖矿代理机制实现（Stratum mining proxy）。须知在矿池刚出现时，显卡挖矿还是主力，getwork用起来非常方便，另外早期的FPGA矿机有些是用getwork实现的，stratum与矿池采用TCP方式通信，数据使用JSON封装格式。</p>
+
+<p>先来说一下getblocktemplate遗留下来的几个问题：</p>
+
+<p>矿工驱动：在getblocktemplate协议里，依然是由矿工主动通过HTTP方式调用RPC接口向节点申请挖矿数据，这就意味着，网络最新区块的变动无法及时告知矿工，造成算力损失。</p>
+
+<p>数据负载：如上所述，如今正常的一次getblocktemplate调用节点都会反馈回1.5M左右的数据，其中主要数据是交易列表，矿工与矿池需频繁交互数据，显然不能每次分配工作都要给矿工附带那么多信息。再者巨大的内存需求将大大影响矿机性能，增加成本。</p>
+
+<p>Stratum协议彻底解决了以上问题。</p>
+
+<p>Stratum协议采用主动分配任务的方式，也就是说，矿池任何时候都可以给矿工指派新任务，对于矿工来说，如果收到矿池指派的新任务，应立即无条件转向新任务；矿工也可以主动跟矿池申请新任务。</p>
+
+<p>现在最核心的问题是如何让矿工获得更大的搜索空间，如果参照getwork协议，仅仅给矿工可以改变nNonce和nTime字段，则交互的数据量很少，但这点搜索空间肯定是不够的。想增加搜索空间，只能在hashMerkleroot下功夫，如果让矿工自己构造coinbase，那么搜索空间的问题将迎刃而解，但代价是必要要把区块包含的所有交易都交给矿工，矿工才能构造交易列表的Merkleroot，这对于矿工来说压力更大，对于矿池带宽要求也更高。</p>
+
+<p>Stratum协议巧妙解决了这个问题，成功实现既可以给矿工增加足够的搜索空间，又只需要交互很少的数据量，这也是Stratum协议最具创新的地方。</p>
+
+<p><img src="https://cdn.8btc.com/wp-content/uploads/2016/11/p5.png" alt="img" /></p>
+
+<p>再来回顾一下区块头的6个字段80字节，这个很关键，nVersion，nBits，hashPrevBlock这3个字段是固定的，nNonce，nTime这两个字段是矿工现在就可以改变的。增加搜索空间只能从hashMerkleroot下手，这个绕不过去。Stratum协议让矿工自己构造coinbase交易，coinbase的scriptSig字段有很多字节可以让矿工自由填充，而coinbase的改动意味着hashMerkleroot的改变。从coinbase构造hashMerkleroot无需全部交易，如上图所示，假如区块将包含13笔交易，矿池先对这13笔交易进行处理，最后只要把图中的4个黑点（Hash值）交付给矿工，同时将构造coinbase需要的信息交付给矿工，矿工就可以自己构造hashMerkleroot（图中的绿点都是矿工自行计算获得，两两合并Hash时，规定下一个黑点代表的hash值总是放在右边）。按照这种方式，假如区块包含N笔交易，矿池可以浓缩成log2(N)个hash值交付给矿工，这大大降低了矿池和矿工交互的数据量。</p>
+
+<p>在getblocktemplate协议和Stratum协议的配合下，矿池终于进化为完全体，可以接纳近乎无限的矿工和算力，至此比特币全网算力进入了爆炸增长的时代；</p>
 
 <h2>区块链接成为区块链</h2>
 
