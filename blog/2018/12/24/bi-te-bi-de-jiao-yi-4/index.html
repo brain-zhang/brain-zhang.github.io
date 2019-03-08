@@ -225,7 +225,8 @@
 <ol>
 <li>version: <code>01000000</code></li>
 <li>input数目 01</li>
-<li>prev output: <code>0000000000000000000000000000000000000000000000000000000000000000FFFFFFFF</code></li>
+<li>prev output: <code>0000000000000000000000000000000000000000000000000000000000000000</code></li>
+<li>prev output index: <code>FFFFFFFF</code></li>
 <li>script length: <code>4d</code></li>
 <li>coinbase (2-100字节): <code>04FFFF001D0104455468652054696D65732030332F4A616E2F32303039204368616E63656C6C6F72206F6E206272696E6B206F66207365636F6E64206261696C6F757420666F722062616E6B73</code></li>
 <li>sequence: FFFFFFFF</li>
@@ -245,7 +246,9 @@
 </ol>
 
 
-<p>这笔交易跟我们上一篇文章中的TransB构造是一样的，想要花费的话提供签名就OK了。不过这笔交易没有vin，取代的字段是coinbase。这个字段是可以随意调整的(2-100字节)，中本聪在这里留存了一句非常有名的话：</p>
+<p>这笔交易跟我们上一篇文章中的TransB构造是一样的，想要花费的话提供签名就OK了。不过这笔交易没有vin，早期vin部分固定的设置为<code>0000000000000000000000000000000000000000000000000000000000000000FFFFFFFF</code>；</p>
+
+<p>之后的字段是coinbase。这个字段是可以随意调整的(2-100字节)，中本聪在这里留存了一句非常有名的话：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>04678AFDB0FE5548271967F1A67130B7105CD6A828E03909A67962E0EA1F61DEB649F6BC3F4CEF38C4F35504E51EC112DE5C384DF7BA0B8D578A4C702B6BF11D5F</span></code></pre></td></tr></table></div></figure>
