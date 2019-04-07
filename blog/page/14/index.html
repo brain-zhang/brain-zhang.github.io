@@ -82,6 +82,122 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/07/debug-kernel-panic-in-centos/">Debug Kernel Panic in Centos</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-07T09:22:34+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/06/07/debug-kernel-panic-in-centos/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2015/06/07/debug-kernel-panic-in-centos/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>当你面对一台新机器，出于某些原因(不是闲的慌)不得不自己编译一个内核时，会碰上kernel panic。</p>
+
+<p>kernel panic很让人心烦，启动时的panic更让人烦，没有挂上硬盘，没有任何log的panic尤其让人烦。</p>
+
+<p>提供几个解决问题的瞎搞方法: （以下内容针对于redhat系，但大部分方法是通用的）</p>
+
+<h4>判断引起panic的环节</h4>
+
+<p>简单描述下启动流程:</p>
+
+<pre><code>1 Power On                                 Maybe Err:Worlds Collides
+2 BIOS                                     Maybe Err:Worlds Collides
+3 Load Grub From MBR                       Maybe Err:See nothing
+4 load Grub and show it                    Maybe Err:Grub loads failed
+5 Grub reads menu.list                     Maybe Err:Grub loads failed
+6 Grub loads kernel image                  Maybe Err:Grub loads failed
+7 kernel mounts root filesystem            Maybe Err:PANIC
+8 kernel runs init                         Maybe Err:PANIC
+9 init runs scripts to start               Maybe Err:PANIC
+</code></pre>
+
+<p>首先你要确认下是哪个环节引起的panic，如果你的log打得比较全，一般能根据蛛丝马迹判断是上面那个环节引起的问题。一般panic发生在step7，step8, step9环节当中。</p>
+
+<ul>
+<li><p>step9: 走到这里已经无大碍，无非是/etc/rc.sysinit 之流挂载了不该有的设备，启动了不知道神马的服务，可以直接在启动脚本中打各种log调试</p></li>
+<li><p>step8: 这个就比较棘手，一般是initramfs 解压后执行某些脚本报错，所幸是大部分都是init级别的，一般可以在grub的kernel后面加参数，挂载shell调，也可以直接用工具修改initramfs镜像中的文件，重新打包二分法定位</p></li>
+<li><p>step7: 也比较棘手，一般panic总要怀疑磁盘驱动，我感觉这个是导致panic的大户，另外如果屏幕没有东东输出，估计视频驱动也要鼓捣一番。</p></li>
+</ul>
+
+
+<p>下面针对 step7，step8级别的panic提供一些瞎搞手段</p>
+
+<h4>在kernel 参数中加入调试开关，关闭ACPI，selinux</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  title CentOS (2.6.32-358.el6.x86_64)
+</span><span class='line'>          root (hd0,0)
+</span><span class='line'>          kernel /vmlinuz-2.6.32-358.el6.x86_64 ro root=/dev/mapper/vg_localhost-lv_root rd_NO_LUKS rd_NO_MD rd_LVM_LV=vg_localhost/lv_swap crashkernel=128M LANG=zh_CN.UTF-8 rd_LVM_LV=vg_localhost/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM debug selinux=0 acpi=0
+</span><span class='line'>          initrd /initramfs-2.6.32-358.el6.x86_64.img</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>这是考验人品的时候，不管三七二十一，先把最有可能的问题点排除掉。另外redhat系的会在kernel后面加上 <code>rhgb quiet</code> 之类的参数，统统去掉，开机的时候好好盯着屏幕看看，有没有可疑的东东输出。 因为系统可能会在短时间内输出大量log而没有记录，你需要设置一下输出log的速率和暂停时机，更详细的参数可以在这里找到:</p>
+
+<p><a href="https://wiki.archlinux.org/index.php/Boot_debugging">https://wiki.archlinux.org/index.php/Boot_debugging</a></p>
+
+<h4>在kernel 参数中加入dracut的调试开关</h4>
+
+<p>redhat系后期采用了dracut构建 initrd镜像，关于dracut的手册在这里:</p>
+
+<p><a href="http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd">http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd</a></p>
+
+<p>调试开关在这里:</p>
+
+<p><a href="https://fedoraproject.org/wiki/How_to_debug_Dracut_problems">https://fedoraproject.org/wiki/How_to_debug_Dracut_problems</a></p>
+
+<p>你可以设定rdshell，在panic之后跳入dracut提供的shell，打dmesg看看log信息。</p>
+
+<h3>最后的最后，实在不知道为啥了，而且你很闲，可以考虑启动时加串口设备调试</h3>
+
+<h4>一些tooltip</h4>
+
+<ul>
+<li><p>编译kernel的时候，make menuconfig，3.10以后的内核支持搜索某个开关后按数字键直接跳到那个开关的设置项中，这个很有用</p></li>
+<li><p>redhat系用dracut构建initrd，配置文件默认在 /usr/share/dracut/ ，如果你懒得改 initramfs，可以直接修改里面的配置文件，然后重新make install即可</p></li>
+<li><p>有时候你不好确认根文件系统挂载到哪里了，可以参考这里:</p></li>
+</ul>
+
+
+<p><a href="http://free-electrons.com/blog/find-root-device/">http://free-electrons.com/blog/find-root-device/</a></p>
+
+<p>其它参考资料:</p>
+
+<p><a href="http://www.tuxradar.com/content/how-fix-linux-boot-problems">http://www.tuxradar.com/content/how-fix-linux-boot-problems</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/08/tcpdump-commands/">Tcpdump Commands</a></h1>
     
     
@@ -1420,395 +1536,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/">Javascript设计模式 - 笔记1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-04T08:25:15+08:00" pubdate data-updated="true">Jan 4<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>富有表现力的javascript</h1>
-
-<h2>弱类型语言</h2>
-
-<p>javascript中有三种原始类型:布尔型、数值型(不区分浮点数和整数)和字符串型。</p>
-
-<p>此外，还有对象类型和包含可执行代码的函数类型。前者是一种复合类型(数组是一种特殊的对象)。</p>
-
-<p>最后，还有空类型(null)和未定义类型(undefined)。</p>
-
-<p>原始数据类型按值传送，其他数据类型则按引用传送。</p>
-
-<h2>函数是一等对象</h2>
-
-<ul>
-<li>匿名函数</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(function(){
-</span><span class='line'>    var foo = 10;
-</span><span class='line'>    var bar = 2;
-</span><span class='line'>    alert(foo * bar);
-</span><span class='line'>})();</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>闭包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var baz;
-</span><span class='line'>(function(){
-</span><span class='line'>    var foo = 10;
-</span><span class='line'>    var bar = 2;
-</span><span class='line'>    baz = function(){
-</span><span class='line'>        return foo * bar;
-</span><span class='line'>    }
-</span><span class='line'>})();
-</span><span class='line'>baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p>作用域、嵌套函数和闭包</p>
-
-<ul>
-<li><p>js中，只有函数具有作用域：</p>
-
-<p>  在一个函数内部声明的变量，外部无法访问；
-  定义在一个函数中的变量在该函数的内嵌函数中是可以访问的</p></li>
-<li><p>js中的作用域是词法性的：</p>
-
-<p>  函数运行在定义他们的作用域中，而不是调用他们的作用域中；
-  可以利用这个特性定义静态方法和属性；</p></li>
-</ul>
-</li>
-</ul>
-
-
-<h2>对象的易变性(mutable)和内省(introspection)</h2>
-
-<ul>
-<li>易变性：js中可以对象前定义的类和实例化的对象进行修改</li>
-<li>内省：js中可以在运行时检查对象所具有的属性和方法</li>
-</ul>
-
-
-<h1>接口</h1>
-
-<ul>
-<li><p>接口也是一种对象，判断一个类是否是实现了某类接口，就是传入这个接口，而后比较。</p>
-
-<p>  java有专门的接口类，C++有虚基类，而C在linux kernel中的对象设计方法实际上也是一种接口实现，这都是接口在语言层面支持的体现</p></li>
-<li><p>封装(encapsulation)和信息隐藏：信息隐藏是目的，而封装则是藉以达到这个目的的技术</p>
-
-<p>  java和C++有 private关键字作为支持，Python有&#8217;__&lsquo;的命名约定，js中一般用闭包来模拟</p></li>
-</ul>
-
-
-<h2>接口实现</h2>
-
-<h3>用注释来模拟</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/*
-</span><span class='line'>interface Composite {
-</span><span class='line'>    function add(child);
-</span><span class='line'>    function remove(child);
-</span><span class='line'>    ...
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>interface FormItem{
-</span><span class='line'>    function save();
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>var CompositeForm = function(id, method, action) {
-</span><span class='line'>    //implements Composite, FromItem
-</span><span class='line'>    ...
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>CompositeForm.prototype.add = function(child) {
-</span><span class='line'>    ...
-</span><span class='line'>}
-</span><span class='line'>CompositeForm.prototype.remove= function(child) {
-</span><span class='line'>    ...
-</span><span class='line'>}
-</span><span class='line'>CompositeForm.prototype.save= function() {
-</span><span class='line'>    ...
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>优点：简单明了，代码体积小</li>
-<li>缺点：无法错误检查</li>
-</ul>
-
-
-<h3>用属性检查模仿接口</h3>
-
-<p>约定所有类明确声明实现了那些接口，和这些类打交道的对象可以针对这些声明做检查。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/*
-</span><span class='line'>interface Composite {
-</span><span class='line'>    function add(child);
-</span><span class='line'>    function remove(child);
-</span><span class='line'>    ...
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>interface FormItem{
-</span><span class='line'>    function save();
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>var CompositeForm = function(id, method, action) {
-</span><span class='line'>    //implements Composite, FromItem
-</span><span class='line'>    this.implementsInterfaces = ['Composite', 'FromItem'];
-</span><span class='line'>    ...
-</span><span class='line'>};
-</span><span class='line'>    ...
-</span><span class='line'>
-</span><span class='line'>function addForm(formInstance) {
-</span><span class='line'>    if (!implements(formInstance, 'Composite', 'FormItem')) {
-</span><span class='line'>        throw new Error("object does not implement a required interface");
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>function implements(objects) {
-</span><span class='line'>    for (var i = 1; i &lt; arguments.length; i++) {
-</span><span class='line'>        var interfaceName = arguments[i];
-</span><span class='line'>        var interfaceFound = false;
-</span><span class='line'>        for (var j = 0; j &lt; object.implementsInterfaces[j] == interfaceName) {
-</span><span class='line'>            interfaceFound = true;
-</span><span class='line'>            break;
-</span><span class='line'>        }
-</span><span class='line'>        if (!interfaceFound) {
-</span><span class='line'>            return false;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    return true;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>优点:有错误检查</li>
-<li>缺点:每次调用都要检查，啰嗦，另外防不住有说了实现但没有干活的</li>
-</ul>
-
-
-<h1>鸭式辨型模仿接口</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var Composite = new Intreface('Composite', ['add', 'remove']);
-</span><span class='line'>var FormItem = new Interface('FormItem', ['save']);
-</span><span class='line'>var CompositeForm = function(id, method, action) {
-</span><span class='line'>    ...
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>function addForm(formInstance) {
-</span><span class='line'>    ensureImplements(formInstance, Composite, FormItem);
-</span><span class='line'>    ......
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>var Interface = function(name, methods) {
-</span><span class='line'>    if (arguments.length != 2) {
-</span><span class='line'>        throw new Error("Interface constructor called with " + arguments.length + "arguments, but expected exactly 2.");
-</span><span class='line'>    }
-</span><span class='line'>    this.name = name;
-</span><span class='line'>    this.methods = [];
-</span><span class='line'>    for (var i = 0; len = methods.length; i &lt; len; i++) {
-</span><span class='line'>        if (typeof methods[i] !== 'string')  {
-</span><span class='line'>            throw new Error("Interface contructor expects method names to be " +
-</span><span class='line'>                            "passed in as string");
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    this.methods.push(methods[i]);
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>Interface.ensureImplements = function(object) {
-</span><span class='line'>    if (arguments.length &lt; 2) {
-</span><span class='line'>        throw Error("Functino Interface.ensureImplements called with " + arguments.length +
-</span><span class='line'>                    "arguments, but expected at leaset 2.");
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    for (var i = 1, len = arguments.length; i &lt; len; i++) {
-</span><span class='line'>        if (interface.constructor !== Interface) {
-</span><span class='line'>            throw new Error("Function Interface.ensureImplements expects arguments" +
-</span><span class='line'>                            "two and above to be instances of Interface.");
-</span><span class='line'>        } 
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    for (var j = 1, methodsLen = interface.methods.length; j &lt; methodsLen; j++) {
-</span><span class='line'>        var method = interface.methods[j];
-</span><span class='line'>        if(!object[method] || typeof object[method] !== 'function') {
-</span><span class='line'>            throw new Error("Function Interface.ensureImplements: object " +
-</span><span class='line'>                            "does not implement the " + interface.name)  +
-</span><span class='line'>                            "interface.Method " + method + " was not found.");
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>优点：进一步加强了错误检查</li>
-<li>缺点：增大了调试难度</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -1826,6 +1553,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/04/07/zi-chan-pei-zhi-chu-tan/">资产配置初探</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/10/the-internet-of-money-du-shu-bi-ji/">《 the Internet of Money》读书笔记</a>
       </li>
     
@@ -1839,10 +1570,6 @@
     
       <li class="post">
         <a href="/blog/2019/01/25/bi-te-bi-de-guo-qu-%2Cxian-zai-he-wei-lai/">比特币的过去，现在和未来</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/23/bi-te-bi-de-blockchain-2/">比特币的blockchain-2</a>
       </li>
     
   </ul>
@@ -1922,7 +1649,7 @@
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (13)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (14)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
 <li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
 <li class='category'><a href='/blog/categories/macvtap/'>macvtap (1)</a></li>
