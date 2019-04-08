@@ -82,6 +82,175 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/19/linux-cheat-sheet/">Linux Cheat Sheet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-19T09:43:07+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/06/19/linux-cheat-sheet/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2015/06/19/linux-cheat-sheet/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>收集linux下需要多次google的命令</p>
+
+<h2>编码问题</h2>
+
+<ul>
+<li>utf16 > utf8</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iconv -f UTF-16 -t UTF-8 file_name</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>web开发命令</h2>
+
+<ul>
+<li>curl post 一个json文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>curl post 一个json字符串</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>系统时间</h2>
+
+<ul>
+<li>centos6系列修改时区</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</span><span class='line'>vim /etc/sysconfig/clock
+</span><span class='line'>ZONE="Asia/Shanghai"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>centos7系列修改时区</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>timedatectl list-timezones | grep Asia
+</span><span class='line'>timedatectl set-timezone Asia/Shanghai</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>设置系统时间</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date +"%Y%m%d%H%M%S"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>系统状态</h2>
+
+<ul>
+<li>查看系统占用句柄数</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>程序</h2>
+
+<ul>
+<li>mongo导出</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>shell 处理</h2>
+
+<ul>
+<li>获取当前路径</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>检查CPU load</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CURRENT_LOAD=`top -b -n 1|grep 'load average'|awk '{print $12}'|sed 's/,//'`
+</span><span class='line'>declare -i current_load=${CURRENT_LOAD%.*}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>find 匹配多个pattern</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find /usr/lib64 -name '*.so' -o -name '*.so.1'</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>文本处理</h2>
+
+<ul>
+<li>根据某个字段做uniq</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort -u -t, -k1 file</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/07/debug-kernel-panic-in-centos/">Debug Kernel Panic in Centos</a></h1>
     
     
@@ -1211,331 +1380,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/05/javascriptshe-ji-mo-shi-2/">Javascript设计模式 - 笔记2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-05T09:05:16+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/01/05/javascriptshe-ji-mo-shi-2/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2015/01/05/javascriptshe-ji-mo-shi-2/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>如何封装一个对象</h1>
-
-<h2>门户大开型</h2>
-
-<p>最简单的办法就是按传统方法创建一个类，用一个函数来做其构造器。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = function(isbn, title, author) {
-</span><span class='line'>    if (isbn === undefined) {
-</span><span class='line'>        throw new Error('Book constructor requires an isbn.');
-</span><span class='line'>    }
-</span><span class='line'>    this.isbn = isbn;
-</span><span class='line'>    this.title = title || 'No title specified';
-</span><span class='line'>    this.author = author || 'No title specified';
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>//define by attr
-</span><span class='line'>Book.prototype.display = function() {...};
-</span><span class='line'>
-</span><span class='line'>//define by object literals
-</span><span class='line'>Book.prototype = {
-</span><span class='line'>    display: function(){...},
-</span><span class='line'>    checkIsdn: function(){...}
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>优点：简单</li>
-<li>缺点：没有保护，需要加各种校验。但内部的成员还是有很大可能被修改的。</li>
-</ul>
-
-
-<h2>语法修饰增强型</h2>
-
-<p>用setattr,getattr等赋值取值方法及命名规范区别私有成员</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = function(isbn, title, author) {
-</span><span class='line'>    if (isbn === undefined) {
-</span><span class='line'>        throw new Error('Book constructor requires an isbn.');
-</span><span class='line'>    }
-</span><span class='line'>    this.setIsbn(isbn);
-</span><span class='line'>    this.setTitle(title);
-</span><span class='line'>    this.setAuthor(author);
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>//define by attr
-</span><span class='line'>Book.prototype.display = function() {...};
-</span><span class='line'>
-</span><span class='line'>//define by object literals
-</span><span class='line'>Book.prototype = {
-</span><span class='line'>    _checkIsdn: function() {...}
-</span><span class='line'>
-</span><span class='line'>    setIsbn: function(isbn) {
-</span><span class='line'>        if!(this._checkIsbn(isbn)) {
-</span><span class='line'>            throw new Error("Invalid isbn");
-</span><span class='line'>        }
-</span><span class='line'>        this._isbn = isbn;
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    getIsbn: function() {
-</span><span class='line'>        return this._isbn;
-</span><span class='line'>    }
-</span><span class='line'>    .......
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>优点：简单，安全性也有所增强</li>
-<li>缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。</li>
-</ul>
-
-
-<h2>闭包实现私有成员</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = function(iisbn, ititle, iauthor) {
-</span><span class='line'>
-</span><span class='line'>    //private attributes
-</span><span class='line'>    var isbn, title, author;
-</span><span class='line'>
-</span><span class='line'>    //private method
-</span><span class='line'>    function _checkIsbn(iisbn) {
-</span><span class='line'>        ...
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    //privileged methods
-</span><span class='line'>    this.getIsbn = function() {
-</span><span class='line'>        return isbn;
-</span><span class='line'>    };
-</span><span class='line'>
-</span><span class='line'>    this.setIsbn = function(iisbn) {
-</span><span class='line'>        this._checkIsbn(iisbn) ...
-</span><span class='line'>        isbn = iisbn;
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    .......
-</span><span class='line'>
-</span><span class='line'>    //contructor code
-</span><span class='line'>    this.setIsbn(iisbn);
-</span><span class='line'>    this.setTitle(ititle);
-</span><span class='line'>    this.setAuthor(iauthor);
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>//public, non-privileged methods
-</span><span class='line'>
-</span><span class='line'>Book.prototype = {
-</span><span class='line'>    display: fucntion(){},
-</span><span class='line'>    ....
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里应用了js的闭包特性，isbn等属性不再通过<code>this</code>来引用，而是放到函数的构造器里面。既要访问到私有成员，又要对外的方法放到函数的构造中，对私有成员没有依赖的函数用prototype。</p>
-
-<ul>
-<li>优点：比较完整的模拟了private特性</li>
-<li>缺点：private方法不再存在prototype里面，这样没生成一个新的对象实例都会为每个每个私有方法和特权方法生成一个新副本，耗费内存。</li>
-</ul>
-
-
-<h2>实现静态方法和属性</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var Book = (function() {
-</span><span class='line'>
-</span><span class='line'>    //private static attributes
-</span><span class='line'>    var numberOfBooks = 0;
-</span><span class='line'>
-</span><span class='line'>    //private static method
-</span><span class='line'>    function checkIsbn(iisbn) {
-</span><span class='line'>        ...
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    //return the contructor
-</span><span class='line'>    return function(iisbn, ititle, iauthor) {
-</span><span class='line'>        //private attributes
-</span><span class='line'>        var isbn, title, author;
-</span><span class='line'>
-</span><span class='line'>        //privileged methods
-</span><span class='line'>        this.getIsbn = function() {
-</span><span class='line'>            return isbn;
-</span><span class='line'>        };
-</span><span class='line'>
-</span><span class='line'>        this.setIsbn = function(iisbn) {
-</span><span class='line'>            this._checkIsbn(iisbn) ...
-</span><span class='line'>            isbn = iisbn;
-</span><span class='line'>        }
-</span><span class='line'>        .......
-</span><span class='line'>
-</span><span class='line'>        //contructor code
-</span><span class='line'>        numOfBooks++;
-</span><span class='line'>        this.setIsbn(iisbn);
-</span><span class='line'>    }
-</span><span class='line'>})();
-</span><span class='line'>
-</span><span class='line'>//public, static methods
-</span><span class='line'>Book.converTotitleCase = function(){...};
-</span><span class='line'>
-</span><span class='line'>//public, non-privileged methods
-</span><span class='line'>
-</span><span class='line'>Book.prototype = {
-</span><span class='line'>    display: fucntion(){},
-</span><span class='line'>    ....
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里和<code>闭包实现私有成员</code>的区别就在于构造函数变成了一个内嵌函数，这样就创建了一个闭包，可以把静态的私有成员声明在最顶层。</p>
-
-<h2>实现常量</h2>
-
-<p>常量就设置为一个私有静态属性，用大写区分即可。我认为没有必要实现一个取值器去限制，用CONST前缀从代码风格上约束即可。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -1553,6 +1397,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/04/08/zhi-shu-tou-zi-ce-lue/">指数投资策略</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/04/07/zi-chan-pei-zhi-chu-tan/">资产配置初探</a>
       </li>
     
@@ -1566,10 +1414,6 @@
     
       <li class="post">
         <a href="/blog/2019/02/13/guan-yu-gdpde-sui-xiang/">关于GDP的一些随想</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/01/25/bi-te-bi-de-guo-qu-%2Cxian-zai-he-wei-lai/">比特币的过去，现在和未来</a>
       </li>
     
   </ul>
@@ -1649,7 +1493,7 @@
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (14)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (15)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
 <li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
 <li class='category'><a href='/blog/categories/macvtap/'>macvtap (1)</a></li>
