@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-04-08T18:00:41+08:00</updated>
+  <updated>2019-04-09T17:55:18+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -525,7 +525,18 @@
 
 <h3>半凯利公式控制仓位</h3>
 
-<p>采用<a href="https://xueqiu.com/3079173340/62032246">银行螺丝钉</a>的方法计算仓位</p>
+<p>采用<a href="https://xueqiu.com/3079173340/62032246">银行螺丝钉</a>的方法计算仓位；</p>
+
+<p>其盈利增长率我们替换为10年ROE中位值，因为长远来看，PEG会趋近于ROE；用ROE更加保险</p>
+
+<p>以恒生指数为例。</p>
+
+<ul>
+<li>恒生指数过去10年的ROE中位值10%左右</li>
+<li>我们期望5年年化15%的收益率</li>
+<li>PE历史30%大概为12，配合我们上面要求的条件，我们需要在10PE买入</li>
+</ul>
+
 
 <h4>凯利公式</h4>
 
@@ -537,17 +548,81 @@
 
 <h4>投资指数基金的赔率</h4>
 
-<p>赔率b =（卖出时估值/买入时估值）*【1+指数盈利增长率】^持有年数 =（1+你要求的年复合收益率）^持有年数</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>赔率b =（卖出时估值/买入时估值）*【1+指数盈利增长率】^持有年数 =（1+你要求的年复合收益率）^持有年数
+</span><span class='line'>
+</span><span class='line'>b = （卖出时估值/买入时估值）* 1.1^5 = 1.15^5
+</span><span class='line'>
+</span><span class='line'>卖出时估值PE/10 ≈ 1.25
+</span><span class='line'>
+</span><span class='line'>要求卖出时估值 ≈ 12.5
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就把我们的投资行为固化为了这样一个事件：</p>
+
+<p>假如未来恒生指数能保持平均10%的ROE，我们在10pe买入恒生指数，要求有15%的年复合收益率，那我们“需要在5年的时间里，至少有一次机会在12.5倍以上市盈率卖出”。</p>
 
 <h4>投资指数基金的胜率</h4>
 
-<p>胜率 = 期望卖出PE的历史估值概率</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>胜率 = 期望卖出PE的历史估值概率</span></code></pre></td></tr></table></div></figure>
+
+
+<p>5年时间里，12.5PE是大概率事件，事实上，我们要求在70%的PE上方卖出，这个值大概是15PE。</p>
+
+<p>12.5PE在历史上大概处于 60%的位置， 所以我们的条件还是非常宽松的。</p>
+
+<p>按照我们前面制定的的边界卖出条件 PE估值百分位 > 70%，所以如果能买到10PE以下的恒生指数，并且期望5年内年化收益15%的化，只要能持有不动，胜率>60%；</p>
 
 <h4>计算仓位</h4>
 
 <p>通过凯利公式计算出来的仓位， X0.5；成为半凯利公式</p>
 
-<h4>卖出同理，逆运算</h4>
+<p>胜率60%，赔率2；</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>F =（bp-q）/b = (2 * 60% - 40%)/2 = 40%
+</span><span class='line'>
+</span><span class='line'>F * 0.5 = 20%</span></code></pre></td></tr></table></div></figure>
+
+
+<p>根据半凯利公式推出，推荐仓位为20%。</p>
+
+<h4>一些推论</h4>
+
+<ul>
+<li>预期收益越低，胜率就会越高，仓位也会越高。如果预期收益过高，甚至仓位会是负数（也就是无法实现）</li>
+<li>买入估值越低，胜率就会越高，仓位也会越高。如果买入估值过高，甚至仓位会是负数（无法赚取估值差收益）</li>
+<li>指数的盈利增长率越高，对应的胜率也会越高</li>
+</ul>
+
+
+<h4>多指数组合计算仓位</h4>
+
+<p>对组合中的每个指数设定 买入PE，卖出PE，持有年数，要求年复合增长率， 分别计算仓位</p>
+
+<p>全部仓位相加，便可以决定总仓位。</p>
+
+<h4>定投</h4>
+
+<p>每次计算卖出PE点大于历史估值70%即可盈利的品种，并决定仓位；然后所有仓位相加。</p>
+
+<p>如果定投不定额， 每次仓位可以超过100%；</p>
+
+<p>如果定投定额，每个品种的仓位比例再等分平均，最后达到100%</p>
+
+<p>如果没有符合条件的品种，不操作，或者买入短债基金。</p>
+
+<p>达到卖出条件分批减仓，减仓可以逆运算，也可以简单的用一个网格策略逐步卖出。</p>
 
 <h1>回测</h1>
 
