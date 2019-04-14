@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Life | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/life/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-04-13T16:45:24+08:00</updated>
+  <updated>2019-04-14T16:29:57+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -714,6 +714,38 @@ F =（bp-q）/b = (2 * 60% &ndash; 40%)/2 = 40%</p>
 
 
 <p>采用了上述优化策略之后，需要在一个较长的时间周期中回测(2010-2019)检验其靠谱程度。</p>
+
+<h2>量化回测2</h2>
+
+<p>调优了几个小参数：</p>
+
+<ul>
+<li>投注份额改为50份；原因：做了大量统计之后，虽然我们的买入点实在PE历史30%以下，但实际上以5年为区间，买入的时机只有1年左右，我们按周测算，总投注份额50份为佳</li>
+<li>为了方便计算，总投注金额为50000元，每份1000元</li>
+<li>对于卖出策略做了简单的优化</li>
+<li>回测时间拉长到2012-10-01 &mdash;&ndash; 2019-04-10</li>
+<li>计算PE、PB的历史估值区间选取前5年；原因：A股市场每7年就有一次大的波动，其实把这种波动放在总的统计数据里面是失真的，5年时间刚好能避开此类波动，而且我国每5年一个经济计划，一定程度上5年时间反应了一个小的经济周期</li>
+</ul>
+
+
+<p>代码放在这里：</p>
+
+<p><a href="https://github.com/memoryboxes/kanglong">https://github.com/memoryboxes/kanglong</a></p>
+
+<p>好啦，我们还是以沪深300为基准，看看这个策略和原指数的对比：</p>
+
+<p><img src="https://ws1.sinaimg.cn/large/893d6e9dly1g228r1znjfj21cj0m3abz.jpg" alt="img" /></p>
+
+<p>从这个画风上来看，这个策略确实是一个看后视镜开车的老司机，结果拟合相当完美；你可以把它看成是一个超级稳健、超级耐心的基金经理，这个经理的风格如下：</p>
+
+<ol>
+<li>超级稳健，超级懒，80%的时间是持有现金不动的</li>
+<li>其7年的总收益为87%，这个没有计算现金产生的收益，如果按照3%的货基收益，总收益是可以超过100%的；</li>
+<li>最大回撤&lt;10%</li>
+</ol>
+
+
+<h4>当然，看后视镜开车开的再好也只是个参考，这个策略作为一个简单易行的思路还是有不少借鉴意义的。关键是它给了我们<code>身处何方</code>的坐标。</h4>
 ]]></content>
   </entry>
   
