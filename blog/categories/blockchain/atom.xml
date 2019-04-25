@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-04-25T17:27:15+08:00</updated>
+  <updated>2019-04-25T17:28:49+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -673,11 +673,11 @@
 
 <p>AuxPOW协议对两条链都有一些数据结构方面的规定，对于父链，要求必须在区块的coinbase的scriptSig字段中插入如下格式的44字节数据：</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190311/bg3.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190311/bg4.png" alt="img" /></p>
 
 <p>对于辅链，对原区块结构改动比较大，在nNonce字段和txn_count之间插入了5个字段，这种区块取名AuxPOW区块。</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190311/bg4.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190311/bg5.png" alt="img" /></p>
 
 <blockquote><p>混合挖矿要求父链和辅链的算法一致，是否支持混合挖矿是矿池的决定，矿工不知道是否在混合挖矿。矿池如果支持混合挖矿，需要对接所有辅链的节点。</p>
 
