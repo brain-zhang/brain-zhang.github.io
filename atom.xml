@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-04-26T09:55:45+08:00</updated>
+  <updated>2019-04-26T17:34:31+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -1768,13 +1768,91 @@
 
 <p><a href="https://bitcoinmagazine.com/articles/side-chains-challenges-potential/">https://bitcoinmagazine.com/articles/side-chains-challenges-potential/</a></p>
 
+<p>双向锚定对于单向锚定的扩展，其实也很容易理解。单向锚定时，侧链锚定主链的方法是主链燃烧比特币，然后存贮一个工作量证明；</p>
+
+<p>我们知道比特币的交易本质上是一组脚本语言，那么，把燃烧交易的输出换成一组特定的脚本，它只允许特定的持有人和市场参与方才能解锁，那么，这笔交易在侧链<code>赎回</code>的时候，就可以由多方再构建一个解锁脚本，比特币就会安然无恙。</p>
+
+<p>双向锚定分为以下几个阶段，下面简单说一下这个过程：</p>
+
+<h5>发送锁定交易，把比特币锁定在主链上</h5>
+
+<p>由比特币持有者操作，发送一个特殊交易，把比特币锁定在区块链上。</p>
+
+<h5>等待确认期</h5>
+
+<p>确认期的作用是等待锁定交易被更多区块确认，可防止假冒锁定交易和拒绝服务攻击，等待时间是1~2天。</p>
+
+<h5>在侧链上赎回比特币</h5>
+
+<p>确认期结束后，用户在侧链上创建一个交易花掉锁定交易的输出，并且提供一个SPV工作量证明，输出到自己在侧链上的地址中。该交易称为赎回交易，SPV工作量证明是指赎回交易所在区块的工作量证明。</p>
+
+<h5>等待一个竞争期</h5>
+
+<p>竞争期的作用是防止双重支付。在此期间:</p>
+
+<ul>
+<li>赎回交易不会被打包到区块；</li>
+<li>新传输到侧链的比特币不能使用；</li>
+<li>如果有工作量更大的工作证明出现，即该赎回交易包括了比特币主链更大难度的SPV证明，则上一个赎回交易将被替换。</li>
+</ul>
+
+
+<p>竞争期结束后，该赎回交易将被打包到区块中，用户可以使用自己的比特币。</p>
+
+<p>从侧链转比特币到主链的过程也是如此。这就是侧链双向锚定协议。</p>
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190311/bg6.jpg" alt="img" /></p>
+
 <h4>Blockstream Liquid协议</h4>
+
+<p>双向锚定的关键，在于主链锁定交易的输出脚本，很明显的，如果依赖于锁定者，那么这个输出完全不能信任，锁定者在任何时刻都能提币走人；比较安全的做法是输出到一个N/M多重签名的地址中，由多方利害关系的人共同保管；</p>
+
+<p>基于这个思想，Blockstream开发了Liquid侧链想要实现商业化， Liquid期望多个大型交易所之间能方便的实现币的交易、转移等等服务，而不是受限于主网的交易速度；</p>
+
+<p>Liquid是个非常严肃的商业项目，但我个人认为这是一个<code>人造需求</code>的项目，其原因在于在侧链技术蓬勃发展过程中，还平行的出现了另外一种技术逐渐成长壮大，就是微支付通道技术。</p>
 
 <h4>微支付通道</h4>
 
+<p>2011年，早期的bitcoin开发者Mike Hearn 向中本聪问及nLlockTime字段的含义，中本聪回复邮件，解释这是考虑用于创建一个通道来高频支付，后来Hearn在2013年将这些邮件公之于众：</p>
+
 <p><a href="https://pastebin.com/JF3USKFT">https://pastebin.com/JF3USKFT</a></p>
 
-<p><a href="https://www.ccvalue.cn/show/1495">https://www.ccvalue.cn/show/1495</a></p>
+<p>邮件中，中本聪写道:</p>
+
+<blockquote><p>It&rsquo;s for contracts.  An unrecorded open transaction can keep being replaced until nLockTime.  It may contain payments by multiple parties.  Each input owner signs their input.  For a new version to be written, each must sign a higher sequence number (see IsNewerThan).  By signing, an input owner says &ldquo;I agree to put my money in, if everyone puts their money in and the outputs are this.&rdquo;  There are other options in SignatureHash such as SIGHASH_SINGLE which means &ldquo;I agree, as long as this one output (i.e. mine) is what I want, I don&rsquo;t care what you do with the other outputs.&rdquo;.  If that&rsquo;s written with a high nSequenceNumber, the party can bow out of the negotiation except for that one stipulation, or sign SIGHASH_NONE and bow out completely.</p>
+
+<p>The parties could create a pre-agreed default option by creating a higher nSequenceNumber tx using OP_CHECKMULTISIG that requires a subset of parties to sign to complete the signature.  The parties hold this tx in reserve and if need be, pass it around until it has enough signatures.</p>
+
+<p>One use of nLockTime is high frequency trades between a set of parties.  They can keep updating a tx by unanimous agreement.  The party giving money would be the first to sign the next version.  If one party stops agreeing to changes, then the last state will be recorded at nLockTime.  If desired, a default transaction can be prepared after each version so n-1 parties can push an unresponsive party out.  Intermediate transactions do not need to be broadcast.  Only the final outcome gets recorded by the network.  Just before nLockTime, the parties and a few witness nodes broadcast the highest sequence tx they saw.</p></blockquote>
+
+<p>短短几句话，充分说明了中本聪在创始比特币之初，就已经考虑到了将来的微支付问题！</p>
+
+<p>那么，这个微支付通道技术究竟是如何实现的？我们搬运一个例子说明一下：</p>
+
+<p>假设爱丽丝为消费者，鲍伯为一家视频网站。爱丽丝非常喜欢去鲍伯网站看电影，看一部电影需要支付0.1BTC（比特币），那么爱丽丝看了10部电影就需要支付10次0.1BTC，共计1BTC并发出10笔交易。而采用微支付通道就会缩减至两笔，或者说任何多次的交易均会缩减至两笔，只要总金额不超过存入通道的额度即可。</p>
+
+<p>通道（Channel）的建立以及更新过程如下。</p>
+
+<ul>
+<li><p>爱丽丝支付1BTC至一个多重签名地址，签名采用2/2方式，我们把该交易称为FTX(Fund Tx)。爱丽丝生成该交易后，并不广播。</p></li>
+<li><p>爱丽丝再构造一个赎回交易，称之为RTX(Refund Tx)。其输入为交易FTX的输出，输出为爱丽丝自己。同时，该交易有Locktime锁定期，所以N天之后才会生效，才可以进块。</p></li>
+<li><p>爱丽丝把构造好的空RTX给鲍伯，并让鲍伯进行签名。</p></li>
+<li><p>爱丽丝拿到带有鲍伯签名的交易RTX后，广播出FTX。此时的交易结构如下图,图中带有尖括号的签名表示待填入:</p></li>
+</ul>
+
+
+<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190311/bg7.jpg" alt="img" /></p>
+
+<ul>
+<li><p>爱丽丝再看了一部电影，那么她需要再支付0.1BTC给鲍伯。于是，爱丽丝构造另一笔交易PTX2：输入依然是交易FTX；输出为两个地址，其中爱丽丝为0.8BTC，鲍伯为0.2BTC。爱丽丝对该交易签名，并将交易和她的签名给鲍伯:</p></li>
+<li><p>鲍伯可以随时签名并广播交易PTX2，当然，他依然可以广播交易PTX1。作为一名理性经济人，鲍伯必然总是广播自己收益最大的那笔交易，也就是当前的PTX2。在目前总是爱丽丝付款的情况下，鲍伯总是乐于广播最后一个交易。</p></li>
+<li><p>当鲍伯广播出最后一笔交易PTXn时，则意味着通道关闭，合作结束。鲍伯需要在交易RTX锁定期结束前关闭通道，否则意味着爱丽丝可以在交易RTX解锁后否则意味着爱丽丝可以在交易RTX解锁后拿回她所有的币。</p></li>
+</ul>
+
+
+<p>上述，就是微支付通道建立、更新与关闭过程。在一个完整的过程中，有且仅有两笔交易广播至链上，同时双方均无须信任对方，任何一方也无法侵害另一方的利益。在更新过程中双方只是交换交易和签名数据，并无交易广播至链上，那么意味着在存入额度范围内，可以创造出无数笔交易。不仅通道内的更新次数不受限制，频率也可以达到非常高，只要系统允许，目前硬件条件可以轻松达到每秒数千笔。</p>
+
+<p>在特定场景下，微支付通道拥有着巨大优势，让小额高频支付成为可能。但它存在一个巨大制约：币在通道中的流向是单向的。在上述例子中，币仅能从爱丽丝流至鲍伯。</p>
 
 <h4>闪电网络</h4>
 
@@ -1792,7 +1870,7 @@
 
 <p>这系列文章也快写到结尾了，我一直对比特币抱有非常善意、乐观的态度；我深深明白，自大会蒙蔽判断力，为此我也一直非常认真的学习社区里面每一天冒出来的种种高科技~~~</p>
 
-<p>但是，我忍不住说，是的，我也化身为自己讨厌的那种人： <code>当前</code>所谓的各路区块链技术看起来非常像是空中楼阁！ 我毫不怀疑这是一项精巧到令人赞叹的发明，也毫不怀疑它有非常远大的前景；但这都是几十上百年之后的事情，目前为止，就是个大泡沫；</p>
+<p>但是，我忍不住说，是的，我也化身为自己讨厌的那种人： <code>当前</code>所谓的各路区块链技术看起来非常像是空中楼阁！ 区块链技术是一种梦幻的技术，所谓的侧链是梦中的梦，我毫不怀疑这是一项精巧到令人赞叹的发明，也毫不怀疑它有非常远大的前景；但这都是几十上百年之后的事情，目前为止，就是个大泡沫；</p>
 
 <p>所谓的区块链技术简洁明了，让每个理解它的人不自觉的沉迷其中，我甚至都觉得一条chain都有艺术上的美感；但是始终要明白，它现在只是一个艺术品，收藏品，进化为工业产品还有非常非常长的路要走~~~</p>
 
@@ -1811,6 +1889,10 @@
 <p><a href="https://en.bitcoin.it/wiki/Merged_mining_specification">https://en.bitcoin.it/wiki/Merged_mining_specification</a></p>
 
 <p><a href="https://en.bitcoin.it/wiki/Sidechain">https://en.bitcoin.it/wiki/Sidechain</a></p>
+
+<p><a href="https://www.ccvalue.cn/article/1495.html">https://www.ccvalue.cn/article/1495.html</a></p>
+
+<p><a href="https://read.douban.com/ebook/24123244/">https://read.douban.com/ebook/24123244/</a></p>
 ]]></content>
   </entry>
   
