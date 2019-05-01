@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-05-01T12:23:49+08:00</updated>
+  <updated>2019-05-01T15:26:16+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Go包管理工具]]></title>
+    <link href="https://happy123.me/blog/2019/05/01/gobao-guan-li-gong-ju/"/>
+    <updated>2019-05-01T15:25:27+08:00</updated>
+    <id>https://happy123.me/blog/2019/05/01/gobao-guan-li-gong-ju</id>
+    <content type="html"><![CDATA[<p>真的，Go的包管理工具之发展过程充分体现了什么叫<code>折腾</code>。 (叹气~~~)</p>
+
+<!-- more -->
+
+
+<p>从Go1.11版本发布Go MODULE之后，我希望这是最后一次折腾<code>包管理</code>这件事情，神呐，诚心诚意的祈祷中~~</p>
+
+<h2>GO111MODULE</h2>
+
+<p>Modules 是作为 experiment feature 加入到不久前正式发布的 Go 1.11 中的。
+按照 Go 的惯例，在新的 experiment feature 首次加入时，都会有一个特性开关，go modules 也不例外，GO111MODULE 这个临时的环境变量就是 go modules 特性的 experiment 开关。</p>
+
+<ul>
+<li><p>off: go modules experiment feature 关闭，go compiler 会始终使用 GOPATH mode，即无论要构建的源码目录是否在 GOPATH 路径下，go compiler 都会在传统的 GOPATH 和 vendor 目录 (仅支持在 GOPATH 目录下的 package) 下搜索目标程序依赖的 go package；</p></li>
+<li><p>on: 始终使用 module-aware mode，只根据 go.mod 下载 dependency 而完全忽略 GOPATH 以及 vendor 目录</p></li>
+<li>auto: Golang 1.11 预设值，使用 GOPATH mode 还是 module-aware mode，取决于要构建的源码目录所在位置以及是否包含 go.mod 文件。满足任一条件时才使用 module-aware mode:
+
+<ul>
+<li>当前目录位于 GOPATH/src 之外并且包含 go.mod 文件</li>
+<li>当前目录位于包含 go.mod 文件的目录下</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>go mod 命令</h2>
+
+<p><code>
+download    download modules to local cache (下载依赖的 modules 到本地 cache)
+edit        edit go.mod from tools or scripts (编辑 go.mod 文件)
+graph       print module requirement graph (打印模块依赖图)
+init        initialize new module in current directory (再当前文件夹下初始化一个新的 module, 创建 go.mod 文件)
+tidy        add missing and remove unused modules (增加丢失的 modules，去掉未用的 modules)
+vendor      make vendored copy of dependencies (将依赖复制到 vendor 下)
+verify      verify dependencies have expected content (校验依赖)
+why         explain why packages or modules are needed (解释为什么需要依赖)
+</code></p>
+
+<h2>既有项目</h2>
+
+<p>假设你已经有了一个 go 项目， 比如在$GOPATH/github.com/memoryboxes/hello下， 你可以使用go mod init github.com/memoryboxes/hello在这个文件夹下创建一个空的 go.mod (只有第一行 module github.com/memoryboxes/hello)。</p>
+
+<p>然后你可以通过 go get ./&hellip;让它查找依赖，并记录在 go.mod 文件中 (你还可以指定 -tags, 这样可以把 tags 的依赖都查找到)。</p>
+
+<p>通过go mod tidy也可以用来为 go.mod 增加丢失的依赖，删除不需要的依赖，但是我不确定它怎么处理tags。</p>
+
+<p>执行上面的命令会把 go.mod 的latest版本换成实际的最新的版本，并且会生成一个go.sum记录每个依赖库的版本和哈希值。</p>
+
+<h2>replace</h2>
+
+<p>在国内访问golang.org/x的各个包都需要梯子，你可以在 go.mod 中使用replace替换成 github 上对应的库。</p>
+
+<p><code>
+replace (
+  golang.org/x/crypto v0.0.0-20180820150726-614d502a4dac =&gt; github.com/golang/crypto v0.0.0-20180820150726-614d502a4dac
+  golang.org/x/net v0.0.0-20180821023952-922f4815f713 =&gt; github.com/golang/net v0.0.0-20180826012351-8a410e7b638d
+  golang.org/x/text v0.3.0 =&gt; github.com/golang/text v0.3.0
+)
+</code>
+依赖库中的replace对你的主 go.mod 不起作用，比如github.com/memoryboxes/hello的 go.mod 已经增加了replace, 但是你的 go.mod 虽然require了rpcx的库，但是没有设置replace的话， go get还是会访问golang.org/x。</p>
+
+<p>所以如果想编译那个项目，就在哪个项目中增加replace。</p>
+
+<h2>包的版本控制</h2>
+
+<p>下面的版本都是合法的：</p>
+
+<p><code>
+gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7
+gopkg.in/vmihailenco/msgpack.v2 v2.9.1
+gopkg.in/yaml.v2 &lt;=v2.2.1
+github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e
+latest
+</code>
+版本号遵循如下规律：</p>
+
+<p><code>
+vX.Y.Z-pre.0.yyyymmddhhmmss-abcdefabcdef
+vX.0.0-yyyymmddhhmmss-abcdefabcdef
+vX.Y.(Z+1)-0.yyyymmddhhmmss-abcdefabcdef
+vX.Y.Z
+</code>
+也就是版本号 + 时间戳 + hash，我们自己指定版本时只需要制定版本号即可，没有版本 tag 的则需要找到对应 commit 的时间和 hash 值。</p>
+
+<p>另外版本号是支持 query 表达式的，其求值算法是 “选择最接近于比较目标的版本 (tagged version)”，即上文中的 gopkg.in/yaml.v2 会找不高于 v2.2.1 的最高版本。</p>
+
+<p>对于复杂的包依赖场景，可以参考 Russ Cox 在 “Minimal Version Selection” 一文中给出的形象的算法解释 (注意：这个算法仅是便于人类理解，但是性能低下，真正的实现并非按照这个算法实现)。</p>
+
+<h2>go get 升级</h2>
+
+<ul>
+<li>运行 go get -u 将会升级到最新的次要版本或者修订版本 (x.y.z，z 是修订版本号， y 是次要版本号)</li>
+<li>运行 go get -u=patch 将会升级到最新的修订版本</li>
+<li>运行 go get package@version 将会升级到指定的版本号version</li>
+</ul>
+
+
+<h2>go modules 与 vendor</h2>
+
+<ul>
+<li><p>在最初的设计中，Russ Cox 是想彻底废除掉 vendor 的，但在社区的反馈下，vendor 得以保留，这也是为了兼容 Go 1.11 之前的版本。</p></li>
+<li><p>Go modules 支持通过go mod vendor命令将某个 module 的所有依赖保存一份 copy 到 root module dir 的 vendor 下，然后在构建的使用go build -mod=vendor即可忽略 cache 里的包而只使用 vendor 目录里的版本。</p></li>
+</ul>
+
+
+<h2>参考:</h2>
+
+<p><a href="https://roberto.selbach.ca/intro-to-go-modules/">https://roberto.selbach.ca/intro-to-go-modules/</a>
+<a href="https://github.com/golang/go/wiki/Modules">https://github.com/golang/go/wiki/Modules</a>
+<a href="https://windmt.com/2018/11/08/first-look-go-modules/">https://windmt.com/2018/11/08/first-look-go-modules/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Evolution of a Programmer]]></title>
@@ -656,168 +774,6 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
 <p>在今天这个芯片DEP，操作系统NX锁定双保险的时代，这种初始化已经没有啥必要了，这个烫屯还存在纯粹是历史原因。</p>
 
 <p>所以在那个电脑还比较古早的年代，说人品不好，那叫非奸即盗。说程序写的烂，那叫非烫即屯。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Crawler ABC]]></title>
-    <link href="https://happy123.me/blog/2018/07/04/crawler-abc/"/>
-    <updated>2018-07-04T19:04:58+08:00</updated>
-    <id>https://happy123.me/blog/2018/07/04/crawler-abc</id>
-    <content type="html"><![CDATA[<p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
-
-<!-- more -->
-
-
-<h2>requests</h2>
-
-<p>```
-def get_html(url):</p>
-
-<pre><code>headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
-    'Accept': 'application/json, text/plain, */*',
-    'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Content-Type': 'application/x-www-form-urlencoded',
-}
-resp = requests.get(url, headers=headers)
-if resp.status_code == 200:
-    return resp.content
-else:
-    raise ValueError("Not valid response:{}".format(resp.content))
-</code></pre>
-
-<p>```</p>
-
-<h2>beautifulsoup</h2>
-
-<p>```
-from bs4 import BeautifulSoup
-def get_username(html):</p>
-
-<pre><code>soup = BeautifulSoup(html, 'lxml')
-user_div = soup.find(id='uhd')
-username = user_div.find('h2', class_='mt').get_text().strip()
-return username
-</code></pre>
-
-<p>```</p>
-
-<h2>phantomjs</h2>
-
-<p>用法非常简单，但是每次都得去查文档，封装成一个傻瓜类比较实在</p>
-
-<p>```
-class WebClient(object):</p>
-
-<pre><code>USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-    "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-    "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-    "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SE 2.X MetaSr 1.0; SE 2.X MetaSr 1.0; .NET CLR 2.0.50727; SE 2.X MetaSr 1.0)",
-    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-    "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-    "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-    "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-    "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
-]
-
-def __init__(self, phantomjs_driver_path='/usr/local/bin/phantomjs'):
-    # 引入配置对象DesiredCapabilities
-    dcap = dict(DesiredCapabilities.PHANTOMJS)
-
-    # 从USER_AGENTS列表中随机选一个浏览器头，伪装浏览器
-    dcap["phantomjs.page.settings.userAgent"] = (random.choice(self.USER_AGENTS))
-
-    # 不载入图片，爬页面速度会快很多
-    dcap["phantomjs.page.settings.loadImages"] = False
-
-    # 设置代理
-    # service_args = ['--proxy=127.0.0.1:1080', '--proxy-type=http']
-
-    # 打开带配置信息的phantomJS浏览器
-    self._driver = webdriver.PhantomJS(phantomjs_driver_path, desired_capabilities=dcap)
-
-    # 隐式等待5秒，可以自己调节
-    self._driver.implicitly_wait(5)
-
-    # 设置10秒页面超时返回，类似于requests.get()的timeout选项，driver.get()没有timeout选项
-    # 以前遇到过driver.get(url)一直不返回，但也不报错的问题，这时程序会卡住，设置超时选项能解决这个问题。
-    self._driver.set_page_load_timeout(10)
-    # 设置10秒脚本超时时间
-    self._driver.set_script_timeout(10)
-
-@property
-def driver(self):
-    return self._driver
-</code></pre>
-
-<p>```</p>
-
-<p>用起来也很简单，拿登陆163邮箱做例子:</p>
-
-<p>```
-def login_163(email, password):</p>
-
-<pre><code>login_url = 'http://m65.mm.mail.163.com/'
-driver = WebClient().driver
-driver.get(login_url)
-driver.implicitly_wait(10)
-
-try:
-    driver.execute_script('document.querySelector(".m-footer").querySelector("a").click();')
-    driver.execute_script('document.getElementById("entryMail").click();')
-except Exception as _:
-    pass
-
-time.sleep(3)
-driver.find_element_by_xpath('//input[@name="username"]').send_keys(email.split('@')[0])
-driver.find_element_by_xpath('//input[@name="password"]').send_keys(password)
-mail_select = Select(driver.find_element_by_xpath('//select[@name="domain"]'))
-mail_select.select_by_value(email.split('@')[-1])
-# driver.save_screenshot(email + '.png')
-
-# submit
-driver.find_element_by_id('submit').submit()
-driver.implicitly_wait(10)
-time.sleep(5)
-# driver.save_screenshot(email + '.login.png')
-
-login_info = driver.find_element_by_xpath('//div[@class="fgreet"]/strong').text
-driver.quit()
-
-return login_info.strip() == email
-</code></pre>
-
-<p>```</p>
 ]]></content>
   </entry>
   

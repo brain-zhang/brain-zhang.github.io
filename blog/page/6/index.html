@@ -82,6 +82,50 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-04T19:04:58+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/07/04/crawler-abc/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/07/04/crawler-abc/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/07/04/crawler-abc/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a></h1>
     
     
@@ -681,78 +725,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-05-01T22:18:33+08:00" pubdate data-updated="true">May 1<span>st</span>, 2018</time>
-        
-           | <a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。</p>
-
-<p>用sort+uniq直接搞定:</p>
-
-<h2>交集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt | sort | uniq -d</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>并集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat a.txt b.txt | sort | uniq</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>差集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt bb.txt | sort | uniq -u</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -770,6 +742,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/05/01/gobao-guan-li-gong-ju/">Go包管理工具</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/04/08/zhi-shu-tou-zi-ce-lue/">指数投资策略</a>
       </li>
     
@@ -783,10 +759,6 @@
     
       <li class="post">
         <a href="/blog/2019/02/13/the-book-of-satoshi-du-shu-bi-ji/">《 the Book of Satoshi》 读书笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/02/13/guan-yu-gdpde-sui-xiang/">关于GDP的一些随想</a>
       </li>
     
   </ul>
@@ -849,7 +821,7 @@
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (21)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (22)</a></li>
 <li class='category'><a href='/blog/categories/django/'>django (2)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (5)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>

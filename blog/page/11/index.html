@@ -82,6 +82,61 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">How to Change Systemd Service Timeout Value</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-05T17:56:04+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>show value</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>change value</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure>
+
+
+<p>TimeoutStopUSec = 900</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl daemon-reexec</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
     
     
@@ -642,69 +697,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">How to Keep Environment Variables and PATH When Using SUDO</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-02T09:15:19+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>sudo tips</h2>
-
-<h4>How to keep Environment Variables when Using SUDO</h4>
-
-<p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
-
-<pre><code>Defaults env_keep += "HOME"
-</code></pre>
-
-<p>or and pay attention to the -E flag. This works:</p>
-
-<pre><code>export HOME=/home/users/memorybox
-sudo -E bash -c 'echo $HOME'
-</code></pre>
-
-<h4>How to keep PATH Variables when Using SUDO</h4>
-
-<pre><code>vim /etc/sudoers
-sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
-</code></pre>
-
-<h4>How to change root env</h4>
-
-<pre><code>sudo -i
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/12/">&larr; Older</a>
@@ -722,6 +714,10 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/05/01/gobao-guan-li-gong-ju/">Go包管理工具</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/04/08/zhi-shu-tou-zi-ce-lue/">指数投资策略</a>
       </li>
     
@@ -735,10 +731,6 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
     
       <li class="post">
         <a href="/blog/2019/02/13/the-book-of-satoshi-du-shu-bi-ji/">《 the Book of Satoshi》 读书笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/02/13/guan-yu-gdpde-sui-xiang/">关于GDP的一些随想</a>
       </li>
     
   </ul>
@@ -801,7 +793,7 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (21)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (22)</a></li>
 <li class='category'><a href='/blog/categories/django/'>django (2)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (5)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
