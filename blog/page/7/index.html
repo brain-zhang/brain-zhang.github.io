@@ -82,6 +82,50 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel/">How to Improve Performance Your Cmd by Parallel</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-06T09:32:03+08:00" pubdate data-updated="true">May 6<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有很多时候，处理一个大文件，常规命令并不能很好的利用多核</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/05/06/how-to-improve-performance-your-cmd-by-parallel/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">How to Sort a Very Very Very Big File</a></h1>
     
     
@@ -602,70 +646,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-24T21:38:13+08:00" pubdate data-updated="true">Apr 24<span>th</span>, 2018</time>
-        
-           | <a href="/blog/2018/04/24/cryptocurrency-security/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/04/24/cryptocurrency-security/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>比特币的地址生成过程分为以下几个步骤:</h4>
-
-<ol>
-<li><p>随机生成一个32字节(256bits)的私钥k</p></li>
-<li><p>采用椭圆曲线算法，以私钥k为起点，将其与曲线上预定的生成点G相乘以获得曲线上的另一点，也就是相应的公钥 K</p></li>
-<li><p>进一步SHA256=>RIPEMD160 得到地址原始值A: A = RIPEMD160(SHA256(K))</p></li>
-<li><p>对A进行Base58Check编码，添加前置版本号后Double SHA256取最后四个字节作为校验位，最后 Base58Check(前缀+Base58Check(A)+校验)得到最终地址</p></li>
-</ol>
-
-
-<p>整个过程中，私钥的生成空间有256bits，由私钥推出地址过程中，由于用到了RIPEMD160散列，所以生成空间共有160bits。</p>
-
-<p>也就是说，去除版本号变化，某一类型的比特币地址最多有 2<sup>160</sup>个。</p>
-
-<p>为什么有步骤3呢，不光增加了地址复杂度，还降低了HASH碰撞空间(从256bits降到160bits)。</p>
-
-<p>所以中本聪的选择只是带来了不必要的复杂度和浪费吗？最后证明，答案是否定的。有另外一个非常好的理由去使用这个&#8221;公钥的哈希值&#8221;的地址结构：量子加密技术。量子计算机可以破解椭圆曲线数字签名算法（也就是说，给定一个公钥，量子计算机可以相当快速的找到对应的私钥），但它们不能相类似的逆转哈希算法（或者说他们可以，但是将需要花掉280个步骤来完成一个比特币地址的破解，这仍然是相当不可行的）。因此，如果你的比特币资金存放在一个你没有支出过的地址里（这意味着公钥是没有公开的），它们在量子计算机面前也就是安全的，至少在你把它们花掉之前。有理论上的途径可以让比特币完全免于量子计算机的威胁，但一个地址只是一个公钥的哈希值的事实，意味着一旦量子计算机真的出现了，在我们全面切换之前攻击者可以造成的损失要小得多。</p>
-
-<p>请参考:</p>
-
-<p><a href="http://www.8btc.com/satoshis-genius-unexpected-ways-in-which-bitcoin-dodged-some-cryptographic-bullet">http://www.8btc.com/satoshis-genius-unexpected-ways-in-which-bitcoin-dodged-some-cryptographic-bullet</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/04/24/cryptocurrency-security/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -683,6 +663,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/05/12/yong-yuan-du-suan-bu-zhun-de-zhi-shu-pe/">永远都算不准的指数PE</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/09/berkshires-charlie-munger-calls-bitcoin-noxious-poison/">Berkshire&#8217;s Charlie Munger Calls Bitcoin &#8216;Noxious Poison&#8217;</a>
       </li>
     
@@ -696,10 +680,6 @@
     
       <li class="post">
         <a href="/blog/2019/04/07/zi-chan-pei-zhi-chu-tan/">资产配置初探</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/10/the-internet-of-money-du-shu-bi-ji/">《 the Internet of Money》读书笔记</a>
       </li>
     
   </ul>
@@ -779,7 +759,7 @@
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (16)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (17)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
 <li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
 <li class='category'><a href='/blog/categories/macvtap/'>macvtap (1)</a></li>
