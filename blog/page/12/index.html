@@ -82,6 +82,99 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/06/11/tcp-slash-ip-illustrated-note2/">TCP/IP Illustrated Note2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-11T22:26:09+08:00" pubdate data-updated="true">Jun 11<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/06/11/tcp-slash-ip-illustrated-note2/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/06/11/tcp-slash-ip-illustrated-note2/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>traceroute</h2>
+
+<h4>原理</h4>
+
+<p>开始时发送一个TTL字段为1的UDP数据报，然后将TTL字段每次加一，以确定路径中的每个路由器。每个路由器在丢弃UDP数据报时都返回一个ICMP超时报文2，而最终目的的主机则产生一个ICMP端口不可达的报文。</p>
+
+<h4>IP源站选路选项</h4>
+
+<ul>
+<li>严格的源路由选择</li>
+</ul>
+
+
+<p>发送端指明IP数据包所必须采用的确切路由。如果一个路由器发现源路由所指定的下一个路由不在其直接连接的网络上，那么它会返回一个“源站路由失败”的ICMP差错报文。</p>
+
+<ul>
+<li>宽松的源站选路</li>
+</ul>
+
+
+<p>发送端指明了一个数据报经过的IP地址清单，但是数据报在清单上指明的任意两个地址之间可以通过其它路由器。</p>
+
+<h2>IP选路</h2>
+
+<p>一个简单的路由表</p>
+
+<pre><code>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
+192.168.159.0   *               255.255.255.0   U     0      0        0 eth0
+192.168.159.0   *               255.255.255.0   U     0      0        0 eth1
+</code></pre>
+
+<p>注意Flags一列，它有5种不同的标志:</p>
+
+<ul>
+<li>U (route is up) 路由启用</li>
+<li>H (target is a host) 目标是主机</li>
+<li>G (use gateway) 使用网关</li>
+<li>R (reinstate route for dynamic routing)</li>
+<li>D (dynamically installed by daemon or redirect)</li>
+<li>M (modified from routing daemon or redirect)</li>
+</ul>
+
+
+<p>主机表项比网络表项具有更高的优先级，而网络表项比默认项具有更高的优先级。</p>
+
+<h2>UDP</h2>
+
+<p>UDP长度字段指的是UDP首部和UDP数据的总长度</p>
+
+<p>UDP校验和覆盖UDP首部和数据，而IP首部校验和只覆盖IP首部</p>
+
+<p>永远不要完全相信数据链路的CRC校验，应该始终打开端到端的校验和功能。另外，即使是打开了，也要小心，UDP和TCP的校验和也不是可以百分百信赖的。</p>
+
+<p>注意两个ICMP报文和UDP的交互：ICMP不可达报文和ICMP源站抑制差错报文</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/">石头比特币之岛</a></h1>
     
     
@@ -701,120 +794,6 @@ exec "$@"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/20/udp-packet-receive-errors/">Udp Packet Receive Errors</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-20T08:09:35+08:00" pubdate data-updated="true">May 20<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/20/udp-packet-receive-errors/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/05/20/udp-packet-receive-errors/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Issue</h2>
-
-<p>netstat -s output shows high number of Udp: packet receive errors</p>
-
-<p>Getting high number of UDP packet drops or loss</p>
-
-<p>SNMP trap issue :&ndash; SNMP trap seems to be fluctuating on my RHEL server.</p>
-
-<h2>Resolution</h2>
-
-<p>Udp: packet receive errors is increased for the following reasons:</p>
-
-<ul>
-<li><p>Not enough socket buffer space</p></li>
-<li><p>UDP checksum failure</p></li>
-<li><p>UDP length mismatch</p></li>
-<li><p>IPSec Security Policy failure</p></li>
-</ul>
-
-
-<h2>Diagnostic Steps</h2>
-
-<h4>Gather statistics</h4>
-
-<p>Run the command netstat -nsu and see the Udp: section:</p>
-
-<pre><code>netstat -su
-
-Udp:
-    559933412 packets received
-    71 packets to unknown port received.
-    33861296 packet receive errors    &lt;---- HERE
-    7516291 packets sent
-Socket buffer checking:
-</code></pre>
-
-<p>The current system-wide default socket buffer size can be determined with the commands:</p>
-
-<pre><code>sysctl net.core.rmem_max
-sysctl net.core.rmem_default
-</code></pre>
-
-<p>This can be confirmed by watching socket statistics whilst packet receive errors is growing by running ss -nump at regular intervals, for example:</p>
-
-<pre><code>while true; do ss -nump; sleep 1; done
-</code></pre>
-
-<p>This will produce output as follows:</p>
-
-<pre><code>State    Recv-Q Send-Q    Local Address:Port      Peer Address:Port
-ESTAB    0      0           192.168.0.2:4500       192.168.0.1:4500
-users:(("processname",pid=1234,fd=3))
-        skmem:(r0,rb212992,t0,tb212992,f4096,w0,o0,bl0)
-</code></pre>
-
-<p>If the Recv-Q statistic is regularly growing large, such as approading the system-wide rmem_max, then increase the socket buffer size.</p>
-
-<p>Note this means the application is not receiving from the buffer fast enough. It may be necessary to reconfigure or redesign the application to perform better.</p>
-
-<h2>Conclusion</h2>
-
-<p>The statistic Udp: packet receive errors is reporting the SNMP MIB called UDP_MIB_INERRORS.</p>
-
-<h2>Commands</h2>
-
-<ul>
-<li><p>run udp server</p>
-
-<pre><code>  nc -4 -u -l 2389
-</code></pre></li>
-<li><p>cli to server</p>
-
-<pre><code>  echo -n "hello" | nc -u x.x.x.x 2389
-</code></pre></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13/">&larr; Older</a>
@@ -832,6 +811,10 @@ users:(("processname",pid=1234,fd=3))
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/06/22/du-tou-zi-zhe-de-xin-ling-xiu-lian-sui-xiang/">读<投资者的心灵修炼>随想</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/21/shan-dian-wang-luo-man-man-cheng-chang/">闪电网络慢慢成长</a>
       </li>
     
@@ -845,10 +828,6 @@ users:(("processname",pid=1234,fd=3))
     
       <li class="post">
         <a href="/blog/2019/05/09/berkshires-charlie-munger-calls-bitcoin-noxious-poison/">Berkshire&#8217;s Charlie Munger Calls Bitcoin &#8216;Noxious Poison&#8217;</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/05/01/gobao-guan-li-gong-ju/">Go包管理工具</a>
       </li>
     
   </ul>
@@ -928,7 +907,7 @@ users:(("processname",pid=1234,fd=3))
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (17)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
 <li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
 <li class='category'><a href='/blog/categories/macvtap/'>macvtap (1)</a></li>
