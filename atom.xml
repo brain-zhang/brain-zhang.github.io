@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-06-24T12:31:58+08:00</updated>
+  <updated>2019-06-24T12:37:54+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -18,9 +18,9 @@
     <link href="https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/"/>
     <updated>2019-06-24T12:31:08+08:00</updated>
     <id>https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang</id>
-    <content type="html"><![CDATA[<p>摘自- <Python cookbook></p>
+    <content type="html"><![CDATA[<p>摘自 &ndash; Python cookbook</p>
 
-<p>老生常谈了，但是在Fyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  &ndash;_&ndash; &hellip;..</p>
+<p>老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  &ndash;_&ndash; &hellip;..</p>
 
 <h2>怎样捕获代码中的所有异常？</h2>
 
