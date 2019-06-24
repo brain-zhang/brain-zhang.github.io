@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Python捕获所有异常 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="摘自- 老生常谈了，但是在Fyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向 &ndash;_&ndash; &hellip;.. 怎样捕获代码中的所有异常？ 想要捕获所有的异常，可以直接捕获 Exception 即可： 1
+2
+3
+4
+5
+try: ... &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Python捕获所有异常</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-06-24T12:31:08+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2019</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>摘自- <Python cookbook></p>
+
+<p>老生常谈了，但是在Fyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  &ndash;_&ndash; &hellip;..</p>
+
+<h2>怎样捕获代码中的所有异常？</h2>
+
+<!-- more -->
+
+
+<h4>想要捕获所有的异常，可以直接捕获 Exception 即可：</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>   ...
+</span><span class='line'>except Exception as e:
+</span><span class='line'>   ...
+</span><span class='line'>   log('Reason:', e)       # Important!</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个将会捕获除了 <code>SystemExit</code> 、 <code>KeyboardInterrupt</code> 和 <code>GeneratorExit</code> 之外的所有异常。 如果你还想捕获这三个异常，将 Exception 改成 BaseException 即可。</p>
+
+<h4>讨论</h4>
+
+<p>捕获所有异常通常是由于程序员在某些复杂操作中并不能记住所有可能的异常。 如果你不是很细心的人，这也是编写不易调试代码的一个简单方法。</p>
+
+<p>正因如此，如果你选择捕获所有异常，那么在某个地方（比如日志文件、打印异常到屏幕）打印确切原因就比较重要了。 如果你没有这样做，有时候你看到异常打印时可能摸不着头脑，就像下面这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def parse_int(s):
+</span><span class='line'>    try:
+</span><span class='line'>        n = int(v)
+</span><span class='line'>    except Exception:
+</span><span class='line'>        print("Couldn't parse")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>      <br/>
+试着运行这个函数，结果如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; parse_int('n/a')
+</span><span class='line'>Couldn't parse
+</span><span class='line'>&gt;&gt;&gt; parse_int('42')
+</span><span class='line'>Couldn't parse
+</span><span class='line'>&gt;&gt;&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这时候你就会挠头想：“这咋回事啊？” 假如你像下面这样重写这个函数：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def parse_int(s):
+</span><span class='line'>    try:
+</span><span class='line'>        n = int(v)
+</span><span class='line'>    except Exception as e:
+</span><span class='line'>        print("Couldn't parse")
+</span><span class='line'>        print('Reason:', e)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这时候你能获取如下输出，指明了有个编程错误：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; parse_int('42')
+</span><span class='line'>Couldn't parse
+</span><span class='line'>Reason: global name 'v' is not defined
+</span><span class='line'>&gt;&gt;&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>很明显，你应该尽可能将异常处理器定义的精准一些。</p>
+
+<p>不过，要是你必须捕获所有异常，确保打印正确的诊断信息或将异常传播出去，这样不会丢失掉异常。</p>
+
+<h4>最可怕的例子是我们在处理临时文件的时候，用</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>    ....
+</span><span class='line'>except:
+</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为碍人的E722, 有人会自作聪明的改成:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>    ....
+</span><span class='line'>except Exception:
+</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>正确的办法是:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>    ....
+</span><span class='line'>except BaseException:
+</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者更确定的语义之下，每次都清理临时文件，这样更明确，处理更好一点:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>    ....
+</span><span class='line'>except BaseException:
+</span><span class='line'>    logger.error(....)
+</span><span class='line'>finally:
+</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考:</p>
+
+<p><a href="https://github.com/PyCQA/pycodestyle/issues/703">https://github.com/PyCQA/pycodestyle/issues/703</a></p>
+
+<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html">https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-06-24T12:31:08+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/develop/'>develop</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/06/22/fu-li-shi-shi-jie-di-ba-da-qi-ji-ai-yin-si-tan-zhen-de-shuo-guo-zhe-ju-hua-ma/" title="Previous Post: 复利是世界第八大奇迹-爱因斯坦真的说过这句话吗?">&laquo; 复利是世界第八大奇迹-爱因斯坦真的说过这句话吗?</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/">Python捕获所有异常</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/06/22/fu-li-shi-shi-jie-di-ba-da-qi-ji-ai-yin-si-tan-zhen-de-shuo-guo-zhe-ju-hua-ma/">复利是世界第八大奇迹-爱因斯坦真的说过这句话吗?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/06/22/huo-bi-shi-pao-mo/">货币是泡沫?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/06/22/guan-yu-huo-bi-de-li-shi-chuan-shuo/">关于货币的历史传说</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/06/22/du-tou-zi-zhe-de-xin-ling-xiu-lian-sui-xiang/">读<投资者的心灵修炼>随想</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/';
+        var disqus_url = 'https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

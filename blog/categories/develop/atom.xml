@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-06-22T21:49:25+08:00</updated>
+  <updated>2019-06-24T12:31:58+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,158 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python捕获所有异常]]></title>
+    <link href="https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/"/>
+    <updated>2019-06-24T12:31:08+08:00</updated>
+    <id>https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang</id>
+    <content type="html"><![CDATA[<p>摘自- <Python cookbook></p>
+
+<p>老生常谈了，但是在Fyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  &ndash;_&ndash; &hellip;..</p>
+
+<h2>怎样捕获代码中的所有异常？</h2>
+
+<!-- more -->
+
+
+<h4>想要捕获所有的异常，可以直接捕获 Exception 即可：</h4>
+
+<p><code>
+try:
+   ...
+except Exception as e:
+   ...
+   log('Reason:', e)       # Important!
+</code>
+这个将会捕获除了 <code>SystemExit</code> 、 <code>KeyboardInterrupt</code> 和 <code>GeneratorExit</code> 之外的所有异常。 如果你还想捕获这三个异常，将 Exception 改成 BaseException 即可。</p>
+
+<h4>讨论</h4>
+
+<p>捕获所有异常通常是由于程序员在某些复杂操作中并不能记住所有可能的异常。 如果你不是很细心的人，这也是编写不易调试代码的一个简单方法。</p>
+
+<p>正因如此，如果你选择捕获所有异常，那么在某个地方（比如日志文件、打印异常到屏幕）打印确切原因就比较重要了。 如果你没有这样做，有时候你看到异常打印时可能摸不着头脑，就像下面这样：</p>
+
+<p>```
+def parse_int(s):</p>
+
+<pre><code>try:
+    n = int(v)
+except Exception:
+    print("Couldn't parse")
+</code></pre>
+
+<p>```      <br/>
+试着运行这个函数，结果如下：</p>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>parse_int(&lsquo;n/a&rsquo;)
+Couldn&rsquo;t parse
+parse_int(&lsquo;42&rsquo;)
+Couldn&rsquo;t parse</p>
+
+<p>```</p></blockquote></blockquote></blockquote>
+
+<p>这时候你就会挠头想：“这咋回事啊？” 假如你像下面这样重写这个函数：</p>
+
+<p>```
+def parse_int(s):</p>
+
+<pre><code>try:
+    n = int(v)
+except Exception as e:
+    print("Couldn't parse")
+    print('Reason:', e)
+</code></pre>
+
+<p>```</p>
+
+<p>这时候你能获取如下输出，指明了有个编程错误：</p>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>parse_int(&lsquo;42&rsquo;)
+Couldn&rsquo;t parse
+Reason: global name &lsquo;v&rsquo; is not defined</p>
+
+<p>```</p></blockquote></blockquote></blockquote>
+
+<p>很明显，你应该尽可能将异常处理器定义的精准一些。</p>
+
+<p>不过，要是你必须捕获所有异常，确保打印正确的诊断信息或将异常传播出去，这样不会丢失掉异常。</p>
+
+<h4>最可怕的例子是我们在处理临时文件的时候，用</h4>
+
+<p>```
+try:</p>
+
+<pre><code>....
+</code></pre>
+
+<p>except:</p>
+
+<pre><code>os.remove(temp_file)
+</code></pre>
+
+<p>```</p>
+
+<p>因为碍人的E722, 有人会自作聪明的改成:</p>
+
+<p>```
+try:</p>
+
+<pre><code>....
+</code></pre>
+
+<p>except Exception:</p>
+
+<pre><code>os.remove(temp_file)
+</code></pre>
+
+<p>```</p>
+
+<p>正确的办法是:</p>
+
+<p>```
+try:</p>
+
+<pre><code>....
+</code></pre>
+
+<p>except BaseException:</p>
+
+<pre><code>os.remove(temp_file)
+</code></pre>
+
+<p>```</p>
+
+<p>或者更确定的语义之下，每次都清理临时文件，这样更明确，处理更好一点:
+```
+try:</p>
+
+<pre><code>....
+</code></pre>
+
+<p>except BaseException:</p>
+
+<pre><code>logger.error(....)
+</code></pre>
+
+<p>finally:</p>
+
+<pre><code>os.remove(temp_file)
+</code></pre>
+
+<p>```</p>
+
+<p>参考:</p>
+
+<p><a href="https://github.com/PyCQA/pycodestyle/issues/703">https://github.com/PyCQA/pycodestyle/issues/703</a></p>
+
+<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html">https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Go包管理工具]]></title>
@@ -756,28 +908,6 @@ Allows you to create output files for x64. This version of cl.exe runs as a nati
 <p>我只能根据有限的经验来预言：任何一种号称"大一统方案"的方案最后总是失败。</p>
 
 <p>让我们再大声诵读伟大的Fred Brooks先知的预言：没有银弹，没有银弹，没有银弹~~~</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[非烫即屯]]></title>
-    <link href="https://happy123.me/blog/2018/08/25/fei-tang-ji-tun/"/>
-    <updated>2018-08-25T09:34:43+08:00</updated>
-    <id>https://happy123.me/blog/2018/08/25/fei-tang-ji-tun</id>
-    <content type="html"><![CDATA[<p>好久没有打开过VC++了，今天为了修改一个远古控件打开了久违的VC++，DEBUG模式下又看到了久违的"烫烫烫烫烫"~~~~</p>
-
-<!-- more -->
-
-
-<p>VC runtime debug version会把stack初始化成0xcc，unicode中0xcccc(双字节)就是中文的烫。如果你开了个char[]，然后最后一个字符忘了设置成0x00，然后去printf这个字符，那么整个stack从这个局部字符数组开始都输出到console，就变成了“烫烫烫烫烫”。</p>
-
-<p>为啥把stack初始化成0xcc而不是0x00呢？是因为0xcc在intel x86芯片指令集中代表int 3，也就是debug中断，该指令会自动把程序停在单步调试状态，然后去寻找系统中注册的调试器，如果找不到调试器，那么就会终止程序。这一开始是为了调试栈缓冲溢出错误的。如果出现溢出，并且代码尝试执行缓冲中的指令，就会进入单步调试状态。</p>
-
-<p>这是debug version, 那么release verion呢？发布版会把栈初始化成0xcd，这个就是imm8，就是立即中断退出的意思。这时候因为运行在用户机器上，没有调试器，也不希望用户来调试你的程序。0xcdcd就是中文的“屯”字。你会看见一些写的超烂的程序经常会出现“屯屯屯屯屯屯”。的确挺屯的，</p>
-
-<p>在今天这个芯片DEP，操作系统NX锁定双保险的时代，这种初始化已经没有啥必要了，这个烫屯还存在纯粹是历史原因。</p>
-
-<p>所以在那个电脑还比较古早的年代，说人品不好，那叫非奸即盗。说程序写的烂，那叫非烫即屯。</p>
 ]]></content>
   </entry>
   
