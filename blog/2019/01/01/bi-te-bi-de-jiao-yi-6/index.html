@@ -600,25 +600,29 @@
 
 <p>再说一遍：关于隔离见证，网上一个很大的误解就是：认为witness被隔离走了，witness数据不在Block里，所以一个Block能装更多的Transaction。</p>
 
-<p>其实不是，witness数据仍然在Block里面。并且对于1个Transaction来说，如果把witness数据也算上的话，其raw byte size其实是变大了，而不是变小了！！！
-既然Transaction还变大了，那为什么1个Block可以装更多的Transaction呢？？</p>
+<p>其实不是，witness数据仍然在Block里面。并且对于1个Transaction来说，如果把witness数据也算上的话，其raw byte size其实是变大了，而不是变小了。
+既然Transaction还变大了，那为什么1个Block可以装更多的Transaction呢？</p>
 
 <p>因为隔离见证是软分叉，不是硬分叉。下面就分别来分析一下，为什么对于老版本节点、新版本节点，1个Block都可以装更多的Transaction呢？</p>
 
 <p>对于老版本节点：
 Block Limit Size = 1M，但由于你把witness数据移到了所有Transaction的外面，放在了整个Block的尾部。老版本在计算一个Block大小的时候，只计算了
-Block Header + 所有Transaction的数据（witness数据，老版本看不见！！！相当于老版本被欺骗了。）</p>
+Block Header + 所有Transaction的数据（witness数据，老版本看不见，相当于老版本被欺骗了。）</p>
 
 <p>所以呢，其实整个Block的物理大小(raw block size)已经超过了1M，但老版本的节点不认识尾部的witness数据，所以认为总大小还是 &lt; 1M。</p>
 
 <p>对于新版本节点：
-Block的size的计算方式做了调整，引入了Block weight的概念。
-block weight = base_size * 4 + witness_size
-block weight &lt;= 4M</p>
+Block的size的计算方式做了调整，引入了Block weight的概念。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>block weight = base_size * 4 + witness_size 
+</span><span class='line'>block weight &lt;= 4M</span></code></pre></td></tr></table></div></figure>
+
 
 <p>其中，base_size就是block的前2部分数据（header + 没有witness的所有交易数据）</p>
 
-<p>通过上面的分析，我们会发现，数据还是那么多数据，没有减少，只是重新排布了一下，却变相的把区块链扩容了！！！</p>
+<p>通过上面的分析，我们会发现，数据还是那么多数据，没有减少，只是重新排布了一下，却变相的把区块链扩容了。</p>
 
 <h4>安全性</h4>
 
