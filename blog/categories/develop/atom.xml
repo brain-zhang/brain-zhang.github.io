@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-07-24T10:17:54+08:00</updated>
+  <updated>2019-07-24T14:43:13+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -200,6 +200,26 @@ GET /website/_analyze
 </code></pre>
 
 <p>}
+```</p>
+
+<p>精确查询</p>
+
+<p>```
+GET /website/_search
+{
+  &ldquo;query&rdquo;: {</p>
+
+<pre><code>"constant_score" : {
+  "filter":{
+    "term": {
+      "title": "helloworld"
+    }
+  }
+}
+</code></pre>
+
+<p>  }
+}
 ```</p>
 
 <h4>排障</h4>
