@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-06-29T07:07:54+08:00</updated>
+  <updated>2019-07-24T10:17:54+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,301 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Elasticserach Tips]]></title>
+    <link href="https://happy123.me/blog/2019/07/24/elasticserach-tips/"/>
+    <updated>2019-07-24T10:17:05+08:00</updated>
+    <id>https://happy123.me/blog/2019/07/24/elasticserach-tips</id>
+    <content type="html"><![CDATA[<p>elasticsearch升级到7.x；改动不小，命令从头再捋一遍；</p>
+
+<!-- more -->
+
+
+<h2>文档操作</h2>
+
+<h4>增加一条记录</h4>
+
+<p><code>
+PUT /website/_doc/1
+{
+  "title": "My 2 blog entry",
+  "text":  "I am starting to get the hang of this...",
+  "date":  "2014/01/02"
+}
+</code></p>
+
+<h4>修改</h4>
+
+<p>```
+POST /website/_update/1
+{
+   &ldquo;doc&rdquo; : {</p>
+
+<pre><code>  "tags" : [ "testing..." ],
+  "views": 0
+</code></pre>
+
+<p>   }
+}
+```</p>
+
+<h4>查询</h4>
+
+<p>```
+GET /website/_search</p>
+
+<p>GET /website/_source/1</p>
+
+<p>GET /website/_mget
+{</p>
+
+<pre><code>"ids" : [ "2", "1" ]    
+</code></pre>
+
+<p>}</p>
+
+<p>GET /_search
+{</p>
+
+<pre><code>"query": YOUR_QUERY_HERE
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>删除</h4>
+
+<p><code>
+DELETE /website/_doc/1
+</code></p>
+
+<h2>文档功能API</h2>
+
+<h4>获取映射信息</h4>
+
+<p><code>
+GET /website/_mapping
+</code></p>
+
+<h4>测试分析器</h4>
+
+<p><code>
+GET /website/_analyze
+{
+  "field": "tweet",
+  "text": "Black-cats"
+}
+</code></p>
+
+<h4>多层级对象用扁平化的方法来存储，比如</h4>
+
+<p>```
+{
+  &ldquo;gb&rdquo;: {</p>
+
+<pre><code>"tweet": { 
+  "properties": {
+    "tweet":            { "type": "string" },
+    "user": { 
+      "type":             "object",
+      "properties": {
+        "id":           { "type": "string" },
+        "gender":       { "type": "string" },
+        "age":          { "type": "long"   },
+        "name":   { 
+          "type":         "object",
+          "properties": {
+            "full":     { "type": "string" },
+            "first":    { "type": "string" },
+            "last":     { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```
+会被转换为如下内部对象:</p>
+
+<p>```
+{</p>
+
+<pre><code>"tweet":            [elasticsearch, flexible, very],
+"user.id":          [@johnsmith],
+"user.gender":      [male],
+"user.age":         [26],
+"user.name.full":   [john, smith],
+"user.name.first":  [john],
+"user.name.last":   [smith]
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>内部对象数组会丢失一部分相关信息，我们需要用嵌套对象(nested object)来处理</h4>
+
+<h4>查询语句的结构</h4>
+
+<p>一个查询语句 的典型结构：
+```
+{</p>
+
+<pre><code>QUERY_NAME: {
+    ARGUMENT: VALUE,
+    ARGUMENT: VALUE,...
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>如果是针对某个字段，那么它的结构如下：
+```
+{</p>
+
+<pre><code>QUERY_NAME: {
+    FIELD_NAME: {
+        ARGUMENT: VALUE,
+        ARGUMENT: VALUE,...
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>一条复合语句</p>
+
+<p>```
+{</p>
+
+<pre><code>"bool": {
+    "must": { "match":   { "email": "business opportunity" }},
+    "should": [
+        { "match":       { "starred": true }},
+        { "bool": {
+            "must":      { "match": { "folder": "inbox" }},
+            "must_not":  { "match": { "spam": true }}
+        }}
+    ],
+    "minimum_should_match": 1
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>排障</h4>
+
+<p>```
+GET /website/_validate/query?explain
+{
+   &ldquo;query&rdquo;: {</p>
+
+<pre><code>  "match" : {
+     "text" : "really powerful"
+  }
+</code></pre>
+
+<p>   }
+}
+```</p>
+
+<h4>结果排序</h4>
+
+<p>```
+GET /website/_search
+{</p>
+
+<pre><code>"query" : {
+    "bool" : {
+        "filter" : { "term" : { "_id" : 1 }}
+    }
+},
+"sort": { "date": { "order": "desc" }}
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>索引操作</h2>
+
+<h4>增加</h4>
+
+<p>```
+PUT /my_index
+{</p>
+
+<pre><code>"settings": { ... any settings ... },
+"mappings": {
+    "type_one": { ... any mappings ... },
+    "type_two": { ... any mappings ... },
+    ...
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>删除</h4>
+
+<p><code>
+DELETE /my_index
+DELETE /index_one,index_two
+DELETE /index_*
+DELETE /_all
+</code></p>
+
+<h4>配置</h4>
+
+<ul>
+<li>number_of_shards</li>
+</ul>
+
+
+<p>每个索引的主分片数，默认值是 5 。这个配置在索引创建后不能修改。</p>
+
+<ul>
+<li>number_of_replicas</li>
+</ul>
+
+
+<p>每个主分片的副本数，默认值是 1 。对于活动的索引库，这个配置可以随时修改。</p>
+
+<h4>重新索引</h4>
+
+<p>```
+POST _reindex
+{
+  &ldquo;source&rdquo;: {</p>
+
+<pre><code>"index": "twitter"
+</code></pre>
+
+<p>  },
+  &ldquo;dest&rdquo;: {</p>
+
+<pre><code>"index": "new_twitter"
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<h3>释放空间</h3>
+
+<p><code>
+POST /_all/_forcemerge?only_expunge_deletes=true
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python捕获所有异常]]></title>
@@ -858,56 +1153,6 @@ Allows you to create output files for Itanium. This version of cl.exe runs as a 
 Allows you to create output files for x64. This version of cl.exe runs as a native process on an x64 machine.</p></blockquote>
 
 <h4>总之CPU的历史生动说明了了计算机界的很多老梗是如何诞生的，比如很多人都疑惑为什么Windows的发布名称是Win95->W98->W98SE->Win2000(NT)&ndash;>WinXP->Vista->Win7->Win10，等等等等；这种现象是商业环境、市场营销、法律风险以及随意拍脑门的高管，放荡不羁的开发团队合力促成的~~~</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[从WebAssembly说开去]]></title>
-    <link href="https://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu/"/>
-    <updated>2018-08-25T11:14:39+08:00</updated>
-    <id>https://happy123.me/blog/2018/08/25/cong-webassemblyshuo-kai-qu</id>
-    <content type="html"><![CDATA[<p>科技界历史循环，轨迹无法量化预测。</p>
-
-<p>前几天看到bellard都在浏览器里面用WebAssembly跑虚拟机了，点进去试试，竟然模拟Win2000都有模有样了。</p>
-
-<p><a href="https://bellard.org/jslinux/index.html">https://bellard.org/jslinux/index.html</a></p>
-
-<p>不由得感叹人折腾的能力真是无比强大。</p>
-
-<!-- more -->
-
-
-<p>有人说WebAssembly又实现了一个Flash，又实现了一个SliverLight，又造了一个JavaApplet，我都想到很久很久之前的ActiveX了，想到COM组件了~~~</p>
-
-<p>肯定又会有人跳出来说，这回不一样了:</p>
-
-<ol>
-<li><p>谷歌、苹果、微软等公司一起来干了</p></li>
-<li><p>前端拯救世界，前端用Nodejs打入后端，后端用WebAssembly征服前端~~</p></li>
-<li><p>就连技术媒体都开始用吸睛标题：&lt;WebAssembly:解决 JavaScript 痼疾的一颗银色子弹？></p></li>
-</ol>
-
-
-<p>我得说，技术路线的发展完全是随机的，无迹可寻。</p>
-
-<ul>
-<li><p>比如当初Flash就被乔帮主活活说死了，说你不行行也不行。</p></li>
-<li><p>比如Plan9搞了一堆创新之后死翘翘了，根本就没几个人去在意</p></li>
-<li><p>比如苦大仇深的GUI方案，MS推出了一系列库，从MFC、WTL到所谓的WPF，从各类公司的私有解决方案，到现在还在服役的大名鼎鼎的Duilib;最后就不提历史风尘中的各类商业皮肤库了；</p>
-
-<p>   还有开源界的各路GNome、wxWidgets、QT、TCL，到现在跨平台GUI方案的战火都烧到浏览器上了，VS Code用啥实现的，竟然是Electron；虽然效果拔群，但是总觉得哪里不对路啊；</p></li>
-<li><p>从移动手机刚刚兴起的年代，就有无数种解决方案发誓要做到"一次编写，到处运行"，兼容各大主流移动平台；如今看看，口号依旧，分裂依旧，半死不活依旧</p></li>
-<li><p>为什么历史选择TCP/IP而把ISO模型扫进教科书</p></li>
-<li><p>为什么IE打败Netscape</p></li>
-<li><p>为什么KVM逐渐压倒Xen</p></li>
-</ul>
-
-
-<p>历史只是偶然，成败听凭运气，没有什么道理好讲的。</p>
-
-<p>我只能根据有限的经验来预言：任何一种号称"大一统方案"的方案最后总是失败。</p>
-
-<p>让我们再大声诵读伟大的Fred Brooks先知的预言：没有银弹，没有银弹，没有银弹~~~</p>
 ]]></content>
   </entry>
   
