@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-07-24T14:43:13+08:00</updated>
+  <updated>2019-07-24T15:33:13+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -151,75 +151,190 @@ GET /website/_analyze
 
 <h4>内部对象数组会丢失一部分相关信息，我们需要用嵌套对象(nested object)来处理</h4>
 
+<h2>查询</h2>
+
 <h4>查询语句的结构</h4>
 
-<p>一个查询语句 的典型结构：
-```
-{</p>
-
-<pre><code>QUERY_NAME: {
-    ARGUMENT: VALUE,
-    ARGUMENT: VALUE,...
+<ul>
+<li><p>一个查询语句 的典型结构：
+<code>
+{
+  QUERY_NAME: {
+      ARGUMENT: VALUE,
+      ARGUMENT: VALUE,...
+  }
 }
-</code></pre>
-
-<p>}
-```</p>
-
-<p>如果是针对某个字段，那么它的结构如下：
-```
-{</p>
-
-<pre><code>QUERY_NAME: {
-    FIELD_NAME: {
-        ARGUMENT: VALUE,
-        ARGUMENT: VALUE,...
-    }
+</code></p></li>
+<li><p>如果是针对某个字段，那么它的结构如下：
+<code>
+{
+  QUERY_NAME: {
+      FIELD_NAME: {
+          ARGUMENT: VALUE,
+          ARGUMENT: VALUE,...
+      }
+  }
 }
-</code></pre>
-
-<p>}
-```</p>
-
-<p>一条复合语句</p>
-
-<p>```
-{</p>
-
-<pre><code>"bool": {
-    "must": { "match":   { "email": "business opportunity" }},
-    "should": [
-        { "match":       { "starred": true }},
-        { "bool": {
-            "must":      { "match": { "folder": "inbox" }},
-            "must_not":  { "match": { "spam": true }}
-        }}
-    ],
-    "minimum_should_match": 1
+</code></p></li>
+<li><p>一条复合语句
+<code>
+{
+  "bool": {
+      "must": { "match":   { "email": "business opportunity" }},
+      "should": [
+          { "match":       { "starred": true }},
+          { "bool": {
+              "must":      { "match": { "folder": "inbox" }},
+              "must_not":  { "match": { "spam": true }}
+          }}
+      ],
+      "minimum_should_match": 1
+  }
 }
-</code></pre>
+</code></p></li>
+</ul>
 
-<p>}
-```</p>
 
-<p>精确查询</p>
+<h4>实战查询</h4>
 
-<p>```
+<ul>
+<li><p>精确查询
+<code>
 GET /website/_search
+{
+"query": {
+  "constant_score" : {
+    "filter":{
+      "term": {
+        "title": "helloworld"
+      }
+    }
+  }
+}
+}
+</code></p></li>
+<li><p>多词组合
+<code>
+GET /website/_search
+{
+  "query": {
+      "match": {
+          "title": {      
+              "query":    "BROWN DOG!",
+              "operator": "and"
+          }
+      }
+  }
+}
+</code></p></li>
+<li><p>短语匹配
+<code>
+GET /website/_search
+{
+  "query": {
+      "match_phrase": {
+          "title": "quick brown fox"
+      }
+  }
+}
+</code></p></li>
+<li><p>混合短语匹配
+<code>
+GET /website/_search
+{
+  "query": {
+      "match_phrase": {
+          "title": {
+              "query": "quick fox",
+              "slop":  1
+          }
+      }
+  }
+}
+</code></p></li>
+<li><p>正则查询 (性能慢)
+<code>
+GET /my_index/_search
+{
+  "query": {
+      "wildcard": {
+          "postcode": "W?F*HW"
+      }
+  }
+}
+</code></p></li>
+<li><p>智能匹配
+<code>
+GET /my_index/_search
+{
+  "query": {
+      "match_phrase_prefix" : {
+          "brand" : {
+              "query":          "johnnie walker bl",
+              "max_expansions": 50
+              }
+      }
+  }
+}
+</code></p></li>
+<li><p>控制精度
+```
+GET /website/_search
+{
+&ldquo;query&rdquo;: {
+  &ldquo;match&rdquo;: {
+    &ldquo;title&rdquo;: {
+      &ldquo;query&rdquo;:                &ldquo;quick brown dog&rdquo;,
+      &ldquo;minimum_should_match&rdquo;: &ldquo;75%&rdquo;
+    }
+  }
+}
+}</p></li>
+</ul>
+
+
+<p>GET /website/_search
 {
   &ldquo;query&rdquo;: {</p>
 
-<pre><code>"constant_score" : {
-  "filter":{
-    "term": {
-      "title": "helloworld"
-    }
-  }
+<pre><code>"bool": {
+  "should": [
+    { "match": { "title": "brown" }},
+    { "match": { "title": "fox"   }},
+    { "match": { "title": "dog"   }}
+  ],
+  "minimum_should_match": 2 
 }
 </code></pre>
 
 <p>  }
 }
+```</p>
+
+<ul>
+<li>按受欢迎度提升权重
+```
+GET /blogposts/post/_search
+{
+&ldquo;query&rdquo;: {
+  &ldquo;function_score&rdquo;: {
+    &ldquo;query&rdquo;: {
+      &ldquo;multi_match&rdquo;: {
+        &ldquo;query&rdquo;:    &ldquo;popularity&rdquo;,
+        &ldquo;fields&rdquo;: [ &ldquo;title&rdquo;, &ldquo;content&rdquo; ]
+      }
+    },
+    &ldquo;field_value_factor&rdquo;: {
+      &ldquo;field&rdquo;: &ldquo;votes&rdquo;
+    }
+  }
+}
+}</li>
+</ul>
+
+
+<p>微调:
+<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/boosting-by-popularity.html">https://www.elastic.co/guide/cn/elasticsearch/guide/current/boosting-by-popularity.html</a>
 ```</p>
 
 <h4>排障</h4>
@@ -320,7 +435,7 @@ POST _reindex
 
 <p>```</p>
 
-<h3>释放空间</h3>
+<h4>释放空间</h4>
 
 <p><code>
 POST /_all/_forcemerge?only_expunge_deletes=true

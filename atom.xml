@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-07-24T14:43:13+08:00</updated>
+  <updated>2019-07-24T15:33:13+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -196,9 +196,14 @@
 
 <h4>内部对象数组会丢失一部分相关信息，我们需要用嵌套对象(nested object)来处理</h4>
 
+<h2>查询</h2>
+
 <h4>查询语句的结构</h4>
 
-<p>一个查询语句 的典型结构：</p>
+<ul>
+<li>一个查询语句 的典型结构：</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -216,7 +221,10 @@
 
 <p></p>
 
-<p>如果是针对某个字段，那么它的结构如下：</p>
+<ul>
+<li>如果是针对某个字段，那么它的结构如下：</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -236,7 +244,10 @@
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>一条复合语句</p>
+<ul>
+<li>一条复合语句</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -266,7 +277,12 @@
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>精确查询</p>
+<h4>实战查询</h4>
+
+<ul>
+<li>精确查询</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -292,6 +308,241 @@
 </span><span class='line'>    }
 </span><span class='line'>  }
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>多词组合</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /website/_search
+</span><span class='line'>{
+</span><span class='line'>    "query": {
+</span><span class='line'>        "match": {
+</span><span class='line'>            "title": {      
+</span><span class='line'>                "query":    "BROWN DOG!",
+</span><span class='line'>                "operator": "and"
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>短语匹配</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /website/_search
+</span><span class='line'>{
+</span><span class='line'>    "query": {
+</span><span class='line'>        "match_phrase": {
+</span><span class='line'>            "title": "quick brown fox"
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>混合短语匹配</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /website/_search
+</span><span class='line'>{
+</span><span class='line'>    "query": {
+</span><span class='line'>        "match_phrase": {
+</span><span class='line'>            "title": {
+</span><span class='line'>                "query": "quick fox",
+</span><span class='line'>                "slop":  1
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>正则查询 (性能慢)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /my_index/_search
+</span><span class='line'>{
+</span><span class='line'>    "query": {
+</span><span class='line'>        "wildcard": {
+</span><span class='line'>            "postcode": "W?F*HW" 
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>智能匹配</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /my_index/_search
+</span><span class='line'>{
+</span><span class='line'>    "query": {
+</span><span class='line'>        "match_phrase_prefix" : {
+</span><span class='line'>            "brand" : {
+</span><span class='line'>                "query":          "johnnie walker bl",
+</span><span class='line'>                "max_expansions": 50
+</span><span class='line'>                }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>控制精度</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /website/_search
+</span><span class='line'>{
+</span><span class='line'>  "query": {
+</span><span class='line'>    "match": {
+</span><span class='line'>      "title": {
+</span><span class='line'>        "query":                "quick brown dog",
+</span><span class='line'>        "minimum_should_match": "75%"
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>GET /website/_search
+</span><span class='line'>{
+</span><span class='line'>  "query": {
+</span><span class='line'>    "bool": {
+</span><span class='line'>      "should": [
+</span><span class='line'>        { "match": { "title": "brown" }},
+</span><span class='line'>        { "match": { "title": "fox"   }},
+</span><span class='line'>        { "match": { "title": "dog"   }}
+</span><span class='line'>      ],
+</span><span class='line'>      "minimum_should_match": 2 
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>按受欢迎度提升权重</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /blogposts/post/_search
+</span><span class='line'>{
+</span><span class='line'>  "query": {
+</span><span class='line'>    "function_score": { 
+</span><span class='line'>      "query": { 
+</span><span class='line'>        "multi_match": {
+</span><span class='line'>          "query":    "popularity",
+</span><span class='line'>          "fields": [ "title", "content" ]
+</span><span class='line'>        }
+</span><span class='line'>      },
+</span><span class='line'>      "field_value_factor": { 
+</span><span class='line'>        "field": "votes" 
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>微调:
+</span><span class='line'>https://www.elastic.co/guide/cn/elasticsearch/guide/current/boosting-by-popularity.html</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>排障</h4>
@@ -411,7 +662,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>释放空间</h3>
+<h4>释放空间</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>POST /_all/_forcemerge?only_expunge_deletes=true</span></code></pre></td></tr></table></div></figure>
