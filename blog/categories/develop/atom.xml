@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-07-24T15:42:23+08:00</updated>
+  <updated>2019-08-03T20:24:38+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Libssl Segfaults on python3.6 With Threading]]></title>
+    <link href="https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/"/>
+    <updated>2019-08-03T20:23:47+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading</id>
+    <content type="html"><![CDATA[<p>openssl1.0.0 和 openssl1.0.1 使用Python3.6的绑定:</p>
+
+<!-- more -->
+
+
+<p>```
+import ctypes
+import logging</p>
+
+<p>try:</p>
+
+<pre><code>ssl_library = ctypes.cdll.LoadLibrary('libeay32.dll')
+</code></pre>
+
+<p>except Exception:</p>
+
+<pre><code>ssl_library = ctypes.cdll.LoadLibrary('libssl.so')
+</code></pre>
+
+<p>def check_result(val, func, args):</p>
+
+<pre><code>if val == 0:
+    raise ValueError
+else:
+    return ctypes.c_void_p(val)
+</code></pre>
+
+<h1>ssl_library.EC_KEY_new.restype = ctypes.c_void_p</h1>
+
+<p>ssl_library.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
+ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result</p>
+
+<p>k = ssl_library.EC_KEY_new_by_curve_name(NID_secp256k1)</p>
+
+<p>if ssl_library.EC_KEY_generate_key(k) != 1:</p>
+
+<pre><code>raise Exception("internal error")
+</code></pre>
+
+<p>ssl_library.EC_KEY_free(k)
+```</p>
+
+<p>这段代码在多线程的时候会出现segmentation fault error； 是openssl1.0.0的实现问题，参考:</p>
+
+<p><a href="https://bugs.python.org/issue29340">https://bugs.python.org/issue29340</a></p>
+
+<p>需要升级至openssl1.1.0；</p>
+
+<p>这个是今天我在实现一个简单的比特币钱包的时候发现的，用函数名google了一通没发现问题；挂上gdb才追踪到了lib库里面；</p>
+
+<p>我当时通读了electrum的代码，还纳闷他为啥自己实现了一遍ECDSA，这回明白了；</p>
+
+<p>原来解决这种问题还蛮有兴致的，现在是越来越懒，有时候觉得这样效率真低啊，难道已经到了智力衰退期了，话说程序员有个35岁限制，我原来是不信的，现在有点体会了~~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Elasticserach Tips]]></title>
@@ -1204,92 +1265,6 @@ return(0);
   !: Event unrecognized
   % logout
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The History of X86]]></title>
-    <link href="https://happy123.me/blog/2018/09/12/the-history-of-x86/"/>
-    <updated>2018-09-12T10:22:01+08:00</updated>
-    <id>https://happy123.me/blog/2018/09/12/the-history-of-x86</id>
-    <content type="html"><![CDATA[<p>我们平时老看到<code>X86指令集</code>, <code>X86架构</code>等等词汇，很容易就猜到这个86来源于Intel那款名动天下的处理器&mdash;8086，那么8086的名字又是怎么来的呢？</p>
-
-<!-- more -->
-
-
-<p>这是一个遥远的传说，各种解释众说纷纭，挑两个有说服力的段子吧:</p>
-
-<h4>说法1</h4>
-
-<p>当intel发明第一颗4位的位处理器的时候，intel把他叫4004。在当时，intel也没有意识到这就是微处理器，（微处理器是后来人的说法），intel当时只是给做手持计算器的厂家来定制处理器。</p>
-
-<p>因为4004的指令集很有限，所以又搞出来了一个升级版本4040。</p>
-
-<p>8008是4004的8位版，8080是4040的8位版。</p>
-
-<p>8085是8080的单5伏电压版。</p>
-
-<p>8085升级到16位后，就叫8086了。</p>
-
-<p>嗯，还是很有逻辑的。</p>
-
-<h4>说法2</h4>
-
-<p>微处理器是在70年代末发明的。 接近80年，所以，前两个数字就是这么来的;</p>
-
-<p>当时微处理器是8位的，因此，第3个数字是8;</p>
-
-<p>在8085和8086 cpu之前，8080处理器是需要+5-5和12v电压来工作。 随着技术的进步，只需要单一的5v供电了，因此，最后一个数字是5;</p>
-
-<p>8085升级到16位后，就叫8086了;</p>
-
-<p>好吧，也说得通。</p>
-
-<h4>不管怎么说，反正Intel推出的8086在历史上的经典地位不容置疑；那我们来简单回顾一下Intel CPU发展的历史吧</h4>
-
-<ul>
-<li><p>20世纪70年代末，Intel生产了著名的16位8086处理器，之后又推出了80186与80286；</p></li>
-<li><p>1985年，Intel继摩托罗拉之后，第二个研制出32位的微处理器80386；</p></li>
-<li><p>8086、80286、80386等等，这一系列CPU就称作x86，正式一点称作IA-32（Intel Architecture 32-bit）。正是这个架构开启了Intel在个人PC CPU领域的无敌之路，后来的操作系统、编译器、应用软件无一不是把<code>适配X86指令</code>作为核心竞争力；</p></li>
-<li><p>1989年，Intel推出80486处理器，具有浮点运算功能；</p></li>
-<li><p>因为当初与Intel竞争微处理器的摩托罗拉公司是以86开头的，如68000，68010，68020，而且AMD也崭露头角，他们也搞出来AM386，AM486等等，令Intel不胜其烦；而当时的法律不允许将数字注册为商标，于是1993年，Intel推出奔腾(Pentium)处理器，不再以数字命名其产品；Pentium刚刚推出的时候，命名及其混乱，有人叫I586，有人叫P5，有人叫PI，还有人叫奔腾的芯，更别提什么梦幻神器，裸奔天下等等搞笑名词了~~不管怎么说，那时候伴随我们记忆的不只是Pentium这个名字，还有那个经典的"等等等你等"的广告音乐，Intel又凭借Pentium这个架构继续无敌并寂寞着</p></li>
-<li><p>在Pentium时代，其实AMD也不是毫无作为，老一代DIY玩家们一定还对Athlon K7的传说记忆犹新，尤其是当时那些拉风的译名，什么"速龙"、"毒龙"、"钻龙"等等，我得说，这个时期的农企实在是很时髦，远远不像他们后来的市场部那么傻13</p></li>
-<li><p>当然，当时最璀璨的舞者，我只献给活在DIYer心里那个最美好的名字&mdash;图拉丁赛扬；正是这款CPU成为了许多人的电脑时代的启蒙者</p></li>
-<li><p>2001年开始，Intel将用于服务器以及工作站的Pentium 4 Xeon独立成全新的品牌“Xeon”（至强）)；正如这个名字所蕴含的霸气一样，这个品牌延续到了今天</p></li>
-<li><p>2006年，Intel发布“Core”（酷睿）品牌，用作英特尔的旗舰级处理器系列的新品品牌； 然后，这个品牌经历了数代架构更迭，一直伴随我们到了今天</p></li>
-<li><p>同样的，围绕指令集从32位跃迁到64位的过程中，AMD和Interl在这段时间还爆发了一场惊天缠斗；Intel作为CPU市场的领跑者，觉得自己理应主导32位到64位时代跃进的浪潮；早在Pentium时代，他们就制定了Intel 64计划；然而，由于一个大公司内部的种种政治斗争，市场斗争，人的本性里面悲剧的傲慢，这个过程种出现了种种败着昏棋，最终AMD64架构在IA-32上新增了64位寄存器，并兼容早期的16位和32位软件，可使现有以x86为对象的编译器容易转为AMD64版本，在2003年9月推出了AMD64；在64位时代由追随者变成领跑者</p></li>
-<li><p>Intel此时如梦方醒，慌忙将AMD的指令集拿过来稍作加工推出自己的兼容产品；然后就是两个公司营销和市场人员、法律人员旷日持久的撕逼大战；中间诞生了许许多多匪夷所思的营销名词，比如A64, I64, IA32E，iAMD64，Intel64，X86-64等等等等；如果你是一个Linux爱好者，很容易看到各个软件包都会注明Amd64, X86_64等等，这是那场混乱大战的遗留物</p></li>
-</ul>
-
-
-<h4>总结一下现在的主流</h4>
-
-<ul>
-<li><p>32/64 位系统编译在32位系统上运行 => x86</p></li>
-<li><p>32 系统上编译64位系统上运行 => x86_amd64</p></li>
-<li><p>64 系统上编译在64位系统上运行 => amd64</p></li>
-</ul>
-
-
-<h4>看看MSDN的解释:</h4>
-
-<blockquote><p>The following list describes the various versions of cl.exe (the Visual C++ compiler):</p>
-
-<p>x86 on x86
-Allows you to create output files for x86 machines. This version of cl.exe runs as a 32-bit process, native on an x86 machine and under WOW64 on a 64-bit Widows operating system.
-Itanium on x86 (Itanium cross-compiler)
-Allows you to create output files for Itanium. This version of cl.exe runs as a 32-bit process, native on an x86 machine and under WOW64 on a 64-bit Widows operating system.</p>
-
-<p>x64 on x86 (x64 cross-compiler)
-Allows you to create output files for x64. This version of cl.exe runs as a 32-bit process, native on an x86 machine and under WOW64 on a 64-bit Widows operating system.</p>
-
-<p>Itanium on Itanium
-Allows you to create output files for Itanium. This version of cl.exe runs as a native process on an Itanium machine.</p>
-
-<p>x64 on x64
-Allows you to create output files for x64. This version of cl.exe runs as a native process on an x64 machine.</p></blockquote>
-
-<h4>总之CPU的历史生动说明了了计算机界的很多老梗是如何诞生的，比如很多人都疑惑为什么Windows的发布名称是Win95->W98->W98SE->Win2000(NT)&ndash;>WinXP->Vista->Win7->Win10，等等等等；这种现象是商业环境、市场营销、法律风险以及随意拍脑门的高管，放荡不羁的开发团队合力促成的~~~</h4>
 ]]></content>
   </entry>
   

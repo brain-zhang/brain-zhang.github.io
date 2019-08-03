@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Libssl Segfaults on python3.6 With Threading - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="memoryboxes">
+
+  
+  <meta name="description" content="openssl1.0.0 和 openssl1.0.1 使用Python3.6的绑定: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+import ctypes
+import logging try: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Libssl Segfaults on python3.6 With Threading</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-08-03T20:23:47+08:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2019</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>openssl1.0.0 和 openssl1.0.1 使用Python3.6的绑定:</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import ctypes
+</span><span class='line'>import logging
+</span><span class='line'>
+</span><span class='line'>try:
+</span><span class='line'>    ssl_library = ctypes.cdll.LoadLibrary('libeay32.dll')
+</span><span class='line'>except Exception:
+</span><span class='line'>    ssl_library = ctypes.cdll.LoadLibrary('libssl.so')
+</span><span class='line'>
+</span><span class='line'>def check_result(val, func, args):
+</span><span class='line'>    if val == 0:
+</span><span class='line'>        raise ValueError
+</span><span class='line'>    else:
+</span><span class='line'>        return ctypes.c_void_p(val)
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'># ssl_library.EC_KEY_new.restype = ctypes.c_void_p
+</span><span class='line'>ssl_library.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
+</span><span class='line'>ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result
+</span><span class='line'>
+</span><span class='line'>k = ssl_library.EC_KEY_new_by_curve_name(NID_secp256k1)
+</span><span class='line'>
+</span><span class='line'>if ssl_library.EC_KEY_generate_key(k) != 1:
+</span><span class='line'>    raise Exception("internal error")
+</span><span class='line'>ssl_library.EC_KEY_free(k)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这段代码在多线程的时候会出现segmentation fault error； 是openssl1.0.0的实现问题，参考:</p>
+
+<p><a href="https://bugs.python.org/issue29340">https://bugs.python.org/issue29340</a></p>
+
+<p>需要升级至openssl1.1.0；</p>
+
+<p>这个是今天我在实现一个简单的比特币钱包的时候发现的，用函数名google了一通没发现问题；挂上gdb才追踪到了lib库里面；</p>
+
+<p>我当时通读了electrum的代码，还纳闷他为啥自己实现了一遍ECDSA，这回明白了；</p>
+
+<p>原来解决这种问题还蛮有兴致的，现在是越来越懒，有时候觉得这样效率真低啊，难道已经到了智力衰退期了，话说程序员有个35岁限制，我原来是不信的，现在有点体会了~~~</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-08-03T20:23:47+08:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/develop/'>develop</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/07/24/elasticserach-tips/" title="Previous Post: elasticserach tips">&laquo; elasticserach tips</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">Libssl Segfaults on python3.6 With Threading</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/07/24/elasticserach-tips/">Elasticserach Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/">Python捕获所有异常</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/06/22/fu-li-shi-shi-jie-di-ba-da-qi-ji-ai-yin-si-tan-zhen-de-shuo-guo-zhe-ju-hua-ma/">复利是世界第八大奇迹-爱因斯坦真的说过这句话吗?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/06/22/huo-bi-shi-pao-mo/">货币是泡沫?</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'memoryboxes',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - memoryboxes -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/';
+        var disqus_url = 'https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

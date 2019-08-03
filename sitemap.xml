@@ -797,8 +797,14 @@
         <lastmod>2019-07-24T15:42:15+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/
+        </loc>
+        <lastmod>2019-08-03T20:24:20+08:00</lastmod>
+    </url>
+    <url>
         <loc>https://happy123.me/</loc>
-        <lastmod>2019-07-24T15:42:15+08:00</lastmod>
+        <lastmod>2019-08-03T20:24:20+08:00</lastmod>
     </url>
     <url>
         <loc>https://happy123.me/privacy/</loc>
@@ -810,7 +816,7 @@
     </url>
     <url>
         <loc>https://happy123.me/blog/archives/</loc>
-        <lastmod>2019-07-24T15:42:15+08:00</lastmod>
+        <lastmod>2019-08-03T20:24:20+08:00</lastmod>
     </url>
     <url>
         <loc>https://happy123.me/robots.txt</loc>

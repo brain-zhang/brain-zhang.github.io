@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-07-24T15:42:23+08:00</updated>
+  <updated>2019-08-03T20:24:38+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Libssl Segfaults on python3.6 With Threading]]></title>
+    <link href="https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/"/>
+    <updated>2019-08-03T20:23:47+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading</id>
+    <content type="html"><![CDATA[<p>openssl1.0.0 和 openssl1.0.1 使用Python3.6的绑定:</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import ctypes
+</span><span class='line'>import logging
+</span><span class='line'>
+</span><span class='line'>try:
+</span><span class='line'>    ssl_library = ctypes.cdll.LoadLibrary('libeay32.dll')
+</span><span class='line'>except Exception:
+</span><span class='line'>    ssl_library = ctypes.cdll.LoadLibrary('libssl.so')
+</span><span class='line'>
+</span><span class='line'>def check_result(val, func, args):
+</span><span class='line'>    if val == 0:
+</span><span class='line'>        raise ValueError
+</span><span class='line'>    else:
+</span><span class='line'>        return ctypes.c_void_p(val)
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'># ssl_library.EC_KEY_new.restype = ctypes.c_void_p
+</span><span class='line'>ssl_library.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
+</span><span class='line'>ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result
+</span><span class='line'>
+</span><span class='line'>k = ssl_library.EC_KEY_new_by_curve_name(NID_secp256k1)
+</span><span class='line'>
+</span><span class='line'>if ssl_library.EC_KEY_generate_key(k) != 1:
+</span><span class='line'>    raise Exception("internal error")
+</span><span class='line'>ssl_library.EC_KEY_free(k)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这段代码在多线程的时候会出现segmentation fault error； 是openssl1.0.0的实现问题，参考:</p>
+
+<p><a href="https://bugs.python.org/issue29340">https://bugs.python.org/issue29340</a></p>
+
+<p>需要升级至openssl1.1.0；</p>
+
+<p>这个是今天我在实现一个简单的比特币钱包的时候发现的，用函数名google了一通没发现问题；挂上gdb才追踪到了lib库里面；</p>
+
+<p>我当时通读了electrum的代码，还纳闷他为啥自己实现了一遍ECDSA，这回明白了；</p>
+
+<p>原来解决这种问题还蛮有兴致的，现在是越来越懒，有时候觉得这样效率真低啊，难道已经到了智力衰退期了，话说程序员有个35岁限制，我原来是不信的，现在有点体会了~~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Elasticserach Tips]]></title>
@@ -4428,111 +4504,6 @@ Timelock：在某个时间点之前，你不能花这笔钱。只有这个时间
 <p><a href="https://medium.com/@creole">https://medium.com/@creole</a></p>
 
 <p>好啦，为了能在未来的世界里面不落人后，我们要继续学习，等我们之后的文章吧。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一种提高比特币私钥碰撞机率的思路]]></title>
-    <link href="https://happy123.me/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/"/>
-    <updated>2019-01-18T10:41:40+08:00</updated>
-    <id>https://happy123.me/blog/2019/01/18/[?]-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu</id>
-    <content type="html"><![CDATA[<p>之前的文章里面我们提到了一个名为<a href="https://lbc.cryptoguru.org">LBC</a>的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。</p>
-
-<p>这个项目本身详尽<a href="https://lbc.cryptoguru.org/stats">计算了这种碰撞成功的几率</a>，目前碰撞空间大概在 2<sup>136</sup> 级别。</p>
-
-<p>目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>AWS p2.8xlarge   32 vCores Xeon v4, 8x K80 GPUs (50% each)   ~80-88M/s</span></code></pre></td></tr></table></div></figure>
-
-
-<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2^136 / 2^30 = 2 ^106</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2<sup>106</sup> 级别的碰撞效率还是遥遥无期啊；</p>
-
-<!-- more -->
-
-
-<p>如果通读我们之前的文章就知道，比特币地址的生成，主要花费在ECDSA、SHA256, RIPEMD 这三个算法的操作之上，但其实用GPU计算，这三个步骤花费的时间是很少的，在整个碰撞过程中，其实大部分时间是耗费在bloomfilter上面的；</p>
-
-<p>而bloomfilter的原理，采用的是多级HASHMAP，常理来看，这已经是判断一个元素是否存在某集合的极限效率了；</p>
-
-<p>但是有一点我们不要忘记，比特币的地址采用base58编码，他的地址空间是有规律的，简单来说，就是所有比特币地址的前缀分布，是有规律可循的，他应该在base58的编码范围内成正态分布；而bloomfilter的HASHMAP是没有这种条件优化的，所以说bloomfilter的算法我们可以再改进一下，提升效率。</p>
-
-<p>我分析了截至2018-12以前的所有比特币地址，简便起见，提取了所有的P2PKH地址(共
-377059211个地址)，取其前4个字符地址前缀；执行:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sort 4prefix.addr|uniq -c|sort -nr</span></code></pre></td></tr></table></div></figure>
-
-
-<p>得到了所有地址前缀的分布列表，差不多是个正态分布。</p>
-
-<p>列举一下最常用的地址前缀TOP10:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  23600 1bit
-</span><span class='line'>  23086 1btc
-</span><span class='line'>  21895 13vs
-</span><span class='line'>  21329 1gbx
-</span><span class='line'>  21267 1gbt
-</span><span class='line'>  21267 1gba
-</span><span class='line'>  21210 1gbb
-</span><span class='line'>  21206 1gbf
-</span><span class='line'>  21196 1gbu
-</span><span class='line'>  21189 1gbr</span></code></pre></td></tr></table></div></figure>
-
-
-<p>最常见的是1bit和1btc这两个前缀，各比第三名多出了10000个左右，这多出来20000个地址应该是Geek们自己生成的虚荣地址。</p>
-
-<p>所有的比特币P2PKH地址，4字母前缀共有42877种组合。</p>
-
-<p>好了，这就是我们可以优化的地方，把bloomfilter的第一级HASHMAP，采用这些前缀组合先来一把过滤，再去执行常规的Bloomfilter，碰撞效率会再提高一个数量级。</p>
-
-<p>我在自己机器上实验了一下，在GTX750Ti 2G显卡上面，最终效率可以达到 10M/s。</p>
-
-<p>瓶颈现在又变成了genaddress环节，我估计在一块RX480卡上面，可以达到和AWS顶配GPU一样的效率；</p>
-
-<p>不过，效率提升十倍，也不过是 2<sup>100</sup> 的碰撞范围，还是遥遥无期啊。</p>
-
-<h4>更深入的分析</h4>
-
-<p>早期在bitcointalk.org论坛上，Laszlo Hanyecz曾经有过一个想法，就是随着硬件性能的发展，最终碰撞比特币私钥的收益会不会超过挖矿的收益？</p>
-
-<p>中本聪当时的回答是，要达到这个碰撞算力很远很远。</p>
-
-<p>我们来仔细分析一下：</p>
-
-<p>比特币的地址生成是很容易硬件ASIC化的，如果用这种前缀过滤法，也不需要多少内存，所以可以近似认为：如果硬件化，比特币私钥碰撞的效率和挖矿效率是差不多的。</p>
-
-<p>目前比特币全网算力在40EH左右，就是2<sup>62</sup>，这已经是相当于400w台蚂蚁S9的机器同时24X365 运行了；消耗的电力估计已经超过了上海市的居民用电，比特币矿机的能源消耗，完全可以说是抵得上一个小型国家的能源消耗了。</p>
-
-<p>如果私钥碰撞达到2<sup>62</sup>级别，那么毛估估，碰撞几率就能减小到 &frac12;<sup>60</sup> 级别了；</p>
-
-<p>但是这个概率还是太低了。</p>
-
-<p>而且另外一个无法预测的情况就是，将来人们的安全意识加强，一般一个地址只要用过就会丢弃掉，所以最终bloomfilter的条目变化会非常频繁，还要考虑一个数量级的损耗。</p>
-
-<p>目前测算，随着手续费用的提高，即使多次减半，将来挖矿的收益估计很长期稳定1-10btc/block级别，在如果将来以1年时间碰撞一个私钥的概率期望测算的话，一年大概是2<sup>25</sup> 秒，这样碰撞效率至少要提高到 2<sup>95</sup> 级别，才能达到<code>破解私钥得利</code>><code>挖矿得利</code> 的效果；</p>
-
-<p>算力提高到2<sup>95</sup>，不管用什么技术，即使是量子计算，也很难想象能到这个量级啊；</p>
-
-<p>而且，即使到了这一天，把RIPEMD替换成一种碰撞空间更大的算法就OK了。</p>
-
-<p>这样看来，bitcoin的安全性还是无懈可击。</p>
 ]]></content>
   </entry>
   
