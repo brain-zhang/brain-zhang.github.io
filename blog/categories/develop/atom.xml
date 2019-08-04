@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-04T09:41:47+08:00</updated>
+  <updated>2019-08-04T11:12:56+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -364,10 +364,38 @@ ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result</p>
 <pre><code>raise Exception("internal error")
 </code></pre>
 
-<p>ssl_library.EC_KEY_free(k)
+<p>ssl_library.EC_KEY_free(k)</p>
+
+<p>```</p>
+
+<p>这段代码在多线程的时候会出现segmentation fault error； google一下发现<code>EC_KEY_generate_key</code>并不是线程安全的；于是:</p>
+
+<p>```
+openssl_locks = [threading.Lock() for _ in range(ssl_library.CRYPTO_num_locks())]
+openssl_locking_function = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int, ctypes.c_char_p, ctypes.c_int)
+openssl_threadid_function = ctypes.CFUNCTYPE(ctypes.c_ulong)</p>
+
+<p>@openssl_locking_function
+def openssl_lock(mode, type, file, line):</p>
+
+<pre><code>if (mode &amp; CRYPTO_LOCK) != 0:
+    openssl_locks[type].acquire()
+else:
+    openssl_locks[type].release()
+</code></pre>
+
+<p>@openssl_threadid_function
+def openssl_threadid():</p>
+
+<pre><code>v = threading.current_thread().ident
+return v
+</code></pre>
+
+<p>ssl_library.CRYPTO_set_id_callback(openssl_threadid)
+ssl_library.CRYPTO_set_locking_callback(openssl_lock)
 ```</p>
 
-<p>这段代码在多线程的时候会出现segmentation fault error； 是openssl1.0.0的实现问题，参考:</p>
+<p>诡异的是还是不定时的crash掉，又一通google之后发现是openssl1.0.0的实现问题，参考:</p>
 
 <p><a href="https://bugs.python.org/issue29340">https://bugs.python.org/issue29340</a></p>
 
