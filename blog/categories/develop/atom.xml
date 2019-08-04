@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-04T07:05:45+08:00</updated>
+  <updated>2019-08-04T09:38:56+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
@@ -12,6 +12,313 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SSL&TLS Tips]]></title>
+    <link href="https://happy123.me/blog/2019/08/04/ssl-tls-tips/"/>
+    <updated>2019-08-04T09:35:42+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/04/ssl-tls-tips</id>
+    <content type="html"><![CDATA[<p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz&hellip;..</p>
+
+<p>话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~</p>
+
+<!-- more -->
+
+
+<p>现在有两个选择:</p>
+
+<ol>
+<li>放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦</li>
+<li>死磕openssl，把它彻底搞明白</li>
+</ol>
+
+
+<p>利弊权衡之下我选择了1，不过当然我也在2上花了一点时间，复习了一下基础知识，在此记录下来。</p>
+
+<h3>libssl3是个什么东东</h3>
+
+<p>在探究libssl.so的时候，我无意发现我的系统里面还有一个libssl3.so；这个是什么东东？我印象里面openssl还只有1.x版本才对；</p>
+
+<p>我在ubuntu16.04下查看这个so文件来源;</p>
+
+<p><code>
+~ locate libssl3.so
+/usr/lib/x86_64-linux-gnu/libssl3.so
+</code></p>
+
+<p>nm看一下:</p>
+
+<p>```
+~ nm /usr/lib/x86_64-linux-gnu/libssl3.so
+nm: /usr/lib/x86_64-linux-gnu/libssl3.so: no symbols</p>
+
+<p>```</p>
+
+<p>奇怪，没有任何符号；继续用ldd看一下：</p>
+
+<p>```
+~ ldd /usr/lib/x86_64-linux-gnu/libssl3.so
+ldd /usr/lib/x86_64-linux-gnu/libssl3.so</p>
+
+<pre><code>    linux-vdso.so.1 =&gt;  (0x00007ffe833bb000)
+    libnss3.so =&gt; /usr/lib/x86_64-linux-gnu/libnss3.so (0x00007faf3cc8a000)
+    libnssutil3.so =&gt; /usr/lib/x86_64-linux-gnu/libnssutil3.so (0x00007faf3ca5d000)
+    libplc4.so =&gt; /usr/lib/x86_64-linux-gnu/libplc4.so (0x00007faf3c858000)
+    libnspr4.so =&gt; /usr/lib/x86_64-linux-gnu/libnspr4.so (0x00007faf3c619000)
+    libpthread.so.0 =&gt; /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007faf3c3fc000)
+    libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007faf3c032000)
+    libz.so.1 =&gt; /lib/x86_64-linux-gnu/libz.so.1 (0x00007faf3be18000)
+    libplds4.so =&gt; /usr/lib/x86_64-linux-gnu/libplds4.so (0x00007faf3bc14000)
+    libdl.so.2 =&gt; /lib/x86_64-linux-gnu/libdl.so.2 (0x00007faf3ba10000)
+    librt.so.1 =&gt; /lib/x86_64-linux-gnu/librt.so.1 (0x00007faf3b808000)
+    /lib64/ld-linux-x86-64.so.2 (0x00007faf3d21d000)
+</code></pre>
+
+<p>```</p>
+
+<p>嗯，找到了一个有意思的依赖:libnss3.so</p>
+
+<p>再用命令dpkg看一下</p>
+
+<p><code>
+~ dpkg -S /usr/lib/x86_64-linux-gnu/libnss3.so
+libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so
+</code></p>
+
+<p>基本上确定是libnss3这个库引入的libssl3.so了，最后再用dpkg确认一下:</p>
+
+<p><code>
+~ dpkg-query -L libnss3
+/.
+/usr
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libnssutil3.so
+/usr/lib/x86_64-linux-gnu/nss
+/usr/lib/x86_64-linux-gnu/nss/libfreebl3.chk
+/usr/lib/x86_64-linux-gnu/nss/libnssckbi.so
+/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
+/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.chk
+/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.chk
+/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.so
+/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.chk
+/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.so
+/usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
+/usr/lib/x86_64-linux-gnu/nss/libnsssysinit.so
+/usr/lib/x86_64-linux-gnu/libsmime3.so
+/usr/lib/x86_64-linux-gnu/libnss3.so
+/usr/lib/x86_64-linux-gnu/libssl3.so
+/usr/share
+/usr/share/doc
+/usr/share/doc/libnss3
+/usr/share/doc/libnss3/copyright
+/usr/share/doc/libnss3/changelog.Debian.gz
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/libnss3
+</code></p>
+
+<h3>libnss3是个什么东东?</h3>
+
+<p><code>
+apt-cache show libnss3
+</code></p>
+
+<p>看了一下，发现是mozilla基金会搞得东东；再google一下，发现是自己孤陋寡闻了；</p>
+
+<p>原来，SSL&amp;TSL的实现，不只是openssl一家独大，像Mozilla Firefox就用自家实现的Nss；</p>
+
+<p>Google Chrome之前也是用Nss的，后来赚到了openssl，再后来，2014年，openssl1.0.1出现了heartbeat 漏洞，Google干脆自己开了个分支，用自己定制的openssl了；</p>
+
+<p>至于Windows平台的，还有C++阵营的，都有自己实现的ssl库，具体可参见:</p>
+
+<p><a href="https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter">https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</a></p>
+
+<h3>nss在centos中</h3>
+
+<p>搜素的过程中，我惊奇的发现，ubuntu和centos上面的curl，竟然链接的libssl也不一样：</p>
+
+<p>ubuntu上的curl默认链接的是openssl，而centos上面默认链接的是libnss3；</p>
+
+<p>耐人寻味啊，莫非redhat系的人发现了什么~~~~</p>
+
+<p>做事要做全套，我分别切换到ubuntu16.04和centos7.2上面，看看他们官方仓库中自带的curl是如何编译的。</p>
+
+<h4>centos7.2</h4>
+
+<p><code>
+~ rpm -q --requires curl
+libc.so.6()(64bit)
+libc.so.6(GLIBC_2.14)(64bit)
+libc.so.6(GLIBC_2.17)(64bit)
+libc.so.6(GLIBC_2.2.5)(64bit)
+libc.so.6(GLIBC_2.3)(64bit)
+libc.so.6(GLIBC_2.4)(64bit)
+libc.so.6(GLIBC_2.7)(64bit)
+libcurl = 7.29.0-51.el7
+libcurl.so.4()(64bit)
+libdl.so.2()(64bit)
+libnspr4.so()(64bit)
+libnss3.so()(64bit)
+libnssutil3.so()(64bit)
+libplc4.so()(64bit)
+libplds4.so()(64bit)
+libpthread.so.0()(64bit)
+libpthread.so.0(GLIBC_2.2.5)(64bit)
+libsmime3.so()(64bit)
+libssl3.so()(64bit)
+libz.so.1()(64bit)
+rpmlib(CompressedFileNames) &lt;= 3.0.4-1
+rpmlib(FileDigests) &lt;= 4.6.0-1
+rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
+rtld(GNU_HASH)
+rpmlib(PayloadIsXz) &lt;= 5.2-1
+</code>
+用的是libcurl = 7.29.0-51.el7；</p>
+
+<p>```
+~ rpm -q &mdash;requires libcurl
+/sbin/ldconfig
+libc.so.6()(64bit)
+libc.so.6(GLIBC_2.14)(64bit)
+libc.so.6(GLIBC_2.15)(64bit)
+libc.so.6(GLIBC_2.16)(64bit)
+libc.so.6(GLIBC_2.17)(64bit)
+libc.so.6(GLIBC_2.2.5)(64bit)
+libc.so.6(GLIBC_2.3)(64bit)
+libc.so.6(GLIBC_2.3.4)(64bit)
+libc.so.6(GLIBC_2.4)(64bit)
+libc.so.6(GLIBC_2.7)(64bit)
+libcom_err.so.2()(64bit)
+libdl.so.2()(64bit)
+libgssapi_krb5.so.2()(64bit)
+libgssapi_krb5.so.2(gssapi_krb5_2_MIT)(64bit)
+libidn.so.11()(64bit)
+libidn.so.11(LIBIDN_1.0)(64bit)
+libk5crypto.so.3()(64bit)
+libkrb5.so.3()(64bit)
+liblber-2.4.so.2()(64bit)
+libldap-2.4.so.2()(64bit)
+libnspr4.so()(64bit)
+libnss3.so()(64bit)
+libnss3.so(NSS_3.10)(64bit)
+libnss3.so(NSS_3.12.1)(64bit)
+libnss3.so(NSS_3.12.5)(64bit)
+libnss3.so(NSS_3.2)(64bit)</p>
+
+<p>&hellip;.
+<code>
+看到libnss3了,重点输出：
+</code>
+libnss3.so
+```
+那么这个包是谁提供的？输入如下命令：</p>
+
+<p>```
+~ rpm -qf /usr/lib64/libnss3.so</p>
+
+<pre><code>nss-3.36.0-7.1.el7_6.x86_64
+</code></pre>
+
+<p>~ rpm -ql nss
+/etc/pki/nss-legacy
+/etc/pki/nss-legacy/nss-rhel7.config
+/etc/pki/nssdb
+/etc/pki/nssdb/cert8.db
+/etc/pki/nssdb/cert9.db
+/etc/pki/nssdb/key3.db
+/etc/pki/nssdb/key4.db
+/etc/pki/nssdb/pkcs11.txt
+/etc/pki/nssdb/secmod.db
+/usr/lib64/libnss3.so
+/usr/lib64/libnssckbi.so
+/usr/lib64/libsmime3.so
+/usr/lib64/libssl3.so
+/usr/lib64/nss/libnssckbi.so
+&hellip;
+```
+至此水落石出，还可以看到我们熟悉的证书cert8.db文件；但其实 curl 最终使用的根证书库并不是该文件。那 curl 使用的根证书文件在哪儿呢？</p>
+
+<p>使用 curl-config 命令行工具，能够了解更多：
+<code>
+~ curl-config --ca
+/etc/pki/tls/certs/ca-bundle.crt
+</code></p>
+
+<h4>ubuntu16.04</h4>
+
+<p>ubuntu16上面验证类似，不一一说明了~~~</p>
+
+<p>```
+~ dpkg-query -L libcurl3
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/libcurl3
+/usr/share/doc/libcurl3/copyright
+/usr/share/doc/libcurl3/changelog.Debian.gz
+/usr/share/doc/libcurl3/NEWS.Debian.gz
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/libcurl3
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
+/usr/lib/x86_64-linux-gnu/libcurl.so.3
+/usr/lib/x86_64-linux-gnu/libcurl.so.4</p>
+
+<p>```</p>
+
+<p><code>
+~ apt-cache depends  libcurl3
+  Depends: libc6
+  Depends: libgssapi-krb5-2
+  Depends: libidn11
+  Depends: libldap-2.4-2
+  Depends: librtmp1
+  Depends: libssl1.0.0
+  Depends: zlib1g
+  Recommends: ca-certificates
+</code></p>
+
+<p>然后寻找libcurl的依赖库:</p>
+
+<p><code>
+~ ldd /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0|grep ssl
+libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)
+</code></p>
+
+<p>验证一下:</p>
+
+<p>```
+~ apt-cache depends openssl
+openssl
+  Depends: libc6
+  Depends: libssl1.0.0
+  Suggests: ca-certificates</p>
+
+<p>~ apt-cache rdepends  libssl1.0.0 | grep curl
+  libcurl3
+```</p>
+
+<h3>总结</h3>
+
+<p>所以这就是想要解决一个问题的中途，又被带到了另外一条小路上；该说我是还有那么一点好奇心呢？还是注意力不集中呢？</p>
+
+<p>Orz&hellip;&hellip;&hellip;</p>
+
+<h3>参考资料:</h3>
+
+<p><a href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
+
+<p><a href="https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter">https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</a></p>
+
+<p><a href="https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E">https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E</a></p>
+
+<p><a href="https://www.lbbniu.com/6680.html">https://www.lbbniu.com/6680.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Libssl Segfaults on python3.6 With Threading]]></title>
@@ -777,494 +1084,6 @@ vX.Y.Z
 <p><a href="https://github.com/golang/go/wiki/Modules">https://github.com/golang/go/wiki/Modules</a></p>
 
 <p><a href="https://windmt.com/2018/11/08/first-look-go-modules/">https://windmt.com/2018/11/08/first-look-go-modules/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Evolution of a Programmer]]></title>
-    <link href="https://happy123.me/blog/2018/10/06/the-evolution-of-a-programmer/"/>
-    <updated>2018-10-06T17:22:54+08:00</updated>
-    <id>https://happy123.me/blog/2018/10/06/the-evolution-of-a-programmer</id>
-    <content type="html"><![CDATA[<p>快有二十年的老段子了，最近又看到很多次，莫非是邪恶旧势力的崛起？存档一下。</p>
-
-<!-- more -->
-
-
-<h4>High School/Jr.High</h4>
-
-<p><code>
-  10 PRINT "HELLO WORLD"
-  20 END
-</code></p>
-
-<h4>First year in College</h4>
-
-<p>```
-  program Hello(input, output)</p>
-
-<pre><code>begin
-  writeln('Hello World')
-end.
-</code></pre>
-
-<p>```</p>
-
-<h4>Senior year in College</h4>
-
-<p>```
-  (defun hello</p>
-
-<pre><code>(print
-  (cons 'Hello (list 'World))))
-</code></pre>
-
-<p>```</p>
-
-<h4>New professional</h4>
-
-<p>```
-  #include &lt;stdio.h>
-  void main(void)
-  {</p>
-
-<pre><code>char *message[] = {"Hello ", "World"};
-int i;
-
-for(i = 0; i &lt; 2; ++i)
-  printf("%s", message[i]);
-printf("\n");
-</code></pre>
-
-<p>  }
-```</p>
-
-<h4>Seasoned professional</h4>
-
-<p>```
-  #include &lt;iostream.h>
-  #include &lt;string.h></p>
-
-<p>  class string
-  {
-  private:</p>
-
-<pre><code>int size;
-char *ptr;
-</code></pre>
-
-<p>  string() : size(0), ptr(new char[1]) { ptr[0] = 0; }</p>
-
-<pre><code>string(const string &amp;s) : size(s.size)
-{
-  ptr = new char[size + 1];
-  strcpy(ptr, s.ptr);
-}
-
-~string()
-{
-  delete [] ptr;
-}
-
-friend ostream &amp;operator &lt;&lt;(ostream &amp;, const string &amp;);
-string &amp;operator=(const char *);
-</code></pre>
-
-<p>  };</p>
-
-<p>  ostream &amp;operator&lt;&lt;(ostream &amp;stream, const string &amp;s)
-  {</p>
-
-<pre><code>return(stream &lt;&lt; s.ptr);
-</code></pre>
-
-<p>  }</p>
-
-<p>  string &amp;string::operator=(const char *chrs)
-  {</p>
-
-<pre><code>if (this != &amp;chrs)
-{
-  delete [] ptr;
- size = strlen(chrs);
-  ptr = new char[size + 1];
-  strcpy(ptr, chrs);
-}
-return(*this);
-</code></pre>
-
-<p>  }</p>
-
-<p>  int main()
-  {</p>
-
-<pre><code>string str;
-
-str = "Hello World";
-cout &lt;&lt; str &lt;&lt; endl;
-
-return(0);
-</code></pre>
-
-<p>  }
-```</p>
-
-<h4>Master Programmer</h4>
-
-<p>```
-  [
-  uuid(2573F8F4-CFEE-101A-9A9F-00AA00342820)
-  ]
-  library LHello
-  {</p>
-
-<pre><code>  // bring in the master library
-  importlib("actimp.tlb");
-  importlib("actexp.tlb");
-
-  // bring in my interfaces
-  #include "pshlo.idl"
-
-  [
-  uuid(2573F8F5-CFEE-101A-9A9F-00AA00342820)
-  ]
-  cotype THello
-</code></pre>
-
-<p>   {
-   interface IHello;
-   interface IPersistFile;
-   };
-  };</p>
-
-<p>  [
-  exe,
-  uuid(2573F890-CFEE-101A-9A9F-00AA00342820)
-  ]
-  module CHelloLib
-  {</p>
-
-<pre><code>  // some code related header files
-  importheader(&lt;windows.h&gt;);
-  importheader(&lt;ole2.h&gt;);
-  importheader(&lt;except.hxx&gt;);
-  importheader("pshlo.h");
-  importheader("shlo.hxx");
-  importheader("mycls.hxx");
-
-  // needed typelibs
-  importlib("actimp.tlb");
-  importlib("actexp.tlb");
-  importlib("thlo.tlb");
-
-  [
-  uuid(2573F891-CFEE-101A-9A9F-00AA00342820),
-  aggregatable
-  ]
-  coclass CHello
-</code></pre>
-
-<p>   {
-   cotype THello;
-   };
-  };</p>
-
-<p>  #include &ldquo;ipfix.hxx&rdquo;</p>
-
-<p>  extern HANDLE hEvent;</p>
-
-<p>  class CHello : public CHelloBase
-  {
-  public:</p>
-
-<pre><code>  IPFIX(CLSID_CHello);
-
-  CHello(IUnknown *pUnk);
-  ~CHello();
-
-  HRESULT  __stdcall PrintSz(LPWSTR pwszString);
-</code></pre>
-
-<p>  private:</p>
-
-<pre><code>  static int cObjRef;
-</code></pre>
-
-<p>  };</p>
-
-<p>  #include &lt;windows.h>
-  #include &lt;ole2.h>
-  #include &lt;stdio.h>
-  #include &lt;stdlib.h>
-  #include &ldquo;thlo.h&rdquo;
-  #include &ldquo;pshlo.h&rdquo;
-  #include &ldquo;shlo.hxx&rdquo;
-  #include &ldquo;mycls.hxx&rdquo;</p>
-
-<p>  int CHello::cObjRef = 0;</p>
-
-<p>  CHello::CHello(IUnknown *pUnk) : CHelloBase(pUnk)
-  {</p>
-
-<pre><code>  cObjRef++;
-  return;
-</code></pre>
-
-<p>  }</p>
-
-<p>  HRESULT  __stdcall  CHello::PrintSz(LPWSTR pwszString)
-  {</p>
-
-<pre><code>  printf("%ws
-</code></pre>
-
-<p>&ldquo;, pwszString);</p>
-
-<pre><code>  return(ResultFromScode(S_OK));
-</code></pre>
-
-<p>  }</p>
-
-<p>  CHello::~CHello(void)
-  {</p>
-
-<p>  // when the object count goes to zero, stop the server
-  cObjRef&mdash;;
-  if( cObjRef == 0 )</p>
-
-<pre><code>  PulseEvent(hEvent);
-</code></pre>
-
-<p>  return;
-  }</p>
-
-<p>  #include &lt;windows.h>
-  #include &lt;ole2.h>
-  #include &ldquo;pshlo.h&rdquo;
-  #include &ldquo;shlo.hxx&rdquo;
-  #include &ldquo;mycls.hxx&rdquo;</p>
-
-<p>  HANDLE hEvent;</p>
-
-<p>   int _cdecl main(
-  int argc,
-  char * argv[]
-  ) {
-  ULONG ulRef;
-  DWORD dwRegistration;
-  CHelloCF *pCF = new CHelloCF();</p>
-
-<p>  hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);</p>
-
-<p>  // Initialize the OLE libraries
-  CoInitializeEx(NULL, COINIT_MULTITHREADED);</p>
-
-<p>  CoRegisterClassObject(CLSID_CHello, pCF, CLSCTX_LOCAL_SERVER,</p>
-
-<pre><code>  REGCLS_MULTIPLEUSE, &amp;dwRegistration);
-</code></pre>
-
-<p>  // wait on an event to stop
-  WaitForSingleObject(hEvent, INFINITE);</p>
-
-<p>  // revoke and release the class object
-  CoRevokeClassObject(dwRegistration);
-  ulRef = pCF->Release();</p>
-
-<p>  // Tell OLE we are going away.
-  CoUninitialize();</p>
-
-<p>  return(0); }</p>
-
-<p>  extern CLSID CLSID_CHello;
-  extern UUID LIBID_CHelloLib;</p>
-
-<p>  CLSID CLSID_CHello = { /<em> 2573F891-CFEE-101A-9A9F-00AA00342820 </em>/</p>
-
-<pre><code>  0x2573F891,
-  0xCFEE,
-  0x101A,
-  { 0x9A, 0x9F, 0x00, 0xAA, 0x00, 0x34, 0x28, 0x20 }
-</code></pre>
-
-<p>  };</p>
-
-<p>  UUID LIBID_CHelloLib = { /<em> 2573F890-CFEE-101A-9A9F-00AA00342820 </em>/</p>
-
-<pre><code>  0x2573F890,
-  0xCFEE,
-  0x101A,
-  { 0x9A, 0x9F, 0x00, 0xAA, 0x00, 0x34, 0x28, 0x20 }
-</code></pre>
-
-<p>  };</p>
-
-<p>  #include &lt;windows.h>
-  #include &lt;ole2.h>
-  #include &lt;stdlib.h>
-  #include &lt;string.h>
-  #include &lt;stdio.h>
-  #include &ldquo;pshlo.h&rdquo;
-  #include &ldquo;shlo.hxx&rdquo;
-  #include &ldquo;clsid.h&rdquo;</p>
-
-<p>  int <em>cdecl main(
-  int argc,
-  char * argv[]
-  ) {
-  HRESULT  hRslt;
-  IHello        *pHello;
-  ULONG  ulCnt;
-  IMoniker * pmk;
-  WCHAR  wcsT[</em>MAX_PATH];
-  WCHAR  wcsPath[2 * _MAX_PATH];</p>
-
-<p>  // get object path
-  wcsPath[0] = &lsquo;\0&rsquo;;
-  wcsT[0] = &lsquo;\0&rsquo;;
-  if( argc > 1) {</p>
-
-<pre><code>  mbstowcs(wcsPath, argv[1], strlen(argv[1]) + 1);
-  wcsupr(wcsPath);
-  }
-</code></pre>
-
-<p>  else {</p>
-
-<pre><code>  fprintf(stderr, "Object path must be specified\n");
-  return(1);
-  }
-</code></pre>
-
-<p>  // get print string
-  if(argc > 2)</p>
-
-<pre><code>  mbstowcs(wcsT, argv[2], strlen(argv[2]) + 1);
-</code></pre>
-
-<p>  else</p>
-
-<pre><code>  wcscpy(wcsT, L"Hello World");
-</code></pre>
-
-<p>  printf(&ldquo;Linking to object %ws\n&rdquo;, wcsPath);
-  printf(&ldquo;Text String %ws\n&rdquo;, wcsT);</p>
-
-<p>  // Initialize the OLE libraries
-  hRslt = CoInitializeEx(NULL, COINIT_MULTITHREADED);</p>
-
-<p>  if(SUCCEEDED(hRslt)) {</p>
-
-<pre><code>  hRslt = CreateFileMoniker(wcsPath, &amp;pmk);
-  if(SUCCEEDED(hRslt))
-</code></pre>
-
-<p>   hRslt = BindMoniker(pmk, 0, IID_IHello, (void **)&amp;pHello);</p>
-
-<pre><code>  if(SUCCEEDED(hRslt)) {
-</code></pre>
-
-<p>   // print a string out
-   pHello->PrintSz(wcsT);</p>
-
-<p>   Sleep(2000);
-   ulCnt = pHello->Release();
-   }</p>
-
-<pre><code>  else
-</code></pre>
-
-<p>   printf(&ldquo;Failure to connect, status: %lx&rdquo;, hRslt);</p>
-
-<pre><code>  // Tell OLE we are going away.
-  CoUninitialize();
-  }
-</code></pre>
-
-<p>  return(0);
-  }
-```</p>
-
-<h4>Apprentice Hacker</h4>
-
-<p>```
-  #!/usr/local/bin/perl
-  $msg=&ldquo;Hello, world.\n&rdquo;;
-  if ($#ARGV >= 0) {</p>
-
-<pre><code>while(defined($arg=shift(@ARGV))) {
-  $outfilename = $arg;
-  open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
-  print (FILE $msg);
-  close(FILE) || die "Can't close $arg: $!\n";
-}
-</code></pre>
-
-<p>  } else {</p>
-
-<pre><code>print ($msg);
-</code></pre>
-
-<p>  }
-  1;
-```</p>
-
-<h4>Experienced Hacker</h4>
-
-<p><code>
-  #include &lt;stdio.h&gt;
-  #define S "Hello, World\n"
-  main(){exit(printf(S) == strlen(S) ? 0 : 1);}
-</code></p>
-
-<h4>Seasoned Hacker</h4>
-
-<p><code>
-  % cc -o a.out ~/src/misc/hw/hw.c
-  % a.out
-</code></p>
-
-<h4>Guru Hacker</h4>
-
-<p><code>
-  % echo "Hello, world."
-</code></p>
-
-<h4>New Manager</h4>
-
-<p><code>
-  10 PRINT "HELLO WORLD"
-  20 END
-</code></p>
-
-<h4>Middle Manager</h4>
-
-<p><code>
-  mail -s "Hello, world." bob@b12
-  Bob, could you please write me a program that prints "Hello, world."?
-  I need it by tomorrow.
-  ^D
-</code></p>
-
-<h4>Senior Manager</h4>
-
-<p><code>
-  % zmail jim
-  I need a "Hello, world." program by this afternoon.
-</code></p>
-
-<h4>Chief Executive</h4>
-
-<p><code>
-  % letter
-  letter: Command not found.
-  % mail
-  To: ^X ^F ^C
-  % help mail
-  help: Command not found.
-  % damn!
-  !: Event unrecognized
-  % logout
-</code></p>
 ]]></content>
   </entry>
   
