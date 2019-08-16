@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>Capture QinQ Large Packets - Living a Simple Life is a Happy Life</title>
-  <meta name="author" content="memoryboxes">
+  <meta name="author" content="brain-zhang">
 
   
   <meta name="description" content="最近遇到一个QinQ的问题，总结一下。 对QinQ协议的交换机做Span，tcpdump抓包后发现，有一些包大小为1522字节，这些包都被网卡丢掉了。仔细排查后发现，网卡对于>1518的包，统一丢掉处理了。 简单的解决办法，就是将网卡的mtu增大，设置为1508或者直接1600，就OK了。 &hellip;">
@@ -324,7 +324,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
 
       
 
@@ -438,7 +438,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     <li class="loading">Status updating...</li>
   </ul>
   
-  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
   
   <script type="text/javascript">
     $(document).ready(function(){
@@ -451,7 +451,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
         }
 
         github.showRepos({
-            user: 'memoryboxes',
+            user: 'brain-zhang',
             count: 10,
             skip_forks: true,
             target: '#gh_repos'
@@ -472,7 +472,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - memoryboxes -
+  Copyright &copy; 2019 - brain-zhang -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

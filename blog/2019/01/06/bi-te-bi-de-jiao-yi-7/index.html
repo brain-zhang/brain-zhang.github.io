@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>比特币的交易-7 - Living a Simple Life is a Happy Life</title>
-  <meta name="author" content="memoryboxes">
+  <meta name="author" content="brain-zhang">
 
   
   <meta name="description" content="比特币的交易网络最为人诟病的一点便是交易性能：全网每秒 7 笔左右的交易速度，远低于传统的金融交易系统；同时，等待 6 个块的可信确认将导致约 1 个小时的最终确认时间。 为了提升性能，社区提出了闪电网络等创新的设计。 闪电网络的主要思路十分简单——将大量交易放到比特币区块链之外进行， &hellip;">
@@ -178,7 +178,7 @@
 
 <p>Alice和Bob是合作方，经常有比特币往来，所以他们决定各拿出0.5BTC放入通道中，便于业务往来。解释一下下方RSMC交易的结构，左侧为Alice的视角，右侧为Bob的视角。中间Funding Tx为共同可见，C1a和RD1a为Alice持有，C1b和RD1b为Bob持有。交易图中带有尖括号的签名表示待填入。</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190106/bg1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190106/bg1.jpg" alt="img" /></p>
 
 <ol>
 <li>双方各拿出0.5BTC，构建Funding Tx，输出为Alice和Bob的2/2多重签名。此时， Funding    Tx未签名，更不广播。</li>
@@ -200,13 +200,13 @@
 
 <p>于是创建新的Commitment Tx，对于Alice来说是C2a 和RD2a，对于Bob来说是C2b和RD2b，过程与上面类似。</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190106/bg2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190106/bg2.jpg" alt="img" /></p>
 
 <p>交易更新时的交易结构此时两个状态均是有效的，那么最核心的问题来了，如何才能彻底废弃掉C1a和C1b呢？</p>
 
 <p>RSMC采用了一个非常巧妙的方法，在C1a的第一个输出中，采用了Alice2和Bob的多重签名，Alice将Alice2  的私钥交给Bob，即表示Alice放弃C1a，承认C2a。</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190106/bg3.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190106/bg3.jpg" alt="img" /></p>
 
 <p>Alice交出Alice2的私钥给Bob，那么Bob就可以修改RD1a的输出给他自己，形成新的交易BR1a。</p>
 
@@ -230,7 +230,7 @@
 
 <p>Alice想要支付0.5BTC给Bob，但她并没有一个渠道来和他进行交易。幸运的是，她和Charlie有一个交易渠道，而Charlie正好和Bob有一个交易渠道。这样Alice就能借助Charlie的交易渠道，通过哈希时间锁定合约（HTLC）来和Bob进行交易了。</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190106/bg4.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190106/bg4.png" alt="img" /></p>
 
 <p>为了完成这次交易，Alice就会给Bob发短信说：“嘿！我要给你付笔款。”这时Bob自己将收到一个随机数字（R），接着Bob便会回一个被哈希的数字（H）（你可以认为被哈希的数字R是随机数字的一种加密形式）给Alice。</p>
 
@@ -560,7 +560,7 @@
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
 
       
 
@@ -674,7 +674,7 @@
     <li class="loading">Status updating...</li>
   </ul>
   
-  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
   
   <script type="text/javascript">
     $(document).ready(function(){
@@ -687,7 +687,7 @@
         }
 
         github.showRepos({
-            user: 'memoryboxes',
+            user: 'brain-zhang',
             count: 10,
             skip_forks: true,
             target: '#gh_repos'
@@ -708,7 +708,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - memoryboxes -
+  Copyright &copy; 2019 - brain-zhang -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

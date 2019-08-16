@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>比特币的blockchain-1 - Living a Simple Life is a Happy Life</title>
-  <meta name="author" content="memoryboxes">
+  <meta name="author" content="brain-zhang">
 
   
   <meta name="description" content="blockchain是个新造词，至少在2008年之前网上是搜索不到这个词的； 比特币的白皮书里面出现过chain of blocks的描述，但是没有直接用block chain的句子; 在早期bitcointalk.org上面的讨论中，为了方便讨论，早期参与者频繁引用chain of &hellip;">
@@ -115,7 +115,7 @@
 
 <p>如果真正要较真blockchain这个单词第一次出现的地方，我想大概是中本聪的第一版bitcoin 源代码中；</p>
 
-<p>bitcoin v0.01源代码中，中本聪第一次在<a href="https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.h#L596">函数注释中</a> 完整的引用了<code>block chain</code>这个术语，鉴于中本聪在比特币白皮书发表的2年前已经开始编写源码；所以有理由确认：</p>
+<p>bitcoin v0.01源代码中，中本聪第一次在<a href="https://github.com/brain-zhang/bitcoin_satoshi/blob/v0.01/main.h#L596">函数注释中</a> 完整的引用了<code>block chain</code>这个术语，鉴于中本聪在比特币白皮书发表的2年前已经开始编写源码；所以有理由确认：</p>
 
 <ol>
 <li>blockchain这个名词是2007-2008年间诞生于世间的</li>
@@ -332,13 +332,13 @@
 
 <p>创世块比较特殊，它不是挖出来的，是中本聪手工构造的；参见这里:</p>
 
-<p><a href="https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.cpp#L1439">https://github.com/memoryboxes/bitcoin_satoshi/blob/v0.01/main.cpp#L1439</a></p>
+<p><a href="https://github.com/brain-zhang/bitcoin_satoshi/blob/v0.01/main.cpp#L1439">https://github.com/brain-zhang/bitcoin_satoshi/blob/v0.01/main.cpp#L1439</a></p>
 
 <p>关于创世块，之前我们提到一个有趣的事情：创世块的50BTC奖励是不能花的，这是为什么呢？</p>
 
 <p>这需要我们好好研究下中本聪发布的v0.01版本的比特币源码：</p>
 
-<p><a href="https://github.com/memoryboxes/bitcoin_satoshi/tree/v0.01">https://github.com/memoryboxes/bitcoin_satoshi/tree/v0.01</a></p>
+<p><a href="https://github.com/brain-zhang/bitcoin_satoshi/tree/v0.01">https://github.com/brain-zhang/bitcoin_satoshi/tree/v0.01</a></p>
 
 <ol>
 <li>整个比特币系统接收一笔交易的时候怎么判断其合法性呢？就是判断这笔交易的vin是否关联着一笔合法交易的vout，这些vout统称UTXO，在初版比特币里面，判断一个合法的UTXO的标准就是有没有放进区块链的索引文件中；这个索引文件和区块链文件不是一个东西，他是单独的；如果你运行初版比特币软件(v0.01)；就可以看到中本聪把区块存储在blk0001.dat这样的文件里面，而把所有区块的索引存储在blkindex.dat这个文件里面；</li>
@@ -591,7 +591,7 @@
 
 <p>Stratum协议巧妙解决了这个问题，成功实现既可以给矿工增加足够的搜索空间，又只需要交互很少的数据量，这也是Stratum协议最具创新的地方。</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190123/bg2.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190123/bg2.png" alt="img" /></p>
 
 <p>再来回顾一下区块头的6个字段80字节，这个很关键，nVersion，nBits，hashPrevBlock这3个字段是固定的，nNonce，nTime这两个字段是矿工现在就可以改变的。增加搜索空间只能从hashMerkleroot下手，这个绕不过去。Stratum协议让矿工自己构造coinbase交易，coinbase的scriptSig字段有很多字节可以让矿工自由填充，而coinbase的改动意味着hashMerkleroot的改变。从coinbase构造hashMerkleroot无需全部交易，如上图所示，假如区块将包含13笔交易，矿池先对这13笔交易进行处理，最后只要把图中的4个黑点（Hash值）交付给矿工，同时将构造coinbase需要的信息交付给矿工，矿工就可以自己构造hashMerkleroot（图中的绿点都是矿工自行计算获得，两两合并Hash时，规定下一个黑点代表的hash值总是放在右边）。按照这种方式，假如区块包含N笔交易，矿池可以浓缩成log2(N)个hash值交付给矿工，这大大降低了矿池和矿工交互的数据量。</p>
 
@@ -609,7 +609,7 @@
 
 <p>最后所有区块组成了blockchain:</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190123/bg1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190123/bg1.jpg" alt="img" /></p>
 
 <h2>SPV(简单支付)</h2>
 
@@ -642,7 +642,7 @@
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
 
       
 
@@ -756,7 +756,7 @@
     <li class="loading">Status updating...</li>
   </ul>
   
-  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
   
   <script type="text/javascript">
     $(document).ready(function(){
@@ -769,7 +769,7 @@
         }
 
         github.showRepos({
-            user: 'memoryboxes',
+            user: 'brain-zhang',
             count: 10,
             skip_forks: true,
             target: '#gh_repos'
@@ -790,7 +790,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - memoryboxes -
+  Copyright &copy; 2019 - brain-zhang -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

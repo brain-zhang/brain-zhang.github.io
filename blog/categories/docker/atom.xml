@@ -4,10 +4,10 @@
   <title><![CDATA[Category: Docker | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/docker/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-09T09:14:19+08:00</updated>
+  <updated>2019-08-16T09:23:12+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
-    <name><![CDATA[memoryboxes]]></name>
+    <name><![CDATA[brain-zhang]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -173,7 +173,7 @@ ip addr add 10.12.0.117/21 dev em1</p>
 
 <p>需要注意的是，如果想要tcpdump macvtap，需要linux kernel 3.14以上的支持，参见<a href="https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523">这里</a>。</p>
 
-<p>最后推荐为了简化macvlan的操作，我写的一个小工具:<a href="https://github.com/memoryboxes/dockerfly">dockerfly</a></p>
+<p>最后推荐为了简化macvlan的操作，我写的一个小工具:<a href="https://github.com/brain-zhang/dockerfly">dockerfly</a></p>
 
 <p>参考:</p>
 

@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>比特币的交易-1 - Living a Simple Life is a Happy Life</title>
-  <meta name="author" content="memoryboxes">
+  <meta name="author" content="brain-zhang">
 
   
   <meta name="description" content="在我们前面的文章中，我们提到，从建设银行转账到工商银行10w元，过程其实是这样的: 建设银行发送报文到人行CNAPS系统
@@ -288,13 +288,13 @@
 </ul>
 
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg1.jpg" alt="img" /></p>
 
 <p>把它想象成一个邮筒构造的保险箱，在不打开的前提下，投币是只进不出的。可以注意到，我们并没有直接将Public Key明晃晃暴露在外面，而是先HASH一下，然后贴到保险箱子上面，想要存币的人，只要知道这个HASH值，作为保险箱的ID，就可以直接投币进去啦。</p>
 
 <p>但是保险箱的锁在哪里呢？</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg2.jpg" alt="img" /></p>
 
 <ul>
 <li>这张图中，我们引入了一个脚本，称之为 <code>Pubkey Script</code>；具体内容是:</li>
@@ -321,11 +321,11 @@
 
 <p>整个过程组织如下图：</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg3.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg3.jpg" alt="img" /></p>
 
 <p>当我提供一个signature以及full public key的时候，就可以开锁了，开锁下一步自然就是转移资金啦。我们给B汇款50个币，而B的保险箱又是怎么表示的呢？和A保险箱是一样的。</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20181123/bg4.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg4.jpg" alt="img" /></p>
 
 <ul>
 <li><p>带有<code>public key hash</code> ID的保险箱是一个UTXO，这个保险箱用<code>public key hash</code>上锁，而提供<code>signature</code>和<code>full public key</code>开锁，转移资金的过程，就是花费UTXO的过程，其实就是把A的UTXO转移到B的UTXO的过程，这就是比特币最简单的一笔交易</p></li>
@@ -367,7 +367,7 @@
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">memoryboxes</span></span>
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
 
       
 
@@ -481,7 +481,7 @@
     <li class="loading">Status updating...</li>
   </ul>
   
-  <a href="https://github.com/memoryboxes">@memoryboxes</a> on GitHub
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
   
   <script type="text/javascript">
     $(document).ready(function(){
@@ -494,7 +494,7 @@
         }
 
         github.showRepos({
-            user: 'memoryboxes',
+            user: 'brain-zhang',
             count: 10,
             skip_forks: true,
             target: '#gh_repos'
@@ -515,7 +515,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - memoryboxes -
+  Copyright &copy; 2019 - brain-zhang -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

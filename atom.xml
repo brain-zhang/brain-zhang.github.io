@@ -4,10 +4,10 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-09T09:14:19+08:00</updated>
+  <updated>2019-08-16T09:23:12+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
-    <name><![CDATA[memoryboxes]]></name>
+    <name><![CDATA[brain-zhang]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -719,7 +719,7 @@
     <id>https://happy123.me/blog/2019/07/24/elasticserach-tips</id>
     <content type="html"><![CDATA[<p>elasticsearch升级到7.x；改动不小，命令从头再捋一遍；</p>
 
-<p>PS:感叹elasticsearch在搜索和大数据聚合上面做的了不起的工作！ 细致入微，基本上在工程层面解决了数不清的细节问题，了不起的产品设计和再创造，了不起的工作量！ 就像docker重新唤醒LXC技术一样，elasticsearch在Lucene之上的构建为个人数据分析和企业数据梳理开创新时代。 如果有条件，我是极为愿意买入他们的股票的。</p>
+<p>PS:感叹elasticsearch在搜索和大数据聚合上面做的了不起的工作！ 细致入微，基本上在工程层面解决了数不清的细节问题，了不起的产品设计和再创造，了不起的工作量！ 就像docker重新唤醒容器技术一样，elasticsearch在Lucene之上的构建为个人数据分析和企业数据梳理开创新时代。 如果有条件，我是极为愿意买入他们的股票的。</p>
 
 <!-- more -->
 
@@ -2258,7 +2258,7 @@
     <id>https://happy123.me/blog/2019/05/12/yong-yuan-du-suan-bu-zhun-de-zhi-shu-pe</id>
     <content type="html"><![CDATA[<p>看看一张2019-05-10的指数估值表:</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190512/bg1.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190512/bg1.png" alt="img" /></p>
 
 <blockquote><p>数据来源：<a href="https://xueqiu.com/u/8890498724">https://xueqiu.com/u/8890498724</a></p></blockquote>
 
@@ -3243,15 +3243,15 @@
 
 <h4>时间段选取2004-01-01 至 2019-04-10</h4>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190402/bg1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190402/bg1.jpg" alt="img" /></p>
 
 <h4>时间段选取2009-01-01 至 2019-04-10</h4>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190402/bg2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190402/bg2.jpg" alt="img" /></p>
 
 <h4>时间段选取2011-01-01 至 2019-04-10</h4>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190402/bg3.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190402/bg3.jpg" alt="img" /></p>
 
 <p>从图上可以看出，A股市场的整个PE和PB中枢逐年降低；所以用最近5年或者最近8年的历史数据来判断估值百分位比较靠谱。</p>
 
@@ -3269,9 +3269,9 @@
 
 <p>一图抵千言：</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190402/bg4.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190402/bg4.jpg" alt="img" /></p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190402/bg5.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190402/bg5.jpg" alt="img" /></p>
 
 <p>整个过程中，我们买入了17份，然后2019-04-02开始逐步卖出，卖出策略我选取了简单的网格策略；</p>
 
@@ -3315,7 +3315,7 @@
 
 <p>好啦，我们还是以沪深300为基准，看看这个策略和原指数的对比：</p>
 
-<p><img src="https://raw.githubusercontent.com/memoryboxes/memoryboxes.github.io/source/images/20190402/bg6.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190402/bg6.jpg" alt="img" /></p>
 
 <p>从这个画风上来看，这个策略确实是一个看后视镜开车的老司机，结果拟合相当完美；你可以把它看成是一个超级稳健、超级耐心的基金经理，这个经理的风格如下：</p>
 
