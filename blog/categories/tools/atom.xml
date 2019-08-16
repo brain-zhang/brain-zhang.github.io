@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-16T16:14:05+08:00</updated>
+  <updated>2019-08-16T16:20:29+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -60,7 +60,7 @@ gpg --list-keys
 <h2>/home/brain/.gnupg/pubring.gpg</h2>
 
 <p>pub   4096R/3ED25428 2019-08-16
-uid                  brain.zhang (happy123.me) <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x62;&#x72;&#97;&#105;&#x6e;&#x2e;&#x7a;&#x68;&#97;&#x6e;&#103;&#98;&#x69;&#110;&#x40;&#x6f;&#117;&#x74;&#108;&#x6f;&#111;&#107;&#46;&#x63;&#111;&#109;">&#98;&#x72;&#97;&#105;&#110;&#x2e;&#x7a;&#104;&#x61;&#110;&#103;&#x62;&#x69;&#110;&#64;&#x6f;&#117;&#x74;&#x6c;&#x6f;&#x6f;&#x6b;&#x2e;&#x63;&#111;&#x6d;</a>
+uid                  brain.zhang (happy123.me) <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x62;&#x72;&#97;&#105;&#x6e;&#46;&#122;&#x68;&#x61;&#x6e;&#103;&#98;&#x69;&#x6e;&#x40;&#x6f;&#x75;&#116;&#108;&#111;&#x6f;&#107;&#46;&#x63;&#x6f;&#x6d;">&#98;&#x72;&#x61;&#105;&#110;&#46;&#x7a;&#104;&#x61;&#x6e;&#103;&#x62;&#105;&#x6e;&#x40;&#111;&#x75;&#116;&#x6c;&#x6f;&#111;&#x6b;&#x2e;&#99;&#x6f;&#109;</a>
 sub   4096R/F60CBF88 2019-08-16
 ```</p>
 
