@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using a GPG Key and Ssh Auth - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="在我的一台服务器被数不清的脚本小子暴力尝试登陆N次后，我下定决心将所有的开发环境换成统一的ssh key；并禁止用户登陆； 其中最折腾的部分就是使用我的GPG Key统一所有的ssh 环境；我也很纳闷，为什么自己没有早点搞定这些事情； 众所周知，GPG和Openssl的key是不兼容的， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2019/08/16/using-a-gpg-key-and-ssh-auth">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using a GPG Key and Ssh Auth</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-08-16T16:13:32+08:00" pubdate data-updated="true">Aug 16<span>th</span>, 2019</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在我的一台服务器被数不清的脚本小子暴力尝试登陆N次后，我下定决心将所有的开发环境换成统一的ssh key；并禁止用户登陆；</p>
+
+<p>其中最折腾的部分就是使用我的GPG Key统一所有的ssh 环境；我也很纳闷，为什么自己没有早点搞定这些事情；</p>
+
+<p>众所周知，GPG和Openssl的key是不兼容的，所以统一环境还是花了不少时间，主要是参考了这篇文章：</p>
+
+<p><a href="https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth">https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</a></p>
+
+<p>常用命令:</p>
+
+<!-- more -->
+
+
+<h3>GPG</h3>
+
+<ul>
+<li>生成证书</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --gen-key</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>生成撤销证书</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --gen-revoke [用户ID]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>列出所有密钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --list-keys</span></code></pre></td></tr></table></div></figure>
+
+
+<p>输出</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/home/brain/.gnupg/pubring.gpg
+</span><span class='line'>-------------------------------
+</span><span class='line'>pub   4096R/3ED25428 2019-08-16
+</span><span class='line'>uid                  brain.zhang (happy123.me) &lt;brain.zhangbin@outlook.com&gt;
+</span><span class='line'>sub   4096R/F60CBF88 2019-08-16</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示&#8221;用户ID&#8221;，第四行显示subkey。</p>
+
+<ul>
+<li>输出密钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --armor --output public-key.txt --export [用户ID]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>输出密钥时转换私钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --armor --output private-key.txt --export-secret-keys</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>上传公钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --keyserver keys.gnupg.net --send-keys [pub key ID] 
+</span><span class='line'>...
+</span><span class='line'>gpg --keyserver keys.gnupg.net --search-keys brain.zhang</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>生成公钥指纹供别人检查</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --fingerprint [用户ID]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>加密文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --recipient [用户ID] --output demo.en.txt --encrypt demo.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>解密文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --decrypt demo.en.txt --output demo.de.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>对文件签名</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --clearsign demo.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>获得单独的签名文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --armor --detach-sign demo.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>验证签名</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --verify demo.txt.asc demo.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>导入第三方公钥</h3>
+
+<ul>
+<li>获得公钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --keyserver keys.gnupg.net --search-keys &lt;user ID&gt;
+</span><span class='line'>...
+</span><span class='line'>gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>验证公钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> gpg --edit-key &lt;key ID&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你可以键入<code>fpr</code> 来打印这个主钥的指纹，和你得到的主钥指纹进行对比，如果一致则键入<code>trust</code> 来设置主钥的信任度。如果主钥被设置为绝对可信的（ultimately），GPG 会根据主钥的公钥验证从钥的签名，最终完成信任建立。最后键入quit 退出。</p>
+
+<h3>在Github中使用GPG</h3>
+
+<ul>
+<li>输出key id</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --list-secret-keys --keyid-format LONG</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>设置提交</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> git config  user.signingkey &lt;key ID&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>对单次提交进行签名：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -S -m "-S选项表示对此次提交使用gpg进行签名"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>签名标签</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git tag -s &lt;tag&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>ssh server gen</h3>
+
+<ul>
+<li>制作密钥对</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@host ~]$ ssh-keygen </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@host ~]$ cd .ssh
+</span><span class='line'>[root@host .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys
+</span><span class='line'>[root@host .ssh]$ chmod 600 authorized_keys
+</span><span class='line'>[root@host .ssh]$ chmod 700 ~/.ssh</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>设置 SSHD，打开密钥登录功能
+编辑 /etc/ssh/sshd_config 文件，进行如下设置：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PubkeyAuthentication yes
+</span><span class='line'>PermitRootLogin yes</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</li>
+</ul>
+
+
+<p>使用 WinSCP、SFTP 等工具将私钥文件 id_rsa 下载到客户端机器上。然后打开 PuTTYGen，单击 Actions 中的 Load 按钮，载入你刚才下载到的私钥文件。如果你刚才设置了密钥锁码，这时则需要输入。</p>
+
+<p>载入成功后，PuTTYGen 会显示密钥相关的信息。在 Key comment 中键入对密钥的说明信息，然后单击 Save private key 按钮即可将私钥文件存放为 PuTTY 能使用的格式。</p>
+
+<p>今后，当你使用 PuTTY 登录时，可以在左侧的 Connection &ndash;> SSH &ndash;> Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
+
+<ul>
+<li>验证无误，关闭密码登陆</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PasswordAuthentication no
+</span><span class='line'>[root@host .ssh]$ service sshd restart</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-08-16T16:13:32+08:00" pubdate data-updated="true">Aug 16<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/08/09/python-requests-post-for-5-styles/" title="Previous Post: Python requests post for 5 styles">&laquo; Python requests post for 5 styles</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/">Using a GPG Key and Ssh Auth</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/09/python-requests-post-for-5-styles/">Python Requests Post for 5 Styles</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/04/ssl-tls-tips/">SSL&TLS Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">Libssl Segfaults on python3.6 With Threading</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/07/24/elasticserach-tips/">Elasticserach Tips</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/';
+        var disqus_url = 'https://happy123.me/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

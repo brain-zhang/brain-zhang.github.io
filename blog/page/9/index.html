@@ -82,6 +82,61 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/04/27/how-to-dump-csv-from-sqlite3/">How to Dump Csv From Sqlite3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-27T08:57:22+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/04/27/how-to-dump-csv-from-sqlite3/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/04/27/how-to-dump-csv-from-sqlite3/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>/usr/bin/sqlite3 test.db &lt;&lt;!
+</span><span class='line'>.headers on
+</span><span class='line'>.mode csv
+</span><span class='line'>.output out.csv
+</span><span class='line'>select username,password,email from passhouse order by site;
+</span><span class='line'>!</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/04/26/purge-large-files-in-gitrepo/">寻找并删除Git记录中的大文件</a></h1>
     
     
@@ -529,71 +584,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Coincheck被盗5亿个XEM</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-02-02T21:16:43+08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2018</time>
-        
-           | <a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>2018-01-26,Coincheck 被盗 5 亿个 XEM, 这个数目估计是史上最大了，hacker 的账户地址是这里:</p>
-
-<p><a href="http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG">http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG</a></p>
-
-<p>按照 coinmarketcap 的市场价来算，现在 5 亿个 XEM 价值大概 4 亿美元</p>
-
-<p>另外可能是 coincheck 自己的防护，他们的 Ripple 钱包也有一笔大额的转账:</p>
-
-<p><a href="https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8">https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8</a></p>
-
-<p>有将近 1 亿个 xrp 转账到了一个地址，这个地址貌似有 30 亿个 xrp.</p>
-
-<p>这笔转账可能是 coincheck 正在审计，不是 hack 行为。</p>
-
-<p>除去 MTGOX 那次，Coincheck 的这次悲剧不论数量还是市场价格估计都是史上最强了</p>
-
-<p>2018-01-28, Coincheck公布了补偿措施</p>
-
-<p><a href="http://corporate.coincheck.com/2018/01/28/30.html">http://corporate.coincheck.com/2018/01/28/30.html</a></p>
-
-<p>共损失 52300,0000 个 XEM，按照被偷时的币值返还，每个币 88 日元</p>
-
-<p>额，貌似总额超过 25 亿人民币了</p>
-
-<p>最奇怪的是，直到2018-02-01，市场才起了反应，开始下跌。</p>
-
-<p>这个赌博的场子越来越让人看不懂了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -611,6 +601,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/">Using a GPG Key and Ssh Auth</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/08/09/python-requests-post-for-5-styles/">Python Requests Post for 5 Styles</a>
       </li>
     
@@ -624,10 +618,6 @@
     
       <li class="post">
         <a href="/blog/2019/07/24/elasticserach-tips/">Elasticserach Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/">Python捕获所有异常</a>
       </li>
     
   </ul>
@@ -728,7 +718,7 @@
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (62)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (63)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
