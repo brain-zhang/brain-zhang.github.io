@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-17T07:49:44+08:00</updated>
+  <updated>2019-08-17T07:55:44+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -59,9 +59,9 @@ gpg --list-keys
 
 <h2>/home/brain/.gnupg/pubring.gpg</h2>
 
-<p>pub   4096R/3ED25428 2019-08-16
-uid                  brain.zhang (happy123.me) <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#58;&#98;&#114;&#x61;&#x69;&#110;&#46;&#122;&#x68;&#x61;&#110;&#x67;&#x62;&#x69;&#x6e;&#64;&#111;&#117;&#116;&#x6c;&#x6f;&#x6f;&#107;&#x2e;&#x63;&#x6f;&#x6d;">&#x62;&#x72;&#97;&#x69;&#x6e;&#x2e;&#x7a;&#x68;&#97;&#110;&#x67;&#x62;&#x69;&#110;&#x40;&#x6f;&#x75;&#116;&#108;&#x6f;&#111;&#107;&#46;&#x63;&#111;&#x6d;</a>
-sub   4096R/F60CBF88 2019-08-16
+<p>pub   4096R/xxxxxxxx 2018-08-16
+uid                  brain.zhang (happy123.me) &lt;brain.zhangbin#xxx.com>
+sub   4096R/yyyyyyyy 2018-08-16
 ```</p>
 
 <p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示"用户ID"，第四行显示subkey。</p>
