@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-18T15:38:46+08:00</updated>
+  <updated>2019-08-18T15:40:36+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,211 +18,195 @@
     <link href="https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/"/>
     <updated>2019-08-18T15:38:02+08:00</updated>
     <id>https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui</id>
-    <content type="html"><![CDATA[<p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
+    <content type="html"><![CDATA[<p>在我的一台服务器被数不清的脚本小子暴力尝试登陆N次后，我下定决心将所有的开发环境换成统一的ssh key；并禁止用户登陆；</p>
 
-<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来&hellip;T_T”</p>
+<p>其中最折腾的部分就是使用我的GPG Key统一所有的ssh 环境；我也很纳闷，为什么自己没有早点搞定这些事情；</p>
 
-<p>还是老老实实流水账记一下吧:</p>
+<p>众所周知，GPG和Openssl的key是不兼容的，所以统一环境还是花了不少时间，主要是参考了这篇文章：</p>
+
+<p><a href="https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth">https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</a></p>
+
+<p>常用命令:</p>
 
 <!-- more -->
 
 
-<h3>依赖组件</h3>
+<h3>GPG</h3>
 
 <ul>
-<li><a href="https://flask-restplus.readthedocs.io">flask-restplus</a></li>
+<li><p>生成证书
+<code>
+gpg --gen-key
+</code></p></li>
+<li><p>生成撤销证书</p></li>
 </ul>
 
 
-<p>restplus能让人很方便的通过几个decorator就可以集成很漂亮的restapi，它提供了api命名空间、Request和Response解析以及Swagger UI的集成</p>
-
-<p>另外，flask-restplus的文档和例子写的非常简洁清晰，赞一个。</p>
+<p><code>
+gpg --gen-revoke [用户ID]
+</code></p>
 
 <ul>
-<li><a href="https://flask-httpauth.readthedocs.io/en/latest/">flask-httpauth</a></li>
+<li>列出所有密钥
+<code>
+gpg --list-keys
+</code></li>
 </ul>
 
 
-<p>用来集成验证机制，支持基本的密码验证、Token验证；短小精悍，够用了</p>
-
-<h3>起步</h3>
-
-<p>引用官网的例子:</p>
-
-<h4>构建api对象</h4>
-
-<p>```
-from flask import Flask
-from flask_restplus import Api, Resource, fields
-from werkzeug.contrib.fixers import ProxyFix</p>
-
-<p>app = Flask(<strong>name</strong>)
-app.wsgi_app = ProxyFix(app.wsgi_app)</p>
-
-<p>api = Api(app, version=&lsquo;1.0&rsquo;, title=&lsquo;Chainhorn API&rsquo;,</p>
-
-<pre><code>description='A simple ChainHorn API',
-</code></pre>
-
-<p>)</p>
-
-<p>ns = api.namespace(&lsquo;node&rsquo;, description=&lsquo;node operations&rsquo;)
+<p>输出
 ```</p>
 
-<p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
+<h2>/home/brain/.gnupg/pubring.gpg</h2>
 
-<p>下面紧跟着构建了一个<code>ns</code> &mdash;<code>namespace</code>对象，作用是为不同的资源，不同的url分组，这样最后反映到界面上好看一点；</p>
+<p>pub   4096R/3ED25428 2019-08-16
+uid                  brain.zhang (happy123.me) <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#98;&#x72;&#97;&#x69;&#110;&#x2e;&#122;&#x68;&#97;&#110;&#103;&#x62;&#105;&#x6e;&#64;&#x6f;&#x75;&#116;&#x6c;&#x6f;&#111;&#x6b;&#x2e;&#99;&#x6f;&#109;">&#98;&#114;&#x61;&#105;&#x6e;&#46;&#122;&#104;&#x61;&#110;&#x67;&#98;&#105;&#x6e;&#64;&#111;&#x75;&#116;&#x6c;&#x6f;&#111;&#107;&#x2e;&#x63;&#x6f;&#x6d;</a>
+sub   4096R/F60CBF88 2019-08-16
+```</p>
 
-<h4>修饰</h4>
+<p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示"用户ID"，第四行显示subkey。</p>
 
-<p>`&ldquo;
-@ns.route(&rdquo;)
-  class NodeGetInfo(Resource):</p>
+<ul>
+<li>输出密钥</li>
+</ul>
 
-<pre><code>  @ns_node.doc('get node info')
-  def get(self):
-      '''get node info'''
-      info = spv.getinfo()
-      return {'nodeinfo': info}, 200
-</code></pre>
 
-<p>```</p>
+<p><code>
+gpg --armor --output public-key.txt --export [用户ID]
+</code></p>
 
-<p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
+<ul>
+<li><p>输出密钥时转换私钥
+<code>
+gpg --armor --output private-key.txt --export-secret-keys
+</code></p></li>
+<li><p>上传公钥
+<code>
+gpg --keyserver keys.gnupg.net --send-keys [pub key ID]
+...
+gpg --keyserver keys.gnupg.net --search-keys brain.zhang
+</code></p></li>
+<li><p>生成公钥指纹供别人检查
+<code>
+gpg --fingerprint [用户ID]
+</code></p></li>
+<li><p>加密文件
+<code>
+gpg --recipient [用户ID] --output demo.en.txt --encrypt demo.txt
+</code></p></li>
+<li><p>解密文件
+<code>
+gpg --decrypt demo.en.txt --output demo.de.txt
+</code></p></li>
+<li><p>对文件签名
+<code>
+gpg --clearsign demo.txt
+</code></p></li>
+<li><p>获得单独的签名文件
+<code>
+gpg --armor --detach-sign demo.txt
+</code></p></li>
+<li><p>验证签名
+<code>
+gpg --verify demo.txt.asc demo.txt
+</code></p></li>
+</ul>
 
-<h4>Request参数处理</h4>
 
-<p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
-下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code>
+<h3>导入第三方公钥</h3>
+
+<ul>
+<li><p>获得公钥
+<code>
+gpg --keyserver keys.gnupg.net --search-keys &lt;user ID&gt;
+...
+gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang
+</code></p></li>
+<li><p>验证公钥
 ```
-@ns.route(&lsquo;/broadcast/&lt;string:tx>&rsquo;)
-  class WalletBroadcastTx(Resource):</p>
+gpg &mdash;edit-key <key ID></p></li>
+</ul>
 
-<pre><code>  @ns.doc('broadcast raw tx')
-  @ns.param('tx', 'The transaction hash identifier')
-  def post(self, tx):
-      '''broadcast raw tx'''
-      sendrawtransaction(spv, tx)
-      return {'broadcast': 'ok'}, 200
-</code></pre>
 
-<p>```</p>
+<p><code>``
+你可以键入</code>fpr<code>来打印这个主钥的指纹，和你得到的主钥指纹进行对比，如果一致则键入</code>trust` 来设置主钥的信任度。如果主钥被设置为绝对可信的（ultimately），GPG 会根据主钥的公钥验证从钥的签名，最终完成信任建立。最后键入quit 退出。</p>
 
-<p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
+<h3>在Github中使用GPG</h3>
 
-<p>```
-TxModel = {&lsquo;tx&rsquo;: fields.String(required=True, description=&lsquo;The hex tx&rsquo;)}
-@ns.route(&lsquo;/broadcast&rsquo;)
-  class WalletBroadcastTx(Resource):</p>
+<ul>
+<li><p>输出key id
+<code>
+gpg --list-secret-keys --keyid-format LONG
+</code></p></li>
+<li><p>设置提交
+```
+git config  user.signingkey <key ID></p></li>
+</ul>
 
-<pre><code>  @ns.doc('broadcast raw tx')
-  @ns.expect(TxModel, 200)
-  def post(self, tx):
-      '''broadcast raw tx'''
-      sendrawtransaction(spv, api.payload['tx'])
-      return {'broadcast': 'ok'}, 200
-</code></pre>
 
 <p>```</p>
 
-<h4>Response参数处理</h4>
+<ul>
+<li><p>对单次提交进行签名：
+<code>
+git commit -S -m "-S选项表示对此次提交使用gpg进行签名"
+</code></p></li>
+<li><p>签名标签
+<code>
+git tag -s &lt;tag&gt;
+</code></p></li>
+</ul>
 
-<p>同样的，如果需要返回一个对象，在界面上出现这个对象的详细描述信息，可以用<code>marshal_with</code>和<code>marshal_list_with</code>来修饰；</p>
 
-<p>具体请参考:</p>
+<h3>ssh server gen</h3>
 
-<p><a href="https://flask-restplus.readthedocs.io/en/stable/parsing.html">https://flask-restplus.readthedocs.io/en/stable/parsing.html</a></p>
+<ul>
+<li><p>制作密钥对
+<code>
+[root@host ~]$ ssh-keygen
+</code></p></li>
+<li><p>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥
+<code>
+[root@host ~]$ cd .ssh
+[root@host .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys
+[root@host .ssh]$ chmod 600 authorized_keys
+[root@host .ssh]$ chmod 700 ~/.ssh
+</code></p></li>
+<li><p>设置 SSHD，打开密钥登录功能
+编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p></li>
+</ul>
 
-<h4>用户验证</h4>
 
-<p>例如，为API加上HTTP Token Auth，要用到<code>HTTPTokenAuth</code>对象；</p>
+<p><code>
+PubkeyAuthentication yes
+PermitRootLogin yes
+</code></p>
 
-<p>首先我们先定义验证规则:</p>
+<ul>
+<li>将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</li>
+</ul>
 
-<p>```
-auth = HTTPTokenAuth()
-tokens = {
-  &lsquo;APIKEY&rsquo;:&lsquo;hello&rsquo;,
-  &ldquo;APPID&rdquo;: &ldquo;chainhorn&rdquo;
-}</p>
 
-<p>@auth.verify_token
-def verify_token(token):
-  if request.headers.get(&lsquo;APIKEY&rsquo;, &lsquo;&rsquo;).strip()==tokens[&lsquo;APIKEY&rsquo;] and \</p>
+<p>使用 WinSCP、SFTP 等工具将私钥文件 id_rsa 下载到客户端机器上。然后打开 PuTTYGen，单击 Actions 中的 Load 按钮，载入你刚才下载到的私钥文件。如果你刚才设置了密钥锁码，这时则需要输入。</p>
 
-<pre><code> request.headers.get('APPID', '').strip() == tokens['APPID']:
-  return True
-</code></pre>
+<p>载入成功后，PuTTYGen 会显示密钥相关的信息。在 Key comment 中键入对密钥的说明信息，然后单击 Save private key 按钮即可将私钥文件存放为 PuTTY 能使用的格式。</p>
 
-<p>  else:</p>
+<p>今后，当你使用 PuTTY 登录时，可以在左侧的 Connection &ndash;> SSH &ndash;> Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
 
-<pre><code>  return False
-</code></pre>
+<ul>
+<li>验证无误，关闭密码登陆
+<code>
+PasswordAuthentication no
+[root@host .ssh]$ service sshd restart
+</code></li>
+</ul>
 
-<p>```</p>
 
-<p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
+<h3>综合例子</h3>
 
-<p>`&ldquo;
-@ns.route(&rdquo;)
-class NodeGetInfo(Resource):
-  @ns.doc(&lsquo;get node info&rsquo;)
-  @auth.login_required
-  def get(self):</p>
+<p>最后，在github上面有个集大成的例子,值得推荐</p>
 
-<pre><code>  '''get node info'''
-  info = spv.getinfo()
-  return {'nodeinfo': info}, 200
-</code></pre>
-
-<p>```</p>
-
-<p>这样后台验证就有了；那么前台输入呢？</p>
-
-<p>这个例子里面，我们需要前台输入的时候在HTTP Header里面传入两个Key: APIKEY和APPKEY；直接用用Swagger UI自带的组件实现就可以了，把api对象构造为:</p>
-
-<p>```
-AUTHORIZATIONS = {</p>
-
-<pre><code>'apikey': {
-    'type': 'apiKey',
-    'in': 'header',
-    'name': 'APIKEY'
-},
-'appid': {
-    'type': 'apiKey',
-    'in': 'header',
-    'name': 'APPID'
-}
-</code></pre>
-
-<p>}
-api = Api(app,</p>
-
-<pre><code>    version='v1',
-    authorizations=AUTHORIZATIONS,
-    security=list(AUTHORIZATIONS.keys()),
-    title='Chainhorn API',
-    description='Chainhorn API',
-</code></pre>
-
-<p>)</p>
-
-<p>```</p>
-
-<p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>
-
-<p>此时前台的界面是这样的:</p>
-
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg" alt="Auth1" /></p>
-
-<p>可以点击右上角的Authorize一次性设置所有API的访问密钥；</p>
-
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg" alt="Auth2" /></p>
-
-<p>也可以在每个API的右上角设置访问密钥；</p>
-
-<p>当然，我们目前的密钥是后台写死的，你可以引入一个三方库为每个用户生成不同的密钥存到数据库里面，然后每次验证~~~</p>
+<p><a href="https://github.com/frol/flask-restplus-server-example">https://github.com/frol/flask-restplus-server-example</a></p>
 ]]></content>
   </entry>
   
