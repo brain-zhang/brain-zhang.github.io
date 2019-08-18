@@ -82,6 +82,61 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-08-18T15:59:29+08:00" pubdate data-updated="true">Aug 18<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然比特币已经运行十年，各式各样的比特币全节点实现已经很多了，但是我觉得还是有必要再增添一员；</p>
+
+<p>我理想中的比特币全节点实现是这样的:</p>
+
+<ul>
+<li>他的核心是模块化可拆分的</li>
+<li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
+<li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
+<li>他要兼容Lightning，并实现其瞭望塔功能</li>
+<li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
+<li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
+<li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
+<li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
+</ul>
+
+
+<p>我好像真贪心呢^_^</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a></h1>
     
     
@@ -499,52 +554,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/06/22/guan-yu-huo-bi-de-li-shi-chuan-shuo/">关于货币的历史传说</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-06-22T16:50:46+08:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2019</time>
-        
-           | <a href="/blog/2019/06/22/guan-yu-huo-bi-de-li-shi-chuan-shuo/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2019/06/22/guan-yu-huo-bi-de-li-shi-chuan-shuo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h5>&lt;人类货币史></h5>
-
-<p><a href="https://book.douban.com/subject/27018212/">https://book.douban.com/subject/27018212/</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/06/22/guan-yu-huo-bi-de-li-shi-chuan-shuo/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -560,6 +569,10 @@
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
       </li>
     
@@ -573,10 +586,6 @@
     
       <li class="post">
         <a href="/blog/2019/08/04/ssl-tls-tips/">SSL&TLS Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">Libssl Segfaults on python3.6 With Threading</a>
       </li>
     
   </ul>
@@ -633,7 +642,7 @@
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (52)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (53)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

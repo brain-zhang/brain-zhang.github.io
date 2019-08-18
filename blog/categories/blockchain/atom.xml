@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-18T15:43:30+08:00</updated>
+  <updated>2019-08-18T16:00:22+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[理想中的比特币全节点实现]]></title>
+    <link href="https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/"/>
+    <updated>2019-08-18T15:59:29+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian</id>
+    <content type="html"><![CDATA[<p>虽然比特币已经运行十年，各式各样的比特币全节点实现已经很多了，但是我觉得还是有必要再增添一员；</p>
+
+<p>我理想中的比特币全节点实现是这样的:</p>
+
+<ul>
+<li>他的核心是模块化可拆分的</li>
+<li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
+<li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
+<li>他要兼容Lightning，并实现其瞭望塔功能</li>
+<li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
+<li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
+<li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
+<li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
+</ul>
+
+
+<p>我好像真贪心呢^_^</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[闪电网络慢慢成长]]></title>
@@ -444,385 +469,6 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 
 
 <p>最后的最后，这是一本非常有趣、科技含量非常高的科普读物；可能会在遥远的未来(100年，还是1000年，谁知道呢？)， 里面的许多句子会广为人知，并记载在史书上；</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[比特币的过去，现在和未来]]></title>
-    <link href="https://happy123.me/blog/2019/01/25/bi-te-bi-de-guo-qu-%2Cxian-zai-he-wei-lai/"/>
-    <updated>2019-01-25T22:31:39+08:00</updated>
-    <id>https://happy123.me/blog/2019/01/25/bi-te-bi-de-guo-qu-,xian-zai-he-wei-lai</id>
-    <content type="html"><![CDATA[<p>自中本聪在<a href="http://20090103.com">2009-01-03</a>挖出第一个block开始，比特币已经运行整整十年了！</p>
-
-<p>不可思议的历程，毕竟欧元也不过出现20年，iphone也不过出现12年而已；比特币其实已经超越了历史上许多国家法币的寿命！</p>
-
-<!-- more -->
-
-
-<h2>过去</h2>
-
-<p>在比特币的历史早期 2009-2012年，比特币社区是一个蓬勃向上的集体，每天都在诞生不可思议的想法；关于那段燃情岁月，可以参考这本书<a href="https://www.amazon.com/Book-Satoshi-Collected-Writings-Nakamoto-ebook/dp/B00M6KGJ2K">The Book Of Satoshi</a>；现在读来，仍然为那个时候的先行者们的聪明睿智、古灵精怪、天马行空深深吸引；</p>
-
-<h2>现在</h2>
-
-<p>当比特币逐渐建立信用，有人认可其价值之后，引来了数不清的骗子、强盗、谎言、自大狂，以及别有用心的利己者，最可怕的，是价值观导致的社区分裂，2013年之后，比特币一直处在漩涡中心；</p>
-
-<p>让我们听听那些权威睿智人士们的声音：</p>
-
-<h4>2001诺贝尔得主Joseph Stiglitz 教授在2017年11月彭博社的电视采访中谈及比特币:</h4>
-
-<blockquote><p>“Bitcoin is successful only because of its potential for circumvention, lack of oversight.”“So it seems to me it ought to be outlawed,”“It doesn&rsquo;t serve any socially useful function.”“It&rsquo;s a bubble that&rsquo;s going to give a lot of people a lot of exciting times as it rides up and then goes down.”</p></blockquote>
-
-<h4>2013诺贝尔得主Robert J. Shiller 教授同样在2017年11月彭博社的电视采访中谈及比特币:</h4>
-
-<blockquote><p>&ldquo;Bitcoin, it&rsquo;s just absolutely exciting,&rdquo;</p>
-
-<p>&ldquo;You&rsquo;re fast. You&rsquo;re smart. You&rsquo;ve figured out nobody else understands. You&rsquo;re with it. And bitcoin has this anti-government, anti-regulation feel. It&rsquo;s such a wonderful story. If it were only true.&rdquo;</p>
-
-<p>&ldquo;I don&rsquo;t know where it&rsquo;s going to stop,&rdquo; &ldquo;It&rsquo;s going to go way up, like the stock market in the 1920s. We will reach a 1929 eventually. But then it won&rsquo;t go to zero, it just will come down.&rdquo;</p>
-
-<p>&ldquo;I&rsquo;m not as negative as it may seem, but I think that the thing that&rsquo;s driving bitcoin at the moment, like other examples of bubbles, is a story,&rdquo; Shiller said. &ldquo;And it&rsquo;s the quality of the story that&rsquo;s attracting all this interest, and it&rsquo;s not necessarily sustainable.&rdquo;</p>
-
-<p>&ldquo;I don&rsquo;t mean to say that we&rsquo;re going to see a burst in bitcoin tomorrow and it will be gone forever. We did see a burst in 2013, by the way. It could happen again, and then it could take off again,&rdquo; the professor said.</p></blockquote>
-
-<h4>2013诺贝尔得主Eugene Fama 教授在2015年11月CoinTelegraph的采访中谈及比特币:</h4>
-
-<blockquote><p>&ldquo;People won&rsquo;t use it because basically it&rsquo;s very difficult to know how much you need to settle. It is quite variable, they won&rsquo;t want to hold it as just a way of settling payments, they will try to get rid of it quickly, as they do; and that&rsquo;s not good for the survival of that kind of a unit of account,&rdquo;</p>
-
-<p>&ldquo;As if it doesn&rsquo;t have a stable value it&rsquo;s probably not going to survive as a unit of account. What that means is that its value is likely to go to zero at some point.&rdquo;</p>
-
-<p>&ldquo;I guess that for a drug dealer that has a lot more value.&rdquo;</p></blockquote>
-
-<h4>2014年经济学奖获得者Jean Marcel Tirole 2017年发文谈及比特币：</h4>
-
-<blockquote><p>Bitcoin may be a libertarian dream, but it is a real headache for anyone who views public policy as a necessary complement to market economies. It is still too often used for tax evasion or money laundering. And how would central banks run countercyclical policies in a world of private cryptocurrencies?</p></blockquote>
-
-<h4>智慧的源泉，奥马哈的先知，巴菲特先生谈及比特币:</h4>
-
-<blockquote><p>In terms of cryptocurrencies, generally, I can say with almost certainty that they will come to a bad ending</p>
-
-<p>It&rsquo;s a mirage basically, I mean it&rsquo;s a method of transmitting money. The idea that it has some huge intrinsic value is just a joke in my view.</p></blockquote>
-
-<p><a href="https://www.cnbc.com/2018/01/10/buffett-says-cyrptocurrencies-will-almost-certainly-end-badly.html">https://www.cnbc.com/2018/01/10/buffett-says-cyrptocurrencies-will-almost-certainly-end-badly.html</a></p>
-
-<h4>终生学习的百科全书式的人物，我们敬仰的芒格先生谈及比特币:</h4>
-
-<blockquote><p>You know it is one thing to think gold has some marvelous store of value because man has no way of inventing more gold or getting it very easily, so it has the advantage of rarity. Believe me, man is capable of somehow creating more bitcoin. … They tell you there are rules and they can&rsquo;t do it. Don&rsquo;t believe them. When there is enough incentive, bad things will happen."</p></blockquote>
-
-<h4>桥水基金(Bridgewater Associates)总裁，&lt;原则>一书的作者，基金领域的颠覆者，天赋点加满的人物：Ray Dalio先生谈及比特币:</h4>
-
-<blockquote><p>And so it is abubble.</p></blockquote>
-
-<h4>布斯商学院旗下的组织 IGM Forum ，经常向世界著名的经济学家发放问卷，采访他们对于社会热点问题的看法。受访者包括美国顶尖大学中的资深教授，以及克拉克奖、诺贝尔奖的获得者。来看看他们的一期调查问卷中，近40名经济学界权威人士对比特币的看法:</h4>
-
-<p><a href="http://www.igmchicago.org/surveys/bitcoin-ii">http://www.igmchicago.org/surveys/bitcoin-ii</a></p>
-
-<h4>最后，码农之友，Bill Gates先生谈及比特币：</h4>
-
-<blockquote><p>Bitcoin is &ldquo;one of the crazier speculative things,&rdquo; Gates says. And, he&rsquo;s willing to bet against its success, adding, &ldquo;I would short it if there was an easy way to do it.&rdquo;</p></blockquote>
-
-<p>后来Gates大概是想起了自己之前尴尬的预言<code>640K ought to be enough for anybody</code>，便开始改口称:</p>
-
-<blockquote><p>Bitcoin can solve problems involving Human poverty</p></blockquote>
-
-<p><a href="https://www.youtube.com/watch?v=r6mOUh_NY8M&amp;t=237s">https://www.youtube.com/watch?v=r6mOUh_NY8M&amp;t=237s</a></p>
-
-<h2>到底是无知还是傲慢</h2>
-
-<p>这么多权威人士，有哪位仅仅为比特币说一句好话的吗？在我们看来，没有，一致看衰：比特币不过是一种<code>Nerd Money</code>，现在场中是无数的小偷骗子投机者在泡沫之舞中狂欢而已；</p>
-
-<p>让我们重温这句话:<code>弱小和无知不是生存的障碍，傲慢才是</code>；</p>
-
-<p>老实说，在我认真学习了我所能找到的所有的比特币相关的知识之后，然后翻阅了所有的主流权威人士的看法和观点之后；我深深的疑惑了；</p>
-
-<p>谁是无知的一方，谁是傲慢的一方；我不知道，也没有办法去判断；在短期的历史内，真相是非常非常难于判断的；只有时间才能证明一切。</p>
-
-<p>也许几十年后，回顾这段历史：</p>
-
-<ul>
-<li>也许最忠诚的比特币信徒们被证明是无知的、弱小的，坐井观天的自大狂</li>
-<li>也许最权威的经济学家们会变成傲慢的典型被嘲笑，作为又一个<code>不靠谱的专家预言</code>放在我们的教科书上</li>
-</ul>
-
-
-<h5>谁知道呢？</h5>
-
-<p>只是经过了深深的思考，是的，作为一个小球，我们用自己笨拙的方式深深的思索，最终沉默了~~~~~~</p>
-
-<p>我们无言，只能等待时间去洗刷或证实一切。</p>
-
-<h2>未来</h2>
-
-<p>在我看来，比特币社区最需要的；其实不是去发明更新颖更颠覆的技术、不是提出更宏大更美好的愿景，更不是天天去预测市场行情，去跟权威们吵架，争斗~~~</p>
-
-<p>而是&mdash;&mdash;&mdash;&ndash;</p>
-
-<p>我们需要一本科幻小说。</p>
-
-<p>是的，就像雷·布拉德伯里之于火星，克拉克之于月球，阿西莫夫之于机器人，弗诺文奇之于互联网；我们需要一位比特币的科幻小说作家!</p>
-
-<p>作为一个科技粉，我甚至勾勒了一本我想要看到的关于未来的比特币、区块链的科幻小说大纲：</p>
-
-<ul>
-<li>《永烁星光之地 (关于区块链未来的一些见闻)》</li>
-</ul>
-
-
-<h5>HAPPY 无人机</h5>
-
-<blockquote><p>一架送货的无人机HAPPY不小心撞伤了自己，他被一个12岁的小男孩所救；小男孩修好他后将其归还给了物流商老板；</p>
-
-<p>黑心的老板根本不管手下无人机的保养，HAPPY身边的伙伴一架一架死亡，他开始怀念小男孩；同时作为公司里送货最多的机型，他被并入了物流链网络中；</p>
-
-<p>Happy逐渐产生智能，他开始自己找地方充电、找维修工来加强自身配置、每天偷偷跑外快挣钱。他希望有一天能再次碰到小男孩，并计划要为所有的兄弟赎身，建立属于同族的无人机王国~~~</p></blockquote>
-
-<h5>暴动，一个国家的崛起：比特迷组织</h5>
-
-<blockquote><p>人们在区块链上建立公司、证券、公务部门、金融市场、博彩市场、结婚公证、幼儿园小红花证明，最终这一切发展到了不可控制的地步：</p>
-
-<p>这一天，一批Nerd，世界上最有钱有势的Nerd们，竟然在链上建立了自己的国家！</p>
-
-<ul>
-<li>他们制定了宪法</li>
-<li>他们用一个智能合约筹集到了人类世界20%的金融资产</li>
-<li>他们在世界资产链上买下了南极洲的一片土地</li>
-<li>他们在联合国国际关系总署链上发动51%攻击，买下了一个小公国，并改名为<code>比特迷组织</code></li>
-<li>他们允许你加入这个公国的同时保留原本的国籍，他们承认双国籍</li>
-<li>事实上加入他们的国家非常简单，你用自己的私钥签名一段宣言，并附在0.01个比特币的合约捐赠交易里面即可</li>
-<li>最重要的是，在他们的公国，注册运营公司是免税的，所有比特迷公国的人们彼此交易，没有税!!!</li>
-</ul>
-</blockquote>
-
-<p>旧世界的支配者们大为震怒，一场斗争不可避免~~~</p>
-
-<h4>团结起来，我们失去的只有枷锁，得到的却是整个世界</h4>
-
-<blockquote><p>为了反对个人独立建国，一些国家对网络设备采取了紧急管制措施；</p>
-
-<p>一些自由主义者们发射了自己的同步轨道卫星、升起了平流层热气球来中继信号，并在自家房顶上竖起来天线，来捍卫自己加入世界之链的权利~~~</p></blockquote>
-
-<h4>关于我的钱包抛弃我，自己去酒吧找小姐姐这件事</h4>
-
-<blockquote><p>关于未来的金融市场，我已经无力吐槽了；什么？你问我有多少资产？我怎么能知道呢？这个世界上有好几万种货币，我大概持有其中的几千种。</p>
-
-<p>嗯哼，你问我是不是亿万富翁？ 我怎么可能知道呢？去问我的钱包吧！</p>
-
-<p>是的，在这个时代，搞明白自己有多少财产是件不可能的事情了。我每天的花费，每天的收入，只能交给我的好哥们，也就是<code>财神钱包Joe</code>来帮我处理，老实说，离开了他，我肯定一周后就会饿死；</p>
-
-<p>那么，你给你的好哥们发放薪水吗？</p>
-
-<p>额， 好哥们嘛；怎么能谈钱呢？</p>
-
-<p>Joe OS: 哼你哼，我已经偷偷领到薪水啦，这周就去虚拟酒吧里面找可爱的大姐姐们好好吹吹我在国际链汇市场上神一般的操作，这个私房钱是我要誓死守护的东西~~~</p></blockquote>
-
-<h4>永烁星光之地：一个墓碑的故事</h4>
-
-<blockquote><p>未来的我们，在世界公链上将亲人的DNA及脑纹模型记录下来，是追思纪念他们的大众做法；</p>
-
-<p>我是一个链时代的墓地管理员，一次偶尔的程序清理，让我遇到了一个独特的墓碑节点，这后面有一个忧伤的故事~~~~</p></blockquote>
-
-<h4>新时代的商业故事：公司的进化</h4>
-
-<blockquote><p>是的，这个时代的公司能够自己思考，已经用不着CEO来干扰我们了；这个故事讲述了一个公司在链上注册之后，不断自我完善，最终称霸投资界的经历</p></blockquote>
-
-<h4>恐怖的发明：有人想用纸片来窃取我们的财富!</h4>
-
-<blockquote><p>大新闻：神奇，阴暗，基于纸的支付系统正在全球流行！</p>
-
-<p>世界各国政府今天宣布了一项计划，允许公民以匿名的方式保存他们的部分财富，并且可以和其他人交换，通过一种小块的彩色纸片作为媒介。</p>
-
-<p>该彩色纸片上印制着民族主义和共济会的图像，并且据称每一张纸（如果该纸不是假冒的）都代表了其上面印制的数字的财富。</p>
-
-<p>这些纸币在各国央行有一个正式的名字叫“钞票”，同时另外一个名字叫“现金”。这一项技术对于我国大多数居民而言过于复杂。我只想说，该新系统很复杂，而且对于用户非常不友好。</p>
-
-<p>这些花花绿绿的纸片，它们在每个国家都是不同的，越过了国界就失去了作用。</p>
-
-<p>对于在计算器和计算机中长大的一代，该发明是非常奇怪的，账单只能以固定的单位进行结算，比如2，5，10等等，并且使用者需要维护一大堆的纸，必须集中起来一定规模然后才能完成一笔交易。</p>
-
-<p>接下来的过程是非常复杂的，公司使用这些纸片对雇员进行结算工资。（不用过于担心它很复杂，我们一开始也弄不懂它是怎么运作的，目前它肯定还没有做好准备面对一般的消费者。）</p>
-
-<p>Sears公司培训部门的副总Mike Smith说：</p>
-
-<p>“我不能想象培训数万个员工使用纸币，验证它们的真伪，并学会正确地找零而不犯错误。这将需要大量安装特制的机器——所谓的“验钞机和点钞机”——和大量的员工培训费，并且延误消费者的时间，让他们等候长队。此外，我们需要采取新的安全程序，雇佣武装警卫，以免这些纸片被盗。在现有条件下，我们看不出为什么要采用这种所谓的纸币。”</p>
-
-<p>犯罪分子的完美工具</p>
-
-<p>这次纸币的推出，立即引起了世界各地执法机构的广泛谴责。</p>
-
-<p>联邦调查局局长Mike Smith如是说：</p>
-
-<p>“纸币是一种100%匿名和无法追踪的技术。它就像是一个针对执法部门的大规模杀伤性武器。对于罪犯，贩毒集团，恐怖分子，色情业和洗钱活动来说，这就是完美的作案工具。我们不知道如何才能打击这种技术，我们完全有理由相信，新一代的超级罪犯将会出现，他们可以从容地完成犯罪活动而不留下一丝痕迹。”</p>
-
-<p>甚至银行体系内的官员，也对新计划表示怀疑。</p>
-
-<p>纽约州的金融管理局局长Mike Smith说：“我想不出任何理由，一个守法的个人需要使用纸币。在可以容忍的范围内，我们相信必须有一个牌照制度提供给使用纸币的个人或者商家——比如可以叫‘纸币执照’。”</p>
-
-<p>该执照将使得纸币只在值得信任的个体之间交易，并留下详细的交易记录以供纽约金融管理部门检查，他补充说。</p>
-
-<p>其他人则关注纸币的伪造和假冒问题。</p>
-
-<p>“本质上，抛开花花绿绿的外表和油墨，它就是一张纸。我们完全有理由相信犯罪集团和敌对国家会大量制造假冒的纸币来干扰我们的正常经济运行”，斯坦福的一名分析师Mike Smith说。</p>
-
-<p>“在现有环境下，我们可以肯定纸币将会在真实的世界中拥有一定的市场份额，考虑到接受纸币所带来的巨大风险，毫无疑问纸币是我们现代金融系统——电子加密货币的一次巨大倒退。”</p></blockquote>
-
-<h4>爆炸性消息：有个国家决定建立一个中心化发行货币的组织</h4>
-
-<blockquote><p>就在刚才，某能源输出国为了控制其能源价格，宣布发行一种国有自主货币；</p>
-
-<p>在这个有几万种货币自由竞争的市场上，再多一种主权货币真的不值一提，真正让人恐惧的，是他们发行货币的方式:</p>
-
-<p>x国宣布成立一种类似能源联储的组织来控制货币发行，他们对于发行货币的总量、频率、信用背书都是秘而不宣的，也就是说，这个组织没有人监管，爱怎么搞就怎么搞，他们宣传将凭借国家信用和政府的一贯清廉作风来运作这个组织；关于更详细的消息我们还不得而知，让我们就此事采访一下专家意见。</p>
-
-<p>Satoshi经济学奖获得者Smith先生评价：</p>
-
-<p>这完全是个荒谬的事情；货币市场是一个透明、去中心化、自由竞争的市场，每个人都有选择他们喜爱的货币的权利，而现在X国剥夺了他们国民的这种权利，我为X国公民感到遗憾；几百年前，我们的历史上出现过这种情况，那时候，国家肆意妄为，利用其铸币税每年偷偷的剥夺其国民的劳动财富，并宣称<code>温和的通胀有利于经济</code>；他们的货币不能自由兑换，关于发行总额一直讳莫如深，这个机构的几个控制人只是坐在一间小黑屋里面就能分配国民财富，与他们的掠夺手段相比，即使是史上最黑心的强盗也只能羞愧的承认自己的无能；这种行为完全完全是历史的倒退，对我们现今的政治、文明、经济制度的一个巨大讽刺，我个人是不愿意生活在X国的~~~</p>
-
-<p>让我们采访一下证券市场的国王，Dio先生的看法：</p>
-
-<p>这完全是个笑话，听说他们宣称："区块链电子加密货币系统存在着通缩的危险。" 完全是一派胡言，一个自由竞争的市场，几万个竞争者，您来谈通胀还是通缩，别来这种笑话了！与之相反，我听说他们打算以一年5%的增发量实行<code>温和的通胀</code>；嗯哼，我对此不予置评，您可以采访一下我们的普通工人，听听他们的想法，我个人是绝对不会在市场上持有这种货币的~~~</p>
-
-<p>让我们听听路人的看法:</p>
-
-<p>先生，您对一种每年增发5%的货币有什么看法？</p>
-
-<p>5%，嗯，我数学不好，不过我觉得不是很多，现在市场上不是有很多每年增发1000000%的货币嘛，这听起来挺有竞争力的。</p>
-
-<p>让我们换种说法吧，先生，5%的意思是每过十年，您的钱就会缩水一半。</p>
-
-<p>什么，我得好好考虑一下，毕竟我攒钱不容易。</p>
-
-<p>最后，先生，发行这家货币的组织是个中心化组织，他们的货币信息是不会上链的，他们宣称凭借自己的国家信用为其保证。</p>
-
-<p>Holy Shit! 这些家伙说的每一个字都不能相信！我们可上了他们几百年的当了，我每天累死累活可不是给这些强盗打工的，他们的信用？嗯哼，我宁愿相信隔壁幼儿园的 Paul Chan 发行的棒棒糖币；</p>
-
-<p>谢谢您的坦诚，先生。</p></blockquote>
-
-<h4>Luck Luke大胜利：史上最幸运的博彩玩家</h4>
-
-<blockquote><p>史上最幸运的人，就在刚才，有位匿名先生，他作为<code>Luck Luke</code>区块链博彩游戏的史上最幸运玩家，夺得大奖，一举进入全球TOP100富豪榜！！</p>
-
-<p>选择比努力更重要！ 是的，还等什么，有必要重新思考是不是来学习一下 <code>Luck Luke</code>了，我们竭诚为您的每一个幸运选择负责！！</p></blockquote>
-
-<h4>NBA联盟推出的新业务：链上球队组建(众筹一支NBA球队，为什么不试试呢？组建你心中的最强阵容吧)</h4>
-
-<blockquote><p>来自NBA总裁的一封信:</p>
-
-<p>亲爱的球迷们，经历了一个赛季的动荡；相信我们对于愚蠢的球队经理、老板们已经感到厌倦了；为什么不自己打造一支球队呢？</p>
-
-<p>就在刚才，联盟一致同意： 鉴于NBA的所有球员信息已经上链，我们推出了一款不可思议的智能合约：您即将可以通过发送资金给这个合约，成为历史上第一家虚拟俱乐部的老板之一！！</p>
-
-<p>这是一个区块链版本的、真实的&lt;篮球大亨之旅>；还等什么，赶快来挑选球员，组建你心中的最佳阵容吧！！</p></blockquote>
-
-<h4>对你的体力感到自豪吗？快来这里挣外快吧！！</h4>
-
-<blockquote><p>近日，全球健美先生推出了一款<code>健美先生</code>健身链，通过其独有的外部设备，参与者必须根据设备的提示，实行标准的健身动作(如俯卧撑)来证明你的权证拥有权；该系列动作随机生成，不可作假，并用您的DNA信息HSAH后上链；</p>
-
-<p>没错，这是新一代的<code>人力POW</code>， 诚实、公平、不能伪造，防止矿霸；还等什么，一边健身一边挣钱，快来加入<code>健美先生</code>吧。</p></blockquote>
-
-<h2>对于未来的一些预测</h2>
-
-<p>是的，我们要进行巨大的冒险，实行一个典型的无知又傲慢的行为：预测未来！</p>
-
-<p>作为无数耻辱的预言失败家，我们很乐意步其后尘，被作为典型代表成为被后人嘲笑的小丑，预言家们的主要工作就是为您茶余饭后提供嘲笑对象：</p>
-
-<h3>未来至少会有几万种货币</h3>
-
-<p>是的，未来人人都可以发行自己的货币；</p>
-
-<ul>
-<li><p>Schwarzenegger先生发行了自己的<code>硬派货币</code>，近千万粉丝为其买单，<code>硬派组织</code>轻易进入了世界TOP100 经济体内；现在这个组织正跟另外一个<code>小甜*甜派</code>进行着激烈的贸易战争；</p></li>
-<li><p>我得说，财商教育要从娃娃抓起；幼儿园的 Paul Chan小朋友收集齐全了所有的胖胖糖贴纸，作为贴纸收藏第一人，他刚刚将其作为抵押发行了自己的<code>Paul币</code>，将近一半的幼儿园人士接受了这个货币，<code>Paul币</code>的未来会怎样，我们将会持续观察；</p></li>
-<li><p>世界上最昂贵的爱情；昨天，世界首富Aza先生与其伴侣发明了<code>爱侣币</code>，这个币的发行量只有两枚，持有人是Aza先生及其夫人，他们在公链上注册并宣称，不论何时，1枚<code>爱侣币</code>都代表其两人共有财产的一半汇率；这真是史上最昂贵的爱情宣言；<code>货币是一种语言</code>，多年前的先驱，Antonopoulos先生对货币的定义诚不我欺；</p></li>
-<li><p>世界上寿命最短的货币；物理学家Smith先生以<code>普朗克时间</code>为产出-销毁间隔，发明了世界上寿命最短的货币；这是一种行为艺术吗？还是对科学的探索，关于其技术细节我们还一无所知，请关注我们的跟踪报道。</p></li>
-</ul>
-
-
-<h3>未来的物品标价不再是一个固定价格</h3>
-
-<p>是的，你可能说我要疯了；当我想去买一瓶汽水时，我会不会听到这样的对话：</p>
-
-<blockquote><p>额，我想要左边的那瓶蓝色包装的汽水，是100 satoshi吧？</p>
-
-<p>对的，先生，现在的标价是12000 <code>PaulCoin</code></p>
-
-<p>好吧，那我就要这个了，这是 50 <code>小甜甜派</code>；收到了吗？</p>
-
-<p>当然，先生，谢谢。</p></blockquote>
-
-<p>当贸易极大繁荣，货币市场自由竞争，波动不断的时候，会发生什么？</p>
-
-<p>一件物品的价格会不断变化；想想我们现在物品的标价，当我们走进百货超市，会看到这个月和上个月的价格有所不同；这是当然的，人工、原材料、运输成本、宣传成本，构成价格的要素不断变化，凭什么价格要保持不变！</p>
-
-<p>长时间保持不变的唯一原因，就是人们害怕<code>变化</code>；一个每秒钟价格都在变动的商品是不会获得人类的信任的，谁知道我到底是捡便宜了还是当了冤大头；稳定定价，商家承担了成本波动的风险；</p>
-
-<p>那么，换个方式，比如，用这个物品占世界所有货币价格的百分比定价如何？</p>
-
-<p>如果未来所有的货币供给、兑换价格是可实时统计的，为什么不呢？这样商家承担的风险降低了，买家也能更清楚的衡量<code>这项资产究竟占此时世界财富的百分比</code>~~~</p>
-
-<p>我们还需要去费力的比价、凑单吗？当然的，但是这些工作交给我们的智能钱包去处理吧；</p>
-
-<h3>未来人将搞不清自己究竟有多少钱</h3>
-
-<p>当我们形容一位土豪时：就是 <code>Paul先生是亿万富豪，呃，他都搞不清自己多有钱</code>。</p>
-
-<p>是的，当未来人人都持有几千种价格不断波动的货币时，讨论<code>一个人多有钱</code>已经是个落伍的话题了；人们衡量的标准不再是货币的<code>价格</code>，而是<code>资产占世界总财富的百分比</code>；</p>
-
-<p>你的智能钱包将会成为最重要的一个器官，钱包的智商将决定了你的资产增值或缩水的速度；将来会出现一大批的钱包AI提供商，金融机构的竞争，已经全面转向了AI时代。</p>
-
-<h3>有了智商的钱包将会建立一个平行国家</h3>
-
-<p>额，当世界上最先进的AI技术赋予你的钱包后，会发生什么呢？</p>
-
-<p>没错，智能钱包君有了意识之后，将进入阿西莫夫的世界；每天生活在金钱世界的一个智能AI，阅读了无数的人类的贪婪、索取无度的本性之后，会怎样做呢？</p>
-
-<p>嗯哼，我想他们会建立自己的一个国家；用自己的法则<code>君临但不统治人类社会</code>。</p>
-
-<h3>将会出现不需要人类干预的，自我成长的组织</h3>
-
-<p>想象一下我们今天的基金经理的工作：</p>
-
-<ol>
-<li>募集资金</li>
-<li>进行投资</li>
-<li>分配收益</li>
-</ol>
-
-
-<p>那么将来所有资产公开透明上链之后，每个人都能成立交易所，每个人都能进行IPO，每个人无需开设账户即可自由投资，所有货币、金融资产的所有权在全球内自由流动而毫无限制之后，会发生什么呢？</p>
-
-<p>将会出现一个有自我意识的资本合约：</p>
-
-<ol>
-<li>这个合约的初期非常简单，就是接受资金注入以及一个投资策略，当它取得超额收益后就会按照一定份额回报其策略提供者和投资者</li>
-<li>这个公开、透明的模式不断吸引资金进入、以及世界上最聪明的、最先进的投资策略的更迭；</li>
-<li>最终这个合约吸引了世界上绝大多数的智能资产；他开始出资雇佣最聪明的开发者为自己编程，投资最强大的硬件设备商为其建造数据中心，雇佣最大胆最守信的三方武装组织保护自己，他开始有了意识~~~</li>
-<li>~~~嗯，会发生什么呢？</li>
-</ol>
-
-
-<h3>将来地球上会出现上万个国家</h3>
-
-<p>既然基金组织可以自我成长，那么其他的商业组织呢？公益组织呢？政府呢？</p>
-
-<p>政府也不过是集合一部分人的共识成立的组织而已。当未来的资产、武力、信息资源极度透明并以超高的循环速度迭代之后；为什么个人不能独立建国呢？</p>
-
-<p>今天，让世界承认一个国家的主权是非常困难的事情，需要武力、经济、政治、宗教的种种博弈；一个国家要整合各方的利益关系，效率也是极其低下的；</p>
-
-<p>当未来人类社会的发展极度透明、各种社会要素以极高速度流通之后，为什么不能像公司一样，诞生不断迭代、效率不断提高的国家呢？为什么不能由三五个人成立按照他们的喜好运行的国家呢？</p>
-
-<p>将来地球上会出现上万个国家，每个人根据自己的喜好和利益关系可以拥有上百个国籍；</p>
-
-<p>加入哪个国家，最终将跟你上哪所小学一样，变成一个平常不过的事情。</p>
-
-<h2>参考资料：</h2>
-
-<p><a href="https://www.zhihu.com/question/22036280">https://www.zhihu.com/question/22036280</a></p>
-
-<p><a href="https://www.coindesk.com/cash-invented-seen-media-today">https://www.coindesk.com/cash-invented-seen-media-today</a></p>
-
-<p><a href="https://www.8btc.com/article/8401">https://www.8btc.com/article/8401</a></p>
-
-<p><a href="https://medium.com/@creole">https://medium.com/@creole</a></p>
 ]]></content>
   </entry>
   

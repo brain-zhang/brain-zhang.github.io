@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>How to Auto Gen Css/js by Grunt and Jenkins - Living a Simple Life is a Happy Life</title>
+  <title>理想中的比特币全节点实现 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="虽然有grunt-contrib-watch的存在，但多个人编辑同一份css/js代码时，还要操心编译这个事，实在是多余。 想到的最直接的办法就是jenkins上开一个项目，自动编译一把，再自动提交: 虽然是野路子，但效果那是杠杠的。 记一下一些要注意的点: 有时候自动编译会失败，需要标记一下: &hellip;">
+  <meta name="description" content="虽然比特币已经运行十年，各式各样的比特币全节点实现已经很多了，但是我觉得还是有必要再增添一员； 我理想中的比特币全节点实现是这样的: 他的核心是模块化可拆分的
+他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面
+他要实现BIP-157和BIP-158， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +22,7 @@
   
 
   
-  <link rel="canonical" href="https://happy123.me/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins">
+  <link rel="canonical" href="https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -79,7 +81,7 @@
   
   <header>
     
-      <h1 class="entry-title">How to Auto Gen Css/js by Grunt and Jenkins</h1>
+      <h1 class="entry-title">理想中的比特币全节点实现</h1>
     
     
       <p class="meta">
@@ -95,7 +97,7 @@
   
 
 
-<time datetime="2014-10-29T12:16:15+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+<time datetime="2019-08-18T15:59:29+08:00" pubdate data-updated="true">Aug 18<span>th</span>, 2019</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://happy123.me">Comments</a>
@@ -105,68 +107,23 @@
   </header>
 
 
-<div class="entry-content"><p>虽然有<a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a>的存在，但多个人编辑同一份css/js代码时，还要操心编译这个事，实在是多余。</p>
+<div class="entry-content"><p>虽然比特币已经运行十年，各式各样的比特币全节点实现已经很多了，但是我觉得还是有必要再增添一员；</p>
 
-<p>想到的最直接的办法就是jenkins上开一个项目，自动编译一把，再自动提交:</p>
-
-<p>虽然是野路子，但效果那是杠杠的。</p>
-
-<p>记一下一些要注意的点:</p>
+<p>我理想中的比特币全节点实现是这样的:</p>
 
 <ul>
-<li>有时候自动编译会失败，需要标记一下:</li>
+<li>他的核心是模块化可拆分的</li>
+<li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
+<li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
+<li>他要兼容Lightning，并实现其瞭望塔功能</li>
+<li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
+<li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
+<li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
+<li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/node-v0.10.20-linux-x64/bin/grunt --force |tee $PWD_DIR/grunt.log
-</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
-</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
-</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
-</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
-</span><span class='line'>    exit 1
-</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样jenkins编译失败，就会标红了</p>
-
-<ul>
-<li>还有个坑，有时候新增加了一个js的代码目录，这样编译后也会多一个目录，这就需要svn每次提交的时候，不要忘了强制add一下当前所有目录:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn add static/dist/ --force</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>最后，极少数的情况编译后会出现冲突，因为编译的时候有人同样编译了一把提交了，这样自动提交会失败，也需要标记一下:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn ci --no-auth-cache --username=xxx --password=xxx static/dist/* -m "jenkins:auto grunt" 2&gt;&1| tee $PWD_DIR/svn.log
-</span><span class='line'>err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
-</span><span class='line'>fail_count=`grep 'failed' *.log|wc -l`
-</span><span class='line'>abort_count=`grep 'Aborting' *.log|wc -l`
-</span><span class='line'>if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
-</span><span class='line'>    exit 1
-</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样基本上看看jenkins的状态，或是让jenkins自动发发邮件，就舒心了。</p>
+<p>我好像真贪心呢^_^</p>
 </div>
 
 
@@ -189,12 +146,12 @@
   
 
 
-<time datetime="2014-10-29T12:16:15+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+<time datetime="2019-08-18T15:59:29+08:00" pubdate data-updated="true">Aug 18<span>th</span>, 2019</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/grunt/'>grunt</a>, <a class='category' href='/blog/categories/jenkins/'>jenkins</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
   
 </span>
 
@@ -210,10 +167,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/10/29/how-to-compile-by-autotools/" title="Previous Post: how to compile by autotools">&laquo; how to compile by autotools</a>
+        <a class="basic-alignment left" href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/" title="Previous Post: 为Flask RestAPI集成Swagger UI">&laquo; 为Flask RestAPI集成Swagger UI</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/10/31/uwsgibu-shu-djangocheng-xu/" title="Next Post: uwsgi部署django程序">uwsgi部署django程序 &raquo;</a>
       
     </p>
   </footer>
@@ -335,8 +290,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://happy123.me/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/';
-        var disqus_url = 'https://happy123.me/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/';
+        var disqus_identifier = 'https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/';
+        var disqus_url = 'https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/';
         var disqus_script = 'embed.js';
       
     (function () {
