@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-18T15:41:43+08:00</updated>
+  <updated>2019-08-18T15:43:30+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,274 +18,257 @@
     <link href="https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/"/>
     <updated>2019-08-18T15:38:02+08:00</updated>
     <id>https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui</id>
-    <content type="html"><![CDATA[<p>在我的一台服务器被数不清的脚本小子暴力尝试登陆N次后，我下定决心将所有的开发环境换成统一的ssh key；并禁止用户登陆；</p>
+    <content type="html"><![CDATA[<p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
 
-<p>其中最折腾的部分就是使用我的GPG Key统一所有的ssh 环境；我也很纳闷，为什么自己没有早点搞定这些事情；</p>
+<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来&hellip;T_T”</p>
 
-<p>众所周知，GPG和Openssl的key是不兼容的，所以统一环境还是花了不少时间，主要是参考了这篇文章：</p>
-
-<p><a href="https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth">https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</a></p>
-
-<p>常用命令:</p>
+<p>还是老老实实流水账记一下吧:</p>
 
 <!-- more -->
 
 
-<h3>GPG</h3>
+<h3>依赖组件</h3>
 
 <ul>
-<li>生成证书</li>
+<li><a href="https://flask-restplus.readthedocs.io">flask-restplus</a></li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --gen-key</span></code></pre></td></tr></table></div></figure>
+<p>restplus能让人很方便的通过几个decorator就可以集成很漂亮的restapi，它提供了api命名空间、Request和Response解析以及Swagger UI的集成</p>
 
+<p>另外，flask-restplus的文档和例子写的非常简洁清晰，赞一个。</p>
 
 <ul>
-<li>生成撤销证书</li>
+<li><a href="https://flask-httpauth.readthedocs.io/en/latest/">flask-httpauth</a></li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --gen-revoke [用户ID]</span></code></pre></td></tr></table></div></figure>
+<p>用来集成验证机制，支持基本的密码验证、Token验证；短小精悍，够用了</p>
 
+<h3>起步</h3>
 
-<ul>
-<li>列出所有密钥</li>
-</ul>
+<p>引用官网的例子:</p>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --list-keys</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出</p>
+<h4>构建api对象</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/home/brain/.gnupg/pubring.gpg
-</span><span class='line'>-------------------------------
-</span><span class='line'>pub   4096R/3ED25428 2019-08-16
-</span><span class='line'>uid                  brain.zhang (happy123.me) &lt;brain.zhangbin@outlook.com&gt;
-</span><span class='line'>sub   4096R/F60CBF88 2019-08-16</span></code></pre></td></tr></table></div></figure>
-
-
-<p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示&#8221;用户ID&#8221;，第四行显示subkey。</p>
-
-<ul>
-<li>输出密钥</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --armor --output public-key.txt --export [用户ID]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>输出密钥时转换私钥</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --armor --output private-key.txt --export-secret-keys</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>上传公钥</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --keyserver keys.gnupg.net --send-keys [pub key ID] 
-</span><span class='line'>...
-</span><span class='line'>gpg --keyserver keys.gnupg.net --search-keys brain.zhang</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>生成公钥指纹供别人检查</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --fingerprint [用户ID]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>加密文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --recipient [用户ID] --output demo.en.txt --encrypt demo.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>解密文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --decrypt demo.en.txt --output demo.de.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>对文件签名</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --clearsign demo.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>获得单独的签名文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --armor --detach-sign demo.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>验证签名</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --verify demo.txt.asc demo.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>导入第三方公钥</h3>
-
-<ul>
-<li>获得公钥</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --keyserver keys.gnupg.net --search-keys &lt;user ID&gt;
-</span><span class='line'>...
-</span><span class='line'>gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>验证公钥</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> gpg --edit-key &lt;key ID&gt;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你可以键入<code>fpr</code> 来打印这个主钥的指纹，和你得到的主钥指纹进行对比，如果一致则键入<code>trust</code> 来设置主钥的信任度。如果主钥被设置为绝对可信的（ultimately），GPG 会根据主钥的公钥验证从钥的签名，最终完成信任建立。最后键入quit 退出。</p>
-
-<h3>在Github中使用GPG</h3>
-
-<ul>
-<li>输出key id</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --list-secret-keys --keyid-format LONG</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>设置提交</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> git config  user.signingkey &lt;key ID&gt;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>对单次提交进行签名：</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -S -m "-S选项表示对此次提交使用gpg进行签名"</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>签名标签</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git tag -s &lt;tag&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>ssh server gen</h3>
-
-<ul>
-<li>制作密钥对</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@host ~]$ ssh-keygen </span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥</li>
-</ul>
-
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from flask import Flask
+</span><span class='line'>from flask_restplus import Api, Resource, fields
+</span><span class='line'>from werkzeug.contrib.fixers import ProxyFix
+</span><span class='line'>
+</span><span class='line'>app = Flask(__name__)
+</span><span class='line'>app.wsgi_app = ProxyFix(app.wsgi_app)
+</span><span class='line'>
+</span><span class='line'>api = Api(app, version='1.0', title='Chainhorn API',
+</span><span class='line'>    description='A simple ChainHorn API',
+</span><span class='line'>)
+</span><span class='line'>
+</span><span class='line'>ns = api.namespace('node', description='node operations')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
+
+<p>下面紧跟着构建了一个<code>ns</code> &mdash;<code>namespace</code>对象，作用是为不同的资源，不同的url分组，这样最后反映到界面上好看一点；</p>
+
+<h4>修饰</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@host ~]$ cd .ssh
-</span><span class='line'>[root@host .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys
-</span><span class='line'>[root@host .ssh]$ chmod 600 authorized_keys
-</span><span class='line'>[root@host .ssh]$ chmod 700 ~/.ssh</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ns.route('')
+</span><span class='line'>  class NodeGetInfo(Resource):
+</span><span class='line'>      @ns_node.doc('get node info')
+</span><span class='line'>      def get(self):
+</span><span class='line'>          '''get node info'''
+</span><span class='line'>          info = spv.getinfo()
+</span><span class='line'>          return {'nodeinfo': info}, 200</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>设置 SSHD，打开密钥登录功能
-编辑 /etc/ssh/sshd_config 文件，进行如下设置：</li>
-</ul>
+<p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
 
+<h4>Request参数处理</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PubkeyAuthentication yes
-</span><span class='line'>PermitRootLogin yes</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</li>
-</ul>
-
-
-<p>使用 WinSCP、SFTP 等工具将私钥文件 id_rsa 下载到客户端机器上。然后打开 PuTTYGen，单击 Actions 中的 Load 按钮，载入你刚才下载到的私钥文件。如果你刚才设置了密钥锁码，这时则需要输入。</p>
-
-<p>载入成功后，PuTTYGen 会显示密钥相关的信息。在 Key comment 中键入对密钥的说明信息，然后单击 Save private key 按钮即可将私钥文件存放为 PuTTY 能使用的格式。</p>
-
-<p>今后，当你使用 PuTTY 登录时，可以在左侧的 Connection &ndash;> SSH &ndash;> Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
-
-<ul>
-<li>验证无误，关闭密码登陆</li>
-</ul>
-
+<p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
+下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PasswordAuthentication no
-</span><span class='line'>[root@host .ssh]$ service sshd restart</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ns.route('/broadcast/&lt;string:tx&gt;')
+</span><span class='line'>  class WalletBroadcastTx(Resource):
+</span><span class='line'>      @ns.doc('broadcast raw tx')
+</span><span class='line'>      @ns.param('tx', 'The transaction hash identifier')
+</span><span class='line'>      def post(self, tx):
+</span><span class='line'>          '''broadcast raw tx'''
+</span><span class='line'>          sendrawtransaction(spv, tx)
+</span><span class='line'>          return {'broadcast': 'ok'}, 200</span></code></pre></td></tr></table></div></figure>
 
+
+<p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TxModel = {'tx': fields.String(required=True, description='The hex tx')}
+</span><span class='line'>@ns.route('/broadcast')
+</span><span class='line'>  class WalletBroadcastTx(Resource):
+</span><span class='line'>      @ns.doc('broadcast raw tx')
+</span><span class='line'>      @ns.expect(TxModel, 200)
+</span><span class='line'>      def post(self, tx):
+</span><span class='line'>          '''broadcast raw tx'''
+</span><span class='line'>          sendrawtransaction(spv, api.payload['tx'])
+</span><span class='line'>          return {'broadcast': 'ok'}, 200</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>Response参数处理</h4>
+
+<p>同样的，如果需要返回一个对象，在界面上出现这个对象的详细描述信息，可以用<code>marshal_with</code>和<code>marshal_list_with</code>来修饰；</p>
+
+<p>具体请参考:</p>
+
+<p><a href="https://flask-restplus.readthedocs.io/en/stable/parsing.html">https://flask-restplus.readthedocs.io/en/stable/parsing.html</a></p>
+
+<h4>用户验证</h4>
+
+<p>例如，为API加上HTTP Token Auth，要用到<code>HTTPTokenAuth</code>对象；</p>
+
+<p>首先我们先定义验证规则:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>auth = HTTPTokenAuth()
+</span><span class='line'>tokens = {
+</span><span class='line'>  'APIKEY':'hello',
+</span><span class='line'>  "APPID": "chainhorn"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@auth.verify_token
+</span><span class='line'>def verify_token(token):
+</span><span class='line'>  if request.headers.get('APIKEY', '').strip()==tokens['APIKEY'] and \
+</span><span class='line'>     request.headers.get('APPID', '').strip() == tokens['APPID']:
+</span><span class='line'>      return True
+</span><span class='line'>  else:
+</span><span class='line'>      return False</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ns.route('')
+</span><span class='line'>class NodeGetInfo(Resource):
+</span><span class='line'>  @ns.doc('get node info')
+</span><span class='line'>  @auth.login_required
+</span><span class='line'>  def get(self):
+</span><span class='line'>      '''get node info'''
+</span><span class='line'>      info = spv.getinfo()
+</span><span class='line'>      return {'nodeinfo': info}, 200
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样后台验证就有了；那么前台输入呢？</p>
+
+<p>这个例子里面，我们需要前台输入的时候在HTTP Header里面传入两个Key: APIKEY和APPKEY；直接用用Swagger UI自带的组件实现就可以了，把api对象构造为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AUTHORIZATIONS = {
+</span><span class='line'>    'apikey': {
+</span><span class='line'>        'type': 'apiKey',
+</span><span class='line'>        'in': 'header',
+</span><span class='line'>        'name': 'APIKEY'
+</span><span class='line'>    },
+</span><span class='line'>    'appid': {
+</span><span class='line'>        'type': 'apiKey',
+</span><span class='line'>        'in': 'header',
+</span><span class='line'>        'name': 'APPID'
+</span><span class='line'>    }    
+</span><span class='line'>}
+</span><span class='line'>api = Api(app,
+</span><span class='line'>        version='v1',
+</span><span class='line'>        authorizations=AUTHORIZATIONS,
+</span><span class='line'>        security=list(AUTHORIZATIONS.keys()),
+</span><span class='line'>        title='Chainhorn API',
+</span><span class='line'>        description='Chainhorn API',
+</span><span class='line'>)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>
+
+<p>此时前台的界面是这样的:</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg" alt="Auth1" /></p>
+
+<p>可以点击右上角的Authorize一次性设置所有API的访问密钥；</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg" alt="Auth2" /></p>
+
+<p>也可以在每个API的右上角设置访问密钥；</p>
+
+<p>当然，我们目前的密钥是后台写死的，你可以引入一个三方库为每个用户生成不同的密钥存到数据库里面，然后每次验证~~~</p>
 
 <h3>综合例子</h3>
 
