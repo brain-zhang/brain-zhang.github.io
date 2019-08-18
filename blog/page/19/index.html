@@ -82,6 +82,53 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Export Json by Mongoexport</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-03T08:46:23+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2014</time>
+        
+           | <a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Exp:</p>
+
+<pre><code>mongoexport -d foo -c exp -o exp.json -q '{"ts":{"$gte":0}}'
+</code></pre>
+
+<p>Notice:</p>
+
+<pre><code>You should use `"`  not  `'` in query string
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/03/26/freeze-svn-externals-for-tags/">Freeze Svn:externals for Tags/branch</a></h1>
     
     
@@ -663,6 +710,10 @@ rm -rf remove.js
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/">Using a GPG Key and Ssh Auth</a>
       </li>
     
@@ -676,10 +727,6 @@ rm -rf remove.js
     
       <li class="post">
         <a href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">Libssl Segfaults on python3.6 With Threading</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/07/24/elasticserach-tips/">Elasticserach Tips</a>
       </li>
     
   </ul>
@@ -742,7 +789,7 @@ rm -rf remove.js
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (27)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (28)</a></li>
 <li class='category'><a href='/blog/categories/django/'>django (2)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (5)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>

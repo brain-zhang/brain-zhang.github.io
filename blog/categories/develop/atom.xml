@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-17T08:17:20+08:00</updated>
+  <updated>2019-08-18T15:38:46+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,219 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为Flask RestAPI集成Swagger UI]]></title>
+    <link href="https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/"/>
+    <updated>2019-08-18T15:38:02+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui</id>
+    <content type="html"><![CDATA[<p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
+
+<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来&hellip;T_T”</p>
+
+<p>还是老老实实流水账记一下吧:</p>
+
+<!-- more -->
+
+
+<h3>依赖组件</h3>
+
+<ul>
+<li><a href="https://flask-restplus.readthedocs.io">flask-restplus</a></li>
+</ul>
+
+
+<p>restplus能让人很方便的通过几个decorator就可以集成很漂亮的restapi，它提供了api命名空间、Request和Response解析以及Swagger UI的集成</p>
+
+<p>另外，flask-restplus的文档和例子写的非常简洁清晰，赞一个。</p>
+
+<ul>
+<li><a href="https://flask-httpauth.readthedocs.io/en/latest/">flask-httpauth</a></li>
+</ul>
+
+
+<p>用来集成验证机制，支持基本的密码验证、Token验证；短小精悍，够用了</p>
+
+<h3>起步</h3>
+
+<p>引用官网的例子:</p>
+
+<h4>构建api对象</h4>
+
+<p>```
+from flask import Flask
+from flask_restplus import Api, Resource, fields
+from werkzeug.contrib.fixers import ProxyFix</p>
+
+<p>app = Flask(<strong>name</strong>)
+app.wsgi_app = ProxyFix(app.wsgi_app)</p>
+
+<p>api = Api(app, version=&lsquo;1.0&rsquo;, title=&lsquo;Chainhorn API&rsquo;,</p>
+
+<pre><code>description='A simple ChainHorn API',
+</code></pre>
+
+<p>)</p>
+
+<p>ns = api.namespace(&lsquo;node&rsquo;, description=&lsquo;node operations&rsquo;)
+```</p>
+
+<p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
+
+<p>下面紧跟着构建了一个<code>ns</code> &mdash;<code>namespace</code>对象，作用是为不同的资源，不同的url分组，这样最后反映到界面上好看一点；</p>
+
+<h4>修饰</h4>
+
+<p>`&ldquo;
+@ns.route(&rdquo;)
+  class NodeGetInfo(Resource):</p>
+
+<pre><code>  @ns_node.doc('get node info')
+  def get(self):
+      '''get node info'''
+      info = spv.getinfo()
+      return {'nodeinfo': info}, 200
+</code></pre>
+
+<p>```</p>
+
+<p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
+
+<h4>Request参数处理</h4>
+
+<p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
+下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code>
+```
+@ns.route(&lsquo;/broadcast/&lt;string:tx>&rsquo;)
+  class WalletBroadcastTx(Resource):</p>
+
+<pre><code>  @ns.doc('broadcast raw tx')
+  @ns.param('tx', 'The transaction hash identifier')
+  def post(self, tx):
+      '''broadcast raw tx'''
+      sendrawtransaction(spv, tx)
+      return {'broadcast': 'ok'}, 200
+</code></pre>
+
+<p>```</p>
+
+<p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
+
+<p>```
+TxModel = {&lsquo;tx&rsquo;: fields.String(required=True, description=&lsquo;The hex tx&rsquo;)}
+@ns.route(&lsquo;/broadcast&rsquo;)
+  class WalletBroadcastTx(Resource):</p>
+
+<pre><code>  @ns.doc('broadcast raw tx')
+  @ns.expect(TxModel, 200)
+  def post(self, tx):
+      '''broadcast raw tx'''
+      sendrawtransaction(spv, api.payload['tx'])
+      return {'broadcast': 'ok'}, 200
+</code></pre>
+
+<p>```</p>
+
+<h4>Response参数处理</h4>
+
+<p>同样的，如果需要返回一个对象，在界面上出现这个对象的详细描述信息，可以用<code>marshal_with</code>和<code>marshal_list_with</code>来修饰；</p>
+
+<p>具体请参考:</p>
+
+<p><a href="https://flask-restplus.readthedocs.io/en/stable/parsing.html">https://flask-restplus.readthedocs.io/en/stable/parsing.html</a></p>
+
+<h4>用户验证</h4>
+
+<p>例如，为API加上HTTP Token Auth，要用到<code>HTTPTokenAuth</code>对象；</p>
+
+<p>首先我们先定义验证规则:</p>
+
+<p>```
+auth = HTTPTokenAuth()
+tokens = {
+  &lsquo;APIKEY&rsquo;:&lsquo;hello&rsquo;,
+  &ldquo;APPID&rdquo;: &ldquo;chainhorn&rdquo;
+}</p>
+
+<p>@auth.verify_token
+def verify_token(token):
+  if request.headers.get(&lsquo;APIKEY&rsquo;, &lsquo;&rsquo;).strip()==tokens[&lsquo;APIKEY&rsquo;] and \</p>
+
+<pre><code> request.headers.get('APPID', '').strip() == tokens['APPID']:
+  return True
+</code></pre>
+
+<p>  else:</p>
+
+<pre><code>  return False
+</code></pre>
+
+<p>```</p>
+
+<p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
+
+<p>`&ldquo;
+@ns.route(&rdquo;)
+class NodeGetInfo(Resource):
+  @ns.doc(&lsquo;get node info&rsquo;)
+  @auth.login_required
+  def get(self):</p>
+
+<pre><code>  '''get node info'''
+  info = spv.getinfo()
+  return {'nodeinfo': info}, 200
+</code></pre>
+
+<p>```</p>
+
+<p>这样后台验证就有了；那么前台输入呢？</p>
+
+<p>这个例子里面，我们需要前台输入的时候在HTTP Header里面传入两个Key: APIKEY和APPKEY；直接用用Swagger UI自带的组件实现就可以了，把api对象构造为:</p>
+
+<p>```
+AUTHORIZATIONS = {</p>
+
+<pre><code>'apikey': {
+    'type': 'apiKey',
+    'in': 'header',
+    'name': 'APIKEY'
+},
+'appid': {
+    'type': 'apiKey',
+    'in': 'header',
+    'name': 'APPID'
+}
+</code></pre>
+
+<p>}
+api = Api(app,</p>
+
+<pre><code>    version='v1',
+    authorizations=AUTHORIZATIONS,
+    security=list(AUTHORIZATIONS.keys()),
+    title='Chainhorn API',
+    description='Chainhorn API',
+</code></pre>
+
+<p>)</p>
+
+<p>```</p>
+
+<p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>
+
+<p>此时前台的界面是这样的:</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg" alt="Auth1" /></p>
+
+<p>可以点击右上角的Authorize一次性设置所有API的访问密钥；</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg" alt="Auth2" /></p>
+
+<p>也可以在每个API的右上角设置访问密钥；</p>
+
+<p>当然，我们目前的密钥是后台写死的，你可以引入一个三方库为每个用户生成不同的密钥存到数据库里面，然后每次验证~~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Requests Post for 5 Styles]]></title>
@@ -944,158 +1157,6 @@ POST _reindex
 <p><code>
 POST /_all/_forcemerge?only_expunge_deletes=true
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python捕获所有异常]]></title>
-    <link href="https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang/"/>
-    <updated>2019-06-24T12:31:08+08:00</updated>
-    <id>https://happy123.me/blog/2019/06/24/pythonbu-huo-suo-you-yi-chang</id>
-    <content type="html"><![CDATA[<p>摘自 &ndash; Python cookbook</p>
-
-<p>老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  &ndash;_&ndash; &hellip;..</p>
-
-<h2>怎样捕获代码中的所有异常？</h2>
-
-<!-- more -->
-
-
-<h4>想要捕获所有的异常，可以直接捕获 Exception 即可：</h4>
-
-<p><code>
-try:
-   ...
-except Exception as e:
-   ...
-   log('Reason:', e)       # Important!
-</code>
-这个将会捕获除了 <code>SystemExit</code> 、 <code>KeyboardInterrupt</code> 和 <code>GeneratorExit</code> 之外的所有异常。 如果你还想捕获这三个异常，将 Exception 改成 BaseException 即可。</p>
-
-<h4>讨论</h4>
-
-<p>捕获所有异常通常是由于程序员在某些复杂操作中并不能记住所有可能的异常。 如果你不是很细心的人，这也是编写不易调试代码的一个简单方法。</p>
-
-<p>正因如此，如果你选择捕获所有异常，那么在某个地方（比如日志文件、打印异常到屏幕）打印确切原因就比较重要了。 如果你没有这样做，有时候你看到异常打印时可能摸不着头脑，就像下面这样：</p>
-
-<p>```
-def parse_int(s):</p>
-
-<pre><code>try:
-    n = int(v)
-except Exception:
-    print("Couldn't parse")
-</code></pre>
-
-<p>```      <br/>
-试着运行这个函数，结果如下：</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>parse_int(&lsquo;n/a&rsquo;)
-Couldn&rsquo;t parse
-parse_int(&lsquo;42&rsquo;)
-Couldn&rsquo;t parse</p>
-
-<p>```</p></blockquote></blockquote></blockquote>
-
-<p>这时候你就会挠头想：“这咋回事啊？” 假如你像下面这样重写这个函数：</p>
-
-<p>```
-def parse_int(s):</p>
-
-<pre><code>try:
-    n = int(v)
-except Exception as e:
-    print("Couldn't parse")
-    print('Reason:', e)
-</code></pre>
-
-<p>```</p>
-
-<p>这时候你能获取如下输出，指明了有个编程错误：</p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>parse_int(&lsquo;42&rsquo;)
-Couldn&rsquo;t parse
-Reason: global name &lsquo;v&rsquo; is not defined</p>
-
-<p>```</p></blockquote></blockquote></blockquote>
-
-<p>很明显，你应该尽可能将异常处理器定义的精准一些。</p>
-
-<p>不过，要是你必须捕获所有异常，确保打印正确的诊断信息或将异常传播出去，这样不会丢失掉异常。</p>
-
-<h4>最可怕的例子是我们在处理临时文件的时候，用</h4>
-
-<p>```
-try:</p>
-
-<pre><code>....
-</code></pre>
-
-<p>except:</p>
-
-<pre><code>os.remove(temp_file)
-</code></pre>
-
-<p>```</p>
-
-<p>因为碍人的E722, 有人会自作聪明的改成:</p>
-
-<p>```
-try:</p>
-
-<pre><code>....
-</code></pre>
-
-<p>except Exception:</p>
-
-<pre><code>os.remove(temp_file)
-</code></pre>
-
-<p>```</p>
-
-<p>正确的办法是:</p>
-
-<p>```
-try:</p>
-
-<pre><code>....
-</code></pre>
-
-<p>except BaseException:</p>
-
-<pre><code>os.remove(temp_file)
-</code></pre>
-
-<p>```</p>
-
-<p>或者更确定的语义之下，每次都清理临时文件，这样更明确，处理更好一点:
-```
-try:</p>
-
-<pre><code>....
-</code></pre>
-
-<p>except BaseException:</p>
-
-<pre><code>logger.error(....)
-</code></pre>
-
-<p>finally:</p>
-
-<pre><code>os.remove(temp_file)
-</code></pre>
-
-<p>```</p>
-
-<p>参考:</p>
-
-<p><a href="https://github.com/PyCQA/pycodestyle/issues/703">https://github.com/PyCQA/pycodestyle/issues/703</a></p>
-
-<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html">https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html</a></p>
 ]]></content>
   </entry>
   

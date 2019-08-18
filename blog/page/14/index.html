@@ -82,6 +82,120 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/20/udp-packet-receive-errors/">Udp Packet Receive Errors</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-20T08:09:35+08:00" pubdate data-updated="true">May 20<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/05/20/udp-packet-receive-errors/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/05/20/udp-packet-receive-errors/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Issue</h2>
+
+<p>netstat -s output shows high number of Udp: packet receive errors</p>
+
+<p>Getting high number of UDP packet drops or loss</p>
+
+<p>SNMP trap issue :&ndash; SNMP trap seems to be fluctuating on my RHEL server.</p>
+
+<h2>Resolution</h2>
+
+<p>Udp: packet receive errors is increased for the following reasons:</p>
+
+<ul>
+<li><p>Not enough socket buffer space</p></li>
+<li><p>UDP checksum failure</p></li>
+<li><p>UDP length mismatch</p></li>
+<li><p>IPSec Security Policy failure</p></li>
+</ul>
+
+
+<h2>Diagnostic Steps</h2>
+
+<h4>Gather statistics</h4>
+
+<p>Run the command netstat -nsu and see the Udp: section:</p>
+
+<pre><code>netstat -su
+
+Udp:
+    559933412 packets received
+    71 packets to unknown port received.
+    33861296 packet receive errors    &lt;---- HERE
+    7516291 packets sent
+Socket buffer checking:
+</code></pre>
+
+<p>The current system-wide default socket buffer size can be determined with the commands:</p>
+
+<pre><code>sysctl net.core.rmem_max
+sysctl net.core.rmem_default
+</code></pre>
+
+<p>This can be confirmed by watching socket statistics whilst packet receive errors is growing by running ss -nump at regular intervals, for example:</p>
+
+<pre><code>while true; do ss -nump; sleep 1; done
+</code></pre>
+
+<p>This will produce output as follows:</p>
+
+<pre><code>State    Recv-Q Send-Q    Local Address:Port      Peer Address:Port
+ESTAB    0      0           192.168.0.2:4500       192.168.0.1:4500
+users:(("processname",pid=1234,fd=3))
+        skmem:(r0,rb212992,t0,tb212992,f4096,w0,o0,bl0)
+</code></pre>
+
+<p>If the Recv-Q statistic is regularly growing large, such as approading the system-wide rmem_max, then increase the socket buffer size.</p>
+
+<p>Note this means the application is not receiving from the buffer fast enough. It may be necessary to reconfigure or redesign the application to perform better.</p>
+
+<h2>Conclusion</h2>
+
+<p>The statistic Udp: packet receive errors is reporting the SNMP MIB called UDP_MIB_INERRORS.</p>
+
+<h2>Commands</h2>
+
+<ul>
+<li><p>run udp server</p>
+
+<pre><code>  nc -4 -u -l 2389
+</code></pre></li>
+<li><p>cli to server</p>
+
+<pre><code>  echo -n "hello" | nc -u x.x.x.x 2389
+</code></pre></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/15/extend-lvm-in-vcenter/">Extend Lvm in vCenter</a></h1>
     
     
@@ -1168,76 +1282,6 @@ git log --name-status
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/">Send Large Packet by Dpdk Pktgen</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-28T17:11:10+08:00" pubdate data-updated="true">Oct 28<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>场景</h2>
-
-<p>测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。</p>
-
-<h2>问题</h2>
-
-<p>qinq双层vlan tag，有些包大小超过了1518字节，pktgen不支持。</p>
-
-<h2>解决方案</h2>
-
-<p>修改 dpdk-2.1.0/x86_64-native-linuxapp-gcc/include/rte_ether.h:</p>
-
-<pre><code>#define ETHER_MAX_LEN 1522
-</code></pre>
-
-<p>重新编译DPDK，Pktgen，重新加载DPDK驱动</p>
-
-<h2>资料</h2>
-
-<ul>
-<li>DPDK2.1.0:</li>
-</ul>
-
-
-<p><a href="http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz">http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz</a></p>
-
-<ul>
-<li>Pktgen2.9.5:</li>
-</ul>
-
-
-<p><a href="http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz">http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -1255,6 +1299,10 @@ git log --name-status
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/">Using a GPG Key and Ssh Auth</a>
       </li>
     
@@ -1268,10 +1316,6 @@ git log --name-status
     
       <li class="post">
         <a href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">Libssl Segfaults on python3.6 With Threading</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/07/24/elasticserach-tips/">Elasticserach Tips</a>
       </li>
     
   </ul>
@@ -1334,7 +1378,7 @@ git log --name-status
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (27)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (28)</a></li>
 <li class='category'><a href='/blog/categories/django/'>django (2)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (5)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>

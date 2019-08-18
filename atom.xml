@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-08-17T08:17:20+08:00</updated>
+  <updated>2019-08-18T15:38:46+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,263 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为Flask RestAPI集成Swagger UI]]></title>
+    <link href="https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/"/>
+    <updated>2019-08-18T15:38:02+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui</id>
+    <content type="html"><![CDATA[<p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
+
+<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来&hellip;T_T”</p>
+
+<p>还是老老实实流水账记一下吧:</p>
+
+<!-- more -->
+
+
+<h3>依赖组件</h3>
+
+<ul>
+<li><a href="https://flask-restplus.readthedocs.io">flask-restplus</a></li>
+</ul>
+
+
+<p>restplus能让人很方便的通过几个decorator就可以集成很漂亮的restapi，它提供了api命名空间、Request和Response解析以及Swagger UI的集成</p>
+
+<p>另外，flask-restplus的文档和例子写的非常简洁清晰，赞一个。</p>
+
+<ul>
+<li><a href="https://flask-httpauth.readthedocs.io/en/latest/">flask-httpauth</a></li>
+</ul>
+
+
+<p>用来集成验证机制，支持基本的密码验证、Token验证；短小精悍，够用了</p>
+
+<h3>起步</h3>
+
+<p>引用官网的例子:</p>
+
+<h4>构建api对象</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from flask import Flask
+</span><span class='line'>from flask_restplus import Api, Resource, fields
+</span><span class='line'>from werkzeug.contrib.fixers import ProxyFix
+</span><span class='line'>
+</span><span class='line'>app = Flask(__name__)
+</span><span class='line'>app.wsgi_app = ProxyFix(app.wsgi_app)
+</span><span class='line'>
+</span><span class='line'>api = Api(app, version='1.0', title='Chainhorn API',
+</span><span class='line'>    description='A simple ChainHorn API',
+</span><span class='line'>)
+</span><span class='line'>
+</span><span class='line'>ns = api.namespace('node', description='node operations')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
+
+<p>下面紧跟着构建了一个<code>ns</code> &mdash;<code>namespace</code>对象，作用是为不同的资源，不同的url分组，这样最后反映到界面上好看一点；</p>
+
+<h4>修饰</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ns.route('')
+</span><span class='line'>  class NodeGetInfo(Resource):
+</span><span class='line'>      @ns_node.doc('get node info')
+</span><span class='line'>      def get(self):
+</span><span class='line'>          '''get node info'''
+</span><span class='line'>          info = spv.getinfo()
+</span><span class='line'>          return {'nodeinfo': info}, 200</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
+
+<h4>Request参数处理</h4>
+
+<p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
+下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ns.route('/broadcast/&lt;string:tx&gt;')
+</span><span class='line'>  class WalletBroadcastTx(Resource):
+</span><span class='line'>      @ns.doc('broadcast raw tx')
+</span><span class='line'>      @ns.param('tx', 'The transaction hash identifier')
+</span><span class='line'>      def post(self, tx):
+</span><span class='line'>          '''broadcast raw tx'''
+</span><span class='line'>          sendrawtransaction(spv, tx)
+</span><span class='line'>          return {'broadcast': 'ok'}, 200</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TxModel = {'tx': fields.String(required=True, description='The hex tx')}
+</span><span class='line'>@ns.route('/broadcast')
+</span><span class='line'>  class WalletBroadcastTx(Resource):
+</span><span class='line'>      @ns.doc('broadcast raw tx')
+</span><span class='line'>      @ns.expect(TxModel, 200)
+</span><span class='line'>      def post(self, tx):
+</span><span class='line'>          '''broadcast raw tx'''
+</span><span class='line'>          sendrawtransaction(spv, api.payload['tx'])
+</span><span class='line'>          return {'broadcast': 'ok'}, 200</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Response参数处理</h4>
+
+<p>同样的，如果需要返回一个对象，在界面上出现这个对象的详细描述信息，可以用<code>marshal_with</code>和<code>marshal_list_with</code>来修饰；</p>
+
+<p>具体请参考:</p>
+
+<p><a href="https://flask-restplus.readthedocs.io/en/stable/parsing.html">https://flask-restplus.readthedocs.io/en/stable/parsing.html</a></p>
+
+<h4>用户验证</h4>
+
+<p>例如，为API加上HTTP Token Auth，要用到<code>HTTPTokenAuth</code>对象；</p>
+
+<p>首先我们先定义验证规则:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>auth = HTTPTokenAuth()
+</span><span class='line'>tokens = {
+</span><span class='line'>  'APIKEY':'hello',
+</span><span class='line'>  "APPID": "chainhorn"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@auth.verify_token
+</span><span class='line'>def verify_token(token):
+</span><span class='line'>  if request.headers.get('APIKEY', '').strip()==tokens['APIKEY'] and \
+</span><span class='line'>     request.headers.get('APPID', '').strip() == tokens['APPID']:
+</span><span class='line'>      return True
+</span><span class='line'>  else:
+</span><span class='line'>      return False</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ns.route('')
+</span><span class='line'>class NodeGetInfo(Resource):
+</span><span class='line'>  @ns.doc('get node info')
+</span><span class='line'>  @auth.login_required
+</span><span class='line'>  def get(self):
+</span><span class='line'>      '''get node info'''
+</span><span class='line'>      info = spv.getinfo()
+</span><span class='line'>      return {'nodeinfo': info}, 200
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样后台验证就有了；那么前台输入呢？</p>
+
+<p>这个例子里面，我们需要前台输入的时候在HTTP Header里面传入两个Key: APIKEY和APPKEY；直接用用Swagger UI自带的组件实现就可以了，把api对象构造为:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AUTHORIZATIONS = {
+</span><span class='line'>    'apikey': {
+</span><span class='line'>        'type': 'apiKey',
+</span><span class='line'>        'in': 'header',
+</span><span class='line'>        'name': 'APIKEY'
+</span><span class='line'>    },
+</span><span class='line'>    'appid': {
+</span><span class='line'>        'type': 'apiKey',
+</span><span class='line'>        'in': 'header',
+</span><span class='line'>        'name': 'APPID'
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>api = Api(app,
+</span><span class='line'>        version='v1',
+</span><span class='line'>        authorizations=AUTHORIZATIONS,
+</span><span class='line'>        security=list(AUTHORIZATIONS.keys()),
+</span><span class='line'>        title='Chainhorn API',
+</span><span class='line'>        description='Chainhorn API',
+</span><span class='line'>)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>
+
+<p>此时前台的界面是这样的:</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg" alt="Auth1" /></p>
+
+<p>可以点击右上角的Authorize一次性设置所有API的访问密钥；</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg" alt="Auth2" /></p>
+
+<p>也可以在每个API的右上角设置访问密钥；</p>
+
+<p>当然，我们目前的密钥是后台写死的，你可以引入一个三方库为每个用户生成不同的密钥存到数据库里面，然后每次验证~~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using a GPG Key and Ssh Auth]]></title>
@@ -3868,124 +4125,6 @@
 
 
 <p>最后的最后，这是一本非常有趣、科技含量非常高的科普读物；可能会在遥远的未来(100年，还是1000年，谁知道呢？)， 里面的许多句子会广为人知，并记载在史书上；</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[关于GDP的一些随想]]></title>
-    <link href="https://happy123.me/blog/2019/02/13/guan-yu-gdpde-sui-xiang/"/>
-    <updated>2019-02-13T16:11:49+08:00</updated>
-    <id>https://happy123.me/blog/2019/02/13/guan-yu-gdpde-sui-xiang</id>
-    <content type="html"><![CDATA[<h2>GDP是什么</h2>
-
-<p>国内生产总值 (gross domestic product， GDP) 是在某一既定时期一个国家内生产的所有最终物品与劳务的市场价值。</p>
-
-<p>GDP（用Y代表）被分为四个组成部分：消费（C）、投资（I）、政府购买（G）、净出口（NX）：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Y = C ＋ I ＋ G ＋ NX</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<ul>
-<li>消费(consumption)是家庭用于物品和劳务的支出</li>
-<li>投资(investment)是将用于未来生产更多物品和劳务的物品购买。它是资本设备、存货和建筑物购买的总和。建筑物投资包括新住房支出。按习惯，新住房购买是划入投资而不划入消费的一种家庭支出形式。</li>
-<li>政府购买(government purchase)包括地方政府、州政府和联邦政府用于物品与劳务的支出。它包括政府员工的薪水和用于公务的支出。</li>
-<li>净出口(net export)等于外国人购买国内生产的物品(出口)减国内购买的外国物品(进口)。</li>
-</ul>
-
-
-<p>&mdash; 摘自曼昆的《经济学原理》</p>
-
-<h2>GDP怎样计算</h2>
-
-<p>GDP有3种方法进行核算：生产法、收入法和支出法。</p>
-
-<h4>生产法</h4>
-
-<p>生产法是我国GDP的统计方法。</p>
-
-<p>我们把GDP从产业的角度，分成第一、二、三产业，分别算它们的增加值然后进行加总，当然还要从最终产品和中间投入两方面扣除通胀因素。</p>
-
-<p>用生产法计算的GDP，是指各部门在核算期内的增加值。公式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GDP=各部门的总产出-各部门的中间消耗</span></code></pre></td></tr></table></div></figure>
-
-
-<p>对于第一产业的农林牧渔业，总产出就是多少斤粮食的价值；</p>
-
-<p>对于第二产业——工业，那就是生产出的所有商品的价值；</p>
-
-<p>第三产业服务业的范围比较广，计算方法也更加复杂，比如说理发师理一次发的价值，律师咨询一次的劳务价值等等。中间消耗指的是生产过程中的消耗，但要记住：中间消耗不等于成本。举个栗子：</p>
-
-<p>工厂生产了1000个毛绒玩具，产值1万元，期间机器保养和修理花费了2000元，员工薪资4000元，那么按照生产法的话，笨笨工厂的GDP则是10000-2000=8000元。中间消耗你可以理解成为了产值而产生的费用，而成本则是一种固定的支出。就好比你今天去体彩中心领奖金10万块，请保镖花了300，但是你去体彩中心的路上打车花了20。如果要用生产法计算你为社会创造的GDP的话，那就是100000-20=99980块，因为你的“产值”是奖金，而不是保镖费。</p>
-
-<h4>收入法</h4>
-
-<p>收入法是从各个生产要素的收入角度来计算GDP。公式如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GDP=劳动者报酬+生产税净额+固定资本消耗+营业盈余</span></code></pre></td></tr></table></div></figure>
-
-
-<p>劳动者报酬就是个人劳动者的收入；</p>
-
-<p>生产税净额就是上交给国家的各种税费减去政府补贴；</p>
-
-<p>营业盈余就相当于营业利润加上补贴，扣除工资和福利等。（但营业盈余不等于营业利润，营业盈余是生产概念，营业利润是销售概念）比如工厂生产了价值1万块钱的玩具，贡献了1万块的GDP（不考虑保养和修理费），拆分一下：员工薪资4000元（劳动者报酬）交税1000元，收到补贴500元，即净额500元（生产税净额）固定资本折旧500；剩下的就是营业盈余5000</p>
-
-<h4>支出法</h4>
-
-<p>支出法其实就是曼昆的公式，即加总全社会各类货物和服务的最终消费总额：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>（消费（C）+投资（I）+政府购买（G）），再加上净出口</span></code></pre></td></tr></table></div></figure>
-
-
-<p>公式变形如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>GDP=最终消费+资本形成总额+净出口</span></code></pre></td></tr></table></div></figure>
-
-
-<p>最终消费很简单，就是一国常住居民和政府部门在货物和服务上的总花费，比如你下班回家后买零食的花费，以及国防部买军舰坦克的花费。</p>
-
-<p>资本形成总额资本形成总额指常住单位在一定时期内获得的减去处置的固定资产和存货的净额，就好比你搬家了，购置了冰箱和洗衣机，共花费3000块，然后卖掉了一台旧洗衣机500块，那么你的可以资本形成总额就是2500块。放在GDP角度，企业购置机器的钱，扣除处理旧机器的钱，就是企业的消费。</p>
-
-<p>净出口净出口指的是货物和服务总出口减去总进口。</p>
-
-<p>多者相加，得出的即是支出法下的GDP。</p>
-
-<p>引自:</p>
-
-<p><a href="https://zhuanlan.zhihu.com/p/34944269">https://zhuanlan.zhihu.com/p/34944269</a></p>
-
-<h2>中国历年GDP 计算</h2>
-
-<p><a href="https://dwz.cn/gXrciFJw">wiki</a></p>
-
-<h2>神奇的官方预计与统计</h2>
-
-<p>每年开年，国家统计局都会发布新一年的GDP增速预测，而到了年底，也都会发布当年的实际GDP增速。</p>
-
-<p>比如:</p>
-
-<p><a href="http://www.stats.gov.cn/tjsj/zxfb/201901/t20190118_1645555.html">国家统计局关于2017年国内生产总值（GDP）最终核实的公告</a></p>
-
-<p>神奇的是，每次的预测与实际误差都在0.1%左右，而且连续10年预测神准。</p>
-
-<p>如果2019-01-01上证指数是2600点，有人信誓旦旦的对你说，我预测2019-12-30上证指数是 2760-2765 点，绝对在这个范围内！！</p>
-
-<p>你相信吗？</p>
-
-<p>现在国家统计局对你说，2019年国家GDP增速预计在 6.3%，然后年底一看，6.4%增速，误差千分之一，而且连续十年神准。</p>
-
-<p>不管你信不信，我是信了。</p>
 ]]></content>
   </entry>
   
