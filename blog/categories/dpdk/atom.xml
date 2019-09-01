@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dpdk | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/dpdk/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,16 +18,13 @@
     <link href="https://happy123.me/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/"/>
     <updated>2015-10-28T17:11:10+08:00</updated>
     <id>https://happy123.me/blog/2015/10/28/send-large-packet-by-dpdk-pktgen</id>
-    <content type="html"><![CDATA[<h2>场景</h2>
-
+    <content type="html"><![CDATA[<h2 id="section">场景</h2>
 <p>测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。</p>
 
-<h2>问题</h2>
-
+<h2 id="section-1">问题</h2>
 <p>qinq双层vlan tag，有些包大小超过了1518字节，pktgen不支持。</p>
 
-<h2>解决方案</h2>
-
+<h2 id="section-2">解决方案</h2>
 <p>修改 dpdk-2.1.0/x86_64-native-linuxapp-gcc/include/rte_ether.h:</p>
 
 <pre><code>#define ETHER_MAX_LEN 1522
@@ -35,21 +32,20 @@
 
 <p>重新编译DPDK，Pktgen，重新加载DPDK驱动</p>
 
-<h2>资料</h2>
+<h2 id="section-3">资料</h2>
 
 <ul>
-<li>DPDK2.1.0:</li>
+  <li>DPDK2.1.0:</li>
 </ul>
 
-
-<p><a href="http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz">http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz</a></p>
+<p>http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz</p>
 
 <ul>
-<li>Pktgen2.9.5:</li>
+  <li>Pktgen2.9.5:</li>
 </ul>
 
+<p>http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz</p>
 
-<p><a href="http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz">http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz</a></p>
 ]]></content>
   </entry>
   

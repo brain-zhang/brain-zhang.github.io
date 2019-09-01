@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -23,16 +23,15 @@
 <p>我理想中的比特币全节点实现是这样的:</p>
 
 <ul>
-<li>他的核心是模块化可拆分的</li>
-<li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
-<li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
-<li>他要兼容Lightning，并实现其瞭望塔功能</li>
-<li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
-<li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
-<li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
-<li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
+  <li>他的核心是模块化可拆分的</li>
+  <li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
+  <li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
+  <li>他要兼容Lightning，并实现其瞭望塔功能</li>
+  <li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
+  <li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
+  <li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
+  <li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
 </ul>
-
 
 <p>我好像真贪心呢^_^</p>
 ]]></content>
@@ -49,15 +48,14 @@
 
 <!-- more -->
 
-
 <p>首先必须先承认，现在要完整的体验闪电网络，即从后台构建+前端使用整个流程，是非常麻烦的，恐怕只有对其原理有比较深入了解的人才能完成这个过程；简单说一下:</p>
 
-<h4>1.需要Linux环境</h4>
-
-<h4>2.需要运行一个bitcoin全节点，因为都是命令行操作，所以要<code>手工创建钱包</code> &ndash;> <code>转账确保钱包有余额</code></h4>
+<h4 id="linux">1.需要Linux环境</h4>
+<p>#### 2.需要运行一个bitcoin全节点，因为都是命令行操作，所以要<code>手工创建钱包</code> -&gt; <code>转账确保钱包有余额</code></p>
 
 <ul>
-<li><p>bitcoin.conf的配置文件模板
+  <li>
+    <p>bitcoin.conf的配置文件模板
 <code>
 rpcuser=xxxxx
 rpcpassword=xxxxx
@@ -70,118 +68,132 @@ rest=1
 testnet=1
 zmqpubrawblock=tcp://127.0.0.1:28332
 zmqpubrawtx=tcp://127.0.0.1:28333
-</code></p></li>
-<li><p>启动bitcoind
+</code></p>
+  </li>
+  <li>
+    <p>启动bitcoind
 <code>
-bitcoin/bin/bitcoind --conf=~/bitcoin.conf --datadir=/opt/bitcoin/blockdata/
-</code></p></li>
-<li><p>同步后找到当前钱包收款地址</p></li>
+bitcoin/bin/bitcoind --conf=~/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ 
+</code></p>
+  </li>
+  <li>
+    <p>同步后找到当前钱包收款地址</p>
+  </li>
 </ul>
-
 
 <p><code>
 bitcoin-cli listaddressgroupings
 </code></p>
 
 <ul>
-<li><p>发送一笔转账到此地址，也可以直接去<a href="https://bitcoinfaucet.uo1.net/send.php">bitcoinfaucet</a>领一些测试币</p></li>
-<li><p>确认钱包余额
+  <li>
+    <p>发送一笔转账到此地址，也可以直接去<a href="https://bitcoinfaucet.uo1.net/send.php">bitcoinfaucet</a>领一些测试币</p>
+  </li>
+  <li>
+    <p>确认钱包余额
 <code>
 bitcoin-cli getwalletinfo
-</code></p></li>
+</code></p>
+  </li>
 </ul>
 
-
-<h4>3.运行一个LND Daemon</h4>
+<h4 id="lnd-daemon">3.运行一个LND Daemon</h4>
 
 <p>这方面有几个主流选择，lightning labs的<a href="https://github.com/lightningnetwork/lnd">lnd</a>，或者<a href="https://github.com/ElementsProject/lightning">c-lightning</a>，或者<a href="https://github.com/mit-dci/lit">lit</a></p>
 
 <p>lnd支持比较广泛，我们用其0.6beta版本搭建；</p>
 
 <ul>
-<li>按照项目文档构建Go编译环境，编译生成lnd和lnd-cli两个可执行文件</li>
-<li>启动lnd daemon(注意这里没有启用验证，在mainnet上面切不可这么做)
+  <li>按照项目文档构建Go编译环境，编译生成lnd和lnd-cli两个可执行文件</li>
+  <li>启动lnd daemon(注意这里没有启用验证，在mainnet上面切不可这么做)
 <code>
 lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=xxxxx  --bitcoind.rpcpass='xxxxx' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --no-macaroons
 </code></li>
-<li>之后lnd会通过bitcoind node同步区块头，大概需要10分钟</li>
-<li>创建lnd的钱包，保存seed，便于之后恢复
+  <li>之后lnd会通过bitcoind node同步区块头，大概需要10分钟</li>
+  <li>创建lnd的钱包，保存seed，便于之后恢复
 <code>
 lncli --network=testnet create
 </code></li>
-<li>创建一个segwit地址
+  <li>创建一个segwit地址
 <code>
 lncli --network=testnet newaddress np2wkh
 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf
 </code></li>
-<li>打一些测试币给这个地址
+  <li>打一些测试币给这个地址
 <code>
 /bitcoin-cli sendtoaddress 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf 0.005
 </code></li>
-<li>看一下钱包信息，收到款没有
+  <li>看一下钱包信息，收到款没有
 <code>
 lncli --no-macaroons --network=testnet walletbalance
 </code></li>
 </ul>
 
-
-<h4>4. 建立通道</h4>
+<h4 id="section">4. 建立通道</h4>
 
 <ul>
-<li><p>直接到<a href="https://1ml.com/testnet/">1ml.com</a>找最近连接数最多的节点, 比如<a href="https://1ml.com/testnet/node/038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9">Node: aranguren.org</a>:
+  <li>
+    <p>直接到<a href="https://1ml.com/testnet/">1ml.com</a>找最近连接数最多的节点, 比如<a href="https://1ml.com/testnet/node/038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9">Node: aranguren.org</a>:
 <code>
 node ID:038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735
-</code></p></li>
-<li><p>连接这个节点：
+</code></p>
+  </li>
+  <li>
+    <p>连接这个节点：
 <code>
 lncli --no-macaroons --network=testnet connect 038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735
-</code></p></li>
-<li><p>建立通道，放一笔钱进去
+</code></p>
+  </li>
+  <li>
+    <p>建立通道，放一笔钱进去
 <code>
 lncli --no-macaroons --network=testnet openchannel --node_key=038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9 40000
-</code></p></li>
-<li><p>需要一段时间同步，然后看一下通道状态:
+</code></p>
+  </li>
+  <li>
+    <p>需要一段时间同步，然后看一下通道状态:
 <code>
 lncli --network=testnet listchannels
-</code></p></li>
+</code></p>
+  </li>
 </ul>
 
-
-<h4>5. 支付</h4>
+<h4 id="section-1">5. 支付</h4>
 
 <ul>
-<li><p>首先到<a href="https://testnet.satoshis.place/">testnet.satoshis.place</a>涂鸦两笔，得到一个支付地址:
+  <li>
+    <p>首先到<a href="https://testnet.satoshis.place/">testnet.satoshis.place</a>涂鸦两笔，得到一个支付地址:
 <code>
 lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax
-</code></p></li>
-<li><p>lnd-cli支付
+</code></p>
+  </li>
+  <li>
+    <p>lnd-cli支付
 <code>
 lncli  sendpayment --pay_req lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax 500
-</code></p></li>
+</code></p>
+  </li>
 </ul>
 
-
-<h4>6. 收款</h4>
+<h4 id="section-2">6. 收款</h4>
 
 <p>lnd构建一个收款节点比较麻烦，我们可以借助一个实现了lnd hub全功能的钱包来体验，推荐 <a href="https://github.com/ACINQ/eclair">elcair</a>；</p>
 
 <p><a href="https://bluewallet.io/">BlueWallet</a>也是一个非常受欢迎的闪电网络钱包，不过他并没有实现完整的lightning hub的功能，作为想要完全掌控一切的玩家不太合适，当然对于普通用户来说，BlueWallet更易用：</p>
 
-<p><a href="https://medium.com/bluewallet/bluewallet-brings-zero-configuration-lightning-payments-to-ios-and-android-30137a69f071">https://medium.com/bluewallet/bluewallet-brings-zero-configuration-lightning-payments-to-ios-and-android-30137a69f071</a></p>
+<p>https://medium.com/bluewallet/bluewallet-brings-zero-configuration-lightning-payments-to-ios-and-android-30137a69f071</p>
 
 <ul>
-<li>关于 elcair如何构建一个收款地址的过程，可以参考:</li>
+  <li>关于 elcair如何构建一个收款地址的过程，可以参考:</li>
 </ul>
 
-
-<p><a href="https://medium.com/@ACINQ/enabling-receive-on-eclair-mobile-2e1b87bd1e3a">https://medium.com/@ACINQ/enabling-receive-on-eclair-mobile-2e1b87bd1e3a</a></p>
+<p>https://medium.com/@ACINQ/enabling-receive-on-eclair-mobile-2e1b87bd1e3a</p>
 
 <ul>
-<li>老实说，使用elcair的过程也需要一点技术，至少要搞明白我们之前讲述闪电网络技术原理的那篇文章</li>
+  <li>老实说，使用elcair的过程也需要一点技术，至少要搞明白我们之前讲述闪电网络技术原理的那篇文章</li>
 </ul>
 
-
-<h4>7. 总结</h4>
+<h4 id="section-3">7. 总结</h4>
 
 <p>好啦，相信小白看到这里已然头昏眼花，并发出怒吼：这么复杂的东西谁会用啊！</p>
 
@@ -194,29 +206,29 @@ lncli  sendpayment --pay_req lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtene
 <p>然后我们看一下现在闪电网络面临的一些技术和实务上的挑战：</p>
 
 <ol>
-<li>目前还没有完全靠谱的，敢于宣称可安全用于生产的基础软件实现，大家都在beta版</li>
-<li>目前运行一个lnd，需要配置一个bitcoin fullnode，而且是一对一的，成本比较高，虽然运行一个全节点可以取得一些手续费，但是其风险和收益不成对比；bitmex有<a href="https://blog.bitmex.com/the-lightning-network-part-2-routing-fee-economics/">一篇文章</a>详细分析了现在运行一个闪电网络节点的收益情况；</li>
-<li>现在lit项目和Neutrino项目都朝着<code>运行一个支持闪电节点的SPV节点</code>这个方向努力，但距离完成还有很长时间；</li>
-<li>在我们之前的文章分析中，每一个钱包，都需要一个类似<code>瞭望塔</code>的模块，来监控通道的状态；围绕这个实现，目前有两大流派：一类就是elcair 钱包自己继承这个功能，这就要求用户的钱包不能脱离网络超过两周；第二类就是BlueWallet的实现，让用户放弃掌控一切，由钱包服务商托管；这两种方案各有优劣，之后还要看市场和众多黑客们的测试结果；</li>
-<li>Electrum目前也在进行闪电网络的实现，他们采用了改造ElectrumX server端，增加一个和lnd连接的中间通讯层的方法，并且ElectrumX是可以复用的，以后如果lnd实现了Neutrino，可以完成<code>ElectrumX+Lnd+Neutrino</code>的部署，估计这样成本低，运营的好的话，能赚点小钱；</li>
+  <li>目前还没有完全靠谱的，敢于宣称可安全用于生产的基础软件实现，大家都在beta版</li>
+  <li>目前运行一个lnd，需要配置一个bitcoin fullnode，而且是一对一的，成本比较高，虽然运行一个全节点可以取得一些手续费，但是其风险和收益不成对比；bitmex有<a href="https://blog.bitmex.com/the-lightning-network-part-2-routing-fee-economics/">一篇文章</a>详细分析了现在运行一个闪电网络节点的收益情况；</li>
+  <li>现在lit项目和Neutrino项目都朝着<code>运行一个支持闪电节点的SPV节点</code>这个方向努力，但距离完成还有很长时间；</li>
+  <li>在我们之前的文章分析中，每一个钱包，都需要一个类似<code>瞭望塔</code>的模块，来监控通道的状态；围绕这个实现，目前有两大流派：一类就是elcair 钱包自己继承这个功能，这就要求用户的钱包不能脱离网络超过两周；第二类就是BlueWallet的实现，让用户放弃掌控一切，由钱包服务商托管；这两种方案各有优劣，之后还要看市场和众多黑客们的测试结果；</li>
+  <li>Electrum目前也在进行闪电网络的实现，他们采用了改造ElectrumX server端，增加一个和lnd连接的中间通讯层的方法，并且ElectrumX是可以复用的，以后如果lnd实现了Neutrino，可以完成<code>ElectrumX+Lnd+Neutrino</code>的部署，估计这样成本低，运营的好的话，能赚点小钱；</li>
 </ol>
-
 
 <p>最后的最后：</p>
 
 <ul>
-<li><p>闪电网络的成长目前是一个非常壮丽的场景，堪比互联网发展之初；</p></li>
-<li><p>终于出现了这样一种基础金融技术:</p>
-
-<ul>
-<li>可以支持个人开银行，没有任何法律、宗教、地域、政府的隔阂；</li>
-<li>只要有网络和你的信用，就可以面向全球用户做一个银行家；</li>
-<li>而且你的银行没有柜台、没有繁琐的开户流程，没有金碧辉煌的大楼，只需要一个联网的手机而已；但这是世界上最讲信用的，最具有扩展性的，最安全的银行；</li>
-<li>你的用户也无需繁琐的身份证明，政策限制，高昂的手续费，屈服于传统银行的被冻结账户的风险，甚至都不需要物理的货币和钱包，只需要在脑子里记住一串密语而已；而对于将来的那些<code>世界银行家</code>来说，你的信用就是一切。酷!!!</li>
+  <li>
+    <p>闪电网络的成长目前是一个非常壮丽的场景，堪比互联网发展之初；</p>
+  </li>
+  <li>
+    <p>终于出现了这样一种基础金融技术:</p>
+    <ul>
+      <li>可以支持个人开银行，没有任何法律、宗教、地域、政府的隔阂；</li>
+      <li>只要有网络和你的信用，就可以面向全球用户做一个银行家；</li>
+      <li>而且你的银行没有柜台、没有繁琐的开户流程，没有金碧辉煌的大楼，只需要一个联网的手机而已；但这是世界上最讲信用的，最具有扩展性的，最安全的银行；</li>
+      <li>你的用户也无需繁琐的身份证明，政策限制，高昂的手续费，屈服于传统银行的被冻结账户的风险，甚至都不需要物理的货币和钱包，只需要在脑子里记住一串密语而已；而对于将来的那些<code>世界银行家</code>来说，你的信用就是一切。酷!!!</li>
+    </ul>
+  </li>
 </ul>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   
@@ -237,14 +249,19 @@ lncli  sendpayment --pay_req lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtene
 
 <!-- more -->
 
-
 <p>之前我们做出的推论是:</p>
 
-<blockquote><p>Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+<blockquote>
+  <p>Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+</blockquote>
 
-<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+<blockquote>
+  <p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+</blockquote>
 
-<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p></blockquote>
+<blockquote>
+  <p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
+</blockquote>
 
 <p>之后的剧情就是 David Kleiman的亲属起诉Craig Wright，声称他窃取了 本该属于  David Kleiman 的100w bitcoin；其起诉文书中公布了大量的由 Craig Wright声称其属于他和Kleiman成立的名为<code>郁金香信托</code>基金的bitcoin address;</p>
 
@@ -309,20 +326,25 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 
 <p>马上又有人挖出了更大的瓜，这个地址是Roger Ver控制的；</p>
 
-<p><a href="https://www.reddit.com/r/btc/comments/bpdac1/address_16cou7ht6wjtzufydbnht9hmvxytg6xdvt_does/">https://www.reddit.com/r/btc/comments/bpdac1/address_16cou7ht6wjtzufydbnht9hmvxytg6xdvt_does/</a></p>
+<p>https://www.reddit.com/r/btc/comments/bpdac1/address_16cou7ht6wjtzufydbnht9hmvxytg6xdvt_does/</p>
 
-<p><a href="https://www.reddit.com/r/btc/comments/7cehzo/roger_ver_45000_bitcoin_moved_to_exchange/">https://www.reddit.com/r/btc/comments/7cehzo/roger_ver_45000_bitcoin_moved_to_exchange/</a></p>
+<p>https://www.reddit.com/r/btc/comments/7cehzo/roger_ver_45000_bitcoin_moved_to_exchange/</p>
 
 <p>之前在Bitcoin扩容之争的时候，Roger Ver还用这个地址投过票；</p>
 
 <p>而Roger Ver与Craig Wright的关系也是百转千回~~</p>
 
 <ul>
-<li><p>Craig Wright初次宣布自己是Satoshi, Roger Ver 坚持黑；</p></li>
-<li><p>BCH分叉， Craig Wright投入BCH阵营， Roger Ver 粉；</p></li>
-<li><p>BSV分叉， Craig Wright自立门户， Roger Ver 出来掀桌了；</p></li>
+  <li>
+    <p>Craig Wright初次宣布自己是Satoshi, Roger Ver 坚持黑；</p>
+  </li>
+  <li>
+    <p>BCH分叉， Craig Wright投入BCH阵营， Roger Ver 粉；</p>
+  </li>
+  <li>
+    <p>BSV分叉， Craig Wright自立门户， Roger Ver 出来掀桌了；</p>
+  </li>
 </ul>
-
 
 <p>真相目前不得而知，但是可以确认的有一件事情：</p>
 
@@ -330,11 +352,11 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 
 <p>我觉得所谓的<code>区块链行业</code>有个铁律：</p>
 
-<h4>有区块链的地方一定会有骗子。</h4>
+<h4 id="section">有区块链的地方一定会有骗子。</h4>
 
 <p>这再一次提醒我们，在区块链世界中，任何人都不值得信任，唯一可以依靠的只有自己的知识和判断：</p>
 
-<h2>Don&rsquo;t Trust. Verify.</h2>
+<h2 id="dont-trust-verify">Don’t Trust. Verify.</h2>
 ]]></content>
   </entry>
   
@@ -349,10 +371,11 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 
 <!-- more -->
 
-
 <p>关于Andreas M Antonopoulos，都不需要多做介绍了；我是他的Youtube主页忠实粉，他的每一个演讲视频都仔仔细细看过；但是将其整理为文字，汇聚成册后，再读起来还是止不住的惊叹；借用这本书的编者的话说：</p>
 
-<blockquote><p>他渊博的知识、 对复杂概念流利地解说和清晰的思想令我们惊叹不已。 我们看到在每一次演讲过程中， 他都充满着激情、 具有深远的见解； 他使用强大的类推法，用简单的术语来介绍最难理解的主题内容。记得我当时还在想“这个人怎么能对这么新颖的事物有如此深刻的了解呢？</p></blockquote>
+<blockquote>
+  <p>他渊博的知识、 对复杂概念流利地解说和清晰的思想令我们惊叹不已。 我们看到在每一次演讲过程中， 他都充满着激情、 具有深远的见解； 他使用强大的类推法，用简单的术语来介绍最难理解的主题内容。记得我当时还在想“这个人怎么能对这么新颖的事物有如此深刻的了解呢？</p>
+</blockquote>
 
 <p>随便翻开一页，都能津津有味的读下去，我得说，除了金庸小说和科幻小说，还真没有哪本书有类似效果； 我对Andreas M Antonopoulos 真是佩服的五体投地，宣扬一项新技术并不难，难的是像老娘舅一样日日讲，月月讲，年年讲，换着花样讲，每次都能讲出新意； 这就是先知的技能！</p>
 
@@ -363,12 +386,11 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 <p>举一些很简单的例子：</p>
 
 <ul>
-<li>直流电和交流电之争</li>
-<li>光的波粒二象性</li>
-<li>飞机的发明</li>
-<li>汽车的发明</li>
+  <li>直流电和交流电之争</li>
+  <li>光的波粒二象性</li>
+  <li>飞机的发明</li>
+  <li>汽车的发明</li>
 </ul>
-
 
 <p>像飞机或者汽车的演化斗争，就比较简单，因为人对于有形的事物接受能力总是比较快，当飞机在天上飞，汽车在地上跑，其高速的隆隆声很容易就证明自己，人们眼见为实，态度便会转为<code>真香</code>；但是比较抽象的东东就不行了；</p>
 
@@ -381,13 +403,12 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 <p>真是可悲的一件事情啊；人们在面对新理论的时候，很容易根据日常经验或者历史经验采取抵抗、恐惧的态度，但是接受之后，又会变得如此自然，甚至这个接受了新理论之后反而又会变成接受更新的理论的绊脚石。</p>
 
 <ul>
-<li>脱离历史经验去看待新事物容易冒进，太过拘泥于历史经验又导致短视，到底如何是好呢？</li>
+  <li>脱离历史经验去看待新事物容易冒进，太过拘泥于历史经验又导致短视，到底如何是好呢？</li>
 </ul>
-
 
 <p>我想到的一个办法就是，先尽量把自己放空，把自己放回<code>一无所知</code>的状态(其实就是乔大爷反复强调的stay stupid)；然后从常识出发，慢慢去消化这个理论；当觉得好像有点入戏了，再 <code>捡回</code> 历史经验，去判断这个新事物真伪好坏。</p>
 
-<h4>拿接受<code>地球绕着太阳转</code>这个理论做例子，大概过程是这样的：</h4>
+<h4 id="section">拿接受<code>地球绕着太阳转</code>这个理论做例子，大概过程是这样的：</h4>
 
 <p>先知：Hi, 小男孩，告诉你一个秘密，其实你脚下的土地并不是坚实稳当的，我们正处在一个慢慢转动的球体上，这个大球正慢慢绕着太阳旋转！！</p>
 
@@ -401,7 +422,7 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 
 <p>小男孩： 那为什么我没有从球上掉下去呢，而且即使我们在动，也明明是太阳绕着我们转嘛。</p>
 
-<p>先知： ~~~&hellip;&hellip;&hellip;..</p>
+<p>先知： ~~~………..</p>
 
 <p>好吧，在我的想象当中，这个先知拥有惊人的耐心和智慧，才能为一个小男孩解释清楚<code>地球绕着太阳转</code>这个论题；最重要的是，小男孩没有太多历史经验的束缚，他在这个世界上活的时间还少，比较容易被说服！！</p>
 
@@ -424,7 +445,6 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 
 <!-- more -->
 
-
 <p>超级棒的一本合集。感谢作者的整理。看到这本书的评论区如此冷清，实在可惜，就啰嗦几句。</p>
 
 <p>在对比特币的白皮书所有技术细节了然于胸之后，再读这本书别有风味；每天睡前随手翻上几页，好像穿越过去阅读科幻小说的体验。</p>
@@ -434,39 +454,78 @@ G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf9
 <p>虽然里面基本上所有的内容都被社区发掘完毕，学习消化了，但是每次重读，总有新感悟，挑几个书里面很有意思的点来说说。</p>
 
 <ol>
-<li><p>早期的参与者基本上都是100%的Geek，像后来我们耳熟能详的Hal Finney、Laszlo Hanyecz、Gavin Andresen、bytemaster、theymos等等，反而是Andreas M. Antonopoulos 参与的比较晚；</p></li>
-<li><p>Hal Finney曾经在论坛上说自己是第二个运行比特币软件的人，他挖到的第一个区块大概是第70 Block，可以肯定，第70 block之前所有的地址都是中本聪本人的钱包地址</p></li>
-<li><p>Laszlo Hanyecz应该是已知的显卡挖矿第一人，他大概挖到了80000枚币，所以当时花费10000币买个pizza可以理解；</p></li>
-<li><p>中本聪最初发布0.01版本的bitcoin时候，初始区块大小是32MB，后来防止DDOS才改成了1MB；他明确说了将来硬件发展，区块大小不是问题；但是他也明确提出了微支付通道的应用场景；估计今天中本聪对怎么扩容也没有准主意；</p></li>
-<li><p>比特币的地址有 2<sup>160</sup> 的区间，中本聪认为已经足够了</p></li>
-<li><p>关于可扩展性和速度，当时的中本聪其实已经高瞻远瞩到了未来的0确认和微支付技术，并对bytemaster说出了那句著名的:&ldquo;If you don&rsquo;t believe me or don&rsquo;t get it, I don&rsquo;t have time to try to convince you, sorry.&rdquo; ；这句话真是超级怼人啊；</p></li>
-<li><p>早期的社区蛮有危机感的，详细讨论了一个国家设置一个大洲将比特币网络隔绝在外的时候会发生什么，怎样应对这种状况；</p></li>
-<li><p>对于DDOS，中本聪的应对就是手续费，早期是可以发0手续费的交易的，后来遭遇DDOS攻击，讨论了一个算法，就是0手续费的交易要延迟入块，再到现在，所谓&lt;568 satoshi 的交易视为dust交易；我相信将来围绕这个点，社区还会爆发争论的；</p></li>
-<li><p>中本聪早期明确表示比特币的链要尽可能表示精简，像在链上发送消息这种事情应该放到侧链上来做，所以可见的未来，像BCH、BSV扩大OP_RETURN字节的设定实在是有点心大；</p></li>
-<li><p>关于挖矿耗费能源，中本聪表示今后可以在寒冷地区推行一边挖矿一边取暖的措施；乍一听好像不靠谱，其实仔细想想完全说得通。硬件99%的能源其实就是转化为了热量，将来矿机的成本低于一个小电暖之后，为什么不能在俄罗斯、加拿大一些靠北的城市建立大矿厂，一边供暖一边挖矿呢？我觉得完全可行。</p></li>
-<li><p>关于bitdns，或者说今天的namecoin，虽然讨论只有寥寥几段，但是非常精彩。可直到今天侧链技术也是不温不火；这说明两个问题：</p>
+  <li>
+    <p>早期的参与者基本上都是100%的Geek，像后来我们耳熟能详的Hal Finney、Laszlo Hanyecz、Gavin Andresen、bytemaster、theymos等等，反而是Andreas M. Antonopoulos 参与的比较晚；</p>
+  </li>
+  <li>
+    <p>Hal Finney曾经在论坛上说自己是第二个运行比特币软件的人，他挖到的第一个区块大概是第70 Block，可以肯定，第70 block之前所有的地址都是中本聪本人的钱包地址</p>
+  </li>
+  <li>
+    <p>Laszlo Hanyecz应该是已知的显卡挖矿第一人，他大概挖到了80000枚币，所以当时花费10000币买个pizza可以理解；</p>
+  </li>
+  <li>
+    <p>中本聪最初发布0.01版本的bitcoin时候，初始区块大小是32MB，后来防止DDOS才改成了1MB；他明确说了将来硬件发展，区块大小不是问题；但是他也明确提出了微支付通道的应用场景；估计今天中本聪对怎么扩容也没有准主意；</p>
+  </li>
+  <li>
+    <p>比特币的地址有 2^160 的区间，中本聪认为已经足够了</p>
+  </li>
+  <li>
+    <p>关于可扩展性和速度，当时的中本聪其实已经高瞻远瞩到了未来的0确认和微支付技术，并对bytemaster说出了那句著名的:”If you don’t believe me or don’t get it, I don’t have time to try to convince you, sorry.” ；这句话真是超级怼人啊；</p>
+  </li>
+  <li>
+    <p>早期的社区蛮有危机感的，详细讨论了一个国家设置一个大洲将比特币网络隔绝在外的时候会发生什么，怎样应对这种状况；</p>
+  </li>
+  <li>
+    <p>对于DDOS，中本聪的应对就是手续费，早期是可以发0手续费的交易的，后来遭遇DDOS攻击，讨论了一个算法，就是0手续费的交易要延迟入块，再到现在，所谓&lt;568 satoshi 的交易视为dust交易；我相信将来围绕这个点，社区还会爆发争论的；</p>
+  </li>
+  <li>
+    <p>中本聪早期明确表示比特币的链要尽可能表示精简，像在链上发送消息这种事情应该放到侧链上来做，所以可见的未来，像BCH、BSV扩大OP_RETURN字节的设定实在是有点心大；</p>
+  </li>
+  <li>
+    <p>关于挖矿耗费能源，中本聪表示今后可以在寒冷地区推行一边挖矿一边取暖的措施；乍一听好像不靠谱，其实仔细想想完全说得通。硬件99%的能源其实就是转化为了热量，将来矿机的成本低于一个小电暖之后，为什么不能在俄罗斯、加拿大一些靠北的城市建立大矿厂，一边供暖一边挖矿呢？我觉得完全可行。</p>
+  </li>
+  <li>
+    <p>关于bitdns，或者说今天的namecoin，虽然讨论只有寥寥几段，但是非常精彩。可直到今天侧链技术也是不温不火；这说明两个问题：</p>
 
-<ul>
-<li><p>在大部分领域，大众对于去中心化的需求并不高，这不是痛点；像DNS，现在的中心化方案工作的挺好的</p></li>
-<li><p>维持一条公链消耗巨大的能源，实在是太金贵了；痛点不足的应用勉强上链也不会有太多用户；真理要慢慢说，群众接受需要时间，一口气说出来会吓坏大家。</p></li>
-</ul>
-</li>
-<li><p>关于比特币的经济属性，Hal Finney觉得bitcoin最终会成为黄金中的黄金，即作为所有数字货币的锚定物；而中本聪也承认bitcoin更接近于一种收藏品。</p></li>
-<li><p>Laszlo Hanyecz提出了一个有意思的问题，说将来矿机算力会不会碰撞私钥的收益超过比特币挖矿的收益；中本聪回答这得整体算力达到2<sup>200</sup>的级别才可以；这应该是中本聪随口说说，我仔细测算了一下，可能达到2<sup>100</sup>的级别就有利可图了</p></li>
-<li><p>然后关于币价，中本聪其实也觉得挖矿成本会成为基本面；因为bitcoin是一个非常有趣的产品，人们觉得价格不合适，就是自己去挖；所以挖矿成本和币价总会有个伴生关系</p></li>
-<li><p>中本聪是在2007年开始考虑创造bitcoin的，并且他作为一个实干家代码先行；然后blockchain这个单词最初出现在bitcoin v0.01的代码注释里；所以严格考证起来：中本聪是bitcoin之父，bitcoin是blockchain之母，blockchain技术诞生于2007年。</p></li>
+    <ul>
+      <li>
+        <p>在大部分领域，大众对于去中心化的需求并不高，这不是痛点；像DNS，现在的中心化方案工作的挺好的</p>
+      </li>
+      <li>
+        <p>维持一条公链消耗巨大的能源，实在是太金贵了；痛点不足的应用勉强上链也不会有太多用户；真理要慢慢说，群众接受需要时间，一口气说出来会吓坏大家。</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>关于比特币的经济属性，Hal Finney觉得bitcoin最终会成为黄金中的黄金，即作为所有数字货币的锚定物；而中本聪也承认bitcoin更接近于一种收藏品。</p>
+  </li>
+  <li>
+    <p>Laszlo Hanyecz提出了一个有意思的问题，说将来矿机算力会不会碰撞私钥的收益超过比特币挖矿的收益；中本聪回答这得整体算力达到2^200的级别才可以；这应该是中本聪随口说说，我仔细测算了一下，可能达到2^100的级别就有利可图了</p>
+  </li>
+  <li>
+    <p>然后关于币价，中本聪其实也觉得挖矿成本会成为基本面；因为bitcoin是一个非常有趣的产品，人们觉得价格不合适，就是自己去挖；所以挖矿成本和币价总会有个伴生关系</p>
+  </li>
+  <li>
+    <p>中本聪是在2007年开始考虑创造bitcoin的，并且他作为一个实干家代码先行；然后blockchain这个单词最初出现在bitcoin v0.01的代码注释里；所以严格考证起来：中本聪是bitcoin之父，bitcoin是blockchain之母，blockchain技术诞生于2007年。</p>
+  </li>
 </ol>
-
 
 <p>最后冒险的做一些推测：</p>
 
 <ol>
-<li><p>虽然Segwit的升级将bitcoin全网链上的处理能力提高为7TPS，一年的极限也不过是区区2亿笔交易；假设将来要服务10亿用户，即使闪电网络极大繁荣，有许多大中转节点，假设一个用户一年只有一次链上<code>存取</code>的动作，也需要两次交易，就是整个主网链上一年要处理20亿笔交易；所以即使是bitcoin core，将来区块还是要扩容</p></li>
-<li><p>BCH和BSV 开放OP_RETURN限制，以及 bip62 解决延展性交易的手段实在是太冒险了；当然，历史有时候也青睐冒险者</p></li>
-<li><p>DDOS交易其实一直没有根除，即使加入了手续费用限制，内存池还是有被撑爆的风险，我觉得将来社区还会有争论</p></li>
-<li><p>像OP_HODL等操作符，还有Locktime的交易，还是应用太少，将来他们应该大放异彩</p></li>
+  <li>
+    <p>虽然Segwit的升级将bitcoin全网链上的处理能力提高为7TPS，一年的极限也不过是区区2亿笔交易；假设将来要服务10亿用户，即使闪电网络极大繁荣，有许多大中转节点，假设一个用户一年只有一次链上<code>存取</code>的动作，也需要两次交易，就是整个主网链上一年要处理20亿笔交易；所以即使是bitcoin core，将来区块还是要扩容</p>
+  </li>
+  <li>
+    <p>BCH和BSV 开放OP_RETURN限制，以及 bip62 解决延展性交易的手段实在是太冒险了；当然，历史有时候也青睐冒险者</p>
+  </li>
+  <li>
+    <p>DDOS交易其实一直没有根除，即使加入了手续费用限制，内存池还是有被撑爆的风险，我觉得将来社区还会有争论</p>
+  </li>
+  <li>
+    <p>像OP_HODL等操作符，还有Locktime的交易，还是应用太少，将来他们应该大放异彩</p>
+  </li>
 </ol>
-
 
 <p>最后的最后，这是一本非常有趣、科技含量非常高的科普读物；可能会在遥远的未来(100年，还是1000年，谁知道呢？)， 里面的许多句子会广为人知，并记载在史书上；</p>
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Centos | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/centos/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,11 +18,11 @@
     <link href="https://happy123.me/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7/"/>
     <updated>2017-04-15T15:50:53+08:00</updated>
     <id>https://happy123.me/blog/2017/04/15/how-to-update-to-gcc4-dot-9-x-on-centos7</id>
-    <content type="html"><![CDATA[<p>现在很多软件包默认编译要求GLIBCXX >=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件>=4.9.1。</p>
+    <content type="html"><![CDATA[<p>现在很多软件包默认编译要求GLIBCXX &gt;=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件&gt;=4.9.1。</p>
 
 <p>CentOS下升级gcc版本有两个途径，一个是添加其他源进行自动升级，一个是手动编译升级，这里先顺便讲下自动升级的两个办法：</p>
 
-<h3>添加Fedora源</h3>
+<h3 id="fedora">添加Fedora源</h3>
 
 <p>在 /etc/yum.repos.d 目录中添加文件 FedoraRepo.repo ，并输入以下内容:</p>
 
@@ -39,7 +39,7 @@ gpgkey=https://getfedora.org/static/34EC9CBA.txt
 <pre><code>yum update gcc gcc-c++
 </code></pre>
 
-<h3>使用Devtoolset-4升级</h3>
+<h3 id="devtoolset-4">使用Devtoolset-4升级</h3>
 
 <pre><code>yum install centos-release-scl
 yum install devtoolset-4-gcc*
@@ -47,6 +47,7 @@ scl enable devtoolset-4 bash
 which gcc
 gcc --version
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -55,7 +56,7 @@ gcc --version
     <link href="https://happy123.me/blog/2016/05/25/enable-ldap-on-centos/"/>
     <updated>2016-05-25T08:24:04+08:00</updated>
     <id>https://happy123.me/blog/2016/05/25/enable-ldap-on-centos</id>
-    <content type="html"><![CDATA[<h2>Dockerfile</h2>
+    <content type="html"><![CDATA[<h2 id="dockerfile">Dockerfile</h2>
 
 <pre><code>FROM docker-registry.dev.netis.com.cn:5000/autobuild/centos6
 
@@ -84,7 +85,7 @@ ENTRYPOINT ["/docker_entrypoint.sh"]
 CMD ["/usr/bin/svscan", "/etc/dockerservices"]
 </code></pre>
 
-<h2>docker_entrypoint.sh</h2>
+<h2 id="dockerentrypointsh">docker_entrypoint.sh</h2>
 
 <pre><code>#!/bin/bash
 
@@ -105,21 +106,21 @@ exec "$@"
     <id>https://happy123.me/blog/2014/03/14/wei-centostian-jia-epel-repo</id>
     <content type="html"><![CDATA[<p>centos默认的源软件不是很全，大部分时候需要添加EPEL源。</p>
 
-<h2>centos5.x</h2>
+<h2 id="centos5x">centos5.x</h2>
 
 <pre><code>wget http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
 sudo rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
 </code></pre>
 
-<h2>centos6.x</h2>
+<h2 id="centos6x">centos6.x</h2>
 
 <pre><code>wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
 </code></pre>
 
-<h2>添加完毕后可以到/etc/yum.repos.d里面看一下</h2>
+<h2 id="etcyumreposd">添加完毕后可以到/etc/yum.repos.d里面看一下</h2>
 
 <pre><code>$ ls -1 /etc/yum.repos.d/epel* /etc/yum.repos.d/remi.repo
 /etc/yum.repos.d/epel.repo
@@ -127,7 +128,7 @@ sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
 /etc/yum.repos.d/remi.repo
 </code></pre>
 
-<h2>设置remi repository</h2>
+<h2 id="remi-repository">设置remi repository</h2>
 
 <p>remi repository更新很快，如果你很需要htopxxx最新版本这样的话最好打开</p>
 
@@ -145,16 +146,16 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
 failovermethod=priority
 </code></pre>
 
-<h2>开发工具套装</h2>
+<h2 id="section">开发工具套装</h2>
 
 <pre><code>yum groupinstall "Development Tools"
 </code></pre>
 
-<h2>SCL源</h2>
+<h2 id="scl">SCL源</h2>
 
-<p><a href="http://wiki.centos.org/AdditionalResources/Repositories/SCL">http://wiki.centos.org/AdditionalResources/Repositories/SCL</a></p>
+<p>http://wiki.centos.org/AdditionalResources/Repositories/SCL</p>
 
-<h2>解决仓库安装失败的问题</h2>
+<h2 id="section-1">解决仓库安装失败的问题</h2>
 
 <p>有时候某个软件可以Search，但安装一直报错:</p>
 
@@ -171,7 +172,7 @@ yum update
 
 <p>90%的情况会奏效</p>
 
-<h2>yum只下载安装包</h2>
+<h2 id="yum">yum只下载安装包</h2>
 
 <pre><code>[RHEL5]
 yum -y install yum-downloadonly
@@ -182,48 +183,46 @@ yum install yum-plugin-downloadonly
 yum install --downloadonly --downloaddir=. mongodb-org
 </code></pre>
 
-<h2>yum提取已经安装的rpm包</h2>
+<h2 id="yumrpm">yum提取已经安装的rpm包</h2>
 
 <pre><code>yum install yum-utils
 yumdownloader &lt;package&gt;
 yumdownloader &lt;package&gt; --resolve
 </code></pre>
 
-<h2>yum升级kernel</h2>
+<h2 id="yumkernel">yum升级kernel</h2>
 
-<p><a href="http://elrepo.org/tiki/kernel-ml">http://elrepo.org/tiki/kernel-ml</a></p>
+<p>http://elrepo.org/tiki/kernel-ml</p>
 
-<h2>elrepo url</h2>
+<h2 id="elrepo-url">elrepo url</h2>
 
-<p><a href="http://elrepo.org/tiki/tiki-index.php">http://elrepo.org/tiki/tiki-index.php</a></p>
+<p>http://elrepo.org/tiki/tiki-index.php</p>
 
-<p><a href="http://elrepo.org/linux/kernel/">http://elrepo.org/linux/kernel/</a></p>
+<p>http://elrepo.org/linux/kernel/</p>
 
-<p><a href="http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/">http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/</a></p>
+<p>http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/</p>
 
-<h2>mongodb RPM repo</h2>
+<h2 id="mongodb-rpm-repo">mongodb RPM repo</h2>
 
-<p><a href="https://repo.mongodb.org/yum/redhat">https://repo.mongodb.org/yum/redhat</a></p>
+<p>https://repo.mongodb.org/yum/redhat</p>
 
-<h2>163镜像源</h2>
+<h2 id="section-2">163镜像源</h2>
 
-<p><a href="http://mirrors.163.com/.help/centos.html">http://mirrors.163.com/.help/centos.html</a></p>
+<p>http://mirrors.163.com/.help/centos.html</p>
 
-<h2>rpm 常用命令</h2>
+<h2 id="rpm-">rpm 常用命令</h2>
 
 <ul>
-<li>重装某个包</li>
+  <li>重装某个包</li>
 </ul>
-
 
 <p><code>
 rpm -ivh --replacepkgs xxx.rpm
 </code></p>
 
 <ul>
-<li>修改prefix</li>
+  <li>修改prefix</li>
 </ul>
-
 
 <p><code>
 rpm -qp --queryformat "%{defaultprefix}\n" &lt;packagefile&gt;
@@ -231,9 +230,8 @@ rpm -ivh --prefix &lt;packagefile&gt;
 </code></p>
 
 <ul>
-<li>查询某个包包含的文件</li>
+  <li>查询某个包包含的文件</li>
 </ul>
-
 
 <p><code>
 rpm -ql &lt;packagefile&gt;
@@ -241,57 +239,58 @@ rpm -qs &lt;packagefile&gt;
 </code></p>
 
 <ul>
-<li>查询某个包包含的配置文件</li>
+  <li>查询某个包包含的配置文件</li>
 </ul>
-
 
 <p><code>
 rpm -qc &lt;packagefile&gt;
 </code></p>
 
 <ul>
-<li>查询某个包安装时要执行的脚本文件</li>
+  <li>查询某个包安装时要执行的脚本文件</li>
 </ul>
-
 
 <p><code>
 rpm -q --scripts &lt;packagefile&gt;
 </code></p>
 
 <ul>
-<li>查询某个文件属于哪个包</li>
+  <li>查询某个文件属于哪个包</li>
 </ul>
-
 
 <p><code>
 rpm -qf &lt;filepath&gt;
 </code></p>
 
 <ul>
-<li>查询某个可执行文件的配置文件和log文件</li>
+  <li>查询某个可执行文件的配置文件和log文件</li>
 </ul>
-
 
 <p><code>
 rpm -qcf &lt;filepath&gt;
 </code></p>
 
 <ul>
-<li><p>寻找最近安装的包
+  <li>
+    <p>寻找最近安装的包
 <code>
 find /bin -type f -mtime -14 | rpm -qF
 rpm -qa --queryformat '%{installtime} %{name}-%{version}-%{release} %{installtime:date}\n' | sort -nr +1 | sed -e 's/^[^ ]* //'
-</code></p></li>
-<li><p>寻找最大的安装包
+</code></p>
+  </li>
+  <li>
+    <p>寻找最大的安装包
 <code>
 rpm -qa --queryformat '%{name-%{version}-%{release} %{size}\n' | sort -nr +1}'
-</code></p></li>
-<li><p>解压一个rpm文件
+</code></p>
+  </li>
+  <li>
+    <p>解压一个rpm文件
 <code>
 rpm2cpio xxx.rpm | cpio -div
-</code></p></li>
+</code></p>
+  </li>
 </ul>
-
 ]]></content>
   </entry>
   

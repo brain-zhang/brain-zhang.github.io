@@ -4,7 +4,7 @@
   <title><![CDATA[Category: DesignPattern | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/designpattern/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -20,120 +20,112 @@
     <id>https://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1</id>
     <content type="html"><![CDATA[<p>这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。</p>
 
-<h2>创建型设计模式</h2>
+<h2 id="section">创建型设计模式</h2>
 
-<h4>抽象工厂 (Abstract Factory)</h4>
-
-<ul>
-<li>名字就用AbstractFactory好了，不要起什么BaseFactory之类的</li>
-<li>相关类都放到对应的Factory Class里面，不要暴露给外面了</li>
-</ul>
-
-
-<h4>建造者模式 (Build)</h4>
+<h4 id="abstract-factory">抽象工厂 (Abstract Factory)</h4>
 
 <ul>
-<li>和工厂的区别就是保存了创建对象时各个部分的细节</li>
+  <li>名字就用AbstractFactory好了，不要起什么BaseFactory之类的</li>
+  <li>相关类都放到对应的Factory Class里面，不要暴露给外面了</li>
 </ul>
 
-
-<h4>工厂模式</h4>
+<h4 id="build">建造者模式 (Build)</h4>
 
 <ul>
-<li>根据情况实例化对象</li>
-<li>还是注意和抽象工厂的区别，抽象工厂是将创建对象的行为抽象出来，而工厂模式则是根据要创建的对象类型实例化</li>
+  <li>和工厂的区别就是保存了创建对象时各个部分的细节</li>
 </ul>
 
-
-<h4>原型模式 (Prototype)</h4>
+<h4 id="section-1">工厂模式</h4>
 
 <ul>
-<li>这个模式其实在javascript的根本，不过Python的实现方法还真是五花八门，我说直接用copy就好了嘛</li>
+  <li>根据情况实例化对象</li>
+  <li>还是注意和抽象工厂的区别，抽象工厂是将创建对象的行为抽象出来，而工厂模式则是根据要创建的对象类型实例化</li>
 </ul>
 
-
-<h4>单例模式 (Singleton)</h4>
+<h4 id="prototype">原型模式 (Prototype)</h4>
 
 <ul>
-<li>我最中意的一种实现:</li>
+  <li>这个模式其实在javascript的根本，不过Python的实现方法还真是五花八门，我说直接用copy就好了嘛</li>
 </ul>
 
+<h4 id="singleton">单例模式 (Singleton)</h4>
 
-<p>```</p>
+<ul>
+  <li>我最中意的一种实现:</li>
+</ul>
 
-<pre><code>class Borg:
-    _shared_state = {}
-    def __init__(self):
-        self.__dict__ = self._shared_state
+<p>```
+    class Borg:
+        _shared_state = {}
+        def <strong>init</strong>(self):
+            self.<strong>dict</strong> = self._shared_state</p>
 
-class Singleton(Borg):
+<pre><code>class Singleton(Borg):
     def __init__(self, arg):
         Borg.__init__(self)
         self.val = arg
     def __str__(self):
-        return self.val
+        return self.val ```
 </code></pre>
 
-<p>```</p>
-
-<h2>结构型设计</h2>
+<h2 id="section-2">结构型设计</h2>
 
 <ul>
-<li>作用就是改装对象，或者把小对象合并为大对象</li>
+  <li>作用就是改装对象，或者把小对象合并为大对象</li>
 </ul>
 
-
-<h4>Adapter</h4>
+<h4 id="adapter">Adapter</h4>
 
 <ul>
-<li>其实就是转接方法</li>
+  <li>其实就是转接方法</li>
 </ul>
 
-
-<h4>Bridge</h4>
+<h4 id="bridge">Bridge</h4>
 
 <ul>
-<li>把方法抽象出来</li>
+  <li>把方法抽象出来</li>
 </ul>
 
-
-<h4>Composite</h4>
+<h4 id="composite">Composite</h4>
 
 <ul>
-<li>Python里面有一种省一点内存的写法，可以直接用CompositeItem和Item两个类来实现，不过我觉得不直观</li>
+  <li>Python里面有一种省一点内存的写法，可以直接用CompositeItem和Item两个类来实现，不过我觉得不直观</li>
 </ul>
 
-
-<h4>decorator</h4>
+<h4 id="decorator">decorator</h4>
 
 <ul>
-<li><p>几个新的decorator:</p>
+  <li>
+    <p>几个新的decorator:</p>
+
+    <ul>
+      <li>
+        <p><code>@functools_wraps</code> : 装饰器工厂</p>
+      </li>
+      <li>
+        <p><code>@statically_typed</code> : 类型检查</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>另外<code>@ensure</code>类修饰符可以用来简化设置property的代码</p>
+  </li>
+</ul>
+
+<h4 id="facade">Facade</h4>
 
 <ul>
-<li><p><code>@functools_wraps</code> : 装饰器工厂</p></li>
-<li><p><code>@statically_typed</code> : 类型检查</p></li>
-</ul>
-</li>
-<li><p>另外<code>@ensure</code>类修饰符可以用来简化设置property的代码</p></li>
+  <li>这个模式其实是天天在做的，就是把接口聚合的好看一点</li>
+  <li>其实思想可以推广到很多方面，比如Docker，就是LXC的一个Facader，而且做的比较好看，于是大家就都来用了</li>
 </ul>
 
-
-<h4>Facade</h4>
+<h4 id="flyweight">Flyweight</h4>
 
 <ul>
-<li>这个模式其实是天天在做的，就是把接口聚合的好看一点</li>
-<li>其实思想可以推广到很多方面，比如Docker，就是LXC的一个Facader，而且做的比较好看，于是大家就都来用了</li>
+  <li>管理许多小对象的时候用引用</li>
+  <li>Python用<code>__slot__</code> Attribute来做最方便</li>
+  <li>里面关于用shelve对象存储class attribute的思路挺实用的</li>
 </ul>
-
-
-<h4>Flyweight</h4>
-
-<ul>
-<li>管理许多小对象的时候用引用</li>
-<li>Python用<code>__slot__</code> Attribute来做最方便</li>
-<li>里面关于用shelve对象存储class attribute的思路挺实用的</li>
-</ul>
-
 ]]></content>
   </entry>
   

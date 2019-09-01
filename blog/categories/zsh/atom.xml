@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Zsh | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/zsh/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,7 +18,7 @@
     <link href="https://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/"/>
     <updated>2014-09-17T08:40:14+08:00</updated>
     <id>https://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo</id>
-    <content type="html"><![CDATA[<p>更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。</p>
+    <content type="html"><![CDATA[<p>更新svn(subversion)&gt;1.7后 zsh 的svn自动完成会报错。</p>
 
 <p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>
 
@@ -34,7 +34,7 @@
 <p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}</code></p>
 
 <p>参考资料：
-<a href="http://www.zsh.org/mla/workers/2011/msg01448.html">http://www.zsh.org/mla/workers/2011/msg01448.html</a></p>
+http://www.zsh.org/mla/workers/2011/msg01448.html</p>
 ]]></content>
   </entry>
   

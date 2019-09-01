@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Autotools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/autotools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -20,19 +20,18 @@
     <id>https://happy123.me/blog/2014/10/29/how-to-compile-by-autotools</id>
     <content type="html"><![CDATA[<p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
 
-<p>```</p>
+<p>```
+#!/bin/bash</p>
 
-<h1>!/bin/bash</h1>
-
-<p>echo &ldquo;Running aclocal&hellip;&rdquo;
+<p>echo “Running aclocal…”
 aclocal || exit 1
-echo &ldquo;Running autoheader&hellip;&rdquo;
+echo “Running autoheader…”
 autoheader || exit 1
-echo &ldquo;Running autoconf&hellip;&rdquo;
+echo “Running autoconf…”
 autoconf || exit 1
-echo &ldquo;Running automake&hellip;&rdquo;
-automake &mdash;add-missing &mdash;copy || exit 1
-echo &ldquo;Finished.&rdquo;
+echo “Running automake…”
+automake –add-missing –copy || exit 1
+echo “Finished.”
 ```</p>
 ]]></content>
   </entry>

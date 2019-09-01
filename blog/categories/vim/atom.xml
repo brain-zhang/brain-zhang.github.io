@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Vim | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/vim/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -24,7 +24,7 @@
 
 <p>发现的一个插件做这个事,vis:</p>
 
-<p><a href="https://github.com/vim-scripts/vis">https://github.com/vim-scripts/vis</a></p>
+<p>https://github.com/vim-scripts/vis</p>
 
 <p>支持两个命令模式:B 和 S</p>
 
@@ -51,18 +51,18 @@
     <link href="https://happy123.me/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/"/>
     <updated>2014-09-17T08:30:15+08:00</updated>
     <id>https://happy123.me/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao</id>
-    <content type="html"><![CDATA[<h2>vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
+    <content type="html"><![CDATA[<h2 id="vim-">vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
 
 <p>1.查看历史指令并执行</p>
 
 <p>2.复制寄存器中的内容
 1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。</p>
 
-<p>2 使用寄存器，一般复制时使用" + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
+<p>2 使用寄存器，一般复制时使用” + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
 
-<h2>vim tooltips</h2>
+<h2 id="vim-tooltips">vim tooltips</h2>
 
-<h4>Display CRLF as ^M:</h4>
+<h4 id="display-crlf-as-m">Display CRLF as ^M:</h4>
 
 <p><code>
 :e ++ff=unix

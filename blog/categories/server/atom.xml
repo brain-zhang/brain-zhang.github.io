@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Server | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/server/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -21,8 +21,12 @@
     <content type="html"><![CDATA[<p>公司里采购了一批二手服务器，用了一段时间很实惠，记录之:</p>
 
 <ul>
-<li><p>IBM x3550M4服务器E5&mdash;2670<em>2 192G(8G</em>24) 无硬盘，8个硬盘架， M5110阵列卡 单电 ￥7680</p></li>
-<li><p>IBM x3550m4服务器硬盘背板 扩展板 81Y6657 ￥450</p></li>
+  <li>
+    <p>IBM x3550M4服务器E5–2670<em>2 192G(8G</em>24) 无硬盘，8个硬盘架， M5110阵列卡 单电 ￥7680</p>
+  </li>
+  <li>
+    <p>IBM x3550m4服务器硬盘背板 扩展板 81Y6657 ￥450</p>
+  </li>
 </ul>
 
 ]]></content>

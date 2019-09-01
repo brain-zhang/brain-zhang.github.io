@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -24,158 +24,185 @@
 
 <p>众所周知，GPG和Openssl的key是不兼容的，所以统一环境还是花了不少时间，主要是参考了这篇文章：</p>
 
-<p><a href="https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth">https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</a></p>
+<p>https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</p>
 
-<p>常用命令:</p>
+<p>常用命令:
+<!-- more --></p>
 
-<!-- more -->
-
-
-<h3>GPG</h3>
+<h3 id="gpg">GPG</h3>
 
 <ul>
-<li><p>生成证书
+  <li>
+    <p>生成证书
 <code>
 gpg --gen-key
-</code></p></li>
-<li><p>生成撤销证书</p></li>
+</code></p>
+  </li>
+  <li>
+    <p>生成撤销证书</p>
+  </li>
 </ul>
-
 
 <p><code>
 gpg --gen-revoke [用户ID]
 </code></p>
 
 <ul>
-<li>列出所有密钥
+  <li>列出所有密钥
 <code>
 gpg --list-keys
 </code></li>
 </ul>
 
-
 <p>输出
-```</p>
-
-<h2>/home/brain/.gnupg/pubring.gpg</h2>
-
-<p>pub   4096R/xxxxxxxx 2018-08-16
-uid                  brain.zhang (happy123.me) &lt;brain.zhangbin#xxx.com>
+<code>
+/home/brain/.gnupg/pubring.gpg
+-------------------------------
+pub   4096R/xxxxxxxx 2018-08-16
+uid                  brain.zhang (happy123.me) &lt;brain.zhangbin#xxx.com&gt;
 sub   4096R/yyyyyyyy 2018-08-16
-```</p>
+</code></p>
 
-<p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示"用户ID"，第四行显示subkey。</p>
+<p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示”用户ID”，第四行显示subkey。</p>
 
 <ul>
-<li>输出密钥</li>
+  <li>输出密钥</li>
 </ul>
-
 
 <p><code>
 gpg --armor --output public-key.txt --export [用户ID]
 </code></p>
 
 <ul>
-<li><p>输出密钥时转换私钥
+  <li>
+    <p>输出密钥时转换私钥
 <code>
 gpg --armor --output private-key.txt --export-secret-keys
-</code></p></li>
-<li><p>上传公钥
+</code></p>
+  </li>
+  <li>
+    <p>上传公钥
 <code>
-gpg --keyserver keys.gnupg.net --send-keys [pub key ID]
+gpg --keyserver keys.gnupg.net --send-keys [pub key ID] 
 ...
 gpg --keyserver keys.gnupg.net --search-keys brain.zhang
-</code></p></li>
-<li><p>生成公钥指纹供别人检查
+</code></p>
+  </li>
+  <li>
+    <p>生成公钥指纹供别人检查
 <code>
 gpg --fingerprint [用户ID]
-</code></p></li>
-<li><p>加密文件
+</code></p>
+  </li>
+  <li>
+    <p>加密文件
 <code>
 gpg --recipient [用户ID] --output demo.en.txt --encrypt demo.txt
-</code></p></li>
-<li><p>解密文件
+</code></p>
+  </li>
+  <li>
+    <p>解密文件
 <code>
 gpg --decrypt demo.en.txt --output demo.de.txt
-</code></p></li>
-<li><p>对文件签名
+</code></p>
+  </li>
+  <li>
+    <p>对文件签名
 <code>
 gpg --clearsign demo.txt
-</code></p></li>
-<li><p>获得单独的签名文件
+</code></p>
+  </li>
+  <li>
+    <p>获得单独的签名文件
 <code>
 gpg --armor --detach-sign demo.txt
-</code></p></li>
-<li><p>验证签名
+</code></p>
+  </li>
+  <li>
+    <p>验证签名
 <code>
 gpg --verify demo.txt.asc demo.txt
-</code></p></li>
+</code></p>
+  </li>
 </ul>
 
-
-<h3>导入第三方公钥</h3>
+<h3 id="section">导入第三方公钥</h3>
 
 <ul>
-<li><p>获得公钥
+  <li>
+    <p>获得公钥
 <code>
 gpg --keyserver keys.gnupg.net --search-keys &lt;user ID&gt;
 ...
 gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang
-</code></p></li>
-<li><p>验证公钥
+</code></p>
+  </li>
+  <li>
+    <p>验证公钥
 ```
-gpg &mdash;edit-key <key ID></p></li>
+ gpg –edit-key <key /></p>
+  </li>
 </ul>
 
+<p>```
+你可以键入<code>fpr</code> 来打印这个主钥的指纹，和你得到的主钥指纹进行对比，如果一致则键入<code>trust</code> 来设置主钥的信任度。如果主钥被设置为绝对可信的（ultimately），GPG 会根据主钥的公钥验证从钥的签名，最终完成信任建立。最后键入quit 退出。</p>
 
-<p><code>``
-你可以键入</code>fpr<code>来打印这个主钥的指纹，和你得到的主钥指纹进行对比，如果一致则键入</code>trust` 来设置主钥的信任度。如果主钥被设置为绝对可信的（ultimately），GPG 会根据主钥的公钥验证从钥的签名，最终完成信任建立。最后键入quit 退出。</p>
-
-<h3>在Github中使用GPG</h3>
+<h3 id="githubgpg">在Github中使用GPG</h3>
 
 <ul>
-<li><p>输出key id
+  <li>
+    <p>输出key id
 <code>
 gpg --list-secret-keys --keyid-format LONG
-</code></p></li>
-<li><p>设置提交
+</code></p>
+  </li>
+  <li>
+    <p>设置提交
 ```
-git config  user.signingkey <key ID></p></li>
+ git config  user.signingkey <key /></p>
+  </li>
 </ul>
-
 
 <p>```</p>
 
 <ul>
-<li><p>对单次提交进行签名：
+  <li>
+    <p>对单次提交进行签名： 
 <code>
 git commit -S -m "-S选项表示对此次提交使用gpg进行签名"
-</code></p></li>
-<li><p>签名标签
+</code></p>
+  </li>
+  <li>
+    <p>签名标签
 <code>
 git tag -s &lt;tag&gt;
-</code></p></li>
+</code></p>
+  </li>
 </ul>
 
-
-<h3>ssh server gen</h3>
+<h3 id="ssh-server-gen">ssh server gen</h3>
 
 <ul>
-<li><p>制作密钥对
+  <li>
+    <p>制作密钥对
 <code>
-[root@host ~]$ ssh-keygen
-</code></p></li>
-<li><p>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥
+[root@host ~]$ ssh-keygen 
+</code></p>
+  </li>
+  <li>
+    <p>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥
 <code>
 [root@host ~]$ cd .ssh
 [root@host .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys
 [root@host .ssh]$ chmod 600 authorized_keys
 [root@host .ssh]$ chmod 700 ~/.ssh
-</code></p></li>
-<li><p>设置 SSHD，打开密钥登录功能
-编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p></li>
+</code></p>
+  </li>
+  <li>
+    <p>设置 SSHD，打开密钥登录功能
+编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
+  </li>
 </ul>
-
 
 <p><code>
 PubkeyAuthentication yes
@@ -183,24 +210,22 @@ PermitRootLogin yes
 </code></p>
 
 <ul>
-<li>将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</li>
+  <li>将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</li>
 </ul>
-
 
 <p>使用 WinSCP、SFTP 等工具将私钥文件 id_rsa 下载到客户端机器上。然后打开 PuTTYGen，单击 Actions 中的 Load 按钮，载入你刚才下载到的私钥文件。如果你刚才设置了密钥锁码，这时则需要输入。</p>
 
 <p>载入成功后，PuTTYGen 会显示密钥相关的信息。在 Key comment 中键入对密钥的说明信息，然后单击 Save private key 按钮即可将私钥文件存放为 PuTTY 能使用的格式。</p>
 
-<p>今后，当你使用 PuTTY 登录时，可以在左侧的 Connection &ndash;> SSH &ndash;> Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
+<p>今后，当你使用 PuTTY 登录时，可以在左侧的 Connection -&gt; SSH -&gt; Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
 
 <ul>
-<li>验证无误，关闭密码登陆
+  <li>验证无误，关闭密码登陆
 <code>
 PasswordAuthentication no
 [root@host .ssh]$ service sshd restart
 </code></li>
 </ul>
-
 ]]></content>
   </entry>
   
@@ -226,18 +251,16 @@ ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~
 <p>下面记一下常用的坑：</p>
 
 <ul>
-<li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
+  <li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
 </ul>
-
 
 <p><code>
 sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g
 </code></p>
 
 <ul>
-<li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
+  <li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
 </ul>
-
 
 <p>目前无解；要么禁用卡巴斯基的HTTP过滤功能，要么回退2018版本</p>
 
@@ -254,7 +277,7 @@ sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g
 
 <p><code>
 alias rm='mv -f $@ ~/.trash'
-</code></p>
+</code> </p>
 
 <p>取代rm命令。</p>
 
@@ -266,7 +289,7 @@ alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'
 
 <p>参考资料：</p>
 
-<p><a href="https://www.cnblogs.com/f-ck-need-u/p/7385133.html">https://www.cnblogs.com/f-ck-need-u/p/7385133.html</a></p>
+<p>https://www.cnblogs.com/f-ck-need-u/p/7385133.html</p>
 ]]></content>
   </entry>
   
@@ -289,25 +312,45 @@ alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'
 
 <p>官方回复是还没有考虑这个功能，然后Linux怎么可能做不到这种简单的事情呢？当然立刻就有人回复了详细的搞法，还贴心的附录了视频:</p>
 
-<p><a href="https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2">https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</a></p>
+<p>https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</p>
 
 <!-- more -->
 
-
-<h4>我们也嘴炮一下整个过程:</h4>
+<h4 id="section">我们也嘴炮一下整个过程:</h4>
 
 <ol>
-<li><p>对Linux A建立SnapShot A</p></li>
-<li><p>从SnapShot A创立一台虚机 (注意这台虚机的磁盘要比Linux A的磁盘大，比如Linux A是5$的套餐15GB，那么最好建立一个20$的套餐45GB)</p></li>
-<li><p>vultr 有挂载光盘的功能，可以挂载一个linux live CD,用这张Live CD启动新虚机</p></li>
-<li><p>dd 命令完全拷贝原有磁盘</p>
+  <li>
+    <p>对Linux A建立SnapShot A</p>
+  </li>
+  <li>
+    <p>从SnapShot A创立一台虚机 (注意这台虚机的磁盘要比Linux A的磁盘大，比如Linux A是5$的套餐15GB，那么最好建立一个20$的套餐45GB)</p>
+  </li>
+  <li>
+    <p>vultr 有挂载光盘的功能，可以挂载一个linux live CD,用这张Live CD启动新虚机</p>
+  </li>
+  <li>
+    <p>dd 命令完全拷贝原有磁盘</p>
 
-<p> dd if=/dev/vtbd0 bs=1m | gzip -c | ssh -e none myolduser@myoldserverip &lsquo;cat > backupsnapshot.iso.gz&rsquo;</p></li>
-<li><p>账号B开一台虚机，把backupsnapshot.iso.gz拷贝过去</p></li>
-<li><p>同样挂载Live CD，反向dd，恢复文件系统</p></li>
-<li><p>重启，改配置，赋权限，搞定</p></li>
+    <table>
+      <tbody>
+        <tr>
+          <td>dd if=/dev/vtbd0 bs=1m</td>
+          <td>gzip -c</td>
+          <td>ssh -e none myolduser@myoldserverip ‘cat &gt; backupsnapshot.iso.gz’</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p>账号B开一台虚机，把backupsnapshot.iso.gz拷贝过去</p>
+  </li>
+  <li>
+    <p>同样挂载Live CD，反向dd，恢复文件系统</p>
+  </li>
+  <li>
+    <p>重启，改配置，赋权限，搞定</p>
+  </li>
 </ol>
-
 
 <p>说是嘴炮，是因为我之前硬盘dd对拷过，对于速度和之后的配置兼容深为烦恼，更不用说KVM上面用这个招数去做迁移了，我一个坑都不想踩的。</p>
 
@@ -315,41 +358,72 @@ alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'
 
 <p>之前在不同物理机之间做Linux迁移，用clonezilla居多，虽然有一些Raid方面的支持会有问题，总体来说我对它的稳定性和便利性有巨大信任，但从来没有在KVM上搞过，这次我完整实验了一把，效果MAX。</p>
 
-<h4>下面我们说说怎么用clonezilla把上面繁琐的手工操作搞得不那么痛苦一点:</h4>
+<h4 id="clonezilla">下面我们说说怎么用clonezilla把上面繁琐的手工操作搞得不那么痛苦一点:</h4>
 
 <ol>
-<li><p>先去clonezilla.org 官网，找到下载地址，好吧，我已经帮你找好了:</p>
+  <li>
+    <p>先去clonezilla.org 官网，找到下载地址，好吧，我已经帮你找好了:</p>
 
-<p> <a href="http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso">http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso</a></p></li>
-<li><p>vultr很贴心的提供了从url上传镜像的功能，我们到下面这个功能项中把iso镜像的url填进去，添加clonezilla镜像文件到vultr:</p>
+    <p>http://onet.dl.osdn.jp/clonezilla/69273/clonezilla-live-2.5.5-38-amd64.iso</p>
+  </li>
+  <li>
+    <p>vultr很贴心的提供了从url上传镜像的功能，我们到下面这个功能项中把iso镜像的url填进去，添加clonezilla镜像文件到vultr:</p>
 
-<p> <a href="https://my.vultr.com/iso/add/">https://my.vultr.com/iso/add/</a></p></li>
-<li><p>点开虚机Linux A，点击<code>Settings</code> &ndash;> <code>Custom ISO</code> &ndash;> 选择clonezilla &ndash;> 点击 <code>Attach ISO and Reboot</code></p></li>
-<li><p>用VNC连接虚机，进入clonezilla的界面</p></li>
-<li><p>进入菜单项，<code>第一菜单800X600分辨率</code> &ndash;> <code>简体中文</code> &ndash;> <code>使用再生龙</code></p></li>
-<li><p>选择 <code>remote-source 进入远程设备克隆的源端</code></p></li>
-<li><p>选择 <code>初学模式：接受默认的选择</code></p></li>
-<li><p>选择 <code>复制本机硬盘到它机硬盘</code></p></li>
-<li><p>选择 <code>设定固定IP地址</code></p></li>
-<li><p>设定IP,子网掩码，网关,域名服务器，如果机器有多块网卡的话，一般会列出网卡名字和MAC地址供你选择，vultr一般是双网卡(如果你启用了内网地址的话),网络信息在vultr的主机settings中能查到。</p></li>
-<li><p>选择要克隆的硬盘，设定没有问题的话，下面一路YES下去，机器就会进入等待目标端连接的状态</p></li>
-<li><p>在账号B的Linux B中重复1-11步操作，不同的是第6步选择目标端，第8步选择 <code>从镜像文件恢复至本机硬盘</code>, 之后填入Linux A的IP地址，就可以开始克隆对拷了</p></li>
-<li><p>我在不同vultr的账号中测试了Ubuntu16.04, Centos7.1, FreeBSD 10的迁移，效果MAX</p></li>
+    <p>https://my.vultr.com/iso/add/</p>
+  </li>
+  <li>
+    <p>点开虚机Linux A，点击<code>Settings</code> -&gt; <code>Custom ISO</code> -&gt; 选择clonezilla -&gt; 点击 <code>Attach ISO and Reboot</code></p>
+  </li>
+  <li>
+    <p>用VNC连接虚机，进入clonezilla的界面</p>
+  </li>
+  <li>
+    <p>进入菜单项，<code>第一菜单800X600分辨率</code> -&gt; <code>简体中文</code> -&gt; <code>使用再生龙</code></p>
+  </li>
+  <li>
+    <p>选择 <code>remote-source 进入远程设备克隆的源端</code></p>
+  </li>
+  <li>
+    <p>选择 <code>初学模式：接受默认的选择</code></p>
+  </li>
+  <li>
+    <p>选择 <code>复制本机硬盘到它机硬盘</code></p>
+  </li>
+  <li>
+    <p>选择 <code>设定固定IP地址</code></p>
+  </li>
+  <li>
+    <p>设定IP,子网掩码，网关,域名服务器，如果机器有多块网卡的话，一般会列出网卡名字和MAC地址供你选择，vultr一般是双网卡(如果你启用了内网地址的话),网络信息在vultr的主机settings中能查到。</p>
+  </li>
+  <li>
+    <p>选择要克隆的硬盘，设定没有问题的话，下面一路YES下去，机器就会进入等待目标端连接的状态</p>
+  </li>
+  <li>
+    <p>在账号B的Linux B中重复1-11步操作，不同的是第6步选择目标端，第8步选择 <code>从镜像文件恢复至本机硬盘</code>, 之后填入Linux A的IP地址，就可以开始克隆对拷了</p>
+  </li>
+  <li>
+    <p>我在不同vultr的账号中测试了Ubuntu16.04, Centos7.1, FreeBSD 10的迁移，效果MAX</p>
+  </li>
 </ol>
-
 
 <p>看起来步骤不少，熟练了还是能迅速操作的，clonezilla赞一个</p>
 
-<h4>一点小ToolTIps:</h4>
+<h4 id="tooltips">一点小ToolTIps:</h4>
 
 <ul>
-<li><p>这个方法其实可以适用所有KVM虚机迁移，所以只要服务商开了自定义镜像挂载的功能，都可以跨公网对拷</p></li>
-<li><p>如果A和B不能直接通信的话，可以开一台中转机器C，在Linux A的一端把硬盘 clone为镜像文件，通过SSH文件服务器的方式转存到C上，然后在B上连接SSH文件服务器C，从而还原系统; 提示一下，其实生成的镜像文件挺小的，比dd之后压缩还小的多</p></li>
-<li><p>如果clone的时候报错，一般是A 端的文件系统有损坏，这个时候可以简单的执行 <code>shutdown -rF now</code> ,重启后自动修复一把，之后再挂载clonezilla ISO进行克隆</p></li>
+  <li>
+    <p>这个方法其实可以适用所有KVM虚机迁移，所以只要服务商开了自定义镜像挂载的功能，都可以跨公网对拷</p>
+  </li>
+  <li>
+    <p>如果A和B不能直接通信的话，可以开一台中转机器C，在Linux A的一端把硬盘 clone为镜像文件，通过SSH文件服务器的方式转存到C上，然后在B上连接SSH文件服务器C，从而还原系统; 提示一下，其实生成的镜像文件挺小的，比dd之后压缩还小的多</p>
+  </li>
+  <li>
+    <p>如果clone的时候报错，一般是A 端的文件系统有损坏，这个时候可以简单的执行 <code>shutdown -rF now</code> ,重启后自动修复一把，之后再挂载clonezilla ISO进行克隆</p>
+  </li>
 </ul>
 
+<h4 id="qcow2-">最后，让我们期望所有的服务商都能提供 qcow2 的导入导出功能</h4>
 
-<h4>最后，让我们期望所有的服务商都能提供 qcow2 的导入导出功能</h4>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Markdown | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/markdown/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -20,39 +20,14 @@
     <id>https://happy123.me/blog/2014/09/18/markdown-raw-format</id>
     <content type="html"><![CDATA[<p>有时候想要在Markdwon里面画ASCII画，会被Format掉，例如:</p>
 
-<table>
-<thead>
-<tr>
-<th></th>
-<th>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>  &mdash;&mdash;&mdash;    &mdash;&mdash;&mdash;&ndash; |</td>
-</tr>
-<tr>
-<td></td>
-<td>                    |</td>
-</tr>
-<tr>
-<td></td>
-<td>     \        /     |</td>
-</tr>
-<tr>
-<td></td>
-<td>      &mdash;&mdash;&mdash;&ndash;/      |</td>
-</tr>
-<tr>
-<td></td>
-<td>                    |</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</p>
+<p>|——————–+
+|                    |
+|  ——    ——- |
+|                    |
+|     \        /     |
+|      ——-/      |
+|                    |
++——————–+</p>
 
 <p>这个时候可以用缩进来解决:</p>
 
@@ -67,11 +42,11 @@
 </code></pre>
 
 <p>参考:
-<a href="https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262">https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262</a></p>
+https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262</p>
 
 <p>引发了一点兴趣，meta.stackexchange.com上面有个测试语法专贴，各种乱搞洋洋大观:</p>
 
-<p><a href="http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134">http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134</a></p>
+<p>http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134</p>
 ]]></content>
   </entry>
   

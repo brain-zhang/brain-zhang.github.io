@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Network | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/network/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -20,18 +20,19 @@
     <id>https://happy123.me/blog/2018/10/04/liang-ge-jing-dian-de-pai-zhang-gu-shi</id>
     <content type="html"><![CDATA[<p>很久之前就在某杂志上看过，不久前在知乎<a href="https://www.zhihu.com/question/21747929">有哪些让你目瞪口呆的 bug</a>里面又见到了；我觉得这两个troubleshooting的case有很深的道理在里面，记一下。</p>
 
-<h3>电子邮件无法发送到500英里以外</h3>
+<h3 id="section">电子邮件无法发送到500英里以外</h3>
 
 <!-- more -->
 
-
 <p>这个故事最早出现于2002年11月24日，而且每过若干年，它就会在不同的系统管理技术社区中再次出现，并且引发人们的热议和关注。有人对这个故事给出了这样的评价：</p>
 
-<blockquote><p>这个故事大约每过三年或四年就会在系统管理社区出现，每次我读到它，都觉得很值得一读。即便在正常环境下已经做过检查，甚或经过片刻思考之后，我还是高度怀疑这种事情是否会发生在自己身上。</p></blockquote>
+<blockquote>
+  <p>这个故事大约每过三年或四年就会在系统管理社区出现，每次我读到它，都觉得很值得一读。即便在正常环境下已经做过检查，甚或经过片刻思考之后，我还是高度怀疑这种事情是否会发生在自己身上。</p>
+</blockquote>
 
-<p>这是一个真实的故事。如果你想要进一步了解它的相关信息，可以访问这个 <a href="http://www.ibiblio.org/harris/500milemail-faq.html">FAQ</a> &ndash; 一个关于本故事的常见问题列表，由本故事作者 Trey Harris 编写。</p>
+<p>这是一个真实的故事。如果你想要进一步了解它的相关信息，可以访问这个 <a href="http://www.ibiblio.org/harris/500milemail-faq.html">FAQ</a> - 一个关于本故事的常见问题列表，由本故事作者 Trey Harris 编写。</p>
 
-<p>这个故事听起来有点儿天方夜谭的感觉&hellip; 我已经有些后悔把这个故事分享给大家了，因为它很可能会沦为众人茶余饭后的谈资。:&ndash;) 为了保护自己的内疚感，我对故事做了稍许改动，省略了无关紧要以及无聊的细节，总之让故事变得更加生动有趣了。</p>
+<p>这个故事听起来有点儿天方夜谭的感觉… 我已经有些后悔把这个故事分享给大家了，因为它很可能会沦为众人茶余饭后的谈资。:-) 为了保护自己的内疚感，我对故事做了稍许改动，省略了无关紧要以及无聊的细节，总之让故事变得更加生动有趣了。</p>
 
 <p>几年以前，我在一家运营校园邮件系统的公司工作。有一天，我接到了来自统计部主任给我的电话。</p>
 
@@ -45,19 +46,19 @@
 
 <p>“我们不能把邮件发送到超过500英里距离的地方，” 他重复道。“真的，哪怕再远一点点。只能到达520英里，不能再远了。”</p>
 
-<p>“嗯&hellip;通常来说，邮件真的不是按照这种方式来发送的，” 我说道，并尽力让自己的声音平静下来。一个人与部门主任谈话时通常不会带有恐慌情绪，即使是一个相对无实权的部门如统计部。“是什么让你认为邮件不能发送超过500英里之外的？”</p>
+<p>“嗯…通常来说，邮件真的不是按照这种方式来发送的，” 我说道，并尽力让自己的声音平静下来。一个人与部门主任谈话时通常不会带有恐慌情绪，即使是一个相对无实权的部门如统计部。“是什么让你认为邮件不能发送超过500英里之外的？”</p>
 
-<p>“并非我这么认为，” 主任不耐烦地回答道。“你瞧，几天之前我们就发现了这一现象&hellip;”</p>
+<p>“并非我这么认为，” 主任不耐烦地回答道。“你瞧，几天之前我们就发现了这一现象…”</p>
 
 <p>“你等了好几天了？” 我打断他的话，声音有些颤抖地问道，“这段时间你都不能发送邮件吗？”</p>
 
-<p>“我们能发邮件，只要不超过&hellip;”</p>
+<p>“我们能发邮件，只要不超过…”</p>
 
 <p>“500英里，是吧，” 我替他补充道，“我知道了。但是为什么你不早点给我电话呢？”</p>
 
-<p>“好吧，问题是直到刚才，我们才收集到足够的证据确定这一现象的发生。” 也对，他是统计部主任。“总之，我让一名地理统计人员去调查了这件事情&hellip;”</p>
+<p>“好吧，问题是直到刚才，我们才收集到足够的证据确定这一现象的发生。” 也对，他是统计部主任。“总之，我让一名地理统计人员去调查了这件事情…”</p>
 
-<p>“地理统计人员&hellip;”</p>
+<p>“地理统计人员…”</p>
 
 <p>“是的，她制作了一张地图，地图上显示我们能发送邮件的区域半径比500英里多那么一点点。即便如此，这个半径区域之内的有些地方也不能发送，或者偶发性地能发送，但是在半径区域之外从来没有发送成功过。”</p>
 
@@ -77,7 +78,7 @@
 
 <p>我将这个文件和我本机 home 目录下的 sendmail.cf 文件进行了比对。二者没有什么不同，这个文件就是我自己写的。我也确信没有启用 “FAIL_MAIL_OVER_500_MILES” 这一选项。带着满腹困惑，我远程登录到 SMTP 端口。服务器使用一个 SunOS sendmail 标识愉快地做出了响应。</p>
 
-<p>等等&hellip; 一个 SunOS sendmail 标识？在那时，Sun 仍然随同操作系统捆绑发布 Sendmail 5 版本，尽管 Sendmail 8 已经相当成熟了。作为一名优秀的系统管理员，我已经把 Sendmail 8 作为一个标配了。同时，作为一名优秀系统管理员，我写了一个 sendmail.cf 配置文件，使用了 Sendmail 8 中优雅详细且自我描述的选项和变量名，而不是 Sendmail 5 中含义模糊的标点符号标记的代码。</p>
+<p>等等… 一个 SunOS sendmail 标识？在那时，Sun 仍然随同操作系统捆绑发布 Sendmail 5 版本，尽管 Sendmail 8 已经相当成熟了。作为一名优秀的系统管理员，我已经把 Sendmail 8 作为一个标配了。同时，作为一名优秀系统管理员，我写了一个 sendmail.cf 配置文件，使用了 Sendmail 8 中优雅详细且自我描述的选项和变量名，而不是 Sendmail 5 中含义模糊的标点符号标记的代码。</p>
 
 <p>一切都水落石出了，突然间，我被那杯现已冷的掉渣的拿铁咖啡再次被呛到了。当那名技服给服务器打补丁的时候，很显然他也升级了 SunOS 的版本，如此一来自然把 Sendmail 的版本“降级”了。升级程序将 sendmail.cf 配置文件单独保留了下来，即使它现在对应的是错误的版本。</p>
 
@@ -93,21 +94,19 @@
 $ units
 1311 units, 63 prefixes</p>
 
-<p>You have: 3 millilightseconds<br/>
-You want: miles</p>
+<p>You have: 3 millilightseconds<br />
+You want: miles<br />
+        * 558.84719
+        / 0.0017893979</p>
 
-<pre><code>    * 558.84719
-    / 0.0017893979
-</code></pre>
-
-<p>&ldquo;500 miles, or a little bit more.&rdquo;
+<p>“500 miles, or a little bit more.”
 ```</p>
 
 <p>原文:</p>
 
-<p><a href="http://www.ibiblio.org/harris/500milemail.html">http://www.ibiblio.org/harris/500milemail.html</a></p>
+<p>http://www.ibiblio.org/harris/500milemail.html</p>
 
-<h3>地板阻碍打印</h3>
+<h3 id="section-1">地板阻碍打印</h3>
 
 <p>那还是80年代初期，我爸爸在一家存储设备公司工作，这个公司现在已经不存在了，它生产磁带机和驱动这些磁带高速运转的气动系统 —— 这是那个时代的产物。</p>
 
@@ -139,7 +138,7 @@ You want: miles</p>
 
 <p>原文:</p>
 
-<p><a href="http://patrickthomson.tumblr.com/post/2499755681/the-best-debugging-story-ive-ever-heard">http://patrickthomson.tumblr.com/post/2499755681/the-best-debugging-story-ive-ever-heard</a></p>
+<p>http://patrickthomson.tumblr.com/post/2499755681/the-best-debugging-story-ive-ever-heard</p>
 ]]></content>
   </entry>
   
@@ -156,28 +155,24 @@ You want: miles</p>
 
 <!-- more -->
 
-
-<h3>问题：两台服务器A和B的网络配置如下</h3>
-
-<ul>
-<li><p>服务器A:</p>
+<h3 id="ab">问题：两台服务器A和B的网络配置如下</h3>
 
 <ul>
-<li>IP:192.168.26.129</li>
-<li>Mask: 255.255.255.0</li>
-<li>Gateway: 192.160.26.2</li>
+  <li>服务器A:
+    <ul>
+      <li>IP:192.168.26.129</li>
+      <li>Mask: 255.255.255.0</li>
+      <li>Gateway: 192.160.26.2</li>
+    </ul>
+  </li>
+  <li>服务器B:
+    <ul>
+      <li>IP:192.168.26.3</li>
+      <li>Mask: 255.255.255.224</li>
+      <li>Gateway: 192.160.26.2</li>
+    </ul>
+  </li>
 </ul>
-</li>
-<li><p>服务器B:</p>
-
-<ul>
-<li>IP:192.168.26.3</li>
-<li>Mask: 255.255.255.224</li>
-<li>Gateway: 192.160.26.2</li>
-</ul>
-</li>
-</ul>
-
 
 <p>B的子网掩码本应该是255.255.255.0，被不小心配成了255.255.255.224。它们还能正常通信吗？</p>
 
@@ -191,32 +186,31 @@ You want: miles</p>
 
 <p>那么我们照这个逻辑，公司里岂不是不同子网的机器老死不相往来了？</p>
 
-<h4>看吧，这是第一个陷阱，两台机器跨子网能否通信，取决于网关。</h4>
+<h4 id="section">看吧，这是第一个陷阱，两台机器跨子网能否通信，取决于网关。</h4>
 
 <p>如果没有网关服务器，或者网关服务器限制的话，肯定是不能通信的，虽然A和B物理上处于同一个子网，但是这个时候可以看成有一道防火墙在两台机器之间。</p>
 
-<h4>其实大部分网络管理员都会把网关设置为不同子网间相互转发的，不然一个公司各部门间的机器不能互访，岂不是很悲剧。</h4>
+<h4 id="section-1">其实大部分网络管理员都会把网关设置为不同子网间相互转发的，不然一个公司各部门间的机器不能互访，岂不是很悲剧。</h4>
 
 <p>那么在网关能正常转发的情况下，我们来脑补一下两个场景，B访问A，A访问B的具体过程。</p>
 
-<h4>B Ping => A</h4>
+<h4 id="b-ping--a">B Ping =&gt; A</h4>
 
 <ol>
-<li>B首先检查到A和它不在一个子网，这个时候它需要网关来转发数据包</li>
-<li>B发一个网关IP的ARP请求</li>
-<li>网关(192.168.26.2) 回复B的ARP请求，告诉它俺的MAC 地址是XXX</li>
-<li>有了网关的MAC，B就可以直接发包给网关了，它告诉网关，我要你帮我转发包给A</li>
-<li>如果网关没有限制的话，它就会把包转发给A</li>
-<li>A收到B的请求，他就会问，这个B是谁呀？A检查一番，发现B和自己在一个子网</li>
-<li>既然一个子网，那么A就不会走网关了，它直接发出ARP请求在以太网上广播，谁是B呀，MAC地址回我一个</li>
-<li>B在物理上实际上是和A在一起的，所以直接响应A，俺的MAC地址是这个</li>
-<li>A收到B的ARP响应，就很HAPPY的跳过网关，直接给B响应包啦</li>
-<li>这样的结果就是B发给A的包需要走网关，A发给B的包直接广播到以太网上，由B直接接收</li>
-<li>最终的效果就是B能和A正常通信，虽然B的通信绕了一点远路</li>
+  <li>B首先检查到A和它不在一个子网，这个时候它需要网关来转发数据包</li>
+  <li>B发一个网关IP的ARP请求</li>
+  <li>网关(192.168.26.2) 回复B的ARP请求，告诉它俺的MAC 地址是XXX</li>
+  <li>有了网关的MAC，B就可以直接发包给网关了，它告诉网关，我要你帮我转发包给A</li>
+  <li>如果网关没有限制的话，它就会把包转发给A</li>
+  <li>A收到B的请求，他就会问，这个B是谁呀？A检查一番，发现B和自己在一个子网</li>
+  <li>既然一个子网，那么A就不会走网关了，它直接发出ARP请求在以太网上广播，谁是B呀，MAC地址回我一个</li>
+  <li>B在物理上实际上是和A在一起的，所以直接响应A，俺的MAC地址是这个</li>
+  <li>A收到B的ARP响应，就很HAPPY的跳过网关，直接给B响应包啦</li>
+  <li>这样的结果就是B发给A的包需要走网关，A发给B的包直接广播到以太网上，由B直接接收</li>
+  <li>最终的效果就是B能和A正常通信，虽然B的通信绕了一点远路</li>
 </ol>
 
-
-<h4>A Ping => B</h4>
+<h4 id="a-ping--b">A Ping =&gt; B</h4>
 
 <p>这个过程其实跟上面一样，A发出ARP请求直接找到了B，所以A发包给B是不用走网关的，B的响应还要走网关。</p>
 
@@ -226,7 +220,7 @@ You want: miles</p>
 
 <p>咳咳，真是有点自吹自擂了；其实绝大多数网络问题最后找到原因都很简单，但是当一个大型的网络里面发生诡异的情况时，能迅速定位问题点是很不容易的。我又回想起来之前工作时，在一个客户现场遇到的坑。</p>
 
-<h4>很久很久以前~~~</h4>
+<h4 id="section-2">很久很久以前~~~</h4>
 
 <p>咳咳，其实也不是多久，但那个时候我已经工作挺长时间了，虽然没有经过什么系统理论培训，但是靠着大量野路子实践，我觉得也算是见过很多网络万年坑了，我去客户现场从来不怵头，但就是那一次，差点阴沟里翻船~~</p>
 
@@ -240,42 +234,49 @@ You want: miles</p>
 
 <p>我们的终端机经过了两重跳板，然后ssh客户端和服务器之间，还有一个庞大的网络拓扑，跋山涉水十万八千里才能相见，然后就被某个不知名的幽灵生生拆散了，想象他们艰难的会师路径，我不禁打个冷颤。</p>
 
-<h4>肯定不能先去怀疑他们的会师历程，我们先去查找最简单的，也是最容易出错的部分，就是服务端的sshd配置</h4>
+<h4 id="sshd">肯定不能先去怀疑他们的会师历程，我们先去查找最简单的，也是最容易出错的部分，就是服务端的sshd配置</h4>
 
 <p>因为安装完系统后，客户的管理员根据他们的安全管理条例，运行了自己开发一个脚本进行了系统加固，很自然的，我们怀疑这个脚本是不是有什么地方配置不对，导致问题</p>
 
 <p>在对服务器配置文件和脚本代码详细检查之后，我失望的判定，人家的脚本没问题</p>
 
-<h4>配置没有问题，那就看看是不是ssh终端软件有问题呢</h4>
+<h4 id="ssh">配置没有问题，那就看看是不是ssh终端软件有问题呢</h4>
 
 <p>我反复使用ssh登陆不同的服务器，惊奇的发现，凡是登陆我们刚安装好的这批服务器，就会时不时断掉，其它服务器就没有问题；
 但是悲剧的是我们的服务器所在的机房，没有其它测试机，所以只能证明ssh终端软件没问题</p>
 
-<h4>不到万不得已，我是不想怀疑中间庞大的网络路径的，谁知道是不是什么抽风的防火墙规则呢</h4>
+<h4 id="section-3">不到万不得已，我是不想怀疑中间庞大的网络路径的，谁知道是不是什么抽风的防火墙规则呢</h4>
 
-<h4>我抱着笔记本，跑到楼上服务器的小机房直联看看，发现直联好得很</h4>
+<h4 id="section-4">我抱着笔记本，跑到楼上服务器的小机房直联看看，发现直联好得很</h4>
 
 <p>现在说起来简单，其实跑一趟机房需要审批、内部人员带路一堆手续，累的客户跟我上上下下，验证一次需要1个小时以上，而且重现时间是随机的，这就是一线人员苦逼的地方啊。</p>
 
-<h4>看起来一切都导向那个我最不愿意看到的结果，好像是通信中间有个什么诡异的防火墙规则之类的~~，但是这么庞大的网络拓扑，怎么定位问题呢？</h4>
+<h4 id="section-5">看起来一切都导向那个我最不愿意看到的结果，好像是通信中间有个什么诡异的防火墙规则之类的~~，但是这么庞大的网络拓扑，怎么定位问题呢？</h4>
 
-<h4>到了此时，客户不再纠结于安全管理条例，我们小心翼翼的祭出了·抓包·这个手段</h4>
+<h4 id="section-6">到了此时，客户不再纠结于安全管理条例，我们小心翼翼的祭出了·抓包·这个手段</h4>
 
 <ul>
-<li><p>不到万不得已，其实大家都不想抓包的；金融行业的客户群，重视安全问题甚于生命，所以能在生产环境中让你抓包，其实已经是皇恩浩荡了。</p></li>
-<li><p>经过了几十分钟苦苦等待，终于问题又重现了，我们小心翼翼的把抓到的包存到本地，用wireshark打开，像欣赏小电影一样仔仔细细~~~</p></li>
-<li><p>果然有问题，那台服务器的ARP响应包里面，MAC地址竟然会变！</p></li>
-<li><p>奇哉怪哉，我们刚配好这台服务器，怎么就让人ARP欺骗了呢？而且如果是他们的网络里面有ARP病毒，为啥就只找我们的服务器呢？</p></li>
+  <li>
+    <p>不到万不得已，其实大家都不想抓包的；金融行业的客户群，重视安全问题甚于生命，所以能在生产环境中让你抓包，其实已经是皇恩浩荡了。</p>
+  </li>
+  <li>
+    <p>经过了几十分钟苦苦等待，终于问题又重现了，我们小心翼翼的把抓到的包存到本地，用wireshark打开，像欣赏小电影一样仔仔细细~~~</p>
+  </li>
+  <li>
+    <p>果然有问题，那台服务器的ARP响应包里面，MAC地址竟然会变！</p>
+  </li>
+  <li>
+    <p>奇哉怪哉，我们刚配好这台服务器，怎么就让人ARP欺骗了呢？而且如果是他们的网络里面有ARP病毒，为啥就只找我们的服务器呢？</p>
+  </li>
 </ul>
 
-
-<h4>当时已经从早上折腾到下午3点种左右，虽然有了重大发现，但是也有了更大的迷惑</h4>
+<h4 id="section-7">当时已经从早上折腾到下午3点种左右，虽然有了重大发现，但是也有了更大的迷惑</h4>
 
 <p>突然我灵光一闪，服务器接了两根网线，一根是管理口为了方便管理，这个一直没有动过，会不会是~~~</p>
 
 <p>我立马报着笔记本和一台小交换机跑上楼去</p>
 
-<h4>将服务器和笔记本通过一台小交换机联到一个小局域网络中，再抓包发现了真相</h4>
+<h4 id="section-8">将服务器和笔记本通过一台小交换机联到一个小局域网络中，再抓包发现了真相</h4>
 
 <p>这台定制的服务器是浪潮提供的，而浪潮的管理口有个奇怪的设定，它和服务器上的多个网卡被绑定成一个NIC Teaming，类型为Transmit Load Balancing（TLB）。TLB的特点就是收包工作只由一个网卡负责，发包工作则分摊给所有网卡，但是管理口的默认配置有问题，有时候莫名其妙会共享同一个IP，回应ARP请求的时候把自己的MAC地址发回去，但是系统中管理口是没有配置的，所以这台服务器莫名其妙就自己变成了一台ARP欺骗源。</p>
 
@@ -285,13 +286,14 @@ You want: miles</p>
 
 <p>虽然最后是一个简单至极的ARP欺骗问题，但是发生在一个庞大的网络拓扑中，调试手段被限制，发生时间随机，楼上物理距离和安全条例导致你重现一次成本极为高昂，你还能·镇定自若，指挥谈笑间·吗，这是一次一波三折的排障经历啊。</p>
 
-<p>我这么详细的回忆一次折腾的排障经历，是因为我在这本书里发现了作者和我一模一样的苦逼例子，在&lt;wireshark网络分析的艺术>这本书里，大家有兴趣可以自己去翻翻。</p>
+<p>我这么详细的回忆一次折腾的排障经历，是因为我在这本书里发现了作者和我一模一样的苦逼例子，在<wireshark网络分析的艺术>这本书里，大家有兴趣可以自己去翻翻。</wireshark网络分析的艺术></p>
 
 <p>其实这两本书真可谓是作者的网络排障手记，因为我也有那么一段跑在一线的日子，读起来格外亲切。这就是一线工程师的日常啊。</p>
 
-<p>曾经，我以为熟读&lt;TCP/IP详解>和&lt;Unix网络编程>就能成为无所不能的网络大拿；曾经，我以为独立实现一个网络协议栈就是开创天地的神邸；后来，我明白了，网络的海洋无穷无尽，虽然规则是死的，但是现实世界实在不可预测，也许下一分钟就会有一个匪夷所思的case来纠缠你，嘲笑你的妄自尊大。</p>
+<p>曾经，我以为熟读&lt;TCP/IP详解&gt;和<unix网络编程>就能成为无所不能的网络大拿；曾经，我以为独立实现一个网络协议栈就是开创天地的神邸；后来，我明白了，网络的海洋无穷无尽，虽然规则是死的，但是现实世界实在不可预测，也许下一分钟就会有一个匪夷所思的case来纠缠你，嘲笑你的妄自尊大。</unix网络编程></p>
 
 <p>在网络世界迈入SDN之际，我非常惶恐，因为我明白以我的智商，不可能成为什么·专家·了；我想，未来，可能只有在AWS或者Google Cloud浸淫数十年的人，才能小心翼翼的称自己为·真专家·；面对网络知识的变幻莫测，总有一种·生有涯，知无涯·的惶恐；我总是会感叹，网络这个东西实在是太神奇了，真不知道如何形容这份感觉，就是只有·神奇·来形容</p>
+
 ]]></content>
   </entry>
   
@@ -306,34 +308,56 @@ You want: miles</p>
 
 <!-- more -->
 
-
 <ul>
-<li><p>人民政府和为人民服务的关系</p></li>
-<li><p>对象和对象的关系&hellip;</p></li>
-<li><p>老婆和老婆饼的关系</p></li>
-<li><p>苹果和苹果手机的关系</p></li>
-<li><p>卡巴斯基和巴基斯坦的关系</p></li>
-<li><p>印度和印度尼西亚的关系</p></li>
-<li><p>黑客和博客的关系</p></li>
-<li><p>北大和北大青鸟的关系</p></li>
-<li><p>dog和hotdog的关系</p></li>
-<li><p>人民和人民大会堂的关系</p></li>
-<li><p>天真和天真热的关系</p></li>
-<li><p>梁山和梁山伯的关系</p></li>
+  <li>
+    <p>人民政府和为人民服务的关系</p>
+  </li>
+  <li>
+    <p>对象和对象的关系…</p>
+  </li>
+  <li>
+    <p>老婆和老婆饼的关系</p>
+  </li>
+  <li>
+    <p>苹果和苹果手机的关系</p>
+  </li>
+  <li>
+    <p>卡巴斯基和巴基斯坦的关系</p>
+  </li>
+  <li>
+    <p>印度和印度尼西亚的关系</p>
+  </li>
+  <li>
+    <p>黑客和博客的关系</p>
+  </li>
+  <li>
+    <p>北大和北大青鸟的关系</p>
+  </li>
+  <li>
+    <p>dog和hotdog的关系</p>
+  </li>
+  <li>
+    <p>人民和人民大会堂的关系</p>
+  </li>
+  <li>
+    <p>天真和天真热的关系</p>
+  </li>
+  <li>
+    <p>梁山和梁山伯的关系 </p>
+  </li>
 </ul>
 
-
-<p>&hellip;&hellip;</p>
+<p>……</p>
 
 <p>怎么样，同志你是不是对他们的关系有了更深入的了解呢？</p>
 
 <p>我只能说，在计算机工程领域，话语权没有掌握在傻写代码的码农手里，他们顶多就是个苦力外包民工；真正主导一门技术发展的，是天才的营销人员，尤其是：擅长起华丽的名字的那波人。</p>
 
-<p>来来来，这只是一个引子，让我们来唠唠一个非常非常火爆的科技名词，只要这个词从你嘴里说出来，立马就能将你加成为<code>拳打比尔盖茨，脚踢苹果谷歌</code>的霸道总裁，引起台下众人的谜之膜拜。&mdash; 云计算(Cloud Computing)</p>
+<p>来来来，这只是一个引子，让我们来唠唠一个非常非常火爆的科技名词，只要这个词从你嘴里说出来，立马就能将你加成为<code>拳打比尔盖茨，脚踢苹果谷歌</code>的霸道总裁，引起台下众人的谜之膜拜。– 云计算(Cloud Computing)</p>
 
 <p>不过，这个词是怎么来的呢？</p>
 
-<h4>懵懂岁月</h4>
+<h4 id="section">懵懂岁月</h4>
 
 <p>云计算和Cloud Computing这个词原本在中文和英文中，都是不存在的。Cloud Computing作为一个单词，在2006年之前在英文中并不存在。2006年前后，CloudComputing这个单词开始偶尔出现。2007年末，Cloud Computing出现的频率迅速增加。2008年初，Cloud Computing在中文中开始被翻译为“云计算”。</p>
 
@@ -343,11 +367,13 @@ You want: miles</p>
 
 <p>John McCarthy，还是上面这个科学家，说计算机应该形成一个公用基础设施-computer utility，就像电话网络那样。原话是这样：</p>
 
-<blockquote><p>&ldquo;If computers of the kind I have advocatedbecome the computers of the future, then computing may someday be organized asa public utility just as the telephone system is a public utility&hellip; Thecomputer utility could become the basis of a new and important industry.&rdquo;</p></blockquote>
+<blockquote>
+  <p>“If computers of the kind I have advocatedbecome the computers of the future, then computing may someday be organized asa public utility just as the telephone system is a public utility… Thecomputer utility could become the basis of a new and important industry.”</p>
+</blockquote>
 
 <p>1965年4月30日，美国电报公司Western Union发布了一篇战略计划文档，提出建立计算基础设施“computing utility“：一个全国性的信息基础设施，让订阅者便宜、高效、迅速地获取所需的信息流，以便创建商业业务和其他东西。</p>
 
-<h4>初试啼声</h4>
+<h4 id="section-1">初试啼声</h4>
 
 <p>1995年，SUN公司提出了“Network Computer”，将当时的PC简化，以降低硬件成本，客户端的计算机具备很少的固化软件，其他的系统软件和应用软件从网络下载。Network Computer的软件不是机器代码，而是一种通用的中间代码(如Java bytecode)。</p>
 
@@ -365,13 +391,15 @@ You want: miles</p>
 
 <p>他们的业务并不好，NetCentric也在失望中放弃了这个业务，转而推广互联网传真服务，但是最后关门了。O’Sullivan说“我们窥见了一个机会，但我们最终没有推出大量的云计算应用，这些让我难以忘怀”。</p>
 
-<h4>浮华人世</h4>
+<h4 id="section-2">浮华人世</h4>
 
 <p>2001年，纽约时报的JohnMarkoff，写了一篇Dave Winer对微软新的.net服务平台Hailstorm的负面评价时，使用了“cloud’ of computers”一词。Hailstorm当年，被设计为整合各种设备、数据和服务，为用户提供简洁、实用的计算方案，但受制于当时的技术和应用环境，Hailstorm并没有取得成功。可以看成是Windows Azure的祖先了。</p>
 
 <p>2006年8月9日的战略大会上，谷歌CEO施密特在与Danny Sullivan对话时，谈到广告和互联网时有一段原话：</p>
 
-<blockquote><p>What&rsquo;s interesting [now] is that there is anemergent new model, and you all are here because you are part of that newmodel. I don&rsquo;t think people have really understood how big this opportunityreally is. It starts with the premise that the data services and architectureshould be on servers. We call it cloudcomputing – they should be in a &ldquo;cloud&rdquo; somewhere. And that ifyou have the right kind of browser or the right kind of access, it doesn'tmatter whether you have a PC or a Mac or a mobile phone or a BlackBerry or whathave you – or new devices still to be developed – you can get access to thecloud. There are a number of companies that have benefited from that.Obviously, Google, Yahoo!, eBay, Amazon come to mind. The computation and thedata and so forth are in the servers.</p></blockquote>
+<blockquote>
+  <p>What’s interesting [now] is that there is anemergent new model, and you all are here because you are part of that newmodel. I don’t think people have really understood how big this opportunityreally is. It starts with the premise that the data services and architectureshould be on servers. We call it cloudcomputing – they should be in a “cloud” somewhere. And that ifyou have the right kind of browser or the right kind of access, it doesn’tmatter whether you have a PC or a Mac or a mobile phone or a BlackBerry or whathave you – or new devices still to be developed – you can get access to thecloud. There are a number of companies that have benefited from that.Obviously, Google, Yahoo!, eBay, Amazon come to mind. The computation and thedata and so forth are in the servers.</p>
+</blockquote>
 
 <p>施密特大概是第一个说出cloud computing的公众人物，并被大众媒体报道。但是，很可惜，它用这个词是为了解释互联网，用cloud computing来指代服务器-浏览器架构中的服务器。这是一种当时已经存在的技术和架构。特别的，施密说这个词时，特并不是在指一种新的技术、产品、服务、商业模式。</p>
 
@@ -385,13 +413,13 @@ You want: miles</p>
 
 <p>谷歌在营销上开启了cloud computing的序幕，亚马逊AWS EC2 在产品和商业模式上开启了cloud computing的序幕。</p>
 
-<h4>一锤定音</h4>
+<h4 id="section-3">一锤定音</h4>
 
 <p>云计算的概念在2008年2009年经过无数先驱的创造、争论、整理，才形成了如今比较统一的概念和认识。</p>
 
 <p>2011年9月，NIST（美国国家标准与技术研究所）发布了最终版的《 The NIST Definition of Cloud Computing》,标志着云计算定义的争论已经平息。这是一个兼容并包的、标准的云计算定义，总结了市面上所有云计算服务的通用特征。</p>
 
-<h4>事后诸葛</h4>
+<h4 id="section-4">事后诸葛</h4>
 
 <p>自从云计算诞生起，就不乏反对声音。比如Oracle的埃里森斥责云计算是胡言乱语，当然后来变成云的粉丝。百度CEO李彦宏称云计算为新瓶装旧酒，同时发明了框计算，当然，2015年亚马逊发布财报后，又决定搞一下云计算。</p>
 
@@ -403,7 +431,7 @@ You want: miles</p>
 
 <p>云计算在大部分时候，确实只是一个营销术语。但不幸的是，它不仅仅是一个广告词，它背后的本质、创新、技术、战略代表了一个新时代的开始。</p>
 
-<h4>一声叹息</h4>
+<h4 id="section-5">一声叹息</h4>
 
 <p>有人创造了一个新单词新概念，却一无所获，有人无心插柳被人贴上标签，却赚的盆满钵满，怎么就这么不平等呢？</p>
 
@@ -413,23 +441,25 @@ You want: miles</p>
 
 <p>从此，我对哪些满口浮华词汇的人抱有深深的怀疑。</p>
 
-<h3>广告和产品谁更重要</h3>
+<h3 id="section-6">广告和产品谁更重要</h3>
 
 <p>在商业的世界里，真相并不重要，重要的是利益在哪里。</p>
 
 <p>现在想来，这位老师早已深得<code>无招胜有招</code>的真谛。当你能通过PPT创造世界的时候，何苦亲自动手呢？有一批傻傻的码农们帮你干活呢！掌握利益才是关键！</p>
 
-<p>这个词给我们启示就是，在某个情形下，创造出一个名词的力量，远远大于产品本身。营销也是产品的一部分&mdash;很多时候是最重要的那一部分。</p>
+<p>这个词给我们启示就是，在某个情形下，创造出一个名词的力量，远远大于产品本身。营销也是产品的一部分–很多时候是最重要的那一部分。</p>
 
-<h4>传说在蛮荒的魔法时代，创造一样新事物的办法就是为它想一个好名字，掌握这项技艺的人被尊称为巫术大师。</h4>
+<h4 id="section-7">传说在蛮荒的魔法时代，创造一样新事物的办法就是为它想一个好名字，掌握这项技艺的人被尊称为巫术大师。</h4>
 
 <p>少年，我想说，下次听到这样的宣传，先不要急着笑，要看看它的利益在哪里，那位大师的目的何在？</p>
 
-<blockquote><p>朋友们，我们有一个划时代的产品，它的底层采用了人工智能技术，整合了整个股票市场100年来的大数据，并存储在区块链上，现在，我们有好几组顶尖专家看好的量化策略，正用强大的量子计算机做回归测试。更妙的是，整套系统采用光伏能源，并由石墨烯材料打造一个稳定的能量转换站，可以无限运行下去；现在，我们就等你们来投资数钱了，还等什么，马上拿起电话，拨打xxxxxx ~~~</p></blockquote>
+<blockquote>
+  <p>朋友们，我们有一个划时代的产品，它的底层采用了人工智能技术，整合了整个股票市场100年来的大数据，并存储在区块链上，现在，我们有好几组顶尖专家看好的量化策略，正用强大的量子计算机做回归测试。更妙的是，整套系统采用光伏能源，并由石墨烯材料打造一个稳定的能量转换站，可以无限运行下去；现在，我们就等你们来投资数钱了，还等什么，马上拿起电话，拨打xxxxxx ~~~</p>
+</blockquote>
 
-<h4>引用:</h4>
+<h4 id="section-8">引用:</h4>
 
-<p><a href="http://www.infoq.com/cn/articles/romance-of-cloud-computing--part01">http://www.infoq.com/cn/articles/romance-of-cloud-computing--part01</a></p>
+<p>http://www.infoq.com/cn/articles/romance-of-cloud-computing–part01</p>
 ]]></content>
   </entry>
   
@@ -459,55 +489,66 @@ You want: miles</p>
     <link href="https://happy123.me/blog/2016/06/05/tcp-slash-ip-illustrated-note1/"/>
     <updated>2016-06-05T21:59:52+08:00</updated>
     <id>https://happy123.me/blog/2016/06/05/tcp-slash-ip-illustrated-note1</id>
-    <content type="html"><![CDATA[<p>又开始重读&lt;TCP/IP详解>。发现真的是年纪大了&hellip;.T_T，看了就忘，做笔记也用处不大。</p>
+    <content type="html"><![CDATA[<p>又开始重读&lt;TCP/IP详解&gt;。发现真的是年纪大了….T_T，看了就忘，做笔记也用处不大。</p>
 
 <p>打算每天读完一部分，在这里捡一些重要的地方记一下。</p>
 
-<h2>ARP</h2>
+<h2 id="arp">ARP</h2>
 
 <p>习得技能:</p>
 
 <ul>
-<li><code>tcpdump -e</code> 可以显示硬件层地址</li>
+  <li><code>tcpdump -e</code> 可以显示硬件层地址</li>
 </ul>
 
-
-<h2>IP</h2>
+<h2 id="ip">IP</h2>
 
 <p>重要提示:</p>
 
 <ul>
-<li>传输之前需要把首部转换成网络字节序。注意，仅仅是首部就可以。</li>
+  <li>传输之前需要把首部转换成网络字节序。注意，仅仅是首部就可以。</li>
 </ul>
 
-
-<h2>ICMP</h2>
+<h2 id="icmp">ICMP</h2>
 
 <p>重要提示:</p>
 
 <ul>
-<li><p>在对ICMP差错报文响应时，永远不会生成另一份ICMP差错报文</p></li>
-<li><p>当发放一份ICMP差错报文时，始终包含IP首部和产生ICMP差错报文的IP数据包的前8个字节。这样就可以精准知道谁产生的ICMP差错</p></li>
-<li><p>ICMP的典型应用:</p>
+  <li>
+    <p>在对ICMP差错报文响应时，永远不会生成另一份ICMP差错报文</p>
+  </li>
+  <li>
+    <p>当发放一份ICMP差错报文时，始终包含IP首部和产生ICMP差错报文的IP数据包的前8个字节。这样就可以精准知道谁产生的ICMP差错</p>
+  </li>
+  <li>
+    <p>ICMP的典型应用:</p>
 
-<ul>
-<li><p>掩码请求和应答 (大多数主机在收到请求后都会产生应答，而不是指定的主机应答，这其实是实现上的冗余)</p></li>
-<li><p>时间戳请求和应答</p></li>
+    <ul>
+      <li>
+        <p>掩码请求和应答 (大多数主机在收到请求后都会产生应答，而不是指定的主机应答，这其实是实现上的冗余)</p>
+      </li>
+      <li>
+        <p>时间戳请求和应答</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>多宿主机发送报文给自己的某个接口，其实都是给回环地址的，这样产生的ICMP应答其实搞不明白原始报文发给哪个接口</p>
+  </li>
 </ul>
-</li>
-<li><p>多宿主机发送报文给自己的某个接口，其实都是给回环地址的，这样产生的ICMP应答其实搞不明白原始报文发给哪个接口</p></li>
-</ul>
 
-
-<h2>Ping</h2>
+<h2 id="ping">Ping</h2>
 
 <p>习得技能:</p>
 
 <ul>
-<li><p><code>Ping -S</code> 每秒一个往返请求</p></li>
-<li><p><code>Ping -R</code> 记录路由，但是有限制，最大只能存放9个IP地址，而且只记录路由出口</p></li>
+  <li>
+    <p><code>Ping -S</code> 每秒一个往返请求</p>
+  </li>
+  <li>
+    <p><code>Ping -R</code> 记录路由，但是有限制，最大只能存放9个IP地址，而且只记录路由出口</p>
+  </li>
 </ul>
-
 ]]></content>
   </entry>
   

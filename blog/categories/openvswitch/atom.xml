@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Openvswitch | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/openvswitch/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -19,90 +19,125 @@
     <updated>2016-05-11T15:41:02+08:00</updated>
     <id>https://happy123.me/blog/2016/05/11/open-vswitch-bridge-and-networknamespace-command-cheat</id>
     <content type="html"><![CDATA[<ul>
-<li><p>启动</p>
+  <li>
+    <p>启动</p>
 
-<pre><code>  service openvswitch start
-</code></pre></li>
-<li><p>创建网桥</p>
+    <pre><code>  service openvswitch start
+</code></pre>
+  </li>
+  <li>
+    <p>创建网桥</p>
 
-<pre><code>  ovs-vsctl add-br br0
+    <pre><code>  ovs-vsctl add-br br0
   ifconfig br0 up
-</code></pre></li>
-<li><p>显示所有网桥</p>
+</code></pre>
+  </li>
+  <li>
+    <p>显示所有网桥</p>
 
-<pre><code>  ovs-vsctl show
-</code></pre></li>
-<li><p>删除网桥</p>
+    <pre><code>  ovs-vsctl show
+</code></pre>
+  </li>
+  <li>
+    <p>删除网桥</p>
 
-<pre><code>  ovs-vsctl del-br br0
-</code></pre></li>
-<li><p>增加端口</p>
+    <pre><code>  ovs-vsctl del-br br0
+</code></pre>
+  </li>
+  <li>
+    <p>增加端口</p>
 
-<pre><code>  ovs-vsctl add-port br0 eth0
-</code></pre></li>
-<li><p>设置网卡为none</p>
+    <pre><code>  ovs-vsctl add-port br0 eth0
+</code></pre>
+  </li>
+  <li>
+    <p>设置网卡为none</p>
 
-<pre><code>  dhclient br0
-</code></pre></li>
-<li><p>用 Namespace 模拟两台虚拟机网络</p>
+    <pre><code>  dhclient br0
+</code></pre>
+  </li>
+  <li>
+    <p>用 Namespace 模拟两台虚拟机网络</p>
 
-<pre><code>  p netns add network1
+    <pre><code>  p netns add network1
   ip netns add network2
-</code></pre></li>
-<li><p>创建两个虚拟网卡并加入网桥</p>
+</code></pre>
+  </li>
+  <li>
+    <p>创建两个虚拟网卡并加入网桥</p>
 
-<pre><code>  ovs-vsctl add-port br0 vport1 -- set interface vport1 type=internal
+    <pre><code>  ovs-vsctl add-port br0 vport1 -- set interface vport1 type=internal
   ovs-vsctl add-port br0 vport2 -- set interface vport2 type=internal
   tunctl -p -t vport1
   tunctl -p -t vport2
-</code></pre></li>
-<li><p>两个虚拟网卡接入namespace</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个虚拟网卡接入namespace</p>
 
-<pre><code>  ip link set vport1 netns network1
+    <pre><code>  ip link set vport1 netns network1
   ip link set vport2 netns network2
-</code></pre></li>
-<li><p>设置虚拟网卡的IP</p>
+</code></pre>
+  </li>
+  <li>
+    <p>设置虚拟网卡的IP</p>
 
-<pre><code>  ip netns exec network1 ifconfig vport1 192.168.0.1/24 up
+    <pre><code>  ip netns exec network1 ifconfig vport1 192.168.0.1/24 up
   ip netns exec network2 ifconfig vport2 192.168.0.2/24 up
-</code></pre></li>
-<li><p>两个namsespace PING</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个namsespace PING</p>
 
-<pre><code>  ip netns exec network1 ping 192.168.0.2
+    <pre><code>  ip netns exec network1 ping 192.168.0.2
   ip netns exec network2 tcpdump -i vport2
-</code></pre></li>
-<li><p>两个namsespace  NC传输</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个namsespace  NC传输</p>
 
-<pre><code>  ip netns exec network2 nc -l 1234
+    <pre><code>  ip netns exec network2 nc -l 1234
   ip netns exec network2 tcpdump -i vport2
   ip netns exec network1 nc 192.168.0.2 1234
-</code></pre></li>
-<li><p>显示vlan信息</p>
+</code></pre>
+  </li>
+  <li>
+    <p>显示vlan信息</p>
 
-<pre><code>  ovs-appctl fdb/show br0
-</code></pre></li>
-<li><p>显示openflow信息</p>
+    <pre><code>  ovs-appctl fdb/show br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示openflow信息</p>
 
-<pre><code>  ovs-ofctl show br0
-</code></pre></li>
-<li><p>显示流表信息</p>
+    <pre><code>  ovs-ofctl show br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示流表信息</p>
 
-<pre><code>  ovs-ofctl dump-flows br0
-</code></pre></li>
-<li><p>显示网桥详细信息</p>
+    <pre><code>  ovs-ofctl dump-flows br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示网桥详细信息</p>
 
-<pre><code>  ovs-vsctl list Bridge
-</code></pre></li>
-<li><p>显示端口详细信息</p>
+    <pre><code>  ovs-vsctl list Bridge
+</code></pre>
+  </li>
+  <li>
+    <p>显示端口详细信息</p>
 
-<pre><code>  ovs-vsctl list Port
-</code></pre></li>
-<li><p>显示接口详细信息</p>
+    <pre><code>  ovs-vsctl list Port
+</code></pre>
+  </li>
+  <li>
+    <p>显示接口详细信息</p>
 
-<pre><code>  ovs-vsctl list Interface
-</code></pre></li>
+    <pre><code>  ovs-vsctl list Interface
+</code></pre>
+  </li>
 </ul>
-
 ]]></content>
   </entry>
   

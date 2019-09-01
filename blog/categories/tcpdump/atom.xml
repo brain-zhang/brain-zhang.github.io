@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tcpdump | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tcpdump/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -21,60 +21,85 @@
     <content type="html"><![CDATA[<p>tcpdump 的抓包保存到文件的命令参数是-w xxx.cap</p>
 
 <ul>
-<li><p>抓eth1的包
+  <li>
+    <p>抓eth1的包
 <code>
 tcpdump -i eth1 -w /tmp/xxx.pcap
-</code></p></li>
-<li><p>抓eth1的包，用ip+port的形式显示通信对
+</code></p>
+  </li>
+  <li>
+    <p>抓eth1的包，用ip+port的形式显示通信对
 <code>
 tcpdump -i eth1 -nn -w /tmp/xxx.pcap
-</code></p></li>
-<li><p>抓 192.168.1.123的包
+</code></p>
+  </li>
+  <li>
+    <p>抓 192.168.1.123的包
 <code>
 tcpdump -i eth1 host 192.168.1.123 -w /tmp/xxx.cap
-</code></p></li>
-<li><p>抓192.168.1.123的80端口的包
+</code></p>
+  </li>
+  <li>
+    <p>抓192.168.1.123的80端口的包
 <code>
 tcpdump -i eth1 host 192.168.1.123 and port 80 -w /tmp/xxx.cap
-</code></p></li>
-<li><p>抓192.168.1.123的icmp的包
+</code></p>
+  </li>
+  <li>
+    <p>抓192.168.1.123的icmp的包
 <code>
 tcpdump -i eth1 host 192.168.1.123 and icmp -w /tmp/xxx.cap
-</code></p></li>
-<li><p>抓192.168.1.123的80端口和110和25以外的其他端口的包
+</code></p>
+  </li>
+  <li>
+    <p>抓192.168.1.123的80端口和110和25以外的其他端口的包
 <code>
 tcpdump -i eth1 host 192.168.1.123 and ! port 80 and ! port 25 and ! port 110 -w /tmp/xxx.cap
-</code></p></li>
-<li><p>抓vlan 1的包
+</code></p>
+  </li>
+  <li>
+    <p>抓vlan 1的包
 <code>
 tcpdump -i eth1 port 80 and vlan 1 -w /tmp/xxx.cap
-</code></p></li>
-<li><p>抓pppoe的密码
+</code></p>
+  </li>
+  <li>
+    <p>抓pppoe的密码
 <code>
 tcpdump -i eth1 pppoes -w /tmp/xxx.cap
-</code></p></li>
-<li><p>以100m大小分割保存文件， 超过100m另开一个文件
+</code></p>
+  </li>
+  <li>
+    <p>以100m大小分割保存文件， 超过100m另开一个文件
 <code>
 tcpdump -i eth1 -w /tmp/xxx.cap  -C 100m
-</code></p></li>
-<li><p>把后两个数据包并到一个数据包merge.pcap
+</code></p>
+  </li>
+  <li>
+    <p>把后两个数据包并到一个数据包merge.pcap
 <code>
 mergecap -w merge.pcap 1.pcap 2.pcap
-</code></p></li>
-<li><p>按照radius条件过滤数据包
+</code></p>
+  </li>
+  <li>
+    <p>按照radius条件过滤数据包
 <code>
 tshark -r 1.pcap radius -w radius.pcap
-</code></p></li>
-<li><p>按照数据包数分割一个大的数据
+</code></p>
+  </li>
+  <li>
+    <p>按照数据包数分割一个大的数据
 <code>
 editcap -c 1000000 merge.pcap split01.pcap
-</code></p></li>
-<li><p>split pcap
+</code></p>
+  </li>
+  <li>
+    <p>split pcap
 <code>
 editcap -c 100000 in.pcap out.pcap
-</code></p></li>
+</code></p>
+  </li>
 </ul>
-
 ]]></content>
   </entry>
   

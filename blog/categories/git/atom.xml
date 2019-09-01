@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/git/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,11 +18,11 @@
     <link href="https://happy123.me/blog/2016/03/21/git-cheat-2/"/>
     <updated>2016-03-21T09:49:54+08:00</updated>
     <id>https://happy123.me/blog/2016/03/21/git-cheat-2</id>
-    <content type="html"><![CDATA[<h1>整理一下经常忘记的Git命令 (版本v2)</h1>
+    <content type="html"><![CDATA[<h1 id="git-v2">整理一下经常忘记的Git命令 (版本v2)</h1>
 
-<p><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html?utm_source=tool.lu">http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html?utm_source=tool.lu</a></p>
+<p>http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html?utm_source=tool.lu</p>
 
-<h2>新建代码库</h2>
+<h2 id="section">新建代码库</h2>
 
 <pre><code># 在当前目录新建一个Git代码库
 git init
@@ -34,7 +34,7 @@ git init [project-name]
 git clone [url]
 </code></pre>
 
-<h2>配置</h2>
+<h2 id="section-1">配置</h2>
 
 <p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
 
@@ -49,7 +49,7 @@ git config [--global] user.name "[name]"
 git config [--global] user.email "[email address]"
 </code></pre>
 
-<h2>增加/删除文件</h2>
+<h2 id="section-2">增加/删除文件</h2>
 
 <pre><code># 添加指定文件到暂存区
 git add [file1] [file2] ...
@@ -70,7 +70,7 @@ git rm --cached [file]
 git mv [file-original] [file-renamed]
 </code></pre>
 
-<h2>代码提交</h2>
+<h2 id="section-3">代码提交</h2>
 
 <pre><code># 提交暂存区到仓库区
 git commit -m [message]
@@ -92,7 +92,7 @@ git commit --amend -m [message]
 git commit --amend [file1] [file2] ...
 </code></pre>
 
-<h2>分支</h2>
+<h2 id="section-4">分支</h2>
 
 <pre><code># 列出所有本地分支
 git branch
@@ -176,7 +176,7 @@ git checkout branches/A B.h
 rm C.h
 </code></pre>
 
-<h2>标签</h2>
+<h2 id="section-5">标签</h2>
 
 <pre><code># 列出所有tag
 git tag
@@ -206,7 +206,7 @@ git push [remote] --tags
 git checkout -b [branch] [tag]
 </code></pre>
 
-<h2>查看信息</h2>
+<h2 id="section-6">查看信息</h2>
 
 <pre><code># 显示有变更的文件
 git status
@@ -258,7 +258,7 @@ git show [commit]:[filename]
 git reflog
 </code></pre>
 
-<h2>远程同步</h2>
+<h2 id="section-7">远程同步</h2>
 
 <pre><code># 下载远程仓库的所有变动
 $ git fetch [remote]
@@ -285,7 +285,7 @@ $ git push [remote] --force
 $ git push [remote] --all
 </code></pre>
 
-<h2>撤销</h2>
+<h2 id="section-8">撤销</h2>
 
 <pre><code># 恢复暂存区的指定文件到工作区
 git checkout [file]
@@ -316,7 +316,7 @@ git reset --keep [commit]
 git revert [commit]
 </code></pre>
 
-<h2>remote 同步</h2>
+<h2 id="remote-">remote 同步</h2>
 
 <pre><code># 查看当前远程版本库
 git remote -v
@@ -331,11 +331,11 @@ git fetch cocos2d-x
 git merge cocos2d-x/master
 </code></pre>
 
-<h2>分支的衍合</h2>
+<h2 id="section-9">分支的衍合</h2>
 
-<p><a href="http://git-scm.com/docs/git-rebase">http://git-scm.com/docs/git-rebase</a></p>
+<p>http://git-scm.com/docs/git-rebase</p>
 
-<h2>diff</h2>
+<h2 id="diff">diff</h2>
 
 <pre><code># 只显示两个分支间的差异，如果你想找出‘master’,‘test’的共有 父分支和'test'分支之间的差异，你用3个‘.'来取代前面的两个'.' 。
 git diff master..test
@@ -363,7 +363,7 @@ git diff-tree -r --no-commit-id --name-only --diff-filter=ACMRTD HEAD HEAD^
 git diff master branch/1.1 --
 </code></pre>
 
-<h2>其他</h2>
+<h2 id="section-10">其他</h2>
 
 <pre><code># 生成一个可供发布的压缩包
 git archive
@@ -375,6 +375,7 @@ git stash pop
 # svn log -v 类似效果
 git log --name-status
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -385,7 +386,7 @@ git log --name-status
     <id>https://happy123.me/blog/2015/01/17/git-cheat</id>
     <content type="html"><![CDATA[<p>整理一下经常忘记的Git命令</p>
 
-<h1>remote 同步</h1>
+<h1 id="remote-">remote 同步</h1>
 
 <p><code>
 $ git remote -v                                                     // 查看当前远程版本库
@@ -394,7 +395,7 @@ $ git fetch cocos2d-x                                               // 获取原
 $ git merge cocos2d-x/master                                        // 合并原始版本库的代码到当前版本库中，合并前确保当前分支是master
 </code></p>
 
-<h1>remote branch</h1>
+<h1 id="remote-branch">remote branch</h1>
 
 <p><code>
 $ git branch -a                                                     //查看所有分支
@@ -405,23 +406,22 @@ $ git push origin :&lt;branchName&gt;                                     //推�
 $ git push origin :refs/tags/&lt;tagName&gt;                              //推送一个空tag到远程，相当于删除tag
 </code></p>
 
-<h2>删除不存在对应远程分支的本地分支</h2>
+<h2 id="section">删除不存在对应远程分支的本地分支</h2>
 
 <p>假设这样一种情况：</p>
 
 <ol>
-<li>我创建了本地分支b1并pull到远程分支 origin/b1；</li>
-<li>其他人在本地使用fetch或pull创建了本地的b1分支；</li>
-<li>我删除了 origin/b1 远程分支；</li>
-<li>其他人再次执行fetch或者pull并不会删除这个他们本地的 b1 分支，运行 git branch -a 也不能看出这个branch被删除了，如何处理？</li>
+  <li>我创建了本地分支b1并pull到远程分支 origin/b1；</li>
+  <li>其他人在本地使用fetch或pull创建了本地的b1分支；</li>
+  <li>我删除了 origin/b1 远程分支；</li>
+  <li>其他人再次执行fetch或者pull并不会删除这个他们本地的 b1 分支，运行 git branch -a 也不能看出这个branch被删除了，如何处理？</li>
 </ol>
-
 
 <p><code>
 git fetch -p                                                        //在fetch之后删除掉没有与远程分支对应的本地分支
 </code></p>
 
-<h2>重命名远程分支</h2>
+<h2 id="section-1">重命名远程分支</h2>
 
 <p>在git中重命名远程分支，其实就是先删除远程分支，然后重命名本地分支，再重新提交一个远程分支</p>
 
@@ -431,19 +431,19 @@ $ git branch -m devel develop                                       //重命名�
 $ git push origin develop                                           //推送本地分支
 </code></p>
 
-<h2>把本地tag推送到远程</h2>
+<h2 id="tag">把本地tag推送到远程</h2>
 
 <p><code>
 $ git push --tags
 </code></p>
 
-<h2>获取远程tag</h2>
+<h2 id="tag-1">获取远程tag</h2>
 
 <p><code>
 $ git fetch origin tag &lt;tagname&gt;
 </code></p>
 
-<h2>合并branch上的指定文件</h2>
+<h2 id="branch">合并branch上的指定文件</h2>
 
 <p>branches/A 上修改了一个文件A.h，新增了一个文件B.h，删除了一个文件C.h。</p>
 
@@ -457,32 +457,32 @@ $ git checkout master                                               //首先切�
 <p>$ rm C.h                                                            //删除文件目前还没找到其他办法，但效果是一样的
 ```</p>
 
-<h2>分支的衍合</h2>
+<h2 id="section-2">分支的衍合</h2>
 
-<p>参考:<a href="http://git-scm.com/docs/git-rebase">http://git-scm.com/docs/git-rebase</a></p>
+<p>参考:http://git-scm.com/docs/git-rebase</p>
 
-<h1>diff</h1>
+<h1 id="diff">diff</h1>
 
-<p>只显示两个分支间的差异，如果你想找出‘master’,‘test’的共有 父分支和'test'分支之间的差异，你用3个‘.&lsquo;来取代前面的两个&rsquo;.&lsquo; 。</p>
+<p>只显示两个分支间的差异，如果你想找出‘master’,‘test’的共有 父分支和’test’分支之间的差异，你用3个‘.’来取代前面的两个’.’ 。</p>
 
 <p><code>
 $ git diff master..test
 </code></p>
 
-<p>显示你当前的索引和上次提交间的差异；这些内容在不带"-a"参数运行 &ldquo;git commit"命令时就会被提交。</p>
+<p>显示你当前的索引和上次提交间的差异；这些内容在不带”-a”参数运行 “git commit”命令时就会被提交。</p>
 
 <p><code>
 $ git diff --cached
 </code></p>
 
-<p>显示你工作目录与上次提交时之间的所有差别，这条命令所显示的 内容都会在执行"git commit -a"命令时被提交。</p>
+<p>显示你工作目录与上次提交时之间的所有差别，这条命令所显示的 内容都会在执行”git commit -a”命令时被提交。</p>
 
 <p><code>
 $ git diff HEAD
 </code></p>
 
 <p>如果你要查看当前的工作目录与另外一个分支的差别，你可以用下面的命令执行:
-这会显示你当前工作目录与另外一个叫'test'分支的差别。你也以加上路径限定符，来只 比较某一个文件或目录。
+这会显示你当前工作目录与另外一个叫’test’分支的差别。你也以加上路径限定符，来只 比较某一个文件或目录。
 <code>
 $ git diff test
 </code></p>
@@ -492,7 +492,7 @@ $ git diff test
 $ git diff HEAD -- ./lib
 </code></p>
 
-<p>如果不是查看每个文件的详细差别，而是统计一下有哪些文件被改动，有多少行被改 动，就可以使用‘&mdash;stat' 参数。</p>
+<p>如果不是查看每个文件的详细差别，而是统计一下有哪些文件被改动，有多少行被改 动，就可以使用‘–stat’ 参数。</p>
 
 <p><code>
 $ git diff --stat
@@ -507,83 +507,84 @@ $ git diff --stat
     <id>https://happy123.me/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan</id>
     <content type="html"><![CDATA[<p>做过很多遍了，却总是记不住，这回从头来描述一下。</p>
 
-<h1>介绍</h1>
+<h1 id="section">介绍</h1>
 
 <p>所谓多个git账号，可能有两种情况:</p>
 
 <ul>
-<li><p>我有多个github的账号，不同的账号对应不同的repo，需要push的时候自动区分账号</p></li>
-<li><p>我有多个git的账号，有的是github的，有的是bitbucket的，有的是单位的gitlab的，不同账号对应不同的repo，需要push的时候自动区分账号</p></li>
+  <li>
+    <p>我有多个github的账号，不同的账号对应不同的repo，需要push的时候自动区分账号</p>
+  </li>
+  <li>
+    <p>我有多个git的账号，有的是github的，有的是bitbucket的，有的是单位的gitlab的，不同账号对应不同的repo，需要push的时候自动区分账号</p>
+  </li>
 </ul>
-
 
 <p>这两种情况的处理方法是一样的，分下面几步走:</p>
 
-<h1>处理</h1>
+<h1 id="section-1">处理</h1>
 
 <ul>
-<li><p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
+  <li>
+    <p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
 
-<p>  <code>
+    <p><code>
       ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
  </code></p>
 
-<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
+    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
 
-<p>  <code>
+    <p><code>
       ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
  </code></p>
 
-<p>  然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p></li>
-<li><p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p></li>
-<li><p>编辑 <code>~/.ssh/config</code>，设定不同的git 服务器对应不同的key</p></li>
+    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p>
+  </li>
+  <li>
+    <p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p>
+  </li>
+  <li>
+    <p>编辑 <code>~/.ssh/config</code>，设定不同的git 服务器对应不同的key</p>
+  </li>
 </ul>
 
+<p>```
+    # Default github user(first@mail.com),注意User项直接填git，不用填在github的用户名
+    Host github.com
+     HostName github.com
+     User git
+     IdentityFile ~/.ssh/id_rsa_github</p>
 
-<p>```</p>
-
-<pre><code># Default github user(first@mail.com),注意User项直接填git，不用填在github的用户名
-Host github.com
- HostName github.com
- User git
- IdentityFile ~/.ssh/id_rsa_github
-
-# second user(second@mail.com)
+<pre><code># second user(second@mail.com)
 # 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
 Host 172.16.11.11
  HostName 172.16.11.11
  User work
- IdentityFile ~/.ssh/id_rsa_work
+ IdentityFile ~/.ssh/id_rsa_work ```
 </code></pre>
-
-<p>```</p>
 
 <p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
 
 <p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
 
 <ul>
-<li>从上面一步可以看到，ssh区分账号，其实靠的是HostName这个字段，因此如果在github上有多个账号，很容易的可以把不同的账号映射到不同的HostName上就可以了。比如我有A和B两个账号， 先按照步骤一生成不同的key文件，再修改<code>~/.ssh/config</code> 内容应该是这样的。</li>
+  <li>从上面一步可以看到，ssh区分账号，其实靠的是HostName这个字段，因此如果在github上有多个账号，很容易的可以把不同的账号映射到不同的HostName上就可以了。比如我有A和B两个账号， 先按照步骤一生成不同的key文件，再修改<code>~/.ssh/config</code> 内容应该是这样的。</li>
 </ul>
 
+<p>```
+    # Default github user(A@mail.com),注意User项直接填git，不用填在github的用户名
+    Host A.github.com
+     HostName github.com
+     User git
+     IdentityFile ~/.ssh/id_rsa_github_A</p>
 
-<p>```</p>
-
-<pre><code># Default github user(A@mail.com),注意User项直接填git，不用填在github的用户名
-Host A.github.com
- HostName github.com
- User git
- IdentityFile ~/.ssh/id_rsa_github_A
-
-# second user(B@mail.com)
+<pre><code># second user(B@mail.com)
 # 建一个gitlab别名，新建的帐号使用这个别名做克隆和更新
 Host A.github.com
  HostName github.com
  User git
- IdentityFile ~/.ssh/id_rsa_github_B
+ IdentityFile ~/.ssh/id_rsa_github_B ```
 </code></pre>
-
-<p>```</p>
 
 <p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
 
@@ -599,48 +600,33 @@ Host A.github.com
 
 <p>这样每次push的时候系统就会根据不同的仓库地址使用不同的账号提交了</p>
 
-<h1>一些题外话</h1>
+<h1 id="section-2">一些题外话</h1>
 
-<h2>我有一个repo，想要同时push到不同的仓库该如何设置?</h2>
+<h2 id="repopush">我有一个repo，想要同时push到不同的仓库该如何设置?</h2>
 
 <p>很简单， 直接更改 <code>repo/.git/config</code> 里面的url即可，把里面对应tag下的url增加一个就可以了。例:</p>
 
-<p>```
-[remote &ldquo;GitHub&rdquo;]</p>
-
-<pre><code>url = git@github.com:elliottcable/Paws.o.git
-fetch = +refs/heads/*:refs/remotes/GitHub/*
-</code></pre>
-
-<p>[branch &ldquo;Master&rdquo;]</p>
-
-<pre><code>remote = GitHub
-merge = refs/heads/Master
-</code></pre>
-
-<p>[remote &ldquo;Codaset&rdquo;]</p>
-
-<pre><code>url = git@codaset.com:elliottcable/paws-o.git
-fetch = +refs/heads/*:refs/remotes/Codaset/*
-</code></pre>
-
-<p>[remote &ldquo;Paws&rdquo;]</p>
-
-<pre><code>url = git@github.com:Paws/Paws.o.git
-fetch = +refs/heads/*:refs/remotes/Paws/*
-</code></pre>
-
-<p>[remote &ldquo;Origin&rdquo;]</p>
-
-<pre><code>url = git@github.com:Paws/Paws.o.git
-url = git@codaset.com:elliottcable/paws-o.git
-</code></pre>
-
-<p>```</p>
+<p><code>
+[remote "GitHub"]
+    url = git@github.com:elliottcable/Paws.o.git
+    fetch = +refs/heads/*:refs/remotes/GitHub/*
+[branch "Master"]
+    remote = GitHub
+    merge = refs/heads/Master
+[remote "Codaset"]
+    url = git@codaset.com:elliottcable/paws-o.git
+    fetch = +refs/heads/*:refs/remotes/Codaset/*
+[remote "Paws"]
+    url = git@github.com:Paws/Paws.o.git
+    fetch = +refs/heads/*:refs/remotes/Paws/*
+[remote "Origin"]
+    url = git@github.com:Paws/Paws.o.git
+    url = git@codaset.com:elliottcable/paws-o.git
+</code></p>
 
 <p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
 
-<h2>我有一个github的repo，clone没有问题，push的时候总是报错:error: The requested URL returned error: 403 while accessing xxx</h2>
+<h2 id="githubrepoclonepusherror-the-requested-url-returned-error-403-while-accessing-xxx">我有一个github的repo，clone没有问题，push的时候总是报错:error: The requested URL returned error: 403 while accessing xxx</h2>
 
 <p>这个问题也困扰了我一段时间，后来发现修改 <code>repo/.git/config</code> 里面的url，把https地址替换为ssh就好了。</p>
 
@@ -654,10 +640,10 @@ url = git@codaset.com:elliottcable/paws-o.git
 <pre><code>url=ssh://git@github.com/derekerdmann/lunch_call.git
 </code></pre>
 
-<h1>参考</h1>
+<h1 id="section-3">参考</h1>
 
-<p><a href="http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed">http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed</a>
-<a href="http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446">http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446</a></p>
+<p>http://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed
+http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locations/3195446#3195446</p>
 ]]></content>
   </entry>
   

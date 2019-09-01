@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript_pattern | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/javascript-pattern/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -22,45 +22,36 @@
 
 <p>先回顾比较简单的办法</p>
 
-<h2>类式继承</h2>
+<h2 id="section">类式继承</h2>
 
-<h3>一个简单的类</h3>
+<h3 id="section-1">一个简单的类</h3>
 
 <p>```
-/<em> class Person </em>/
-function Person(name) {</p>
+/* class Person */
+function Person(name) {
+    this.name = name;
+}</p>
 
-<pre><code>this.name = name;
-</code></pre>
+<p>Person.prototype.getName = functino() {
+    return this.name;
+}</p>
 
-<p>}</p>
-
-<p>Person.prototype.getName = functino() {</p>
-
-<pre><code>return this.name;
-</code></pre>
-
-<p>}</p>
-
-<p>var reader = new Person(&lsquo;memoryboxes&rsquo;);
+<p>var reader = new Person(‘memoryboxes’);
 reader.getName();
 ```</p>
 
 <p>好，下面定义一个它的子类</p>
 
-<p>```
-/<em> Class Author </em>/
-function Author(name, books) {</p>
-
-<pre><code>Person.call(this, name);
-this.books = books;
-</code></pre>
-
-<p>}
+<p><code>
+/* Class Author */
+function Author(name, books) {
+    Person.call(this, name);
+    this.books = books;
+}
 Author.prototype = new Persion();  //set up the prototype chain
 Author.prototype.contructor = Author; //set the constructor attribute to author
 Author.getBooks = function() {return this.books;}
-```</p>
+</code></p>
 
 <p>容易费解的是这两行:
 <code>
@@ -77,53 +68,42 @@ Author.prototype.contructor = Author; //set the constructor attribute to author
 
 <p>最后，为了简化类的声明，可以将这些工作封装在extend函数中:</p>
 
-<p>```
-function extend(subClass, superClass) {</p>
-
-<pre><code>var F = function(){};
-F.prototype = superClass.prototype;
-subClass.prototype = new F();
-subClass.prototype.contructor = subClass;
-</code></pre>
-
-<p>}
-```
+<p><code>
+function extend(subClass, superClass) {
+    var F = function(){};
+    F.prototype = superClass.prototype;
+    subClass.prototype = new F();
+    subClass.prototype.contructor = subClass;
+}
+</code>
 作为改进，定义了一个新对象F，避免基类对象过大，创建实例浪费资源。</p>
 
 <p>但是这样还有个小缺点，声明 Author的时候，还要显式的调用一下<code>Person.call()</code>，下面这个版本进一步做了改进：
 ```
-function extend(subClass, superClass) {</p>
+function extend(subClass, superClass) {
+    var F = function(){};
+    F.prototype = superClass.prototype;
+    subClass.prototype = new F();
+    subClass.prototype.contructor = subClass;</p>
 
-<pre><code>var F = function(){};
-F.prototype = superClass.prototype;
-subClass.prototype = new F();
-subClass.prototype.contructor = subClass;
-
-subClass.superclass = superClass.prototype;
+<pre><code>subClass.superclass = superClass.prototype;
 if(superClass.prototype.contructor == Object.prototype.constructor) {
     superClass.prototype.contructor = superClass;
-}
+} } ```
 </code></pre>
-
-<p>}
-```</p>
 
 <p>增加了一个superclass属性来直接访问基类，这样声明Author的时候可以这么写:
-```
-/<em> Class Author </em>/
-function Author(name, books) {</p>
-
-<pre><code>Author.superclass.contructor.call(this, name);
-this.books = books;
-</code></pre>
-
-<p>}
+<code>
+/* Class Author */
+function Author(name, books) {
+    Author.superclass.contructor.call(this, name);
+    this.books = books;
+}
 extend(Author, Person);
 Author.getBooks = function() {return this.books;}
-```</p>
+</code></p>
 
-<h2>原型式继承</h2>
-
+<h2 id="section-2">原型式继承</h2>
 <p>TODO</p>
 ]]></content>
   </entry>
@@ -133,70 +113,59 @@ Author.getBooks = function() {return this.books;}
     <link href="https://happy123.me/blog/2015/01/05/javascriptshe-ji-mo-shi-2/"/>
     <updated>2015-01-05T09:05:16+08:00</updated>
     <id>https://happy123.me/blog/2015/01/05/javascriptshe-ji-mo-shi-2</id>
-    <content type="html"><![CDATA[<h1>如何封装一个对象</h1>
+    <content type="html"><![CDATA[<h1 id="section">如何封装一个对象</h1>
 
-<h2>门户大开型</h2>
+<h2 id="section-1">门户大开型</h2>
 
 <p>最简单的办法就是按传统方法创建一个类，用一个函数来做其构造器。</p>
 
 <p>```
-var Book = function(isbn, title, author) {</p>
-
-<pre><code>if (isbn === undefined) {
-    throw new Error('Book constructor requires an isbn.');
-}
-this.isbn = isbn;
-this.title = title || 'No title specified';
-this.author = author || 'No title specified';
-</code></pre>
-
-<p>}</p>
+var Book = function(isbn, title, author) {
+    if (isbn === undefined) {
+        throw new Error(‘Book constructor requires an isbn.’);
+    }
+    this.isbn = isbn;
+    this.title = title || ‘No title specified’;
+    this.author = author || ‘No title specified’;
+}</p>
 
 <p>//define by attr
-Book.prototype.display = function() {&hellip;};</p>
+Book.prototype.display = function() {…};</p>
 
 <p>//define by object literals
-Book.prototype = {</p>
-
-<pre><code>display: function(){...},
-checkIsdn: function(){...}
-</code></pre>
-
-<p>};
+Book.prototype = {
+    display: function(){…},
+    checkIsdn: function(){…}
+};
 ```</p>
 
 <ul>
-<li>优点：简单</li>
-<li>缺点：没有保护，需要加各种校验。但内部的成员还是有很大可能被修改的。</li>
+  <li>优点：简单</li>
+  <li>缺点：没有保护，需要加各种校验。但内部的成员还是有很大可能被修改的。</li>
 </ul>
 
-
-<h2>语法修饰增强型</h2>
+<h2 id="section-2">语法修饰增强型</h2>
 
 <p>用setattr,getattr等赋值取值方法及命名规范区别私有成员</p>
 
 <p>```
-var Book = function(isbn, title, author) {</p>
-
-<pre><code>if (isbn === undefined) {
-    throw new Error('Book constructor requires an isbn.');
-}
-this.setIsbn(isbn);
-this.setTitle(title);
-this.setAuthor(author);
-</code></pre>
-
-<p>}</p>
+var Book = function(isbn, title, author) {
+    if (isbn === undefined) {
+        throw new Error(‘Book constructor requires an isbn.’);
+    }
+    this.setIsbn(isbn);
+    this.setTitle(title);
+    this.setAuthor(author);
+}</p>
 
 <p>//define by attr
-Book.prototype.display = function() {&hellip;};</p>
+Book.prototype.display = function() {…};</p>
 
 <p>//define by object literals
-Book.prototype = {</p>
+Book.prototype = {
+    _checkIsdn: function() {…}</p>
 
-<pre><code>_checkIsdn: function() {...}
-
-setIsbn: function(isbn) {
+<pre><code>setIsbn: function(isbn) {
     if!(this._checkIsbn(isbn)) {
         throw new Error("Invalid isbn");
     }
@@ -206,15 +175,10 @@ setIsbn: function(isbn) {
 getIsbn: function() {
     return this._isbn;
 }
-.......
+....... }; ``` * 优点：简单，安全性也有所增强 * 缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。
 </code></pre>
 
-<p>};
-```
-* 优点：简单，安全性也有所增强
-* 缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。</p>
-
-<h2>闭包实现私有成员</h2>
+<h2 id="section-3">闭包实现私有成员</h2>
 
 <p>```
 var Book = function(iisbn, ititle, iauthor) {</p>
@@ -242,31 +206,25 @@ this.setIsbn = function(iisbn) {
 //contructor code
 this.setIsbn(iisbn);
 this.setTitle(ititle);
-this.setAuthor(iauthor);
+this.setAuthor(iauthor); };
 </code></pre>
-
-<p>};</p>
 
 <p>//public, non-privileged methods</p>
 
-<p>Book.prototype = {</p>
-
-<pre><code>display: fucntion(){},
-....
-</code></pre>
-
-<p>}
+<p>Book.prototype = {
+    display: fucntion(){},
+    ….
+}
 ```</p>
 
 <p>这里应用了js的闭包特性，isbn等属性不再通过<code>this</code>来引用，而是放到函数的构造器里面。既要访问到私有成员，又要对外的方法放到函数的构造中，对私有成员没有依赖的函数用prototype。</p>
 
 <ul>
-<li>优点：比较完整的模拟了private特性</li>
-<li>缺点：private方法不再存在prototype里面，这样没生成一个新的对象实例都会为每个每个私有方法和特权方法生成一个新副本，耗费内存。</li>
+  <li>优点：比较完整的模拟了private特性</li>
+  <li>缺点：private方法不再存在prototype里面，这样没生成一个新的对象实例都会为每个每个私有方法和特权方法生成一个新副本，耗费内存。</li>
 </ul>
 
-
-<h2>实现静态方法和属性</h2>
+<h2 id="section-4">实现静态方法和属性</h2>
 
 <p>```
 var Book = (function() {</p>
@@ -298,28 +256,23 @@ return function(iisbn, ititle, iauthor) {
     //contructor code
     numOfBooks++;
     this.setIsbn(iisbn);
-}
+} })();
 </code></pre>
 
-<p>})();</p>
-
 <p>//public, static methods
-Book.converTotitleCase = function(){&hellip;};</p>
+Book.converTotitleCase = function(){…};</p>
 
 <p>//public, non-privileged methods</p>
 
-<p>Book.prototype = {</p>
-
-<pre><code>display: fucntion(){},
-....
-</code></pre>
-
-<p>}
+<p>Book.prototype = {
+    display: fucntion(){},
+    ….
+}
 ```</p>
 
 <p>这里和<code>闭包实现私有成员</code>的区别就在于构造函数变成了一个内嵌函数，这样就创建了一个闭包，可以把静态的私有成员声明在最顶层。</p>
 
-<h2>实现常量</h2>
+<h2 id="section-5">实现常量</h2>
 
 <p>常量就设置为一个私有静态属性，用大写区分即可。我认为没有必要实现一个取值器去限制，用CONST前缀从代码风格上约束即可。</p>
 ]]></content>
@@ -330,9 +283,9 @@ Book.converTotitleCase = function(){&hellip;};</p>
     <link href="https://happy123.me/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/"/>
     <updated>2015-01-04T08:25:15+08:00</updated>
     <id>https://happy123.me/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1</id>
-    <content type="html"><![CDATA[<h1>富有表现力的javascript</h1>
+    <content type="html"><![CDATA[<h1 id="javascript">富有表现力的javascript</h1>
 
-<h2>弱类型语言</h2>
+<h2 id="section">弱类型语言</h2>
 
 <p>javascript中有三种原始类型:布尔型、数值型(不区分浮点数和整数)和字符串型。</p>
 
@@ -342,253 +295,204 @@ Book.converTotitleCase = function(){&hellip;};</p>
 
 <p>原始数据类型按值传送，其他数据类型则按引用传送。</p>
 
-<h2>函数是一等对象</h2>
+<h2 id="section-1">函数是一等对象</h2>
 
 <ul>
-<li>匿名函数</li>
+  <li>匿名函数</li>
 </ul>
 
-
-<p>```
-(function(){</p>
-
-<pre><code>var foo = 10;
-var bar = 2;
-alert(foo * bar);
-</code></pre>
-
-<p>})();
-```</p>
+<p><code>
+(function(){
+    var foo = 10;
+    var bar = 2;
+    alert(foo * bar);
+})();
+</code></p>
 
 <ul>
-<li>闭包</li>
+  <li>闭包</li>
 </ul>
 
-
-<p>```
+<p><code>
 var baz;
-(function(){</p>
-
-<pre><code>var foo = 10;
-var bar = 2;
-baz = function(){
-    return foo * bar;
-}
-</code></pre>
-
-<p>})();
+(function(){
+    var foo = 10;
+    var bar = 2;
+    baz = function(){
+        return foo * bar;
+    }
+})();
 baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行
-```</p>
+</code></p>
 
 <ul>
-<li><p>作用域、嵌套函数和闭包</p>
+  <li>
+    <p>作用域、嵌套函数和闭包</p>
+
+    <ul>
+      <li>
+        <p>js中，只有函数具有作用域：</p>
+
+        <p>在一个函数内部声明的变量，外部无法访问；
+  定义在一个函数中的变量在该函数的内嵌函数中是可以访问的</p>
+      </li>
+      <li>
+        <p>js中的作用域是词法性的：</p>
+
+        <p>函数运行在定义他们的作用域中，而不是调用他们的作用域中；
+  可以利用这个特性定义静态方法和属性；</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="mutableintrospection">对象的易变性(mutable)和内省(introspection)</h2>
 
 <ul>
-<li><p>js中，只有函数具有作用域：</p>
-
-<p>  在一个函数内部声明的变量，外部无法访问；
-  定义在一个函数中的变量在该函数的内嵌函数中是可以访问的</p></li>
-<li><p>js中的作用域是词法性的：</p>
-
-<p>  函数运行在定义他们的作用域中，而不是调用他们的作用域中；
-  可以利用这个特性定义静态方法和属性；</p></li>
-</ul>
-</li>
+  <li>易变性：js中可以对象前定义的类和实例化的对象进行修改</li>
+  <li>内省：js中可以在运行时检查对象所具有的属性和方法</li>
 </ul>
 
-
-<h2>对象的易变性(mutable)和内省(introspection)</h2>
+<h1 id="section-2">接口</h1>
 
 <ul>
-<li>易变性：js中可以对象前定义的类和实例化的对象进行修改</li>
-<li>内省：js中可以在运行时检查对象所具有的属性和方法</li>
+  <li>
+    <p>接口也是一种对象，判断一个类是否是实现了某类接口，就是传入这个接口，而后比较。</p>
+
+    <p>java有专门的接口类，C++有虚基类，而C在linux kernel中的对象设计方法实际上也是一种接口实现，这都是接口在语言层面支持的体现</p>
+  </li>
+  <li>
+    <p>封装(encapsulation)和信息隐藏：信息隐藏是目的，而封装则是藉以达到这个目的的技术</p>
+
+    <p>java和C++有 private关键字作为支持，Python有’__‘的命名约定，js中一般用闭包来模拟</p>
+  </li>
 </ul>
 
+<h2 id="section-3">接口实现</h2>
 
-<h1>接口</h1>
-
-<ul>
-<li><p>接口也是一种对象，判断一个类是否是实现了某类接口，就是传入这个接口，而后比较。</p>
-
-<p>  java有专门的接口类，C++有虚基类，而C在linux kernel中的对象设计方法实际上也是一种接口实现，这都是接口在语言层面支持的体现</p></li>
-<li><p>封装(encapsulation)和信息隐藏：信息隐藏是目的，而封装则是藉以达到这个目的的技术</p>
-
-<p>  java和C++有 private关键字作为支持，Python有'__&lsquo;的命名约定，js中一般用闭包来模拟</p></li>
-</ul>
-
-
-<h2>接口实现</h2>
-
-<h3>用注释来模拟</h3>
+<h3 id="section-4">用注释来模拟</h3>
 
 <p>```
 /*
-interface Composite {</p>
+interface Composite {
+    function add(child);
+    function remove(child);
+    …
+}</p>
 
-<pre><code>function add(child);
-function remove(child);
-...
-</code></pre>
+<p>interface FormItem{
+    function save();
+}</p>
 
-<p>}</p>
+<p>var CompositeForm = function(id, method, action) {
+    //implements Composite, FromItem
+    …
+};</p>
 
-<p>interface FormItem{</p>
-
-<pre><code>function save();
-</code></pre>
-
-<p>}</p>
-
-<p>var CompositeForm = function(id, method, action) {</p>
-
-<pre><code>//implements Composite, FromItem
-...
-</code></pre>
-
-<p>};</p>
-
-<p>CompositeForm.prototype.add = function(child) {</p>
-
-<pre><code>...
-</code></pre>
-
-<p>}
-CompositeForm.prototype.remove= function(child) {</p>
-
-<pre><code>...
-</code></pre>
-
-<p>}
-CompositeForm.prototype.save= function() {</p>
-
-<pre><code>...
-</code></pre>
-
-<p>}</p>
+<p>CompositeForm.prototype.add = function(child) {
+    …
+}
+CompositeForm.prototype.remove= function(child) {
+    …
+}
+CompositeForm.prototype.save= function() {
+    …
+}</p>
 
 <p>```</p>
 
 <ul>
-<li>优点：简单明了，代码体积小</li>
-<li>缺点：无法错误检查</li>
+  <li>优点：简单明了，代码体积小</li>
+  <li>缺点：无法错误检查</li>
 </ul>
 
-
-<h3>用属性检查模仿接口</h3>
+<h3 id="section-5">用属性检查模仿接口</h3>
 
 <p>约定所有类明确声明实现了那些接口，和这些类打交道的对象可以针对这些声明做检查。</p>
 
 <p>```
 /*
-interface Composite {</p>
+interface Composite {
+    function add(child);
+    function remove(child);
+    …
+}</p>
 
-<pre><code>function add(child);
-function remove(child);
-...
-</code></pre>
+<p>interface FormItem{
+    function save();
+}</p>
 
-<p>}</p>
+<p>var CompositeForm = function(id, method, action) {
+    //implements Composite, FromItem
+    this.implementsInterfaces = [‘Composite’, ‘FromItem’];
+    …
+};
+    …</p>
 
-<p>interface FormItem{</p>
-
-<pre><code>function save();
-</code></pre>
-
-<p>}</p>
-
-<p>var CompositeForm = function(id, method, action) {</p>
-
-<pre><code>//implements Composite, FromItem
-this.implementsInterfaces = ['Composite', 'FromItem'];
-...
-</code></pre>
-
-<p>};</p>
-
-<pre><code>...
-</code></pre>
-
-<p>function addForm(formInstance) {</p>
-
-<pre><code>if (!implements(formInstance, 'Composite', 'FormItem')) {
-    throw new Error("object does not implement a required interface");
-}
-</code></pre>
-
-<p>}</p>
-
-<p>function implements(objects) {</p>
-
-<pre><code>for (var i = 1; i &lt; arguments.length; i++) {
-    var interfaceName = arguments[i];
-    var interfaceFound = false;
-    for (var j = 0; j &lt; object.implementsInterfaces[j] == interfaceName) {
-        interfaceFound = true;
-        break;
+<p>function addForm(formInstance) {
+    if (!implements(formInstance, ‘Composite’, ‘FormItem’)) {
+        throw new Error(“object does not implement a required interface”);
     }
-    if (!interfaceFound) {
-        return false;
-    }
-}
-return true;
-</code></pre>
+}</p>
 
-<p>}</p>
+<p>function implements(objects) {
+    for (var i = 1; i &lt; arguments.length; i++) {
+        var interfaceName = arguments[i];
+        var interfaceFound = false;
+        for (var j = 0; j &lt; object.implementsInterfaces[j] == interfaceName) {
+            interfaceFound = true;
+            break;
+        }
+        if (!interfaceFound) {
+            return false;
+        }
+    }
+    return true;
+}</p>
 
 <p>```</p>
 
 <ul>
-<li>优点:有错误检查</li>
-<li>缺点:每次调用都要检查，啰嗦，另外防不住有说了实现但没有干活的</li>
+  <li>优点:有错误检查</li>
+  <li>缺点:每次调用都要检查，啰嗦，另外防不住有说了实现但没有干活的</li>
 </ul>
 
-
-<h1>鸭式辨型模仿接口</h1>
+<h1 id="section-6">鸭式辨型模仿接口</h1>
 
 <p>```
-var Composite = new Intreface(&lsquo;Composite&rsquo;, [&lsquo;add&rsquo;, &lsquo;remove&rsquo;]);
-var FormItem = new Interface(&lsquo;FormItem&rsquo;, [&lsquo;save&rsquo;]);
-var CompositeForm = function(id, method, action) {</p>
+var Composite = new Intreface(‘Composite’, [‘add’, ‘remove’]);
+var FormItem = new Interface(‘FormItem’, [‘save’]);
+var CompositeForm = function(id, method, action) {
+    …
+};</p>
 
-<pre><code>...
-</code></pre>
+<p>function addForm(formInstance) {
+    ensureImplements(formInstance, Composite, FormItem);
+    ……
+}</p>
 
-<p>};</p>
-
-<p>function addForm(formInstance) {</p>
-
-<pre><code>ensureImplements(formInstance, Composite, FormItem);
-......
-</code></pre>
-
-<p>}</p>
-
-<p>var Interface = function(name, methods) {</p>
-
-<pre><code>if (arguments.length != 2) {
-    throw new Error("Interface constructor called with " + arguments.length + "arguments, but expected exactly 2.");
-}
-this.name = name;
-this.methods = [];
-for (var i = 0; len = methods.length; i &lt; len; i++) {
-    if (typeof methods[i] !== 'string')  {
-        throw new Error("Interface contructor expects method names to be " +
-                        "passed in as string");
+<p>var Interface = function(name, methods) {
+    if (arguments.length != 2) {
+        throw new Error(“Interface constructor called with “ + arguments.length + “arguments, but expected exactly 2.”);
     }
-}
-this.methods.push(methods[i]);
-</code></pre>
+    this.name = name;
+    this.methods = [];
+    for (var i = 0; len = methods.length; i &lt; len; i++) {
+        if (typeof methods[i] !== ‘string’)  {
+            throw new Error(“Interface contructor expects method names to be “ +
+                            “passed in as string”);
+        }
+    }
+    this.methods.push(methods[i]);
+}</p>
 
-<p>}</p>
+<p>Interface.ensureImplements = function(object) {
+    if (arguments.length &lt; 2) {
+        throw Error(“Functino Interface.ensureImplements called with “ + arguments.length +
+                    “arguments, but expected at leaset 2.”);
+    }</p>
 
-<p>Interface.ensureImplements = function(object) {</p>
-
-<pre><code>if (arguments.length &lt; 2) {
-    throw Error("Functino Interface.ensureImplements called with " + arguments.length +
-                "arguments, but expected at leaset 2.");
-}
-
-for (var i = 1, len = arguments.length; i &lt; len; i++) {
+<pre><code>for (var i = 1, len = arguments.length; i &lt; len; i++) {
     if (interface.constructor !== Interface) {
         throw new Error("Function Interface.ensureImplements expects arguments" +
                         "two and above to be instances of Interface.");
@@ -602,16 +506,14 @@ for (var j = 1, methodsLen = interface.methods.length; j &lt; methodsLen; j++) {
                         "does not implement the " + interface.name)  +
                         "interface.Method " + method + " was not found.");
     }
-}
+} }
 </code></pre>
-
-<p>}</p>
 
 <p>```</p>
 
 <ul>
-<li>优点：进一步加强了错误检查</li>
-<li>缺点：增大了调试难度</li>
+  <li>优点：进一步加强了错误检查</li>
+  <li>缺点：增大了调试难度</li>
 </ul>
 
 ]]></content>

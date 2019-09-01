@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Iptables | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/iptables/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,21 +18,20 @@
     <link href="https://happy123.me/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/"/>
     <updated>2017-12-06T16:23:22+08:00</updated>
     <id>https://happy123.me/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7</id>
-    <content type="html"><![CDATA[<h2>关闭 FireWall</h2>
+    <content type="html"><![CDATA[<h2 id="firewall">关闭 FireWall</h2>
 
 <pre><code>systemctl stop firewalld.service #停止firewall
 systemctl disable firewalld.service #禁止firewall开机启动
 </code></pre>
 
-<h2>安装 iptables</h2>
+<h2 id="iptables">安装 iptables</h2>
 
 <pre><code>yum install iptables-services
 </code></pre>
 
 <!-- more -->
 
-
-<h2>配置 iptables</h2>
+<h2 id="iptables-1">配置 iptables</h2>
 
 <pre><code>#!/bin/bash
 

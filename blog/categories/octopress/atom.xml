@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -22,9 +22,9 @@
 
 <p>怎么pull也不管用，解决办法参考这里:</p>
 
-<p><a href="http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress">http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress</a></p>
+<p>http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress</p>
 
-<h3>悲剧提示，我后来发现有一段blog被revert掉了，诡异的是在github上面的提交记录也没了，要慎用，要做好备份。</h3>
+<h3 id="blogrevertgithub">悲剧提示，我后来发现有一段blog被revert掉了，诡异的是在github上面的提交记录也没了，要慎用，要做好备份。</h3>
 ]]></content>
   </entry>
   

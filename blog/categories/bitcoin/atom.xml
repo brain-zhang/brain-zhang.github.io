@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Bitcoin | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/bitcoin/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:09:23+08:00</updated>
+  <updated>2019-09-02T07:07:41+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -23,7 +23,6 @@
 <p>默认Bitcoin Core 0.15之后的客户端貌似都不能调节transaction fee大小了，老实说，自从Segwit升级完毕之后，我很少用core钱包了。这次没办法，为了构造一笔最小手续费用的交易，采取如下动作:</p>
 
 <!-- more -->
-
 
 <p>1.先看一下vout和txid:</p>
 
@@ -74,7 +73,7 @@ error message:
 
 <p>喵喵喵，怎么回事，我记得2016年的时候还是允许0.00000001的手续费的，比如下面这笔交易:</p>
 
-<p><a href="https://blockchain.info/tx/d36a18d1fa4c6ccc4b90ab8a13dd3e55b396ac07bf7fbbee281c1025da2b86fc">https://blockchain.info/tx/d36a18d1fa4c6ccc4b90ab8a13dd3e55b396ac07bf7fbbee281c1025da2b86fc</a></p>
+<p>https://blockchain.info/tx/d36a18d1fa4c6ccc4b90ab8a13dd3e55b396ac07bf7fbbee281c1025da2b86fc</p>
 
 <p>5.没办法，我只能在createrawtransaction的时候手工指定手续费为0.000001，心痛啊，手续费是转账金额的20%~</p>
 
@@ -94,11 +93,11 @@ bitcoin-cli getmempoolinfo
 
 <p>6.只能去找几个大矿池在线广播了，我无奈的先后使用了:</p>
 
-<p><a href="https://btc.com/tools/tx/publish">https://btc.com/tools/tx/publish</a></p>
+<p>https://btc.com/tools/tx/publish</p>
 
-<p><a href="https://www.blockchain.com/btc/pushtx">https://www.blockchain.com/btc/pushtx</a></p>
+<p>https://www.blockchain.com/btc/pushtx</p>
 
-<p><a href="https://live.blockcypher.com/btc/pushtx/">https://live.blockcypher.com/btc/pushtx/</a></p>
+<p>https://live.blockcypher.com/btc/pushtx/</p>
 
 <p>统统失败，悲剧了；还测试出blockcypher有个500，它的后台没处理好，直接就挂掉了；btc.com是个鬼精灵，把所有的异常一把抓，就不告诉你出了啥错；值得表扬的是blockchain.info，完美显示了bitcoin core抛出的错误，嗯嗯嗯，记住，以后可以用极小值的手续费广播来测试这几个网站的后台bitcoind 实现版本，不要干坏事哦~~</p>
 
@@ -112,17 +111,18 @@ dust transaction
 
 <p>8.一通操作之后，发现这笔钱是无论如何不能立即拿出来了；于是写个脚本暴力广播之，总有mempool size下来的时候吧，我幻想着，说不定能中奖呢23333</p>
 
-<h4>结局</h4>
+<h4 id="section">结局</h4>
 
 <p>昨晚有个土豪加上另外一个vout提走了，额，为了提0.00000555BTC，土豪动用了88BTC的vout作为陪练，并留下了0.00000400(高达90%) 的矿工费，交易记录在此:</p>
 
-<p><a href="https://btc.com/d6d59802eb987fe96b9e827c07a1acff5e80ba5e9dae3f6f56f9ea427d98e585">https://btc.com/d6d59802eb987fe96b9e827c07a1acff5e80ba5e9dae3f6f56f9ea427d98e585</a></p>
+<p>https://btc.com/d6d59802eb987fe96b9e827c07a1acff5e80ba5e9dae3f6f56f9ea427d98e585</p>
 
 <p>土豪，是在下输了。</p>
 
 <p>这件事情挺有意思的，我相信还有很多自动机器人在hunter这几个大众抽奖地址，为了不到1分钱，真是<code>一通操作猛如虎，回头一看啥没有</code>。而且中间还有一笔流入，我放过了；作为傻逼的记录，我老老实实记一下。</p>
 
 <p>现在minimum fee的行情是0.00001/KB，下次我得记好了，方便抽奖。</p>
+
 ]]></content>
   </entry>
   
@@ -134,38 +134,45 @@ dust transaction
     <content type="html"><![CDATA[<p>比特币是建立在区块链基础上的，区块链的基本技术支撑有三个:</p>
 
 <ul>
-<li><p>非对称加密</p></li>
-<li><p>点对点网络技术</p></li>
-<li><p>HASH现金</p></li>
+  <li>
+    <p>非对称加密</p>
+  </li>
+  <li>
+    <p>点对点网络技术</p>
+  </li>
+  <li>
+    <p>HASH现金</p>
+  </li>
 </ul>
-
 
 <p>其中非对称加密和HASH现金技术的历史发展颇有渊源，最近仔细学习了一下密码学科普知识，总结一下。</p>
 
 <!-- more -->
 
-
-<h2>历史回溯</h2>
+<h2 id="section">历史回溯</h2>
 
 <p>虽然加密和解秘是人类诞生以来一直上演的剧目，方法也是形形色色，但到现在为止，可以简单归纳为两个历史阶段:</p>
 
-<h3>1976年之前</h3>
+<h3 id="section-1">1976年之前</h3>
 
 <p>1976年以前，所有的加密算法，模式是一样的:</p>
 
 <ul>
-<li><p>甲方选择某一种加密规则，对信息进行加密</p></li>
-<li><p>乙方使用同一种规则，对信息进行解密</p></li>
+  <li>
+    <p>甲方选择某一种加密规则，对信息进行加密</p>
+  </li>
+  <li>
+    <p>乙方使用同一种规则，对信息进行解密</p>
+  </li>
 </ul>
-
 
 <p>这时候所有的加解密都是在规则上下文章，主要有两大流派，隐写术和密码术。</p>
 
 <p>隐写术就是利用隐形墨水之类的秘密传递手段，缺点显而易见，比如在很多小说里描述的火烤显形的段子。</p>
 
-<p>密码术相对比较主流，最基本的是"替换"和"移位"两种方法，</p>
+<p>密码术相对比较主流，最基本的是”替换”和”移位”两种方法，</p>
 
-<h4>替换法</h4>
+<h4 id="section-2">替换法</h4>
 
 <p>即用一个字母表来替换明码字母的方法，举例:</p>
 
@@ -179,7 +186,7 @@ dust transaction
 
 <p>上面这个简单的加密就来自于鼎鼎大名的凯撒加密。当然实际没这么简单，但原理就是这么回事。</p>
 
-<h4>移位法</h4>
+<h4 id="section-3">移位法</h4>
 
 <p>即制定一系列规则，对明文进行移位交换获得密文， 举例:</p>
 
@@ -195,16 +202,21 @@ dust transaction
 
 <p>上千年间，大家围绕这些基础手段斗智斗力，但始终有个缺陷无法解决：</p>
 
-<h4>如何把加密规则和密码表安全的通知对方?</h4>
+<h4 id="section-4">如何把加密规则和密码表安全的通知对方?</h4>
 
 <p>用现代密码学里面的一个<a href="https://zh.wikipedia.org/wiki/%E6%84%9B%E9%BA%97%E7%B5%B2%E8%88%87%E9%AE%91%E4%BC%AF">经典譬喻</a>来描述一下:</p>
 
 <ul>
-<li><p>Alice和Bob是朋友，他们的住处离得比较远，Alice想要发送一则隐私消息给Bob</p></li>
-<li><p>Eve想要窃听Alice和Bob的通信，Alice和Bob无法防止Eve的偷看</p></li>
-<li><p>Alice把信放在一个盒子里，她上了锁，让邮差发给Bob，Eve没有钥匙，无法打开盒子，但是Bob也无法打开</p></li>
+  <li>
+    <p>Alice和Bob是朋友，他们的住处离得比较远，Alice想要发送一则隐私消息给Bob</p>
+  </li>
+  <li>
+    <p>Eve想要窃听Alice和Bob的通信，Alice和Bob无法防止Eve的偷看</p>
+  </li>
+  <li>
+    <p>Alice把信放在一个盒子里，她上了锁，让邮差发给Bob，Eve没有钥匙，无法打开盒子，但是Bob也无法打开</p>
+  </li>
 </ul>
-
 
 <p>那么问题来了，Alice如何把钥匙发给Bob呢？</p>
 
@@ -212,7 +224,7 @@ dust transaction
 
 <p>Alice要安全的给Bob钥匙，就得放在加锁的盒子里，但是要打开盒子，就需要钥匙。</p>
 
-<h3>1976年之后</h3>
+<h3 id="section-5">1976年之后</h3>
 
 <p>当然，世上的无奈，除了马云不能灌篮这类事情外，大部分都是能解决的。</p>
 
@@ -220,20 +232,29 @@ dust transaction
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201612/bg1.jpg" alt="非对称加密发明人" /></p>
 
-<p>左边的Whtfield Diffie是早期的Geek典范，看看他迷离的眼神，拽拽的发型，不羁的络腮胡&hellip;.等等等等，最让人生气的是他还有个善解人意的爱人~ ~</p>
+<p>左边的Whtfield Diffie是早期的Geek典范，看看他迷离的眼神，拽拽的发型，不羁的络腮胡….等等等等，最让人生气的是他还有个善解人意的爱人~ ~</p>
 
 <p>好，让我们再回到Alice和bob的情书问题上来，咳咳，不知道为什么变成Alice给Bob情书了~ ~ ~</p>
 
 <p>现在设想这样一种解决手段:</p>
 
 <ul>
-<li><p>Alice把情书放到铁盒子里，上锁，发给Bob</p></li>
-<li><p>Bob收到盒子，没有去想办法打开它，而是又加上了自己的一把锁，发回给Alice</p></li>
-<li><p>Alice打开自己加的锁，发回给Bob</p></li>
-<li><p>Bob打开自己的锁</p></li>
-<li><p>可恶的Eve只能干生气了，好可怜啊</p></li>
+  <li>
+    <p>Alice把情书放到铁盒子里，上锁，发给Bob</p>
+  </li>
+  <li>
+    <p>Bob收到盒子，没有去想办法打开它，而是又加上了自己的一把锁，发回给Alice</p>
+  </li>
+  <li>
+    <p>Alice打开自己加的锁，发回给Bob</p>
+  </li>
+  <li>
+    <p>Bob打开自己的锁</p>
+  </li>
+  <li>
+    <p>可恶的Eve只能干生气了，好可怜啊</p>
+  </li>
 </ul>
-
 
 <p>哈，这证明了在我们的小譬喻里，分发密钥这个事情是可以安全解决的。1976年之前的人好笨啊，为什么不能这么搞呢？</p>
 
@@ -242,6 +263,7 @@ dust transaction
 <p>???</p>
 
 <p>你问我为什么会有这个屏障呢，我也说不明白啊，这是数学家们呕心沥血好多年也没解决的问题，嗯，少年，我看好你哦。</p>
+
 ]]></content>
   </entry>
   
@@ -250,7 +272,7 @@ dust transaction
     <link href="https://happy123.me/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/"/>
     <updated>2016-05-02T19:41:48+08:00</updated>
     <id>https://happy123.me/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto</id>
-    <content type="html"><![CDATA[<p>Craig Wright 又在声明他是"中本聪"了.</p>
+    <content type="html"><![CDATA[<p>Craig Wright 又在声明他是”中本聪”了.</p>
 
 <p>“中本聪”给出的签名是：</p>
 
@@ -269,27 +291,27 @@ dust transaction
 
 <p>中找出这个签名。可通过：</p>
 
-<p><a href="https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex">https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</a></p>
+<p>https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</p>
 
 <p>找到十六进制串的交易内容</p>
 
 <p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
 
-<p>但是令人疑惑的是GAVIN ANDRESEN为这位"中本聪"背书:</p>
+<p>但是令人疑惑的是GAVIN ANDRESEN为这位”中本聪”背书:</p>
 
-<p><a href="http://gavinandresen.ninja/satoshi">http://gavinandresen.ninja/satoshi</a></p>
+<p>http://gavinandresen.ninja/satoshi</p>
 
 <p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
 
-<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家&hellip;&hellip;</p>
+<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家……</p>
 
-<p>卫平布莱恩特老师说,这球有意思啊&hellip;&hellip;.</p>
+<p>卫平布莱恩特老师说,这球有意思啊…….</p>
 
 <p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
 
 <p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
 
-<p><a href="https://www.zhihu.com/question/22199390/answer/76083139">https://www.zhihu.com/question/22199390/answer/76083139</a></p>
+<p>https://www.zhihu.com/question/22199390/answer/76083139</p>
 
 <p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
 
