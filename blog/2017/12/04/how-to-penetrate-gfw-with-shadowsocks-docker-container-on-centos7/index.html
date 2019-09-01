@@ -35,6 +35,22 @@ $ sudo yum install -y yum-utils device- &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -110,39 +126,33 @@ $ sudo yum install -y yum-utils device- &hellip;">
 
 <div class="entry-content"><p>The quickest way to Penetrate GFW With ShadowSocks(Docker Container) On Centos7.</p>
 
-<h2>Install Docker CE</h2>
+<h2 id="install-docker-ce">Install Docker CE</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
-</span><span class='line'>$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
-</span><span class='line'>$ sudo yum install docker-ce</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
+</span><span class="line">$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+</span><span class="line">$ sudo yum install docker-ce</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="start--docker">start  docker</h2>
 
-<h2>start  docker</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl start docker</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo systemctl start docker</span></code></pre></td></tr></table></div></figure>
+<h2 id="pull-shadowsocks-container">pull shadowsocks container</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker pull oddrationale/docker-shadowsocks</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h2>pull shadowsocks container</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo docker pull oddrationale/docker-shadowsocks</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>start shadowsocks service</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb</span></code></pre></td></tr></table></div></figure>
-
+<h2 id="start-shadowsocks-service">start shadowsocks service</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>You can configure the service to run on a port of your choice. Just make sure the port number given to Docker is the same as the one given to shadowsocks. Also, it is highly recommended that you store the shadowsocks password in an environment variable as shown above. This way the password will not show in plain text when you run docker ps.</p>
 
 <p>For more command line options, refer to the <a href="https://github.com/shadowsocks/shadowsocks/tree/master">shadowsocks documentation</a></p>
 
-<h2>windows Client</h2>
+<h2 id="windows-client">windows Client</h2>
 
 <p>Client is the machine you want to bypass the GFW.</p>
 
@@ -150,7 +160,7 @@ $ sudo yum install -y yum-utils device- &hellip;">
 
 <p>You can check its “System Proxy” option, which is convenient for all browsers and terminal.</p>
 
-<h2>now enjoy it</h2>
+<h2 id="now-enjoy-it">now enjoy it</h2>
 </div>
 
 
@@ -245,7 +255,7 @@ $ sudo yum install -y yum-utils device- &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -9,8 +9,8 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="之前的文章里面我们提到了一个名为LBC的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。 这个项目本身详尽计算了这种碰撞成功的几率，目前碰撞空间大概在 2136 级别。 目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的: 1
-AWS p2 &hellip;">
+  <meta name="description" content="之前的文章里面我们提到了一个名为LBC的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。 这个项目本身详尽计算了这种碰撞成功的几率，目前碰撞空间大概在 2^136 级别。 目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的: 1
+AWS &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -33,6 +33,22 @@ AWS p2 &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -108,24 +124,20 @@ AWS p2 &hellip;">
 
 <div class="entry-content"><p>之前的文章里面我们提到了一个名为<a href="https://lbc.cryptoguru.org">LBC</a>的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。</p>
 
-<p>这个项目本身详尽<a href="https://lbc.cryptoguru.org/stats">计算了这种碰撞成功的几率</a>，目前碰撞空间大概在 2<sup>136</sup> 级别。</p>
+<p>这个项目本身详尽<a href="https://lbc.cryptoguru.org/stats">计算了这种碰撞成功的几率</a>，目前碰撞空间大概在 2^136 级别。</p>
 
 <p>目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>AWS p2.8xlarge   32 vCores Xeon v4, 8x K80 GPUs (50% each)   ~80-88M/s</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">AWS p2.8xlarge	32 vCores Xeon v4, 8x K80 GPUs (50% each)	~80-88M/s</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">2^136 / 2^30 = 2 ^106</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2^136 / 2^30 = 2 ^106</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2<sup>106</sup> 级别的碰撞效率还是遥遥无期啊；</p>
+<p>2^106 级别的碰撞效率还是遥遥无期啊；</p>
 
 <!-- more -->
-
 
 <p>如果通读我们之前的文章就知道，比特币地址的生成，主要花费在ECDSA、SHA256, RIPEMD 这三个算法的操作之上，但其实用GPU计算，这三个步骤花费的时间是很少的，在整个碰撞过程中，其实大部分时间是耗费在bloomfilter上面的；</p>
 
@@ -136,35 +148,33 @@ AWS p2 &hellip;">
 <p>我分析了截至2018-12以前的所有比特币地址，简便起见，提取了所有的P2PKH地址(共
 377059211个地址)，取其前4个字符地址前缀；执行:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sort 4prefix.addr|uniq -c|sort -nr</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sort 4prefix.addr|uniq -c|sort -nr</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>得到了所有地址前缀的分布列表，差不多是个正态分布。</p>
 
 <p>列举一下最常用的地址前缀TOP10:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  23600 1bit
-</span><span class='line'>  23086 1btc
-</span><span class='line'>  21895 13vs
-</span><span class='line'>  21329 1gbx
-</span><span class='line'>  21267 1gbt
-</span><span class='line'>  21267 1gba
-</span><span class='line'>  21210 1gbb
-</span><span class='line'>  21206 1gbf
-</span><span class='line'>  21196 1gbu
-</span><span class='line'>  21189 1gbr</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">  23600 1bit
+</span><span class="line">  23086 1btc
+</span><span class="line">  21895 13vs
+</span><span class="line">  21329 1gbx
+</span><span class="line">  21267 1gbt
+</span><span class="line">  21267 1gba
+</span><span class="line">  21210 1gbb
+</span><span class="line">  21206 1gbf
+</span><span class="line">  21196 1gbu
+</span><span class="line">  21189 1gbr</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最常见的是1bit和1btc这两个前缀，各比第三名多出了10000个左右，这多出来20000个地址应该是Geek们自己生成的虚荣地址。</p>
 
@@ -176,9 +186,9 @@ AWS p2 &hellip;">
 
 <p>瓶颈现在又变成了genaddress环节，我估计在一块RX480卡上面，可以达到和AWS顶配GPU一样的效率；</p>
 
-<p>不过，效率提升十倍，也不过是 2<sup>100</sup> 的碰撞范围，还是遥遥无期啊。</p>
+<p>不过，效率提升十倍，也不过是 2^100 的碰撞范围，还是遥遥无期啊。</p>
 
-<h4>更深入的分析</h4>
+<h4 id="section">更深入的分析</h4>
 
 <p>早期在bitcointalk.org论坛上，Laszlo Hanyecz曾经有过一个想法，就是随着硬件性能的发展，最终碰撞比特币私钥的收益会不会超过挖矿的收益？</p>
 
@@ -188,17 +198,17 @@ AWS p2 &hellip;">
 
 <p>比特币的地址生成是很容易硬件ASIC化的，如果用这种前缀过滤法，也不需要多少内存，所以可以近似认为：如果硬件化，比特币私钥碰撞的效率和挖矿效率是差不多的。</p>
 
-<p>目前比特币全网算力在40EH左右，就是2<sup>62</sup>，这已经是相当于400w台蚂蚁S9的机器同时24X365 运行了；消耗的电力估计已经超过了上海市的居民用电，比特币矿机的能源消耗，完全可以说是抵得上一个小型国家的能源消耗了。</p>
+<p>目前比特币全网算力在40EH左右，就是2^62，这已经是相当于400w台蚂蚁S9的机器同时24X365 运行了；消耗的电力估计已经超过了上海市的居民用电，比特币矿机的能源消耗，完全可以说是抵得上一个小型国家的能源消耗了。</p>
 
-<p>如果私钥碰撞达到2<sup>62</sup>级别，那么毛估估，碰撞几率就能减小到 &frac12;<sup>60</sup> 级别了；</p>
+<p>如果私钥碰撞达到2^62级别，那么毛估估，碰撞几率就能减小到 1/2^60 级别了；</p>
 
 <p>但是这个概率还是太低了。</p>
 
 <p>而且另外一个无法预测的情况就是，将来人们的安全意识加强，一般一个地址只要用过就会丢弃掉，所以最终bloomfilter的条目变化会非常频繁，还要考虑一个数量级的损耗。</p>
 
-<p>目前测算，随着手续费用的提高，即使多次减半，将来挖矿的收益估计很长期稳定1-10btc/block级别，在如果将来以1年时间碰撞一个私钥的概率期望测算的话，一年大概是2<sup>25</sup> 秒，这样碰撞效率至少要提高到 2<sup>95</sup> 级别，才能达到<code>破解私钥得利</code>><code>挖矿得利</code> 的效果；</p>
+<p>目前测算，随着手续费用的提高，即使多次减半，将来挖矿的收益估计很长期稳定1-10btc/block级别，在如果将来以1年时间碰撞一个私钥的概率期望测算的话，一年大概是2^25 秒，这样碰撞效率至少要提高到 2^95 级别，才能达到<code>破解私钥得利</code>&gt;<code>挖矿得利</code> 的效果；</p>
 
-<p>算力提高到2<sup>95</sup>，不管用什么技术，即使是量子计算，也很难想象能到这个量级啊；</p>
+<p>算力提高到2^95，不管用什么技术，即使是量子计算，也很难想象能到这个量级啊；</p>
 
 <p>而且，即使到了这一天，把RIPEMD替换成一种碰撞空间更大的算法就OK了。</p>
 
@@ -297,7 +307,7 @@ AWS p2 &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

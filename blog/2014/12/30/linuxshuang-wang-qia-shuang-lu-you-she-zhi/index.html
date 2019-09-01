@@ -9,9 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="折腾了半天，原始出处不知道了，转记一下。 比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此 eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254
-eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254
-eth2是教育网， &hellip;">
+  <meta name="description" content="折腾了半天，原始出处不知道了，转记一下。 比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此 eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254 eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254 eth2是教育网， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -34,6 +32,22 @@ eth2是教育网， &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -112,11 +126,16 @@ eth2是教育网， &hellip;">
 <p>比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此</p>
 
 <ul>
-<li><p>eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254</p></li>
-<li><p>eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254</p></li>
-<li><p>eth2是教育网，ip地址为3.3.3.3/24，教育网网关为3.3.3.254</p></li>
+  <li>
+    <p>eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254</p>
+  </li>
+  <li>
+    <p>eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254</p>
+  </li>
+  <li>
+    <p>eth2是教育网，ip地址为3.3.3.3/24，教育网网关为3.3.3.254</p>
+  </li>
 </ul>
-
 
 <p>传统情况下，如果是为了从内向外访问获得更好的速度，让访问电信走电信，访问网通走网通，那么配置是网关只能够配置一个。</p>
 
@@ -128,66 +147,61 @@ eth2是教育网， &hellip;">
 
 <p>用 ip route show 可以看到默认有local,main,default三个路由表，这三个路由表的名称命名来自 /etc/iproute2/rt_tables ，这里先在这个配置文件里面添加三个不同的路由表表名，</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
-</span><span class='line'>echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
-</span><span class='line'>echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
+</span><span class="line">echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
+</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>之后建立这三个路由表的内容，因为这三个路由表的只是用来响应来自不同接口的，而不是用来相应从哪个接口出去的，所以只需要每个路由表里面建立默认网关即可。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ip route add default via 1.1.1.254 dev eth0 table ChinaNet
-</span><span class='line'>ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-</span><span class='line'>ip route add default via 3.3.3.254 dev eth2 table ChinaEdu</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ip route add default via 1.1.1.254 dev eth0 table ChinaNet
+</span><span class="line">ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
+</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>之后再加上三条规则，使来自不同的口的走不同的路由表</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ip rule add from 1.1.1.1 table ChinaNet
-</span><span class='line'>ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class='line'>ip rule add from 3.3.3.3 table ChinaEdu</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ip rule add from 1.1.1.1 table ChinaNet
+</span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
+</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>至此无论是电信还是网通还是教育网用户，访问三个ip的任意一个地址都能够连通了。即便是服务器上本身的默认路由都没有设置，也能够让外面的用户正常访问。</p>
 
 <p>命令汇总：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ip route show
-</span><span class='line'>
-</span><span class='line'>echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
-</span><span class='line'>echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
-</span><span class='line'>echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables // 这里也可以直接通过Vi编辑
-</span><span class='line'>
-</span><span class='line'>ip route add default via 1.1.1.254 dev eth0 table ChinaNet
-</span><span class='line'>ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-</span><span class='line'>ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
-</span><span class='line'>
-</span><span class='line'>ip rule add from 1.1.1.1 table ChinaNet
-</span><span class='line'>ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class='line'>ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ip route show
+</span><span class="line">
+</span><span class="line">echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
+</span><span class="line">echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
+</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables // 这里也可以直接通过Vi编辑
+</span><span class="line">
+</span><span class="line">ip route add default via 1.1.1.254 dev eth0 table ChinaNet
+</span><span class="line">ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
+</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
+</span><span class="line">
+</span><span class="line">ip rule add from 1.1.1.1 table ChinaNet
+</span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
+</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
 
@@ -283,7 +297,7 @@ eth2是教育网， &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

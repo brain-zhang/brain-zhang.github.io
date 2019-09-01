@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了，可惜了我的$30，白白跑了那么长时间 网上搜索都是how to sort a big file，那我这个属于very very very big big big file了 &hellip;">
+  <meta name="description" content="sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了~~~，可惜了我的$30，白白跑了那么长时间~~~ 网上搜索都是how to sort a big file，那我这个属于very very very big big big &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,7 +121,7 @@
   </header>
 
 
-<div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了<del>，可惜了我的$30，白白跑了那么长时间</del></p>
+<div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了~~~，可惜了我的$30，白白跑了那么长时间~~~</p>
 
 <p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
 
@@ -113,33 +129,38 @@
 
 <p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割手动外排搞定~~</p>
 
-<h3>把大象装进冰箱分为几步？</h3>
+<h3 id="section">把大象装进冰箱分为几步？</h3>
 
-<h3>三步:</h3>
+<h3 id="section-1">三步:</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>split -l 1000000000 huge-file small-chunk
-</span><span class='line'>
-</span><span class='line'>for X in small-chunk*; do sort -u &lt; $X &gt; sorted-$X; done
-</span><span class='line'>
-</span><span class='line'>sort -u -m sorted-small-chunk* &gt; sorted-huge-file && rm -rf small-chunk* sorted-small-chunk*</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">split -l 1000000000 huge-file small-chunk
+</span><span class="line">
+</span><span class="line">for X in small-chunk*; do sort -u &lt; $X &gt; sorted-$X; done
+</span><span class="line">
+</span><span class="line">sort -u -m sorted-small-chunk* &gt; sorted-huge-file &amp;&amp; rm -rf small-chunk* sorted-small-chunk*</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h3 id="tips">小TIPS:</h3>
 
-<h3>小TIPS:</h3>
-
-<p>如果只要去重不要排序的话，尽量不要用 sort -u或者sort | uniq，这个是nLog(n)的效率，让人捉急。</p>
+<table>
+  <tbody>
+    <tr>
+      <td>如果只要去重不要排序的话，尽量不要用 sort -u或者sort</td>
+      <td>uniq，这个是nLog(n)的效率，让人捉急。</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>可以利用awk的数组是内存hash表的特性，直接awk来做，前提是你内存够大，瞎估估需要十倍于数据的内存吧:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h3>PS:</h3>
+<h3 id="ps">PS:</h3>
 
 <p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
 </div>
@@ -236,7 +257,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

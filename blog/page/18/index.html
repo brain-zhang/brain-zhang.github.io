@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -110,29 +126,28 @@
 
   <div class="entry-content"><p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>echo "Running aclocal..."
-</span><span class='line'>aclocal || exit 1
-</span><span class='line'>echo "Running autoheader..."
-</span><span class='line'>autoheader || exit 1
-</span><span class='line'>echo "Running autoconf..."
-</span><span class='line'>autoconf || exit 1
-</span><span class='line'>echo "Running automake..."
-</span><span class='line'>automake --add-missing --copy || exit 1
-</span><span class='line'>echo "Finished."</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
+</span><span class="line">
+</span><span class="line">echo "Running aclocal..."
+</span><span class="line">aclocal || exit 1
+</span><span class="line">echo "Running autoheader..."
+</span><span class="line">autoheader || exit 1
+</span><span class="line">echo "Running autoconf..."
+</span><span class="line">autoconf || exit 1
+</span><span class="line">echo "Running automake..."
+</span><span class="line">automake --add-missing --copy || exit 1
+</span><span class="line">echo "Finished."</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -173,39 +188,14 @@
 
   <div class="entry-content"><p>有时候想要在Markdwon里面画ASCII画，会被Format掉，例如:</p>
 
-<table>
-<thead>
-<tr>
-<th></th>
-<th>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>  &mdash;&mdash;&mdash;    &mdash;&mdash;&mdash;&ndash; |</td>
-</tr>
-<tr>
-<td></td>
-<td>                    |</td>
-</tr>
-<tr>
-<td></td>
-<td>     \        /     |</td>
-</tr>
-<tr>
-<td></td>
-<td>      &mdash;&mdash;&mdash;&ndash;/      |</td>
-</tr>
-<tr>
-<td></td>
-<td>                    |</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+</p>
+<p>|——————–+
+|                    |
+|  ——    ——- |
+|                    |
+|     \        /     |
+|      ——-/      |
+|                    |
++——————–+</p>
 
 <p>这个时候可以用缩进来解决:</p>
 
@@ -220,11 +210,11 @@
 </code></pre>
 
 <p>参考:
-<a href="https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262">https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262</a></p>
+https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177135#177135?newreg=acda653c863843a99d1008c464864262</p>
 
 <p>引发了一点兴趣，meta.stackexchange.com上面有个测试语法专贴，各种乱搞洋洋大观:</p>
 
-<p><a href="http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134">http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134</a></p>
+<p>http://meta.stackexchange.com/questions/3122/formatting-sandbox/43134#43134</p>
 </div>
   
   
@@ -263,53 +253,54 @@
   </header>
 
 
-  <div class="entry-content"><h1>container相关</h1>
+  <div class="entry-content"><h1 id="container">container相关</h1>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ docker run -it xxx /bin/bash                                      // 启动一个container
-</span><span class='line'>$ docker rm -f xxx                                                  // 结束一个container，加-f表示删除掉，这样比较干净
-</span><span class='line'>$ docker run -it --add-host host:ip xxx /bin/bash                   // 启动一个container,增加/etc/hosts设定
-</span><span class='line'>$ docker run -d -p 127.0.0.1:5000:5000 webapp python app.py         // 启动一个container,映射本地的5000端口</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker run -it xxx /bin/bash                                      // 启动一个container
+</span><span class="line">$ docker rm -f xxx                                                  // 结束一个container，加-f表示删除掉，这样比较干净
+</span><span class="line">$ docker run -it --add-host host:ip xxx /bin/bash                   // 启动一个container,增加/etc/hosts设定
+</span><span class="line">$ docker run -d -p 127.0.0.1:5000:5000 webapp python app.py         // 启动一个container,映射本地的5000端口</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h1 id="image-">image 相关</h1>
 
-<h1>image 相关</h1>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker rmi -f xxx                                                 // 删除一个image，以下情况下不能删除:
+</span><span class="line">                                                                    // * 有其他image依赖于这个image
+</span><span class="line">                                                                    // * 有已创建的container依赖于这个image
+</span><span class="line">                                                                    // build的过程会出现很多&lt;none&gt;的临时image，最好不要去手工清除
+</span><span class="line">$ docker build tag Dockerfile_dir                                   // build一个image</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ docker rmi -f xxx                                                 // 删除一个image，以下情况下不能删除:
-</span><span class='line'>                                                                    // * 有其他image依赖于这个image
-</span><span class='line'>                                                                    // * 有已创建的container依赖于这个image
-</span><span class='line'>                                                                    // build的过程会出现很多&lt;none&gt;的临时image，最好不要去手工清除
-</span><span class='line'>$ docker build tag Dockerfile_dir                                   // build一个image</span></code></pre></td></tr></table></div></figure>
+<h1 id="docker-service-">docker service 相关</h1>
 
-
-<h1>docker service 相关</h1>
-
-<h2>配置文件位置</h2>
+<h2 id="section">配置文件位置</h2>
 
 <ul>
-<li><p>ubuntu: /etc/default/docker</p></li>
-<li><p>centos: /etc/sysconfig/docker</p></li>
+  <li>
+    <p>ubuntu: /etc/default/docker</p>
+  </li>
+  <li>
+    <p>centos: /etc/sysconfig/docker</p>
+  </li>
 </ul>
 
-
-<h3>配置参数</h3>
+<h3 id="section-1">配置参数</h3>
 
 <pre><code>DOCKER_OPTS
 </code></pre>
 
-<h4>增加docker 仓库验证</h4>
+<h4 id="docker-">增加docker 仓库验证</h4>
 
 <pre><code>--insecure-registry own-docker.com
 </code></pre>
 
-<h4>设置storage backend</h4>
+<h4 id="storage-backend">设置storage backend</h4>
 
 <pre><code>-s overlay
 </code></pre>
@@ -317,38 +308,40 @@
 <p>使用overlay极大提升性能和稳定性，建议开启。但是有两个问题:</p>
 
 <ul>
-<li><p>编译centos镜像时，调用yum会报checksum错误，所以基本上不能在overlay上面构建redhat系的镜像</p></li>
-<li><p>不支持 <code>inotify_add_watch</code> 调用，<code>tail -f</code> 类的命令会有问题，具体见:<a href="https://github.com/docker/docker/issues/11705">https://github.com/docker/docker/issues/11705</a></p></li>
+  <li>
+    <p>编译centos镜像时，调用yum会报checksum错误，所以基本上不能在overlay上面构建redhat系的镜像</p>
+  </li>
+  <li>
+    <p>不支持 <code>inotify_add_watch</code> 调用，<code>tail -f</code> 类的命令会有问题，具体见:https://github.com/docker/docker/issues/11705</p>
+  </li>
 </ul>
 
+<h1 id="section-2">相关工具:</h1>
 
-<h1>相关工具:</h1>
+<h4 id="docker">docker镜像瘦身工具</h4>
 
-<h4>docker镜像瘦身工具</h4>
+<p>https://github.com/jwilder/docker-squash</p>
 
-<p><a href="https://github.com/jwilder/docker-squash">https://github.com/jwilder/docker-squash</a></p>
+<h4 id="nsenter-docker-inspect">nsenter, docker inspect的增强版</h4>
 
-<h4>nsenter, docker inspect的增强版</h4>
+<p>https://github.com/jpetazzo/nsenter</p>
 
-<p><a href="https://github.com/jpetazzo/nsenter">https://github.com/jpetazzo/nsenter</a></p>
+<h4 id="dockerfly">dockerfly，自己写的一个构建工具</h4>
 
-<h4>dockerfly，自己写的一个构建工具</h4>
+<p>https://github.com/brain-zhang/dockerfly</p>
 
-<p><a href="https://github.com/brain-zhang/dockerfly">https://github.com/brain-zhang/dockerfly</a></p>
+<h4 id="shipyard">shipyard，还算是比较靠谱的监控工具</h4>
 
-<h4>shipyard，还算是比较靠谱的监控工具</h4>
+<p>https://github.com/shipyard/shipyard</p>
 
-<p><a href="https://github.com/shipyard/shipyard">https://github.com/shipyard/shipyard</a></p>
-
-<h1>一些坑:</h1>
+<h1 id="section-3">一些坑:</h1>
 
 <ul>
-<li>centos 在4.0.0-1.el6.elrepo.x86_64内核下，启动xfs+overlay，删除文件夹会有问题</li>
-<li>overlay下，tail命令会有问题</li>
-<li>overlay下，docker build，yum的checksum会有问题</li>
-<li>devicemapper效率巨慢无比，不要用</li>
+  <li>centos 在4.0.0-1.el6.elrepo.x86_64内核下，启动xfs+overlay，删除文件夹会有问题</li>
+  <li>overlay下，tail命令会有问题</li>
+  <li>overlay下，docker build，yum的checksum会有问题</li>
+  <li>devicemapper效率巨慢无比，不要用</li>
 </ul>
-
 </div>
   
   
@@ -389,71 +382,66 @@
 
   <div class="entry-content"><p>Python2.x中抛出Unicode的异常需要注意:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     print e
-</span><span class='line'>...     print str(e)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>会报UnicodeEncodeError: &lsquo;ascii&rsquo; codec can&rsquo;t encode character &hellip;</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; try:
+</span><span class="line">...     raise Exception(u'Error when printing 中文异常')
+</span><span class="line">... except Exception, e:
+</span><span class="line">...     print e
+</span><span class="line">...     print str(e)</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>会报UnicodeEncodeError: ‘ascii’ codec can’t encode character …</p>
 
 <p>同样，如果在log中直接输出，也会报错</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; import logging
-</span><span class='line'>    logger = logging.getLogger('default')
-</span><span class='line'>    try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     logger.error(e)
-</span><span class='line'>...     logger.error("%s", e)
-</span><span class='line'>...     logger.error("%s", str(e))</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; import logging
+</span><span class="line">    logger = logging.getLogger('default')
+</span><span class="line">    try:
+</span><span class="line">...     raise Exception(u'Error when printing 中文异常')
+</span><span class="line">... except Exception, e:
+</span><span class="line">...     logger.error(e)
+</span><span class="line">...     logger.error("%s", e)
+</span><span class="line">...     logger.error("%s", str(e))</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>简单的解决办法就是用e.message</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     print e.message
-</span><span class='line'>...     print "%s" % e.message</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; try:
+</span><span class="line">...     raise Exception(u'Error when printing 中文异常')
+</span><span class="line">... except Exception, e:
+</span><span class="line">...     print e.message
+</span><span class="line">...     print "%s" % e.message</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>也可以详细的可以指定encoder</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; try:
-</span><span class='line'>...     raise Exception(u'Error when printing 中文异常')
-</span><span class='line'>... except Exception, e:
-</span><span class='line'>...     print unicode(e.message).encode('utf-8')</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; try:
+</span><span class="line">...     raise Exception(u'Error when printing 中文异常')
+</span><span class="line">... except Exception, e:
+</span><span class="line">...     print unicode(e.message).encode('utf-8')</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Python3就没这个事了，备忘一下。</p>
 
 <p>参考:</p>
 
-<p><a href="http://bugs.python.org/issue2517">http://bugs.python.org/issue2517</a></p>
+<p>http://bugs.python.org/issue2517</p>
 </div>
   
   
@@ -494,18 +482,16 @@
 
   <div class="entry-content"><p>以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
-</span><span class='line'>{
-</span><span class='line'>    int x = 12;
-</span><span class='line'>    char pz[x];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">int main()
+</span><span class="line">{
+</span><span class="line">    int x = 12;
+</span><span class="line">    char pz[x];
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>C99是支持的。在gcc4+以上的版本里测试OK。</p>
 
 <p>另外stackoverflow上提到C++不支持动态数组，在g++4.4.7里面试了一下，也是可以的。</p>
@@ -515,7 +501,7 @@
 <p>Out好多好多年了…….</p>
 
 <p>参考:
-<a href="http://stackoverflow.com/questions/1204521/dynamic-array-in-stack">http://stackoverflow.com/questions/1204521/dynamic-array-in-stack</a> <a href="http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed">http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</a></p>
+http://stackoverflow.com/questions/1204521/dynamic-array-in-stack http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</p>
 </div>
   
   
@@ -554,7 +540,7 @@
   </header>
 
 
-  <div class="entry-content"><p>更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。</p>
+  <div class="entry-content"><p>更新svn(subversion)&gt;1.7后 zsh 的svn自动完成会报错。</p>
 
 <p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>
 
@@ -570,7 +556,7 @@
 <p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}</code></p>
 
 <p>参考资料：
-<a href="http://www.zsh.org/mla/workers/2011/msg01448.html">http://www.zsh.org/mla/workers/2011/msg01448.html</a></p>
+http://www.zsh.org/mla/workers/2011/msg01448.html</p>
 </div>
   
   
@@ -613,115 +599,109 @@
 
 <p>Django 会使用你提供的第一个密码加密方法（在你的 setting.py 文件里要至少有一个方法）</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
-</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.BCryptPasswordHasher',
-</span><span class='line'>    'django.contrib.auth.hashers.SHA1PasswordHasher', # Insecure Hashes
-</span><span class='line'>    'django.contrib.auth.hashers.MD5PasswordHasher', # Insecure Hashes
-</span><span class='line'>    'django.contrib.auth.hashers.CryptPasswordHasher', # Insecure Hashes
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">PASSWORD_HASHERS = (
+</span><span class="line">    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+</span><span class="line">    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+</span><span class="line">    'django.contrib.auth.hashers.BCryptPasswordHasher',
+</span><span class="line">    'django.contrib.auth.hashers.SHA1PasswordHasher', # Insecure Hashes
+</span><span class="line">    'django.contrib.auth.hashers.MD5PasswordHasher', # Insecure Hashes
+</span><span class="line">    'django.contrib.auth.hashers.CryptPasswordHasher', # Insecure Hashes
+</span><span class="line">)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>但Django默认生成的密码策略往往会带上 md5_xxx, pbkdf2_xxx，同其他系统整合的时候，一般是没有这些前缀的，这就需要我们自定义一个密码策略。</p>
 
 <p>下面介绍下如何定义一个简单的 <code>md5(md5(password, salt))</code> 密码策略。</p>
 
-<h3>step1</h3>
+<h3 id="step1">step1</h3>
 
 <p>建立一个app，django-admin.py startapp ownmd5</p>
 
-<h3>step2</h3>
+<h3 id="step2">step2</h3>
 
 <p>在 ownmd5中 建立 hashers.py 文件，加入 OwnMd5PasswordHasher 类</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import hashlib
-</span><span class='line'>from django.utils.translation import ugettext_noop as _
-</span><span class='line'>from django.utils.datastructures import SortedDict
-</span><span class='line'>from django.utils.crypto import constant_time_compare
-</span><span class='line'>from django.utils.encoding import force_bytes, force_str, force_text
-</span><span class='line'>from django.contrib.auth.hashers import BasePasswordHasher, mask_hash
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>class OwnMD5PasswordHasher(BasePasswordHasher):
-</span><span class='line'>    """
-</span><span class='line'>    The Salted MD5 password hashing algorithm (not recommended)
-</span><span class='line'>    """
-</span><span class='line'>    algorithm = "ownmd5"
-</span><span class='line'>
-</span><span class='line'>    def encode(self, password, salt):
-</span><span class='line'>        assert password is not None
-</span><span class='line'>        assert salt and '$' not in salt
-</span><span class='line'>        hash = hashlib.md5(hashlib.md5(force_bytes(salt + password)).hexdigest()).hexdigest()
-</span><span class='line'>        return hash
-</span><span class='line'>
-</span><span class='line'>    def verify(self, password, encoded, salt):
-</span><span class='line'>        encoded_2 = self.encode(password, salt)
-</span><span class='line'>        return constant_time_compare(encoded, encoded_2)
-</span><span class='line'>
-</span><span class='line'>    def safe_summary(self, encoded, salt):
-</span><span class='line'>        return SortedDict([
-</span><span class='line'>            (_('algorithm'), self.algorithm),
-</span><span class='line'>            (_('salt'), mask_hash(salt, show=4)),
-</span><span class='line'>            (_('hash'), mask_hash(hash)),
-</span><span class='line'>        ])</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import hashlib
+</span><span class="line">from django.utils.translation import ugettext_noop as _
+</span><span class="line">from django.utils.datastructures import SortedDict
+</span><span class="line">from django.utils.crypto import constant_time_compare
+</span><span class="line">from django.utils.encoding import force_bytes, force_str, force_text
+</span><span class="line">from django.contrib.auth.hashers import BasePasswordHasher, mask_hash
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">class OwnMD5PasswordHasher(BasePasswordHasher):
+</span><span class="line">    """
+</span><span class="line">    The Salted MD5 password hashing algorithm (not recommended)
+</span><span class="line">    """
+</span><span class="line">    algorithm = "ownmd5"
+</span><span class="line">
+</span><span class="line">    def encode(self, password, salt):
+</span><span class="line">        assert password is not None
+</span><span class="line">        assert salt and '$' not in salt
+</span><span class="line">        hash = hashlib.md5(hashlib.md5(force_bytes(salt + password)).hexdigest()).hexdigest()
+</span><span class="line">        return hash
+</span><span class="line">
+</span><span class="line">    def verify(self, password, encoded, salt):
+</span><span class="line">        encoded_2 = self.encode(password, salt)
+</span><span class="line">        return constant_time_compare(encoded, encoded_2)
+</span><span class="line">
+</span><span class="line">    def safe_summary(self, encoded, salt):
+</span><span class="line">        return SortedDict([
+</span><span class="line">            (_('algorithm'), self.algorithm),
+</span><span class="line">            (_('salt'), mask_hash(salt, show=4)),
+</span><span class="line">            (_('hash'), mask_hash(hash)),
+</span><span class="line">        ])</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>###step3</p>
 
-
-<h3>step3</h3>
-
-<p>将 OwnMD5PasswordHasher 加入到settings.py 中:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>PASSWORD_HASHERS = (
-</span><span class='line'>    'ownmd5.hashers.OwnMD5PasswordHasher',
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样，默认的user及auth模块都会采用自定义的md5算法。</p>
+<p>将 OwnMD5PasswordHasher 加入到settings.py 中:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">PASSWORD_HASHERS = (
+</span><span class="line">    'ownmd5.hashers.OwnMD5PasswordHasher',
+</span><span class="line">)</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+这样，默认的user及auth模块都会采用自定义的md5算法。</p>
 
 <p>参考:</p>
 
-<p><a href="https://docs.djangoproject.com/en/1.6/topics/auth/passwords/">https://docs.djangoproject.com/en/1.6/topics/auth/passwords/</a></p>
+<p>https://docs.djangoproject.com/en/1.6/topics/auth/passwords/</p>
 </div>
   
   
@@ -762,13 +742,13 @@
 
   <div class="entry-content"><p><code>python manage.py shell</code></p>
 
-<p>太常用了，但是每次修改模块代码后，总要 exit—>reset 才能重新load一遍代码，实在是不爽。</p>
+<p>太常用了，但是每次修改模块代码后，总要 exit—&gt;reset 才能重新load一遍代码，实在是不爽。</p>
 
 <p>也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。</p>
 
 <p>最近发现一个扩展，django-externsions:</p>
 
-<p><a href="https://github.com/django-extensions/django-extensions">https://github.com/django-extensions/django-extensions</a></p>
+<p>https://github.com/django-extensions/django-extensions</p>
 
 <p>装上好用不少，貌似还比较靠谱，推荐之。</p>
 </div>
@@ -815,7 +795,7 @@
 
 <p>发现的一个插件做这个事,vis:</p>
 
-<p><a href="https://github.com/vim-scripts/vis">https://github.com/vim-scripts/vis</a></p>
+<p>https://github.com/vim-scripts/vis</p>
 
 <p>支持两个命令模式:B 和 S</p>
 
@@ -872,22 +852,21 @@
   </header>
 
 
-  <div class="entry-content"><h2>vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
+  <div class="entry-content"><h2 id="vim-">vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
 
 <p>1.查看历史指令并执行</p>
 
 <p>2.复制寄存器中的内容
 1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。</p>
 
-<p>2 使用寄存器，一般复制时使用&#8221; + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
+<p>2 使用寄存器，一般复制时使用” + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
 
-<h2>vim tooltips</h2>
+<h2 id="vim-tooltips">vim tooltips</h2>
 
-<h4>Display CRLF as ^M:</h4>
+<h4 id="display-crlf-as-m">Display CRLF as ^M:</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:e ++ff=unix</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:e ++ff=unix</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -912,7 +891,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

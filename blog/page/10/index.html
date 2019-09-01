@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -154,7 +170,9 @@
 
   <div class="entry-content"><p>比特币白皮书在工作量证明章节中解释了工作量证明（PoW）的方式：</p>
 
-<blockquote><p>我们在区块中补增一个随机数(Nonce)，这个随机数要使得该给定区块的随机散列值出现了所需的那么多个0。我们通过反复尝试来找到这个随机数，直到找到为止，这样我们就构建了一个工作量证明机制。只要该CPU耗费的工作量能够满足该工作量证明机制，那么除非重新完成相当的工作量，该区块的信息就不可更改。由于之后的区块是链接在该区块之后的，所以想要更改该区块中的信息，就还需要重新完成之后所有区块的全部工作量。</p></blockquote>
+<blockquote>
+  <p>我们在区块中补增一个随机数(Nonce)，这个随机数要使得该给定区块的随机散列值出现了所需的那么多个0。我们通过反复尝试来找到这个随机数，直到找到为止，这样我们就构建了一个工作量证明机制。只要该CPU耗费的工作量能够满足该工作量证明机制，那么除非重新完成相当的工作量，该区块的信息就不可更改。由于之后的区块是链接在该区块之后的，所以想要更改该区块中的信息，就还需要重新完成之后所有区块的全部工作量。</p>
+</blockquote>
 
 <p>那这个随机数难度值是怎么产生的呢？</p>
 
@@ -248,13 +266,13 @@
 
   <div class="entry-content"><p>2018-01-26,Coincheck 被盗 5 亿个 XEM, 这个数目估计是史上最大了，hacker 的账户地址是这里:</p>
 
-<p><a href="http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG">http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG</a></p>
+<p>http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG</p>
 
 <p>按照 coinmarketcap 的市场价来算，现在 5 亿个 XEM 价值大概 4 亿美元</p>
 
 <p>另外可能是 coincheck 自己的防护，他们的 Ripple 钱包也有一笔大额的转账:</p>
 
-<p><a href="https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8">https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8</a></p>
+<p>https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8</p>
 
 <p>有将近 1 亿个 xrp 转账到了一个地址，这个地址貌似有 30 亿个 xrp.</p>
 
@@ -264,11 +282,11 @@
 
 <p>2018-01-28, Coincheck公布了补偿措施</p>
 
-<p><a href="http://corporate.coincheck.com/2018/01/28/30.html">http://corporate.coincheck.com/2018/01/28/30.html</a></p>
+<p>http://corporate.coincheck.com/2018/01/28/30.html </p>
 
-<p>共损失 52300,0000 个 XEM，按照被偷时的币值返还，每个币 88 日元</p>
+<p>共损失 52300,0000 个 XEM，按照被偷时的币值返还，每个币 88 日元 </p>
 
-<p>额，貌似总额超过 25 亿人民币了</p>
+<p>额，貌似总额超过 25 亿人民币了 </p>
 
 <p>最奇怪的是，直到2018-02-01，市场才起了反应，开始下跌。</p>
 
@@ -311,25 +329,25 @@
   </header>
 
 
-  <div class="entry-content"><h2>比特币白皮书</h2>
+  <div class="entry-content"><h2 id="section">比特币白皮书</h2>
 
-<h4>中文版</h4>
+<h4 id="section-1">中文版</h4>
 
-<p><a href="http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system">http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system</a></p>
+<p>http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system</p>
 
-<h4>英文版</h4>
+<h4 id="section-2">英文版</h4>
 
-<p><a href="https://bitcoin.org/bitcoin.pdf">https://bitcoin.org/bitcoin.pdf</a></p>
+<p>https://bitcoin.org/bitcoin.pdf</p>
 
-<h2>以太坊白皮书</h2>
+<h2 id="section-3">以太坊白皮书</h2>
 
-<h4>中文版</h4>
+<h4 id="section-4">中文版</h4>
 
-<p><a href="http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6">http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6</a></p>
+<p>http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6</p>
 
-<h4>英文版</h4>
+<h4 id="section-5">英文版</h4>
 
-<p><a href="https://github.com/ethereum/wiki/wiki/White-Paper">https://github.com/ethereum/wiki/wiki/White-Paper</a></p>
+<p>https://github.com/ethereum/wiki/wiki/White-Paper</p>
 </div>
   
   
@@ -372,11 +390,11 @@
 
 <p>比 bitfinex 要幸运一点，这次发现的比较早，但是按照现在的币价大涨来算，损失也超过了 6000w USD，上次 bitfinex 11w 币不过折合 7000w USD 而已。</p>
 
-<p><a href="https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/">https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/</a></p>
+<p>https://www.reddit.com/r/NiceHash/comments/7i0s6o/official_press_release_statement_by_nicehash/</p>
 
 <p>这个是 hacker 的转入地址:</p>
 
-<p><a href="https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq">https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq</a></p>
+<p>https://btc.com/1EnJHhq8Jq8vDuZA5ahVh6H4t6jh1mB4rq</p>
 
 <p>最早的一笔交易发生在 2017-12-06 13:17:12(UTC+8)</p>
 </div>
@@ -417,13 +435,13 @@
   </header>
 
 
-  <div class="entry-content"><h2>关闭 FireWall</h2>
+  <div class="entry-content"><h2 id="firewall">关闭 FireWall</h2>
 
 <pre><code>systemctl stop firewalld.service #停止firewall
 systemctl disable firewalld.service #禁止firewall开机启动
 </code></pre>
 
-<h2>安装 iptables</h2>
+<h2 id="iptables">安装 iptables</h2>
 
 <pre><code>yum install iptables-services
 </code></pre>
@@ -472,39 +490,33 @@ systemctl disable firewalld.service #禁止firewall开机启动
 
   <div class="entry-content"><p>The quickest way to Penetrate GFW With ShadowSocks(Docker Container) On Centos7.</p>
 
-<h2>Install Docker CE</h2>
+<h2 id="install-docker-ce">Install Docker CE</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
-</span><span class='line'>$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
-</span><span class='line'>$ sudo yum install docker-ce</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
+</span><span class="line">$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+</span><span class="line">$ sudo yum install docker-ce</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="start--docker">start  docker</h2>
 
-<h2>start  docker</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl start docker</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo systemctl start docker</span></code></pre></td></tr></table></div></figure>
+<h2 id="pull-shadowsocks-container">pull shadowsocks container</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker pull oddrationale/docker-shadowsocks</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h2>pull shadowsocks container</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo docker pull oddrationale/docker-shadowsocks</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>start shadowsocks service</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb</span></code></pre></td></tr></table></div></figure>
-
+<h2 id="start-shadowsocks-service">start shadowsocks service</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>You can configure the service to run on a port of your choice. Just make sure the port number given to Docker is the same as the one given to shadowsocks. Also, it is highly recommended that you store the shadowsocks password in an environment variable as shown above. This way the password will not show in plain text when you run docker ps.</p>
 
 <p>For more command line options, refer to the <a href="https://github.com/shadowsocks/shadowsocks/tree/master">shadowsocks documentation</a></p>
 
-<h2>windows Client</h2>
+<h2 id="windows-client">windows Client</h2>
 
 <p>Client is the machine you want to bypass the GFW.</p>
 
@@ -512,7 +524,7 @@ systemctl disable firewalld.service #禁止firewall开机启动
 
 <p>You can check its “System Proxy” option, which is convenient for all browsers and terminal.</p>
 
-<h2>now enjoy it</h2>
+<h2 id="now-enjoy-it">now enjoy it</h2>
 </div>
   
   
@@ -553,16 +565,25 @@ systemctl disable firewalld.service #禁止firewall开机启动
 
   <div class="entry-content"><p>看网易公开课的博弈论，很有意思，记下笔记:</p>
 
-<h2>导论-五个入门结论</h2>
+<h2 id="section">导论-五个入门结论</h2>
 
 <ol>
-<li><p>don’t play a strictly dominated strategy</p></li>
-<li><p>rational choice in case lead to outcomes suck</p></li>
-<li><p>you can’t get what you want ,till you know what you want</p></li>
-<li><p>put yourself in others’ shoes and try to figure out what they will do</p></li>
-<li><p>most people are evil</p></li>
+  <li>
+    <p>don’t play a strictly dominated strategy</p>
+  </li>
+  <li>
+    <p>rational choice in case lead to outcomes suck</p>
+  </li>
+  <li>
+    <p>you can’t get what you want ,till you know what you want</p>
+  </li>
+  <li>
+    <p>put yourself in others’ shoes and try to figure out what they will do</p>
+  </li>
+  <li>
+    <p>most people are evil</p>
+  </li>
 </ol>
-
 </div>
   
   
@@ -603,18 +624,18 @@ systemctl disable firewalld.service #禁止firewall开机启动
 
   <div class="entry-content"><p>年老记忆力下降，做了N+1遍了，还是忘。</p>
 
-<h2>卸载干净</h2>
+<h2 id="section">卸载干净</h2>
 
 <pre><code>apt-get purge samba
 rm -rf /etc/samba /etc/default/samba
 </code></pre>
 
-<h2>重装</h2>
+<h2 id="section-1">重装</h2>
 
 <pre><code>apt-get install samba
 </code></pre>
 
-<h2>配置</h2>
+<h2 id="section-2">配置</h2>
 
 <pre><code>vim /etc/samba/smb.conf
 
@@ -630,7 +651,7 @@ create mask = 0644
 directory mask = 2777
 </code></pre>
 
-<h2>重启</h2>
+<h2 id="section-3">重启</h2>
 
 <pre><code>systemctl restart smbd
 </code></pre>
@@ -658,7 +679,7 @@ directory mask = 2777
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

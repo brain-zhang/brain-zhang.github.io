@@ -45,6 +45,22 @@ from peewee import SqliteDatabase &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -122,86 +138,80 @@ from peewee import SqliteDatabase &hellip;">
 
 <p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
 
-<h2>定义Model</h2>
+<h2 id="model">定义Model</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from peewee import SqliteDatabase, Model, CharField
-</span><span class='line'>
-</span><span class='line'>db = SqliteDatabase('testdb.sqlite3')
-</span><span class='line'>
-</span><span class='line'>class User(Model):
-</span><span class='line'>    username = CharField(index=True)
-</span><span class='line'>    password = CharField()
-</span><span class='line'>    email = CharField(index=True)
-</span><span class='line'>    birthday = DateField()
-</span><span class='line'>    is_relative = BooleanField()
-</span><span class='line'>
-</span><span class='line'>    class Meta:
-</span><span class='line'>        database = db
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from peewee import SqliteDatabase, Model, CharField
+</span><span class="line">
+</span><span class="line">db = SqliteDatabase('testdb.sqlite3')
+</span><span class="line">
+</span><span class="line">class User(Model):
+</span><span class="line">    username = CharField(index=True)
+</span><span class="line">    password = CharField()
+</span><span class="line">    email = CharField(index=True)
+</span><span class="line">    birthday = DateField()
+</span><span class="line">    is_relative = BooleanField()
+</span><span class="line">
+</span><span class="line">    class Meta:
+</span><span class="line">        database = db
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="section">创建</h2>
 
-<h2>创建</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.connect()
+</span><span class="line">&gt;&gt;&gt; db.create_tables([User])</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; db.connect()
-</span><span class='line'>&gt;&gt;&gt; db.create_tables([User])</span></code></pre></td></tr></table></div></figure>
+<h2 id="section-1">保存</h2>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; user_record = User(name='Bob', password="", email="hello@world.com", birthday=date(1960, 1, 15), is_relative=True)
+</span><span class="line">&gt;&gt;&gt; user_record.save()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2>保存</h2>
+<h2 id="section-2">批量插入</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; user_record = User(name='Bob', password="", email="hello@world.com", birthday=date(1960, 1, 15), is_relative=True)
-</span><span class='line'>&gt;&gt;&gt; user_record.save()
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
+</span><span class="line">user_records.append(
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">)
+</span><span class="line">User.insert_many(user_records, fields=fields).execute()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="section-3">查询</h2>
 
-<h2>批量插入</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">for user in User.select().where(User.username.contains(username)):
+</span><span class="line">    print(user.username ....)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
-</span><span class='line'>user_records.append(
-</span><span class='line'>    (username, password, email, birthday, True),
-</span><span class='line'>    (username, password, email, birthday, True),
-</span><span class='line'>    (username, password, email, birthday, True),
-</span><span class='line'>)
-</span><span class='line'>User.insert_many(user_records, fields=fields).execute()
-</span></code></pre></td></tr></table></div></figure>
+<h2 id="section-4">关闭</h2>
 
-
-<h2>查询</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for user in User.select().where(User.username.contains(username)):
-</span><span class='line'>    print(user.username ....)</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>关闭</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; db.close()</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.close()</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -296,7 +306,7 @@ from peewee import SqliteDatabase &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

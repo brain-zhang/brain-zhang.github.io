@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作: 1.查看历史指令并执行 2.复制寄存器中的内容
-1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。 2 使用寄存器，一般复制时使用&#8221; + [寄存器名称] + y，进入命令行后再输入ctrl R， &hellip;">
+1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。 2 使用寄存器，一般复制时使用” + [寄存器名称] + y，进入命令行后再输入ctrl R， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -33,6 +33,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -106,22 +122,21 @@
   </header>
 
 
-<div class="entry-content"><h2>vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
+<div class="entry-content"><h2 id="vim-">vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
 
 <p>1.查看历史指令并执行</p>
 
 <p>2.复制寄存器中的内容
 1 查看历史指令需要在进入命令行之前使用q:,再选则就OK了。</p>
 
-<p>2 使用寄存器，一般复制时使用&#8221; + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
+<p>2 使用寄存器，一般复制时使用” + [寄存器名称] + y，进入命令行后再输入ctrl R，选择相应的寄存器粘贴就OK了。</p>
 
-<h2>vim tooltips</h2>
+<h2 id="vim-tooltips">vim tooltips</h2>
 
-<h4>Display CRLF as ^M:</h4>
+<h4 id="display-crlf-as-m">Display CRLF as ^M:</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:e ++ff=unix</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:e ++ff=unix</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -216,7 +231,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

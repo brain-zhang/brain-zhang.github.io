@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -111,20 +127,26 @@
 
 <!-- more -->
 
-
 <p>央行在2014年推出的PSL（抵押补充贷款）创新性政策工具，部分解决了棚改货币化安置的资金问题。央行通过PSL向国开行发放贷款，国开行通过棚改专项贷款向地方政府发放贷款，地方政府通过货币化安置向棚户区居民发放补偿款，地方政府拆迁卖地后偿还国开行贷款，国开行偿还央行贷款，形成资金流的闭环。</p>
 
 <p>我查了一下资料，问题来了:</p>
 
 <ul>
-<li><p>开行是把什么抵押给央行了？是只能抵押棚改专项贷款，还是国债、开行债、扶贫贷款、小微企业贷款之类的都可以?</p></li>
-<li><p>PSL利率怎么设定？央行指定还是市场化？</p></li>
-<li><p>如何监控PSL的投向，并防止利差套利。</p></li>
-<li><p>开行用什么方式来偿还PSL贷款？</p></li>
+  <li>
+    <p>开行是把什么抵押给央行了？是只能抵押棚改专项贷款，还是国债、开行债、扶贫贷款、小微企业贷款之类的都可以?</p>
+  </li>
+  <li>
+    <p>PSL利率怎么设定？央行指定还是市场化？</p>
+  </li>
+  <li>
+    <p>如何监控PSL的投向，并防止利差套利。</p>
+  </li>
+  <li>
+    <p>开行用什么方式来偿还PSL贷款？</p>
+  </li>
 </ul>
 
-
-<h2>最重要的是，这是不是放水？</h2>
+<h2 id="section">最重要的是，这是不是放水？</h2>
 
 <p>又学习了一下基本金融知识，发现一个比较权威的解释:</p>
 
@@ -133,12 +155,15 @@
 <p>然后我又脑补为通俗版:</p>
 
 <ul>
-<li><p>央行采用外汇占款发行人民币的老路子越来越难了，美国加息，外汇流出压力大啊。</p></li>
-<li><p>现在我要以国内资产来定价发行货币了</p></li>
+  <li>
+    <p>央行采用外汇占款发行人民币的老路子越来越难了，美国加息，外汇流出压力大啊。</p>
+  </li>
+  <li>
+    <p>现在我要以国内资产来定价发行货币了</p>
+  </li>
 </ul>
 
-
-<h4>好吧，看起来这不是放水，顶多可以称之为定向宽松。那么是不是就不用紧张通胀了呢？</h4>
+<h4 id="section-1">好吧，看起来这不是放水，顶多可以称之为定向宽松。那么是不是就不用紧张通胀了呢？</h4>
 
 <p>完全不是！</p>
 
@@ -151,6 +176,7 @@
 <p>这下好了，其实是央行和地方政府联手对敲，把地价炒高了，还多出来一种发行货币的手段，顺便把高杠杆风险转给平头百姓，一箭三雕啊。</p>
 
 <p>兴，百姓苦；亡，百姓苦</p>
+
 </div>
 
 
@@ -245,7 +271,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -116,56 +132,59 @@
 <p>另外要注意的是，Referer是由浏览器自动为我们加上的，以下情况是不带Referer的</p>
 
 <ul>
-<li><p>直接输入网址或通过浏览器书签访问</p></li>
-<li><p>使用JavaScript的Location.href或者是Location.replace()</p></li>
-<li><p>HTTPS等加密协议</p></li>
+  <li>
+    <p>直接输入网址或通过浏览器书签访问</p>
+  </li>
+  <li>
+    <p>使用JavaScript的Location.href或者是Location.replace()</p>
+  </li>
+  <li>
+    <p>HTTPS等加密协议</p>
+  </li>
 </ul>
-
 
 <p>很多网站挟持脚本一般是注入https链接来隐藏referer，这样固然好用，但是一定要一个域名，有点不方便。前人实践发现只要在iframe里面的src属性填上 <code>javascript: &lt;html&gt;....</code>的内容就可以隐藏referer了。一试果然如此。</p>
 
 <p>比如大家常见的微信公众号文章，如果引用过来，一般就是防盗链了，这个时候可以用下面的通用代码解决：</p>
 
 <ul>
-<li>需要引用jquery和 <a href="https://github.com/jpgerek/referrer-killer">ReferrerKiller.js</a> 这两个库:</li>
+  <li>需要引用jquery和 <a href="https://github.com/jpgerek/referrer-killer">ReferrerKiller.js</a> 这两个库:</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>   jQuery(function() {
-</span><span class='line'>       //遍历所有的img元素，凡是QQ和微信引用的统统放到iframe里面
-</span><span class='line'>       jQuery("div").find("img").each(function() {
-</span><span class='line'>           var img = jQuery(this);
-</span><span class='line'>           var img_src = img.attr("src");
-</span><span class='line'>           if (img_src != undefined && img_src != '') {
-</span><span class='line'>               img_src = decodeURI(img_src);
-</span><span class='line'>               img_src = img_src.split("?")[0];
-</span><span class='line'>               if (img_src.indexOf("qpic.cn") &gt; 0 || img_src.indexOf("qlogo.cn") &gt; 0 || img_src.indexOf("qq.com") &gt; 0) {
-</span><span class='line'>                   var frameid = 'frameimg' + Math.random();
-</span><span class='line'>                   img.parent().append('&lt;span id="' + frameid + '"&gt;&lt;/span&gt;')
-</span><span class='line'>                   img.remove();
-</span><span class='line'>                   document.getElementById(frameid).innerHTML = ReferrerKiller.imageHtml(img_src);
-</span><span class='line'>               }
-</span><span class='line'>           }
-</span><span class='line'>       })
-</span><span class='line'>   })</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   jQuery(function() {
+</span><span class="line">       //遍历所有的img元素，凡是QQ和微信引用的统统放到iframe里面
+</span><span class="line">       jQuery("div").find("img").each(function() {
+</span><span class="line">           var img = jQuery(this);
+</span><span class="line">           var img_src = img.attr("src");
+</span><span class="line">           if (img_src != undefined &amp;&amp; img_src != '') {
+</span><span class="line">               img_src = decodeURI(img_src);
+</span><span class="line">               img_src = img_src.split("?")[0];
+</span><span class="line">               if (img_src.indexOf("qpic.cn") &gt; 0 || img_src.indexOf("qlogo.cn") &gt; 0 || img_src.indexOf("qq.com") &gt; 0) {
+</span><span class="line">                   var frameid = 'frameimg' + Math.random();
+</span><span class="line">                   img.parent().append('&lt;span id="' + frameid + '"&gt;&lt;/span&gt;')
+</span><span class="line">                   img.remove();
+</span><span class="line">                   document.getElementById(frameid).innerHTML = ReferrerKiller.imageHtml(img_src);
+</span><span class="line">               }
+</span><span class="line">           }
+</span><span class="line">       })
+</span><span class="line">   })</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样看出来的效果就是原来引用微信的图片:</p>
 
@@ -175,6 +194,7 @@
 <p>就会被替换到iframe里面，同时iframe的src属性包括了完整的html内容，这样浏览器请求图片的时候，就不会带referrer了，微信的盗链就被绕过。</p>
 
 <p>不知道微信啥时候堵上这个洞呢？</p>
+
 </div>
 
 
@@ -269,7 +289,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

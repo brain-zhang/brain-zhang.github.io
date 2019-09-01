@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,123 +121,108 @@
   </header>
 
 
-<div class="entry-content"><h4>requests库发送post请求的五种姿势;</h4>
+<div class="entry-content"><h4 id="requestspost">requests库发送post请求的五种姿势;</h4>
 
 <!-- more -->
 
-
-<h4>1.application/x-www-form-urlencoded</h4>
+<h4 id="applicationx-www-form-urlencoded">1.application/x-www-form-urlencoded</h4>
 
 <p>最常见的 POST 提交数据的方式了。浏览器的原生 form 表单，如果不设置 enctype属性，那么最终就会以 application/x-www-form-urlencoded方式提交数据。请求类似于下面这样:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>POST http://www.example.com HTTP/1.1    Content-Type:
-</span><span class='line'>application/x-www-form-urlencoded;charset=utf-8
-</span><span class='line'>title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">POST http://www.example.com HTTP/1.1    Content-Type:
+</span><span class="line">application/x-www-form-urlencoded;charset=utf-8
+</span><span class="line">title=test&amp;sub%5B%5D=1&amp;sub%5B%5D=2&amp;sub%5B%5D=3</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>requests默认处理就是这种方式， exp:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>url = 'http://httpbin.org/post'
-</span><span class='line'>d = {'key1': 'value1', 'key2': 'value2'}
-</span><span class='line'>r = requests.post(url, data=d)
-</span><span class='line'>print r.text</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">url = 'http://httpbin.org/post'
+</span><span class="line">d = {'key1': 'value1', 'key2': 'value2'}
+</span><span class="line">r = requests.post(url, data=d)
+</span><span class="line">print r.text</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h4>2.multipart/form-data</h4>
+<h4 id="multipartform-data">2.multipart/form-data</h4>
 
 <p>除了传统的application/x-www-form-urlencoded表单，我们另一个经常用到的是上传文件用的表单，这种表单的类型为multipart/form-data。
 这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 form 的 enctyped 等于这个值:</p>
 
-<p>requests exp:</p>
+<p>requests exp:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">from requests_toolbelt import MultipartEncoder
+</span><span class="line">import requests
+</span><span class="line">
+</span><span class="line">m = MultipartEncoder(
+</span><span class="line">    fields={'field0': 'value', 'field1': 'value',
+</span><span class="line">            'field2': ('filename', open('file.py', 'rb'), 'text/plain')}
+</span><span class="line">    )
+</span><span class="line">
+</span><span class="line">r = requests.post('http://httpbin.org/post', data=m,
+</span><span class="line">                  headers={'Content-Type': m.content_type})</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from requests_toolbelt import MultipartEncoder
-</span><span class='line'>import requests
-</span><span class='line'>
-</span><span class='line'>m = MultipartEncoder(
-</span><span class='line'>    fields={'field0': 'value', 'field1': 'value',
-</span><span class='line'>            'field2': ('filename', open('file.py', 'rb'), 'text/plain')}
-</span><span class='line'>    )
-</span><span class='line'>
-</span><span class='line'>r = requests.post('http://httpbin.org/post', data=m,
-</span><span class='line'>                  headers={'Content-Type': m.content_type})</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>3.application/json</h4>
+<h4 id="applicationjson">3.application/json</h4>
 
 <p>application/json 这个 Content-Type作为响应头大家肯定不陌生。实际上，现在越来越多的人把它作为请求头，用来告诉服务端消息主体是序列化后的 JSON 字符串。</p>
 
-<p>requests exp:</p>
+<p>requests exp:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">url = 'http://httpbin.org/post'
+</span><span class="line">s = json.dumps({'key1': 'value1', 'key2': 'value2'})
+</span><span class="line">r = requests.post(url, data=s)
+</span><span class="line">print r.text</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>url = 'http://httpbin.org/post'
-</span><span class='line'>s = json.dumps({'key1': 'value1', 'key2': 'value2'})
-</span><span class='line'>r = requests.post(url, data=s)
-</span><span class='line'>print r.text</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>requests.post(url='',data=json.dumps({'key1':'value1','key2':'value2'}),headers={'Content-Type':'application/json'})</span></code></pre></td></tr></table></div></figure>
-
+<p>or
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">requests.post(url='',data=json.dumps({'key1':'value1','key2':'value2'}),headers={'Content-Type':'application/json'})</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
 <p>or</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>requests.post(url='',json=key1,headers={'Content-Type':'application/json'})</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">requests.post(url='',json=key1,headers={'Content-Type':'application/json'})</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h4>4. text/xml</h4>
-
+<h4 id="textxml">4. text/xml</h4>
 <p>跟json类似，XML 作为编码方式的远程调用规范。</p>
 
-<p>requests exp:</p>
+<p>requests exp:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">requests.post(url='',data='&lt;?xml  ?&gt;',headers={'Content-Type':'text/xml'})</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>requests.post(url='',data='&lt;?xml  ?&gt;',headers={'Content-Type':'text/xml'})</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>5. binary</h4>
+<h4 id="binary">5. binary</h4>
 
 <p>直接二进制流数据传输，多用于上传图片</p>
 
 <p>requests exp:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>requests.post(url='',files={'file':open('test.xls','rb')},headers={'Content-Type':'binary'})</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">requests.post(url='',files={'file':open('test.xls','rb')},headers={'Content-Type':'binary'})</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>or</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>url = 'http://httpbin.org/post'
-</span><span class='line'>files = {'file': open('report.txt', 'rb')}
-</span><span class='line'>r = requests.post(url, files=files)
-</span><span class='line'>print r.text</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">url = 'http://httpbin.org/post'
+</span><span class="line">files = {'file': open('report.txt', 'rb')}
+</span><span class="line">r = requests.post(url, files=files)
+</span><span class="line">print r.text</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -316,7 +317,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

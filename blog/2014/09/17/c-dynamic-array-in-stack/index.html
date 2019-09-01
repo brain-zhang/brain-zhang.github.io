@@ -16,7 +16,8 @@
 5
 int main()
 { int x = 12; char pz[x];
-} C99是支持的。在gcc4+以上的版本里测试OK。 另外stackoverflow上提到C++ &hellip;">
+}
+C99是支持的。在gcc4+以上的版本里测试OK。 另外stackoverflow上提到C++ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -39,6 +40,22 @@ int main()
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -114,18 +131,16 @@ int main()
 
 <div class="entry-content"><p>以前一直认为C99 只支持const int 定义数组，今天才学到C99里面是支持动态数组的。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
-</span><span class='line'>{
-</span><span class='line'>    int x = 12;
-</span><span class='line'>    char pz[x];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">int main()
+</span><span class="line">{
+</span><span class="line">    int x = 12;
+</span><span class="line">    char pz[x];
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>C99是支持的。在gcc4+以上的版本里测试OK。</p>
 
 <p>另外stackoverflow上提到C++不支持动态数组，在g++4.4.7里面试了一下，也是可以的。</p>
@@ -135,7 +150,7 @@ int main()
 <p>Out好多好多年了…….</p>
 
 <p>参考:
-<a href="http://stackoverflow.com/questions/1204521/dynamic-array-in-stack">http://stackoverflow.com/questions/1204521/dynamic-array-in-stack</a> <a href="http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed">http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</a></p>
+http://stackoverflow.com/questions/1204521/dynamic-array-in-stack http://stackoverflow.com/questions/737240/c-c-array-size-at-run-time-w-o-dynamic-allocation-is-allowed</p>
 </div>
 
 
@@ -230,7 +245,7 @@ int main()
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,25 +121,25 @@
   </header>
 
 
-<div class="entry-content"><h2>比特币白皮书</h2>
+<div class="entry-content"><h2 id="section">比特币白皮书</h2>
 
-<h4>中文版</h4>
+<h4 id="section-1">中文版</h4>
 
-<p><a href="http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system">http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system</a></p>
+<p>http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system</p>
 
-<h4>英文版</h4>
+<h4 id="section-2">英文版</h4>
 
-<p><a href="https://bitcoin.org/bitcoin.pdf">https://bitcoin.org/bitcoin.pdf</a></p>
+<p>https://bitcoin.org/bitcoin.pdf</p>
 
-<h2>以太坊白皮书</h2>
+<h2 id="section-3">以太坊白皮书</h2>
 
-<h4>中文版</h4>
+<h4 id="section-4">中文版</h4>
 
-<p><a href="http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6">http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6</a></p>
+<p>http://ethfans.org/wikis/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6</p>
 
-<h4>英文版</h4>
+<h4 id="section-5">英文版</h4>
 
-<p><a href="https://github.com/ethereum/wiki/wiki/White-Paper">https://github.com/ethereum/wiki/wiki/White-Paper</a></p>
+<p>https://github.com/ethereum/wiki/wiki/White-Paper</p>
 </div>
 
 
@@ -218,7 +234,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -45,6 +45,22 @@ def get_html(url): headers = { 'User-Agent': 'Mozilla/5.0 ( &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -122,260 +138,255 @@ def get_html(url): headers = { 'User-Agent': 'Mozilla/5.0 ( &hellip;">
 
 <!-- more -->
 
+<h2 id="requests">requests</h2>
 
-<h2>requests</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def get_html(url):
+</span><span class="line">    headers = {
+</span><span class="line">        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
+</span><span class="line">        'Accept': 'application/json, text/plain, */*',
+</span><span class="line">        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+</span><span class="line">        'Accept-Encoding': 'gzip, deflate, br',
+</span><span class="line">        'Content-Type': 'application/x-www-form-urlencoded',
+</span><span class="line">    }
+</span><span class="line">    resp = requests.get(url, headers=headers)
+</span><span class="line">    if resp.status_code == 200:
+</span><span class="line">        return resp.content
+</span><span class="line">    else:
+</span><span class="line">        raise ValueError("Not valid response:{}".format(resp.content))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def get_html(url):
-</span><span class='line'>    headers = {
-</span><span class='line'>        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
-</span><span class='line'>        'Accept': 'application/json, text/plain, */*',
-</span><span class='line'>        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-</span><span class='line'>        'Accept-Encoding': 'gzip, deflate, br',
-</span><span class='line'>        'Content-Type': 'application/x-www-form-urlencoded',
-</span><span class='line'>    }
-</span><span class='line'>    resp = requests.get(url, headers=headers)
-</span><span class='line'>    if resp.status_code == 200:
-</span><span class='line'>        return resp.content
-</span><span class='line'>    else:
-</span><span class='line'>        raise ValueError("Not valid response:{}".format(resp.content))
-</span></code></pre></td></tr></table></div></figure>
+<h2 id="beautifulsoup">beautifulsoup</h2>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from bs4 import BeautifulSoup
+</span><span class="line">def get_username(html):
+</span><span class="line">    soup = BeautifulSoup(html, 'lxml')
+</span><span class="line">    user_div = soup.find(id='uhd')
+</span><span class="line">    username = user_div.find('h2', class_='mt').get_text().strip()
+</span><span class="line">    return username</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2>beautifulsoup</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from bs4 import BeautifulSoup
-</span><span class='line'>def get_username(html):
-</span><span class='line'>    soup = BeautifulSoup(html, 'lxml')
-</span><span class='line'>    user_div = soup.find(id='uhd')
-</span><span class='line'>    username = user_div.find('h2', class_='mt').get_text().strip()
-</span><span class='line'>    return username</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>phantomjs</h2>
+<h2 id="phantomjs">phantomjs</h2>
 
 <p>用法非常简单，但是每次都得去查文档，封装成一个傻瓜类比较实在</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class WebClient(object):
-</span><span class='line'>
-</span><span class='line'>    USER_AGENTS = [
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-</span><span class='line'>        "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-</span><span class='line'>        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SE 2.X MetaSr 1.0; SE 2.X MetaSr 1.0; .NET CLR 2.0.50727; SE 2.X MetaSr 1.0)",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-</span><span class='line'>        "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-</span><span class='line'>        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-</span><span class='line'>        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-</span><span class='line'>        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
-</span><span class='line'>    ]
-</span><span class='line'>
-</span><span class='line'>    def __init__(self, phantomjs_driver_path='/usr/local/bin/phantomjs'):
-</span><span class='line'>        # 引入配置对象DesiredCapabilities
-</span><span class='line'>        dcap = dict(DesiredCapabilities.PHANTOMJS)
-</span><span class='line'>
-</span><span class='line'>        # 从USER_AGENTS列表中随机选一个浏览器头，伪装浏览器
-</span><span class='line'>        dcap["phantomjs.page.settings.userAgent"] = (random.choice(self.USER_AGENTS))
-</span><span class='line'>
-</span><span class='line'>        # 不载入图片，爬页面速度会快很多
-</span><span class='line'>        dcap["phantomjs.page.settings.loadImages"] = False
-</span><span class='line'>
-</span><span class='line'>        # 设置代理
-</span><span class='line'>        # service_args = ['--proxy=127.0.0.1:1080', '--proxy-type=http']
-</span><span class='line'>
-</span><span class='line'>        # 打开带配置信息的phantomJS浏览器
-</span><span class='line'>        self._driver = webdriver.PhantomJS(phantomjs_driver_path, desired_capabilities=dcap)
-</span><span class='line'>
-</span><span class='line'>        # 隐式等待5秒，可以自己调节
-</span><span class='line'>        self._driver.implicitly_wait(5)
-</span><span class='line'>
-</span><span class='line'>        # 设置10秒页面超时返回，类似于requests.get()的timeout选项，driver.get()没有timeout选项
-</span><span class='line'>        # 以前遇到过driver.get(url)一直不返回，但也不报错的问题，这时程序会卡住，设置超时选项能解决这个问题。
-</span><span class='line'>        self._driver.set_page_load_timeout(10)
-</span><span class='line'>        # 设置10秒脚本超时时间
-</span><span class='line'>        self._driver.set_script_timeout(10)
-</span><span class='line'>
-</span><span class='line'>    @property
-</span><span class='line'>    def driver(self):
-</span><span class='line'>        return self._driver
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">class WebClient(object):
+</span><span class="line">
+</span><span class="line">    USER_AGENTS = [
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
+</span><span class="line">        "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
+</span><span class="line">        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+</span><span class="line">        "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SE 2.X MetaSr 1.0; SE 2.X MetaSr 1.0; .NET CLR 2.0.50727; SE 2.X MetaSr 1.0)",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+</span><span class="line">        "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
+</span><span class="line">        "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
+</span><span class="line">        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
+</span><span class="line">        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
+</span><span class="line">        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
+</span><span class="line">    ]
+</span><span class="line">
+</span><span class="line">    def __init__(self, phantomjs_driver_path='/usr/local/bin/phantomjs'):
+</span><span class="line">        # 引入配置对象DesiredCapabilities
+</span><span class="line">        dcap = dict(DesiredCapabilities.PHANTOMJS)
+</span><span class="line">
+</span><span class="line">        # 从USER_AGENTS列表中随机选一个浏览器头，伪装浏览器
+</span><span class="line">        dcap["phantomjs.page.settings.userAgent"] = (random.choice(self.USER_AGENTS))
+</span><span class="line">
+</span><span class="line">        # 不载入图片，爬页面速度会快很多
+</span><span class="line">        dcap["phantomjs.page.settings.loadImages"] = False
+</span><span class="line">
+</span><span class="line">        # 设置代理
+</span><span class="line">        # service_args = ['--proxy=127.0.0.1:1080', '--proxy-type=http']
+</span><span class="line">
+</span><span class="line">        # 打开带配置信息的phantomJS浏览器
+</span><span class="line">        self._driver = webdriver.PhantomJS(phantomjs_driver_path, desired_capabilities=dcap)
+</span><span class="line">
+</span><span class="line">        # 隐式等待5秒，可以自己调节
+</span><span class="line">        self._driver.implicitly_wait(5)
+</span><span class="line">
+</span><span class="line">        # 设置10秒页面超时返回，类似于requests.get()的timeout选项，driver.get()没有timeout选项
+</span><span class="line">        # 以前遇到过driver.get(url)一直不返回，但也不报错的问题，这时程序会卡住，设置超时选项能解决这个问题。
+</span><span class="line">        self._driver.set_page_load_timeout(10)
+</span><span class="line">        # 设置10秒脚本超时时间
+</span><span class="line">        self._driver.set_script_timeout(10)
+</span><span class="line">
+</span><span class="line">    @property
+</span><span class="line">    def driver(self):
+</span><span class="line">        return self._driver
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>用起来也很简单，拿登陆163邮箱做例子:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def login_163(email, password):
-</span><span class='line'>    login_url = 'http://m65.mm.mail.163.com/'
-</span><span class='line'>    driver = WebClient().driver
-</span><span class='line'>    driver.get(login_url)
-</span><span class='line'>    driver.implicitly_wait(10)
-</span><span class='line'>
-</span><span class='line'>    try:
-</span><span class='line'>        driver.execute_script('document.querySelector(".m-footer").querySelector("a").click();')
-</span><span class='line'>        driver.execute_script('document.getElementById("entryMail").click();')
-</span><span class='line'>    except Exception as _:
-</span><span class='line'>        pass
-</span><span class='line'>
-</span><span class='line'>    time.sleep(3)
-</span><span class='line'>    driver.find_element_by_xpath('//input[@name="username"]').send_keys(email.split('@')[0])
-</span><span class='line'>    driver.find_element_by_xpath('//input[@name="password"]').send_keys(password)
-</span><span class='line'>    mail_select = Select(driver.find_element_by_xpath('//select[@name="domain"]'))
-</span><span class='line'>    mail_select.select_by_value(email.split('@')[-1])
-</span><span class='line'>    # driver.save_screenshot(email + '.png')
-</span><span class='line'>
-</span><span class='line'>    # submit
-</span><span class='line'>    driver.find_element_by_id('submit').submit()
-</span><span class='line'>    driver.implicitly_wait(10)
-</span><span class='line'>    time.sleep(5)
-</span><span class='line'>    # driver.save_screenshot(email + '.login.png')
-</span><span class='line'>
-</span><span class='line'>    login_info = driver.find_element_by_xpath('//div[@class="fgreet"]/strong').text
-</span><span class='line'>    driver.quit()
-</span><span class='line'>
-</span><span class='line'>    return login_info.strip() == email</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def login_163(email, password):
+</span><span class="line">    login_url = 'http://m65.mm.mail.163.com/'
+</span><span class="line">    driver = WebClient().driver
+</span><span class="line">    driver.get(login_url)
+</span><span class="line">    driver.implicitly_wait(10)
+</span><span class="line">
+</span><span class="line">    try:
+</span><span class="line">        driver.execute_script('document.querySelector(".m-footer").querySelector("a").click();')
+</span><span class="line">        driver.execute_script('document.getElementById("entryMail").click();')
+</span><span class="line">    except Exception as _:
+</span><span class="line">        pass
+</span><span class="line">
+</span><span class="line">    time.sleep(3)
+</span><span class="line">    driver.find_element_by_xpath('//input[@name="username"]').send_keys(email.split('@')[0])
+</span><span class="line">    driver.find_element_by_xpath('//input[@name="password"]').send_keys(password)
+</span><span class="line">    mail_select = Select(driver.find_element_by_xpath('//select[@name="domain"]'))
+</span><span class="line">    mail_select.select_by_value(email.split('@')[-1])
+</span><span class="line">    # driver.save_screenshot(email + '.png')
+</span><span class="line">
+</span><span class="line">    # submit
+</span><span class="line">    driver.find_element_by_id('submit').submit()
+</span><span class="line">    driver.implicitly_wait(10)
+</span><span class="line">    time.sleep(5)
+</span><span class="line">    # driver.save_screenshot(email + '.login.png')
+</span><span class="line">
+</span><span class="line">    login_info = driver.find_element_by_xpath('//div[@class="fgreet"]/strong').text
+</span><span class="line">    driver.quit()
+</span><span class="line">
+</span><span class="line">    return login_info.strip() == email</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -470,7 +481,7 @@ def get_html(url): headers = { 'User-Agent': 'Mozilla/5.0 ( &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

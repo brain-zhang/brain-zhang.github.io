@@ -39,6 +39,22 @@ git config --global https.proxy http://127.0.0.1:1080 git config --global https.
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -112,42 +128,39 @@ git config --global https.proxy http://127.0.0.1:1080 git config --global https.
   </header>
 
 
-<div class="entry-content"><h3>全局设置和取消:</h3>
+<div class="entry-content"><h3 id="section">全局设置和取消:</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global https.proxy http://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config --global https.proxy https://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config --global --unset http.proxy
-</span><span class='line'>
-</span><span class='line'>git config --global --unset https.proxy</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git config --global https.proxy http://127.0.0.1:1080
+</span><span class="line">
+</span><span class="line">git config --global https.proxy https://127.0.0.1:1080
+</span><span class="line">
+</span><span class="line">git config --global --unset http.proxy
+</span><span class="line">
+</span><span class="line">git config --global --unset https.proxy</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h3 id="local">local设置和取消:</h3>
 
-<h3>local设置和取消:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config  https.proxy http://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config  https.proxy https://127.0.0.1:1080
-</span><span class='line'>
-</span><span class='line'>git config  --unset http.proxy
-</span><span class='line'>
-</span><span class='line'>git config  --unset https.proxy</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git config  https.proxy http://127.0.0.1:1080
+</span><span class="line">
+</span><span class="line">git config  https.proxy https://127.0.0.1:1080
+</span><span class="line">
+</span><span class="line">git config  --unset http.proxy
+</span><span class="line">
+</span><span class="line">git config  --unset https.proxy</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
 
@@ -243,7 +256,7 @@ git config --global https.proxy http://127.0.0.1:1080 git config --global https.
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

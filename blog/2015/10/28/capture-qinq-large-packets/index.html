@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="最近遇到一个QinQ的问题，总结一下。 对QinQ协议的交换机做Span，tcpdump抓包后发现，有一些包大小为1522字节，这些包都被网卡丢掉了。仔细排查后发现，网卡对于>1518的包，统一丢掉处理了。 简单的解决办法，就是将网卡的mtu增大，设置为1508或者直接1600，就OK了。 &hellip;">
+  <meta name="description" content="最近遇到一个QinQ的问题，总结一下。 对QinQ协议的交换机做Span，tcpdump抓包后发现，有一些包大小为1522字节，这些包都被网卡丢掉了。仔细排查后发现，网卡对于&gt;1518的包，统一丢掉处理了。 简单的解决办法，就是将网卡的mtu增大，设置为1508或者直接1600，就OK了。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,15 +123,15 @@
 
 <div class="entry-content"><p>最近遇到一个QinQ的问题，总结一下。</p>
 
-<p>对QinQ协议的交换机做Span，tcpdump抓包后发现，有一些包大小为1522字节，这些包都被网卡丢掉了。仔细排查后发现，网卡对于>1518的包，统一丢掉处理了。</p>
+<p>对QinQ协议的交换机做Span，tcpdump抓包后发现，有一些包大小为1522字节，这些包都被网卡丢掉了。仔细排查后发现，网卡对于&gt;1518的包，统一丢掉处理了。</p>
 
 <p>简单的解决办法，就是将网卡的mtu增大，设置为1508或者直接1600，就OK了。</p>
 
 <p>事情虽小，但还是有不少知识点的，归纳一下:</p>
 
-<h1>QinQ</h1>
+<h1 id="qinq">QinQ</h1>
 
-<h2>简介</h2>
+<h2 id="section">简介</h2>
 
 <p>IEEE 802.1ad或称为QinQ、vlan stacking。是一种以802.1Q为基础衍生出来的通讯协定。</p>
 
@@ -123,15 +139,15 @@
 
 <p>可以参考这张图:</p>
 
-<p><a href="https://zh.wikipedia.org/wiki/IEEE_802.1ad#/media/File:TCPIP_802.1ad_DoubleTag.svg">https://zh.wikipedia.org/wiki/IEEE_802.1ad#/media/File:TCPIP_802.1ad_DoubleTag.svg</a></p>
+<p>https://zh.wikipedia.org/wiki/IEEE<em>802.1ad#/media/File:TCPIP</em>802.1ad_DoubleTag.svg</p>
 
-<p>QinQ的出现，扩充了原始的vlan个数，由4094 &ndash;> 4094*4094。</p>
+<p>QinQ的出现，扩充了原始的vlan个数，由4094 -&gt; 4094*4094。</p>
 
 <p>QinQ的作用，在大规模组网时，或者建立Paas云时，可以允许不同的租户设置相同的vlan id。</p>
 
 <p>并不是所有的交换机都支持QinQ的，QinQ只是一个草案，需要交换机厂商的支持。</p>
 
-<h2>下面从wiki上摘抄一个典型例子:</h2>
+<h2 id="wiki">下面从wiki上摘抄一个典型例子:</h2>
 
 <p>Acme及XYZ分别在Seattle及Tacoma有一间分公司，并借由SP的L2 VPN网络连线，而他们的子公司都使用相同的LAN。 换句话说，我们可以假设，Acme使用VLAN 100-200并透过SP连结两间子公司的网络；XYZ也使用VLAN 100-200并使用SP的网络连结子公司。</p>
 
@@ -141,8 +157,7 @@
 
 <p>当Acme送出资料时，SP使用QinQ并给予该资料一个独特的SPVID 1001，使其能通过SP的网络并流向另外一间子公司，当到达子公司则移除该SPVID，该资料便能依照原始的VLAN ID进行传送。而XYZ送出资料时，SP则使用SPVID 1002来区隔。</p>
 
-<h2>包长</h2>
-
+<h2 id="section-1">包长</h2>
 <p>QinQ比正常的报文多了4个字节，所以QinQ报文，在链路层，最大包长到了1522个字节。</p>
 
 <p>标准的Ethernet V2中，IP报文最大不超过1500字节，加上DA+SA+TYPE+DATA+PAD， 链路层的以太网帧最小为60字节，最大为1514字节，如果是802.1q，带有vlan tag，会有1518字节。</p>
@@ -159,15 +174,14 @@
 10191
 </code></pre>
 
-<p><a href="http://lxr.free-electrons.com/source/drivers/net/ethernet/broadcom/tg3.c#L88">http://lxr.free-electrons.com/source/drivers/net/ethernet/broadcom/tg3.c#L88</a></p>
+<p>http://lxr.free-electrons.com/source/drivers/net/ethernet/broadcom/tg3.c#L88</p>
 
 <p>所以只要把网卡的mtu改改大就可以了:</p>
 
 <pre><code>ifconfig ethx mtu 1600 up
 </code></pre>
 
-<h1>再说说以太网帧的大小</h1>
-
+<h1 id="section-2">再说说以太网帧的大小</h1>
 <p>根据rfc894的说明，以太网封装IP数据包的最大长度是1500字节，也就是说以太网最大帧长应该是以太网首部加上1500，再加上7字节的前导同步码和1字节的帧开始定界符，具体就是：7字节前导同步码 + 1字节帧开始定界符 + 6字节的目的MAC + 6字节的源MAC + 2字节的帧类型 + 1500 + 4字节的FCS。</p>
 
 <p>按照上述，最大帧应该是1526字节，但是实际上我们抓包得到的最大帧是1514字节，为什么不是1526字节呢？</p>
@@ -176,16 +190,14 @@
 
 <p>以太网规定，以太网帧数据域部分最小为46字节，也就是以太网帧最小是 6 + 6 + 2 + 46 + 4 = 64。除去4个字节的FCS，因此，抓包时就是60字节。当数据字段的长度小于46字节时，MAC子层就会在数据字段的后面填充以满足数据帧长不小于64 字节。由于填充数据是由MAC子层负责，也就是设备驱动程序。不同的抓包程序和设备驱动程序所处的优先层次可能不同，抓包程序的优先级可能比设备驱动程序更高，也就是说，我们的抓包程序可能在设备驱动程序还没有填充不到64字节帧的时候，已经捕获了数据。因此不同的抓包工具抓到的数据帧的大小可能不同。（比如，wireshark抓到的可能没有填充数据段，而sniffer抓到的就有填充数据段）</p>
 
-<h1>那么以太网帧格式一共有多少种呢</h1>
+<h1 id="section-3">那么以太网帧格式一共有多少种呢</h1>
 
 <p>历史上以太网帧格式有五种:</p>
 
-<h2>1 Ethernet V1</h2>
-
+<h2 id="ethernet-v1">1 Ethernet V1</h2>
 <p>这是最原始的一种格式，是由Xerox PARC提出的3Mbps CSMA/CD以太网标准的封装格式，后来在1980年由DEC，Intel和Xerox标准化形成Ethernet V1标准</p>
 
-<h2>2 Ethernet II即DIX 2.0</h2>
-
+<h2 id="ethernet-iidix-20">2 Ethernet II即DIX 2.0</h2>
 <p>Xerox与DEC、Intel在1982年制定的以太网标准帧格式。Cisco名称为：ARPA。</p>
 
 <p>这是最常见的一种以太网帧格式，也是今天以太网的事实标准，由DEC，Intel和Xerox在1982年公布其标准，主要更改了Ethernet V1的电气特性和物理接口，在帧格式上并无变化；</p>
@@ -194,13 +206,12 @@
 Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协议类型字段+数据。 常见协议类型如下：</p>
 
 <ul>
-<li>0800       IP</li>
-<li>0806       ARP</li>
-<li>0835       RARP</li>
-<li>8137       Novell IPX</li>
-<li>809b       Apple Talk</li>
+  <li>0800       IP</li>
+  <li>0806       ARP</li>
+  <li>0835       RARP</li>
+  <li>8137       Novell IPX</li>
+  <li>809b       Apple Talk</li>
 </ul>
-
 
 <p>如果协议类型字段取值为0000-05dc(十进制的0-1500)，则该帧就不是Ethernet V2(ARPA)类型了，而是下面讲到的三种802.3帧类型之一；Ethernet可以支持TCP/IP，Novell IPX/SPX，Apple Talk Phase I等协议；RFC 894定义了IP报文在Ethernet V2上的封装格式；</p>
 
@@ -217,16 +228,31 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <p>在每种格式的以太网帧的开始处都有64比特（8字节）的前导字符，如图所示。其中，前7个字节称为前同步码（Preamble），内容是16进制数0xAA，最后1字节为帧起始标志符0xAB，它标识着以太网帧的开始。前导字符的作用是使接收节点进行同步并做好接收数据帧的准备。</p>
 
 <ul>
-<li><p>PR：同步位，用于收发双方的时钟同步，同时也指明了传输的速率（10M和100M的时钟频率不一样，所以100M网卡可以兼容10M网卡），是56位的二进制数101010101010&hellip;..</p></li>
-<li><p>SD: 分隔位,表示下面跟着的是真正的数据,而不是同步时钟,为8位的10101011,跟同步位不同的是最后2位是11而不是10.</p></li>
-<li><p>DA:目的地址,以太网的地址为48位(6个字节)二进制地址,表明该帧传输给哪个网卡.如果为FFFFFFFFFFFF,则是广播地址,广播地址的数据可以被任何网卡接收到.</p></li>
-<li><p>SA:源地址,48位,表明该帧的数据是哪个网卡发的,即发送端的网卡地址,同样是6个字节.</p></li>
-<li><p>TYPE：类型字段，表明该帧的数据是什么类型的数据，不同的协议的类型字段不同。如：0800H 表示数据为IP包，0806H 表示数据为ARP包，814CH是SNMP包,8137H为IPX/SPX包，（小于0600H的值是用于IEEE802的，表示数据包的长度。）</p></li>
-<li><p>DATA：数据段 ，该段数据不能超过1500字节。因为以太网规定整个传输包的最大长度不能超过1514字节。（14字节为DA，SA，TYPE）</p></li>
-<li><p>PAD：填充位。由于以太网帧传输的数据包最小不能小于60字节, 除去（DA，SA，TYPE 14字节），还必须传输46字节的数据，当数据段的数据不足46字节时，后面补000000&hellip;..(当然也可以补其它值)</p></li>
-<li><p>FCS:32位数据校验位.为32位的CRC校验,该校验由网卡自动计算,自动生成,自动校验,自动在数据段后面填入.对于数据的校验算法,我们无需了解.</p></li>
+  <li>
+    <p>PR：同步位，用于收发双方的时钟同步，同时也指明了传输的速率（10M和100M的时钟频率不一样，所以100M网卡可以兼容10M网卡），是56位的二进制数101010101010…..</p>
+  </li>
+  <li>
+    <p>SD: 分隔位,表示下面跟着的是真正的数据,而不是同步时钟,为8位的10101011,跟同步位不同的是最后2位是11而不是10.</p>
+  </li>
+  <li>
+    <p>DA:目的地址,以太网的地址为48位(6个字节)二进制地址,表明该帧传输给哪个网卡.如果为FFFFFFFFFFFF,则是广播地址,广播地址的数据可以被任何网卡接收到.</p>
+  </li>
+  <li>
+    <p>SA:源地址,48位,表明该帧的数据是哪个网卡发的,即发送端的网卡地址,同样是6个字节.</p>
+  </li>
+  <li>
+    <p>TYPE：类型字段，表明该帧的数据是什么类型的数据，不同的协议的类型字段不同。如：0800H 表示数据为IP包，0806H 表示数据为ARP包，814CH是SNMP包,8137H为IPX/SPX包，（小于0600H的值是用于IEEE802的，表示数据包的长度。）</p>
+  </li>
+  <li>
+    <p>DATA：数据段 ，该段数据不能超过1500字节。因为以太网规定整个传输包的最大长度不能超过1514字节。（14字节为DA，SA，TYPE）</p>
+  </li>
+  <li>
+    <p>PAD：填充位。由于以太网帧传输的数据包最小不能小于60字节, 除去（DA，SA，TYPE 14字节），还必须传输46字节的数据，当数据段的数据不足46字节时，后面补000000…..(当然也可以补其它值)</p>
+  </li>
+  <li>
+    <p>FCS:32位数据校验位.为32位的CRC校验,该校验由网卡自动计算,自动生成,自动校验,自动在数据段后面填入.对于数据的校验算法,我们无需了解.</p>
+  </li>
 </ul>
-
 
 <p>事实上,PR,SD,PAD,FCS这几个数据段我们不用理它 ,它是由网卡自动产生的,我们要理的是DA,SA,TYPE,DATA四个段的内容.</p>
 
@@ -240,82 +266,97 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 
 <p>任何两个网卡的物理地址都是不一样的,是世界上唯一的,网卡地址由专门机构分配.不同厂家使用不同地址段,同一厂家的任何两个网卡的地址也是唯一的.根据网卡的地址段(网卡地址的前三个字节),可以知道网卡的生产厂家.有些网卡的地址也可以由用户去设定,但一般不需要.</p>
 
-<h2>3 Ethernet 802.3 raw帧格式</h2>
-
-<p>在Ethernet 802.3 raw类型以太网帧中，原来Ethernet II类型以太网帧中的类型字段被&#8221;总长度&#8221;字段所取代，它指明其后数据域的长度，其取值范围为：46-1500。</p>
+<h2 id="ethernet-8023-raw">3 Ethernet 802.3 raw帧格式</h2>
+<p>在Ethernet 802.3 raw类型以太网帧中，原来Ethernet II类型以太网帧中的类型字段被”总长度”字段所取代，它指明其后数据域的长度，其取值范围为：46-1500。</p>
 
 <p>接下来的2个字节是固定不变的16进制数0xFFFF，它标识此帧为Novell以太类型数据帧。</p>
 
 <p>这种格式的来源历史非常晦涩，这是1983年Novell发布其划时代的Netware/86网络套件时采用的私有以太网帧格式，该格式以当时尚未正式发布的802.3标准为基础；但是当两年以后IEEE正式发布802.3标准时情况发生了变化—IEEE在802.3帧头中又加入了802.2 LLC(Logical Link Control)头，这使得Novell的RAW 802.3格式跟正式的IEEE 802.3标准互不兼容；可以看到在Novell的RAW 802.3帧结构中并没有标志协议类型的字段，而只有Length 字段(2bytes,取值为0000-05dc，即十进制的0-1500)，因为RAW 802.3帧只支持IPX/SPX一种协议；</p>
 
-<h2>4 Ethernet 802.3 SAP帧格式</h2>
-
+<h2 id="ethernet-8023-sap">4 Ethernet 802.3 SAP帧格式</h2>
 <p>这种帧格式属于 IEEE 802.3/802.2 LLC 标准。</p>
 
-<p>在Ethernet 802.3 SAP帧中，将原Ethernet 802.3 raw帧中2个字节的0xFFFF变为各1个字节的DSAP和SSAP，同时增加了1个字节的&#8221;控制&#8221;字段，构成了802.2逻辑链路控制（LLC）的首部。LLC提供了无连接（LLC类型1）和面向连接（LLC类型2）的网络服务。LLC1是应用于以太网中，而LLC2应用在IBM SNA网络环境中。</p>
+<p>在Ethernet 802.3 SAP帧中，将原Ethernet 802.3 raw帧中2个字节的0xFFFF变为各1个字节的DSAP和SSAP，同时增加了1个字节的”控制”字段，构成了802.2逻辑链路控制（LLC）的首部。LLC提供了无连接（LLC类型1）和面向连接（LLC类型2）的网络服务。LLC1是应用于以太网中，而LLC2应用在IBM SNA网络环境中。</p>
 
 <p>新增的802.2 LLC首部包括两个服务访问点：源服务访问点（SSAP）和目标服务访问点（DSAP）。它们用于标识以太网帧所携带的上层数据类型，如16进制数0x06代表IP协议数据，16进制数0xE0代表Novell类型协议数据，16进制数0xF0代表IBM NetBIOS类型协议数据等。</p>
 
 <p>常见SAP值:</p>
 
 <ul>
-<li><p>0  Null LSAP</p></li>
-<li><p>4  SNA Path Control</p></li>
-<li><p>6  DOD IP</p></li>
-<li><p>AA: SNAP</p></li>
-<li><p>FE: ISO DIS</p></li>
-<li><p>FF: Global DSAP</p></li>
+  <li>
+    <p>0  Null LSAP</p>
+  </li>
+  <li>
+    <p>4  SNA Path Control</p>
+  </li>
+  <li>
+    <p>6  DOD IP</p>
+  </li>
+  <li>
+    <p>AA: SNAP</p>
+  </li>
+  <li>
+    <p>FE: ISO DIS</p>
+  </li>
+  <li>
+    <p>FF: Global DSAP</p>
+  </li>
 </ul>
 
-
-<p>&hellip;&hellip;</p>
+<p>……</p>
 
 <p>SAP值用以标志上层应用，但是每个SAP字段只有8bits长，而且其中仅保留了6比特用于标识上层协议，因此所能标识的协议数有限(不超过32种)；并且IEEE拒绝为某些重要的协议比如ARP协议定义SAP值(奇怪的是同时他们却定义了IP的SAP值)；因此802.3/802.2 LLC的使用有很大局限性；</p>
 
-<p>至于1个字节的&#8221;控制&#8221;字段，则基本不使用（一般被设为0x03，指明采用无连接服务的802.2无编号数据格式）。</p>
+<p>至于1个字节的”控制”字段，则基本不使用（一般被设为0x03，指明采用无连接服务的802.2无编号数据格式）。</p>
 
-<h2>5 Ethernet 802.3 SNAP帧格式</h2>
-
+<h2 id="ethernet-8023-snap">5 Ethernet 802.3 SNAP帧格式</h2>
 <p>Ethernet 802.3 SNAP类型以太网帧格式和Ethernet 802.3 SAP类型以太网帧格式的主要区别在于:</p>
 
 <ul>
-<li><p>2个字节的DSAP和SSAP字段内容被固定下来，其值为16进制数0xAA。</p></li>
-<li><p>1个字节的&#8221;控制&#8221;字段内容被固定下来，其值为16进制数0x03。</p></li>
-<li><p>增加了SNAP字段，由下面两项组成</p>
+  <li>
+    <p>2个字节的DSAP和SSAP字段内容被固定下来，其值为16进制数0xAA。</p>
+  </li>
+  <li>
+    <p>1个字节的”控制”字段内容被固定下来，其值为16进制数0x03。</p>
+  </li>
+  <li>
+    <p>增加了SNAP字段，由下面两项组成</p>
 
-<ul>
-<li><p>新增了3个字节的组织唯一标识符（Organizationally Unique Identifier，OUI ID）字段，其值通常等于MAC地址的前3字节</p></li>
-<li><p>增加了表示上层协议的类型</p></li>
+    <ul>
+      <li>
+        <p>新增了3个字节的组织唯一标识符（Organizationally Unique Identifier，OUI ID）字段，其值通常等于MAC地址的前3字节</p>
+      </li>
+      <li>
+        <p>增加了表示上层协议的类型</p>
+      </li>
+    </ul>
+  </li>
 </ul>
-</li>
-</ul>
-
 
 <p>这是IEEE为保证在802.2 LLC上支持更多的上层协议同时更好的支持IP协议而发布的标准，与802.3/802.2 LLC一样，802.3/802.2 SNAP也带有LLC头，但是扩展了LLC属性，新添加了一个2Bytes的协议类型域（同时将SAP的值置为AA），从而使其可以标识更多的上层协议类型；另外添加了一个3Bytes的OUI字段用于代表不同的组织，RFC 1042定义了IP报文在802.2网络中的封装方法和ARP协议在802.2 SANP中的实现；</p>
 
-<h2>一点资料</h2>
-
+<h2 id="section-4">一点资料</h2>
 <p>关于802.3 的标准，历史真是晦暗不明，看wiki都看不出个所以然来，我只能简单列举一下资料:</p>
 
-<p><a href="https://en.wikipedia.org/wiki/Ethernet_frame#Novell_raw_IEEE_802.3">https://en.wikipedia.org/wiki/Ethernet_frame#Novell_raw_IEEE_802.3</a></p>
+<p>https://en.wikipedia.org/wiki/Ethernet_frame#Novell_raw_IEEE_802.3</p>
 
-<p><a href="http://lostintransit.se/2012/06/06/the-history-of-ethernet-dix-vs-802-3/">http://lostintransit.se/2012/06/06/the-history-of-ethernet-dix-vs-802-3/</a></p>
+<p>http://lostintransit.se/2012/06/06/the-history-of-ethernet-dix-vs-802-3/</p>
 
-<h1>一点小tip</h1>
+<h1 id="tip">一点小tip</h1>
 
 <p>Q: MTU最大可以设置为多大?</p>
 
 <p>A: 9000，这是由CRC校验的能力决定的。参考:</p>
 
-<p><a href="https://en.wikipedia.org/wiki/Jumbo_frame">https://en.wikipedia.org/wiki/Jumbo_frame</a></p>
+<p>https://en.wikipedia.org/wiki/Jumbo_frame</p>
 
 <p>PS:早期的一些网络，比如超通道，可以支持65535的mtu，但是已经湮没于历史风尘中了。</p>
 
-<h1>参考:</h1>
+<h1 id="section-5">参考:</h1>
 
-<p><a href="https://zh.wikipedia.org/wiki/IEEE_802.1ad">https://zh.wikipedia.org/wiki/IEEE_802.1ad</a></p>
+<p>https://zh.wikipedia.org/wiki/IEEE_802.1ad</p>
 
-<p><a href="https://en.wikipedia.org/wiki/Ethernet_frame">https://en.wikipedia.org/wiki/Ethernet_frame</a></p>
+<p>https://en.wikipedia.org/wiki/Ethernet_frame</p>
 </div>
 
 
@@ -410,7 +451,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

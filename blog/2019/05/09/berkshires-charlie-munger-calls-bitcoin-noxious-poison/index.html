@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,15 +123,21 @@
 
 <div class="entry-content"><p>Berkshire annual meeting 2019 Q&amp;A，巴菲特和芒格老爷子又来Diss bitcoin了；</p>
 
-<h4>Munger:</h4>
+<h4 id="munger">Munger:</h4>
 
-<blockquote><p>It’s just disgusting. Bitcoin is noxious poison.</p></blockquote>
+<blockquote>
+  <p>It’s just disgusting. Bitcoin is noxious poison.</p>
+</blockquote>
 
-<h4>Buffet:</h4>
+<h4 id="buffet">Buffet:</h4>
 
-<blockquote><p>It’s a gambling device… there’s been a lot of frauds connected with it. There’s been disappearances, so there’s a lot lost on it. Bitcoin hasn’t produced anything</p>
+<blockquote>
+  <p>It’s a gambling device… there’s been a lot of frauds connected with it. There’s been disappearances, so there’s a lot lost on it. Bitcoin hasn’t produced anything</p>
+</blockquote>
 
-<p>It doesn’t do anything. It just sits there. It’s like a seashell or something, and that is not an investment to me</p></blockquote>
+<blockquote>
+  <p>It doesn’t do anything. It just sits there. It’s like a seashell or something, and that is not an investment to me</p>
+</blockquote>
 
 <p>两位老爷子是bitcoin社区值得敬重的对手，从一而终，一直坚定的黑；</p>
 
@@ -216,7 +238,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

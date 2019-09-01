@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,29 +121,27 @@
   </header>
 
 
-<div class="entry-content"><h2>traceroute</h2>
+<div class="entry-content"><h2 id="traceroute">traceroute</h2>
 
-<h4>原理</h4>
+<h4 id="section">原理</h4>
 
 <p>开始时发送一个TTL字段为1的UDP数据报，然后将TTL字段每次加一，以确定路径中的每个路由器。每个路由器在丢弃UDP数据报时都返回一个ICMP超时报文2，而最终目的的主机则产生一个ICMP端口不可达的报文。</p>
 
-<h4>IP源站选路选项</h4>
+<h4 id="ip">IP源站选路选项</h4>
 
 <ul>
-<li>严格的源路由选择</li>
+  <li>严格的源路由选择</li>
 </ul>
-
 
 <p>发送端指明IP数据包所必须采用的确切路由。如果一个路由器发现源路由所指定的下一个路由不在其直接连接的网络上，那么它会返回一个“源站路由失败”的ICMP差错报文。</p>
 
 <ul>
-<li>宽松的源站选路</li>
+  <li>宽松的源站选路</li>
 </ul>
-
 
 <p>发送端指明了一个数据报经过的IP地址清单，但是数据报在清单上指明的任意两个地址之间可以通过其它路由器。</p>
 
-<h2>IP选路</h2>
+<h2 id="ip-1">IP选路</h2>
 
 <p>一个简单的路由表</p>
 
@@ -140,18 +154,17 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 <p>注意Flags一列，它有5种不同的标志:</p>
 
 <ul>
-<li>U (route is up) 路由启用</li>
-<li>H (target is a host) 目标是主机</li>
-<li>G (use gateway) 使用网关</li>
-<li>R (reinstate route for dynamic routing)</li>
-<li>D (dynamically installed by daemon or redirect)</li>
-<li>M (modified from routing daemon or redirect)</li>
+  <li>U (route is up) 路由启用</li>
+  <li>H (target is a host) 目标是主机</li>
+  <li>G (use gateway) 使用网关</li>
+  <li>R (reinstate route for dynamic routing)</li>
+  <li>D (dynamically installed by daemon or redirect)</li>
+  <li>M (modified from routing daemon or redirect)</li>
 </ul>
-
 
 <p>主机表项比网络表项具有更高的优先级，而网络表项比默认项具有更高的优先级。</p>
 
-<h2>UDP</h2>
+<h2 id="udp">UDP</h2>
 
 <p>UDP长度字段指的是UDP首部和UDP数据的总长度</p>
 
@@ -160,6 +173,7 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 <p>永远不要完全相信数据链路的CRC校验，应该始终打开端到端的校验和功能。另外，即使是打开了，也要小心，UDP和TCP的校验和也不是可以百分百信赖的。</p>
 
 <p>注意两个ICMP报文和UDP的交互：ICMP不可达报文和ICMP源站抑制差错报文</p>
+
 </div>
 
 
@@ -254,7 +268,7 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

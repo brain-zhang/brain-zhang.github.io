@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -198,17 +214,14 @@
   </header>
 
 
-  <div class="entry-content"><h2>GDP是什么</h2>
+  <div class="entry-content"><h2 id="gdp">GDP是什么</h2>
 
 <p>国内生产总值 (gross domestic product， GDP) 是在某一既定时期一个国家内生产的所有最终物品与劳务的市场价值。</p>
 
 <p>GDP（用Y代表）被分为四个组成部分：消费（C）、投资（I）、政府购买（G）、净出口（NX）：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Y = C ＋ I ＋ G ＋ NX</span></code></pre></td></tr></table></div></figure>
-
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Y = C ＋ I ＋ G ＋ NX</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
   
@@ -355,16 +368,15 @@
 <p>bitcoin v0.01源代码中，中本聪第一次在<a href="https://github.com/brain-zhang/bitcoin_satoshi/blob/v0.01/main.h#L596">函数注释中</a> 完整的引用了<code>block chain</code>这个术语，鉴于中本聪在比特币白皮书发表的2年前已经开始编写源码；所以有理由确认：</p>
 
 <ol>
-<li>blockchain这个名词是2007-2008年间诞生于世间的</li>
-<li>中本聪是比特币之父，比特币是blockchain之母</li>
+  <li>blockchain这个名词是2007-2008年间诞生于世间的</li>
+  <li>中本聪是比特币之父，比特币是blockchain之母</li>
 </ol>
-
 
 <p>现在有一种说法，是比特币和区块链是不同的，比特币是个没有什么前途的庞氏货币，而区块链作为一种新兴的基础技术将会在很多领域发扬光大，前景光明；</p>
 
 <p>对于这个说法，我认为Andreas的一场演讲值得一看：</p>
 
-<p><a href="https://www.youtube.com/watch?v=SMEOKDVXlUo">https://www.youtube.com/watch?v=SMEOKDVXlUo</a></p>
+<p>https://www.youtube.com/watch?v=SMEOKDVXlUo</p>
 
 </div>
   
@@ -410,21 +422,18 @@
 
   <div class="entry-content"><p>之前的文章里面我们提到了一个名为<a href="https://lbc.cryptoguru.org">LBC</a>的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。</p>
 
-<p>这个项目本身详尽<a href="https://lbc.cryptoguru.org/stats">计算了这种碰撞成功的几率</a>，目前碰撞空间大概在 2<sup>136</sup> 级别。</p>
+<p>这个项目本身详尽<a href="https://lbc.cryptoguru.org/stats">计算了这种碰撞成功的几率</a>，目前碰撞空间大概在 2^136 级别。</p>
 
 <p>目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>AWS p2.8xlarge   32 vCores Xeon v4, 8x K80 GPUs (50% each)   ~80-88M/s</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">AWS p2.8xlarge	32 vCores Xeon v4, 8x K80 GPUs (50% each)	~80-88M/s</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">2^136 / 2^30 = 2 ^106</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2^136 / 2^30 = 2 ^106</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2<sup>106</sup> 级别的碰撞效率还是遥遥无期啊；</p>
+<p>2^106 级别的碰撞效率还是遥遥无期啊；</p>
 
 </div>
   
@@ -472,9 +481,8 @@
 
 <p>WSL最让我满意的，是命令行里面可以结合Windows和Linux的命令行工具来管道处理，这个实在是太赞了。纯粹计算类的程序，Windows上面有很多现成的命令行工具，现在终于能:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样来搞了，事实上，我自己写了很多Python脚本来处理Powershell自带的很多工具输出的内容，还有不少GPU运算程序大多数跑在Windows上面，能直接重定向到Linux上面实在太好了。</p>
 
@@ -485,18 +493,15 @@
 <p>下面记一下常用的坑：</p>
 
 <ul>
-<li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
+  <li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo umount /mnt/g && sudo mount -t drvfs "G:" /mnt/g</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
+  <li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
 </ul>
-
 
 <p>目前无解；要么禁用卡巴斯基的HTTP过滤功能，要么回退2018版本</p>
 
@@ -541,23 +546,19 @@
 
   <div class="entry-content"><p>之前一直简单的用</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>alias rm='mv -f $@ ~/.trash'</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">alias rm='mv -f $@ ~/.trash'</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>取代rm命令。</p>
 
 <p>这样用着有个不便的地方，就是有时候做个脚本命令，带个<code>;</code>的时候会解析有问题。今天突然发现一个用函数来替代的好办法，记一下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>参考资料：</p>
 
-<p><a href="https://www.cnblogs.com/f-ck-need-u/p/7385133.html">https://www.cnblogs.com/f-ck-need-u/p/7385133.html</a></p>
+<p>https://www.cnblogs.com/f-ck-need-u/p/7385133.html</p>
 </div>
   
   
@@ -604,11 +605,11 @@
 
 <p>闪电网络需要单独部署，没有包含在bitcoin core实现里面。闪电网络是一个开放的协议，任何人都能自由的实现它，目前比较流行的版本有:</p>
 
-<p><a href="https://github.com/lightningnetwork/">https://github.com/lightningnetwork/</a></p>
+<p>https://github.com/lightningnetwork/</p>
 
-<p><a href="https://github.com/mit-dci/lit">https://github.com/mit-dci/lit</a></p>
+<p>https://github.com/mit-dci/lit</p>
 
-<p><a href="https://github.com/ElementsProject/lightning">https://github.com/ElementsProject/lightning</a></p>
+<p>https://github.com/ElementsProject/lightning</p>
 
 </div>
   
@@ -638,7 +639,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

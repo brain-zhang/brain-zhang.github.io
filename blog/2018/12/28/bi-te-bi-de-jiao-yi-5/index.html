@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -111,107 +127,99 @@
 
 <!-- more -->
 
+<h2 id="section">准备工作</h2>
 
-<h2>准备工作</h2>
-
-<h4>私钥-公钥</h4>
+<h4 id="section-1">私钥-公钥</h4>
 
 <p>在<a href="https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">比特币的HD钱包-2</a>中，我们已经算出来私钥的WIF表示:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>以及公钥:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h4>交易body</h4>
+<h4 id="body">交易body</h4>
 
 <p>这笔交易有1个vin，1个vout；然后再把我们之前的结构分析图拿来，看看具体需要哪些参数传入:</p>
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181203/bg3.jpg" alt="img" /></p>
 
-<h4>需要手工构造input</h4>
+<h4 id="input">需要手工构造input</h4>
 
 <ol>
-<li>指定上一笔vout的txid，是已知参数(outputTransactionHash):<code>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</code></li>
-<li>指定上一笔vout的index，是已知参数(sourceIndex):<code>00000000</code></li>
-<li>构造scriptSig，即对这个UTXO签名。我们需要用私钥签名，这个是难点，我们后面来计算</li>
+  <li>指定上一笔vout的txid，是已知参数(outputTransactionHash):<code>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</code></li>
+  <li>指定上一笔vout的index，是已知参数(sourceIndex):<code>00000000</code></li>
+  <li>构造scriptSig，即对这个UTXO签名。我们需要用私钥签名，这个是难点，我们后面来计算</li>
 </ol>
 
-
-<h4>需要手工构造output</h4>
+<h4 id="output">需要手工构造output</h4>
 
 <ol>
-<li>设置矿工费用，从而计算输出值</li>
-<li>构造scriptPubKey</li>
+  <li>设置矿工费用，从而计算输出值</li>
+  <li>构造scriptPubKey</li>
 </ol>
 
-
-<h4>最后组合成为一笔交易</h4>
+<h4 id="section-2">最后组合成为一笔交易</h4>
 
 <ol>
-<li>增加version字段：<code>01000000</code></li>
-<li>增加inputCount字段: <code>01</code></li>
-<li>增加outputCount字段: <code>01</code></li>
-<li>增加block lock time字段: <code>00000000</code></li>
+  <li>增加version字段：<code>01000000</code></li>
+  <li>增加inputCount字段: <code>01</code></li>
+  <li>增加outputCount字段: <code>01</code></li>
+  <li>增加block lock time字段: <code>00000000</code></li>
 </ol>
 
+<h4 id="bitcoin-clicreaterawtransaction">然后我们实现一个函数，将这些变量组合，最后得到原始交易值(对应bitcoin-cli的createrawTransaction)</h4>
 
-<h4>然后我们实现一个函数，将这些变量组合，最后得到原始交易值(对应bitcoin-cli的createrawTransaction)</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># Makes a transaction from the inputs
+</span><span class="line"># outputs is a list of [redeemptionSatoshis, outputScript]
+</span><span class="line">def makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs):
+</span><span class="line">    def makeOutput(data):
+</span><span class="line">        redeemptionSatoshis, outputScript = data
+</span><span class="line">        return (struct.pack("&lt;Q", redeemptionSatoshis).encode('hex') +
+</span><span class="line">        '%02x'.format(len(outputScript.decode('hex'))) + outputScript)
+</span><span class="line">    formattedOutputs = ''.join(map(makeOutput, outputs))
+</span><span class="line">    return (
+</span><span class="line">        "01000000" + # 4 bytes version
+</span><span class="line">        "01" + # varint for number of inputs
+</span><span class="line">        outputTransactionHash.decode('hex')[::-1].encode('hex') + # reverse outputTransactionHash
+</span><span class="line">        struct.pack('&lt;L', sourceIndex).encode('hex') +
+</span><span class="line">        '%02x'.format(len(scriptSig.decode('hex'))) + scriptSig +
+</span><span class="line">        "ffffffff" + # sequence
+</span><span class="line">        "%02x".format(len(outputs)) + # number of outputs
+</span><span class="line">        formattedOutputs +
+</span><span class="line">        "00000000" # lockTime
+</span><span class="line">        )</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Makes a transaction from the inputs
-</span><span class='line'># outputs is a list of [redeemptionSatoshis, outputScript]
-</span><span class='line'>def makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs):
-</span><span class='line'>    def makeOutput(data):
-</span><span class='line'>        redeemptionSatoshis, outputScript = data
-</span><span class='line'>        return (struct.pack("&lt;Q", redeemptionSatoshis).encode('hex') +
-</span><span class='line'>        '%02x'.format(len(outputScript.decode('hex'))) + outputScript)
-</span><span class='line'>    formattedOutputs = ''.join(map(makeOutput, outputs))
-</span><span class='line'>    return (
-</span><span class='line'>        "01000000" + # 4 bytes version
-</span><span class='line'>        "01" + # varint for number of inputs
-</span><span class='line'>        outputTransactionHash.decode('hex')[::-1].encode('hex') + # reverse outputTransactionHash
-</span><span class='line'>        struct.pack('&lt;L', sourceIndex).encode('hex') +
-</span><span class='line'>        '%02x'.format(len(scriptSig.decode('hex'))) + scriptSig +
-</span><span class='line'>        "ffffffff" + # sequence
-</span><span class='line'>        "%02x".format(len(outputs)) + # number of outputs
-</span><span class='line'>        formattedOutputs +
-</span><span class='line'>        "00000000" # lockTime
-</span><span class='line'>        )</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>outputs构造</h4>
+<h4 id="outputs">outputs构造</h4>
 
 <p>在构造一笔完整的交易之前，我们需要手工做两件事情：</p>
 
 <ol>
-<li>构造一个output输出</li>
-<li>对vin中的UTXO签名，构造scriptSig</li>
+  <li>构造一个output输出</li>
+  <li>对vin中的UTXO签名，构造scriptSig</li>
 </ol>
-
 
 <p>outputs的构造比scriptSig简单一点，我们先来解决这个问题。</p>
 
@@ -219,45 +227,43 @@
 
 <p>这个scriptPubkey是这样子的:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;pubkey&gt;  OP_CHECKSIG</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;pubkey&gt;  OP_CHECKSIG</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>PubKeyHash其实就是收币的地址，其它操作符都是现成的。</p>
 
-<h2>如何构造一笔output</h2>
+<h2 id="output-1">如何构造一笔output</h2>
 
 <p>一笔output的构造是简单的，所有东西都是现成的，而且这笔交易是个P2PK交易，输出非常简化，我们仅仅需要构造<code>&lt;pubkey&gt;  OP_CHECKSIG</code>即可:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def makeOutput(value,  index, pubkey):
-</span><span class='line'>    OP_CHECKSIG =  'ac'
-</span><span class='line'>    value = "{:0&lt;16x}".format(int(struct.pack('&lt;I', int(value)).hex(), 16))
-</span><span class='line'>    index = "{:02x}".format(int(index))
-</span><span class='line'>    pubkey = pubkey
-</span><span class='line'>    pubkey_length = "{:02x}".format(len(pubkey)/2)
-</span><span class='line'>    return value + index = pubkey_length + pubkey + OP_CHECKSIG
-</span><span class='line'>    
-</span><span class='line'>
-</span><span class='line'>&gt; print(makeOutput(7000, 0, '2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac'))
-</span><span class='line'>&gt; 581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac
-</span><span class='line'>&gt; outputs = ['581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac']
-</span><span class='line'>    </span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def makeOutput(value,  index, pubkey):
+</span><span class="line">    OP_CHECKSIG =  'ac'
+</span><span class="line">    value = "{:0&lt;16x}".format(int(struct.pack('&lt;I', int(value)).hex(), 16))
+</span><span class="line">    index = "{:02x}".format(int(index))
+</span><span class="line">    pubkey = pubkey
+</span><span class="line">    pubkey_length = "{:02x}".format(len(pubkey)/2)
+</span><span class="line">    return value + index = pubkey_length + pubkey + OP_CHECKSIG
+</span><span class="line">    
+</span><span class="line">
+</span><span class="line">&gt; print(makeOutput(7000, 0, '2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac'))
+</span><span class="line">&gt; 581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac
+</span><span class="line">&gt; outputs = ['581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac']
+</span><span class="line">    </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h2>如何对一笔交易签名(scriptSig)</h2>
+<h2 id="scriptsig">如何对一笔交易签名(scriptSig)</h2>
 
 <p>在构造一笔交易的过程中，签署交易是一个非常麻烦的过程。其基本思想是使用ECDSA椭圆曲线算法和私钥生成交易的数字签名，但细节比较复杂。</p>
 
@@ -267,32 +273,30 @@
 
 <p>这张图出自于<a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">这里</a>，里面的TX ID是不同的，但基本步骤一样。</p>
 
-<h4>一些约定:</h4>
+<h4 id="section-3">一些约定:</h4>
 
 <ol>
-<li>TransA代表TxPrev，TransB代笔TxNew</li>
+  <li>TransA代表TxPrev，TransB代笔TxNew</li>
 </ol>
 
-
-<h4>步骤:</h4>
+<h4 id="section-4">步骤:</h4>
 
 <ol>
-<li>首先解析TransB涨vin中的scriptSig，得到sigStr以及pubkeyStr</li>
-<li>从TransA中拿出对应的vout ，从scriptPub脚本中截取需要的部分(subScript)：即 <code>OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG</code>；截取规则就是检索最后一个<code>OP_CODESEPARATOR</code>的位置，在这之后的脚本段就是我们要截取的对象</li>
-<li>如果subScript中包含了签名，移除掉(在scriptPub中包含签名是很特殊的情况，一般出现在P2SH交易中，普通交易不需要这一步)</li>
-<li>如果脚本中有<code>OP_CODESEPARATORS</code>操作符，移除</li>
-<li>检测一步解析出来的scriptSig最后一个字节的HashType，扩展为4字节(小端排序)备用</li>
-<li>将TransB 复制一份，变为TransBCopy</li>
-<li>将TransBCopy中所有的Vin以及Vout 移除，同时将length字段置为0</li>
-<li>将第4步中的subScript根据vin sequence填充到TransBCopy对应的位置</li>
-<li>最后将交易TransBCopy序列化(采用DER编码)，并在末尾添加第5步中得到的HashType，得到签名的原始数据</li>
-<li>最后执行签名验证过程: ECDSA_CheckSignature(pubkeyStr, sigStr, double_sha256(TransBCopy))</li>
+  <li>首先解析TransB涨vin中的scriptSig，得到sigStr以及pubkeyStr</li>
+  <li>从TransA中拿出对应的vout ，从scriptPub脚本中截取需要的部分(subScript)：即 <code>OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG</code>；截取规则就是检索最后一个<code>OP_CODESEPARATOR</code>的位置，在这之后的脚本段就是我们要截取的对象</li>
+  <li>如果subScript中包含了签名，移除掉(在scriptPub中包含签名是很特殊的情况，一般出现在P2SH交易中，普通交易不需要这一步)</li>
+  <li>如果脚本中有<code>OP_CODESEPARATORS</code>操作符，移除</li>
+  <li>检测一步解析出来的scriptSig最后一个字节的HashType，扩展为4字节(小端排序)备用</li>
+  <li>将TransB 复制一份，变为TransBCopy</li>
+  <li>将TransBCopy中所有的Vin以及Vout 移除，同时将length字段置为0</li>
+  <li>将第4步中的subScript根据vin sequence填充到TransBCopy对应的位置</li>
+  <li>最后将交易TransBCopy序列化(采用DER编码)，并在末尾添加第5步中得到的HashType，得到签名的原始数据</li>
+  <li>最后执行签名验证过程: ECDSA_CheckSignature(pubkeyStr, sigStr, double_sha256(TransBCopy))</li>
 </ol>
 
+<h4 id="section-5">疑点解惑</h4>
 
-<h4>疑点解惑</h4>
-
-<h5>为什么这么麻烦，不能直接对TransB签名吗？</h5>
+<h5 id="transb">为什么这么麻烦，不能直接对TransB签名吗？</h5>
 
 <p>因为最终的签名是包含在TransB当中的，签名是不能对自身来签名的；所以要签名的原始数据不能包含签名本身；</p>
 
@@ -304,16 +308,15 @@
 
 <p>总之还是那句话，关于segwit, 闪电网络，期待我们后面的文章吧。</p>
 
-<h5>为什么要用上一笔交易vout来填充这个位置呢？</h5>
+<h5 id="vout">为什么要用上一笔交易vout来填充这个位置呢？</h5>
 
 <p>我们说验证签名的过程，其实有三个作用:</p>
 
 <ol>
-<li>签名证明私钥的所有者，即资金所有者，已经授权支出这些资金</li>
-<li>授权证明是不可否认的（不可否认性）</li>
-<li>签名证明交易（或交易的具体部分）在签字之后没有也不能被任何人修改</li>
+  <li>签名证明私钥的所有者，即资金所有者，已经授权支出这些资金</li>
+  <li>授权证明是不可否认的（不可否认性）</li>
+  <li>签名证明交易（或交易的具体部分）在签字之后没有也不能被任何人修改</li>
 </ol>
-
 
 <p>我们提供签名、私钥即承诺了第1点，对TransBCopy 签名承诺了第2点，但是要做到第3点，就需要对于引用UTXO的信息做承诺；</p>
 
@@ -321,21 +324,21 @@
 
 <p>是的，这还是不够的，我们需要另外的信息熵的引入，就是这个UTXO的scriptPub。具体为什么，是ECDSA的数学特性决定的。请参考:</p>
 
-<p><a href="https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/">https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/</a></p>
+<p>https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/</p>
 
 <p>老实说，关于ECDSA的签名验证，我在学习了很长时间以后，还是非常担心，因为签名生成算法使用随机密钥k作为临时私有-公钥对的基础，这个K值的随机性一定要人工保证，比特币的每笔交易验证，离不开签名验证，而这个签名验证如此复杂，确实让人心生忐忑。</p>
 
-<h5>这个OP_CODESEPARATORS是什么东东？</h5>
+<h5 id="opcodeseparators">这个OP_CODESEPARATORS是什么东东？</h5>
 
 <p>哈，到目前为止，我们接触到的都是比特币最简单、最基本、当然也是应用最广泛的交易类型，但是比特币还支持P2SH的高级交易，在这种交易中，vout里面可能会嵌入非常复杂的脚本，所以系统引入了OP_CODESEPARATORS作为复杂脚本的分隔符，以后的文章我们会详细讲解；</p>
 
 <p>OP_CODESEPARATOR属于一种看起来<code>过度设计</code>的特性，老实说，我没有在比特币主网上发现像样的使用这个特性的交易，我也需要更多时间的学习才能搞明白这个东西，以下是一些参考资料：</p>
 
-<p><a href="https://github.com/bitcoin/bips/blob/master/bip-0017.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0017.mediawiki</a></p>
+<p>https://github.com/bitcoin/bips/blob/master/bip-0017.mediawiki</p>
 
-<p><a href="https://bitcointalk.org/index.php?topic=164655.0">https://bitcointalk.org/index.php?topic=164655.0</a></p>
+<p>https://bitcointalk.org/index.php?topic=164655.0</p>
 
-<h5>这个HashType是什么东东？</h5>
+<h5 id="hashtype">这个HashType是什么东东？</h5>
 
 <p>嗯哼，又是一个非常棘手但是有意思的问题。</p>
 
@@ -345,117 +348,114 @@
 
 <p>这就衍生出了所谓的M-N交易类型，即多重签名交易。</p>
 
-<p>在多重签名交易中，要花费一笔UTXO，可能需要多个签名，或者有这种语义：&#8221;一定要CEO的签名，如果没有CEO的签名，需要COO和CFO的联合签名&#8221;，为了表示这些，引入了SIGHASH这个字段，就是我们所说的HashType啦。</p>
+<p>在多重签名交易中，要花费一笔UTXO，可能需要多个签名，或者有这种语义：”一定要CEO的签名，如果没有CEO的签名，需要COO和CFO的联合签名”，为了表示这些，引入了SIGHASH这个字段，就是我们所说的HashType啦。</p>
 
 <p>要考虑SIGHASH，实际上已经牵涉到了bitcoin的高级交易类型(P2SH)，还是那句话，关注后面的文章吧。</p>
 
-<h4>反向代码</h4>
+<h4 id="section-6">反向代码</h4>
 
 <p>嗯哼，把验证签名的步骤反向来一遍，就是签名的过程了。</p>
 
 <p>代码表示如下:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>def makeSignedTransaction(privateKey, outputTransactionHash, sourceIndex, scriptPubKey, outputs):
-</span><span class='line'>    myTxn_forSig = (makeRawTransaction(outputTransactionHash, sourceIndex, scriptPubKey, outputs)
-</span><span class='line'>         + "01000000") # hash code
-</span><span class='line'>
-</span><span class='line'>    s256 = hashlib.sha256(hashlib.sha256(myTxn_forSig.decode('hex')).digest()).digest()
-</span><span class='line'>    sk = ecdsa.SigningKey.from_string(privateKey.decode('hex'), curve=ecdsa.SECP256k1)
-</span><span class='line'>    sig = sk.sign_digest(s256, sigencode=ecdsa.util.sigencode_der) + '\01' # 01 is hashtype
-</span><span class='line'>    pubKey = keyUtils.privateKeyToPublicKey(privateKey)
-</span><span class='line'>    scriptSig = utils.varstr(sig).encode('hex') + utils.varstr(pubKey.decode('hex')).encode('hex')
-</span><span class='line'>    signed_txn = makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs)
-</span><span class='line'>    verifyTxnSignature(signed_txn)
-</span><span class='line'>    return signed_txn</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">
+</span><span class="line">def makeSignedTransaction(privateKey, outputTransactionHash, sourceIndex, scriptPubKey, outputs):
+</span><span class="line">    myTxn_forSig = (makeRawTransaction(outputTransactionHash, sourceIndex, scriptPubKey, outputs)
+</span><span class="line">         + "01000000") # hash code
+</span><span class="line">
+</span><span class="line">    s256 = hashlib.sha256(hashlib.sha256(myTxn_forSig.decode('hex')).digest()).digest()
+</span><span class="line">    sk = ecdsa.SigningKey.from_string(privateKey.decode('hex'), curve=ecdsa.SECP256k1)
+</span><span class="line">    sig = sk.sign_digest(s256, sigencode=ecdsa.util.sigencode_der) + '\01' # 01 is hashtype
+</span><span class="line">    pubKey = keyUtils.privateKeyToPublicKey(privateKey)
+</span><span class="line">    scriptSig = utils.varstr(sig).encode('hex') + utils.varstr(pubKey.decode('hex')).encode('hex')
+</span><span class="line">    signed_txn = makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs)
+</span><span class="line">    verifyTxnSignature(signed_txn)
+</span><span class="line">    return signed_txn</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h2>广播交易</h2>
+<h2 id="section-7">广播交易</h2>
 
 <p>好啦，构造了vin, vout，以及组合成一笔完整的交易，剩下的就是广播出去啦：</p>
 
 <p>比特币的网络协议非常简单，设置好一个Magic Number就可以加入，以下时广播代码：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>magic = 0xd9b4bef9
-</span><span class='line'>
-</span><span class='line'>def makeMessage(magic, command, payload):
-</span><span class='line'>    checksum = hashlib.sha256(hashlib.sha256(payload).digest()).digest()[0:4]
-</span><span class='line'>    return struct.pack('L12sL4s', magic, command, len(payload), checksum) + payload
-</span><span class='line'>
-</span><span class='line'>def getVersionMsg():
-</span><span class='line'>    version = 60002
-</span><span class='line'>    services = 1
-</span><span class='line'>    timestamp = int(time.time())
-</span><span class='line'>    addr_me = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
-</span><span class='line'>    addr_you = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
-</span><span class='line'>    nonce = random.getrandbits(64)
-</span><span class='line'>    sub_version_num = utils.varstr('')
-</span><span class='line'>    start_height = 0
-</span><span class='line'>    
-</span><span class='line'>def getTxMsg(payload):
-</span><span class='line'>  return makeMessage(magic, 'tx', payload)
-</span><span class='line'>
-</span><span class='line'>sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-</span><span class='line'>HOST_IP ="x.x.x.x"
-</span><span class='line'>sock.connect(HOST_IP, 8333)
-</span><span class='line'>
-</span><span class='line'>sock.send(msgUtils.getVersionMsg())
-</span><span class='line'>sock.recv(1000) # receive version
-</span><span class='line'>sock.recv(1000) # receive verack
-</span><span class='line'>sock.send(msgUtils.getTxMsg("01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000".decode('hex')))</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">magic = 0xd9b4bef9
+</span><span class="line">
+</span><span class="line">def makeMessage(magic, command, payload):
+</span><span class="line">    checksum = hashlib.sha256(hashlib.sha256(payload).digest()).digest()[0:4]
+</span><span class="line">    return struct.pack('L12sL4s', magic, command, len(payload), checksum) + payload
+</span><span class="line">
+</span><span class="line">def getVersionMsg():
+</span><span class="line">    version = 60002
+</span><span class="line">    services = 1
+</span><span class="line">    timestamp = int(time.time())
+</span><span class="line">    addr_me = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
+</span><span class="line">    addr_you = utils.netaddr(socket.inet_aton("127.0.0.1"), 8333)
+</span><span class="line">    nonce = random.getrandbits(64)
+</span><span class="line">    sub_version_num = utils.varstr('')
+</span><span class="line">    start_height = 0
+</span><span class="line">    
+</span><span class="line">def getTxMsg(payload):
+</span><span class="line">  return makeMessage(magic, 'tx', payload)
+</span><span class="line">
+</span><span class="line">sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</span><span class="line">HOST_IP ="x.x.x.x"
+</span><span class="line">sock.connect(HOST_IP, 8333)
+</span><span class="line">
+</span><span class="line">sock.send(msgUtils.getVersionMsg())
+</span><span class="line">sock.recv(1000) # receive version
+</span><span class="line">sock.recv(1000) # receive verack
+</span><span class="line">sock.send(msgUtils.getTxMsg("01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000".decode('hex')))</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>HOST IP 怎么获取呢？</p>
 
 <p>如果你有一个全节点，可以直接调用RPC接口的getpeers函数。或者你直接执行:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>nslookup bitseed.xf2.org</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">nslookup bitseed.xf2.org</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>从公共服务器里面检索nodes，里面随便挑一个IP 吧。</p>
 
-<h2>小结</h2>
+<h2 id="section-8">小结</h2>
 
 <p>以上就是一笔完整交易的构造过程。</p>
 
@@ -471,9 +471,9 @@
 
 <p>更强大的功能？还是更稳妥的基础设施？究竟怎样的做法是正确的，我也没有定论，只是告诉大家现在社区的发展方向就好了，大家自己做判断。</p>
 
-<h2>参考资料:</h2>
+<h2 id="section-9">参考资料:</h2>
 
-<p><a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html</a></p>
+<p>http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html</p>
 </div>
 
 
@@ -568,7 +568,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

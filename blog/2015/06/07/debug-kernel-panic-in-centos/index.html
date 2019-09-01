@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -111,7 +127,7 @@
 
 <p>提供几个解决问题的瞎搞方法: （以下内容针对于redhat系，但大部分方法是通用的）</p>
 
-<h4>判断引起panic的环节</h4>
+<h4 id="panic">判断引起panic的环节</h4>
 
 <p>简单描述下启动流程:</p>
 
@@ -129,60 +145,67 @@
 <p>首先你要确认下是哪个环节引起的panic，如果你的log打得比较全，一般能根据蛛丝马迹判断是上面那个环节引起的问题。一般panic发生在step7，step8, step9环节当中。</p>
 
 <ul>
-<li><p>step9: 走到这里已经无大碍，无非是/etc/rc.sysinit 之流挂载了不该有的设备，启动了不知道神马的服务，可以直接在启动脚本中打各种log调试</p></li>
-<li><p>step8: 这个就比较棘手，一般是initramfs 解压后执行某些脚本报错，所幸是大部分都是init级别的，一般可以在grub的kernel后面加参数，挂载shell调，也可以直接用工具修改initramfs镜像中的文件，重新打包二分法定位</p></li>
-<li><p>step7: 也比较棘手，一般panic总要怀疑磁盘驱动，我感觉这个是导致panic的大户，另外如果屏幕没有东东输出，估计视频驱动也要鼓捣一番。</p></li>
+  <li>
+    <p>step9: 走到这里已经无大碍，无非是/etc/rc.sysinit 之流挂载了不该有的设备，启动了不知道神马的服务，可以直接在启动脚本中打各种log调试</p>
+  </li>
+  <li>
+    <p>step8: 这个就比较棘手，一般是initramfs 解压后执行某些脚本报错，所幸是大部分都是init级别的，一般可以在grub的kernel后面加参数，挂载shell调，也可以直接用工具修改initramfs镜像中的文件，重新打包二分法定位</p>
+  </li>
+  <li>
+    <p>step7: 也比较棘手，一般panic总要怀疑磁盘驱动，我感觉这个是导致panic的大户，另外如果屏幕没有东东输出，估计视频驱动也要鼓捣一番。</p>
+  </li>
 </ul>
-
 
 <p>下面针对 step7，step8级别的panic提供一些瞎搞手段</p>
 
-<h4>在kernel 参数中加入调试开关，关闭ACPI，selinux</h4>
+<h4 id="kernel-acpiselinux">在kernel 参数中加入调试开关，关闭ACPI，selinux</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  title CentOS (2.6.32-358.el6.x86_64)
-</span><span class='line'>          root (hd0,0)
-</span><span class='line'>          kernel /vmlinuz-2.6.32-358.el6.x86_64 ro root=/dev/mapper/vg_localhost-lv_root rd_NO_LUKS rd_NO_MD rd_LVM_LV=vg_localhost/lv_swap crashkernel=128M LANG=zh_CN.UTF-8 rd_LVM_LV=vg_localhost/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM debug selinux=0 acpi=0
-</span><span class='line'>          initrd /initramfs-2.6.32-358.el6.x86_64.img</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">  title CentOS (2.6.32-358.el6.x86_64)
+</span><span class="line">          root (hd0,0)
+</span><span class="line">          kernel /vmlinuz-2.6.32-358.el6.x86_64 ro root=/dev/mapper/vg_localhost-lv_root rd_NO_LUKS rd_NO_MD rd_LVM_LV=vg_localhost/lv_swap crashkernel=128M LANG=zh_CN.UTF-8 rd_LVM_LV=vg_localhost/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM debug selinux=0 acpi=0
+</span><span class="line">          initrd /initramfs-2.6.32-358.el6.x86_64.img</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这是考验人品的时候，不管三七二十一，先把最有可能的问题点排除掉。另外redhat系的会在kernel后面加上 <code>rhgb quiet</code> 之类的参数，统统去掉，开机的时候好好盯着屏幕看看，有没有可疑的东东输出。 因为系统可能会在短时间内输出大量log而没有记录，你需要设置一下输出log的速率和暂停时机，更详细的参数可以在这里找到:</p>
 
-<p><a href="https://wiki.archlinux.org/index.php/Boot_debugging">https://wiki.archlinux.org/index.php/Boot_debugging</a></p>
+<p>https://wiki.archlinux.org/index.php/Boot_debugging</p>
 
-<h4>在kernel 参数中加入dracut的调试开关</h4>
+<h4 id="kernel-dracut">在kernel 参数中加入dracut的调试开关</h4>
 
 <p>redhat系后期采用了dracut构建 initrd镜像，关于dracut的手册在这里:</p>
 
-<p><a href="http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd">http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd</a></p>
+<p>http://people.redhat.com/harald/dracut-rhel6.html#lsinitrd</p>
 
 <p>调试开关在这里:</p>
 
-<p><a href="https://fedoraproject.org/wiki/How_to_debug_Dracut_problems">https://fedoraproject.org/wiki/How_to_debug_Dracut_problems</a></p>
+<p>https://fedoraproject.org/wiki/How_to_debug_Dracut_problems</p>
 
 <p>你可以设定rdshell，在panic之后跳入dracut提供的shell，打dmesg看看log信息。</p>
 
-<h3>最后的最后，实在不知道为啥了，而且你很闲，可以考虑启动时加串口设备调试</h3>
+<h3 id="section">最后的最后，实在不知道为啥了，而且你很闲，可以考虑启动时加串口设备调试</h3>
 
-<h4>一些tooltip</h4>
+<h4 id="tooltip">一些tooltip</h4>
 
 <ul>
-<li><p>编译kernel的时候，make menuconfig，3.10以后的内核支持搜索某个开关后按数字键直接跳到那个开关的设置项中，这个很有用</p></li>
-<li><p>redhat系用dracut构建initrd，配置文件默认在 /usr/share/dracut/ ，如果你懒得改 initramfs，可以直接修改里面的配置文件，然后重新make install即可</p></li>
-<li><p>有时候你不好确认根文件系统挂载到哪里了，可以参考这里:</p></li>
+  <li>
+    <p>编译kernel的时候，make menuconfig，3.10以后的内核支持搜索某个开关后按数字键直接跳到那个开关的设置项中，这个很有用</p>
+  </li>
+  <li>
+    <p>redhat系用dracut构建initrd，配置文件默认在 /usr/share/dracut/ ，如果你懒得改 initramfs，可以直接修改里面的配置文件，然后重新make install即可</p>
+  </li>
+  <li>
+    <p>有时候你不好确认根文件系统挂载到哪里了，可以参考这里:</p>
+  </li>
 </ul>
 
-
-<p><a href="http://free-electrons.com/blog/find-root-device/">http://free-electrons.com/blog/find-root-device/</a></p>
+<p>http://free-electrons.com/blog/find-root-device/</p>
 
 <p>其它参考资料:</p>
 
-<p><a href="http://www.tuxradar.com/content/how-fix-linux-boot-problems">http://www.tuxradar.com/content/how-fix-linux-boot-problems</a></p>
+<p>http://www.tuxradar.com/content/how-fix-linux-boot-problems</p>
 </div>
 
 
@@ -277,7 +300,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。 _arguments:comparguments:312: invalid argument: [--cl]:arg: 修改方法: 打开文件：/usr/share/zsh/4.3.11/functions/ &hellip;">
+  <meta name="description" content="更新svn(subversion)&gt;1.7后 zsh 的svn自动完成会报错。 _arguments:comparguments:312: invalid argument: [--cl]:arg: 修改方法: 打开文件：/usr/share/zsh/4.3.11/functions/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,7 +121,7 @@
   </header>
 
 
-<div class="entry-content"><p>更新svn(subversion)>1.7后 zsh 的svn自动完成会报错。</p>
+<div class="entry-content"><p>更新svn(subversion)&gt;1.7后 zsh 的svn自动完成会报错。</p>
 
 <p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>
 
@@ -121,7 +137,7 @@
 <p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}</code></p>
 
 <p>参考资料：
-<a href="http://www.zsh.org/mla/workers/2011/msg01448.html">http://www.zsh.org/mla/workers/2011/msg01448.html</a></p>
+http://www.zsh.org/mla/workers/2011/msg01448.html</p>
 </div>
 
 
@@ -216,7 +232,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

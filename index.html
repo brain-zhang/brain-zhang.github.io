@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -82,7 +98,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a></h1>
+      <h1 class="entry-title"><a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a></h1>
     
     
       <p class="meta">
@@ -110,7 +126,7 @@
 
   <div class="entry-content"><p>这个系列教程大名鼎鼎，之前我都是用到啥就瞎试一通；最近花了两个周，认认真真把这些基础知识重新学了一遍；做个笔记；</p>
 
-<p>苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌远，我一直在路上；</p>
+<p>苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌晚，我一直在路上；</p>
 
 </div>
   
@@ -159,16 +175,15 @@
 <p>我理想中的比特币全节点实现是这样的:</p>
 
 <ul>
-<li>他的核心是模块化可拆分的</li>
-<li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
-<li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
-<li>他要兼容Lightning，并实现其瞭望塔功能</li>
-<li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
-<li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
-<li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
-<li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
+  <li>他的核心是模块化可拆分的</li>
+  <li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
+  <li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
+  <li>他要兼容Lightning，并实现其瞭望塔功能</li>
+  <li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
+  <li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
+  <li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
+  <li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
 </ul>
-
 
 <p>我好像真贪心呢^_^</p>
 </div>
@@ -211,7 +226,7 @@
 
   <div class="entry-content"><p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
 
-<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来&hellip;T_T”</p>
+<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来…T_T”</p>
 
 <p>还是老老实实流水账记一下吧:</p>
 
@@ -263,10 +278,9 @@
 
 <p>众所周知，GPG和Openssl的key是不兼容的，所以统一环境还是花了不少时间，主要是参考了这篇文章：</p>
 
-<p><a href="https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth">https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</a></p>
+<p>https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</p>
 
-<p>常用命令:</p>
-
+<p>常用命令:
 </div>
   
   
@@ -309,7 +323,7 @@
   </header>
 
 
-  <div class="entry-content"><h4>requests库发送post请求的五种姿势;</h4>
+  <div class="entry-content"><h4 id="requestspost">requests库发送post请求的五种姿势;</h4>
 
 </div>
   
@@ -353,7 +367,7 @@
   </header>
 
 
-  <div class="entry-content"><p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz&hellip;..</p>
+  <div class="entry-content"><p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz…..</p>
 
 <p>话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~</p>
 
@@ -489,11 +503,11 @@
   </header>
 
 
-  <div class="entry-content"><p>摘自 &ndash; Python cookbook</p>
+  <div class="entry-content"><p>摘自 - Python cookbook</p>
 
-<p>老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  &ndash;_&ndash; &hellip;..</p>
+<p>老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  -_- …..</p>
 
-<h2>怎样捕获代码中的所有异常？</h2>
+<h2 id="section">怎样捕获代码中的所有异常？</h2>
 
 </div>
   
@@ -537,7 +551,7 @@
   </header>
 
 
-  <div class="entry-content"><p>爱因斯坦说:&ldquo;复利是世界第八大奇迹&#8221;，这句话随处可见于各类理财鸡汤文中，甚至巴菲特也在纪录片中转述过这句话，但是挺奇怪的，爱因斯坦究竟是在何种情况下说出这句“名言”？</p>
+  <div class="entry-content"><p>爱因斯坦说:”复利是世界第八大奇迹”，这句话随处可见于各类理财鸡汤文中，甚至巴菲特也在纪录片中转述过这句话，但是挺奇怪的，爱因斯坦究竟是在何种情况下说出这句“名言”？</p>
 
 </div>
   
@@ -565,7 +579,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

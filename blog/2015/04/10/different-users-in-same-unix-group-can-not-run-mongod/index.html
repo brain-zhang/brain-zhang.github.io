@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="事情的缘起是这样的&hellip;&hellip;. 想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到) Docker build不支持 &mdash; &hellip;">
+  <meta name="description" content="事情的缘起是这样的……. 想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到) Docker build不支持 –privileged，所以默认的/etc/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,60 +121,55 @@
   </header>
 
 
-<div class="entry-content"><p>事情的缘起是这样的&hellip;&hellip;.</p>
+<div class="entry-content"><p>事情的缘起是这样的…….</p>
 
 <p>想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到)</p>
 
-<p>Docker build不支持 &mdash;privileged，所以默认的/etc/init.d/mongod  这个脚本中的</p>
+<p>Docker build不支持 –privileged，所以默认的/etc/init.d/mongod  这个脚本中的</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这种写法就死翘翘了。</p>
 
 <p>github上有这个Issue:</p>
 
-<p><a href="https://github.com/docker/docker/issues/1916">https://github.com/docker/docker/issues/1916</a></p>
+<p>https://github.com/docker/docker/issues/1916</p>
 
 <p>大家讨论了1年多，对于怎么解决，还是没有个所以然。(话说要再吐槽一下github的issue了，一般大一点的项目，一个issue跨度以年来论，长篇大论读完也不容易呀)</p>
 
 <p>最后只好在Dockerfile中这么搞:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mongod --fork -f /etc/mongod.conf && \
-</span><span class='line'>mongod --shutdown -f /etc/mongod.conf && \
-</span><span class='line'>chown mongod:mongod /opt/lib/mongodbpath -R
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mongod --fork -f /etc/mongod.conf &amp;&amp; \
+</span><span class="line">mongod --shutdown -f /etc/mongod.conf &amp;&amp; \
+</span><span class="line">chown mongod:mongod /opt/lib/mongodbpath -R
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样build就顺利完成了。</p>
 
 <p>可是启动这个image为container后，执行:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/mongod start</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/etc/init.d/mongod start</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>报错:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"> [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>虾米，明明已经加了mongod的group了。而且errorno是1，不是 <code>"errno:13 Permission denied"</code>，有点奇怪。</p>
 
 <p>问题在这里:</p>
 
-<p><a href="https://jira.mongodb.org/browse/SERVER-7583">https://jira.mongodb.org/browse/SERVER-7583</a></p>
+<p>https://jira.mongodb.org/browse/SERVER-7583</p>
 
 <p>要再加一个指令:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>setcap cap_fowner+ep /usr/bin/mongod</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">setcap cap_fowner+ep /usr/bin/mongod</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>就是这么折腾。</p>
 </div>
@@ -255,7 +266,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

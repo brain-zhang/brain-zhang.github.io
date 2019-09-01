@@ -9,7 +9,8 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。 用sort+uniq直接搞定: 交集 1
+  <meta name="description" content="两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。 用sort+uniq直接搞定: 交集
+1
 2
 3
 $ sort a.txt | uniq &gt; aa.txt
@@ -37,6 +38,22 @@ $ cat aa. &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -114,36 +131,31 @@ $ cat aa. &hellip;">
 
 <p>用sort+uniq直接搞定:</p>
 
-<h2>交集</h2>
+<h2 id="section">交集</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
+</span><span class="line">$ sort b.txt | uniq &gt; bb.txt
+</span><span class="line">$ cat aa.txt bb.txt | sort | uniq -d</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt | sort | uniq -d</span></code></pre></td></tr></table></div></figure>
+<h2 id="section-1">并集</h2>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt b.txt | sort | uniq</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2>并集</h2>
+<h2 id="section-2">差集</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat a.txt b.txt | sort | uniq</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>差集</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sort a.txt | uniq &gt; aa.txt
-</span><span class='line'>$ sort b.txt | uniq &gt; bb.txt
-</span><span class='line'>$ cat aa.txt bb.txt bb.txt | sort | uniq -u</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
+</span><span class="line">$ sort b.txt | uniq &gt; bb.txt
+</span><span class="line">$ cat aa.txt bb.txt bb.txt | sort | uniq -u</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
+  <li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
 </ul>
-
 </div>
 
 
@@ -238,7 +250,7 @@ $ cat aa. &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

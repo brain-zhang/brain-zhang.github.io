@@ -9,7 +9,12 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="摘自 &ndash; Python cookbook 老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向 &ndash;_&ndash; &hellip;.. 怎样捕获代码中的所有异常？ 想要捕获所有的异常，可以直接捕获 Exception 即可 &hellip;">
+  <meta name="description" content="摘自 - Python cookbook 老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向 -_- ….. 怎样捕获代码中的所有异常？ 想要捕获所有的异常，可以直接捕获 Exception 即可： 1
+2
+3
+4
+5
+try: ... &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +37,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,153 +126,139 @@
   </header>
 
 
-<div class="entry-content"><p>摘自 &ndash; Python cookbook</p>
+<div class="entry-content"><p>摘自 - Python cookbook</p>
 
-<p>老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  &ndash;_&ndash; &hellip;..</p>
+<p>老生常谈了，但是在Pyflake检查出E722错误时有时候又犯老毛病。人年纪大了越来越有老年痴呆倾向  -_- …..</p>
 
-<h2>怎样捕获代码中的所有异常？</h2>
+<h2 id="section">怎样捕获代码中的所有异常？</h2>
 
 <!-- more -->
 
+<h4 id="exception-">想要捕获所有的异常，可以直接捕获 Exception 即可：</h4>
 
-<h4>想要捕获所有的异常，可以直接捕获 Exception 即可：</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>   ...
-</span><span class='line'>except Exception as e:
-</span><span class='line'>   ...
-</span><span class='line'>   log('Reason:', e)       # Important!</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">try:
+</span><span class="line">   ...
+</span><span class="line">except Exception as e:
+</span><span class="line">   ...
+</span><span class="line">   log('Reason:', e)       # Important!</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>这个将会捕获除了 <code>SystemExit</code> 、 <code>KeyboardInterrupt</code> 和 <code>GeneratorExit</code> 之外的所有异常。 如果你还想捕获这三个异常，将 Exception 改成 BaseException 即可。</p>
 
-<h4>讨论</h4>
+<h4 id="section-1">讨论</h4>
 
 <p>捕获所有异常通常是由于程序员在某些复杂操作中并不能记住所有可能的异常。 如果你不是很细心的人，这也是编写不易调试代码的一个简单方法。</p>
 
 <p>正因如此，如果你选择捕获所有异常，那么在某个地方（比如日志文件、打印异常到屏幕）打印确切原因就比较重要了。 如果你没有这样做，有时候你看到异常打印时可能摸不着头脑，就像下面这样：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def parse_int(s):
-</span><span class='line'>    try:
-</span><span class='line'>        n = int(v)
-</span><span class='line'>    except Exception:
-</span><span class='line'>        print("Couldn't parse")</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def parse_int(s):
+</span><span class="line">    try:
+</span><span class="line">        n = int(v)
+</span><span class="line">    except Exception:
+</span><span class="line">        print("Couldn't parse")</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>试着运行这个函数，结果如下：</p>
 
-
-<p>      <br/>
-试着运行这个函数，结果如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; parse_int('n/a')
-</span><span class='line'>Couldn't parse
-</span><span class='line'>&gt;&gt;&gt; parse_int('42')
-</span><span class='line'>Couldn't parse
-</span><span class='line'>&gt;&gt;&gt;</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; parse_int('n/a')
+</span><span class="line">Couldn't parse
+</span><span class="line">&gt;&gt;&gt; parse_int('42')
+</span><span class="line">Couldn't parse
+</span><span class="line">&gt;&gt;&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这时候你就会挠头想：“这咋回事啊？” 假如你像下面这样重写这个函数：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def parse_int(s):
-</span><span class='line'>    try:
-</span><span class='line'>        n = int(v)
-</span><span class='line'>    except Exception as e:
-</span><span class='line'>        print("Couldn't parse")
-</span><span class='line'>        print('Reason:', e)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def parse_int(s):
+</span><span class="line">    try:
+</span><span class="line">        n = int(v)
+</span><span class="line">    except Exception as e:
+</span><span class="line">        print("Couldn't parse")
+</span><span class="line">        print('Reason:', e)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这时候你能获取如下输出，指明了有个编程错误：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; parse_int('42')
-</span><span class='line'>Couldn't parse
-</span><span class='line'>Reason: global name 'v' is not defined
-</span><span class='line'>&gt;&gt;&gt;</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; parse_int('42')
+</span><span class="line">Couldn't parse
+</span><span class="line">Reason: global name 'v' is not defined
+</span><span class="line">&gt;&gt;&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<p>很明显，你应该尽可能将异常处理器定义的精准一些。</p>
+<p>很明显，你应该尽可能将异常处理器定义的精准一些。 </p>
 
 <p>不过，要是你必须捕获所有异常，确保打印正确的诊断信息或将异常传播出去，这样不会丢失掉异常。</p>
 
-<h4>最可怕的例子是我们在处理临时文件的时候，用</h4>
+<h4 id="section-2">最可怕的例子是我们在处理临时文件的时候，用</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    ....
-</span><span class='line'>except:
-</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">try:
+</span><span class="line">    ....
+</span><span class="line">except:
+</span><span class="line">    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>因为碍人的E722, 有人会自作聪明的改成:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    ....
-</span><span class='line'>except Exception:
-</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">try:
+</span><span class="line">    ....
+</span><span class="line">except Exception:
+</span><span class="line">    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>正确的办法是:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    ....
-</span><span class='line'>except BaseException:
-</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">try:
+</span><span class="line">    ....
+</span><span class="line">except BaseException:
+</span><span class="line">    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<p>或者更确定的语义之下，每次都清理临时文件，这样更明确，处理更好一点:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    ....
-</span><span class='line'>except BaseException:
-</span><span class='line'>    logger.error(....)
-</span><span class='line'>finally:
-</span><span class='line'>    os.remove(temp_file)</span></code></pre></td></tr></table></div></figure>
-
+<p>或者更确定的语义之下，每次都清理临时文件，这样更明确，处理更好一点:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">try:
+</span><span class="line">    ....
+</span><span class="line">except BaseException:
+</span><span class="line">    logger.error(....)
+</span><span class="line">finally:
+</span><span class="line">    os.remove(temp_file)</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
 <p>参考:</p>
 
-<p><a href="https://github.com/PyCQA/pycodestyle/issues/703">https://github.com/PyCQA/pycodestyle/issues/703</a></p>
+<p>https://github.com/PyCQA/pycodestyle/issues/703</p>
 
-<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html">https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html</a></p>
+<p>https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html</p>
 </div>
 
 
@@ -346,7 +353,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

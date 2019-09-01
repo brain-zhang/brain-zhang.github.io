@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -106,90 +122,125 @@
 
 
 <div class="entry-content"><ul>
-<li><p>启动</p>
+  <li>
+    <p>启动</p>
 
-<pre><code>  service openvswitch start
-</code></pre></li>
-<li><p>创建网桥</p>
+    <pre><code>  service openvswitch start
+</code></pre>
+  </li>
+  <li>
+    <p>创建网桥</p>
 
-<pre><code>  ovs-vsctl add-br br0
+    <pre><code>  ovs-vsctl add-br br0
   ifconfig br0 up
-</code></pre></li>
-<li><p>显示所有网桥</p>
+</code></pre>
+  </li>
+  <li>
+    <p>显示所有网桥</p>
 
-<pre><code>  ovs-vsctl show
-</code></pre></li>
-<li><p>删除网桥</p>
+    <pre><code>  ovs-vsctl show
+</code></pre>
+  </li>
+  <li>
+    <p>删除网桥</p>
 
-<pre><code>  ovs-vsctl del-br br0
-</code></pre></li>
-<li><p>增加端口</p>
+    <pre><code>  ovs-vsctl del-br br0
+</code></pre>
+  </li>
+  <li>
+    <p>增加端口</p>
 
-<pre><code>  ovs-vsctl add-port br0 eth0
-</code></pre></li>
-<li><p>设置网卡为none</p>
+    <pre><code>  ovs-vsctl add-port br0 eth0
+</code></pre>
+  </li>
+  <li>
+    <p>设置网卡为none</p>
 
-<pre><code>  dhclient br0
-</code></pre></li>
-<li><p>用 Namespace 模拟两台虚拟机网络</p>
+    <pre><code>  dhclient br0
+</code></pre>
+  </li>
+  <li>
+    <p>用 Namespace 模拟两台虚拟机网络</p>
 
-<pre><code>  p netns add network1
+    <pre><code>  p netns add network1
   ip netns add network2
-</code></pre></li>
-<li><p>创建两个虚拟网卡并加入网桥</p>
+</code></pre>
+  </li>
+  <li>
+    <p>创建两个虚拟网卡并加入网桥</p>
 
-<pre><code>  ovs-vsctl add-port br0 vport1 -- set interface vport1 type=internal
+    <pre><code>  ovs-vsctl add-port br0 vport1 -- set interface vport1 type=internal
   ovs-vsctl add-port br0 vport2 -- set interface vport2 type=internal
   tunctl -p -t vport1
   tunctl -p -t vport2
-</code></pre></li>
-<li><p>两个虚拟网卡接入namespace</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个虚拟网卡接入namespace</p>
 
-<pre><code>  ip link set vport1 netns network1
+    <pre><code>  ip link set vport1 netns network1
   ip link set vport2 netns network2
-</code></pre></li>
-<li><p>设置虚拟网卡的IP</p>
+</code></pre>
+  </li>
+  <li>
+    <p>设置虚拟网卡的IP</p>
 
-<pre><code>  ip netns exec network1 ifconfig vport1 192.168.0.1/24 up
+    <pre><code>  ip netns exec network1 ifconfig vport1 192.168.0.1/24 up
   ip netns exec network2 ifconfig vport2 192.168.0.2/24 up
-</code></pre></li>
-<li><p>两个namsespace PING</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个namsespace PING</p>
 
-<pre><code>  ip netns exec network1 ping 192.168.0.2
+    <pre><code>  ip netns exec network1 ping 192.168.0.2
   ip netns exec network2 tcpdump -i vport2
-</code></pre></li>
-<li><p>两个namsespace  NC传输</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个namsespace  NC传输</p>
 
-<pre><code>  ip netns exec network2 nc -l 1234
+    <pre><code>  ip netns exec network2 nc -l 1234
   ip netns exec network2 tcpdump -i vport2
   ip netns exec network1 nc 192.168.0.2 1234
-</code></pre></li>
-<li><p>显示vlan信息</p>
+</code></pre>
+  </li>
+  <li>
+    <p>显示vlan信息</p>
 
-<pre><code>  ovs-appctl fdb/show br0
-</code></pre></li>
-<li><p>显示openflow信息</p>
+    <pre><code>  ovs-appctl fdb/show br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示openflow信息</p>
 
-<pre><code>  ovs-ofctl show br0
-</code></pre></li>
-<li><p>显示流表信息</p>
+    <pre><code>  ovs-ofctl show br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示流表信息</p>
 
-<pre><code>  ovs-ofctl dump-flows br0
-</code></pre></li>
-<li><p>显示网桥详细信息</p>
+    <pre><code>  ovs-ofctl dump-flows br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示网桥详细信息</p>
 
-<pre><code>  ovs-vsctl list Bridge
-</code></pre></li>
-<li><p>显示端口详细信息</p>
+    <pre><code>  ovs-vsctl list Bridge
+</code></pre>
+  </li>
+  <li>
+    <p>显示端口详细信息</p>
 
-<pre><code>  ovs-vsctl list Port
-</code></pre></li>
-<li><p>显示接口详细信息</p>
+    <pre><code>  ovs-vsctl list Port
+</code></pre>
+  </li>
+  <li>
+    <p>显示接口详细信息</p>
 
-<pre><code>  ovs-vsctl list Interface
-</code></pre></li>
+    <pre><code>  ovs-vsctl list Interface
+</code></pre>
+  </li>
 </ul>
-
 </div>
 
 
@@ -284,7 +335,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -19,7 +19,7 @@
 8
 9
 10
-RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
+RUN mkdir -p /home/build/npm3 &amp;&amp; \ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -42,6 +42,22 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -121,28 +137,27 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
 
 <p>有个比较偏门的写注释的方法:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RUN mkdir -p /home/build/npm3 && \
-</span><span class='line'>    mkdir -p /home/build/smartprobe && \
-</span><span class='line'>    mkdir -p /home/build/bpc3 && \
-</span><span class='line'>    `#====================================================` \
-</span><span class='line'>    `#=============checkout and install rpms==============` \
-</span><span class='line'>    svn export xxx && \
-</span><span class='line'>    rpm -ivh --force --nodeps *.rpm && \
-</span><span class='line'>    `#====================================================` \
-</span><span class='line'>    `#=============checkout and install python==============` \
-</span><span class='line'>    ... && \
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">RUN mkdir -p /home/build/npm3 &amp;&amp; \
+</span><span class="line">    mkdir -p /home/build/smartprobe &amp;&amp; \
+</span><span class="line">    mkdir -p /home/build/bpc3 &amp;&amp; \
+</span><span class="line">    `#====================================================` \
+</span><span class="line">    `#=============checkout and install rpms==============` \
+</span><span class="line">    svn export xxx &amp;&amp; \
+</span><span class="line">    rpm -ivh --force --nodeps *.rpm &amp;&amp; \
+</span><span class="line">    `#====================================================` \
+</span><span class="line">    `#=============checkout and install python==============` \
+</span><span class="line">    ... &amp;&amp; \
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>比较实用，推荐之。</p>
 </div>
@@ -239,7 +254,7 @@ RUN mkdir -p /home/build/npm3 && \ mkdir -p &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

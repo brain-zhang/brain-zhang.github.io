@@ -33,6 +33,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -110,103 +126,93 @@
 
 <!-- more -->
 
+<h3 id="section">中文标点集合</h3>
 
-<h3>中文标点集合</h3>
+<h4 id="section-1">比较常见标点有这些：</h4>
 
-<h4>比较常见标点有这些：</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>调用zhon包的zhon.hanzi.punctuation函数即可得到这些中文标点。</p>
 
 <p>如果想用英文的标点，则可调用string包的string.punctuation函数可得到：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>!"#$%&\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">!"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>因此，比如需要将所有标点符号去除，可以进行以下操作：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; import re
-</span><span class='line'>&gt;&gt;&gt; from zhon.hanzo import punctuation
-</span><span class='line'>&gt;&gt;&gt; line = "测试。。去除标点。。"
-</span><span class='line'>&gt;&gt;&gt; print re.sub("[{}]+".format(punctuation), "", line.decode("utf-8")) # 需要将str转换为unicode</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; import re
+</span><span class="line">&gt;&gt;&gt; from zhon.hanzo import punctuation
+</span><span class="line">&gt;&gt;&gt; line = "测试。。去除标点。。"
+</span><span class="line">&gt;&gt;&gt; print re.sub("[{}]+".format(punctuation), "", line.decode("utf-8")) # 需要将str转换为unicode</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>当然，如果想去除重复的符号而只保留一个，那么可以用\1指明：比如</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.sub(ur"([{}])+".format(punctuation), "\1", line.decode("utf-8"))</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; re.sub(ur"([{}])+".format(punctuation), "\1", line.decode("utf-8"))</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>你也可以手工指定这些标点符号</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
-</span><span class='line'>re_punctuation = "[{}]+".format(punctuation)
-</span><span class='line'>line = re.sub(re_punctuation, "", line)</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+</span><span class="line">re_punctuation = "[{}]+".format(punctuation)
+</span><span class="line">line = re.sub(re_punctuation, "", line)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h3>可以通过直接指定unicode码范围的办法来strip，比如:</h3>
+<h3 id="unicodestrip">可以通过直接指定unicode码范围的办法来strip，比如:</h3>
 
 <p>去除所有半角全角符号，只留字母、数字、中文</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def remove_punctuation(line):
-</span><span class='line'>    rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
-</span><span class='line'>    line = rule.sub('',line)
-</span><span class='line'>    return line</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def remove_punctuation(line):
+</span><span class="line">    rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+</span><span class="line">    line = rule.sub('',line)
+</span><span class="line">    return line</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>汉字的范围为”\u4e00-\u9fa5“，这个是用Unicode表示的，所以前面必须要加”u“；字符”r“的意思是表示忽略后面的转义字符，这样简化了后面正则表达式里每遇到一个转义字符还得挨个转义的麻烦</p>
 
-<h3>最后可以组合成为一个函数</h3>
+<h3 id="section-2">最后可以组合成为一个函数</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def remove_punctuation(line, strip_all=True):
-</span><span class='line'>    if strip_all:
-</span><span class='line'>        rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
-</span><span class='line'>        line = rule.sub('',line)
-</span><span class='line'>    else:
-</span><span class='line'>        punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
-</span><span class='line'>        re_punctuation = "[{}]+".format(punctuation)
-</span><span class='line'>        line = re.sub(re_punctuation, "", line)
-</span><span class='line'>
-</span><span class='line'>    return line.strip()</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def remove_punctuation(line, strip_all=True):
+</span><span class="line">    if strip_all:
+</span><span class="line">        rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
+</span><span class="line">        line = rule.sub('',line)
+</span><span class="line">    else:
+</span><span class="line">        punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
+</span><span class="line">        re_punctuation = "[{}]+".format(punctuation)
+</span><span class="line">        line = re.sub(re_punctuation, "", line)
+</span><span class="line">
+</span><span class="line">    return line.strip()</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h3>清洗完毕后，有时候我们希望按照多个标点符号来分割</h3>
+<h3 id="section-3">清洗完毕后，有时候我们希望按照多个标点符号来分割</h3>
 
 <p>比如只要遇到中文或英文的逗号和句号等符号就分割，可以直接用translate把这些符号翻译为统一的分隔符，再split:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>strip_chars = '？"。.，,《》[]〖〗“”'
-</span><span class='line'>single_line = single_line.translate(str.maketrans(dict.fromkeys(strip_chars, '#')))
-</span><span class='line'>single_line = single_line.split('#')</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">strip_chars = '？"。.，,《》[]〖〗“”'
+</span><span class="line">single_line = single_line.translate(str.maketrans(dict.fromkeys(strip_chars, '#')))
+</span><span class="line">single_line = single_line.split('#')</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
 
@@ -302,7 +308,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

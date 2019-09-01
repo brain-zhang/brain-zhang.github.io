@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -109,7 +125,6 @@
 
 <!-- more -->
 
-
 <p>超级棒的一本合集。感谢作者的整理。看到这本书的评论区如此冷清，实在可惜，就啰嗦几句。</p>
 
 <p>在对比特币的白皮书所有技术细节了然于胸之后，再读这本书别有风味；每天睡前随手翻上几页，好像穿越过去阅读科幻小说的体验。</p>
@@ -119,39 +134,78 @@
 <p>虽然里面基本上所有的内容都被社区发掘完毕，学习消化了，但是每次重读，总有新感悟，挑几个书里面很有意思的点来说说。</p>
 
 <ol>
-<li><p>早期的参与者基本上都是100%的Geek，像后来我们耳熟能详的Hal Finney、Laszlo Hanyecz、Gavin Andresen、bytemaster、theymos等等，反而是Andreas M. Antonopoulos 参与的比较晚；</p></li>
-<li><p>Hal Finney曾经在论坛上说自己是第二个运行比特币软件的人，他挖到的第一个区块大概是第70 Block，可以肯定，第70 block之前所有的地址都是中本聪本人的钱包地址</p></li>
-<li><p>Laszlo Hanyecz应该是已知的显卡挖矿第一人，他大概挖到了80000枚币，所以当时花费10000币买个pizza可以理解；</p></li>
-<li><p>中本聪最初发布0.01版本的bitcoin时候，初始区块大小是32MB，后来防止DDOS才改成了1MB；他明确说了将来硬件发展，区块大小不是问题；但是他也明确提出了微支付通道的应用场景；估计今天中本聪对怎么扩容也没有准主意；</p></li>
-<li><p>比特币的地址有 2<sup>160</sup> 的区间，中本聪认为已经足够了</p></li>
-<li><p>关于可扩展性和速度，当时的中本聪其实已经高瞻远瞩到了未来的0确认和微支付技术，并对bytemaster说出了那句著名的:&ldquo;If you don&rsquo;t believe me or don&rsquo;t get it, I don&rsquo;t have time to try to convince you, sorry.&rdquo; ；这句话真是超级怼人啊；</p></li>
-<li><p>早期的社区蛮有危机感的，详细讨论了一个国家设置一个大洲将比特币网络隔绝在外的时候会发生什么，怎样应对这种状况；</p></li>
-<li><p>对于DDOS，中本聪的应对就是手续费，早期是可以发0手续费的交易的，后来遭遇DDOS攻击，讨论了一个算法，就是0手续费的交易要延迟入块，再到现在，所谓&lt;568 satoshi 的交易视为dust交易；我相信将来围绕这个点，社区还会爆发争论的；</p></li>
-<li><p>中本聪早期明确表示比特币的链要尽可能表示精简，像在链上发送消息这种事情应该放到侧链上来做，所以可见的未来，像BCH、BSV扩大OP_RETURN字节的设定实在是有点心大；</p></li>
-<li><p>关于挖矿耗费能源，中本聪表示今后可以在寒冷地区推行一边挖矿一边取暖的措施；乍一听好像不靠谱，其实仔细想想完全说得通。硬件99%的能源其实就是转化为了热量，将来矿机的成本低于一个小电暖之后，为什么不能在俄罗斯、加拿大一些靠北的城市建立大矿厂，一边供暖一边挖矿呢？我觉得完全可行。</p></li>
-<li><p>关于bitdns，或者说今天的namecoin，虽然讨论只有寥寥几段，但是非常精彩。可直到今天侧链技术也是不温不火；这说明两个问题：</p>
+  <li>
+    <p>早期的参与者基本上都是100%的Geek，像后来我们耳熟能详的Hal Finney、Laszlo Hanyecz、Gavin Andresen、bytemaster、theymos等等，反而是Andreas M. Antonopoulos 参与的比较晚；</p>
+  </li>
+  <li>
+    <p>Hal Finney曾经在论坛上说自己是第二个运行比特币软件的人，他挖到的第一个区块大概是第70 Block，可以肯定，第70 block之前所有的地址都是中本聪本人的钱包地址</p>
+  </li>
+  <li>
+    <p>Laszlo Hanyecz应该是已知的显卡挖矿第一人，他大概挖到了80000枚币，所以当时花费10000币买个pizza可以理解；</p>
+  </li>
+  <li>
+    <p>中本聪最初发布0.01版本的bitcoin时候，初始区块大小是32MB，后来防止DDOS才改成了1MB；他明确说了将来硬件发展，区块大小不是问题；但是他也明确提出了微支付通道的应用场景；估计今天中本聪对怎么扩容也没有准主意；</p>
+  </li>
+  <li>
+    <p>比特币的地址有 2^160 的区间，中本聪认为已经足够了</p>
+  </li>
+  <li>
+    <p>关于可扩展性和速度，当时的中本聪其实已经高瞻远瞩到了未来的0确认和微支付技术，并对bytemaster说出了那句著名的:”If you don’t believe me or don’t get it, I don’t have time to try to convince you, sorry.” ；这句话真是超级怼人啊；</p>
+  </li>
+  <li>
+    <p>早期的社区蛮有危机感的，详细讨论了一个国家设置一个大洲将比特币网络隔绝在外的时候会发生什么，怎样应对这种状况；</p>
+  </li>
+  <li>
+    <p>对于DDOS，中本聪的应对就是手续费，早期是可以发0手续费的交易的，后来遭遇DDOS攻击，讨论了一个算法，就是0手续费的交易要延迟入块，再到现在，所谓&lt;568 satoshi 的交易视为dust交易；我相信将来围绕这个点，社区还会爆发争论的；</p>
+  </li>
+  <li>
+    <p>中本聪早期明确表示比特币的链要尽可能表示精简，像在链上发送消息这种事情应该放到侧链上来做，所以可见的未来，像BCH、BSV扩大OP_RETURN字节的设定实在是有点心大；</p>
+  </li>
+  <li>
+    <p>关于挖矿耗费能源，中本聪表示今后可以在寒冷地区推行一边挖矿一边取暖的措施；乍一听好像不靠谱，其实仔细想想完全说得通。硬件99%的能源其实就是转化为了热量，将来矿机的成本低于一个小电暖之后，为什么不能在俄罗斯、加拿大一些靠北的城市建立大矿厂，一边供暖一边挖矿呢？我觉得完全可行。</p>
+  </li>
+  <li>
+    <p>关于bitdns，或者说今天的namecoin，虽然讨论只有寥寥几段，但是非常精彩。可直到今天侧链技术也是不温不火；这说明两个问题：</p>
 
-<ul>
-<li><p>在大部分领域，大众对于去中心化的需求并不高，这不是痛点；像DNS，现在的中心化方案工作的挺好的</p></li>
-<li><p>维持一条公链消耗巨大的能源，实在是太金贵了；痛点不足的应用勉强上链也不会有太多用户；真理要慢慢说，群众接受需要时间，一口气说出来会吓坏大家。</p></li>
-</ul>
-</li>
-<li><p>关于比特币的经济属性，Hal Finney觉得bitcoin最终会成为黄金中的黄金，即作为所有数字货币的锚定物；而中本聪也承认bitcoin更接近于一种收藏品。</p></li>
-<li><p>Laszlo Hanyecz提出了一个有意思的问题，说将来矿机算力会不会碰撞私钥的收益超过比特币挖矿的收益；中本聪回答这得整体算力达到2<sup>200</sup>的级别才可以；这应该是中本聪随口说说，我仔细测算了一下，可能达到2<sup>100</sup>的级别就有利可图了</p></li>
-<li><p>然后关于币价，中本聪其实也觉得挖矿成本会成为基本面；因为bitcoin是一个非常有趣的产品，人们觉得价格不合适，就是自己去挖；所以挖矿成本和币价总会有个伴生关系</p></li>
-<li><p>中本聪是在2007年开始考虑创造bitcoin的，并且他作为一个实干家代码先行；然后blockchain这个单词最初出现在bitcoin v0.01的代码注释里；所以严格考证起来：中本聪是bitcoin之父，bitcoin是blockchain之母，blockchain技术诞生于2007年。</p></li>
+    <ul>
+      <li>
+        <p>在大部分领域，大众对于去中心化的需求并不高，这不是痛点；像DNS，现在的中心化方案工作的挺好的</p>
+      </li>
+      <li>
+        <p>维持一条公链消耗巨大的能源，实在是太金贵了；痛点不足的应用勉强上链也不会有太多用户；真理要慢慢说，群众接受需要时间，一口气说出来会吓坏大家。</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>关于比特币的经济属性，Hal Finney觉得bitcoin最终会成为黄金中的黄金，即作为所有数字货币的锚定物；而中本聪也承认bitcoin更接近于一种收藏品。</p>
+  </li>
+  <li>
+    <p>Laszlo Hanyecz提出了一个有意思的问题，说将来矿机算力会不会碰撞私钥的收益超过比特币挖矿的收益；中本聪回答这得整体算力达到2^200的级别才可以；这应该是中本聪随口说说，我仔细测算了一下，可能达到2^100的级别就有利可图了</p>
+  </li>
+  <li>
+    <p>然后关于币价，中本聪其实也觉得挖矿成本会成为基本面；因为bitcoin是一个非常有趣的产品，人们觉得价格不合适，就是自己去挖；所以挖矿成本和币价总会有个伴生关系</p>
+  </li>
+  <li>
+    <p>中本聪是在2007年开始考虑创造bitcoin的，并且他作为一个实干家代码先行；然后blockchain这个单词最初出现在bitcoin v0.01的代码注释里；所以严格考证起来：中本聪是bitcoin之父，bitcoin是blockchain之母，blockchain技术诞生于2007年。</p>
+  </li>
 </ol>
-
 
 <p>最后冒险的做一些推测：</p>
 
 <ol>
-<li><p>虽然Segwit的升级将bitcoin全网链上的处理能力提高为7TPS，一年的极限也不过是区区2亿笔交易；假设将来要服务10亿用户，即使闪电网络极大繁荣，有许多大中转节点，假设一个用户一年只有一次链上<code>存取</code>的动作，也需要两次交易，就是整个主网链上一年要处理20亿笔交易；所以即使是bitcoin core，将来区块还是要扩容</p></li>
-<li><p>BCH和BSV 开放OP_RETURN限制，以及 bip62 解决延展性交易的手段实在是太冒险了；当然，历史有时候也青睐冒险者</p></li>
-<li><p>DDOS交易其实一直没有根除，即使加入了手续费用限制，内存池还是有被撑爆的风险，我觉得将来社区还会有争论</p></li>
-<li><p>像OP_HODL等操作符，还有Locktime的交易，还是应用太少，将来他们应该大放异彩</p></li>
+  <li>
+    <p>虽然Segwit的升级将bitcoin全网链上的处理能力提高为7TPS，一年的极限也不过是区区2亿笔交易；假设将来要服务10亿用户，即使闪电网络极大繁荣，有许多大中转节点，假设一个用户一年只有一次链上<code>存取</code>的动作，也需要两次交易，就是整个主网链上一年要处理20亿笔交易；所以即使是bitcoin core，将来区块还是要扩容</p>
+  </li>
+  <li>
+    <p>BCH和BSV 开放OP_RETURN限制，以及 bip62 解决延展性交易的手段实在是太冒险了；当然，历史有时候也青睐冒险者</p>
+  </li>
+  <li>
+    <p>DDOS交易其实一直没有根除，即使加入了手续费用限制，内存池还是有被撑爆的风险，我觉得将来社区还会有争论</p>
+  </li>
+  <li>
+    <p>像OP_HODL等操作符，还有Locktime的交易，还是应用太少，将来他们应该大放异彩</p>
+  </li>
 </ol>
-
 
 <p>最后的最后，这是一本非常有趣、科技含量非常高的科普读物；可能会在遥远的未来(100年，还是1000年，谁知道呢？)， 里面的许多句子会广为人知，并记载在史书上；</p>
 </div>
@@ -248,7 +302,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,7 +123,7 @@
 
 <div class="entry-content"><p>最近发现了一个开源的JS东东，webtorrent:</p>
 
-<p><a href="https://github.com/feross/webtorrent">https://github.com/feross/webtorrent</a></p>
+<p>https://github.com/feross/webtorrent</p>
 
 <p>用webRTC实现了一个浏览器端的bt客户端。</p>
 
@@ -117,9 +133,10 @@
 
 <p>脑洞开一下，话说这会不会是快播们的春天来了。</p>
 
-<p>严肃一点再想想，是不是CDN提供商们可以利用它分担压力，提升速度，走上人生巅峰&hellip;.</p>
+<p>严肃一点再想想，是不是CDN提供商们可以利用它分担压力，提升速度，走上人生巅峰….</p>
 
 <p>留待后续观察。</p>
+
 </div>
 
 
@@ -214,7 +231,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

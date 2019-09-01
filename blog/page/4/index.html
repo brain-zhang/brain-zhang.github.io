@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -110,17 +126,17 @@
 
   <div class="entry-content"><p>自 <a href="https://en.bitcoin.it/wiki/Genesis_block">Genesis block</a>在2009-01-03 诞生以来，bitcoin 已经运行十年了。从一个个人项目，成长为世界话题，一段不可思议的旅程。</p>
 
-<p>有人在&lt;纽约时报>上面为其庆生：</p>
+<p>有人在<纽约时报>上面为其庆生：</纽约时报></p>
 
-<p><a href="https://www.reddit.com/r/Bitcoin/comments/ac4e64/the_happy_birthday_bitcoin_advertisement_in_the/">https://www.reddit.com/r/Bitcoin/comments/ac4e64/the_happy_birthday_bitcoin_advertisement_in_the/</a></p>
+<p>https://www.reddit.com/r/Bitcoin/comments/ac4e64/the_happy_birthday_bitcoin_advertisement_in_the/</p>
 
 <p>我在2013年初次读到白皮书的时候申请了一个域名:</p>
 
-<p><a href="http://20090103.com/">http://20090103.com/</a></p>
+<p>http://20090103.com/</p>
 
 <p>出于好玩的心态一直维护着，看看下一个十年会是怎样。</p>
 
-<h4>Hi, Happy 10th birthday bitcoin!</h4>
+<h4 id="hi-happy-10th-birthday-bitcoin">Hi, Happy 10th birthday bitcoin!</h4>
 </div>
   
   
@@ -295,7 +311,7 @@
   </header>
 
 
-  <div class="entry-content"><h2>scriptSig与scriptPubKey概览</h2>
+  <div class="entry-content"><h2 id="scriptsigscriptpubkey">scriptSig与scriptPubKey概览</h2>
 
 <p>继续解析我们上篇文章的交易(<code>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</code>)</p>
 
@@ -345,7 +361,7 @@
 
   <div class="entry-content"><p>之前我们学习了比特币的HD钱包的技术部分，写着写着我都觉得太无聊了，其实我觉得比特币归根结底还是一个很Geek的东西，初期被它吸引的人估计心底里都有一个独立自由的梦，甚至很多人都想要独立建国；它的技术发展史上也出现过很多有意思的事情，于是增加一篇娱乐性文章；</p>
 
-<p>我们知道比特币的交易是匿名的，但是有很多公共业务，比如交易所，以及公众人物&mdash;会公开他们的地址，那么让我们好好八卦一下比特币历史上那些有意思的地址</p>
+<p>我们知道比特币的交易是匿名的，但是有很多公共业务，比如交易所，以及公众人物–会公开他们的地址，那么让我们好好八卦一下比特币历史上那些有意思的地址</p>
 
 </div>
   
@@ -392,13 +408,12 @@
   <div class="entry-content"><p>之前的文章我们说过，比特币的所有交易抽象成了UTXO的转移。所谓转移，可以这么理解：</p>
 
 <ul>
-<li>有M个UTXO作为输入 (M >= 0)</li>
-<li>有N个UTXO作为输出 (N > 0)</li>
-<li>输入的UTXO总额==输出的UTXO总额</li>
-<li>输入的UTXO来源于支付方控制的私钥账户</li>
-<li>输出的UTXO流向收款方的公钥地址</li>
+  <li>有M个UTXO作为输入 (M &gt;= 0)</li>
+  <li>有N个UTXO作为输出 (N &gt; 0)</li>
+  <li>输入的UTXO总额==输出的UTXO总额</li>
+  <li>输入的UTXO来源于支付方控制的私钥账户</li>
+  <li>输出的UTXO流向收款方的公钥地址</li>
 </ul>
-
 
 <p>那么具体是怎么转移的？怎样手工的构造一笔交易呢？我们就在这篇文章里面详细的演示一遍。</p>
 
@@ -448,9 +463,9 @@
 
   <div class="entry-content"><p>几天前有人在github创建了一个issue:</p>
 
-<p><a href="https://github.com/dominictarr/event-stream/issues/116">https://github.com/dominictarr/event-stream/issues/116</a></p>
+<p>https://github.com/dominictarr/event-stream/issues/116</p>
 
-<p>标题为：&#8221;I don&rsquo;t know what to say.&ldquo;，翻译过来大概就是“我无语了”。因为 event-stream 包突然多出了一个名为 flatmap-stream 的依赖项，而这个依赖项正在窃取用户的数字货币。</p>
+<p>标题为：”I don’t know what to say.”，翻译过来大概就是“我无语了”。因为 event-stream 包突然多出了一个名为 flatmap-stream 的依赖项，而这个依赖项正在窃取用户的数字货币。</p>
 
 </div>
   
@@ -541,13 +556,12 @@
   <div class="entry-content"><p>在我们前面的文章中，我们提到，从建设银行转账到工商银行10w元，过程其实是这样的:</p>
 
 <ol>
-<li>建设银行发送报文到人行CNAPS系统</li>
-<li>人行CNAPS发送转账报文到工商银行</li>
-<li>工商银行发送响应报文给人行CNAPS</li>
-<li>人行发送响应报文给建设银行</li>
-<li>转账成功，建设银行、人行、工商银行各自更新账本</li>
+  <li>建设银行发送报文到人行CNAPS系统</li>
+  <li>人行CNAPS发送转账报文到工商银行</li>
+  <li>工商银行发送响应报文给人行CNAPS</li>
+  <li>人行发送响应报文给建设银行</li>
+  <li>转账成功，建设银行、人行、工商银行各自更新账本</li>
 </ol>
-
 
 <p>整个过程中，有几个很有趣的事实：</p>
 
@@ -579,7 +593,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -9,11 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="之前的文章我们说过，比特币的所有交易抽象成了UTXO的转移。所谓转移，可以这么理解： 有M个UTXO作为输入 (M >= 0)
-有N个UTXO作为输出 (N > 0)
-输入的UTXO总额==输出的UTXO总额
-输入的UTXO来源于支付方控制的私钥账户
-输出的UTXO流向收款方的公钥地址 &hellip;">
+  <meta name="description" content="之前的文章我们说过，比特币的所有交易抽象成了UTXO的转移。所谓转移，可以这么理解： 有M个UTXO作为输入 (M &gt;= 0) 有N个UTXO作为输出 (N &gt; 0) 输入的UTXO总额==输出的UTXO总额 输入的UTXO来源于支付方控制的私钥账户 输出的UTXO流向收款方的公钥地址 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -36,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -112,13 +124,12 @@
 <div class="entry-content"><p>之前的文章我们说过，比特币的所有交易抽象成了UTXO的转移。所谓转移，可以这么理解：</p>
 
 <ul>
-<li>有M个UTXO作为输入 (M >= 0)</li>
-<li>有N个UTXO作为输出 (N > 0)</li>
-<li>输入的UTXO总额==输出的UTXO总额</li>
-<li>输入的UTXO来源于支付方控制的私钥账户</li>
-<li>输出的UTXO流向收款方的公钥地址</li>
+  <li>有M个UTXO作为输入 (M &gt;= 0)</li>
+  <li>有N个UTXO作为输出 (N &gt; 0)</li>
+  <li>输入的UTXO总额==输出的UTXO总额</li>
+  <li>输入的UTXO来源于支付方控制的私钥账户</li>
+  <li>输出的UTXO流向收款方的公钥地址</li>
 </ul>
-
 
 <p>那么具体是怎么转移的？怎样手工的构造一笔交易呢？我们就在这篇文章里面详细的演示一遍。</p>
 
@@ -126,8 +137,7 @@
 
 <!-- more -->
 
-
-<h4>Generation TX</h4>
+<h4 id="generation-tx">Generation TX</h4>
 
 <p>这种交易我们称之为是产量交易(Generation TX)，即矿工挖出一个新的Block时，系统允许这个矿工在块头构造一笔奖励自己的交易，这笔奖励金额被称之为Coinbase奖励，最初一个block挖出的奖励是50BTC，后来就是我们大家所熟知的四年减半原则啦。这样大家明白比特币整个账本里面的初始资金是怎么来的啦。就是系统通过Generation TX向矿工发放奖励产生的BTC。</p>
 
@@ -139,29 +149,29 @@
 
 <p>PS:Coinbase作为一个很经典的技术名词，其<code>coinbase.com</code>域名被现在美国著名的交易所coinbase Pro 注册持有。</p>
 
-<h4>Script Hash TX</h4>
+<h4 id="script-hash-tx">Script Hash TX</h4>
 
 <p>也被称为P2SH（Pay-to-Script-Hash）交易。</p>
 
 <p>该类交易目前不是很常见，大部分人可能没有听说过，但是非常有意义。未来应该会在某些场合频繁使用。该类交易的接受地址不是通常意义的地址，而是一个合成地址，以<code>3</code>开头 (Segwit交易其实也可以看成是Script Hash TX)。比如三对公私钥，可以生成一个合成地址。在生成过程时指定n of 3中的n，n范围是[1, 3]，若n=1，则仅需一个私钥签名即可花费该地址的币，若n=3，则需要三把私钥依次签名才可以。 这种类型的交易适合比较复杂的保险、证券场景。</p>
 
-<h4>多重签名脚本|Multisig</h4>
+<h4 id="multisig">多重签名脚本|Multisig</h4>
 
 <p>尽管P2SH 多重签名脚本一般用于多重签名的交易，但是这个基础性的脚本也可以用于这种场景：当一个UTXO被使用之前，需要多重签名验证。</p>
 
-<p>多重签名公钥脚本可以一般称为 m-of-n，至少需要m 个匹配公钥，n提供的公钥总数。m 和n 都应当根据需要的数量进行从OP_1到OP_16运算。</p>
+<p>多重签名公钥脚本可以一般称为 m-of-n，至少需要m 个匹配公钥，n提供的公钥总数。m 和n 都应当根据需要的数量进行从OP<em>1到OP</em>16运算。</p>
 
 <p>多重签名的交易细节更多，待我们搞明白最标准的比特币交易后，再来探究它。</p>
 
-<h4>Pubkey Hash TX</h4>
+<h4 id="pubkey-hash-tx">Pubkey Hash TX</h4>
 
 <p>也被称为P2PKH（Pay-to-Public-Key-Hash）交易。该类是最常见的交易类型，由N个输入、M个输出构成。交易地址都是以<code>1</code>开头。这种交易也是目前比特币网络中最典型的交易类型，也最简明，容易分析。下面我们就先拿它作为例子，开始探究一笔比特币交易的细节。</p>
 
-<h2>数据结构</h2>
+<h2 id="section">数据结构</h2>
 
-<h3>输入输出</h3>
+<h3 id="section-1">输入输出</h3>
 
-<p>简单来看，一笔完整的P2PKH交易包含有两个部分:输入UTXO &ndash;> 输出UTXO，而每一个输入UTXO其实是上一笔交易的输出UTXO，这么说可能有点绕口，来张图解释一下：</p>
+<p>简单来看，一笔完整的P2PKH交易包含有两个部分:输入UTXO -&gt; 输出UTXO，而每一个输入UTXO其实是上一笔交易的输出UTXO，这么说可能有点绕口，来张图解释一下：</p>
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181203/bg1.jpg" alt="img" /></p>
 
@@ -179,7 +189,7 @@
 
 <p>大家还记得我们的上一篇文章吧，一个分布式的账本，最容易的设计就是只支持<code>append</code>这个动作，诸如<code>update</code>、<code>delete</code>这种操作在区块链账本的设计中会引入额外的复杂性，尤其是后面我们讲述blockchain的组织的时候，你就会理解，这种设计的必要性。</p>
 
-<h3>细节</h3>
+<h3 id="section-2">细节</h3>
 
 <p>一笔完整的P2PKH 交易是这样的：</p>
 
@@ -189,231 +199,235 @@
 
 <p>用<a href="http://chainquery.com/bitcoin-api/getrawtransaction/3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517/1">在线getrawtransaction工具</a> 解码一下这笔交易，得到输出：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "result": {
-</span><span class='line'>      "txid": "3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517",
-</span><span class='line'>      "hash": "3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517",
-</span><span class='line'>      "version": 1,
-</span><span class='line'>      "size": 233,
-</span><span class='line'>      "vsize": 233,
-</span><span class='line'>      "locktime": 0,
-</span><span class='line'>      "vin": [
-</span><span class='line'>          {
-</span><span class='line'>              "txid": "b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b",
-</span><span class='line'>              "vout": 0,
-</span><span class='line'>              "scriptSig": {
-</span><span class='line'>                  "asm": "304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0[ALL] 04c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5",
-</span><span class='line'>                  "hex": "47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5"
-</span><span class='line'>              },
-</span><span class='line'>              "sequence": 4294967295
-</span><span class='line'>          }
-</span><span class='line'>      ],
-</span><span class='line'>      "vout": [
-</span><span class='line'>          {
-</span><span class='line'>              "value": 0.00007000,
-</span><span class='line'>              "n": 0,
-</span><span class='line'>              "scriptPubKey": {
-</span><span class='line'>                  "asm": "03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603 OP_CHECKSIG",
-</span><span class='line'>                  "hex": "2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac",
-</span><span class='line'>                  "reqSigs": 1,
-</span><span class='line'>                  "type": "pubkey",
-</span><span class='line'>                  "addresses": [
-</span><span class='line'>                      "1aau2Kgn7xBRWS6gPkYXWiw4cnzyKi7rR"
-</span><span class='line'>                  ]
-</span><span class='line'>              }
-</span><span class='line'>          }
-</span><span class='line'>      ],
-</span><span class='line'>      "hex": "01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000",
-</span><span class='line'>      "blockhash": "0000000000000000001b29c4b36a6f9ccbb0213b02c7eb659c0eaee1244586fb",
-</span><span class='line'>      "confirmations": 85331,
-</span><span class='line'>      "time": 1494823668,
-</span><span class='line'>      "blocktime": 1494823668
-</span><span class='line'>  },
-</span><span class='line'>  "error": null,
-</span><span class='line'>  "id": null
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{
+</span><span class="line">	"result": {
+</span><span class="line">		"txid": "3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517",
+</span><span class="line">		"hash": "3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517",
+</span><span class="line">		"version": 1,
+</span><span class="line">		"size": 233,
+</span><span class="line">		"vsize": 233,
+</span><span class="line">		"locktime": 0,
+</span><span class="line">		"vin": [
+</span><span class="line">			{
+</span><span class="line">				"txid": "b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b",
+</span><span class="line">				"vout": 0,
+</span><span class="line">				"scriptSig": {
+</span><span class="line">					"asm": "304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0[ALL] 04c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5",
+</span><span class="line">					"hex": "47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5"
+</span><span class="line">				},
+</span><span class="line">				"sequence": 4294967295
+</span><span class="line">			}
+</span><span class="line">		],
+</span><span class="line">		"vout": [
+</span><span class="line">			{
+</span><span class="line">				"value": 0.00007000,
+</span><span class="line">				"n": 0,
+</span><span class="line">				"scriptPubKey": {
+</span><span class="line">					"asm": "03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603 OP_CHECKSIG",
+</span><span class="line">					"hex": "2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac",
+</span><span class="line">					"reqSigs": 1,
+</span><span class="line">					"type": "pubkey",
+</span><span class="line">					"addresses": [
+</span><span class="line">						"1aau2Kgn7xBRWS6gPkYXWiw4cnzyKi7rR"
+</span><span class="line">					]
+</span><span class="line">				}
+</span><span class="line">			}
+</span><span class="line">		],
+</span><span class="line">		"hex": "01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000",
+</span><span class="line">		"blockhash": "0000000000000000001b29c4b36a6f9ccbb0213b02c7eb659c0eaee1244586fb",
+</span><span class="line">		"confirmations": 85331,
+</span><span class="line">		"time": 1494823668,
+</span><span class="line">		"blocktime": 1494823668
+</span><span class="line">	},
+</span><span class="line">	"error": null,
+</span><span class="line">	"id": null
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h4 id="section-3">字段说明</h4>
 
-<h4>字段说明</h4>
-
-<h5>txid (hash)</h5>
+<h5 id="txid-hash">txid (hash)</h5>
 
 <p>Tx Hash (3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517)，俗称交易ID，由hex得出：Tx Hash = SHA256(SHA256(hex))。由于每个交易只能成为下一个的输入，有且仅有一次，那么不存在输入完全相同的交易。因为SHA256碰撞的概率极小，所以理论上存在相同的Tx Hash 的概率非常小。</p>
 
 <p>即便如此，在系统里依然产生了相同的Tx Hash，是不知道哪位矿工挖出Block后，打包Block时忘记修改Generation Tx coinbase字段的值，币量相同且输出至相同的地址，那么就构造了两个完全一模一样的交易，分别位于两个Block的第一个位置。这个对系统不会产生什么问题，但只要花费其中一笔，另一个也被花费了。相同的Generation Tx相当于覆盖了另一个，白白损失了挖出的币。该交易ID为<a href="https://blockchain.info/tx/e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468">e3bf3d07d4b0375638d5f1db5255fe07ba2c4cb067cd81b84ee974b6585fb468</a>，第一次出现在<a href="https://blockchain.info/block/00000000000271a2dc26e7667f8419f2e15416dc6955e5a6c6cdf3f2574dd08e">#91722</a>，第二次出现在<a href="https://blockchain.info/block/00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721">#91880</a>。</p>
 
-<h5>vin (输入UTXO)</h5>
+<h5 id="vin-utxo">vin (输入UTXO)</h5>
 
 <p>vin是一个数组，里面即M个输入UTXO，每个UTXO都来自上一笔交易的一个UTXO输出，这笔交易的vin只有一个UTXO，它由以下几个字段组成</p>
 
 <ol>
-<li>txid: 上一笔关联交易的hash值</li>
-<li>vout index: 上一笔交易输出的N个UTXO里面的序号</li>
-<li>scriptSig: 对这笔UTXO的签名，还记得我们之前的文章吗？只有对一个UTXO签名才能证明其所有权，才能花费它</li>
-<li>sequence: 序列号。这个序列号来源比较复杂；还记得上面讲的locktime有所关联：</li>
+  <li>txid: 上一笔关联交易的hash值</li>
+  <li>vout index: 上一笔交易输出的N个UTXO里面的序号</li>
+  <li>scriptSig: 对这笔UTXO的签名，还记得我们之前的文章吗？只有对一个UTXO签名才能证明其所有权，才能花费它</li>
+  <li>sequence: 序列号。这个序列号来源比较复杂；还记得上面讲的locktime有所关联：</li>
 </ol>
 
+<blockquote>
+  <p>Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。
+如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。            </p>
+</blockquote>
 
-<blockquote><p>Locktime 允许签名者创建一个时间锁定交易。因为只会在将来生效，这给签名者一个的反悔的机会。
-如果其中任何一个签名者反悔了，他可以创建一个没有locktime 的交易。因为新创建的交易可以花掉旧交易的那部分input，所以旧交易在lock time解锁后 找不到可以花掉的input，旧交易就失效了。</p>
+<blockquote>
+  <p>Bitcoin Core 的早期版本提供了一个可以防止签名者使用上述方法取消locktime 交易的功能。 后来为了防止大量的延时交易攻击网络，这个功能被禁用了。但是该系统还留下了这样的设置，每个输入会分配一个四字节的序列号。序列号的目的旨在允许多个签名者同意更新交易。</p>
+</blockquote>
 
-<p>Bitcoin Core 的早期版本提供了一个可以防止签名者使用上述方法取消locktime 交易的功能。 后来为了防止大量的延时交易攻击网络，这个功能被禁用了。但是该系统还留下了这样的设置，每个输入会分配一个四字节的序列号。序列号的目的旨在允许多个签名者同意更新交易。</p>
+<blockquote>
+  <p>如果sequence number设置为0，就按照locktime执行入块操作，如果出现一笔新的交易，sequence大于原来的sequence，这笔新交易就会取代原来的交易；所以一般为了即刻入块，交易的sequence number一般设置为四字节的的无符号最大值(0xffffffff),使得交易的locktime 仍然有效的情况下，打包交易进块。</p>
+</blockquote>
 
-<p>如果sequence number设置为0，就按照locktime执行入块操作，如果出现一笔新的交易，sequence大于原来的sequence，这笔新交易就会取代原来的交易；所以一般为了即刻入块，交易的sequence number一般设置为四字节的的无符号最大值(0xffffffff),使得交易的locktime 仍然有效的情况下，打包交易进块。</p>
-
-<p>即使今天，如果所有的input 的sequence number都是最大值，locktime锁就会失效。所以如果想使用locktime，至少一个input的sequence number要小于最大值。由于sequence number不用于其他目的，任何sequence number 为零的交易都会启动locktime 功能。后面我们会看到，sequence number会在闪电网络中发挥作用</p></blockquote>
+<blockquote>
+  <p>即使今天，如果所有的input 的sequence number都是最大值，locktime锁就会失效。所以如果想使用locktime，至少一个input的sequence number要小于最大值。由于sequence number不用于其他目的，任何sequence number 为零的交易都会启动locktime 功能。后面我们会看到，sequence number会在闪电网络中发挥作用</p>
+</blockquote>
 
 <p>vin的所有UTXO 余额相加，就是这笔交易的转账总额。</p>
 
-<h5>vout (输出UTXO)</h5>
+<h5 id="vout-utxo">vout (输出UTXO)</h5>
 
 <ol>
-<li>value: 转账金额</li>
-<li>n: 作为第N个UTXO输出</li>
-<li><p>scriptPubKey: 这是设置的谜题，后来人想要花费这笔UTXO，必须提供scriptSig来解答这个谜题才可以</p></li>
-<li><p>vin 的总额 &ndash; vout的总额 == 打包费用 &ndash;> 奖励给打包矿工</p></li>
+  <li>value: 转账金额</li>
+  <li>n: 作为第N个UTXO输出</li>
+  <li>scriptPubKey: 这是设置的谜题，后来人想要花费这笔UTXO，必须提供scriptSig来解答这个谜题才可以</li>
 </ol>
 
+<ul>
+  <li>vin 的总额 - vout的总额 == 打包费用 -&gt; 奖励给打包矿工</li>
+</ul>
 
-<h4>交易十六进制解析</h4>
+<h4 id="section-4">交易十六进制解析</h4>
 
 <p>spec规范在<a href="https://en.bitcoin.it/wiki/Protocol_documentation#tx">这里</a></p>
 
 <p>这笔交易的vin及vout中各有一个UTXO，我们解析下它的十六进制原始数据:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h5 id="version-4-4versionlittle-endianversion0x00000001">version (4字节): 刚开始的4个字节是version，小端排序(Little Endian)，因此version为<code>0x00000001</code></h5>
 
-<h5>version (4字节): 刚开始的4个字节是version，小端排序(Little Endian)，因此version为<code>0x00000001</code></h5>
+<blockquote>
+  <p>ps:关于小端排序的设计，社区里面还有过小争论，见<a href="https://bitcointalk.org/index.php?topic=4278.0">这里</a></p>
+</blockquote>
 
-<blockquote><p>ps:关于小端排序的设计，社区里面还有过小争论，见<a href="https://bitcointalk.org/index.php?topic=4278.0">这里</a></p></blockquote>
+<h5 id="flag-2-0001witnessflagflag">flag (2字节，可选): 如果是<code>0001</code>，代表是witness交易；如果不是，就代表没有这个flag字段；这是一笔普通的交易，因此没有flag字段</h5>
 
-<h5>flag (2字节，可选): 如果是<code>0001</code>，代表是witness交易；如果不是，就代表没有这个flag字段；这是一笔普通的交易，因此没有flag字段</h5>
+<h5 id="vin-count-1-vin01varinthttpsenbitcoinitwikiprotocoldocumentationvariablelengthinteger">vin count (&gt;=1字节): vin数目，此交易为<code>01</code>，采用的是<a href="https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer">var_int</a>表示法，这样我们能方便的测算它的长度</h5>
 
-<h5>vin count (>=1字节): vin数目，此交易为<code>01</code>，采用的是<a href="https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer">var_int</a>表示法，这样我们能方便的测算它的长度</h5>
-
-<h5>vin (>=41字节): 所有的输入tx，是一个数组；这里只有一个tx，数据是:</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff</span></code></pre></td></tr></table></div></figure>
-
+<h5 id="vin-41-txtx">vin (&gt;=41字节): 所有的输入tx，是一个数组；这里只有一个tx，数据是:</h5>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>简单说下vin中一笔tx内部结构:</p>
 
 <ol>
-<li>previous_output (32字节): 上一笔交易的HASH值，即这个花费的输入交易ID:</li>
+  <li>previous_output (32字节): 上一笔交易的HASH值，即这个花费的输入交易ID: </li>
 </ol>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0
-</span><span class='line'>-&gt; 转为大端排序  
-</span><span class='line'>b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">3bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0
+</span><span class="line">-&gt; 转为大端排序  
+</span><span class="line">b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
-<li><p>previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是<code>00000000</code></p></li>
-<li><p>script length (var_int变长，代表script的长度): 这里是<code>0x8a</code>，表示script长度为138字节</p></li>
-<li><p>scriptSig (整个解密脚本)： 这个结构我们之后会具体分析</p></li>
+  <li>
+    <p>previous output index: 表示花费的是 previous_output 交易的第n个vout输出，这里是<code>00000000</code></p>
+  </li>
+  <li>
+    <p>script length (var_int变长，代表script的长度): 这里是<code>0x8a</code>，表示script长度为138字节</p>
+  </li>
+  <li>
+    <p>scriptSig (整个解密脚本)： 这个结构我们之后会具体分析
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></p>
+  </li>
 </ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code></pre></td></tr></table></div></figure>
-
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
 
 <ol>
-<li>sequence no (4个字节): <code>ffffffff</code></li>
+  <li>sequence no (4个字节): <code>ffffffff</code></li>
 </ol>
 
+<h5 id="vout-count-1-vout01">vout count (&gt;=1字节): vout数目，此处为<code>01</code></h5>
 
-<h5>vout count (>=1字节): vout数目，此处为<code>01</code></h5>
+<h5 id="vout-9-txtx">vout (&gt;=9字节): 所有的输出tx，是一个数组；这里只有一个tx，数据是:</h5>
 
-<h5>vout (>=9字节): 所有的输出tx，是一个数组；这里只有一个tx，数据是:</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>581b0000000000002103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">581b0000000000002103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>简单说下vout中一笔tx内部结构:</p>
 
 <ol>
-<li>value (8字节): 转账到这个地址上的金额， 这里是<code>581b000000000000</code>小端排序，十六进制为<code>00000000000000581b</code>，即转账7000 satoshis</li>
-<li>scriptPubKey length (>=1, var_int类型): 输出脚本的长度，这里是<code>0x23</code>，代表35字节长度</li>
-<li>scriptPubKey: 输出脚本，其实就是包含转账地址的脚本，这里是<code>2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</code></li>
+  <li>value (8字节): 转账到这个地址上的金额， 这里是<code>581b000000000000</code>小端排序，十六进制为<code>00000000000000581b</code>，即转账7000 satoshis</li>
+  <li>scriptPubKey length (&gt;=1, var_int类型): 输出脚本的长度，这里是<code>0x23</code>，代表35字节长度</li>
+  <li>scriptPubKey: 输出脚本，其实就是包含转账地址的脚本，这里是<code>2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac</code></li>
 </ol>
 
+<h5 id="locktime-4locktime0">locktime: 最后4个字节是locktime，这笔交易设置为0；就是立即打包</h5>
 
-<h5>locktime: 最后4个字节是locktime，这笔交易设置为0；就是立即打包</h5>
+<h2 id="section-5">总览</h2>
 
-<h2>总览</h2>
-
-<h5>最后一张表格说明问题：</h5>
+<h5 id="section-6">最后一张表格说明问题：</h5>
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181203/bg3.jpg" alt="img" /></p>
 
-<h5>再来一张交易的总体示意图:</h5>
+<h5 id="section-7">再来一张交易的总体示意图:</h5>
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181203/bg4.jpg" alt="img" /></p>
 
 <ol>
-<li>TX0， input0即 vin0，里面有一笔100K satoshis比特币(1btc=10<sup>8</sup> satoshi)</li>
-<li>TX1、TX2 花费了 TX0-vin0，分成了TX1-vin0(40k satoshi)，以及TX2-vin0(50k satoshi)，还有10k satoshi作为交易费给矿工</li>
-<li>TX3花费了TX1-vin0 (30k satoshi)，付出了10k satoshi 交易费</li>
-<li>TX4、TX5 花费了 TX2-vin0，分成了TX4-vin0(20k satoshi)，以及TX5-vin0(20k satohsi)，付出了10k satoshi交易费</li>
-<li>TX6花费了TX4-vin0 + TX-5-vin0，共20K(satoshi)，其余的20k satoshi为交易费</li>
-<li>最后又花费了TX3-vin0中的20k satoshi, 10k satoshi作为交易费</li>
-<li>最后又花费了TX6-vin0，TX6-vin1中的10k satoshi, 10k satoshi作为交易费</li>
+  <li>TX0， input0即 vin0，里面有一笔100K satoshis比特币(1btc=10^8 satoshi)</li>
+  <li>TX1、TX2 花费了 TX0-vin0，分成了TX1-vin0(40k satoshi)，以及TX2-vin0(50k satoshi)，还有10k satoshi作为交易费给矿工</li>
+  <li>TX3花费了TX1-vin0 (30k satoshi)，付出了10k satoshi 交易费</li>
+  <li>TX4、TX5 花费了 TX2-vin0，分成了TX4-vin0(20k satoshi)，以及TX5-vin0(20k satohsi)，付出了10k satoshi交易费</li>
+  <li>TX6花费了TX4-vin0 + TX-5-vin0，共20K(satoshi)，其余的20k satoshi为交易费</li>
+  <li>最后又花费了TX3-vin0中的20k satoshi, 10k satoshi作为交易费</li>
+  <li>最后又花费了TX6-vin0，TX6-vin1中的10k satoshi, 10k satoshi作为交易费</li>
 </ol>
 
-
-<h2>小结</h2>
+<h2 id="section-8">小结</h2>
 
 <p>好了，到这里；我们对于一笔最简单的比特币的交易结构已经详细分析了一遍；但是在全网中，交易是怎样验证的呢？一笔资金从A转移到B，全节点怎么验证这次转移的合法性呢？</p>
 
@@ -421,17 +435,17 @@
 
 <p>那么scriptSig与scriptPubKey是怎么工作的呢？我们下次文章再会。</p>
 
-<h2>参考资料:</h2>
+<h2 id="section-9">参考资料:</h2>
 
-<p><a href="https://en.bitcoin.it/wiki/Protocol_documentation">https://en.bitcoin.it/wiki/Protocol_documentation</a></p>
+<p>https://en.bitcoin.it/wiki/Protocol_documentation</p>
 
-<p><a href="http://learnmeabitcoin.com/">http://learnmeabitcoin.com/</a></p>
+<p>http://learnmeabitcoin.com/</p>
 
-<p><a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html</a></p>
+<p>http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html</p>
 
-<p><a href="https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/standard_transactions.html">https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/standard_transactions.html</a></p>
+<p>https://0dayzh.gitbooks.io/bitcoin_developer_guide/content/standard_transactions.html</p>
 
-<p><a href="https://www.8btc.com/article/24637">https://www.8btc.com/article/24637</a></p>
+<p>https://www.8btc.com/article/24637</p>
 </div>
 
 
@@ -526,7 +540,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

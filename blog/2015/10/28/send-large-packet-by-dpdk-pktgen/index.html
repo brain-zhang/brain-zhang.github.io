@@ -9,7 +9,10 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="场景 测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。 问题 qinq双层vlan tag，有些包大小超过了1518字节，pktgen不支持。 解决方案 修改 dpdk-2.1.0/x86_64-native-linuxapp-gcc/ &hellip;">
+  <meta name="description" content="场景
+测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。 问题
+qinq双层vlan tag，有些包大小超过了1518字节，pktgen不支持。 解决方案
+修改 dpdk-2.1.0/x86_64-native-linuxapp-gcc/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +35,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,16 +124,13 @@
   </header>
 
 
-<div class="entry-content"><h2>场景</h2>
-
+<div class="entry-content"><h2 id="section">场景</h2>
 <p>测试qinq 发包，但是tcpreplay是没法带vlan tag的。所以需要用pktgen发送qinq包。</p>
 
-<h2>问题</h2>
-
+<h2 id="section-1">问题</h2>
 <p>qinq双层vlan tag，有些包大小超过了1518字节，pktgen不支持。</p>
 
-<h2>解决方案</h2>
-
+<h2 id="section-2">解决方案</h2>
 <p>修改 dpdk-2.1.0/x86_64-native-linuxapp-gcc/include/rte_ether.h:</p>
 
 <pre><code>#define ETHER_MAX_LEN 1522
@@ -122,21 +138,20 @@
 
 <p>重新编译DPDK，Pktgen，重新加载DPDK驱动</p>
 
-<h2>资料</h2>
+<h2 id="section-3">资料</h2>
 
 <ul>
-<li>DPDK2.1.0:</li>
+  <li>DPDK2.1.0:</li>
 </ul>
 
-
-<p><a href="http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz">http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz</a></p>
+<p>http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz</p>
 
 <ul>
-<li>Pktgen2.9.5:</li>
+  <li>Pktgen2.9.5:</li>
 </ul>
 
+<p>http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz</p>
 
-<p><a href="http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz">http://dpdk.org/browse/apps/pktgen-dpdk/snapshot/pktgen-dpdk-pktgen-2.9.5.tar.gz</a></p>
 </div>
 
 
@@ -231,7 +246,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

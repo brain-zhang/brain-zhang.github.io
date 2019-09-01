@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="svn的external link在多个项目互相引用时很有用。 但我们想要做tag及branch的时候，需要将external link的文件或目录固定在某个版本。 搜了一下，基本上有几个办法: 使用tortoisesvn>1.7版本，打tag及branch的时候可以固定在某一版本: ¦ http &hellip;">
+  <meta name="description" content="svn的external link在多个项目互相引用时很有用。 但我们想要做tag及branch的时候，需要将external link的文件或目录固定在某个版本。 搜了一下，基本上有几个办法: 使用tortoisesvn&gt;1.7版本，打tag及branch的时候可以固定在某一版本: ¦ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -109,9 +125,9 @@
 
 <p>但我们想要做tag及branch的时候，需要将external link的文件或目录固定在某个版本。</p>
 
-<h2>搜了一下，基本上有几个办法:</h2>
+<h2 id="section">搜了一下，基本上有几个办法:</h2>
 
-<p>使用tortoisesvn>1.7版本，打tag及branch的时候可以固定在某一版本:</p>
+<p>使用tortoisesvn&gt;1.7版本，打tag及branch的时候可以固定在某一版本:</p>
 
 <pre><code>¦   http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug-branchtag.html
 
@@ -132,9 +148,9 @@
 <pre><code>¦   http://svnxf.codeplex.com/
 </code></pre>
 
-<h4>原先以为这样的事情总该有个simple的解决办法的，但还真是没找到，自己实际写个脚本想做这个事情才发现不简单。想要做这件事的前提是要把代码check到本地来，这样就不如直接调命令了，如果远程操作svn库，就需要三方开发。</h4>
+<h4 id="simplechecksvn">原先以为这样的事情总该有个simple的解决办法的，但还真是没找到，自己实际写个脚本想做这个事情才发现不简单。想要做这件事的前提是要把代码check到本地来，这样就不如直接调命令了，如果远程操作svn库，就需要三方开发。</h4>
 
-<h2>最后简单的办法是:</h2>
+<h2 id="section-1">最后简单的办法是:</h2>
 
 <p>如果是打tag，采用方法一，用tortoisesvn固定在一个版本</p>
 
@@ -142,7 +158,7 @@
 
 <p>参考:</p>
 
-<p><a href="http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags">http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags</a></p>
+<p>http://stackoverflow.com/questions/1982538/how-to-have-tortoisesvn-always-freeze-svnexternals-for-tags</p>
 </div>
 
 
@@ -237,7 +253,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

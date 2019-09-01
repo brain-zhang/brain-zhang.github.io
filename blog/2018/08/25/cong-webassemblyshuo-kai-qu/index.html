@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -109,42 +125,59 @@
 
 <p>前几天看到bellard都在浏览器里面用WebAssembly跑虚拟机了，点进去试试，竟然模拟Win2000都有模有样了。</p>
 
-<p><a href="https://bellard.org/jslinux/index.html">https://bellard.org/jslinux/index.html</a></p>
+<p>https://bellard.org/jslinux/index.html</p>
 
 <p>不由得感叹人折腾的能力真是无比强大。</p>
 
 <!-- more -->
-
 
 <p>有人说WebAssembly又实现了一个Flash，又实现了一个SliverLight，又造了一个JavaApplet，我都想到很久很久之前的ActiveX了，想到COM组件了~~~</p>
 
 <p>肯定又会有人跳出来说，这回不一样了:</p>
 
 <ol>
-<li><p>谷歌、苹果、微软等公司一起来干了</p></li>
-<li><p>前端拯救世界，前端用Nodejs打入后端，后端用WebAssembly征服前端~~</p></li>
-<li><p>就连技术媒体都开始用吸睛标题：&lt;WebAssembly:解决 JavaScript 痼疾的一颗银色子弹？></p></li>
+  <li>
+    <p>谷歌、苹果、微软等公司一起来干了</p>
+  </li>
+  <li>
+    <p>前端拯救世界，前端用Nodejs打入后端，后端用WebAssembly征服前端~~</p>
+  </li>
+  <li>
+    <p>就连技术媒体都开始用吸睛标题：&lt;WebAssembly:解决 JavaScript 痼疾的一颗银色子弹？&gt;</p>
+  </li>
 </ol>
-
 
 <p>我得说，技术路线的发展完全是随机的，无迹可寻。</p>
 
 <ul>
-<li><p>比如当初Flash就被乔帮主活活说死了，说你不行行也不行。</p></li>
-<li><p>比如Plan9搞了一堆创新之后死翘翘了，根本就没几个人去在意</p></li>
-<li><p>比如苦大仇深的GUI方案，MS推出了一系列库，从MFC、WTL到所谓的WPF，从各类公司的私有解决方案，到现在还在服役的大名鼎鼎的Duilib;最后就不提历史风尘中的各类商业皮肤库了；</p>
+  <li>
+    <p>比如当初Flash就被乔帮主活活说死了，说你不行行也不行。</p>
+  </li>
+  <li>
+    <p>比如Plan9搞了一堆创新之后死翘翘了，根本就没几个人去在意</p>
+  </li>
+  <li>
+    <p>比如苦大仇深的GUI方案，MS推出了一系列库，从MFC、WTL到所谓的WPF，从各类公司的私有解决方案，到现在还在服役的大名鼎鼎的Duilib;最后就不提历史风尘中的各类商业皮肤库了；</p>
 
-<p>   还有开源界的各路GNome、wxWidgets、QT、TCL，到现在跨平台GUI方案的战火都烧到浏览器上了，VS Code用啥实现的，竟然是Electron；虽然效果拔群，但是总觉得哪里不对路啊；</p></li>
-<li><p>从移动手机刚刚兴起的年代，就有无数种解决方案发誓要做到&#8221;一次编写，到处运行&#8221;，兼容各大主流移动平台；如今看看，口号依旧，分裂依旧，半死不活依旧</p></li>
-<li><p>为什么历史选择TCP/IP而把ISO模型扫进教科书</p></li>
-<li><p>为什么IE打败Netscape</p></li>
-<li><p>为什么KVM逐渐压倒Xen</p></li>
+    <p>还有开源界的各路GNome、wxWidgets、QT、TCL，到现在跨平台GUI方案的战火都烧到浏览器上了，VS Code用啥实现的，竟然是Electron；虽然效果拔群，但是总觉得哪里不对路啊；</p>
+  </li>
+  <li>
+    <p>从移动手机刚刚兴起的年代，就有无数种解决方案发誓要做到”一次编写，到处运行”，兼容各大主流移动平台；如今看看，口号依旧，分裂依旧，半死不活依旧</p>
+  </li>
+  <li>
+    <p>为什么历史选择TCP/IP而把ISO模型扫进教科书</p>
+  </li>
+  <li>
+    <p>为什么IE打败Netscape</p>
+  </li>
+  <li>
+    <p>为什么KVM逐渐压倒Xen</p>
+  </li>
 </ul>
-
 
 <p>历史只是偶然，成败听凭运气，没有什么道理好讲的。</p>
 
-<p>我只能根据有限的经验来预言：任何一种号称&#8221;大一统方案&#8221;的方案最后总是失败。</p>
+<p>我只能根据有限的经验来预言：任何一种号称”大一统方案”的方案最后总是失败。</p>
 
 <p>让我们再大声诵读伟大的Fred Brooks先知的预言：没有银弹，没有银弹，没有银弹~~~</p>
 </div>
@@ -241,7 +274,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -114,24 +130,42 @@
 <p>讲的内容有几点让我很惊艳的:</p>
 
 <ul>
-<li><p>讲协程的时候提到，函数的返回值不必返回给调用者，可以返回给三方，很有启发</p></li>
-<li><p>黄冬老师讲测试3层设备或者网站性能的最好办法，是把一段时间的DDOS发包抓下来，或者造出一堆SYN，直接用tcpreplay打到目标机上。很好很粗暴，也很有效</p></li>
-<li><p>关于OpenCL在数据计算领域的应用，让我有点吃惊，已经这么易用了，回头要看看</p></li>
-<li><p>以前一直听人说postgresql怎么怎么好，这次又被强化了一遍，这个也要研究研究</p></li>
-<li><p>中间看到有演讲者调试程序用lldb，之前我一直以为它不靠谱，貌似已经很成熟了</p></li>
-<li><p>机器学习讲的简洁明了，让我这个门外汉也听得津津有味</p></li>
-<li><p>中间的台湾演讲同五地互动的创举，太有想法了，虽然效果不理想，但我想说太Cool了，未来的大会互动会更多元，更精彩，为这个尝试鼓掌</p></li>
-<li><p>主持人非常专业，聪敏又风趣，可以直接上央视啦</p></li>
+  <li>
+    <p>讲协程的时候提到，函数的返回值不必返回给调用者，可以返回给三方，很有启发</p>
+  </li>
+  <li>
+    <p>黄冬老师讲测试3层设备或者网站性能的最好办法，是把一段时间的DDOS发包抓下来，或者造出一堆SYN，直接用tcpreplay打到目标机上。很好很粗暴，也很有效</p>
+  </li>
+  <li>
+    <p>关于OpenCL在数据计算领域的应用，让我有点吃惊，已经这么易用了，回头要看看</p>
+  </li>
+  <li>
+    <p>以前一直听人说postgresql怎么怎么好，这次又被强化了一遍，这个也要研究研究</p>
+  </li>
+  <li>
+    <p>中间看到有演讲者调试程序用lldb，之前我一直以为它不靠谱，貌似已经很成熟了</p>
+  </li>
+  <li>
+    <p>机器学习讲的简洁明了，让我这个门外汉也听得津津有味</p>
+  </li>
+  <li>
+    <p>中间的台湾演讲同五地互动的创举，太有想法了，虽然效果不理想，但我想说太Cool了，未来的大会互动会更多元，更精彩，为这个尝试鼓掌</p>
+  </li>
+  <li>
+    <p>主持人非常专业，聪敏又风趣，可以直接上央视啦</p>
+  </li>
 </ul>
-
 
 <p>还有几点不足的:</p>
 
 <ul>
-<li><p>话筒时好时不好，这个估计让大家有点提心吊胆的。这个是经验啊，以后组织类似的活动话筒要多多益善，还要多备电池。</p></li>
-<li><p>Django和创业的两个议题都有点浅，太多讲Python的ABC了，这方面的内容可以收缩下</p></li>
+  <li>
+    <p>话筒时好时不好，这个估计让大家有点提心吊胆的。这个是经验啊，以后组织类似的活动话筒要多多益善，还要多备电池。</p>
+  </li>
+  <li>
+    <p>Django和创业的两个议题都有点浅，太多讲Python的ABC了，这方面的内容可以收缩下</p>
+  </li>
 </ul>
-
 
 <p>另外有点Confuse，会上有人提到用libpcap抓包分析网络流的，黄冬老师说性能没问题。其实我们这测试下来，绑定CPU抓包，libpcap通常的性能就在单网卡400Mbps左右。
 如果用Zero Copy的话，可能性能有提升，但也不会太高。目前抓流量效率最好的是Intel的DPDK，可以到10Gbps。</p>
@@ -145,29 +179,34 @@
 <p>我想象中的web UI自动测试是这样的:</p>
 
 <ul>
-<li><p>支持比较模板点自定义</p>
+  <li>
+    <p>支持比较模板点自定义</p>
 
-<p>  对比的截图可以是基于录制时间最早的case的，如果中途重新录制，提供用户自定义机制。</p></li>
-<li><p>支持时间轴功能</p>
+    <p>对比的截图可以是基于录制时间最早的case的，如果中途重新录制，提供用户自定义机制。</p>
+  </li>
+  <li>
+    <p>支持时间轴功能</p>
 
-<p>  1、查询时间范围的灵活选择，可以很简洁的查询某段时间、或某个时间点的case.</p>
+    <p>1、查询时间范围的灵活选择，可以很简洁的查询某段时间、或某个时间点的case.</p>
 
-<p>  2、可以在时间轴上直接修改比较模板的base时间点</p>
+    <p>2、可以在时间轴上直接修改比较模板的base时间点</p>
 
-<p>  3、以不同颜色标识base时间点、pass的测试、fail的测试以及fail的个数，测试名称等</p></li>
-<li><p>比较智能的图像DIFF算法:</p>
+    <p>3、以不同颜色标识base时间点、pass的测试、fail的测试以及fail的个数，测试名称等</p>
+  </li>
+  <li>
+    <p>比较智能的图像DIFF算法:</p>
 
-<p>  1、首先要能忽略指定区域，因为有些区域能够预测到是不断变化的。</p>
+    <p>1、首先要能忽略指定区域，因为有些区域能够预测到是不断变化的。</p>
 
-<p>  2、能对整张图、或某几个区域提供多个选择，如果符合其中一个我们就认为是OK的</p>
+    <p>2、能对整张图、或某几个区域提供多个选择，如果符合其中一个我们就认为是OK的</p>
 
-<p>  3、能提供组件级的识别，比如某个button，某个搜索框等等，一张截图里面如果所有指定的组件都OK，我们就认为是OK的。</p></li>
+    <p>3、能提供组件级的识别，比如某个button，某个搜索框等等，一张截图里面如果所有指定的组件都OK，我们就认为是OK的。</p>
+  </li>
 </ul>
-
 
 <p>PS:已经出现了类似的开源项目:</p>
 
-<p><a href="https://github.com/Huddle/PhantomCSS">https://github.com/Huddle/PhantomCSS</a></p>
+<p>https://github.com/Huddle/PhantomCSS</p>
 
 <p>最后感概下，Pycon一年比一年进步，志愿者们功不可没。对于他们的工作，怎么赞誉都不过分。非常感谢!</p>
 </div>
@@ -264,7 +303,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

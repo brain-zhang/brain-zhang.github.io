@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -111,10 +127,11 @@
 
 <!-- more -->
 
-
 <p>关于Andreas M Antonopoulos，都不需要多做介绍了；我是他的Youtube主页忠实粉，他的每一个演讲视频都仔仔细细看过；但是将其整理为文字，汇聚成册后，再读起来还是止不住的惊叹；借用这本书的编者的话说：</p>
 
-<blockquote><p>他渊博的知识、 对复杂概念流利地解说和清晰的思想令我们惊叹不已。 我们看到在每一次演讲过程中， 他都充满着激情、 具有深远的见解； 他使用强大的类推法，用简单的术语来介绍最难理解的主题内容。记得我当时还在想“这个人怎么能对这么新颖的事物有如此深刻的了解呢？</p></blockquote>
+<blockquote>
+  <p>他渊博的知识、 对复杂概念流利地解说和清晰的思想令我们惊叹不已。 我们看到在每一次演讲过程中， 他都充满着激情、 具有深远的见解； 他使用强大的类推法，用简单的术语来介绍最难理解的主题内容。记得我当时还在想“这个人怎么能对这么新颖的事物有如此深刻的了解呢？</p>
+</blockquote>
 
 <p>随便翻开一页，都能津津有味的读下去，我得说，除了金庸小说和科幻小说，还真没有哪本书有类似效果； 我对Andreas M Antonopoulos 真是佩服的五体投地，宣扬一项新技术并不难，难的是像老娘舅一样日日讲，月月讲，年年讲，换着花样讲，每次都能讲出新意； 这就是先知的技能！</p>
 
@@ -125,12 +142,11 @@
 <p>举一些很简单的例子：</p>
 
 <ul>
-<li>直流电和交流电之争</li>
-<li>光的波粒二象性</li>
-<li>飞机的发明</li>
-<li>汽车的发明</li>
+  <li>直流电和交流电之争</li>
+  <li>光的波粒二象性</li>
+  <li>飞机的发明</li>
+  <li>汽车的发明</li>
 </ul>
-
 
 <p>像飞机或者汽车的演化斗争，就比较简单，因为人对于有形的事物接受能力总是比较快，当飞机在天上飞，汽车在地上跑，其高速的隆隆声很容易就证明自己，人们眼见为实，态度便会转为<code>真香</code>；但是比较抽象的东东就不行了；</p>
 
@@ -143,13 +159,12 @@
 <p>真是可悲的一件事情啊；人们在面对新理论的时候，很容易根据日常经验或者历史经验采取抵抗、恐惧的态度，但是接受之后，又会变得如此自然，甚至这个接受了新理论之后反而又会变成接受更新的理论的绊脚石。</p>
 
 <ul>
-<li>脱离历史经验去看待新事物容易冒进，太过拘泥于历史经验又导致短视，到底如何是好呢？</li>
+  <li>脱离历史经验去看待新事物容易冒进，太过拘泥于历史经验又导致短视，到底如何是好呢？</li>
 </ul>
-
 
 <p>我想到的一个办法就是，先尽量把自己放空，把自己放回<code>一无所知</code>的状态(其实就是乔大爷反复强调的stay stupid)；然后从常识出发，慢慢去消化这个理论；当觉得好像有点入戏了，再 <code>捡回</code> 历史经验，去判断这个新事物真伪好坏。</p>
 
-<h4>拿接受<code>地球绕着太阳转</code>这个理论做例子，大概过程是这样的：</h4>
+<h4 id="section">拿接受<code>地球绕着太阳转</code>这个理论做例子，大概过程是这样的：</h4>
 
 <p>先知：Hi, 小男孩，告诉你一个秘密，其实你脚下的土地并不是坚实稳当的，我们正处在一个慢慢转动的球体上，这个大球正慢慢绕着太阳旋转！！</p>
 
@@ -163,7 +178,7 @@
 
 <p>小男孩： 那为什么我没有从球上掉下去呢，而且即使我们在动，也明明是太阳绕着我们转嘛。</p>
 
-<p>先知： ~~~&hellip;&hellip;&hellip;..</p>
+<p>先知： ~~~………..</p>
 
 <p>好吧，在我的想象当中，这个先知拥有惊人的耐心和智慧，才能为一个小男孩解释清楚<code>地球绕着太阳转</code>这个论题；最重要的是，小男孩没有太多历史经验的束缚，他在这个世界上活的时间还少，比较容易被说服！！</p>
 
@@ -268,7 +283,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

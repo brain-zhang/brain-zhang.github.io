@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -110,9 +126,8 @@
 
   <div class="entry-content"><p>有时候find的所有文件要合并为一个argv管道到一个命令里面:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -155,9 +170,8 @@
 
 <p>并行解决之:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sort -S 50% --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sort -S 50% --parallel=2 -uo list-sorted.txt list.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>注意这一招在管道里面行不通，所以要用管道的话一定要先重定向到一个文件里面中转一下。</p>
 </div>
@@ -198,7 +212,7 @@
   </header>
 
 
-  <div class="entry-content"><p>在之前的<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
+  <div class="entry-content"><p>在之前的<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>这篇文章中，我们谈到一个名为”LBC”的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
 
 <p>令人惊奇的是，他们真的碰到了几个地址。对他们最近发现的4个地址做了一下分析，发现了更让人惊奇的事情。</p>
 
@@ -246,23 +260,22 @@
   </header>
 
 
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>/usr/bin/sqlite3 test.db &lt;&lt;!
-</span><span class='line'>.headers on
-</span><span class='line'>.mode csv
-</span><span class='line'>.output out.csv
-</span><span class='line'>select username,password,email from passhouse order by site;
-</span><span class='line'>!</span></code></pre></td></tr></table></div></figure>
-
+  <div class="entry-content"><div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
+</span><span class="line">
+</span><span class="line">/usr/bin/sqlite3 test.db &lt;&lt;!
+</span><span class="line">.headers on
+</span><span class="line">.mode csv
+</span><span class="line">.output out.csv
+</span><span class="line">select username,password,email from passhouse order by site;
+</span><span class="line">!</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -347,27 +360,34 @@
   </header>
 
 
-  <div class="entry-content"><h4>比特币的地址生成过程分为以下几个步骤:</h4>
+  <div class="entry-content"><h4 id="section">比特币的地址生成过程分为以下几个步骤:</h4>
 
 <ol>
-<li><p>随机生成一个32字节(256bits)的私钥k</p></li>
-<li><p>采用椭圆曲线算法，以私钥k为起点，将其与曲线上预定的生成点G相乘以获得曲线上的另一点，也就是相应的公钥 K</p></li>
-<li><p>进一步SHA256=>RIPEMD160 得到地址原始值A: A = RIPEMD160(SHA256(K))</p></li>
-<li><p>对A进行Base58Check编码，添加前置版本号后Double SHA256取最后四个字节作为校验位，最后 Base58Check(前缀+Base58Check(A)+校验)得到最终地址</p></li>
+  <li>
+    <p>随机生成一个32字节(256bits)的私钥k</p>
+  </li>
+  <li>
+    <p>采用椭圆曲线算法，以私钥k为起点，将其与曲线上预定的生成点G相乘以获得曲线上的另一点，也就是相应的公钥 K</p>
+  </li>
+  <li>
+    <p>进一步SHA256=&gt;RIPEMD160 得到地址原始值A: A = RIPEMD160(SHA256(K))</p>
+  </li>
+  <li>
+    <p>对A进行Base58Check编码，添加前置版本号后Double SHA256取最后四个字节作为校验位，最后 Base58Check(前缀+Base58Check(A)+校验)得到最终地址</p>
+  </li>
 </ol>
-
 
 <p>整个过程中，私钥的生成空间有256bits，由私钥推出地址过程中，由于用到了RIPEMD160散列，所以生成空间共有160bits。</p>
 
-<p>也就是说，去除版本号变化，某一类型的比特币地址最多有 2<sup>160</sup>个。</p>
+<p>也就是说，去除版本号变化，某一类型的比特币地址最多有 2^160个。</p>
 
 <p>为什么有步骤3呢，不光增加了地址复杂度，还降低了HASH碰撞空间(从256bits降到160bits)。</p>
 
-<p>所以中本聪的选择只是带来了不必要的复杂度和浪费吗？最后证明，答案是否定的。有另外一个非常好的理由去使用这个&#8221;公钥的哈希值&#8221;的地址结构：量子加密技术。量子计算机可以破解椭圆曲线数字签名算法（也就是说，给定一个公钥，量子计算机可以相当快速的找到对应的私钥），但它们不能相类似的逆转哈希算法（或者说他们可以，但是将需要花掉280个步骤来完成一个比特币地址的破解，这仍然是相当不可行的）。因此，如果你的比特币资金存放在一个你没有支出过的地址里（这意味着公钥是没有公开的），它们在量子计算机面前也就是安全的，至少在你把它们花掉之前。有理论上的途径可以让比特币完全免于量子计算机的威胁，但一个地址只是一个公钥的哈希值的事实，意味着一旦量子计算机真的出现了，在我们全面切换之前攻击者可以造成的损失要小得多。</p>
+<p>所以中本聪的选择只是带来了不必要的复杂度和浪费吗？最后证明，答案是否定的。有另外一个非常好的理由去使用这个”公钥的哈希值”的地址结构：量子加密技术。量子计算机可以破解椭圆曲线数字签名算法（也就是说，给定一个公钥，量子计算机可以相当快速的找到对应的私钥），但它们不能相类似的逆转哈希算法（或者说他们可以，但是将需要花掉280个步骤来完成一个比特币地址的破解，这仍然是相当不可行的）。因此，如果你的比特币资金存放在一个你没有支出过的地址里（这意味着公钥是没有公开的），它们在量子计算机面前也就是安全的，至少在你把它们花掉之前。有理论上的途径可以让比特币完全免于量子计算机的威胁，但一个地址只是一个公钥的哈希值的事实，意味着一旦量子计算机真的出现了，在我们全面切换之前攻击者可以造成的损失要小得多。</p>
 
 <p>请参考:</p>
 
-<p><a href="http://www.8btc.com/satoshis-genius-unexpected-ways-in-which-bitcoin-dodged-some-cryptographic-bullet">http://www.8btc.com/satoshis-genius-unexpected-ways-in-which-bitcoin-dodged-some-cryptographic-bullet</a></p>
+<p>http://www.8btc.com/satoshis-genius-unexpected-ways-in-which-bitcoin-dodged-some-cryptographic-bullet</p>
 
 </div>
   
@@ -463,7 +483,7 @@
 
 <p>留名之。</p>
 
-<p><a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/">https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</a></p>
+<p>https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</p>
 
 <p>另外我对这篇<a href="http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">文章</a>用press.one进行了<a href="https://press.one/file/v?s=60db2f3ea40a25d28781c900af248523eb3c17024ce3ca18a42433035aff55524e4b2df76cfcef1466d38c4e23e4ab770d42359835b66d159cd5dd5099e0be260&amp;h=a93f5a68189ff4a9b14d9e592c4dd0a8a1b649d0191b58740d93ce10c0d055ec&amp;a=7e32e3deba87efcd35bc6d1ab355d85c50aa60bd&amp;v=2&amp;f=P1">签名:</a></p>
 
@@ -513,11 +533,10 @@
 
 <p>访问量不大的话，可以在 my.conf 中加入以下配置，关掉性能优化。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[mysqld]
-</span><span class='line'>performance_schema=off</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[mysqld]
+</span><span class="line">performance_schema=off</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -564,19 +583,26 @@
 
 <p>最后我寻寻觅觅，找到了一个RDP多用户支持的工具:</p>
 
-<p><a href="https://github.com/stascorp/rdpwrap">https://github.com/stascorp/rdpwrap</a></p>
+<p>https://github.com/stascorp/rdpwrap</p>
 
 <p>妥妥的把Win10变成了Win2012 Server。</p>
 
 <p>现在Win10日常使用组件好评度爆表依次为:</p>
 
 <ul>
-<li><p>多桌面</p></li>
-<li><p>hyper-v</p></li>
-<li><p>WSL</p></li>
-<li><p>RDP</p></li>
+  <li>
+    <p>多桌面</p>
+  </li>
+  <li>
+    <p>hyper-v</p>
+  </li>
+  <li>
+    <p>WSL</p>
+  </li>
+  <li>
+    <p>RDP</p>
+  </li>
 </ul>
-
 </div>
   
   
@@ -601,7 +627,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

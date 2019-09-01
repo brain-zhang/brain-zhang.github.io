@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -113,22 +129,20 @@
 
 <!-- more -->
 
-
 <p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/2ab7775797a5a37ab311ab9a067771e5c1bfe22a">这里</a>是bitcoin SV 从Bitcoin ABC项目里面开始folk出来的修改；截至他们发布Bitcoin SV Beta1.0；最后提交的代码是<a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/d9b12a23dbf0d2afc5f488fa077d762b302ba873">d9b12a23dbf0d2afc5f488fa077d762b302ba873</a></p>
 
 <p>执行 <code>git diff 802629f d9b12a --stat</code> 瞄一眼:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>699 files changed, 11634 insertions(+), 197401 deletions(-)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">699 files changed, 11634 insertions(+), 197401 deletions(-)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>看起来改了不少，但是从头review一遍，他们从2018-08-22搞到现在，啥实质改动都没有，就开了几个操作码，改了几个测试；原本MAXBLOCKSIZE就变成可配置的了，他们不过是稍稍改了一下判断条件而已，改动最大的反而是README和release notes文件，最值得吐槽的就是这个提交：</p>
 
-<p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/db8190ab5fb5262a6d3701017d733f106308fd0d">https://github.com/bitcoin-sv/bitcoin-sv/commit/db8190ab5fb5262a6d3701017d733f106308fd0d</a></p>
+<p>https://github.com/bitcoin-sv/bitcoin-sv/commit/db8190ab5fb5262a6d3701017d733f106308fd0d</p>
 
 <p>好吧，也不能无脑黑你，你还是修掉了一个比较重要的BUG的:</p>
 
-<p><a href="https://github.com/bitcoin-sv/bitcoin-sv/commit/a8ab90a375db85b192057aa11f56bfa0612d7e86">https://github.com/bitcoin-sv/bitcoin-sv/commit/a8ab90a375db85b192057aa11f56bfa0612d7e86</a></p>
+<p>https://github.com/bitcoin-sv/bitcoin-sv/commit/a8ab90a375db85b192057aa11f56bfa0612d7e86</p>
 
 <p>凭良心说，Bitcoin ABC的开发比不上Bitcoin Core的活跃，但起码Bitcoin Core有什么更新，人家能及时Merge过来啊！</p>
 
@@ -243,7 +257,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

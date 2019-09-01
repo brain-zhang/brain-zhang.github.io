@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -119,56 +135,59 @@
 <p>另外要注意的是，Referer是由浏览器自动为我们加上的，以下情况是不带Referer的</p>
 
 <ul>
-<li><p>直接输入网址或通过浏览器书签访问</p></li>
-<li><p>使用JavaScript的Location.href或者是Location.replace()</p></li>
-<li><p>HTTPS等加密协议</p></li>
+  <li>
+    <p>直接输入网址或通过浏览器书签访问</p>
+  </li>
+  <li>
+    <p>使用JavaScript的Location.href或者是Location.replace()</p>
+  </li>
+  <li>
+    <p>HTTPS等加密协议</p>
+  </li>
 </ul>
-
 
 <p>很多网站挟持脚本一般是注入https链接来隐藏referer，这样固然好用，但是一定要一个域名，有点不方便。前人实践发现只要在iframe里面的src属性填上 <code>javascript: &lt;html&gt;....</code>的内容就可以隐藏referer了。一试果然如此。</p>
 
 <p>比如大家常见的微信公众号文章，如果引用过来，一般就是防盗链了，这个时候可以用下面的通用代码解决：</p>
 
 <ul>
-<li>需要引用jquery和 <a href="https://github.com/jpgerek/referrer-killer">ReferrerKiller.js</a> 这两个库:</li>
+  <li>需要引用jquery和 <a href="https://github.com/jpgerek/referrer-killer">ReferrerKiller.js</a> 这两个库:</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>   jQuery(function() {
-</span><span class='line'>       //遍历所有的img元素，凡是QQ和微信引用的统统放到iframe里面
-</span><span class='line'>       jQuery("div").find("img").each(function() {
-</span><span class='line'>           var img = jQuery(this);
-</span><span class='line'>           var img_src = img.attr("src");
-</span><span class='line'>           if (img_src != undefined && img_src != '') {
-</span><span class='line'>               img_src = decodeURI(img_src);
-</span><span class='line'>               img_src = img_src.split("?")[0];
-</span><span class='line'>               if (img_src.indexOf("qpic.cn") &gt; 0 || img_src.indexOf("qlogo.cn") &gt; 0 || img_src.indexOf("qq.com") &gt; 0) {
-</span><span class='line'>                   var frameid = 'frameimg' + Math.random();
-</span><span class='line'>                   img.parent().append('&lt;span id="' + frameid + '"&gt;&lt;/span&gt;')
-</span><span class='line'>                   img.remove();
-</span><span class='line'>                   document.getElementById(frameid).innerHTML = ReferrerKiller.imageHtml(img_src);
-</span><span class='line'>               }
-</span><span class='line'>           }
-</span><span class='line'>       })
-</span><span class='line'>   })</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   jQuery(function() {
+</span><span class="line">       //遍历所有的img元素，凡是QQ和微信引用的统统放到iframe里面
+</span><span class="line">       jQuery("div").find("img").each(function() {
+</span><span class="line">           var img = jQuery(this);
+</span><span class="line">           var img_src = img.attr("src");
+</span><span class="line">           if (img_src != undefined &amp;&amp; img_src != '') {
+</span><span class="line">               img_src = decodeURI(img_src);
+</span><span class="line">               img_src = img_src.split("?")[0];
+</span><span class="line">               if (img_src.indexOf("qpic.cn") &gt; 0 || img_src.indexOf("qlogo.cn") &gt; 0 || img_src.indexOf("qq.com") &gt; 0) {
+</span><span class="line">                   var frameid = 'frameimg' + Math.random();
+</span><span class="line">                   img.parent().append('&lt;span id="' + frameid + '"&gt;&lt;/span&gt;')
+</span><span class="line">                   img.remove();
+</span><span class="line">                   document.getElementById(frameid).innerHTML = ReferrerKiller.imageHtml(img_src);
+</span><span class="line">               }
+</span><span class="line">           }
+</span><span class="line">       })
+</span><span class="line">   })</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样看出来的效果就是原来引用微信的图片:</p>
 
@@ -178,6 +197,7 @@
 <p>就会被替换到iframe里面，同时iframe的src属性包括了完整的html内容，这样浏览器请求图片的时候，就不会带referrer了，微信的盗链就被绕过。</p>
 
 <p>不知道微信啥时候堵上这个洞呢？</p>
+
 </div>
   
   
@@ -257,13 +277,13 @@
 
   <div class="entry-content"><p>想要挂载一个iso安装镜像作为本地repo</p>
 
-<h2>mount iso</h2>
+<h2 id="mount-iso">mount iso</h2>
 
 <pre><code>mkdir -p /mnt/cdrom
 mount -t iso9660 -o loop /home/Centosxxxx.iso /mnt/cdrom
 </code></pre>
 
-<h2>set local repo</h2>
+<h2 id="set-local-repo">set local repo</h2>
 
 <pre><code>vi /etc/yum.repos.d/local.repo
 
@@ -274,7 +294,7 @@ gpgcheck=0
 enabled=1
 </code></pre>
 
-<h2>set up</h2>
+<h2 id="set-up">set up</h2>
 
 <pre><code>yum clean all
 yum repolist
@@ -321,12 +341,12 @@ yum repolist
 
 <p>四步走:</p>
 
-<h2>安装ntpd</h2>
+<h2 id="ntpd">安装ntpd</h2>
 
 <pre><code>yum -y install ntp ntpdate
 </code></pre>
 
-<h2>修改/etc/ntpd.conf</h2>
+<h2 id="etcntpdconf">修改/etc/ntpd.conf</h2>
 
 <pre><code># line 18: add the network range you allow to receive requests
 restrict 10.0.0.0 mask 255.255.255.0 nomodify notrap
@@ -336,7 +356,7 @@ server 127.127.1.0
 fudge  127.127.1.0 stratum 10
 </code></pre>
 
-<h2>重启</h2>
+<h2 id="section">重启</h2>
 
 <pre><code>systemctl start ntpd
 systemctl enable ntpd
@@ -344,7 +364,7 @@ firewall-cmd --add-service=ntp --permanent
 firewall-cmd --reload
 </code></pre>
 
-<h2>瞄一眼</h2>
+<h2 id="section-1">瞄一眼</h2>
 
 <pre><code>watch ntpq -p
 </code></pre>
@@ -390,11 +410,11 @@ firewall-cmd --reload
   </header>
 
 
-  <div class="entry-content"><p>现在很多软件包默认编译要求GLIBCXX >=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件>=4.9.1。</p>
+  <div class="entry-content"><p>现在很多软件包默认编译要求GLIBCXX &gt;=3.4.20，碰到这种事redhat系又哭了，目前Centos7.x默认仓库里的gcc还是4.8.5的，所以需要一个办法升级gcc相关组件&gt;=4.9.1。</p>
 
 <p>CentOS下升级gcc版本有两个途径，一个是添加其他源进行自动升级，一个是手动编译升级，这里先顺便讲下自动升级的两个办法：</p>
 
-<h3>添加Fedora源</h3>
+<h3 id="fedora">添加Fedora源</h3>
 
 <p>在 /etc/yum.repos.d 目录中添加文件 FedoraRepo.repo ，并输入以下内容:</p>
 
@@ -411,7 +431,7 @@ gpgkey=https://getfedora.org/static/34EC9CBA.txt
 <pre><code>yum update gcc gcc-c++
 </code></pre>
 
-<h3>使用Devtoolset-4升级</h3>
+<h3 id="devtoolset-4">使用Devtoolset-4升级</h3>
 
 <pre><code>yum install centos-release-scl
 yum install devtoolset-4-gcc*
@@ -419,6 +439,7 @@ scl enable devtoolset-4 bash
 which gcc
 gcc --version
 </code></pre>
+
 </div>
   
   
@@ -496,8 +517,7 @@ gcc --version
   </header>
 
 
-  <div class="entry-content"><p>比特币诞生8年来最大波澜即将到来，大家拭目以待。
-{:.info}</p>
+  <div class="entry-content"><p class="info">比特币诞生8年来最大波澜即将到来，大家拭目以待。</p>
 
 <p>北京时间2017年3月7日凌晨2点半左右，当前比特币全网算力排名第一的矿池蚁池（AntPool）的某个节点通过替代版比特币软件Bitcoin Unlimited（BU）挖到了一个<a href="https://btc.com/00000000000000000204cd2c9840023f1434f3dcdd7f471e4b8c8638d14d7006">新区块</a>，这标志着蚁池正式向Bitcoin Unlimited（BU）开放投票。</p>
 
@@ -559,10 +579,16 @@ run()
 </code></pre>
 
 <ul>
-<li>&lt;xxxx.py> 为脚本名称</li>
-<li><sdk> 为三方包目录</li>
-</ul>
+  <li>
+    <xxxx.py> 为脚本名称
+</xxxx.py>
+  </li>
+  <li>
+    <sdk> 为三方包目录
 
+</sdk>
+  </li>
+</ul>
 </div>
   
   
@@ -663,11 +689,16 @@ if sys.stdout.encoding == 'cp936':
   <div class="entry-content"><p>比特币是建立在区块链基础上的，区块链的基本技术支撑有三个:</p>
 
 <ul>
-<li><p>非对称加密</p></li>
-<li><p>点对点网络技术</p></li>
-<li><p>HASH现金</p></li>
+  <li>
+    <p>非对称加密</p>
+  </li>
+  <li>
+    <p>点对点网络技术</p>
+  </li>
+  <li>
+    <p>HASH现金</p>
+  </li>
 </ul>
-
 
 <p>其中非对称加密和HASH现金技术的历史发展颇有渊源，最近仔细学习了一下密码学科普知识，总结一下。</p>
 
@@ -699,7 +730,7 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

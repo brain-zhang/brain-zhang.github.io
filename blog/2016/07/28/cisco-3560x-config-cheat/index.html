@@ -36,6 +36,22 @@ no &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -112,159 +128,137 @@ no &hellip;">
 <div class="entry-content"><p>工作需要，学习了Cisco的路由器配置，记一下:</p>
 
 <ul>
-<li>查看所有信息</li>
+  <li>查看所有信息</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show run</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">show run</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>查看span</li>
+  <li>查看span</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show span</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">show span</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>为某个vlan id建立spanning-tree</li>
+  <li>为某个vlan id建立spanning-tree</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>取消某个vlan id的spanning-tree</li>
+  <li>取消某个vlan id的spanning-tree</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>将某个端口加入vlan中</li>
+  <li>将某个端口加入vlan中</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sh run init gi 0/39
-</span><span class='line'>config t
-</span><span class='line'>switchport access vlan 14</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sh run init gi 0/39
+</span><span class="line">config t
+</span><span class="line">switchport access vlan 14</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>保存配置</li>
+  <li>保存配置</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>do wr
-</span><span class='line'>copy running-config startup-config</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">do wr
+</span><span class="line">copy running-config startup-config</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>顺便记一下cisco catalyst交换机配置</p>
 
 <ul>
-<li>登陆交换机</li>
+  <li>登陆交换机</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>查看现有配置</li>
+  <li>查看现有配置</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show running-config</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">show running-config</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
+  <li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#conf t
-</span><span class='line'>(config)#int ra g0/37 -39
-</span><span class='line'>(config-if-range)#sw mo acc
-</span><span class='line'>(config-if-range)#sw acc vl 15
-</span><span class='line'>(config-if-range)#exit
-</span><span class='line'>(config)#int ra g0/41 -46
-</span><span class='line'>(config-if-range)#sw tr e d
-</span><span class='line'>(config-if-range)#sw mo tr
-</span><span class='line'>(config-if-range)#end
-</span><span class='line'>#wr</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#conf t
+</span><span class="line">(config)#int ra g0/37 -39
+</span><span class="line">(config-if-range)#sw mo acc
+</span><span class="line">(config-if-range)#sw acc vl 15
+</span><span class="line">(config-if-range)#exit
+</span><span class="line">(config)#int ra g0/41 -46
+</span><span class="line">(config-if-range)#sw tr e d
+</span><span class="line">(config-if-range)#sw mo tr
+</span><span class="line">(config-if-range)#end
+</span><span class="line">#wr</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>开启/关闭端口</li>
+  <li>开启/关闭端口</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TEST3#conf t
-</span><span class='line'>Enter configuration commands, one per line.  End with CNTL/Z.
-</span><span class='line'>TEST3(config)#int g0/41
-</span><span class='line'>TEST3(config-if)#sh
-</span><span class='line'>TEST3(config-if)#shutdown
-</span><span class='line'>TEST3(config-if)#no shutdown
-</span><span class='line'>TEST3(config-if)#end
-</span><span class='line'>TEST3#</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">TEST3#conf t
+</span><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="line">TEST3(config)#int g0/41
+</span><span class="line">TEST3(config-if)#sh
+</span><span class="line">TEST3(config-if)#shutdown
+</span><span class="line">TEST3(config-if)#no shutdown
+</span><span class="line">TEST3(config-if)#end
+</span><span class="line">TEST3#</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>例如 配置vlan15 和 trunk:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>interface GigabitEthernet0/39
-</span><span class='line'> switchport access vlan 15
-</span><span class='line'>  switchport mode access
-</span><span class='line'>
-</span><span class='line'>interface GigabitEthernet0/46
-</span><span class='line'> switchport trunk encapsulation dot1q
-</span><span class='line'>  switchport mode trunk
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">interface GigabitEthernet0/39
+</span><span class="line"> switchport access vlan 15
+</span><span class="line">  switchport mode access
+</span><span class="line">
+</span><span class="line">interface GigabitEthernet0/46
+</span><span class="line"> switchport trunk encapsulation dot1q
+</span><span class="line">  switchport mode trunk
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>去掉</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>no switchport access vlan 15</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">no switchport access vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -359,7 +353,7 @@ no &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

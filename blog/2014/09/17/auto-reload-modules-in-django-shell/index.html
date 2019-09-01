@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="python manage.py shell 太常用了，但是每次修改模块代码后，总要 exit—>reset 才能重新load一遍代码，实在是不爽。 也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。 最近发现一个扩展，django- &hellip;">
+  <meta name="description" content="python manage.py shell 太常用了，但是每次修改模块代码后，总要 exit—&gt;reset 才能重新load一遍代码，实在是不爽。 也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。 最近发现一个扩展，django- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,13 +123,13 @@
 
 <div class="entry-content"><p><code>python manage.py shell</code></p>
 
-<p>太常用了，但是每次修改模块代码后，总要 exit—>reset 才能重新load一遍代码，实在是不爽。</p>
+<p>太常用了，但是每次修改模块代码后，总要 exit—&gt;reset 才能重新load一遍代码，实在是不爽。</p>
 
 <p>也曾经改造ipython，想要代码修改后实时载入，各种坑，最后各种懒之下还是老老实实reload。</p>
 
 <p>最近发现一个扩展，django-externsions:</p>
 
-<p><a href="https://github.com/django-extensions/django-extensions">https://github.com/django-extensions/django-extensions</a></p>
+<p>https://github.com/django-extensions/django-extensions</p>
 
 <p>装上好用不少，貌似还比较靠谱，推荐之。</p>
 </div>
@@ -210,7 +226,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

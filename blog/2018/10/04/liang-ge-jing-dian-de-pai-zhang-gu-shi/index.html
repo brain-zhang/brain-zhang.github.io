@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,18 +123,19 @@
 
 <div class="entry-content"><p>很久之前就在某杂志上看过，不久前在知乎<a href="https://www.zhihu.com/question/21747929">有哪些让你目瞪口呆的 bug</a>里面又见到了；我觉得这两个troubleshooting的case有很深的道理在里面，记一下。</p>
 
-<h3>电子邮件无法发送到500英里以外</h3>
+<h3 id="section">电子邮件无法发送到500英里以外</h3>
 
 <!-- more -->
 
-
 <p>这个故事最早出现于2002年11月24日，而且每过若干年，它就会在不同的系统管理技术社区中再次出现，并且引发人们的热议和关注。有人对这个故事给出了这样的评价：</p>
 
-<blockquote><p>这个故事大约每过三年或四年就会在系统管理社区出现，每次我读到它，都觉得很值得一读。即便在正常环境下已经做过检查，甚或经过片刻思考之后，我还是高度怀疑这种事情是否会发生在自己身上。</p></blockquote>
+<blockquote>
+  <p>这个故事大约每过三年或四年就会在系统管理社区出现，每次我读到它，都觉得很值得一读。即便在正常环境下已经做过检查，甚或经过片刻思考之后，我还是高度怀疑这种事情是否会发生在自己身上。</p>
+</blockquote>
 
-<p>这是一个真实的故事。如果你想要进一步了解它的相关信息，可以访问这个 <a href="http://www.ibiblio.org/harris/500milemail-faq.html">FAQ</a> &ndash; 一个关于本故事的常见问题列表，由本故事作者 Trey Harris 编写。</p>
+<p>这是一个真实的故事。如果你想要进一步了解它的相关信息，可以访问这个 <a href="http://www.ibiblio.org/harris/500milemail-faq.html">FAQ</a> - 一个关于本故事的常见问题列表，由本故事作者 Trey Harris 编写。</p>
 
-<p>这个故事听起来有点儿天方夜谭的感觉&hellip; 我已经有些后悔把这个故事分享给大家了，因为它很可能会沦为众人茶余饭后的谈资。:&ndash;) 为了保护自己的内疚感，我对故事做了稍许改动，省略了无关紧要以及无聊的细节，总之让故事变得更加生动有趣了。</p>
+<p>这个故事听起来有点儿天方夜谭的感觉… 我已经有些后悔把这个故事分享给大家了，因为它很可能会沦为众人茶余饭后的谈资。:-) 为了保护自己的内疚感，我对故事做了稍许改动，省略了无关紧要以及无聊的细节，总之让故事变得更加生动有趣了。</p>
 
 <p>几年以前，我在一家运营校园邮件系统的公司工作。有一天，我接到了来自统计部主任给我的电话。</p>
 
@@ -132,19 +149,19 @@
 
 <p>“我们不能把邮件发送到超过500英里距离的地方，” 他重复道。“真的，哪怕再远一点点。只能到达520英里，不能再远了。”</p>
 
-<p>“嗯&hellip;通常来说，邮件真的不是按照这种方式来发送的，” 我说道，并尽力让自己的声音平静下来。一个人与部门主任谈话时通常不会带有恐慌情绪，即使是一个相对无实权的部门如统计部。“是什么让你认为邮件不能发送超过500英里之外的？”</p>
+<p>“嗯…通常来说，邮件真的不是按照这种方式来发送的，” 我说道，并尽力让自己的声音平静下来。一个人与部门主任谈话时通常不会带有恐慌情绪，即使是一个相对无实权的部门如统计部。“是什么让你认为邮件不能发送超过500英里之外的？”</p>
 
-<p>“并非我这么认为，” 主任不耐烦地回答道。“你瞧，几天之前我们就发现了这一现象&hellip;”</p>
+<p>“并非我这么认为，” 主任不耐烦地回答道。“你瞧，几天之前我们就发现了这一现象…”</p>
 
 <p>“你等了好几天了？” 我打断他的话，声音有些颤抖地问道，“这段时间你都不能发送邮件吗？”</p>
 
-<p>“我们能发邮件，只要不超过&hellip;”</p>
+<p>“我们能发邮件，只要不超过…”</p>
 
 <p>“500英里，是吧，” 我替他补充道，“我知道了。但是为什么你不早点给我电话呢？”</p>
 
-<p>“好吧，问题是直到刚才，我们才收集到足够的证据确定这一现象的发生。” 也对，他是统计部主任。“总之，我让一名地理统计人员去调查了这件事情&hellip;”</p>
+<p>“好吧，问题是直到刚才，我们才收集到足够的证据确定这一现象的发生。” 也对，他是统计部主任。“总之，我让一名地理统计人员去调查了这件事情…”</p>
 
-<p>“地理统计人员&hellip;”</p>
+<p>“地理统计人员…”</p>
 
 <p>“是的，她制作了一张地图，地图上显示我们能发送邮件的区域半径比500英里多那么一点点。即便如此，这个半径区域之内的有些地方也不能发送，或者偶发性地能发送，但是在半径区域之外从来没有发送成功过。”</p>
 
@@ -164,7 +181,7 @@
 
 <p>我将这个文件和我本机 home 目录下的 sendmail.cf 文件进行了比对。二者没有什么不同，这个文件就是我自己写的。我也确信没有启用 “FAIL_MAIL_OVER_500_MILES” 这一选项。带着满腹困惑，我远程登录到 SMTP 端口。服务器使用一个 SunOS sendmail 标识愉快地做出了响应。</p>
 
-<p>等等&hellip; 一个 SunOS sendmail 标识？在那时，Sun 仍然随同操作系统捆绑发布 Sendmail 5 版本，尽管 Sendmail 8 已经相当成熟了。作为一名优秀的系统管理员，我已经把 Sendmail 8 作为一个标配了。同时，作为一名优秀系统管理员，我写了一个 sendmail.cf 配置文件，使用了 Sendmail 8 中优雅详细且自我描述的选项和变量名，而不是 Sendmail 5 中含义模糊的标点符号标记的代码。</p>
+<p>等等… 一个 SunOS sendmail 标识？在那时，Sun 仍然随同操作系统捆绑发布 Sendmail 5 版本，尽管 Sendmail 8 已经相当成熟了。作为一名优秀的系统管理员，我已经把 Sendmail 8 作为一个标配了。同时，作为一名优秀系统管理员，我写了一个 sendmail.cf 配置文件，使用了 Sendmail 8 中优雅详细且自我描述的选项和变量名，而不是 Sendmail 5 中含义模糊的标点符号标记的代码。</p>
 
 <p>一切都水落石出了，突然间，我被那杯现已冷的掉渣的拿铁咖啡再次被呛到了。当那名技服给服务器打补丁的时候，很显然他也升级了 SunOS 的版本，如此一来自然把 Sendmail 的版本“降级”了。升级程序将 sendmail.cf 配置文件单独保留了下来，即使它现在对应的是错误的版本。</p>
 
@@ -176,31 +193,30 @@
 
 <p>这可真是让人有点儿眼花缭乱啊，我在 shell 里敲入如下代码：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ units
-</span><span class='line'>1311 units, 63 prefixes
-</span><span class='line'>
-</span><span class='line'>You have: 3 millilightseconds  
-</span><span class='line'>You want: miles  
-</span><span class='line'>        * 558.84719
-</span><span class='line'>        / 0.0017893979
-</span><span class='line'>
-</span><span class='line'>"500 miles, or a little bit more."</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ units
+</span><span class="line">1311 units, 63 prefixes
+</span><span class="line">
+</span><span class="line">You have: 3 millilightseconds  
+</span><span class="line">You want: miles  
+</span><span class="line">        * 558.84719
+</span><span class="line">        / 0.0017893979
+</span><span class="line">
+</span><span class="line">"500 miles, or a little bit more."</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>原文:</p>
 
-<p><a href="http://www.ibiblio.org/harris/500milemail.html">http://www.ibiblio.org/harris/500milemail.html</a></p>
+<p>http://www.ibiblio.org/harris/500milemail.html</p>
 
-<h3>地板阻碍打印</h3>
+<h3 id="section-1">地板阻碍打印</h3>
 
 <p>那还是80年代初期，我爸爸在一家存储设备公司工作，这个公司现在已经不存在了，它生产磁带机和驱动这些磁带高速运转的气动系统 —— 这是那个时代的产物。</p>
 
@@ -232,7 +248,7 @@
 
 <p>原文:</p>
 
-<p><a href="http://patrickthomson.tumblr.com/post/2499755681/the-best-debugging-story-ive-ever-heard">http://patrickthomson.tumblr.com/post/2499755681/the-best-debugging-story-ive-ever-heard</a></p>
+<p>http://patrickthomson.tumblr.com/post/2499755681/the-best-debugging-story-ive-ever-heard</p>
 </div>
 
 
@@ -327,7 +343,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

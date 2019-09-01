@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="在之前的谈谈比特币的地址安全问题这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。 令人惊奇的是，他们真的碰到了几个地址。对他们最近发现的4个地址做了一下分析，发现了更让人惊奇的事情。 他们最近的四个发现是: 2017-11-15 &hellip;">
+  <meta name="description" content="在之前的谈谈比特币的地址安全问题这篇文章中，我们谈到一个名为”LBC”的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。 令人惊奇的是，他们真的碰到了几个地址。对他们最近发现的4个地址做了一下分析，发现了更让人惊奇的事情。 他们最近的四个发现是: 2017-11-15 01:25:58 UTC &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,7 +121,7 @@
   </header>
 
 
-<div class="entry-content"><p>在之前的<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>这篇文章中，我们谈到一个名为&#8221;LBC&#8221;的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
+<div class="entry-content"><p>在之前的<a href="http://happy123.me/blog/2018/04/24/cryptocurrency-security/">谈谈比特币的地址安全问题</a>这篇文章中，我们谈到一个名为”LBC”的项目，这个项目通过暴力碰撞企图打捞到一些什么东西。</p>
 
 <p>令人惊奇的是，他们真的碰到了几个地址。对他们最近发现的4个地址做了一下分析，发现了更让人惊奇的事情。</p>
 
@@ -113,108 +129,134 @@
 
 <!-- more -->
 
-
-<h4>2017-11-15 01:25:58 UTC</h4>
-
-<ul>
-<li><p>private key:0x236fb6d5ad1f43</p></li>
-<li><p>hash160:cb66763cf7fde659869ae7f06884d9a0f879a092</p></li>
-<li><p>address:1KYUv7nSvXx4642TKeuC2SNdTk326uUpFy</p></li>
-<li><p>balance:0.054 BTC</p></li>
-</ul>
-
-
-<h4>2017-09-04 16:54:48 UTC</h4>
+<h4 id="utc">2017-11-15 01:25:58 UTC</h4>
 
 <ul>
-<li><p>private key:0x180788e47e326c.</p></li>
-<li><p>hash160:2f4870ef54fa4b048c1365d42594cc7d3d269551</p></li>
-<li><p>address:15K1YKJMiJ4fpesTVUcByoz334rHmknxmT</p></li>
-<li><p>balance: 0.053 BTC</p></li>
+  <li>
+    <p>private key:0x236fb6d5ad1f43</p>
+  </li>
+  <li>
+    <p>hash160:cb66763cf7fde659869ae7f06884d9a0f879a092</p>
+  </li>
+  <li>
+    <p>address:1KYUv7nSvXx4642TKeuC2SNdTk326uUpFy</p>
+  </li>
+  <li>
+    <p>balance:0.054 BTC</p>
+  </li>
 </ul>
 
-
-<h4>2017-04-21 12:50:55 UTC</h4>
+<h4 id="utc-1">2017-09-04 16:54:48 UTC</h4>
 
 <ul>
-<li><p>private key:0xefae164cb9e3c.</p></li>
-<li><p>hash160: 36af659edbe94453f6344e920d143f1778653ae7</p></li>
-<li><p>address:15z9c9sVpu6fwNiK7dMAFgMYSK4GqsGZim</p></li>
-<li><p>balance:0.052 BTC</p></li>
+  <li>
+    <p>private key:0x180788e47e326c.</p>
+  </li>
+  <li>
+    <p>hash160:2f4870ef54fa4b048c1365d42594cc7d3d269551</p>
+  </li>
+  <li>
+    <p>address:15K1YKJMiJ4fpesTVUcByoz334rHmknxmT</p>
+  </li>
+  <li>
+    <p>balance: 0.053 BTC</p>
+  </li>
 </ul>
 
-
-<h4>2017-04-05 02:23:00 UTC</h4>
+<h4 id="utc-2">2017-04-21 12:50:55 UTC</h4>
 
 <ul>
-<li><p>private key:0x75070a1a009d4.</p></li>
-<li><p>hash160:ef6419cffd7fad7027994354eb8efae223c2dbe7</p></li>
-<li><p>address:1NpnQyZ7x24ud82b7WiRNvPm6N8bqGQnaS</p></li>
-<li><p>balance:0.051 BTC</p></li>
+  <li>
+    <p>private key:0xefae164cb9e3c.</p>
+  </li>
+  <li>
+    <p>hash160: 36af659edbe94453f6344e920d143f1778653ae7</p>
+  </li>
+  <li>
+    <p>address:15z9c9sVpu6fwNiK7dMAFgMYSK4GqsGZim</p>
+  </li>
+  <li>
+    <p>balance:0.052 BTC</p>
+  </li>
 </ul>
 
+<h4 id="utc-3">2017-04-05 02:23:00 UTC</h4>
 
-<h3>账户的余额依次递增，分别为0.051 &ndash;> 0.052 &ndash;> 0.053 &ndash;> 0.054</h3>
+<ul>
+  <li>
+    <p>private key:0x75070a1a009d4.</p>
+  </li>
+  <li>
+    <p>hash160:ef6419cffd7fad7027994354eb8efae223c2dbe7</p>
+  </li>
+  <li>
+    <p>address:1NpnQyZ7x24ud82b7WiRNvPm6N8bqGQnaS</p>
+  </li>
+  <li>
+    <p>balance:0.051 BTC</p>
+  </li>
+</ul>
 
-<h3>这也太凑巧了吧，为什么LBC的网站上没有小于0.051之前的数额呢</h3>
+<h3 id="section">账户的余额依次递增，分别为0.051 -&gt; 0.052 -&gt; 0.053 -&gt; 0.054</h3>
+
+<h3 id="lbc0051">这也太凑巧了吧，为什么LBC的网站上没有小于0.051之前的数额呢</h3>
 
 <p>一番追踪之后，我们发现了下面这笔交易:</p>
 
-<p><a href="https://btc.com/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15">https://btc.com/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15</a></p>
+<p>https://btc.com/08389f34c98c606322740c0be6a7125d9860bb8d5cb182c02f98461e5fa6cd15</p>
 
 <p>在2015年初的时候就有人对于比特币的安全模型提出过一个严肃的检验，他构造了以上这笔交易。</p>
 
 <p>这笔交易的每个输出地址的私钥是这样构造的:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>000...........................00001
-</span><span class='line'>0000..........................000011
-</span><span class='line'>0000.........................0000111
-</span><span class='line'>0000........................00001000
-</span><span class='line'>0000.......................000010101
-</span><span class='line'>0000......................0000110001
-</span><span class='line'>0000.....................00001001100
-</span><span class='line'>0000....................000011100000
-</span><span class='line'>0000...................0000111010011
-</span><span class='line'>0000..................00001000000010
-</span><span class='line'>0000.................000010010000011
-</span><span class='line'>0000................0000101001111011
-</span><span class='line'>0000...............00001010001100000
-</span><span class='line'>0000..............000010100100110000
-</span><span class='line'>0000.............0000110100011110011
-</span><span class='line'>0000............00001100100100110110
-</span><span class='line'>0000...........000010111011001001111
-</span><span class='line'>0000..........0000110000100000001101
-</span><span class='line'>0000.........00001010111010010011111
-</span><span class='line'>0000........000011010010110001010101
-</span><span class='line'>0000.......0000110111010010100110100
-</span><span class='line'>0000......00001011011110010000001111
-</span><span class='line'>0000.....000010101010110111001010010
-</span><span class='line'>0000....0000110111000010101000000100</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">000...........................00001
+</span><span class="line">0000..........................000011
+</span><span class="line">0000.........................0000111
+</span><span class="line">0000........................00001000
+</span><span class="line">0000.......................000010101
+</span><span class="line">0000......................0000110001
+</span><span class="line">0000.....................00001001100
+</span><span class="line">0000....................000011100000
+</span><span class="line">0000...................0000111010011
+</span><span class="line">0000..................00001000000010
+</span><span class="line">0000.................000010010000011
+</span><span class="line">0000................0000101001111011
+</span><span class="line">0000...............00001010001100000
+</span><span class="line">0000..............000010100100110000
+</span><span class="line">0000.............0000110100011110011
+</span><span class="line">0000............00001100100100110110
+</span><span class="line">0000...........000010111011001001111
+</span><span class="line">0000..........0000110000100000001101
+</span><span class="line">0000.........00001010111010010011111
+</span><span class="line">0000........000011010010110001010101
+</span><span class="line">0000.......0000110111010010100110100
+</span><span class="line">0000......00001011011110010000001111
+</span><span class="line">0000.....000010101010110111001010010
+</span><span class="line">0000....0000110111000010101000000100</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>第n个输出值为n mBTC，它的私匙(二进制)从右到第n位，也就是1，然后剩下的部分是随机的。</p>
 
@@ -224,14 +266,13 @@
 
 <p>这似乎是经过深思熟虑的~~也许是一个实验，看看在产出被拿走之前的时间。我认为这确实是个有趣的实验，比特币世界总不乏一些有趣的人。</p>
 
-<p>少年，拿起你手中的显卡算力，2<sup>55</sup>级别的碰撞似乎不是那么遥不可及，让我们看看第55个幸运儿什么时候诞生。</p>
+<p>少年，拿起你手中的显卡算力，2^55级别的碰撞似乎不是那么遥不可及，让我们看看第55个幸运儿什么时候诞生。</p>
 
 <ul>
-<li>引用资料:</li>
+  <li>引用资料:</li>
 </ul>
 
-
-<p><a href="https://rya.nc/forensic-bitcoin-cracking.html">https://rya.nc/forensic-bitcoin-cracking.html</a></p>
+<p>https://rya.nc/forensic-bitcoin-cracking.html</p>
 </div>
 
 
@@ -326,7 +367,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

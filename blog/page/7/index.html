@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -108,7 +124,7 @@
   </header>
 
 
-  <div class="entry-content"><p>好久没有打开过VC++了，今天为了修改一个远古控件打开了久违的VC++，DEBUG模式下又看到了久违的&#8221;烫烫烫烫烫&#8221;~~~~</p>
+  <div class="entry-content"><p>好久没有打开过VC++了，今天为了修改一个远古控件打开了久违的VC++，DEBUG模式下又看到了久违的”烫烫烫烫烫”~~~~</p>
 
 </div>
   
@@ -217,7 +233,7 @@
 
 <p>我花时间整理了网上公开的翻译合集供大家下载：</p>
 
-<p><a href="https://pan.baidu.com/s/1MLVlbasNe7ADHqSOKKtOlg">https://pan.baidu.com/s/1MLVlbasNe7ADHqSOKKtOlg</a></p>
+<p>https://pan.baidu.com/s/1MLVlbasNe7ADHqSOKKtOlg</p>
 
 </div>
   
@@ -309,7 +325,7 @@
 
   <div class="entry-content"><p>这几天又仔细读了一遍FOMO 3D和P3D的代码，又生出一些想法；发现这个团队围绕P3D构造的这个生态系统实在不简单，非常非常有意思，继续推演一下</p>
 
-<h4>再提醒一遍，这就是个骗局，创始团队也不讳言这是个骗局，他们明晃晃在官网wiki上，Twitter上提醒人们，我就是来骗你们的，不要上当。</h4>
+<h4 id="wikitwitter">再提醒一遍，这就是个骗局，创始团队也不讳言这是个骗局，他们明晃晃在官网wiki上，Twitter上提醒人们，我就是来骗你们的，不要上当。</h4>
 
 </div>
   
@@ -367,7 +383,7 @@
 
 <p>事实上，最近出来一个我认为史无前例的精巧，可怕，糅合了庞氏骗局，概率论，庄家，小白，顶级黑客，古典赌博术设计的区块链应用。而且，他非常坦诚，告诉你，我就是传销，就是骗局，你来了就是送我钱的，但还是让人欲罢不能。事实上，我不怕丢人，我也投了一点小钱在里面，我也是庞氏骗局的被洗脑者。所有读到这里的人，要高能预警提醒你，下面文章所有的内容，都是洗脑文，写这篇文章的人已经中毒了，您应该带着批判的思维去审视这些知识。</p>
 
-<h4>再提醒一遍，这就是个骗局，创始团队也不讳言这是个骗局，他们明晃晃在官网wiki上，Twitter上提醒人们，我就是来骗你们的，不要上当。</h4>
+<h4 id="wikitwitter">再提醒一遍，这就是个骗局，创始团队也不讳言这是个骗局，他们明晃晃在官网wiki上，Twitter上提醒人们，我就是来骗你们的，不要上当。</h4>
 
 </div>
   
@@ -425,7 +441,7 @@
 
 <p>官方回复是还没有考虑这个功能，然后Linux怎么可能做不到这种简单的事情呢？当然立刻就有人回复了详细的搞法，还贴心的附录了视频:</p>
 
-<p><a href="https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2">https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</a></p>
+<p>https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</p>
 
 </div>
   
@@ -515,33 +531,30 @@
 
   <div class="entry-content"><p>有一个100G的大文本文件 emailinfo.dict，包含邮箱及用户昵称; 格式为</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>hello@163.com,你是我的海
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">hello@163.com,你是我的海
+</span><span class="line">...</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>有一个用户名文件user.txt，格式为:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>aaa
-</span><span class='line'>xxxx
-</span><span class='line'>....</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">aaa
+</span><span class="line">xxxx
+</span><span class="line">....</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>我们希望找出emailinfo.dict中，以user.txt中用户名开头的所有内容。</p>
 
 <p>首先将user.txt内容改为:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>^aaa
-</span><span class='line'>^xxxx
-</span><span class='line'>....</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">^aaa
+</span><span class="line">^xxxx
+</span><span class="line">....</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后执行:</p>
 
@@ -591,86 +604,80 @@
 
 <p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
 
-<h2>定义Model</h2>
+<h2 id="model">定义Model</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from peewee import SqliteDatabase, Model, CharField
-</span><span class='line'>
-</span><span class='line'>db = SqliteDatabase('testdb.sqlite3')
-</span><span class='line'>
-</span><span class='line'>class User(Model):
-</span><span class='line'>    username = CharField(index=True)
-</span><span class='line'>    password = CharField()
-</span><span class='line'>    email = CharField(index=True)
-</span><span class='line'>    birthday = DateField()
-</span><span class='line'>    is_relative = BooleanField()
-</span><span class='line'>
-</span><span class='line'>    class Meta:
-</span><span class='line'>        database = db
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from peewee import SqliteDatabase, Model, CharField
+</span><span class="line">
+</span><span class="line">db = SqliteDatabase('testdb.sqlite3')
+</span><span class="line">
+</span><span class="line">class User(Model):
+</span><span class="line">    username = CharField(index=True)
+</span><span class="line">    password = CharField()
+</span><span class="line">    email = CharField(index=True)
+</span><span class="line">    birthday = DateField()
+</span><span class="line">    is_relative = BooleanField()
+</span><span class="line">
+</span><span class="line">    class Meta:
+</span><span class="line">        database = db
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="section">创建</h2>
 
-<h2>创建</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.connect()
+</span><span class="line">&gt;&gt;&gt; db.create_tables([User])</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; db.connect()
-</span><span class='line'>&gt;&gt;&gt; db.create_tables([User])</span></code></pre></td></tr></table></div></figure>
+<h2 id="section-1">保存</h2>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; user_record = User(name='Bob', password="", email="hello@world.com", birthday=date(1960, 1, 15), is_relative=True)
+</span><span class="line">&gt;&gt;&gt; user_record.save()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2>保存</h2>
+<h2 id="section-2">批量插入</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; user_record = User(name='Bob', password="", email="hello@world.com", birthday=date(1960, 1, 15), is_relative=True)
-</span><span class='line'>&gt;&gt;&gt; user_record.save()
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
+</span><span class="line">user_records.append(
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">)
+</span><span class="line">User.insert_many(user_records, fields=fields).execute()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="section-3">查询</h2>
 
-<h2>批量插入</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">for user in User.select().where(User.username.contains(username)):
+</span><span class="line">    print(user.username ....)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
-</span><span class='line'>user_records.append(
-</span><span class='line'>    (username, password, email, birthday, True),
-</span><span class='line'>    (username, password, email, birthday, True),
-</span><span class='line'>    (username, password, email, birthday, True),
-</span><span class='line'>)
-</span><span class='line'>User.insert_many(user_records, fields=fields).execute()
-</span></code></pre></td></tr></table></div></figure>
+<h2 id="section-4">关闭</h2>
 
-
-<h2>查询</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for user in User.select().where(User.username.contains(username)):
-</span><span class='line'>    print(user.username ....)</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>关闭</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; db.close()</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.close()</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -695,7 +702,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -115,8 +131,7 @@
 <p>从知乎上爬来一堆资料，先来备忘一下基础知识:</p>
 
 <p>作者：老汤
-链接：<a href="https://zhuanlan.zhihu.com/p/20585886">https://zhuanlan.zhihu.com/p/20585886</a></p>
-
+链接：https://zhuanlan.zhihu.com/p/20585886
 </div>
   
   
@@ -159,10 +174,9 @@
   </header>
 
 
-  <div class="entry-content"><p>centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板&hellip;</p>
+  <div class="entry-content"><p>centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板…</p>
 
-<p>模板实例:</p>
-
+<p>模板实例:
 </div>
   
   
@@ -249,8 +263,7 @@
   </header>
 
 
-  <div class="entry-content"><p>比特币扩容争论貌似刚刚出现曙光，但Bitfinex不甘寂寞，倾情出演比特币史上的又一出悲剧。
-{:.info}</p>
+  <div class="entry-content"><p class="info">比特币扩容争论貌似刚刚出现曙光，但Bitfinex不甘寂寞，倾情出演比特币史上的又一出悲剧。</p>
 
 </div>
   
@@ -297,159 +310,137 @@
   <div class="entry-content"><p>工作需要，学习了Cisco的路由器配置，记一下:</p>
 
 <ul>
-<li>查看所有信息</li>
+  <li>查看所有信息</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show run</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">show run</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>查看span</li>
+  <li>查看span</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show span</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">show span</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>为某个vlan id建立spanning-tree</li>
+  <li>为某个vlan id建立spanning-tree</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>取消某个vlan id的spanning-tree</li>
+  <li>取消某个vlan id的spanning-tree</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>将某个端口加入vlan中</li>
+  <li>将某个端口加入vlan中</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sh run init gi 0/39
-</span><span class='line'>config t
-</span><span class='line'>switchport access vlan 14</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sh run init gi 0/39
+</span><span class="line">config t
+</span><span class="line">switchport access vlan 14</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>保存配置</li>
+  <li>保存配置</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>do wr
-</span><span class='line'>copy running-config startup-config</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">do wr
+</span><span class="line">copy running-config startup-config</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>顺便记一下cisco catalyst交换机配置</p>
 
 <ul>
-<li>登陆交换机</li>
+  <li>登陆交换机</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>查看现有配置</li>
+  <li>查看现有配置</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>show running-config</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">show running-config</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
+  <li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#conf t
-</span><span class='line'>(config)#int ra g0/37 -39
-</span><span class='line'>(config-if-range)#sw mo acc
-</span><span class='line'>(config-if-range)#sw acc vl 15
-</span><span class='line'>(config-if-range)#exit
-</span><span class='line'>(config)#int ra g0/41 -46
-</span><span class='line'>(config-if-range)#sw tr e d
-</span><span class='line'>(config-if-range)#sw mo tr
-</span><span class='line'>(config-if-range)#end
-</span><span class='line'>#wr</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#conf t
+</span><span class="line">(config)#int ra g0/37 -39
+</span><span class="line">(config-if-range)#sw mo acc
+</span><span class="line">(config-if-range)#sw acc vl 15
+</span><span class="line">(config-if-range)#exit
+</span><span class="line">(config)#int ra g0/41 -46
+</span><span class="line">(config-if-range)#sw tr e d
+</span><span class="line">(config-if-range)#sw mo tr
+</span><span class="line">(config-if-range)#end
+</span><span class="line">#wr</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>开启/关闭端口</li>
+  <li>开启/关闭端口</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TEST3#conf t
-</span><span class='line'>Enter configuration commands, one per line.  End with CNTL/Z.
-</span><span class='line'>TEST3(config)#int g0/41
-</span><span class='line'>TEST3(config-if)#sh
-</span><span class='line'>TEST3(config-if)#shutdown
-</span><span class='line'>TEST3(config-if)#no shutdown
-</span><span class='line'>TEST3(config-if)#end
-</span><span class='line'>TEST3#</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">TEST3#conf t
+</span><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="line">TEST3(config)#int g0/41
+</span><span class="line">TEST3(config-if)#sh
+</span><span class="line">TEST3(config-if)#shutdown
+</span><span class="line">TEST3(config-if)#no shutdown
+</span><span class="line">TEST3(config-if)#end
+</span><span class="line">TEST3#</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>例如 配置vlan15 和 trunk:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>interface GigabitEthernet0/39
-</span><span class='line'> switchport access vlan 15
-</span><span class='line'>  switchport mode access
-</span><span class='line'>
-</span><span class='line'>interface GigabitEthernet0/46
-</span><span class='line'> switchport trunk encapsulation dot1q
-</span><span class='line'>  switchport mode trunk
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">interface GigabitEthernet0/39
+</span><span class="line"> switchport access vlan 15
+</span><span class="line">  switchport mode access
+</span><span class="line">
+</span><span class="line">interface GigabitEthernet0/46
+</span><span class="line"> switchport trunk encapsulation dot1q
+</span><span class="line">  switchport mode trunk
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>去掉</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>no switchport access vlan 15</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">no switchport access vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -488,8 +479,7 @@
   </header>
 
 
-  <div class="entry-content"><p>比特币成功减半，但是扩容争论日益升级。目前正处于一个微妙的时间点。这个时候以史为鉴，让我们回顾一下比特币历史上的一些悲剧故事。
-{:.info}</p>
+  <div class="entry-content"><p class="info">比特币成功减半，但是扩容争论日益升级。目前正处于一个微妙的时间点。这个时候以史为鉴，让我们回顾一下比特币历史上的一些悲剧故事。</p>
 
 <p>你知道你的比特币现在身处何方么？真心希望它们仍旧在你的钱包里，比特币历史上充斥着各种人为错误，软件的不给力，甚至能够让狂野的西部歹徒都能够脱帽敬礼的盗窃案发生。</p>
 
@@ -537,10 +527,9 @@
   </header>
 
 
-  <div class="entry-content"><p>比特币第二次减半将至，为什么比特币总量设置为2100万呢？这篇文章谈笑中有几分戏谑，但都是有的放矢，值得一读。
-{:.info}</p>
+  <div class="entry-content"><p class="info">比特币第二次减半将至，为什么比特币总量设置为2100万呢？这篇文章谈笑中有几分戏谑，但都是有的放矢，值得一读。</p>
 
-<h2>正文</h2>
+<h2 id="section">正文</h2>
 
 <p>比特币总量2100万个，这可能是刚接触比特币的小白们记得最清楚，也是最迷惑的数字。</p>
 
@@ -590,23 +579,18 @@
   </header>
 
 
-  <div class="entry-content"><h1>show value</h1>
+  <div class="entry-content"><h1 id="show-value">show value</h1>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h1 id="change-value">change value</h1>
 
-<h1>change value</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure>
-
-
-<p>TimeoutStopUSec = 900</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl daemon-reexec</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>TimeoutStopUSec = 900
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">systemctl daemon-reexec</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 </div>
   
   
@@ -647,36 +631,31 @@
 
   <div class="entry-content"><p>整理一下经常忘记的mysql命令</p>
 
-<h1>连接</h1>
+<h1 id="section">连接</h1>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root -p</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ mysql -u root -p</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h1 id="list">list</h1>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ show DATABASES;
+</span><span class="line">$ show TABLES;</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h1>list</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ show DATABASES;
-</span><span class='line'>$ show TABLES;</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Error</h1>
+<h1 id="error">Error</h1>
 
 <ul>
-<li>ERROR 1045 (28000): Access denied for user &lsquo;root&rsquo;@&lsquo;localhost&rsquo; (using password: YES)</li>
+  <li>ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: YES)</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysqld --skip-grant-tables
-</span><span class='line'>$ mysql -u root mysql
-</span><span class='line'>$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
-</span><span class='line'>$ mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ mysqld --skip-grant-tables
+</span><span class="line">$ mysql -u root mysql
+</span><span class="line">$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
+</span><span class="line">$ mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -715,25 +694,25 @@
   </header>
 
 
-  <div class="entry-content"><h1>如何识别战略点</h1>
+  <div class="entry-content"><h1 id="section">如何识别战略点</h1>
 
 <p>贝佐斯:</p>
 
-<p>我常被问一个问题：“在接下来的10年里，会有什么样的变化？”&hellip;但我很少被问到“在接下来的10年里，什么是不变的？”。我认为第二个问题比第一个问题更加重要，因为你需要将你的战略建立在不变的事物上。</p>
+<p>我常被问一个问题：“在接下来的10年里，会有什么样的变化？”…但我很少被问到“在接下来的10年里，什么是不变的？”。我认为第二个问题比第一个问题更加重要，因为你需要将你的战略建立在不变的事物上。</p>
 
 <p>在亚马逊的零售业务中，我们知道消费者会想要更低价格的产品，10年后仍然如此。他们想要更快的物流，更多的选择。很难想像，会有顾客在10年后跑来和我说：“Jeff，我喜欢亚马逊，但你们的价格能不能贵一点，或者到货时间再慢一点。”</p>
 
 <p>所以我们将精力放到这些不变的事物上，我们知道现在在上面投入的精力，会在10年里和10年后持续不断的让我们获益。当你发现了一个对的事情，甚至10年后依然如一，那么它就值得你将大量的精力倾注于此。</p>
 
-<h1>如何判断行业前景</h1>
+<h1 id="section-1">如何判断行业前景</h1>
 
 <p>所以，要判断一个行业的前景，最简单的办法是看这个行业的龙头在干什么——他们才是最聪明、最敏锐的观察家。</p>
 
-<h1>合适的商业谈判环境是什么样的</h1>
+<h1 id="section-2">合适的商业谈判环境是什么样的</h1>
 
 <p>接待供应商，不谈价格、不谈技术的话，都会在空旷的接洽室。透明落地玻璃接受路人监督，几张小圆桌配着椅子，还有几张长桌长椅。</p>
 
-<h1>什么是合适的管理</h1>
+<h1 id="section-3">什么是合适的管理</h1>
 
 <p>形势一片大好的公司，严格点很不错。但弱小的公司，过于严苛会导致离心离德。</p>
 </div>
@@ -760,7 +739,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

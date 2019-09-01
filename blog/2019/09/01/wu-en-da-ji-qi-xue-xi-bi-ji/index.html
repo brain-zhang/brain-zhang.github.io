@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>吴恩达机器学习笔记 - Living a Simple Life is a Happy Life</title>
+  <title>吴恩达机器学习笔记-1 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="这个系列教程大名鼎鼎，之前我都是用到啥就瞎试一通；最近花了两个周，认认真真把这些基础知识重新学了一遍；做个笔记； 苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌远，我一直在路上； 1-监督学习（Supervised Learning) 根据训练数据是否拥有标记信息， &hellip;">
+  <meta name="description" content="这个系列教程大名鼎鼎，之前我都是用到啥就瞎试一通；最近花了两个周，认认真真把这些基础知识重新学了一遍；做个笔记； 苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌晚，我一直在路上； 1-监督学习（Supervised Learning) 根据训练数据是否拥有标记信息， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -79,7 +95,7 @@
   
   <header>
     
-      <h1 class="entry-title">吴恩达机器学习笔记</h1>
+      <h1 class="entry-title">吴恩达机器学习笔记-1</h1>
     
     
       <p class="meta">
@@ -107,159 +123,228 @@
 
 <div class="entry-content"><p>这个系列教程大名鼎鼎，之前我都是用到啥就瞎试一通；最近花了两个周，认认真真把这些基础知识重新学了一遍；做个笔记；</p>
 
-<p>苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌远，我一直在路上；</p>
+<p>苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌晚，我一直在路上；</p>
 
 <!-- more -->
 
-
-<h2>1-监督学习（Supervised Learning)</h2>
+<h2 id="supervised-learning">1-监督学习（Supervised Learning)</h2>
 
 <p>根据训练数据是否拥有标记信息，学习任务可大致被分为两类：</p>
 
 <ul>
-<li><p>监督学习（Supervised Learning）监督学习的代表是回归和分类。</p>
+  <li>
+    <p>监督学习（Supervised Learning）监督学习的代表是回归和分类。</p>
 
-<ul>
-<li>回归:预测连续值的模型: 已知房子大小和房价数据集，预测某一房子的价格
-
-<ul>
-<li><p>分类:预测离散值的模型: 已知肿瘤性质和大小数据集，预测肿瘤是否良性</p></li>
-<li><p>无监督学习（Unsupervised Learning） 无监督学习的代表是聚类。</p></li>
+    <ul>
+      <li>回归:预测连续值的模型: 已知房子大小和房价数据集，预测某一房子的价格</li>
+      <li>分类:预测离散值的模型: 已知肿瘤性质和大小数据集，预测肿瘤是否良性</li>
+    </ul>
+  </li>
+  <li>
+    <p>无监督学习（Unsupervised Learning） 无监督学习的代表是聚类。</p>
+  </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
 
+<h2 id="section">2-单变量线性回归</h2>
 
-<h2>2-单变量线性回归</h2>
+<h4 id="section-1">模型表示</h4>
 
-<h4>模型表示</h4>
-
-<pre><code>``math
+<script type="math/tex; mode=display">
 h_{\theta}(x) = \theta_{0} + \theta_{1}x
-``
-</code></pre>
+</script>
 
-<h4>代价函数</h4>
+<h4 id="section-2">代价函数</h4>
 
-<pre><code>求两个值，使模型最为匹配当前数据集；求解匹配度的过程提炼出代价函数；代价函数值越小，匹配度越高
+<p>求两个值，使模型最为匹配当前数据集；求解匹配度的过程提炼出代价函数；代价函数值越小，匹配度越高</p>
 
-``math
+<script type="math/tex; mode=display">
 J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2}
-``
+</script>
 
-当𝜃1=0时，代价函数为一抛物线；
-当𝜃0，𝜃1都不为0时，代价函数为一三维曲面；
-</code></pre>
+<p>当𝜃1=0时，代价函数为一抛物线；
+当𝜃0，𝜃1都不为0时，代价函数为一三维曲面；</p>
 
-<h4>自动求解代价函数</h4>
+<h4 id="section-3">自动求解代价函数</h4>
 
-<pre><code>我们我们有函数  𝐽(𝜃0,𝜃1) , 可以不断的调整  𝜃0  和  𝜃1 , 来使得  𝐽(𝜃0,𝜃1)  , 直到  𝐽(𝜃0,𝜃1)  达到最小值为止
+<p>我们我们有函数  𝐽(𝜃0,𝜃1) , 可以不断的调整  𝜃0  和  𝜃1 , 来使得  𝐽(𝜃0,𝜃1)  , 直到  𝐽(𝜃0,𝜃1)  达到最小值为止</p>
 
-梯度下降是一个用来求函数最小值的算法，我们将使用梯度下降算法来求出代价函数 𝐽(𝜃0,𝜃1) 的最小值。
+<p>梯度下降是一个用来求函数最小值的算法，我们将使用梯度下降算法来求出代价函数 𝐽(𝜃0,𝜃1) 的最小值。</p>
 
-梯度下降背后的思想是：开始时我们随机选择一个参数的组合 (𝜃0,𝜃1,......,𝜃𝑛)  ，计算代价函数，然后我们寻找下一个能让代价函数值下降最多的参数组合。我们持续这么做直到抵达一个局部最小值（local minimum），因为我们并没有尝试完所有的参数组合，所以不能确定我们得到的局部最小值是否便是全局最小值（global minimum），选择不同的初始参数组合，可能会找到不同的局部最小值。
+<p>梯度下降背后的思想是：开始时我们随机选择一个参数的组合 (𝜃0,𝜃1,……,𝜃𝑛)  ，计算代价函数，然后我们寻找下一个能让代价函数值下降最多的参数组合。我们持续这么做直到抵达一个局部最小值（local minimum），因为我们并没有尝试完所有的参数组合，所以不能确定我们得到的局部最小值是否便是全局最小值（global minimum），选择不同的初始参数组合，可能会找到不同的局部最小值。</p>
 
-帅气的梯度下降算法公式:
+<p>帅气的梯度下降算法公式:</p>
 
-``math
+<script type="math/tex; mode=display">
 \theta_{j} := \theta_{j} - \alpha\frac{\partial}{\partial{\theta_{j}}}J(\theta)
-``
+</script>
 
-对 𝜃 赋值，使得  𝐽(𝜃) 按梯度下降最快方向进行，一直迭代下去，最终得到局部最小值。其中 𝛼 是学习率（learning rate），它决定了我们沿着能让代价函数下降程度最大的方向向下迈出的步子有多大。
+<p>对 𝜃 赋值，使得  𝐽(𝜃) 按梯度下降最快方向进行，一直迭代下去，最终得到局部最小值。其中 𝛼 是学习率（learning rate），它决定了我们沿着能让代价函数下降程度最大的方向向下迈出的步子有多大。</p>
 
-* 如果 𝛼 太小了，即我的学习速率太小，可能会很慢，因为它会一点点挪动，它会需要很多步才能到达全局最低点。
-* 如果 𝛼 太大，那么梯度下降法可能会越过最低点，下一次迭代又移动了一大步，越过一次，又越过一次，一次次越过最低点，直到你发现实际上离最低点越来越远，最终会导致无法收敛，甚至发散。
-*
-</code></pre>
+<ul>
+  <li>如果 𝛼 太小了，即我的学习速率太小，可能会很慢，因为它会一点点挪动，它会需要很多步才能到达全局最低点。</li>
+  <li>如果 𝛼 太大，那么梯度下降法可能会越过最低点，下一次迭代又移动了一大步，越过一次，又越过一次，一次次越过最低点，直到你发现实际上离最低点越来越远，最终会导致无法收敛，甚至发散。</li>
+</ul>
 
-<h2>3-矩阵和向量</h2>
+<h2 id="section-4">3-矩阵和向量</h2>
 
-<h4>一个2X2矩阵</h4>
+<h4 id="x2">一个2X2矩阵</h4>
 
-<pre><code>``
-import numpy as np
-a=np.array([[1, 2], [3, 4]])
-``
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">a=np.array([[1, 2], [3, 4]])</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4>向量是列数为1的特殊矩阵:</h4>
+<h4 id="section-5">向量是列数为1的特殊矩阵:</h4>
 
-<pre><code>``
-b = np.array(np.zeros((3,1)))
-``
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">b = np.array(np.zeros((3,1)))</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4>矩阵的加法</h4>
+<h4 id="section-6">矩阵的加法</h4>
 
-<pre><code>行列数相等的才可以做加法，两个矩阵相加就是行列对应的元素相加。
+<p>行列数相等的才可以做加法，两个矩阵相加就是行列对应的元素相加。</p>
 
-``
-import numpy as np
-a = np.mat([[1,0],[2,5],[3,1]])
-b = np.mat([[4,0.5],[2,5],[0,1]])
-print ("a: \n",a, "\nb: \n",b)
-print ("a+b: \n",a+b)  # a + b，矩阵相加
-``
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">a = np.mat([[1,0],[2,5],[3,1]])
+</span><span class="line">b = np.mat([[4,0.5],[2,5],[0,1]])
+</span><span class="line">print ("a: \n",a, "\nb: \n",b)
+</span><span class="line">print ("a+b: \n",a+b)  # a + b，矩阵相加</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4>矩阵的标量乘法</h4>
+<h4 id="section-7">矩阵的标量乘法</h4>
 
-<pre><code>矩阵和标量的乘法也很简单,就是矩阵的每个元素都与标量相乘。
+<p>矩阵和标量的乘法也很简单,就是矩阵的每个元素都与标量相乘。</p>
 
-``
-print ("a: \n",a)
-print ("3*a: \n",3* a)  #矩阵标量乘法
-``
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">print ("a: \n",a)
+</span><span class="line">print ("3*a: \n",3* a)  #矩阵标量乘法</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4>向量乘法</h4>
+<h4 id="section-8">向量乘法</h4>
+<p>m×n 的矩阵乘以 n×1 的向量，得到的是 m×1 的向量</p>
 
-<pre><code>m×n 的矩阵乘以 n×1 的向量，得到的是 m×1 的向量
-``
-import numpy as np
-a = np.mat([[-1,2],[2,3]])
-c = np.mat([[3],[4]])
-ac = a * c
-``
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">a = np.mat([[-1,2],[2,3]])
+</span><span class="line">c = np.mat([[3],[4]])
+</span><span class="line">ac = a * c</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4>矩阵乘法的性质</h4>
+<h4 id="section-9">矩阵乘法的性质</h4>
+<ul>
+  <li>矩阵的乘法不满足交换律： 𝐴×𝐵≠𝐵×𝐴</li>
+  <li>矩阵的乘法满足结合律。即： 𝐴×（𝐵×𝐶）=（𝐴×𝐵）×𝐶</li>
+  <li>在矩阵的乘法中，有一种矩阵起着特殊的作用，如同数的乘法中的 1,我们称这种矩阵为单位矩阵．它是个方阵，一般用 I 或者 E 表示，本讲义都用 I 代表单位矩阵，从左上角到右下角的对角线（称为主对角线）上的元素均为 1 以外全都为 0。</li>
+</ul>
 
-<pre><code>* 矩阵的乘法不满足交换律： 𝐴×𝐵≠𝐵×𝐴
-* 矩阵的乘法满足结合律。即： 𝐴×（𝐵×𝐶）=（𝐴×𝐵）×𝐶
-* 在矩阵的乘法中，有一种矩阵起着特殊的作用，如同数的乘法中的 1,我们称这种矩阵为单位矩阵．它是个方阵，一般用 I 或者 E 表示，本讲义都用 I 代表单位矩阵，从左上角到右下角的对角线（称为主对角线）上的元素均为 1 以外全都为 0。
-</code></pre>
+<h4 id="section-10">逆矩阵</h4>
 
-<h4>逆矩阵</h4>
+<p>矩阵 A 是一个 m×m 矩阵（方阵），如果有逆矩阵，则：𝐴𝐴−1=𝐴−1𝐴=𝐼</p>
 
-<pre><code>矩阵 A 是一个 m×m 矩阵（方阵），如果有逆矩阵，则：𝐴𝐴−1=𝐴−1𝐴=𝐼
+<p>没有逆矩阵的矩阵, 称为奇异 (singlar/degenerate)矩阵</p>
 
- 没有逆矩阵的矩阵, 称为奇异 (singlar/degenerate)矩阵
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">
+</span><span class="line">a = np.mat([[1,2],[3,4]])
+</span><span class="line">print ('a:\n',a)
+</span><span class="line">res = np.linalg.inv(a)
+</span><span class="line">print('a inverse:\n', res)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
- ``
- import numpy as np
+<p>备注: 再octave中，可以用pinv函数(伪逆矩阵)对奇异矩阵求逆；</p>
 
- a = np.mat([[1,2],[3,4]])
- print ('a:\n',a)
- res = np.linalg.inv(a)
- print('a inverse:\n', res)
- ``
+<h4 id="section-11">矩阵转置</h4>
 
- 备注: 再octave中，可以用pinv函数(伪逆矩阵)对奇异矩阵求逆；
-</code></pre>
+<p>设 A 为 m×n 阶矩阵（即 m 行 n 列），第 i 行 j 列的元素是 a(i,j)，即：A=a(i,j) 定义 A 的转置为这样一个 n×m 阶矩阵 B，满足 B=a(j,i)，即 b (i,j)=a (j,i)（B 的第 i 行第 j 列元素是 A 的第 j 行第 i 列元素），记  𝐴𝑇=𝐵 。</p>
 
-<h4>矩阵转置</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">a = np.mat([[1,2],[3,4]])
+</span><span class="line">print ('a:\n',a)
+</span><span class="line">res = a.T
+</span><span class="line">print('a transpose:\n', res)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<pre><code> 设 A 为 m×n 阶矩阵（即 m 行 n 列），第 i 行 j 列的元素是 a(i,j)，即：A=a(i,j) 定义 A 的转置为这样一个 n×m 阶矩阵 B，满足 B=a(j,i)，即 b (i,j)=a (j,i)（B 的第 i 行第 j 列元素是 A 的第 j 行第 i 列元素），记  𝐴𝑇=𝐵 。
- ``
- a = np.mat([[1,2],[3,4]])
- print ('a:\n',a)
- res = a.T
- print('a transpose:\n', res)
- ```&gt;
-</code></pre>
+<h2 id="section-12">多变量线性回归</h2>
+
+<ul>
+  <li>引入多种特征后的假设h模型</li>
+</ul>
+
+<script type="math/tex; mode=display">
+h_{\theta}(x) = \theta_{0} + \theta_{1}x_{1} + \theta_{2}x_{2} + ... + \theta_{n}x_{n}
+</script>
+
+<p>此时模型中的参数是一个 n+1 维的向量，任何一个训练实例也都是 n+1 维的向量，特征矩阵 X 的维度是 m*(n+1)。 因此公式可以简化为：</p>
+
+<script type="math/tex; mode=display">
+h_{\theta}(x) = \theta^TX
+</script>
+
+<h4 id="section-13">多变量梯度下降</h4>
+
+<p>与单变量线性回归类似，在多变量线性回归中，我们也构建一个代价函数，则这个代价 函数是所有建模误差的平方和，即：</p>
+
+<script type="math/tex; mode=display">
+J(\theta_{0}, \theta_{1}...\theta_{n}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2}
+</script>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 代价函数的python代码实现
+</span><span class="line">def Cost(X, y, theta):
+</span><span class="line">    inner = np.power(((X * theta.T) - y), 2)
+</span><span class="line">    return np.sum(inner) / (2 * len(X))</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-14">梯度下降 - 特征缩放</h4>
+
+<p>在我们面对多维特征问题的时候，我们要保证这些特征都具有相近的尺度，这可以帮助梯度下降算法更快地收敛。</p>
+
+<p>解决的方法是尝试将所有特征的尺度都尽量缩放到-1 到 1 之间。</p>
+
+<p>最简单的方法是令：</p>
+
+<script type="math/tex; mode=display">
+x_n = \frac{x_n - \mu_n}{s_n}
+</script>
+
+<p>其中,  𝜇𝑛 是平均值， 𝑠𝑛 是标准差。</p>
+
+<h4 id="section-15">梯度下降 - 学习率</h4>
+
+<ul>
+  <li>如果学习率 𝛼 过小，则达到收敛所需的迭代次数会非常高；</li>
+  <li>如果学习率 𝛼 过大，每次迭代可能不会减小代价函数，可能会越过局部最小值导致无法收敛。</li>
+</ul>
+
+<p>通常可以考虑尝试些学习率： 0.01，0.03，0.1，0.3，1，3，10; 3倍增长</p>
+
+<h4 id="section-16">特征与多项式回归</h4>
+
+<p>如果我们采用多项式回归模型，在运行梯度下降算法前，特征缩放非常有必要。因为幂运算很容易拉大特征之间尺度的差距</p>
+
+<h4 id="section-17">正规方程</h4>
+
+<p>假设我们的训练集特征矩阵为 X（包含了 𝑥0=1 ）并且我们的训练集结果为向量 y， 则利用正规方程解出向量</p>
+
+<script type="math/tex; mode=display">
+\theta = (X^TX)^{-1}X^Ty
+</script>
+
+<p>只要特征变量的数目并不大，标准方程是一个很好的计算参数 𝜃 的替代方法。具体地说，只要特征变量的数量小于一万，通常使用标准方程法，而不使用梯度下降法。</p>
 </div>
 
 
@@ -352,7 +437,7 @@ ac = a * c
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

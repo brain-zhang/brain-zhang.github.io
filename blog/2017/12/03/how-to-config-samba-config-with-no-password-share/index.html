@@ -33,6 +33,22 @@ rm -rf /etc/samba /etc/default/samba 重装 apt-get install samba 配置 vim /et
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -108,18 +124,18 @@ rm -rf /etc/samba /etc/default/samba 重装 apt-get install samba 配置 vim /et
 
 <div class="entry-content"><p>年老记忆力下降，做了N+1遍了，还是忘。</p>
 
-<h2>卸载干净</h2>
+<h2 id="section">卸载干净</h2>
 
 <pre><code>apt-get purge samba
 rm -rf /etc/samba /etc/default/samba
 </code></pre>
 
-<h2>重装</h2>
+<h2 id="section-1">重装</h2>
 
 <pre><code>apt-get install samba
 </code></pre>
 
-<h2>配置</h2>
+<h2 id="section-2">配置</h2>
 
 <pre><code>vim /etc/samba/smb.conf
 
@@ -135,7 +151,7 @@ create mask = 0644
 directory mask = 2777
 </code></pre>
 
-<h2>重启</h2>
+<h2 id="section-3">重启</h2>
 
 <pre><code>systemctl restart smbd
 </code></pre>
@@ -233,7 +249,7 @@ directory mask = 2777
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

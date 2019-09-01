@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ai | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/ai/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T07:16:42+08:00</updated>
+  <updated>2019-09-02T07:56:37+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[吴恩达机器学习笔记]]></title>
+    <title type="html"><![CDATA[吴恩达机器学习笔记-1]]></title>
     <link href="https://happy123.me/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/"/>
     <updated>2019-09-01T15:59:41+08:00</updated>
     <id>https://happy123.me/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji</id>
@@ -46,17 +46,17 @@
 
 <h4 id="section-1">模型表示</h4>
 
-<p><code>math
+<script type="math/tex; mode=display">
 h_{\theta}(x) = \theta_{0} + \theta_{1}x
-</code></p>
+</script>
 
 <h4 id="section-2">代价函数</h4>
 
 <p>求两个值，使模型最为匹配当前数据集；求解匹配度的过程提炼出代价函数；代价函数值越小，匹配度越高</p>
 
-<p><code>math
+<script type="math/tex; mode=display">
 J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2}
-</code></p>
+</script>
 
 <p>当𝜃1=0时，代价函数为一抛物线；
 当𝜃0，𝜃1都不为0时，代价函数为一三维曲面；</p>
@@ -71,9 +71,9 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 
 <p>帅气的梯度下降算法公式:</p>
 
-<p><code>math
+<script type="math/tex; mode=display">
 \theta_{j} := \theta_{j} - \alpha\frac{\partial}{\partial{\theta_{j}}}J(\theta)
-</code></p>
+</script>
 
 <p>对 𝜃 赋值，使得  𝐽(𝜃) 按梯度下降最快方向进行，一直迭代下去，最终得到局部最小值。其中 𝛼 是学习率（learning rate），它决定了我们沿着能让代价函数下降程度最大的方向向下迈出的步子有多大。</p>
 
@@ -169,23 +169,23 @@ print('a transpose:\n', res)
   <li>引入多种特征后的假设h模型</li>
 </ul>
 
-<p><code>math
+<script type="math/tex; mode=display">
 h_{\theta}(x) = \theta_{0} + \theta_{1}x_{1} + \theta_{2}x_{2} + ... + \theta_{n}x_{n}
-</code></p>
+</script>
 
 <p>此时模型中的参数是一个 n+1 维的向量，任何一个训练实例也都是 n+1 维的向量，特征矩阵 X 的维度是 m*(n+1)。 因此公式可以简化为：</p>
 
-<p><code>math
+<script type="math/tex; mode=display">
 h_{\theta}(x) = \theta^TX
-</code></p>
+</script>
 
 <h4 id="section-13">多变量梯度下降</h4>
 
 <p>与单变量线性回归类似，在多变量线性回归中，我们也构建一个代价函数，则这个代价 函数是所有建模误差的平方和，即：</p>
 
-<p><code>math
+<script type="math/tex; mode=display">
 J(\theta_{0}, \theta_{1}...\theta_{n}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2}
-</code></p>
+</script>
 
 <p><code>
 # 代价函数的python代码实现
@@ -202,9 +202,9 @@ def Cost(X, y, theta):
 
 <p>最简单的方法是令：</p>
 
-<p><code>math
+<script type="math/tex; mode=display">
 x_n = \frac{x_n - \mu_n}{s_n}
-</code></p>
+</script>
 
 <p>其中,  𝜇𝑛 是平均值， 𝑠𝑛 是标准差。</p>
 
@@ -225,9 +225,9 @@ x_n = \frac{x_n - \mu_n}{s_n}
 
 <p>假设我们的训练集特征矩阵为 X（包含了 𝑥0=1 ）并且我们的训练集结果为向量 y， 则利用正规方程解出向量</p>
 
-<p><code>math
+<script type="math/tex; mode=display">
 \theta = (X^TX)^{-1}X^Ty
-</code></p>
+</script>
 
 <p>只要特征变量的数目并不大，标准方程是一个很好的计算参数 𝜃 的替代方法。具体地说，只要特征变量的数量小于一万，通常使用标准方程法，而不使用梯度下降法。</p>
 ]]></content>

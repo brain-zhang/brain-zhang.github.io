@@ -9,14 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="有一个很经典的问题: java和javascript是什么关系？ 然后小伙伴们是这样回答的: 人民政府和为人民服务的关系
-对象和对象的关系&hellip;
-老婆和老婆饼的关系
-苹果和苹果手机的关系
-卡巴斯基和巴基斯坦的关系
-印度和印度尼西亚的关系
-黑客和博客的关系
-北大和北大青鸟的关系 &hellip;">
+  <meta name="description" content="有一个很经典的问题: java和javascript是什么关系？ 然后小伙伴们是这样回答的: 人民政府和为人民服务的关系 对象和对象的关系… 老婆和老婆饼的关系 苹果和苹果手机的关系 卡巴斯基和巴基斯坦的关系 印度和印度尼西亚的关系 黑客和博客的关系 北大和北大青鸟的关系 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -39,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -118,34 +127,56 @@
 
 <!-- more -->
 
-
 <ul>
-<li><p>人民政府和为人民服务的关系</p></li>
-<li><p>对象和对象的关系&hellip;</p></li>
-<li><p>老婆和老婆饼的关系</p></li>
-<li><p>苹果和苹果手机的关系</p></li>
-<li><p>卡巴斯基和巴基斯坦的关系</p></li>
-<li><p>印度和印度尼西亚的关系</p></li>
-<li><p>黑客和博客的关系</p></li>
-<li><p>北大和北大青鸟的关系</p></li>
-<li><p>dog和hotdog的关系</p></li>
-<li><p>人民和人民大会堂的关系</p></li>
-<li><p>天真和天真热的关系</p></li>
-<li><p>梁山和梁山伯的关系</p></li>
+  <li>
+    <p>人民政府和为人民服务的关系</p>
+  </li>
+  <li>
+    <p>对象和对象的关系…</p>
+  </li>
+  <li>
+    <p>老婆和老婆饼的关系</p>
+  </li>
+  <li>
+    <p>苹果和苹果手机的关系</p>
+  </li>
+  <li>
+    <p>卡巴斯基和巴基斯坦的关系</p>
+  </li>
+  <li>
+    <p>印度和印度尼西亚的关系</p>
+  </li>
+  <li>
+    <p>黑客和博客的关系</p>
+  </li>
+  <li>
+    <p>北大和北大青鸟的关系</p>
+  </li>
+  <li>
+    <p>dog和hotdog的关系</p>
+  </li>
+  <li>
+    <p>人民和人民大会堂的关系</p>
+  </li>
+  <li>
+    <p>天真和天真热的关系</p>
+  </li>
+  <li>
+    <p>梁山和梁山伯的关系 </p>
+  </li>
 </ul>
 
-
-<p>&hellip;&hellip;</p>
+<p>……</p>
 
 <p>怎么样，同志你是不是对他们的关系有了更深入的了解呢？</p>
 
 <p>我只能说，在计算机工程领域，话语权没有掌握在傻写代码的码农手里，他们顶多就是个苦力外包民工；真正主导一门技术发展的，是天才的营销人员，尤其是：擅长起华丽的名字的那波人。</p>
 
-<p>来来来，这只是一个引子，让我们来唠唠一个非常非常火爆的科技名词，只要这个词从你嘴里说出来，立马就能将你加成为<code>拳打比尔盖茨，脚踢苹果谷歌</code>的霸道总裁，引起台下众人的谜之膜拜。&mdash; 云计算(Cloud Computing)</p>
+<p>来来来，这只是一个引子，让我们来唠唠一个非常非常火爆的科技名词，只要这个词从你嘴里说出来，立马就能将你加成为<code>拳打比尔盖茨，脚踢苹果谷歌</code>的霸道总裁，引起台下众人的谜之膜拜。– 云计算(Cloud Computing)</p>
 
 <p>不过，这个词是怎么来的呢？</p>
 
-<h4>懵懂岁月</h4>
+<h4 id="section">懵懂岁月</h4>
 
 <p>云计算和Cloud Computing这个词原本在中文和英文中，都是不存在的。Cloud Computing作为一个单词，在2006年之前在英文中并不存在。2006年前后，CloudComputing这个单词开始偶尔出现。2007年末，Cloud Computing出现的频率迅速增加。2008年初，Cloud Computing在中文中开始被翻译为“云计算”。</p>
 
@@ -155,11 +186,13 @@
 
 <p>John McCarthy，还是上面这个科学家，说计算机应该形成一个公用基础设施-computer utility，就像电话网络那样。原话是这样：</p>
 
-<blockquote><p>&ldquo;If computers of the kind I have advocatedbecome the computers of the future, then computing may someday be organized asa public utility just as the telephone system is a public utility&hellip; Thecomputer utility could become the basis of a new and important industry.&rdquo;</p></blockquote>
+<blockquote>
+  <p>“If computers of the kind I have advocatedbecome the computers of the future, then computing may someday be organized asa public utility just as the telephone system is a public utility… Thecomputer utility could become the basis of a new and important industry.”</p>
+</blockquote>
 
 <p>1965年4月30日，美国电报公司Western Union发布了一篇战略计划文档，提出建立计算基础设施“computing utility“：一个全国性的信息基础设施，让订阅者便宜、高效、迅速地获取所需的信息流，以便创建商业业务和其他东西。</p>
 
-<h4>初试啼声</h4>
+<h4 id="section-1">初试啼声</h4>
 
 <p>1995年，SUN公司提出了“Network Computer”，将当时的PC简化，以降低硬件成本，客户端的计算机具备很少的固化软件，其他的系统软件和应用软件从网络下载。Network Computer的软件不是机器代码，而是一种通用的中间代码(如Java bytecode)。</p>
 
@@ -177,13 +210,15 @@
 
 <p>他们的业务并不好，NetCentric也在失望中放弃了这个业务，转而推广互联网传真服务，但是最后关门了。O’Sullivan说“我们窥见了一个机会，但我们最终没有推出大量的云计算应用，这些让我难以忘怀”。</p>
 
-<h4>浮华人世</h4>
+<h4 id="section-2">浮华人世</h4>
 
 <p>2001年，纽约时报的JohnMarkoff，写了一篇Dave Winer对微软新的.net服务平台Hailstorm的负面评价时，使用了“cloud’ of computers”一词。Hailstorm当年，被设计为整合各种设备、数据和服务，为用户提供简洁、实用的计算方案，但受制于当时的技术和应用环境，Hailstorm并没有取得成功。可以看成是Windows Azure的祖先了。</p>
 
 <p>2006年8月9日的战略大会上，谷歌CEO施密特在与Danny Sullivan对话时，谈到广告和互联网时有一段原话：</p>
 
-<blockquote><p>What&rsquo;s interesting [now] is that there is anemergent new model, and you all are here because you are part of that newmodel. I don&rsquo;t think people have really understood how big this opportunityreally is. It starts with the premise that the data services and architectureshould be on servers. We call it cloudcomputing – they should be in a &ldquo;cloud&rdquo; somewhere. And that ifyou have the right kind of browser or the right kind of access, it doesn&#8217;tmatter whether you have a PC or a Mac or a mobile phone or a BlackBerry or whathave you – or new devices still to be developed – you can get access to thecloud. There are a number of companies that have benefited from that.Obviously, Google, Yahoo!, eBay, Amazon come to mind. The computation and thedata and so forth are in the servers.</p></blockquote>
+<blockquote>
+  <p>What’s interesting [now] is that there is anemergent new model, and you all are here because you are part of that newmodel. I don’t think people have really understood how big this opportunityreally is. It starts with the premise that the data services and architectureshould be on servers. We call it cloudcomputing – they should be in a “cloud” somewhere. And that ifyou have the right kind of browser or the right kind of access, it doesn’tmatter whether you have a PC or a Mac or a mobile phone or a BlackBerry or whathave you – or new devices still to be developed – you can get access to thecloud. There are a number of companies that have benefited from that.Obviously, Google, Yahoo!, eBay, Amazon come to mind. The computation and thedata and so forth are in the servers.</p>
+</blockquote>
 
 <p>施密特大概是第一个说出cloud computing的公众人物，并被大众媒体报道。但是，很可惜，它用这个词是为了解释互联网，用cloud computing来指代服务器-浏览器架构中的服务器。这是一种当时已经存在的技术和架构。特别的，施密说这个词时，特并不是在指一种新的技术、产品、服务、商业模式。</p>
 
@@ -197,13 +232,13 @@
 
 <p>谷歌在营销上开启了cloud computing的序幕，亚马逊AWS EC2 在产品和商业模式上开启了cloud computing的序幕。</p>
 
-<h4>一锤定音</h4>
+<h4 id="section-3">一锤定音</h4>
 
 <p>云计算的概念在2008年2009年经过无数先驱的创造、争论、整理，才形成了如今比较统一的概念和认识。</p>
 
 <p>2011年9月，NIST（美国国家标准与技术研究所）发布了最终版的《 The NIST Definition of Cloud Computing》,标志着云计算定义的争论已经平息。这是一个兼容并包的、标准的云计算定义，总结了市面上所有云计算服务的通用特征。</p>
 
-<h4>事后诸葛</h4>
+<h4 id="section-4">事后诸葛</h4>
 
 <p>自从云计算诞生起，就不乏反对声音。比如Oracle的埃里森斥责云计算是胡言乱语，当然后来变成云的粉丝。百度CEO李彦宏称云计算为新瓶装旧酒，同时发明了框计算，当然，2015年亚马逊发布财报后，又决定搞一下云计算。</p>
 
@@ -215,7 +250,7 @@
 
 <p>云计算在大部分时候，确实只是一个营销术语。但不幸的是，它不仅仅是一个广告词，它背后的本质、创新、技术、战略代表了一个新时代的开始。</p>
 
-<h4>一声叹息</h4>
+<h4 id="section-5">一声叹息</h4>
 
 <p>有人创造了一个新单词新概念，却一无所获，有人无心插柳被人贴上标签，却赚的盆满钵满，怎么就这么不平等呢？</p>
 
@@ -225,23 +260,25 @@
 
 <p>从此，我对哪些满口浮华词汇的人抱有深深的怀疑。</p>
 
-<h3>广告和产品谁更重要</h3>
+<h3 id="section-6">广告和产品谁更重要</h3>
 
 <p>在商业的世界里，真相并不重要，重要的是利益在哪里。</p>
 
 <p>现在想来，这位老师早已深得<code>无招胜有招</code>的真谛。当你能通过PPT创造世界的时候，何苦亲自动手呢？有一批傻傻的码农们帮你干活呢！掌握利益才是关键！</p>
 
-<p>这个词给我们启示就是，在某个情形下，创造出一个名词的力量，远远大于产品本身。营销也是产品的一部分&mdash;很多时候是最重要的那一部分。</p>
+<p>这个词给我们启示就是，在某个情形下，创造出一个名词的力量，远远大于产品本身。营销也是产品的一部分–很多时候是最重要的那一部分。</p>
 
-<h4>传说在蛮荒的魔法时代，创造一样新事物的办法就是为它想一个好名字，掌握这项技艺的人被尊称为巫术大师。</h4>
+<h4 id="section-7">传说在蛮荒的魔法时代，创造一样新事物的办法就是为它想一个好名字，掌握这项技艺的人被尊称为巫术大师。</h4>
 
 <p>少年，我想说，下次听到这样的宣传，先不要急着笑，要看看它的利益在哪里，那位大师的目的何在？</p>
 
-<blockquote><p>朋友们，我们有一个划时代的产品，它的底层采用了人工智能技术，整合了整个股票市场100年来的大数据，并存储在区块链上，现在，我们有好几组顶尖专家看好的量化策略，正用强大的量子计算机做回归测试。更妙的是，整套系统采用光伏能源，并由石墨烯材料打造一个稳定的能量转换站，可以无限运行下去；现在，我们就等你们来投资数钱了，还等什么，马上拿起电话，拨打xxxxxx ~~~</p></blockquote>
+<blockquote>
+  <p>朋友们，我们有一个划时代的产品，它的底层采用了人工智能技术，整合了整个股票市场100年来的大数据，并存储在区块链上，现在，我们有好几组顶尖专家看好的量化策略，正用强大的量子计算机做回归测试。更妙的是，整套系统采用光伏能源，并由石墨烯材料打造一个稳定的能量转换站，可以无限运行下去；现在，我们就等你们来投资数钱了，还等什么，马上拿起电话，拨打xxxxxx ~~~</p>
+</blockquote>
 
-<h4>引用:</h4>
+<h4 id="section-8">引用:</h4>
 
-<p><a href="http://www.infoq.com/cn/articles/romance-of-cloud-computing--part01">http://www.infoq.com/cn/articles/romance-of-cloud-computing&#8211;part01</a></p>
+<p>http://www.infoq.com/cn/articles/romance-of-cloud-computing–part01</p>
 </div>
 
 
@@ -336,7 +373,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

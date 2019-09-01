@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -105,9 +121,9 @@
   </header>
 
 
-<div class="entry-content"><h2>sudo tips</h2>
+<div class="entry-content"><h2 id="sudo-tips">sudo tips</h2>
 
-<h4>How to keep Environment Variables when Using SUDO</h4>
+<h4 id="how-to-keep-environment-variables-when-using-sudo">How to keep Environment Variables when Using SUDO</h4>
 
 <p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
 
@@ -120,16 +136,17 @@
 sudo -E bash -c 'echo $HOME'
 </code></pre>
 
-<h4>How to keep PATH Variables when Using SUDO</h4>
+<h4 id="how-to-keep-path-variables-when-using-sudo">How to keep PATH Variables when Using SUDO</h4>
 
 <pre><code>vim /etc/sudoers
 sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
 </code></pre>
 
-<h4>How to change root env</h4>
+<h4 id="how-to-change-root-env">How to change root env</h4>
 
 <pre><code>sudo -i
 </code></pre>
+
 </div>
 
 
@@ -224,7 +241,7 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

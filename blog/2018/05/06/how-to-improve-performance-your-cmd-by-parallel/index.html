@@ -34,6 +34,22 @@ fgrep xxxx test.txt 一般机器就会自觉进入一核有难，其它核点赞
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -111,207 +127,180 @@ fgrep xxxx test.txt 一般机器就会自觉进入一核有难，其它核点赞
 
 <!-- more -->
 
-
 <p>例如，一个1T的文本，百亿条数据，我想要:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>wc -l test.txt</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">wc -l test.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>或者</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>fgrep xxxx test.txt</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">fgrep xxxx test.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>一般机器就会自觉进入<code>一核有难，其它核点赞</code>的看戏模式。</p>
 
 <p>我花钱配了这么多核，加了这么多内存，不是让大家来看戏的。于是祭出<code>parallel</code>~</p>
 
-<h2>原理</h2>
+<h2 id="section">原理</h2>
 
 <p>parallel 是一个perl脚本，通过分割输入，并行处理的方式来加速执行命令。</p>
 
 <p>例如:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>wc -l test.txt</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">wc -l test.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>简单想想就是用个for循环split文件，挨个wc，然后相加。parallel就是自动帮你把这类事情做掉而已。大道不过两三行，所谓外部排序，Map-Reduce莫不如是。</p>
 
-<h2>安装 (ubuntu 16.04LTS)</h2>
+<h2 id="ubuntu-1604lts">安装 (ubuntu 16.04LTS)</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> apt-get install parallel</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"> apt-get install parallel</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="section-1">示例</h2>
 
-<h2>示例</h2>
+<h4 id="section-2">最快的办法计算一个大文件的行数</h4>
 
-<h4>最快的办法计算一个大文件的行数</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --pipe wc -l | awk '{s+=$1} END {print s}'</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe wc -l | awk '{s+=$1} END {print s}'</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>非常的巧妙，先使用parallel命令‘mapping’出大量的wc -l调用，形成子计算，最后通过管道发送给awk进行汇总</p>
 
-<h4>SED, 想在一个巨大的文件里使用sed命令做大量的替换操作吗？</h4>
+<h4 id="sed-sed">SED, 想在一个巨大的文件里使用sed命令做大量的替换操作吗？</h4>
 
-<p>常规做法：</p>
+<p>常规做法：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sed s^old^new^g bigfile.txt</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sed s^old^new^g bigfile.txt</span></code></pre></td></tr></table></div></figure>
+<p>现在你可以：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe sed s^old^new^g</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-
-<p>现在你可以：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --pipe sed s^old^new^g</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>GREP 一个非常大的文本文件</h4>
+<h4 id="grep-">GREP 一个非常大的文本文件</h4>
 
 <p>以前你可能会这样：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep pattern bigfile.txt</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">grep pattern bigfile.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>现在你可以这样：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe grep 'pattern'</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<p>现在你可以这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --pipe grep 'pattern'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt | parallel --no-notice --block 10M --pipe grep 'pattern'</span></code></pre></td></tr></table></div></figure>
-
+<p>或者这样：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.txt | parallel --no-notice --block 10M --pipe grep 'pattern'</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
 <p>这第二种用法使用了 –block 10M参数，这是说每个内核处理1千万行——你可以用这个参数来调整每个CUP内核处理多少行数据。</p>
 
-<h4>压缩一个非常大的文件</h4>
+<h4 id="section-3">压缩一个非常大的文件</h4>
 
 <p>bzip2是比gzip更好的压缩工具，但它很慢！别折腾了，我们有办法解决这问题。</p>
 
-<p>以前的做法：</p>
+<p>以前的做法：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.bin | bzip2 --best &gt; compressedfile.bz2</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.bin | bzip2 --best &gt; compressedfile.bz2</span></code></pre></td></tr></table></div></figure>
+<p>现在这样：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.bin | parallel --no-notice --pipe --recend '' -k bzip2 --best &gt; compressedfile.bz2</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-
-<p>现在这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.bin | parallel --no-notice --pipe --recend '' -k bzip2 --best &gt; compressedfile.bz2</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>扩展</h2>
+<h2 id="section-4">扩展</h2>
 
 <p>作为一个Python党，经常写一些<code>用过即弃</code>的边角料脚本</p>
 
 <p>比如最近要把一个1T的文件汉字全部转换为拼音，初版当然是这样的:</p>
 
-<h4>版本1</h4>
+<h4 id="section-5">版本1</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>with io.open(sys.argv[1], encoding='utf-8') as fp:
-</span><span class='line'>    for line in fp:
-</span><span class='line'>        print(lazy_pinyin(line))</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">with io.open(sys.argv[1], encoding='utf-8') as fp:
+</span><span class="line">    for line in fp:
+</span><span class="line">        print(lazy_pinyin(line))</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>lazy_pinyin的效率奇慢无比，这回陷入了一核有难，其它核+内存+磁盘全部看戏模式</p>
 
 <p>作为一个初级合格的Python开发人员，你当然说要用process，于是我们有了第二版:</p>
 
-<h4>版本2</h4>
+<h4 id="section-6">版本2</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from multiprocessing import Pool
-</span><span class='line'>pool = Pool(16)
-</span><span class='line'>with io.open(sys.argv[1], encoding='utf-8') as fp:
-</span><span class='line'>    pool.map(lazy_pinyin, fp, 16)
-</span><span class='line'>    pool.close()
-</span><span class='line'>    pool.join()</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from multiprocessing import Pool
+</span><span class="line">pool = Pool(16)
+</span><span class="line">with io.open(sys.argv[1], encoding='utf-8') as fp:
+</span><span class="line">    pool.map(lazy_pinyin, fp, 16)
+</span><span class="line">    pool.close()
+</span><span class="line">    pool.join()</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>嗯，很好，16个核都跑起来了；但是你有很快尴尬的发现，map把文件一把load进来，内存有难了</p>
 
-<h4>~~~~</h4>
+<h4 id="section-7">~~~~</h4>
 
 <p>作为一个初级合格的Python开发人员，你当然说不要一把读进来，要用chunk_read，一次读一块，或者更高级一点，直接用mmap映射进内存巴拉巴拉</p>
 
-<h4>少年，这还是那个边角料脚本吗，你已经在它上面操心一个小时了，还能不能愉快的玩耍了</h4>
+<h4 id="section-8">少年，这还是那个边角料脚本吗，你已经在它上面操心一个小时了，还能不能愉快的玩耍了</h4>
 
 <p>让 parallel来拯救你</p>
 
-<h4>版本3</h4>
+<h4 id="section-9">版本3</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import fileinput
-</span><span class='line'>
-</span><span class='line'>if __name__ == '__main__':
-</span><span class='line'>    for line in fileinput.input():
-</span><span class='line'>        lazy_pinyin(line)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import fileinput
+</span><span class="line">
+</span><span class="line">if __name__ == '__main__':
+</span><span class="line">    for line in fileinput.input():
+</span><span class="line">        lazy_pinyin(line)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后执行:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat bigfile.txt| parallel --no-notice --pipe python pinyinconv.py &gt; pinyin.result</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt| parallel --no-notice --pipe python pinyinconv.py &gt; pinyin.result</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>享受所有CPU满负荷运载的工头压榨工人的快感吧</p>
 
-<h2>一些扩展</h2>
+<h2 id="section-10">一些扩展</h2>
 
 <ul>
-<li>为啥所有的parallel都带有一个奇怪的&mdash;no-notice?</li>
+  <li>为啥所有的parallel都带有一个奇怪的–no-notice?</li>
 </ul>
-
 
 <p>嗯，虽然这个作者非常非常好，但是他总是在命令前面输出一些捐助提示；当然我并不是讨厌这种做法，但看多了总有些疲劳，你懂的~~</p>
 
 <ul>
-<li>我有一些参数想传给程序，怎么办？</li>
+  <li>我有一些参数想传给程序，怎么办？</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> seq 3|parallel --no-notice -q echo seq{}</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"> seq 3|parallel --no-notice -q echo seq{}</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>这个命令很好，但是语法好像啰嗦了一些，还有其它的替代命令吗？</li>
+  <li>这个命令很好，但是语法好像啰嗦了一些，还有其它的替代命令吗？</li>
 </ul>
-
 
 <p>嗯~ o(<em>￣▽￣</em>)o，还是有的，xargs有个-n参数，类似的效果，不过功能弱化很多，基本上是鸡肋</p>
 
-<h2>参考:</h2>
+<h2 id="section-11">参考:</h2>
 
-<h4>手册:</h4>
+<h4 id="section-12">手册:</h4>
 
-<p><a href="https://www.gnu.org/software/parallel/parallel_tutorial.html">https://www.gnu.org/software/parallel/parallel_tutorial.html</a></p>
+<p>https://www.gnu.org/software/parallel/parallel_tutorial.html</p>
 
-<h4>资料:</h4>
+<h4 id="section-13">资料:</h4>
 
-<p><a href="http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html">http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html</a></p>
+<p>http://www.freeoa.net/osuport/sysadmin/use-gnu-parallel-multi-core-speed-up-cmd_2343.html</p>
 
-<p>我的博客即将搬运同步至腾讯云+社区，邀请大家一同入驻：<a href="https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t">https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t</a></p>
+<p>我的博客即将搬运同步至腾讯云+社区，邀请大家一同入驻：https://cloud.tencent.com/developer/support-plan?invite_code=1bnzu1pmog27t</p>
 </div>
 
 
@@ -406,7 +395,7 @@ fgrep xxxx test.txt 一般机器就会自觉进入一核有难，其它核点赞
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

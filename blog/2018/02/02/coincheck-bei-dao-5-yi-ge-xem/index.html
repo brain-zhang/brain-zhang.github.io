@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,13 +123,13 @@
 
 <div class="entry-content"><p>2018-01-26,Coincheck 被盗 5 亿个 XEM, 这个数目估计是史上最大了，hacker 的账户地址是这里:</p>
 
-<p><a href="http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG">http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG</a></p>
+<p>http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG</p>
 
 <p>按照 coinmarketcap 的市场价来算，现在 5 亿个 XEM 价值大概 4 亿美元</p>
 
 <p>另外可能是 coincheck 自己的防护，他们的 Ripple 钱包也有一笔大额的转账:</p>
 
-<p><a href="https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8">https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8</a></p>
+<p>https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8</p>
 
 <p>有将近 1 亿个 xrp 转账到了一个地址，这个地址貌似有 30 亿个 xrp.</p>
 
@@ -123,11 +139,11 @@
 
 <p>2018-01-28, Coincheck公布了补偿措施</p>
 
-<p><a href="http://corporate.coincheck.com/2018/01/28/30.html">http://corporate.coincheck.com/2018/01/28/30.html</a></p>
+<p>http://corporate.coincheck.com/2018/01/28/30.html </p>
 
-<p>共损失 52300,0000 个 XEM，按照被偷时的币值返还，每个币 88 日元</p>
+<p>共损失 52300,0000 个 XEM，按照被偷时的币值返还，每个币 88 日元 </p>
 
-<p>额，貌似总额超过 25 亿人民币了</p>
+<p>额，貌似总额超过 25 亿人民币了 </p>
 
 <p>最奇怪的是，直到2018-02-01，市场才起了反应，开始下跌。</p>
 
@@ -226,7 +242,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

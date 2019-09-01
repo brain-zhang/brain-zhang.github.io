@@ -34,6 +34,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -111,114 +127,108 @@
 
 <!-- more -->
 
+<h2 id="section">生成私钥</h2>
 
-<h2>生成私钥</h2>
+<p>一般来说，私钥是个256bit的随机字符。为了演示方便，我们用一个人民大众喜闻乐见的地址生成为例子，私钥选取为 sha256(“satoshi”)</p>
 
-<p>一般来说，私钥是个256bit的随机字符。为了演示方便，我们用一个人民大众喜闻乐见的地址生成为例子，私钥选取为 sha256(&ldquo;satoshi&rdquo;)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; printf "satoshi"|sha256sum
-</span><span class='line'>da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f  -</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; printf "satoshi"|sha256sum
+</span><span class="line">da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f  -</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>得到私钥为<code>da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</code></p>
 
-<h2>用WIF (Wallet Import Format)表示私钥</h2>
+<h2 id="wif-wallet-import-format">用WIF (Wallet Import Format)表示私钥</h2>
 
 <p>我们看到私钥本质上是256bit的数字，他可以用二进制表示，也可以用16进制字符串表示，也可以用Base58Check来表示；为了在不同的钱包中方便的导入导出私钥，也为了方便二维码的生成，比特币采用了名为<code>WIF</code>的表示方法，下面列一个表格来说明:</p>
 
 <table>
-<thead>
-<tr>
-<th>Type </th>
-<th> Prefix </th>
-<th> Description </th>
-<th> Private key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Raw </td>
-<td> None </td>
-<td> 32 bytes binary </td>
-<td>  11011010001010000&hellip;&hellip;&hellip;..</td>
-</tr>
-<tr>
-<td>HEX </td>
-<td> None </td>
-<td> 64 hexadecimal digits </td>
-<td> da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</td>
-</tr>
-<tr>
-<td>WIF </td>
-<td> 5 </td>
-<td> Base58Check encoding </td>
-<td> 5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk</td>
-</tr>
-<tr>
-<td>WIF-compressed </td>
-<td> K or L </td>
-<td> Base58Check encoding </td>
-<td> L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Prefix</th>
+      <th>Description</th>
+      <th>Private key</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Raw</td>
+      <td>None</td>
+      <td>32 bytes binary</td>
+      <td>11011010001010000………..</td>
+    </tr>
+    <tr>
+      <td>HEX</td>
+      <td>None</td>
+      <td>64 hexadecimal digits</td>
+      <td>da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</td>
+    </tr>
+    <tr>
+      <td>WIF</td>
+      <td>5</td>
+      <td>Base58Check encoding</td>
+      <td>5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk</td>
+    </tr>
+    <tr>
+      <td>WIF-compressed</td>
+      <td>K or L</td>
+      <td>Base58Check encoding</td>
+      <td>L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6</td>
+    </tr>
+  </tbody>
 </table>
-
 
 <p>得到WIF 代码示例:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def gen_pubk_from_privk(private_key, compressed=True):
-</span><span class='line'>    # private_key = codecs.encode(os.urandom(32), 'hex').decode()
-</span><span class='line'>    secret_exponent = int('0x' + private_key, 0)
-</span><span class='line'>    print('WIF: ' + encoding.secret_exponent_to_wif(secret_exponent, compressed=compressed))
-</span><span class='line'>    public_pair = ecdsa.public_pair_for_secret_exponent(ecdsa.secp256k1.generator_secp256k1, secret_exponent)
-</span><span class='line'>    print('public pair:', public_pair)
-</span><span class='line'>    return public_pair
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def gen_pubk_from_privk(private_key, compressed=True):
+</span><span class="line">    # private_key = codecs.encode(os.urandom(32), 'hex').decode()
+</span><span class="line">    secret_exponent = int('0x' + private_key, 0)
+</span><span class="line">    print('WIF: ' + encoding.secret_exponent_to_wif(secret_exponent, compressed=compressed))
+</span><span class="line">    public_pair = ecdsa.public_pair_for_secret_exponent(ecdsa.secp256k1.generator_secp256k1, secret_exponent)
+</span><span class="line">    print('public pair:', public_pair)
+</span><span class="line">    return public_pair
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>WIF格式分为非压缩和压缩格式，压缩私钥其实是对非压缩私钥后缀追加了01之后的Base58Check编码，具体生成过程为:</p>
 
 <ul>
-<li>压缩私钥: 私钥前缀80+私钥本体+压缩私钥后缀01 + 校验</li>
-<li>非压缩私钥: 私钥前缀80+私钥本体+校验</li>
+  <li>压缩私钥: 私钥前缀80+私钥本体+压缩私钥后缀01 + 校验</li>
+  <li>非压缩私钥: 私钥前缀80+私钥本体+校验</li>
 </ul>
-
 
 <p>和字面意思相相反的是，压缩私钥比非压缩私钥还长。为啥这么折腾呢？这个我们在公钥生成的部分说明。</p>
 
-<h2>生成公钥</h2>
+<h2 id="section-1">生成公钥</h2>
 
 <p>我们之前的文章介绍了，公钥是在椭圆曲线上的一个点，由一对坐标（x，y）组成。公钥通常表示为前缀04紧接着两个256比特的数字。其中一个256比特数字是公钥的x坐标，另一个256比特数字是y坐标。前缀04是用来区分非压缩格式公钥， 压缩格式公钥是以02或者03开头。</p>
 
 <p>下面是由前文中的私钥所生成的公钥，其坐标x和y如下:</p>
 
 <ul>
-<li><p>public pair:</p>
+  <li>
+    <p>public pair: </p>
 
-<ul>
-<li>x = 89077434373547985693783396961781741114890330080946587550950125758215996319671</li>
-<li>y = 114001858762817543140175961139571810325965930451644331549950109688554928624341</li>
+    <ul>
+      <li>x = 89077434373547985693783396961781741114890330080946587550950125758215996319671</li>
+      <li>y = 114001858762817543140175961139571810325965930451644331549950109688554928624341</li>
+    </ul>
+  </li>
 </ul>
-</li>
-</ul>
-
 
 <p>加上前缀04，完整的公钥为:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>K = 0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">K = 0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h4>为什么要区分压缩格式和非压缩格式</h4>
+<h4 id="section-2">为什么要区分压缩格式和非压缩格式</h4>
 
 <p>这是一个历史问题，初版比特币运行时，中本聪没有考虑到一个问题:</p>
 
@@ -233,66 +243,73 @@
 <p>总结出来，一个公钥的表现形式可以又两种:</p>
 
 <ol>
-<li>04开头的非压缩公钥: (130位十六进制 2+64+64)</li>
-<li>02或03开头的压缩公钥:（66位十六进制 2+64）</li>
+  <li>04开头的非压缩公钥: (130位十六进制 2+64+64)</li>
+  <li>02或03开头的压缩公钥:（66位十六进制 2+64）</li>
 </ol>
-
 
 <p>这样继续推导，两种表现形式可以推导出两个地址，也就是手握一个私钥，可以推导出两个合法的比特币地址。</p>
 
 <p>这样又间接解释了为什么会有压缩私钥和非压缩私钥两种表现：</p>
 
 <ul>
-<li>当中本聪实现第一版比特币客户端钱包的时候，没有考虑到公钥可以压缩，所以采用了最原始直接的办法存储公钥和私钥</li>
-<li>后来人们发现公钥可以简化存储来节省一部分空间，于是加入了压缩公钥格式，为了跟之前的非压缩公钥区分，引入了前缀</li>
-<li>同样，使用压缩公钥格式的钱包导入导出私钥时，为了区分，也必须为私钥标明它对应的公钥是否压缩格式，所以也为私钥的表示引入了后缀</li>
-<li>压缩私钥的意思是，由这个私钥导出的公钥表示方法是压缩的，私钥本身还需要引入一个01作为后缀，长度反而多了一个字节</li>
+  <li>当中本聪实现第一版比特币客户端钱包的时候，没有考虑到公钥可以压缩，所以采用了最原始直接的办法存储公钥和私钥</li>
+  <li>后来人们发现公钥可以简化存储来节省一部分空间，于是加入了压缩公钥格式，为了跟之前的非压缩公钥区分，引入了前缀</li>
+  <li>同样，使用压缩公钥格式的钱包导入导出私钥时，为了区分，也必须为私钥标明它对应的公钥是否压缩格式，所以也为私钥的表示引入了后缀</li>
+  <li>压缩私钥的意思是，由这个私钥导出的公钥表示方法是压缩的，私钥本身还需要引入一个01作为后缀，长度反而多了一个字节</li>
 </ul>
 
-
-<h2>从公钥到比特币地址</h2>
+<h2 id="section-3">从公钥到比特币地址</h2>
 
 <p>得出公钥之后，地址的生成还要经过三重变换， 公钥为K，变换过程如下:</p>
 
 <ol>
-<li>首先计算 A = SHA256(K)</li>
-<li>计算 B = RIPEMD160(A)</li>
-<li>Addr = Base58Check（prefix + B）</li>
+  <li>首先计算 A = SHA256(K)</li>
+  <li>计算 B = RIPEMD160(A)</li>
+  <li>Addr = Base58Check（prefix + B）</li>
 </ol>
 
-
-<h4>为什么要有RIPEMD160(SHA256(K)) 的过程</h4>
+<h4 id="ripemd160sha256k-">为什么要有RIPEMD160(SHA256(K)) 的过程</h4>
 
 <p>因为中本聪设计之初充分考虑到了安全性方面的问题，一笔交易广播后，并不是直接把公钥K暴漏在外，如果你不花费这个UTXO，暴漏的只有<code>RIPEMD160(SHA256(K))</code>这个值。假如将来有一种计算机的计算能力得到指数级别的提升，有一定可能暴力破解椭圆曲线算法。解决方案就是引入<code>RIPEMD160(SHA256(K))</code>的过程，这样要破解一个未花费的UTXO，需要逆向RIPEMD160，SHA256，secp256k1三种不同的算法，即使将来量子计算发展到实用阶段，也很难做到吧。</p>
 
 <p>但是根据比特币交易的设计，一个地址重复使用就会暴露公钥K，所以我们推荐的安全做法就是一笔UTXO花费后就更换地址。这也是所有安全钱包的默认实现方法。</p>
 
-<p>这个设计的唯一的瑕疵，在我看来，就是RIPEMD160将公钥的碰撞空间减小了，由 2<sup>256</sup> 减小到了 2<sup>160</sup>，当然 2<sup>160</sup> 的碰撞空间对于现有计算能力也是个天文数字，我想中本聪没有选择SHA3等算法的原因，应该是充分考虑了散列算法的复杂度和差异度，最后选择的RIPEMD160吧。</p>
+<p>这个设计的唯一的瑕疵，在我看来，就是RIPEMD160将公钥的碰撞空间减小了，由 2^256 减小到了 2^160，当然 2^160 的碰撞空间对于现有计算能力也是个天文数字，我想中本聪没有选择SHA3等算法的原因，应该是充分考虑了散列算法的复杂度和差异度，最后选择的RIPEMD160吧。</p>
 
-<h4>Base58Check编码</h4>
+<h4 id="base58check">Base58Check编码</h4>
 
 <p>WIF格式和比特币地址都是用Base58Check编码表示的，Base58是Base64基础上发展来的，它具有以下功能:</p>
 
 <ul>
-<li>一个任意大小的payload。</li>
-<li>一组58个字母数字符号，由易于区分的大小写字母组成(不使用0OIl)</li>
-<li>一个字节的版本/应用程序信息。比特币地址为这个字节使用0x00</li>
-<li>四个字节（32位）基于SHA256的错误检查代码。此代码可用于自动检测并可能纠正排版错误。</li>
-<li>保留数据中零开头的额外步骤</li>
+  <li>一个任意大小的payload。</li>
+  <li>一组58个字母数字符号，由易于区分的大小写字母组成(不使用0OIl)</li>
+  <li>一个字节的版本/应用程序信息。比特币地址为这个字节使用0x00</li>
+  <li>四个字节（32位）基于SHA256的错误检查代码。此代码可用于自动检测并可能纠正排版错误。</li>
+  <li>保留数据中零开头的额外步骤</li>
 </ul>
-
 
 <p>创建过程:</p>
 
 <ol>
-<li><p>获取版本字节和payload字节，并将它们连接在一起（按字节顺序）。</p></li>
-<li><p>取SHA256(SHA256(步骤1的结果))的前四个字节</p></li>
-<li><p>将步骤1的结果和步骤2的结果连在一起（按字节顺序）。</p></li>
-<li><p>处理步骤3的结果 &ndash; 一系列字节 &ndash; 作为单个大端序号，使用正常的数学步骤（bignumber division）和下面描述的base-58字母表转换为base-58。结果应该被标准化为没有任何前导零（字符&#8217;1&#8217;）的base-58。</p></li>
-<li><p>在base58中，值为零的前导字符&#8217;1&#8217;被保留用于表示整个前导零字节，就像它处于前导位置时一样，没有值作为base-58符号。必要时可以有一个或多个前导&#8217;1&#8217;来表示一个或多个前导零字节。计算步骤3结果中的前导零字节数（对于旧的比特币地址，至少有一个用于版本/应用程序字节;对于新地址，将永远不会有）。每个前导零字节在最终结果中应由其自己的字符&#8217;1&#8217;表示。</p></li>
-<li><p>将步骤5中的1与步骤4 的结果连接起来。这是Base58Check的结果。</p></li>
+  <li>
+    <p>获取版本字节和payload字节，并将它们连接在一起（按字节顺序）。</p>
+  </li>
+  <li>
+    <p>取SHA256(SHA256(步骤1的结果))的前四个字节</p>
+  </li>
+  <li>
+    <p>将步骤1的结果和步骤2的结果连在一起（按字节顺序）。</p>
+  </li>
+  <li>
+    <p>处理步骤3的结果 - 一系列字节 - 作为单个大端序号，使用正常的数学步骤（bignumber division）和下面描述的base-58字母表转换为base-58。结果应该被标准化为没有任何前导零（字符’1’）的base-58。</p>
+  </li>
+  <li>
+    <p>在base58中，值为零的前导字符’1’被保留用于表示整个前导零字节，就像它处于前导位置时一样，没有值作为base-58符号。必要时可以有一个或多个前导’1’来表示一个或多个前导零字节。计算步骤3结果中的前导零字节数（对于旧的比特币地址，至少有一个用于版本/应用程序字节;对于新地址，将永远不会有）。每个前导零字节在最终结果中应由其自己的字符’1’表示。</p>
+  </li>
+  <li>
+    <p>将步骤5中的1与步骤4 的结果连接起来。这是Base58Check的结果。</p>
+  </li>
 </ol>
-
 
 <p>最后综合起来，从公钥K到比特币地址完整的示意图如下:</p>
 
@@ -300,112 +317,108 @@
 
 <p><code>satoshi</code>作为seed计算出私钥，进而计算出公钥K之后，最终进一步生成地址</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def genaddress_from_pubk(compressed=True)
-</span><span class='line'>    # 首先计算 RIPEMD160(SHA256(K))
-</span><span class='line'>    ripemd160 = encoding.public_pair_to_hash160_sec(public_pair, compressed=compressed)
-</span><span class='line'>    # 再用Base58Check计算最终地址
-</span><span class='line'>    addr = encoding.hash160_sec_to_bitcoin_address(ripemd160)
-</span><span class='line'>    return addr</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def genaddress_from_pubk(compressed=True)
+</span><span class="line">    # 首先计算 RIPEMD160(SHA256(K))
+</span><span class="line">    ripemd160 = encoding.public_pair_to_hash160_sec(public_pair, compressed=compressed)
+</span><span class="line">    # 再用Base58Check计算最终地址
+</span><span class="line">    addr = encoding.hash160_sec_to_bitcoin_address(ripemd160)
+</span><span class="line">    return addr</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>因为公钥存在压缩形式和非压缩两种形式，所以完整的结果是:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>seed: satoshi
-</span><span class='line'>sha256 private key: da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f
-</span><span class='line'>
-</span><span class='line'>compress address
-</span><span class='line'>WIF: L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6
-</span><span class='line'>hash160: 0a8ba9e453383d4561cbcdda36e5789c2870dd41
-</span><span class='line'>Bitcoin address:1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V
-</span><span class='line'>
-</span><span class='line'>uncompress address
-</span><span class='line'>WIF: 5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
-</span><span class='line'>hash160: 650d0497e014e60d4680fce6997d405de264f042
-</span><span class='line'>Bitcoin address:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">seed: satoshi
+</span><span class="line">sha256 private key: da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f
+</span><span class="line">
+</span><span class="line">compress address
+</span><span class="line">WIF: L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6
+</span><span class="line">hash160: 0a8ba9e453383d4561cbcdda36e5789c2870dd41
+</span><span class="line">Bitcoin address:1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V
+</span><span class="line">
+</span><span class="line">uncompress address
+</span><span class="line">WIF: 5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
+</span><span class="line">hash160: 650d0497e014e60d4680fce6997d405de264f042
+</span><span class="line">Bitcoin address:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p><code>satoshi</code>作为seed生成了两个地址:</p>
 
 <p><code>1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V</code>和<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>，这都是两个正在使用的地址哦，到今天为止还有热心人源源不断的为<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>转账一些零钱作为中本聪的纪念。你可以将WIF导入钱包，然后运行一个全节点，在bitcoin.conf文件中加入<code>walletnotify</code>这个选项，关联一个脚本，当收到比特币时就自动转账到自己的地址，参与这两个地址的抽奖哦。</p>
 
-<h2>一些Base58Check版本前缀和编码后的结果</h2>
+<h2 id="base58check-1">一些Base58Check版本前缀和编码后的结果</h2>
 
 <p>看到这里，我们发现Base58Check 编码的过程中，最后一步会引入一个前缀。而在比特币中，除了WIF私钥和地址，大多数需要向用户展示的数据都使用Base58Check编码，理所当然的，引入了不同的前缀来区分不同的信息，下面展示了一些版本前缀和他们对应的Base58格式:</p>
 
 <table>
-<thead>
-<tr>
-<th>Type </th>
-<th> Version prefix </th>
-<th> Base58 result prefix</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bitcoin Address </td>
-<td> 0x00 </td>
-<td> 1</td>
-</tr>
-<tr>
-<td>Pay to Script Hash Address </td>
-<td> 0x05 </td>
-<td> 3</td>
-</tr>
-<tr>
-<td>Bitcoin Testnet Address </td>
-<td> 0x5F </td>
-<td> m or n</td>
-</tr>
-<tr>
-<td>Private Key WIF </td>
-<td> 0x80 </td>
-<td> 5, K or L</td>
-</tr>
-<tr>
-<td>BIP-38 Encrypted Private Key </td>
-<td> 0x0142 </td>
-<td> 6P</td>
-</tr>
-<tr>
-<td>BIP-32 Encrypted public Key </td>
-<td> 0x0488B21E </td>
-<td> xpub</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Version prefix</th>
+      <th>Base58 result prefix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bitcoin Address</td>
+      <td>0x00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Pay to Script Hash Address</td>
+      <td>0x05</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Bitcoin Testnet Address</td>
+      <td>0x5F</td>
+      <td>m or n</td>
+    </tr>
+    <tr>
+      <td>Private Key WIF</td>
+      <td>0x80</td>
+      <td>5, K or L</td>
+    </tr>
+    <tr>
+      <td>BIP-38 Encrypted Private Key</td>
+      <td>0x0142</td>
+      <td>6P</td>
+    </tr>
+    <tr>
+      <td>BIP-32 Encrypted public Key</td>
+      <td>0x0488B21E</td>
+      <td>xpub</td>
+    </tr>
+  </tbody>
 </table>
-
 
 <p>我们最常见的一些地址格式:</p>
 
 <ul>
-<li>一个是以<code>1</code>打头，这是用途最广泛的交易，用作Pay to public key hash，简称P2PKH交易；它表示的是最简单的、用一对私钥和公钥控制的钱包。例如上面的<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
-<li>还有一种是<code>3</code>打头，用作Pay to Script Hash，简称P2SH。多重签名、SegWit以及一些智能合约（没错，比特币也支持简单的智能合约）通常都采用这种“3”型地址.例如<code>331jjM5a3HgiDqMuSxeiwTUQFCkM71c5VW</code></li>
-<li>以<code>2</code>、<code>m</code>或<code>n</code>开头的地址非常罕见，仅仅被用于比特币的测试网络。</li>
-<li>首字符是<code>5</code>、<code>K</code>或<code>L</code>的不是地址，而是WIF（Wallet Import Format）格式的私钥，务必要妥善保管，不可泄漏。</li>
+  <li>一个是以<code>1</code>打头，这是用途最广泛的交易，用作Pay to public key hash，简称P2PKH交易；它表示的是最简单的、用一对私钥和公钥控制的钱包。例如上面的<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
+  <li>还有一种是<code>3</code>打头，用作Pay to Script Hash，简称P2SH。多重签名、SegWit以及一些智能合约（没错，比特币也支持简单的智能合约）通常都采用这种“3”型地址.例如<code>331jjM5a3HgiDqMuSxeiwTUQFCkM71c5VW</code></li>
+  <li>以<code>2</code>、<code>m</code>或<code>n</code>开头的地址非常罕见，仅仅被用于比特币的测试网络。</li>
+  <li>首字符是<code>5</code>、<code>K</code>或<code>L</code>的不是地址，而是WIF（Wallet Import Format）格式的私钥，务必要妥善保管，不可泄漏。</li>
 </ul>
-
 
 <p>除了我们已经提到的WIF和Bitcoin Address，我们还发现了奇怪的BIP-38和BIP-32，这个需要到解释比特币分层子钱包时候来讲解。</p>
 
-<h2>Segwit</h2>
+<h2 id="segwit">Segwit</h2>
 
 <p>比特币的地址规范定义之后，平稳运行了很长时间；直到2017-08-24，<a href="https://www.reddit.com/r/Bitcoin/comments/6vnqi2/btccom_mines_the_481823rd_block_segwit_is_on_stage/">第一个Segwit block</a>被挖出；事情有了新变化。</p>
 
@@ -421,18 +434,17 @@
 
 <p>详细的计算过程其实和base58大同小异，我们就不啰嗦了，可以自己看规范，或示例代码：</p>
 
-<p><a href="https://github.com/sipa/bech32/blob/master/ref/python/segwit_addr.py">https://github.com/sipa/bech32/blob/master/ref/python/segwit_addr.py</a></p>
+<p>https://github.com/sipa/bech32/blob/master/ref/python/segwit_addr.py</p>
 
 <p>再小小总结一下，目前为止，我们最常见的有三类地址:</p>
 
 <ol>
-<li><code>1</code>开头，最常见</li>
-<li><code>3</code>开头，合约、多重签名、Segwit交易</li>
-<li><code>bc1</code>开头，segwit交易</li>
+  <li><code>1</code>开头，最常见</li>
+  <li><code>3</code>开头，合约、多重签名、Segwit交易</li>
+  <li><code>bc1</code>开头，segwit交易</li>
 </ol>
 
-
-<h2>Brain Wallet</h2>
+<h2 id="brain-wallet">Brain Wallet</h2>
 
 <p>好啦，我们上面已经完整的再现了由一个 seed单词 <code>satoshi</code>，导出两个比特币地址的过程；你只要记好<code>satoshi</code>这个单词，就可以在世界上的任何地方，任何时间，掌管发送给<code>1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V</code>和<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>这两个地址的比特币了。</p>
 
@@ -448,467 +460,465 @@
 
 <p>下面可以列举一些已经公开的seed，这都是我用一些公开语料库随意碰撞出来的，你就知道这种方法的危险性啦：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>FINAL_CRACK_ADDRESS: hash160:sha256:seed:address:wif-priv
-</span><span class='line'>FINAL_CRACK_ADDRESS:0a8ba9e453383d4561cbcdda36e5789c2870dd41:c:sha256:satoshi:1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V:L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6
-</span><span class='line'>FINAL_CRACK_ADDRESS:650d0497e014e60d4680fce6997d405de264f042:u:sha256:satoshi:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE:5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
-</span><span class='line'>FINAL_CRACK_ADDRESS:c71e3a0989754d4ffae45a1c6ef8e348539cd83c:u:sha256:satoshinakamoto:1K9qgN3H2wB2v3LwJEBDbRRJ3znHXEQP4Y:5HqE1vZMMLc7jZRF5wZb79QexyCguNeNdaHLdKTGndvLBrCHD31
-</span><span class='line'>FINAL_CRACK_ADDRESS:ec42ad7fd54f931274b83f6137379206e458b106:u:sha256:1satoshi:1NYEM85RpgkSofLqDfwjb21o3MD4ibSo49:5JSGPQ2Jw1P5cVi2L8LeuWnMF5H8rLGrPPgVM2XE1cahG1BQDzY
-</span><span class='line'>FINAL_CRACK_ADDRESS:fd8d22e02b3a41bc38f69516c43f7ebd6268e16b:u:sha256:satoshi nakamoto:1Q7f2rL2irjpvsKVys5W2cmKJYss82rNCy:5K7EWwEuJu9wPi4q7HmWQ7xgv8GxZ2KqkFbjYMGvTCXmY22oCbr
-</span><span class='line'>FINAL_CRACK_ADDRESS:0000d85a71f305a1c907cdc7437c43b2eecc35e5:u:sha256:CHARINA143:11121ioKu4MCB1LLzPF98AVtzFsEg7UYKm:5JhayTrDhzDHqCg2v16Y2gZWi4kWF6BFoZR3MyaaxWtyKHzKJ8d
-</span><span class='line'>FINAL_CRACK_ADDRESS:0002439f087ffefb973c5b9bbd52f509984d3cbe:c:sha256:purple99:113iKJcZeRxEYRVcWNgVxmjodPAisDZ45:KxFLoyseSyVtKGXQNkYBajT8EqviQSuH64Y6GE1g6KXuvcFaSrqc
-</span><span class='line'>FINAL_CRACK_ADDRESS:00027a0ef2b9295011b10b089c8caf2e69f6b6f7:u:sha256:bridesmaid:113y6FCRm2WHh5Aru2R7ot37wkNDtxqf3:5JsYc8oXiHBJm9rzRPJHaCSYBBx7KCTx5L81rqRMZBArsdZTsan
-</span><span class='line'>FINAL_CRACK_ADDRESS:00030fa763130b5310afe68b12204009e60e935c:u:sha256:masturbating:114fh9qiRhubJJDV5rCthFxmGyYeLQ2B6:5J8TgeF9jU3BPRrsCD75Ks4a6aWxgzLKENDSbsLufDTWq7evCQa
-</span><span class='line'>FINAL_CRACK_ADDRESS:0005736b486f87e5823909a89eb48dda185d3956:u:sha256:nitro:117XjTn3UdBNjVo3KsB17WRFDDmcW2pPa:5JkUWsPzNEZEvMFwWQjoXCeem5LL6LDcC7K6H1LWiwXFAA9LFo1
-</span><span class='line'>FINAL_CRACK_ADDRESS:00080beae5c3a433fbae8ff0b69e705ac3ce5464:u:sha256:resultantly:11Ae5tbiSZ7QJWh4okWJhDKuPfAvk3a13:5KftjbtsSmhy5Y42AYpfEAm4U4vQKP9VhjbS6xtFqBDhUfAGaFj
-</span><span class='line'>FINAL_CRACK_ADDRESS:00083c18c738e883ebc1b5ca270569ee8f9f790e:u:sha256:suggestively:11AsAKWdMZj5ScSYRoAQ8xG4J7Y6s7cW9:5JvrusiSgSmCTV7x7f5vgdWUMLjwk153j9UXmNHvRAJ8m7rtsJD
-</span><span class='line'>FINAL_CRACK_ADDRESS:000e4d1774a3fc0251e9e6caf0a8617639e80093:u:sha256:dezoxiribonukleinsav:11J8fK9qhgxdQ96ZvvXExkfFvQSPQiPKN:5KSkRxaAbk94wzzzynDNj2bzRFmJZXCrhtYj3iGU9JjUxnRXTYM
-</span><span class='line'>FINAL_CRACK_ADDRESS:00135d1c8f99cc657ad1f246bc5051ad03f95d32:u:sha256:Mussolini:11QCR3sk9r4jeyMqCKGEYabGTfjzhgGdZ:5K2x6UanMSevNX7f19oB4to46C3zXoGTUBGVqv8WNtCRwJNGBGC
-</span><span class='line'>FINAL_CRACK_ADDRESS:001ed6fae0af0b37126004029defcc4521b300dd:u:sha256:meagerness:11dwnVzCyGoMZcGDndQteWgR9b7FKsJMu:5JKVJhbZWXmHxj2MuttZCDaFk7TC9KBVYjbPRjztP63mmAUV6Vm
-</span><span class='line'>FINAL_CRACK_ADDRESS:002607c11a2311825a087f37c95d7816e0491a9d:u:sha256:vertebrate:11nZPfxYPeDm4d4fd93BaFa1BezFRTP6F:5HsBbgzEXZEaeLRCZHs66ho2ekpFEqeAJyyBPe8YyMkCqCHWv6j
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">FINAL_CRACK_ADDRESS: hash160:sha256:seed:address:wif-priv
+</span><span class="line">FINAL_CRACK_ADDRESS:0a8ba9e453383d4561cbcdda36e5789c2870dd41:c:sha256:satoshi:1xm4vFerV3pSgvBFkyzLgT1Ew3HQYrS1V:L4XnHhvLC1b4ag9L2PM9kRicQxUoYT1Q36PQ21YtLNkrAdWZNos6
+</span><span class="line">FINAL_CRACK_ADDRESS:650d0497e014e60d4680fce6997d405de264f042:u:sha256:satoshi:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE:5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
+</span><span class="line">FINAL_CRACK_ADDRESS:c71e3a0989754d4ffae45a1c6ef8e348539cd83c:u:sha256:satoshinakamoto:1K9qgN3H2wB2v3LwJEBDbRRJ3znHXEQP4Y:5HqE1vZMMLc7jZRF5wZb79QexyCguNeNdaHLdKTGndvLBrCHD31
+</span><span class="line">FINAL_CRACK_ADDRESS:ec42ad7fd54f931274b83f6137379206e458b106:u:sha256:1satoshi:1NYEM85RpgkSofLqDfwjb21o3MD4ibSo49:5JSGPQ2Jw1P5cVi2L8LeuWnMF5H8rLGrPPgVM2XE1cahG1BQDzY
+</span><span class="line">FINAL_CRACK_ADDRESS:fd8d22e02b3a41bc38f69516c43f7ebd6268e16b:u:sha256:satoshi nakamoto:1Q7f2rL2irjpvsKVys5W2cmKJYss82rNCy:5K7EWwEuJu9wPi4q7HmWQ7xgv8GxZ2KqkFbjYMGvTCXmY22oCbr
+</span><span class="line">FINAL_CRACK_ADDRESS:0000d85a71f305a1c907cdc7437c43b2eecc35e5:u:sha256:CHARINA143:11121ioKu4MCB1LLzPF98AVtzFsEg7UYKm:5JhayTrDhzDHqCg2v16Y2gZWi4kWF6BFoZR3MyaaxWtyKHzKJ8d
+</span><span class="line">FINAL_CRACK_ADDRESS:0002439f087ffefb973c5b9bbd52f509984d3cbe:c:sha256:purple99:113iKJcZeRxEYRVcWNgVxmjodPAisDZ45:KxFLoyseSyVtKGXQNkYBajT8EqviQSuH64Y6GE1g6KXuvcFaSrqc
+</span><span class="line">FINAL_CRACK_ADDRESS:00027a0ef2b9295011b10b089c8caf2e69f6b6f7:u:sha256:bridesmaid:113y6FCRm2WHh5Aru2R7ot37wkNDtxqf3:5JsYc8oXiHBJm9rzRPJHaCSYBBx7KCTx5L81rqRMZBArsdZTsan
+</span><span class="line">FINAL_CRACK_ADDRESS:00030fa763130b5310afe68b12204009e60e935c:u:sha256:masturbating:114fh9qiRhubJJDV5rCthFxmGyYeLQ2B6:5J8TgeF9jU3BPRrsCD75Ks4a6aWxgzLKENDSbsLufDTWq7evCQa
+</span><span class="line">FINAL_CRACK_ADDRESS:0005736b486f87e5823909a89eb48dda185d3956:u:sha256:nitro:117XjTn3UdBNjVo3KsB17WRFDDmcW2pPa:5JkUWsPzNEZEvMFwWQjoXCeem5LL6LDcC7K6H1LWiwXFAA9LFo1
+</span><span class="line">FINAL_CRACK_ADDRESS:00080beae5c3a433fbae8ff0b69e705ac3ce5464:u:sha256:resultantly:11Ae5tbiSZ7QJWh4okWJhDKuPfAvk3a13:5KftjbtsSmhy5Y42AYpfEAm4U4vQKP9VhjbS6xtFqBDhUfAGaFj
+</span><span class="line">FINAL_CRACK_ADDRESS:00083c18c738e883ebc1b5ca270569ee8f9f790e:u:sha256:suggestively:11AsAKWdMZj5ScSYRoAQ8xG4J7Y6s7cW9:5JvrusiSgSmCTV7x7f5vgdWUMLjwk153j9UXmNHvRAJ8m7rtsJD
+</span><span class="line">FINAL_CRACK_ADDRESS:000e4d1774a3fc0251e9e6caf0a8617639e80093:u:sha256:dezoxiribonukleinsav:11J8fK9qhgxdQ96ZvvXExkfFvQSPQiPKN:5KSkRxaAbk94wzzzynDNj2bzRFmJZXCrhtYj3iGU9JjUxnRXTYM
+</span><span class="line">FINAL_CRACK_ADDRESS:00135d1c8f99cc657ad1f246bc5051ad03f95d32:u:sha256:Mussolini:11QCR3sk9r4jeyMqCKGEYabGTfjzhgGdZ:5K2x6UanMSevNX7f19oB4to46C3zXoGTUBGVqv8WNtCRwJNGBGC
+</span><span class="line">FINAL_CRACK_ADDRESS:001ed6fae0af0b37126004029defcc4521b300dd:u:sha256:meagerness:11dwnVzCyGoMZcGDndQteWgR9b7FKsJMu:5JKVJhbZWXmHxj2MuttZCDaFk7TC9KBVYjbPRjztP63mmAUV6Vm
+</span><span class="line">FINAL_CRACK_ADDRESS:002607c11a2311825a087f37c95d7816e0491a9d:u:sha256:vertebrate:11nZPfxYPeDm4d4fd93BaFa1BezFRTP6F:5HsBbgzEXZEaeLRCZHs66ho2ekpFEqeAJyyBPe8YyMkCqCHWv6j
+</span><span class="line">...</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>不过我们现在已经掌握到了比特币地址的生成原理，所以如何提高安全性就不用我再啰嗦了，相信你心中已有答案。</p>
 
-<h2>那些山寨币们</h2>
+<h2 id="section-4">那些山寨币们</h2>
 
 <p>比特币项目是2009-01-03正式开始运行的，之后简单的复制一下比特币的代码，稍作修改就推出的山寨币们数不胜数；这些山寨币第一个要修改的，就是地址格式，以免和比特币地址混淆；</p>
 
 <p>怎么修改呢？注意到前面Base58Check Encode的最后一步了吗？那个时候我们需要引入一个前缀作为地址的区分；得益于比特币这种前瞻性的设计，山寨币们只要改动一下这个前缀就可以了，下面列举一下我所知道的山寨币的实现：</p>
 
 <p>引用自:
-<a href="https://github.com/walletgeneratornet/WalletGenerator.net">https://github.com/walletgeneratornet/WalletGenerator.net</a></p>
+https://github.com/walletgeneratornet/WalletGenerator.net</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-<span class='line-number'>188</span>
-<span class='line-number'>189</span>
-<span class='line-number'>190</span>
-<span class='line-number'>191</span>
-<span class='line-number'>192</span>
-<span class='line-number'>193</span>
-<span class='line-number'>194</span>
-<span class='line-number'>195</span>
-<span class='line-number'>196</span>
-<span class='line-number'>197</span>
-<span class='line-number'>198</span>
-<span class='line-number'>199</span>
-<span class='line-number'>200</span>
-<span class='line-number'>201</span>
-<span class='line-number'>202</span>
-<span class='line-number'>203</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start
-</span><span class='line'>"2GIVE",               0x27, 0xa7, "6",    "R"
-</span><span class='line'>"42coin",              0x08, 0x88, "5",    "M"
-</span><span class='line'>"Acoin",               0x17, 0xe6, "8",    "b"
-</span><span class='line'>"AGAcoin",             0x53, 0xd3, "8",    "Y"
-</span><span class='line'>"Alphacoin",           0x52, 0xd2, "8",    "Y"
-</span><span class='line'>"Alqo",                0x17, 0xc1, "7",    "V"
-</span><span class='line'>"Animecoin",           0x17, 0x97, "6",    "P"
-</span><span class='line'>"Anoncoin",            0x17, 0x97, "6",    "P"
-</span><span class='line'>"Apexcoin",            0x17, 0x97, "6",    "P"
-</span><span class='line'>"Auroracoin",          0x17, 0x97, "6",    "T"
-</span><span class='line'>"Aquariuscoin",        0x17, 0x97, "6",    "P"
-</span><span class='line'>"Axe",                 0x4B, 0xCB, "7",    "X"
-</span><span class='line'>"BBQcoin",             0x55, 0xd5, "6",    "T"
-</span><span class='line'>"Biblepay",            0x19, 0xb6, "7",    "[TU]"
-</span><span class='line'>"Bitcoin",             0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"BitcoinCash",         0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"BitcoinDark",         0x3c, 0xbc, "7",    "U"
-</span><span class='line'>"Bitcore",             0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"BitcoinGold",         0x26, 0x80, "5",    "[LK]"
-</span><span class='line'>"Bitconnect",          0x12, 0x92, "5",    "N"
-</span><span class='line'>"Birdcoin",            0x2f, 0xaf, "6",    "[ST]"
-</span><span class='line'>"BitSynq",             0x3f, 0xbf, "7",    "V"
-</span><span class='line'>"BitZeny",             0x51, 0x80, "5",    "[LK]"
-</span><span class='line'>"Blackcoin",           0x19, 0x99, "6",    "P"
-</span><span class='line'>"BlackJack",           0x15, 0x95, "[56]", "P"
-</span><span class='line'>"BlockNet",            0x1a, 0x9a, "6",    "P"
-</span><span class='line'>"BolivarCoin",         0x55, 0xd5, "8",    "Y"
-</span><span class='line'>"BoxyCoin",            0x4b, 0xcb, "7",    "X"
-</span><span class='line'>"BunnyCoin",           0x1a, 0x9a, "6",    "P"
-</span><span class='line'>"Cagecoin",            0x1f, 0x9f, "6",    "Q"
-</span><span class='line'>"CampusCoin",          0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"CanadaeCoin",         0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"CannabisCoin",        0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"Capricoin",           0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"CassubianDetk",       0x1e, 0x9e, "6",    "Q"
-</span><span class='line'>"CashCoin",            0x22, 0xa2, "6",    "[QR]"
-</span><span class='line'>"Catcoin",             0x15, 0x95, "[56]", "P"
-</span><span class='line'>"ChainCoin",           0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"ColossusCoinXT",      0x1e, 0xd4, "5",    "[LK]"
-</span><span class='line'>"Condensate",          0x3c, 0xbc, "7",    "U"
-</span><span class='line'>"Copico",              0x1c, 0x90, "5",    "N"
-</span><span class='line'>"CopperCoin",          0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"Corgicoin",           0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"CryptoBullion",       0x0b, 0x8b, "5",    "M"
-</span><span class='line'>"CryptoClub",          0x23, 0xa3, "6",    "R"
-</span><span class='line'>"Cryptoescudo",        0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"Cryptonite",          0x1c, 0x80, "5",    "[LK]"
-</span><span class='line'>"CryptoWisdomCoin",    0x49, 0x87, "5",    "[LM]"
-</span><span class='line'>"C2coin",              0x1c, 0x9c, "6",    "Q"
-</span><span class='line'>"Dash",                0x4c, 0xcc, "7",    "X"
-</span><span class='line'>"DeafDollars",         0x30, 0xb0, "6",    "T"
-</span><span class='line'>"DeepOnion",           0x1f, 0x9f, "6",    "Q"
-</span><span class='line'>"Deutsche eMark",      0x35, 0xb5, "7",    "T"
-</span><span class='line'>"Devcoin",             0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"DigiByte",            0x1e, 0x9e, "6",    "Q"
-</span><span class='line'>"Digitalcoin",         0x1e, 0x9e, "6",    "Q"
-</span><span class='line'>"Dimecoin",            0x0f, 0x8f, "5",    "N"
-</span><span class='line'>"DNotes",              0x1f, 0x9f, "6",    "Q"
-</span><span class='line'>"Dogecoin",            0x1e, 0x9e, "6",    "Q"
-</span><span class='line'>"DogecoinDark",        0x1e, 0x9e, "6",    "Q"
-</span><span class='line'>"eGulden",             0x30, 0xb0, "6",    "T"
-</span><span class='line'>"eKrona",              0x2d, 0xad, "6",    "S"
-</span><span class='line'>"ELECTRA",             0x21, 0xa1, "6",    "Q"
-</span><span class='line'>"Ember",               0x5c, 0x32, "2",    "8"
-</span><span class='line'>"Emerald",             0x22, 0xa2, "6",    "[QR]"
-</span><span class='line'>"Emercoin",            0x21, 0x80, "5",    "[LK]"
-</span><span class='line'>"EnergyCoin",          0x5c, 0xdc, "8",    "Z"
-</span><span class='line'>"Espers",              0x21, 0x90, "5",    "N"
-</span><span class='line'>"Fastcoin",            0x60, 0xe0, "8",    "a"
-</span><span class='line'>"Feathercoin",         0x0e, 0x8e, "5",    "N"
-</span><span class='line'>"Fedoracoin",          0x21, 0x80, "5",    "[KL]"
-</span><span class='line'>"Fibre",               0x23, 0xa3, "6",    "R"
-</span><span class='line'>"Florincoin",          0x23, 0xb0, "6",    "T"
-</span><span class='line'>"Flurbo",              0x23, 0x30, "6",    "8"
-</span><span class='line'>"Fluttercoin",         0x23, 0xa3, "6",    "R"
-</span><span class='line'>"FrazCoin",            0x23, 0xA3, "6",    "R"
-</span><span class='line'>"Freicoin",            0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"FUDcoin",             0x23, 0xa3, "6",    "R"
-</span><span class='line'>"Fuelcoin",            0x24, 0x80, "5",    "[KL]"
-</span><span class='line'>"Fujicoin",            0x24, 0xa4, "6",    "R"
-</span><span class='line'>"GabenCoin",           0x10, 0x90, "5",    "N"
-</span><span class='line'>"Garlicoin",           0x26, 0xb0, "6",    "T"
-</span><span class='line'>"GlobalBoost",         0x26, 0xa6, "6",    "R"
-</span><span class='line'>"Goodcoin",            0x26, 0xa6, "6",    "R"
-</span><span class='line'>"GridcoinResearch",    0x3e, 0xbe, "7",    "V"
-</span><span class='line'>"Gulden",              0x26, 0xa6, "6",    "R"
-</span><span class='line'>"Guncoin",             0x27, 0xa7, "6",    "R"
-</span><span class='line'>"HamRadioCoin",        0x00, 0x80, "5",    "LK"
-</span><span class='line'>"HFRcoin",             0x10, 0x90, "5",    "N"
-</span><span class='line'>"HOdlcoin",            0x28, 0xa8, "5",    "[LK]"
-</span><span class='line'>"HTMLCoin",            0x29, 0xa9, "6",    "S"
-</span><span class='line'>"HyperStake",          0x75, 0xf5, "9",    "d"
-</span><span class='line'>"ImperiumCoin",        0x30, 0xb0, "6",    "T"
-</span><span class='line'>"IncaKoin",            0x35, 0xb5, "7",    "T"
-</span><span class='line'>"IncognitoCoin",       0x00, 0x80, "5",    "LK"
-</span><span class='line'>"Influxcoin",          0x66, 0xe6, "8",    "b"
-</span><span class='line'>"Innox",               0x4b, 0xcb, "7",    "X"
-</span><span class='line'>"IridiumCoin",         0x30, 0xb0, "6",    "T"
-</span><span class='line'>"iCash",               0x66, 0xcc, "7",    "X"
-</span><span class='line'>"iXcoin",              0x8a, 0x80, "5",    "[LK]"
-</span><span class='line'>"Judgecoin",           0x2b, 0xab, "6",    "S"
-</span><span class='line'>"Jumbucks",            0x2b, 0xab, "6",    "S"
-</span><span class='line'>"KHcoin",              0x30, 0xb0, "6",    "T"
-</span><span class='line'>"KittehCoin",          0x2d, 0xad, "6",    "S"
-</span><span class='line'>"Lanacoin",            0x30, 0xb0, "6",    "T"
-</span><span class='line'>"Latium",              0x17, 0x80, "5",    "[LK]"
-</span><span class='line'>"LBRY Credits",        0x55, 0x80, "5",    "[LK]"
-</span><span class='line'>"Litecoin",            0x30, 0xb0, "6",    "T"
-</span><span class='line'>"LiteDoge",            0x5a, 0xab, "6",    "S"
-</span><span class='line'>"LoMoCoin",            0x30, 0xb0, "6",    "T"
-</span><span class='line'>"MadbyteCoin",         0x32, 0x6e, "4",    "H"
-</span><span class='line'>"MagicInternetMoney",  0x30, 0xb0, "6",    "T"
-</span><span class='line'>"Magicoin",            0x14, 0x94, "5",    "[NP]"
-</span><span class='line'>"Marscoin",            0x32, 0xb2, "6",    "T"
-</span><span class='line'>"MarteXcoin",          0x32, 0xb2, "6",    "T"
-</span><span class='line'>"MasterDoge",          0x33, 0x8b, "5",    "M"
-</span><span class='line'>"Mazacoin",            0x32, 0xe0, "8",    "a"
-</span><span class='line'>"Megacoin",            0x32, 0xb2, "6",    "T"
-</span><span class='line'>"MintCoin",            0x33, 0xb3, "[67]", "T"
-</span><span class='line'>"MobiusCoin",          0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"MonetaryUnit",        0x10, 0x7e, "5",    "K"
-</span><span class='line'>"Monocle",             0x32, 0xb2, "6",    "T"
-</span><span class='line'>"MoonCoin",            0x03, 0x83, "5",    "L"
-</span><span class='line'>"Myriadcoin",          0x32, 0xb2, "6",    "T"
-</span><span class='line'>"NameCoin",            0x34, 0x80, "5",    "[LK]"
-</span><span class='line'>"Navcoin",             0x35, 0x96, "6",    "P"
-</span><span class='line'>"NeedleCoin",          0x35, 0xb5, "7",    "T"
-</span><span class='line'>"NEETCOIN",            0x35, 0xb5, "7",    "T"
-</span><span class='line'>"NYC",                 0x3c, 0xbc, "7",    "U"
-</span><span class='line'>"Neoscoin",            0x35, 0xb1, "6",    "T"
-</span><span class='line'>"Nevacoin",            0x35, 0xb1, "6",    "T"
-</span><span class='line'>"Novacoin",            0x08, 0x88, "5",    "M"
-</span><span class='line'>"Nubits",              0x19, 0xbf, "7",    "V"
-</span><span class='line'>"Nyancoin",            0x2d, 0xad, "6",    "S"
-</span><span class='line'>"Ocupy",               0x73, 0xf3, "9",    "[cd]"
-</span><span class='line'>"Omnicoin",            0x73, 0xf3, "9",    "[cd]"
-</span><span class='line'>"Onyxcoin",            0x73, 0xf3, "9",    "[cd]"
-</span><span class='line'>"PacCoin",             0x18, 0x98, "6",    "P"
-</span><span class='line'>"Particl",             0x38, 0x6c, "4",    "[HG]"
-</span><span class='line'>"Paycoin",             0x37, 0xb7, "7",    "U"
-</span><span class='line'>"Pandacoin",           0x37, 0xb7, "7",    "U"
-</span><span class='line'>"ParkByte",            0x37, 0xb7, "7",    "U"
-</span><span class='line'>"Peercoin",            0x37, 0xb7, "7",    "U"
-</span><span class='line'>"Pesetacoin",          0x2f, 0xaf, "6",    "[ST]"
-</span><span class='line'>"PHCoin",              0x37, 0xb7, "7",    "U"
-</span><span class='line'>"PhoenixCoin",         0x38, 0xb8, "7",    "U"
-</span><span class='line'>"PiggyCoin",           0x76, 0xf6, "9",    "d"
-</span><span class='line'>"Pinkcoin",            0x3,  0x83, "[RQP]","L"
-</span><span class='line'>"PIVX",                0x1e, 0xd4, "8",    "Y"
-</span><span class='line'>"Peercoin",            0x37, 0xb7, "7",    "U"
-</span><span class='line'>"Potcoin",             0x37, 0xb7, "7",    "U"
-</span><span class='line'>"Primecoin",           0x17, 0x97, "6",    "P"
-</span><span class='line'>"ProsperCoinClassic",  0x3a, 0xba, "7",    "Q"
-</span><span class='line'>"Quark",               0x3a, 0xba, "7",    "U"
-</span><span class='line'>"Qubitcoin",           0x26, 0xe0, "8",    "a"
-</span><span class='line'>"Reddcoin",            0x3d, 0xbd, "7",    "[UV]"
-</span><span class='line'>"Riecoin",             0x3c, 0x80, "5",    "[LK]"
-</span><span class='line'>"Rimbit",              0x3c, 0xbc, "7",    "U"
-</span><span class='line'>"ROIcoin",             0x3c, 0x80, "5",    "[LK]"
-</span><span class='line'>"Rubycoin",            0x3c, 0xbc, "7",    "U"
-</span><span class='line'>"Rupaya",              0x3c, 0xbc, "7",    "U"
-</span><span class='line'>"Sambacoin",           0x3e, 0xbe, "7",    "V"
-</span><span class='line'>"SecKCoin",            0x3f, 0xbf, "7",    "V"
-</span><span class='line'>"SibCoin",             0x3f, 0x80, "5",    "[LK]"
-</span><span class='line'>"SixEleven",           0x34, 0x80, "5",    "[LK]"
-</span><span class='line'>"SmileyCoin",          0x19, 0x99, "6",    "P"
-</span><span class='line'>"SongCoin",            0x3f, 0xbf, "7",    "V"
-</span><span class='line'>"SpreadCoin",          0x3f, 0xbf, "7",    "V"
-</span><span class='line'>"StealthCoin",         0x3e, 0xbe, "7",    "V"
-</span><span class='line'>"Stratis",             0x3f, 0xbf, "7",    "V"
-</span><span class='line'>"SwagBucks",           0x3f, 0x99, "6",    "P"
-</span><span class='line'>"Syscoin",             0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"Tajcoin",             0x41, 0x6f, "6",    "H"
-</span><span class='line'>"Terracoin",           0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"Titcoin",             0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"TittieCoin",          0x41, 0xc1, "7",    "V"
-</span><span class='line'>"Topcoin",             0x42, 0xc2, "7",    "V"
-</span><span class='line'>"TransferCoin",        0x42, 0x99, "6",    "P"
-</span><span class='line'>"TreasureHuntCoin",    0x32, 0xb2, "6",    "T"
-</span><span class='line'>"TrezarCoin",          0x42, 0xC2, "7",    "V"
-</span><span class='line'>"Unobtanium",          0x82, 0xe0, "8",    "a"
-</span><span class='line'>"USDe",                0x26, 0xa6, "6",    "R"
-</span><span class='line'>"Vcash",               0x47, 0xc7, "7",    "W"
-</span><span class='line'>"Versioncoin",         0x46, 0xc6, "7",    "W"
-</span><span class='line'>"VergeCoin",           0x1e, 0x9e, "6",    "Q"
-</span><span class='line'>"Vertcoin",            0x47, 0x80, "5",    "[LK]"
-</span><span class='line'>"Viacoin",             0x47, 0xc7, "7",    "W"
-</span><span class='line'>"VikingCoin",          0x46, 0x56, "3",    "D"
-</span><span class='line'>"W2Coin",              0x49, 0xc9, "7",    "W"
-</span><span class='line'>"WACoins",             0x49, 0xc9, "7",    "W"
-</span><span class='line'>"WankCoin",            0x00, 0x80, "5",    "[LK]"
-</span><span class='line'>"WeAreSatoshiCoin",    0x87, 0x97, "6",    "P"
-</span><span class='line'>"WorldCoin",           0x49, 0xc9, "7",    "W"
-</span><span class='line'>"XP",                  0x4b, 0xcb, "7",    "X"
-</span><span class='line'>"Yenten",              0x4e, 0x7b, "5",    "K"
-</span><span class='line'>"Zcash",        [0x1c,0xb8], 0x80, "5",    "[LK]"
-</span><span class='line'>"Zetacoin",            0x50, 0xE0, "8",    "a"
-</span><span class='line'>"Testnet Bitcoin",     0x6f, 0xef, "9",    "c"
-</span><span class='line'>"Testnet Dogecoin",    0x71, 0xf1, "9",    "c"
-</span><span class='line'>"Testnet MonetaryUnit",0x26, 0x40, "3",    "A"
-</span><span class='line'>"Testnet PIVX",        0x8b, 0xef, "9",    "c"
-</span><span class='line'>"Testnet WACoins",     0x51, 0xd1, "8",    "[XY]"
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+<span class="line-number">131</span>
+<span class="line-number">132</span>
+<span class="line-number">133</span>
+<span class="line-number">134</span>
+<span class="line-number">135</span>
+<span class="line-number">136</span>
+<span class="line-number">137</span>
+<span class="line-number">138</span>
+<span class="line-number">139</span>
+<span class="line-number">140</span>
+<span class="line-number">141</span>
+<span class="line-number">142</span>
+<span class="line-number">143</span>
+<span class="line-number">144</span>
+<span class="line-number">145</span>
+<span class="line-number">146</span>
+<span class="line-number">147</span>
+<span class="line-number">148</span>
+<span class="line-number">149</span>
+<span class="line-number">150</span>
+<span class="line-number">151</span>
+<span class="line-number">152</span>
+<span class="line-number">153</span>
+<span class="line-number">154</span>
+<span class="line-number">155</span>
+<span class="line-number">156</span>
+<span class="line-number">157</span>
+<span class="line-number">158</span>
+<span class="line-number">159</span>
+<span class="line-number">160</span>
+<span class="line-number">161</span>
+<span class="line-number">162</span>
+<span class="line-number">163</span>
+<span class="line-number">164</span>
+<span class="line-number">165</span>
+<span class="line-number">166</span>
+<span class="line-number">167</span>
+<span class="line-number">168</span>
+<span class="line-number">169</span>
+<span class="line-number">170</span>
+<span class="line-number">171</span>
+<span class="line-number">172</span>
+<span class="line-number">173</span>
+<span class="line-number">174</span>
+<span class="line-number">175</span>
+<span class="line-number">176</span>
+<span class="line-number">177</span>
+<span class="line-number">178</span>
+<span class="line-number">179</span>
+<span class="line-number">180</span>
+<span class="line-number">181</span>
+<span class="line-number">182</span>
+<span class="line-number">183</span>
+<span class="line-number">184</span>
+<span class="line-number">185</span>
+<span class="line-number">186</span>
+<span class="line-number">187</span>
+<span class="line-number">188</span>
+<span class="line-number">189</span>
+<span class="line-number">190</span>
+<span class="line-number">191</span>
+<span class="line-number">192</span>
+<span class="line-number">193</span>
+<span class="line-number">194</span>
+<span class="line-number">195</span>
+<span class="line-number">196</span>
+<span class="line-number">197</span>
+<span class="line-number">198</span>
+<span class="line-number">199</span>
+<span class="line-number">200</span>
+<span class="line-number">201</span>
+<span class="line-number">202</span>
+<span class="line-number">203</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start
+</span><span class="line">"2GIVE",               0x27, 0xa7, "6",    "R"
+</span><span class="line">"42coin",              0x08, 0x88, "5",    "M"
+</span><span class="line">"Acoin",               0x17, 0xe6, "8",    "b"
+</span><span class="line">"AGAcoin",             0x53, 0xd3, "8",    "Y"
+</span><span class="line">"Alphacoin",           0x52, 0xd2, "8",    "Y"
+</span><span class="line">"Alqo",                0x17, 0xc1, "7",    "V"
+</span><span class="line">"Animecoin",           0x17, 0x97, "6",    "P"
+</span><span class="line">"Anoncoin",            0x17, 0x97, "6",    "P"
+</span><span class="line">"Apexcoin",            0x17, 0x97, "6",    "P"
+</span><span class="line">"Auroracoin",          0x17, 0x97, "6",    "T"
+</span><span class="line">"Aquariuscoin",        0x17, 0x97, "6",    "P"
+</span><span class="line">"Axe",                 0x4B, 0xCB, "7",    "X"
+</span><span class="line">"BBQcoin",             0x55, 0xd5, "6",    "T"
+</span><span class="line">"Biblepay",            0x19, 0xb6, "7",    "[TU]"
+</span><span class="line">"Bitcoin",             0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"BitcoinCash",         0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"BitcoinDark",         0x3c, 0xbc, "7",    "U"
+</span><span class="line">"Bitcore",             0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"BitcoinGold",         0x26, 0x80, "5",    "[LK]"
+</span><span class="line">"Bitconnect",          0x12, 0x92, "5",    "N"
+</span><span class="line">"Birdcoin",            0x2f, 0xaf, "6",    "[ST]"
+</span><span class="line">"BitSynq",             0x3f, 0xbf, "7",    "V"
+</span><span class="line">"BitZeny",             0x51, 0x80, "5",    "[LK]"
+</span><span class="line">"Blackcoin",           0x19, 0x99, "6",    "P"
+</span><span class="line">"BlackJack",           0x15, 0x95, "[56]", "P"
+</span><span class="line">"BlockNet",            0x1a, 0x9a, "6",    "P"
+</span><span class="line">"BolivarCoin",         0x55, 0xd5, "8",    "Y"
+</span><span class="line">"BoxyCoin",            0x4b, 0xcb, "7",    "X"
+</span><span class="line">"BunnyCoin",           0x1a, 0x9a, "6",    "P"
+</span><span class="line">"Cagecoin",            0x1f, 0x9f, "6",    "Q"
+</span><span class="line">"CampusCoin",          0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"CanadaeCoin",         0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"CannabisCoin",        0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"Capricoin",           0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"CassubianDetk",       0x1e, 0x9e, "6",    "Q"
+</span><span class="line">"CashCoin",            0x22, 0xa2, "6",    "[QR]"
+</span><span class="line">"Catcoin",             0x15, 0x95, "[56]", "P"
+</span><span class="line">"ChainCoin",           0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"ColossusCoinXT",      0x1e, 0xd4, "5",    "[LK]"
+</span><span class="line">"Condensate",          0x3c, 0xbc, "7",    "U"
+</span><span class="line">"Copico",              0x1c, 0x90, "5",    "N"
+</span><span class="line">"CopperCoin",          0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"Corgicoin",           0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"CryptoBullion",       0x0b, 0x8b, "5",    "M"
+</span><span class="line">"CryptoClub",          0x23, 0xa3, "6",    "R"
+</span><span class="line">"Cryptoescudo",        0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"Cryptonite",          0x1c, 0x80, "5",    "[LK]"
+</span><span class="line">"CryptoWisdomCoin",    0x49, 0x87, "5",    "[LM]"
+</span><span class="line">"C2coin",              0x1c, 0x9c, "6",    "Q"
+</span><span class="line">"Dash",                0x4c, 0xcc, "7",    "X"
+</span><span class="line">"DeafDollars",         0x30, 0xb0, "6",    "T"
+</span><span class="line">"DeepOnion",           0x1f, 0x9f, "6",    "Q"
+</span><span class="line">"Deutsche eMark",      0x35, 0xb5, "7",    "T"
+</span><span class="line">"Devcoin",             0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"DigiByte",            0x1e, 0x9e, "6",    "Q"
+</span><span class="line">"Digitalcoin",         0x1e, 0x9e, "6",    "Q"
+</span><span class="line">"Dimecoin",            0x0f, 0x8f, "5",    "N"
+</span><span class="line">"DNotes",              0x1f, 0x9f, "6",    "Q"
+</span><span class="line">"Dogecoin",            0x1e, 0x9e, "6",    "Q"
+</span><span class="line">"DogecoinDark",        0x1e, 0x9e, "6",    "Q"
+</span><span class="line">"eGulden",             0x30, 0xb0, "6",    "T"
+</span><span class="line">"eKrona",              0x2d, 0xad, "6",    "S"
+</span><span class="line">"ELECTRA",             0x21, 0xa1, "6",    "Q"
+</span><span class="line">"Ember",               0x5c, 0x32, "2",    "8"
+</span><span class="line">"Emerald",             0x22, 0xa2, "6",    "[QR]"
+</span><span class="line">"Emercoin",            0x21, 0x80, "5",    "[LK]"
+</span><span class="line">"EnergyCoin",          0x5c, 0xdc, "8",    "Z"
+</span><span class="line">"Espers",              0x21, 0x90, "5",    "N"
+</span><span class="line">"Fastcoin",            0x60, 0xe0, "8",    "a"
+</span><span class="line">"Feathercoin",         0x0e, 0x8e, "5",    "N"
+</span><span class="line">"Fedoracoin",          0x21, 0x80, "5",    "[KL]"
+</span><span class="line">"Fibre",               0x23, 0xa3, "6",    "R"
+</span><span class="line">"Florincoin",          0x23, 0xb0, "6",    "T"
+</span><span class="line">"Flurbo",              0x23, 0x30, "6",    "8"
+</span><span class="line">"Fluttercoin",         0x23, 0xa3, "6",    "R"
+</span><span class="line">"FrazCoin",            0x23, 0xA3, "6",    "R"
+</span><span class="line">"Freicoin",            0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"FUDcoin",             0x23, 0xa3, "6",    "R"
+</span><span class="line">"Fuelcoin",            0x24, 0x80, "5",    "[KL]"
+</span><span class="line">"Fujicoin",            0x24, 0xa4, "6",    "R"
+</span><span class="line">"GabenCoin",           0x10, 0x90, "5",    "N"
+</span><span class="line">"Garlicoin",           0x26, 0xb0, "6",    "T"
+</span><span class="line">"GlobalBoost",         0x26, 0xa6, "6",    "R"
+</span><span class="line">"Goodcoin",            0x26, 0xa6, "6",    "R"
+</span><span class="line">"GridcoinResearch",    0x3e, 0xbe, "7",    "V"
+</span><span class="line">"Gulden",              0x26, 0xa6, "6",    "R"
+</span><span class="line">"Guncoin",             0x27, 0xa7, "6",    "R"
+</span><span class="line">"HamRadioCoin",        0x00, 0x80, "5",    "LK"
+</span><span class="line">"HFRcoin",             0x10, 0x90, "5",    "N"
+</span><span class="line">"HOdlcoin",            0x28, 0xa8, "5",    "[LK]"
+</span><span class="line">"HTMLCoin",            0x29, 0xa9, "6",    "S"
+</span><span class="line">"HyperStake",          0x75, 0xf5, "9",    "d"
+</span><span class="line">"ImperiumCoin",        0x30, 0xb0, "6",    "T"
+</span><span class="line">"IncaKoin",            0x35, 0xb5, "7",    "T"
+</span><span class="line">"IncognitoCoin",       0x00, 0x80, "5",    "LK"
+</span><span class="line">"Influxcoin",          0x66, 0xe6, "8",    "b"
+</span><span class="line">"Innox",               0x4b, 0xcb, "7",    "X"
+</span><span class="line">"IridiumCoin",         0x30, 0xb0, "6",    "T"
+</span><span class="line">"iCash",               0x66, 0xcc, "7",    "X"
+</span><span class="line">"iXcoin",              0x8a, 0x80, "5",    "[LK]"
+</span><span class="line">"Judgecoin",           0x2b, 0xab, "6",    "S"
+</span><span class="line">"Jumbucks",            0x2b, 0xab, "6",    "S"
+</span><span class="line">"KHcoin",              0x30, 0xb0, "6",    "T"
+</span><span class="line">"KittehCoin",          0x2d, 0xad, "6",    "S"
+</span><span class="line">"Lanacoin",            0x30, 0xb0, "6",    "T"
+</span><span class="line">"Latium",              0x17, 0x80, "5",    "[LK]"
+</span><span class="line">"LBRY Credits",        0x55, 0x80, "5",    "[LK]"
+</span><span class="line">"Litecoin",            0x30, 0xb0, "6",    "T"
+</span><span class="line">"LiteDoge",            0x5a, 0xab, "6",    "S"
+</span><span class="line">"LoMoCoin",            0x30, 0xb0, "6",    "T"
+</span><span class="line">"MadbyteCoin",         0x32, 0x6e, "4",    "H"
+</span><span class="line">"MagicInternetMoney",  0x30, 0xb0, "6",    "T"
+</span><span class="line">"Magicoin",            0x14, 0x94, "5",    "[NP]"
+</span><span class="line">"Marscoin",            0x32, 0xb2, "6",    "T"
+</span><span class="line">"MarteXcoin",          0x32, 0xb2, "6",    "T"
+</span><span class="line">"MasterDoge",          0x33, 0x8b, "5",    "M"
+</span><span class="line">"Mazacoin",            0x32, 0xe0, "8",    "a"
+</span><span class="line">"Megacoin",            0x32, 0xb2, "6",    "T"
+</span><span class="line">"MintCoin",            0x33, 0xb3, "[67]", "T"
+</span><span class="line">"MobiusCoin",          0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"MonetaryUnit",        0x10, 0x7e, "5",    "K"
+</span><span class="line">"Monocle",             0x32, 0xb2, "6",    "T"
+</span><span class="line">"MoonCoin",            0x03, 0x83, "5",    "L"
+</span><span class="line">"Myriadcoin",          0x32, 0xb2, "6",    "T"
+</span><span class="line">"NameCoin",            0x34, 0x80, "5",    "[LK]"
+</span><span class="line">"Navcoin",             0x35, 0x96, "6",    "P"
+</span><span class="line">"NeedleCoin",          0x35, 0xb5, "7",    "T"
+</span><span class="line">"NEETCOIN",            0x35, 0xb5, "7",    "T"
+</span><span class="line">"NYC",                 0x3c, 0xbc, "7",    "U"
+</span><span class="line">"Neoscoin",            0x35, 0xb1, "6",    "T"
+</span><span class="line">"Nevacoin",            0x35, 0xb1, "6",    "T"
+</span><span class="line">"Novacoin",            0x08, 0x88, "5",    "M"
+</span><span class="line">"Nubits",              0x19, 0xbf, "7",    "V"
+</span><span class="line">"Nyancoin",            0x2d, 0xad, "6",    "S"
+</span><span class="line">"Ocupy",               0x73, 0xf3, "9",    "[cd]"
+</span><span class="line">"Omnicoin",            0x73, 0xf3, "9",    "[cd]"
+</span><span class="line">"Onyxcoin",            0x73, 0xf3, "9",    "[cd]"
+</span><span class="line">"PacCoin",             0x18, 0x98, "6",    "P"
+</span><span class="line">"Particl",             0x38, 0x6c, "4",    "[HG]"
+</span><span class="line">"Paycoin",             0x37, 0xb7, "7",    "U"
+</span><span class="line">"Pandacoin",           0x37, 0xb7, "7",    "U"
+</span><span class="line">"ParkByte",            0x37, 0xb7, "7",    "U"
+</span><span class="line">"Peercoin",            0x37, 0xb7, "7",    "U"
+</span><span class="line">"Pesetacoin",          0x2f, 0xaf, "6",    "[ST]"
+</span><span class="line">"PHCoin",              0x37, 0xb7, "7",    "U"
+</span><span class="line">"PhoenixCoin",         0x38, 0xb8, "7",    "U"
+</span><span class="line">"PiggyCoin",           0x76, 0xf6, "9",    "d"
+</span><span class="line">"Pinkcoin",            0x3,  0x83, "[RQP]","L"
+</span><span class="line">"PIVX",                0x1e, 0xd4, "8",    "Y"
+</span><span class="line">"Peercoin",            0x37, 0xb7, "7",    "U"
+</span><span class="line">"Potcoin",             0x37, 0xb7, "7",    "U"
+</span><span class="line">"Primecoin",           0x17, 0x97, "6",    "P"
+</span><span class="line">"ProsperCoinClassic",  0x3a, 0xba, "7",    "Q"
+</span><span class="line">"Quark",               0x3a, 0xba, "7",    "U"
+</span><span class="line">"Qubitcoin",           0x26, 0xe0, "8",    "a"
+</span><span class="line">"Reddcoin",            0x3d, 0xbd, "7",    "[UV]"
+</span><span class="line">"Riecoin",             0x3c, 0x80, "5",    "[LK]"
+</span><span class="line">"Rimbit",              0x3c, 0xbc, "7",    "U"
+</span><span class="line">"ROIcoin",             0x3c, 0x80, "5",    "[LK]"
+</span><span class="line">"Rubycoin",            0x3c, 0xbc, "7",    "U"
+</span><span class="line">"Rupaya",              0x3c, 0xbc, "7",    "U"
+</span><span class="line">"Sambacoin",           0x3e, 0xbe, "7",    "V"
+</span><span class="line">"SecKCoin",            0x3f, 0xbf, "7",    "V"
+</span><span class="line">"SibCoin",             0x3f, 0x80, "5",    "[LK]"
+</span><span class="line">"SixEleven",           0x34, 0x80, "5",    "[LK]"
+</span><span class="line">"SmileyCoin",          0x19, 0x99, "6",    "P"
+</span><span class="line">"SongCoin",            0x3f, 0xbf, "7",    "V"
+</span><span class="line">"SpreadCoin",          0x3f, 0xbf, "7",    "V"
+</span><span class="line">"StealthCoin",         0x3e, 0xbe, "7",    "V"
+</span><span class="line">"Stratis",             0x3f, 0xbf, "7",    "V"
+</span><span class="line">"SwagBucks",           0x3f, 0x99, "6",    "P"
+</span><span class="line">"Syscoin",             0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"Tajcoin",             0x41, 0x6f, "6",    "H"
+</span><span class="line">"Terracoin",           0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"Titcoin",             0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"TittieCoin",          0x41, 0xc1, "7",    "V"
+</span><span class="line">"Topcoin",             0x42, 0xc2, "7",    "V"
+</span><span class="line">"TransferCoin",        0x42, 0x99, "6",    "P"
+</span><span class="line">"TreasureHuntCoin",    0x32, 0xb2, "6",    "T"
+</span><span class="line">"TrezarCoin",          0x42, 0xC2, "7",    "V"
+</span><span class="line">"Unobtanium",          0x82, 0xe0, "8",    "a"
+</span><span class="line">"USDe",                0x26, 0xa6, "6",    "R"
+</span><span class="line">"Vcash",               0x47, 0xc7, "7",    "W"
+</span><span class="line">"Versioncoin",         0x46, 0xc6, "7",    "W"
+</span><span class="line">"VergeCoin",           0x1e, 0x9e, "6",    "Q"
+</span><span class="line">"Vertcoin",            0x47, 0x80, "5",    "[LK]"
+</span><span class="line">"Viacoin",             0x47, 0xc7, "7",    "W"
+</span><span class="line">"VikingCoin",          0x46, 0x56, "3",    "D"
+</span><span class="line">"W2Coin",              0x49, 0xc9, "7",    "W"
+</span><span class="line">"WACoins",             0x49, 0xc9, "7",    "W"
+</span><span class="line">"WankCoin",            0x00, 0x80, "5",    "[LK]"
+</span><span class="line">"WeAreSatoshiCoin",    0x87, 0x97, "6",    "P"
+</span><span class="line">"WorldCoin",           0x49, 0xc9, "7",    "W"
+</span><span class="line">"XP",                  0x4b, 0xcb, "7",    "X"
+</span><span class="line">"Yenten",              0x4e, 0x7b, "5",    "K"
+</span><span class="line">"Zcash",        [0x1c,0xb8], 0x80, "5",    "[LK]"
+</span><span class="line">"Zetacoin",            0x50, 0xE0, "8",    "a"
+</span><span class="line">"Testnet Bitcoin",     0x6f, 0xef, "9",    "c"
+</span><span class="line">"Testnet Dogecoin",    0x71, 0xf1, "9",    "c"
+</span><span class="line">"Testnet MonetaryUnit",0x26, 0x40, "3",    "A"
+</span><span class="line">"Testnet PIVX",        0x8b, 0xef, "9",    "c"
+</span><span class="line">"Testnet WACoins",     0x51, 0xd1, "8",    "[XY]"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>哈哈，洋洋大观啊。这也说明了folk一个山寨币的成本是如何的低；然后有了以太坊的ERC20之后，发一个新币的成本简直低到令人发指，也无怪乎场子里面骗子横行了。</p>
 
-<h2>以太坊的地址生成</h2>
+<h2 id="section-5">以太坊的地址生成</h2>
 
 <p>Ethereum项目是不走寻常路的，他作为比特币之后最具创新性的后辈，地址设计反而简单的多。</p>
 
@@ -919,127 +929,129 @@
 <p>而以太坊采用了与比特币不同的实现方式——账户，类似我们生活中的银行卡。以账户为核心的设计比较节省空间,而且以太坊的block组织更为精巧。另外，以太坊的设计目标和比特币是不同的：</p>
 
 <ul>
-<li>首先以太坊的账户除了普通的收发币的账户(俗称外部账户EOA)，还有合约账户，合约账户需要一个固定的地址，不然每次调用合约都会很麻烦；这样就要求以太坊的合约账户不像比特币交易那样频繁的更换地址；</li>
-<li>他并不执着于强迫用户去注意隐私问题，以太坊的态度是，如果用户注重隐私问题，你就自己搞定；你需要通过合约中的签名数据包协议来建立一个加密“混合器”进行加密。</li>
-<li>总之以太坊因为要实现的目标更为宏大，他的设计理念是根据最初的用户都是一群Geek们来建立的；Geek们最喜欢啥？就是不要过度设计，让我来自己搞定</li>
+  <li>首先以太坊的账户除了普通的收发币的账户(俗称外部账户EOA)，还有合约账户，合约账户需要一个固定的地址，不然每次调用合约都会很麻烦；这样就要求以太坊的合约账户不像比特币交易那样频繁的更换地址；</li>
+  <li>他并不执着于强迫用户去注意隐私问题，以太坊的态度是，如果用户注重隐私问题，你就自己搞定；你需要通过合约中的签名数据包协议来建立一个加密“混合器”进行加密。</li>
+  <li>总之以太坊因为要实现的目标更为宏大，他的设计理念是根据最初的用户都是一群Geek们来建立的；Geek们最喜欢啥？就是不要过度设计，让我来自己搞定</li>
 </ul>
-
 
 <p>所以在以太坊系统中，账户是一个20字节的地址，他关联的信息包含四个部分：</p>
 
 <ol>
-<li><p>随机数，用于确定每笔交易只能被处理一次的计数器</p></li>
-<li><p>账户目前的以太币余额</p></li>
-<li><p>账户的合约代码，如果有的话</p></li>
-<li><p>账户的存储（默认为空）</p></li>
+  <li>
+    <p>随机数，用于确定每笔交易只能被处理一次的计数器</p>
+  </li>
+  <li>
+    <p>账户目前的以太币余额</p>
+  </li>
+  <li>
+    <p>账户的合约代码，如果有的话</p>
+  </li>
+  <li>
+    <p>账户的存储（默认为空）</p>
+  </li>
 </ol>
-
 
 <p>可以采用<a href="https://github.com/ethereum/pyethereum">pyethereum</a>这个库，用以下代码模拟以太坊地址的生成:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># -*- coding: utf-8 -*-
-</span><span class='line'>
-</span><span class='line'>"""doctopt ethereum address generate tools
-</span><span class='line'>
-</span><span class='line'>Usage:
-</span><span class='line'>  genaddr.py p2addr         &lt;private&gt;
-</span><span class='line'>  genaddr.py word2addr      &lt;word&gt;
-</span><span class='line'>
-</span><span class='line'>Options:
-</span><span class='line'>  -h --help                                             Show this screen.
-</span><span class='line'>  --version                                             Show version.
-</span><span class='line'>
-</span><span class='line'>Example:
-</span><span class='line'>
-</span><span class='line'>    genaddr.py p2addr 6bd3b27c591                                         # gen address from private 0x6bd3b27c591=&gt;1PiFuqGpG8yGM5v6rNHWS3TjsG6awgEGA1
-</span><span class='line'>    genaddr.py word2addr 'Money is the root of all evil.'                 # gen address from private wordlist
-</span><span class='line'>
-</span><span class='line'>"""
-</span><span class='line'>
-</span><span class='line'>from docopt import docopt
-</span><span class='line'>
-</span><span class='line'>import os
-</span><span class='line'>import sys
-</span><span class='line'>from ethereum import utils
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>if __name__ == '__main__':
-</span><span class='line'>    arguments = docopt(__doc__, version='1.0')
-</span><span class='line'>
-</span><span class='line'>    if arguments['p2addr']:
-</span><span class='line'>        private_key = bytes.fromhex(arguments['&lt;private&gt;'])
-</span><span class='line'>        passpharse = b'unknown'
-</span><span class='line'>
-</span><span class='line'>    elif arguments['word2addr']:
-</span><span class='line'>        passpharse = arguments['&lt;word&gt;'].encode('utf-8')
-</span><span class='line'>        private_key = utils.sha3(passpharse)
-</span><span class='line'>
-</span><span class='line'>    raw_address = utils.privtoaddr(private_key)
-</span><span class='line'>    account_address = utils.checksum_encode(raw_address)
-</span><span class='line'>    print("word:{}:private:{}:address:{}".format(passpharse.decode('utf-8'), private_key.hex(), account_address))
-</span><span class='line'>    </span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># -*- coding: utf-8 -*-
+</span><span class="line">
+</span><span class="line">"""doctopt ethereum address generate tools
+</span><span class="line">
+</span><span class="line">Usage:
+</span><span class="line">  genaddr.py p2addr         &lt;private&gt;
+</span><span class="line">  genaddr.py word2addr      &lt;word&gt;
+</span><span class="line">
+</span><span class="line">Options:
+</span><span class="line">  -h --help                                             Show this screen.
+</span><span class="line">  --version                                             Show version.
+</span><span class="line">
+</span><span class="line">Example:
+</span><span class="line">
+</span><span class="line">    genaddr.py p2addr 6bd3b27c591                                         # gen address from private 0x6bd3b27c591=&gt;1PiFuqGpG8yGM5v6rNHWS3TjsG6awgEGA1
+</span><span class="line">    genaddr.py word2addr 'Money is the root of all evil.'                 # gen address from private wordlist
+</span><span class="line">
+</span><span class="line">"""
+</span><span class="line">
+</span><span class="line">from docopt import docopt
+</span><span class="line">
+</span><span class="line">import os
+</span><span class="line">import sys
+</span><span class="line">from ethereum import utils
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">if __name__ == '__main__':
+</span><span class="line">    arguments = docopt(__doc__, version='1.0')
+</span><span class="line">
+</span><span class="line">    if arguments['p2addr']:
+</span><span class="line">        private_key = bytes.fromhex(arguments['&lt;private&gt;'])
+</span><span class="line">        passpharse = b'unknown'
+</span><span class="line">
+</span><span class="line">    elif arguments['word2addr']:
+</span><span class="line">        passpharse = arguments['&lt;word&gt;'].encode('utf-8')
+</span><span class="line">        private_key = utils.sha3(passpharse)
+</span><span class="line">
+</span><span class="line">    raw_address = utils.privtoaddr(private_key)
+</span><span class="line">    account_address = utils.checksum_encode(raw_address)
+</span><span class="line">    print("word:{}:private:{}:address:{}".format(passpharse.decode('utf-8'), private_key.hex(), account_address))
+</span><span class="line">    </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; python genaddr.py word2addr 'hello'
-</span><span class='line'>
-</span><span class='line'>word:hello:private:1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8:address:0x5ccfa55C29F0522f062E3C15004E35a69dD45F6B</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; python genaddr.py word2addr 'hello'
+</span><span class="line">
+</span><span class="line">word:hello:private:1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8:address:0x5ccfa55C29F0522f062E3C15004E35a69dD45F6B</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>以太坊账户方式的一个弱点是：为了阻止重放攻击，每笔交易必须有nonce。这就使得账户需要跟踪nonce的使用情况。而且，不再使用的账户，无法从账户状态中移除。</p>
 
 <p>关于重放攻击，我们会在后面说明。</p>
 
-<h2>重放攻击</h2>
+<h2 id="section-6">重放攻击</h2>
 
 <p>在网络中重放攻击是一种很常见的hack方式，关于相关攻防有足够丰富的案例；但是在区块链历史上却是一个悲伤的故事；在此我们用一点点篇幅回忆一下区块链上第一次大规模的重放攻击(replay Attack)。</p>
 
-<h4>缘起</h4>
+<h4 id="section-7">缘起</h4>
 
 <p>众所周知，以太坊作为<code>智能合约</code>的首创者，在区块链技术史上是继比特币之后最大的创新。在V神于2015-07-30正式推出运行后，立即吸引了众多Geek来探究如何实现白皮书中所说的去中心化程序。其中最受关注的就是2016-04-30日开始募资的<a href="https://etherscan.io/address/0xbb9bc244d798123fde783fcc1c72d3bb8c189413">The DAO</a>项目。</p>
 
@@ -1053,7 +1065,7 @@
 
 <p>所谓的区块链技术的发展，充斥着贪婪和诈骗。就和人性一样。</p>
 
-<h4>崩溃</h4>
+<h4 id="section-8">崩溃</h4>
 
 <p>同样，人类的愚蠢也是不变的，贪婪之下，BUG是无法避免的。</p>
 
@@ -1069,7 +1081,7 @@
 
 <p>你可以想象，当你损失了几十万美元，对面的一群码农却做出这种<code>奇谈怪论</code>，肯定是想砍人的心都有了。当时的各路利益纠葛者吵了一个翻天覆地。甚至黑客本人也跳出来发表了一通公开信，先为自己的盗窃行为辩护一番，然后承诺只要社区不回退，就会返还一部分金额。整个事件好一场精彩大戏。</p>
 
-<h4>分裂</h4>
+<h4 id="section-9">分裂</h4>
 
 <p>经历了无休止的利益、法律、技术等等辩论后，以太坊社区分裂了。争论的结果就是诞生了ETH Classic (即ETC)项目；一批坚持<code>代码即正义</code>者分裂出来创造了ETH Classic 网络，这个项目称自己才是真正的以太坊，并承认黑客的攻击行为且继续将这条链运行下去。而现在仍旧运行的Ethereum网络保护了投资者的利益，做出了妥协；</p>
 
@@ -1077,7 +1089,7 @@
 
 <p>这是世界上第一次公开的人为的区块链分叉事件。但是好戏才刚刚开始。</p>
 
-<h4>重放攻击</h4>
+<h4 id="section-10">重放攻击</h4>
 
 <p>以太坊硬分叉出现了ETH和ETC两条链，两条链上的交易数据结构是完全一样的，因此一笔交易在ETH上是有效的， 那它在ETC上同样会被接受，反之亦然。 因为当时所有人都认为ETC将不会再存在，所以分叉前没人意识到两条链会产生相互重放问题。 后来还有许多矿工继续在维持ETC链时， 大家发现在ETH链上的交易拿到ETC链继续重放（广播）仍然是有效的。</p>
 
@@ -1086,10 +1098,9 @@
 <p>解决这个问题也很简单，或者就是两边的原始交易数据要有所区别:</p>
 
 <ul>
-<li>或者地址前缀做一下改动</li>
-<li>或者交易数据签名增加一个标志</li>
+  <li>或者地址前缀做一下改动</li>
+  <li>或者交易数据签名增加一个标志</li>
 </ul>
-
 
 <p>因为以太坊地址没有像比特币一样的前缀，ETC和ETH社区经过讨论，简单的提出了<a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md">EIP-155</a> 作为解决方案。简而言之，就是判断分叉的区块编号，引入一个CHAIN ID新值来解决这个问题。</p>
 
@@ -1099,7 +1110,7 @@
 
 <p>我得说，当你想要投资一个所谓<code>未来项目</code>时，除了你自己的知识和判断，没有任何一个人是可信的！我是说，只能靠自己，其他任何人，甚至创始者的意见也不可信。</p>
 
-<h2>Bitcoin Cash地址生成</h2>
+<h2 id="bitcoin-cash">Bitcoin Cash地址生成</h2>
 
 <p>关于Bitcoin Cash的诞生，其过程之离奇曲折，胜过ETH分叉百倍。这是一个比最精彩的侦探小说还要反转反转再反转的故事。</p>
 
@@ -1108,210 +1119,186 @@
 <p>快速看看BCH新老地址的对比：</p>
 
 <ol>
-<li><p>新地址是和老地址一一对应的，它们对应了同一个私钥，只是换了种写法</p></li>
-<li><p>新地址可以发送余额给老地址，老地址可以发送余额到新地址</p></li>
-<li><p>新地址是大小写不敏感的，可以全部转成大写，也可以全部转成小写，优先小写格式，同一地址不能大小写混用</p></li>
-<li><p>新地址的前缀可写可不写，老地址没有前缀，通过首字符来标识类型</p></li>
-<li><p>新地址用base32编码，老地址用base58编码</p></li>
+  <li>
+    <p>新地址是和老地址一一对应的，它们对应了同一个私钥，只是换了种写法</p>
+  </li>
+  <li>
+    <p>新地址可以发送余额给老地址，老地址可以发送余额到新地址</p>
+  </li>
+  <li>
+    <p>新地址是大小写不敏感的，可以全部转成大写，也可以全部转成小写，优先小写格式，同一地址不能大小写混用</p>
+  </li>
+  <li>
+    <p>新地址的前缀可写可不写，老地址没有前缀，通过首字符来标识类型</p>
+  </li>
+  <li>
+    <p>新地址用base32编码，老地址用base58编码</p>
+  </li>
 </ol>
-
 
 <p>官方文档描述参见<a href="https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md">这里</a>，让我们从seed <code>satoshi</code> 生成一个bitcoin cash 地址演示一遍。</p>
 
-<h4>规范</h4>
+<h4 id="section-11">规范</h4>
 
 <p>新的bitcoin cash地址是由：</p>
 
 <ul>
-<li>能够表示该地址有效的网络的前缀，一般为主网(bitcoincash)、测试网(bchtest)、回归测试网(bchreg)三种。</li>
-<li>一个分隔符：<code>:</code></li>
-<li>一个base32编码的payload，表示这个地址的目的地和包含的checksum（校验和）。</li>
+  <li>能够表示该地址有效的网络的前缀，一般为主网(bitcoincash)、测试网(bchtest)、回归测试网(bchreg)三种。</li>
+  <li>一个分隔符：<code>:</code></li>
+  <li>一个base32编码的payload，表示这个地址的目的地和包含的checksum（校验和）。</li>
 </ul>
 
-
-<h4>Payload</h4>
+<h4 id="payload">Payload</h4>
 
 <p>payload是base32编码的数据流，由三个元素组成:</p>
 
 <ul>
-<li>指示地址字节的版本类型</li>
+  <li>指示地址字节的版本类型</li>
 </ul>
-
 
 <p>共8bits, 1bit(0) + 4bits (地址类型：Type bits) + 3bits (hash长度：Size bits)</p>
 
 <table>
-<thead>
-<tr>
-<th>Type bits (二进制) </th>
-<th> 地址类型 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0000 </td>
-<td> P2PKH</td>
-</tr>
-<tr>
-<td>1000 </td>
-<td> P2SH</td>
-</tr>
-<tr>
-<td>0000 </td>
-<td> P2PKH-TESTNET</td>
-</tr>
-<tr>
-<td>1000 </td>
-<td> P2SH-TESTNET</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type bits (二进制)</th>
+      <th>地址类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0000</td>
+      <td>P2PKH</td>
+    </tr>
+    <tr>
+      <td>1000</td>
+      <td>P2SH</td>
+    </tr>
+    <tr>
+      <td>0000</td>
+      <td>P2PKH-TESTNET</td>
+    </tr>
+    <tr>
+      <td>1000</td>
+      <td>P2SH-TESTNET</td>
+    </tr>
+  </tbody>
 </table>
-
 
 <table>
-<thead>
-<tr>
-<th>Size bits (二进制) </th>
-<th> 代表hash长度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>000 </td>
-<td> 160</td>
-</tr>
-<tr>
-<td>001 </td>
-<td> 192</td>
-</tr>
-<tr>
-<td>010 </td>
-<td> 224</td>
-</tr>
-<tr>
-<td>011 </td>
-<td> 256</td>
-</tr>
-<tr>
-<td>100 </td>
-<td> 320</td>
-</tr>
-<tr>
-<td>101 </td>
-<td> 384</td>
-</tr>
-<tr>
-<td>110 </td>
-<td> 448</td>
-</tr>
-<tr>
-<td>111 </td>
-<td> 512</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Size bits (二进制)</th>
+      <th>代表hash长度</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>000</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <td>001</td>
+      <td>192</td>
+    </tr>
+    <tr>
+      <td>010</td>
+      <td>224</td>
+    </tr>
+    <tr>
+      <td>011</td>
+      <td>256</td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td>320</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>384</td>
+    </tr>
+    <tr>
+      <td>110</td>
+      <td>448</td>
+    </tr>
+    <tr>
+      <td>111</td>
+      <td>512</td>
+    </tr>
+  </tbody>
 </table>
 
-
 <ul>
-<li>一个hash值</li>
+  <li>一个hash值</li>
 </ul>
-
 
 <p>hash含义取决于版本字段。它是表示数据的hash，即P2KH的pubkey hash和P2SH的reedemScript哈希。这个可以直接从BTC地址里面推出，这个hash值导出后需要用40Bits的BCH码来表示，这样做之后，地址大小写不敏感。</p>
 
 <ul>
-<li>一个40字节的校验和</li>
+  <li>一个40字节的校验和</li>
 </ul>
-
 
 <p>这个校验和的计算比较繁琐，它是在GF（2 ^ 5）上定义的40bits的BCH码，校验和根据以下代码计算：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>uint64_t PolyMod(const data &v) {
-</span><span class='line'>    uint64_t c = 1;
-</span><span class='line'>    for (uint8_t d : v) {
-</span><span class='line'>        uint8_t c0 = c &gt;&gt; 35;
-</span><span class='line'>        c = ((c & 0x07ffffffff) &lt;&lt; 5) ^ d;
-</span><span class='line'>        
-</span><span class='line'>        if (c0 & 0x01) c ^= 0x98f2bc8e61;
-</span><span class='line'>        if (c0 & 0x02) c ^= 0x79b76d99e2;
-</span><span class='line'>        if (c0 & 0x04) c ^= 0xf33e5fb3c4;
-</span><span class='line'>        if (c0 & 0x08) c ^= 0xae2eabe2a8;
-</span><span class='line'>        if (c0 & 0x10) c ^= 0x1e4f43e470;
-</span><span class='line'>    }
-</span><span class='line'>    
-</span><span class='line'>    return c ^ 1;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">uint64_t PolyMod(const data &amp;v) {
+</span><span class="line">    uint64_t c = 1;
+</span><span class="line">    for (uint8_t d : v) {
+</span><span class="line">        uint8_t c0 = c &gt;&gt; 35;
+</span><span class="line">        c = ((c &amp; 0x07ffffffff) &lt;&lt; 5) ^ d;
+</span><span class="line">        
+</span><span class="line">        if (c0 &amp; 0x01) c ^= 0x98f2bc8e61;
+</span><span class="line">        if (c0 &amp; 0x02) c ^= 0x79b76d99e2;
+</span><span class="line">        if (c0 &amp; 0x04) c ^= 0xf33e5fb3c4;
+</span><span class="line">        if (c0 &amp; 0x08) c ^= 0xae2eabe2a8;
+</span><span class="line">        if (c0 &amp; 0x10) c ^= 0x1e4f43e470;
+</span><span class="line">    }
+</span><span class="line">    
+</span><span class="line">    return c ^ 1;
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>具体的规则可以详细参考<a href="https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md">这里</a>。</p>
 
-<h4>地址转换生成</h4>
+<h4 id="section-12">地址转换生成</h4>
 
 <ul>
-<li>1.取<code>satoshi</code> 生成的非压缩地址<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
-<li>2.这个地址是一个主网地址，前缀为<code>bitcoincash:xxxxx</code></li>
-<li>3.这个地址类型为<code>P2PKH</code>，version_bits为0000</li>
-<li>4.<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>进行base58 Decode，去掉末尾的4字节checksum，得到的hash值用list表示</li>
+  <li>1.取<code>satoshi</code> 生成的非压缩地址<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
+  <li>2.这个地址是一个主网地址，前缀为<code>bitcoincash:xxxxx</code></li>
+  <li>3.这个地址类型为<code>P2PKH</code>，version_bits为0000</li>
+  <li>4.<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>进行base58 Decode，去掉末尾的4字节checksum，得到的hash值用list表示
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
 </ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>payload = [101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>5.加入version前缀</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>payload = [0, 101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>6.将hash进行8bits->5bits BCH码的转换</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>payload = [0, 1, 18, 16, 26, 1, 4, 23, 28, 0, 10, 14, 12, 3, 10, 6, 16, 3, 30, 14, 13, 6, 11, 29, 8, 1, 14, 30, 4, 25, 7, 16, 8, 8]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>7.计算校验和</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>checksum=[24, 25, 19, 1, 12, 3, 18, 8]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>8.对payload + checksum进行base32编码，得到<code>qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
-<li>9.加入前缀<code>bitcoincash:</code>，组合得到最后地址<code>bitcoincash:qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
-</ul>
-
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">payload = [101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;
+* 5.加入version前缀
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">payload = [0, 101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+* 6.将hash进行8bits-&gt;5bits BCH码的转换
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">payload = [0, 1, 18, 16, 26, 1, 4, 23, 28, 0, 10, 14, 12, 3, 10, 6, 16, 3, 30, 14, 13, 6, 11, 29, 8, 1, 14, 30, 4, 25, 7, 16, 8, 8]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+* 7.计算校验和
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">checksum=[24, 25, 19, 1, 12, 3, 18, 8]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+* 8.对payload + checksum进行base32编码，得到<code>qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code>
+* 9.加入前缀<code>bitcoincash:</code>，组合得到最后地址<code>bitcoincash:qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></p>
 
 <p>有许多在线转换工具可以验证，比如:</p>
 
-<p><a href="https://bch.btc.com/tools/address-converter">https://bch.btc.com/tools/address-converter</a></p>
+<p>https://bch.btc.com/tools/address-converter</p>
 
-<h2>总结</h2>
+<h2 id="section-13">总结</h2>
 
 <p>以上长篇大论了比特币系统的地址是如何生成的，当然我们也略过了许多细节，比如钱包如何加salt，如何加passphrase等等，这些直接去读BIP 规范更为精确；但是一个完整的钱包，可不仅仅是要解决地址生成这个问题，还要能方便的管理私钥。</p>
 
@@ -1326,15 +1313,14 @@
 <p>好了，假如你是一个交易所的老板，你会很快发现自己面临着以下问题：</p>
 
 <ul>
-<li>不需要给每个用户的账户都建立一个钱包文件，我希望能有一个总的账户管理方案</li>
-<li>可能交易所有1000个大户，你希望他们的钱包是冷存储的，提币的时候他们可以耐心等一段时间，但是剩下的100000个普通用户的账户就要存放到一个热钱包上，只留有部分资产来应付流动性</li>
-<li>有很多部门需要批准获取一些资金，比如研发要用来做测试，市场部门要用来搞活动等等</li>
-<li>最后，私钥最好只能由少数人，最好只有我本人来掌握，不然私钥的传播过程中，随便一个人就能让你万劫不复</li>
-<li>我如果有一些合伙人的话，肯定也希望能掌管一部分资金</li>
-<li>如果有突发情况，我能迅速把公司账上所有的币都转移到另外一个安全的账户上，这有可能是要迅速完成上万笔的交易转移</li>
-<li>最后，我希望所有的交易，签署和广播是在不同的机器上进行的，存有私钥的机器不能联网，这台机器签名完毕后，调用远端的服务端广播交易，这样完全实现钱包的冷隔离</li>
+  <li>不需要给每个用户的账户都建立一个钱包文件，我希望能有一个总的账户管理方案</li>
+  <li>可能交易所有1000个大户，你希望他们的钱包是冷存储的，提币的时候他们可以耐心等一段时间，但是剩下的100000个普通用户的账户就要存放到一个热钱包上，只留有部分资产来应付流动性</li>
+  <li>有很多部门需要批准获取一些资金，比如研发要用来做测试，市场部门要用来搞活动等等</li>
+  <li>最后，私钥最好只能由少数人，最好只有我本人来掌握，不然私钥的传播过程中，随便一个人就能让你万劫不复</li>
+  <li>我如果有一些合伙人的话，肯定也希望能掌管一部分资金</li>
+  <li>如果有突发情况，我能迅速把公司账上所有的币都转移到另外一个安全的账户上，这有可能是要迅速完成上万笔的交易转移</li>
+  <li>最后，我希望所有的交易，签署和广播是在不同的机器上进行的，存有私钥的机器不能联网，这台机器签名完毕后，调用远端的服务端广播交易，这样完全实现钱包的冷隔离</li>
 </ul>
-
 
 <p>好啦，假如我们现在只有前面那种一个wallet.dat钱包的管理方案，要怎么做呢？</p>
 
@@ -1437,7 +1423,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

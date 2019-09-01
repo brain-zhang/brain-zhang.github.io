@@ -33,6 +33,22 @@ git init # 新建一个目录， &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -106,11 +122,11 @@ git init # 新建一个目录， &hellip;">
   </header>
 
 
-<div class="entry-content"><h1>整理一下经常忘记的Git命令 (版本v2)</h1>
+<div class="entry-content"><h1 id="git-v2">整理一下经常忘记的Git命令 (版本v2)</h1>
 
-<p><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html?utm_source=tool.lu">http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html?utm_source=tool.lu</a></p>
+<p>http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html?utm_source=tool.lu</p>
 
-<h2>新建代码库</h2>
+<h2 id="section">新建代码库</h2>
 
 <pre><code># 在当前目录新建一个Git代码库
 git init
@@ -122,7 +138,7 @@ git init [project-name]
 git clone [url]
 </code></pre>
 
-<h2>配置</h2>
+<h2 id="section-1">配置</h2>
 
 <p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
 
@@ -137,7 +153,7 @@ git config [--global] user.name "[name]"
 git config [--global] user.email "[email address]"
 </code></pre>
 
-<h2>增加/删除文件</h2>
+<h2 id="section-2">增加/删除文件</h2>
 
 <pre><code># 添加指定文件到暂存区
 git add [file1] [file2] ...
@@ -158,7 +174,7 @@ git rm --cached [file]
 git mv [file-original] [file-renamed]
 </code></pre>
 
-<h2>代码提交</h2>
+<h2 id="section-3">代码提交</h2>
 
 <pre><code># 提交暂存区到仓库区
 git commit -m [message]
@@ -180,7 +196,7 @@ git commit --amend -m [message]
 git commit --amend [file1] [file2] ...
 </code></pre>
 
-<h2>分支</h2>
+<h2 id="section-4">分支</h2>
 
 <pre><code># 列出所有本地分支
 git branch
@@ -264,7 +280,7 @@ git checkout branches/A B.h
 rm C.h
 </code></pre>
 
-<h2>标签</h2>
+<h2 id="section-5">标签</h2>
 
 <pre><code># 列出所有tag
 git tag
@@ -294,7 +310,7 @@ git push [remote] --tags
 git checkout -b [branch] [tag]
 </code></pre>
 
-<h2>查看信息</h2>
+<h2 id="section-6">查看信息</h2>
 
 <pre><code># 显示有变更的文件
 git status
@@ -346,7 +362,7 @@ git show [commit]:[filename]
 git reflog
 </code></pre>
 
-<h2>远程同步</h2>
+<h2 id="section-7">远程同步</h2>
 
 <pre><code># 下载远程仓库的所有变动
 $ git fetch [remote]
@@ -373,7 +389,7 @@ $ git push [remote] --force
 $ git push [remote] --all
 </code></pre>
 
-<h2>撤销</h2>
+<h2 id="section-8">撤销</h2>
 
 <pre><code># 恢复暂存区的指定文件到工作区
 git checkout [file]
@@ -404,7 +420,7 @@ git reset --keep [commit]
 git revert [commit]
 </code></pre>
 
-<h2>remote 同步</h2>
+<h2 id="remote-">remote 同步</h2>
 
 <pre><code># 查看当前远程版本库
 git remote -v
@@ -419,11 +435,11 @@ git fetch cocos2d-x
 git merge cocos2d-x/master
 </code></pre>
 
-<h2>分支的衍合</h2>
+<h2 id="section-9">分支的衍合</h2>
 
-<p><a href="http://git-scm.com/docs/git-rebase">http://git-scm.com/docs/git-rebase</a></p>
+<p>http://git-scm.com/docs/git-rebase</p>
 
-<h2>diff</h2>
+<h2 id="diff">diff</h2>
 
 <pre><code># 只显示两个分支间的差异，如果你想找出‘master’,‘test’的共有 父分支和'test'分支之间的差异，你用3个‘.'来取代前面的两个'.' 。
 git diff master..test
@@ -451,7 +467,7 @@ git diff-tree -r --no-commit-id --name-only --diff-filter=ACMRTD HEAD HEAD^
 git diff master branch/1.1 --
 </code></pre>
 
-<h2>其他</h2>
+<h2 id="section-10">其他</h2>
 
 <pre><code># 生成一个可供发布的压缩包
 git archive
@@ -463,6 +479,7 @@ git stash pop
 # svn log -v 类似效果
 git log --name-status
 </code></pre>
+
 </div>
 
 
@@ -557,7 +574,7 @@ git log --name-status
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

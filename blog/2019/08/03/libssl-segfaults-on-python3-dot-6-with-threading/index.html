@@ -57,6 +57,22 @@ import logging try: &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -134,103 +150,98 @@ import logging try: &hellip;">
 
 <!-- more -->
 
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import ctypes
-</span><span class='line'>import logging
-</span><span class='line'>
-</span><span class='line'>try:
-</span><span class='line'>    ssl_library = ctypes.cdll.LoadLibrary('libeay32.dll')
-</span><span class='line'>except Exception:
-</span><span class='line'>    ssl_library = ctypes.cdll.LoadLibrary('libssl.so')
-</span><span class='line'>
-</span><span class='line'>def check_result(val, func, args):
-</span><span class='line'>    if val == 0:
-</span><span class='line'>        raise ValueError
-</span><span class='line'>    else:
-</span><span class='line'>        return ctypes.c_void_p(val)
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'># ssl_library.EC_KEY_new.restype = ctypes.c_void_p
-</span><span class='line'>ssl_library.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
-</span><span class='line'>ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result
-</span><span class='line'>
-</span><span class='line'>k = ssl_library.EC_KEY_new_by_curve_name(NID_secp256k1)
-</span><span class='line'>
-</span><span class='line'>if ssl_library.EC_KEY_generate_key(k) != 1:
-</span><span class='line'>    raise Exception("internal error")
-</span><span class='line'>ssl_library.EC_KEY_free(k)
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import ctypes
+</span><span class="line">import logging
+</span><span class="line">
+</span><span class="line">try:
+</span><span class="line">    ssl_library = ctypes.cdll.LoadLibrary('libeay32.dll')
+</span><span class="line">except Exception:
+</span><span class="line">    ssl_library = ctypes.cdll.LoadLibrary('libssl.so')
+</span><span class="line">
+</span><span class="line">def check_result(val, func, args):
+</span><span class="line">    if val == 0:
+</span><span class="line">        raise ValueError
+</span><span class="line">    else:
+</span><span class="line">        return ctypes.c_void_p(val)
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"># ssl_library.EC_KEY_new.restype = ctypes.c_void_p
+</span><span class="line">ssl_library.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
+</span><span class="line">ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result
+</span><span class="line">
+</span><span class="line">k = ssl_library.EC_KEY_new_by_curve_name(NID_secp256k1)
+</span><span class="line">
+</span><span class="line">if ssl_library.EC_KEY_generate_key(k) != 1:
+</span><span class="line">    raise Exception("internal error")
+</span><span class="line">ssl_library.EC_KEY_free(k)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这段代码在多线程的时候会出现segmentation fault error； google一下发现<code>EC_KEY_generate_key</code>并不是线程安全的；于是:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>openssl_locks = [threading.Lock() for _ in range(ssl_library.CRYPTO_num_locks())]
-</span><span class='line'>openssl_locking_function = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int, ctypes.c_char_p, ctypes.c_int)
-</span><span class='line'>openssl_threadid_function = ctypes.CFUNCTYPE(ctypes.c_ulong)
-</span><span class='line'>
-</span><span class='line'>@openssl_locking_function
-</span><span class='line'>def openssl_lock(mode, type, file, line):
-</span><span class='line'>    if (mode & CRYPTO_LOCK) != 0:
-</span><span class='line'>        openssl_locks[type].acquire()
-</span><span class='line'>    else:
-</span><span class='line'>        openssl_locks[type].release()
-</span><span class='line'>
-</span><span class='line'>@openssl_threadid_function
-</span><span class='line'>def openssl_threadid():
-</span><span class='line'>    v = threading.current_thread().ident
-</span><span class='line'>    return v
-</span><span class='line'>
-</span><span class='line'>ssl_library.CRYPTO_set_id_callback(openssl_threadid)
-</span><span class='line'>ssl_library.CRYPTO_set_locking_callback(openssl_lock)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">openssl_locks = [threading.Lock() for _ in range(ssl_library.CRYPTO_num_locks())]
+</span><span class="line">openssl_locking_function = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int, ctypes.c_char_p, ctypes.c_int)
+</span><span class="line">openssl_threadid_function = ctypes.CFUNCTYPE(ctypes.c_ulong)
+</span><span class="line">
+</span><span class="line">@openssl_locking_function
+</span><span class="line">def openssl_lock(mode, type, file, line):
+</span><span class="line">    if (mode &amp; CRYPTO_LOCK) != 0:
+</span><span class="line">        openssl_locks[type].acquire()
+</span><span class="line">    else:
+</span><span class="line">        openssl_locks[type].release()
+</span><span class="line">
+</span><span class="line">@openssl_threadid_function
+</span><span class="line">def openssl_threadid():
+</span><span class="line">    v = threading.current_thread().ident
+</span><span class="line">    return v
+</span><span class="line">
+</span><span class="line">ssl_library.CRYPTO_set_id_callback(openssl_threadid)
+</span><span class="line">ssl_library.CRYPTO_set_locking_callback(openssl_lock)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>诡异的是还是不定时的crash掉，又一通google之后发现是openssl1.0.0的实现问题，参考:</p>
 
-<p><a href="https://bugs.python.org/issue29340">https://bugs.python.org/issue29340</a></p>
+<p>https://bugs.python.org/issue29340</p>
 
 <p>需要升级至openssl1.1.0；</p>
 
@@ -333,7 +344,7 @@ import logging try: &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -11,7 +11,9 @@
   
   <meta name="description" content="show value 1
 systemctl show SERVICE_NAME.service -p TimeoutStopUSec change value 1
-vim /usr/lib/systemd/system/node.service TimeoutStopUSec = 900 1 &hellip;">
+vim /usr/lib/systemd/system/node.service
+TimeoutStopUSec = 900
+&lt &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -34,6 +36,22 @@ vim /usr/lib/systemd/system/node.service TimeoutStopUSec = 900 1 &hellip;">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,23 +125,18 @@ vim /usr/lib/systemd/system/node.service TimeoutStopUSec = 900 1 &hellip;">
   </header>
 
 
-<div class="entry-content"><h1>show value</h1>
+<div class="entry-content"><h1 id="show-value">show value</h1>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl show SERVICE_NAME.service -p TimeoutStopUSec</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h1 id="change-value">change value</h1>
 
-<h1>change value</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure>
-
-
-<p>TimeoutStopUSec = 900</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl daemon-reexec</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /usr/lib/systemd/system/node.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>TimeoutStopUSec = 900
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">systemctl daemon-reexec</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 </div>
 
 
@@ -218,7 +231,7 @@ vim /usr/lib/systemd/system/node.service TimeoutStopUSec = 900 1 &hellip;">
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

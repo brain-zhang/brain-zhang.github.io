@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -253,11 +269,16 @@
 <p>在比特币的历史发展中，钱包大致经过了三次进化:</p>
 
 <ol>
-<li><p>非确定性（随机）钱包</p></li>
-<li><p>确定性（种子）钱包</p></li>
-<li><p>分层确定性钱包（HD Wallets (BIP-32/BIP-44)）</p></li>
+  <li>
+    <p>非确定性（随机）钱包</p>
+  </li>
+  <li>
+    <p>确定性（种子）钱包</p>
+  </li>
+  <li>
+    <p>分层确定性钱包（HD Wallets (BIP-32/BIP-44)）</p>
+  </li>
 </ol>
-
 
 <p>下面我们就好好说说钱包的历史发展轨迹</p>
 
@@ -393,7 +414,7 @@
   </header>
 
 
-  <div class="entry-content"><h2>密钥分发的问题</h2>
+  <div class="entry-content"><h2 id="section">密钥分发的问题</h2>
 
 <p>在之前我们的一篇文章<a href="https://happy123.me/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a> 中提到了一个经典的问题:</p>
 
@@ -531,7 +552,7 @@
 
   <div class="entry-content"><p>很久之前就在某杂志上看过，不久前在知乎<a href="https://www.zhihu.com/question/21747929">有哪些让你目瞪口呆的 bug</a>里面又见到了；我觉得这两个troubleshooting的case有很深的道理在里面，记一下。</p>
 
-<h3>电子邮件无法发送到500英里以外</h3>
+<h3 id="section">电子邮件无法发送到500英里以外</h3>
 
 </div>
   
@@ -561,7 +582,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -117,14 +133,19 @@
 
 <!-- more -->
 
-
 <p>之前我们做出的推论是:</p>
 
-<blockquote><p>Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+<blockquote>
+  <p>Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
+</blockquote>
 
-<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+<blockquote>
+  <p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
+</blockquote>
 
-<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p></blockquote>
+<blockquote>
+  <p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
+</blockquote>
 
 <p>之后的剧情就是 David Kleiman的亲属起诉Craig Wright，声称他窃取了 本该属于  David Kleiman 的100w bitcoin；其起诉文书中公布了大量的由 Craig Wright声称其属于他和Kleiman成立的名为<code>郁金香信托</code>基金的bitcoin address;</p>
 
@@ -138,74 +159,70 @@
 
 <p>地址分析：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>12tLs9c9RsALt4ockxa1hB4iTCTSmxj2me: unknown
-</span><span class='line'>1933phfhK3ZgFQNLGSDXvqCn32k2buXY8a: MtGox user
-</span><span class='line'>1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF: first major MtGox theft
-</span><span class='line'>1f1miYFQWTzdLiCBxtHHnNiW7WAWPUccr: unknown
-</span><span class='line'>1MHdm5XZMrfoZFoUktEaGhYevmdiXoc4x4: unknown (early miner)
-</span><span class='line'>18JPragfuDVHWWG8ABQ15cghJFetnXUjBD: MtGox user
-</span><span class='line'>1LXc28hWx1t8np5sCAb2EaNFqPwqJCuERD: unknown
-</span><span class='line'>1FpqQnKQCgDkJFMC94JL8FpRyHTZ3uRVZ1: unknown (early miner)
-</span><span class='line'>1F34duy2eeMz5mSrvFepVzy7Y1rBsnAyWC: from MyBitcoin.com
-</span><span class='line'>1JtpgqCf3SSeCeYWEDJjkfYFH7Ruhy4Vp1: unknown (early miner)
-</span><span class='line'>18k9tin39LKegFzHe8rxSgvJXDpuMriGJq: unknown
-</span><span class='line'>1HtTw9zR9wWFfgV8Jy8MqsaeVi7ZXrjdq6: part of a long chain of transactions that send minor amounts into a BTC-e deposit address
-</span><span class='line'>18pn4NQ7NgsJjeuFjazeTdVRnsmfw5ofTz: unknown
-</span><span class='line'>12fZ2HxkLjG9zn1u44XYsFFYKHM4A2zCea: MtGox user
-</span><span class='line'>12tkqA9xSoowkzoERHMWNKsTey55YEBqkv: unknown (early miner)
-</span><span class='line'>16Ls6azc76ixc9Ny7AB5ZPPq6oiEL9XwXy: MtGox cold storage
-</span><span class='line'>12HddUDLhRP2F8JjpKYeKaDxxt5wUvx5nq: MtGox cold storage
-</span><span class='line'>1P3S1grZYmcqYDuaEDVDYobJ5Fx85E9fE9: MtGox cold storage
-</span><span class='line'>1MyGwFAJjVtB5rGJa32M6Yh46cGirUta1K: MtGox cold storage
-</span><span class='line'>145YHsQU7HMzkRnD5SBSuFAzQgCYnAnLkN: unknown (early miner)
-</span><span class='line'>16TPVCpvtJ6FkV5xNKBp35aMo4BWFGxiEY: unknown
-</span><span class='line'>1KbrSKrT3GeEruTuuYYUSQ35JwKbrAWJYm: unknown
-</span><span class='line'>1FLFnbN7m5psLfvLEwYfRUUjJ34YkmV3dM: donation recipient
-</span><span class='line'>1A6SDef1TJAM8Saw2SqmqFGhkWR1y3qMx2: MtGox deposit address
-</span><span class='line'>16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT: MtGox user
-</span><span class='line'>12ib7dApVFvg82TXKycWBNpN8kFyiAN1dr: unknown (early miner)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">12tLs9c9RsALt4ockxa1hB4iTCTSmxj2me: unknown
+</span><span class="line">1933phfhK3ZgFQNLGSDXvqCn32k2buXY8a: MtGox user
+</span><span class="line">1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF: first major MtGox theft
+</span><span class="line">1f1miYFQWTzdLiCBxtHHnNiW7WAWPUccr: unknown
+</span><span class="line">1MHdm5XZMrfoZFoUktEaGhYevmdiXoc4x4: unknown (early miner)
+</span><span class="line">18JPragfuDVHWWG8ABQ15cghJFetnXUjBD: MtGox user
+</span><span class="line">1LXc28hWx1t8np5sCAb2EaNFqPwqJCuERD: unknown
+</span><span class="line">1FpqQnKQCgDkJFMC94JL8FpRyHTZ3uRVZ1: unknown (early miner)
+</span><span class="line">1F34duy2eeMz5mSrvFepVzy7Y1rBsnAyWC: from MyBitcoin.com
+</span><span class="line">1JtpgqCf3SSeCeYWEDJjkfYFH7Ruhy4Vp1: unknown (early miner)
+</span><span class="line">18k9tin39LKegFzHe8rxSgvJXDpuMriGJq: unknown
+</span><span class="line">1HtTw9zR9wWFfgV8Jy8MqsaeVi7ZXrjdq6: part of a long chain of transactions that send minor amounts into a BTC-e deposit address
+</span><span class="line">18pn4NQ7NgsJjeuFjazeTdVRnsmfw5ofTz: unknown
+</span><span class="line">12fZ2HxkLjG9zn1u44XYsFFYKHM4A2zCea: MtGox user
+</span><span class="line">12tkqA9xSoowkzoERHMWNKsTey55YEBqkv: unknown (early miner)
+</span><span class="line">16Ls6azc76ixc9Ny7AB5ZPPq6oiEL9XwXy: MtGox cold storage
+</span><span class="line">12HddUDLhRP2F8JjpKYeKaDxxt5wUvx5nq: MtGox cold storage
+</span><span class="line">1P3S1grZYmcqYDuaEDVDYobJ5Fx85E9fE9: MtGox cold storage
+</span><span class="line">1MyGwFAJjVtB5rGJa32M6Yh46cGirUta1K: MtGox cold storage
+</span><span class="line">145YHsQU7HMzkRnD5SBSuFAzQgCYnAnLkN: unknown (early miner)
+</span><span class="line">16TPVCpvtJ6FkV5xNKBp35aMo4BWFGxiEY: unknown
+</span><span class="line">1KbrSKrT3GeEruTuuYYUSQ35JwKbrAWJYm: unknown
+</span><span class="line">1FLFnbN7m5psLfvLEwYfRUUjJ34YkmV3dM: donation recipient
+</span><span class="line">1A6SDef1TJAM8Saw2SqmqFGhkWR1y3qMx2: MtGox deposit address
+</span><span class="line">16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT: MtGox user
+</span><span class="line">12ib7dApVFvg82TXKycWBNpN8kFyiAN1dr: unknown (early miner)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>呵呵，就在前几天，有人用<code>16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT</code>这个地址的私钥，签名发布了一段消息：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Address 16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT does not belong to Satoshi or to Craig Wright.
-</span><span class='line'>Craig is a liar and a fraud.</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Address 16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT does not belong to Satoshi or to Craig Wright.
+</span><span class="line">Craig is a liar and a fraud.</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这段消息的签名是:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf92O1UIXw=</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf92O1UIXw=</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>这段签名可以用Electrum的工具验证无误；懂一点技术的人自然明白这意味这什么。</p>
 
 <p>那么问题又来了，为什么这位英雄好汉不在去年早点揭露这件事呢？</p>
@@ -216,20 +233,25 @@
 
 <p>马上又有人挖出了更大的瓜，这个地址是Roger Ver控制的；</p>
 
-<p><a href="https://www.reddit.com/r/btc/comments/bpdac1/address_16cou7ht6wjtzufydbnht9hmvxytg6xdvt_does/">https://www.reddit.com/r/btc/comments/bpdac1/address_16cou7ht6wjtzufydbnht9hmvxytg6xdvt_does/</a></p>
+<p>https://www.reddit.com/r/btc/comments/bpdac1/address_16cou7ht6wjtzufydbnht9hmvxytg6xdvt_does/</p>
 
-<p><a href="https://www.reddit.com/r/btc/comments/7cehzo/roger_ver_45000_bitcoin_moved_to_exchange/">https://www.reddit.com/r/btc/comments/7cehzo/roger_ver_45000_bitcoin_moved_to_exchange/</a></p>
+<p>https://www.reddit.com/r/btc/comments/7cehzo/roger_ver_45000_bitcoin_moved_to_exchange/</p>
 
 <p>之前在Bitcoin扩容之争的时候，Roger Ver还用这个地址投过票；</p>
 
 <p>而Roger Ver与Craig Wright的关系也是百转千回~~</p>
 
 <ul>
-<li><p>Craig Wright初次宣布自己是Satoshi, Roger Ver 坚持黑；</p></li>
-<li><p>BCH分叉， Craig Wright投入BCH阵营， Roger Ver 粉；</p></li>
-<li><p>BSV分叉， Craig Wright自立门户， Roger Ver 出来掀桌了；</p></li>
+  <li>
+    <p>Craig Wright初次宣布自己是Satoshi, Roger Ver 坚持黑；</p>
+  </li>
+  <li>
+    <p>BCH分叉， Craig Wright投入BCH阵营， Roger Ver 粉；</p>
+  </li>
+  <li>
+    <p>BSV分叉， Craig Wright自立门户， Roger Ver 出来掀桌了；</p>
+  </li>
 </ul>
-
 
 <p>真相目前不得而知，但是可以确认的有一件事情：</p>
 
@@ -237,11 +259,11 @@
 
 <p>我觉得所谓的<code>区块链行业</code>有个铁律：</p>
 
-<h4>有区块链的地方一定会有骗子。</h4>
+<h4 id="section">有区块链的地方一定会有骗子。</h4>
 
 <p>这再一次提醒我们，在区块链世界中，任何人都不值得信任，唯一可以依靠的只有自己的知识和判断：</p>
 
-<h2>Don&rsquo;t Trust. Verify.</h2>
+<h2 id="dont-trust-verify">Don’t Trust. Verify.</h2>
 </div>
 
 
@@ -336,7 +358,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

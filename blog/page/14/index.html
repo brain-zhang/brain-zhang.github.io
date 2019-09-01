@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -112,69 +128,106 @@
 
 <p>记一些小tip:</p>
 
-<h2>企业账本一般分为</h2>
+<h2 id="section">企业账本一般分为</h2>
 
 <ul>
-<li><p>总账</p></li>
-<li><p>明细账</p></li>
-<li><p>十三栏明细账</p></li>
-<li><p>存货进销存账目</p></li>
-<li><p>应收票据备查账</p></li>
+  <li>
+    <p>总账</p>
+  </li>
+  <li>
+    <p>明细账</p>
+  </li>
+  <li>
+    <p>十三栏明细账</p>
+  </li>
+  <li>
+    <p>存货进销存账目</p>
+  </li>
+  <li>
+    <p>应收票据备查账</p>
+  </li>
 </ul>
 
-
-<h2>会计凭证</h2>
+<h2 id="section-1">会计凭证</h2>
 
 <ul>
-<li><p>原始凭证</p>
+  <li>
+    <p>原始凭证</p>
 
-<ul>
-<li><p>自制原始凭证</p></li>
-<li><p>外来原始凭证</p></li>
+    <ul>
+      <li>
+        <p>自制原始凭证</p>
+      </li>
+      <li>
+        <p>外来原始凭证</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>记账凭证</p>
+
+    <ul>
+      <li>
+        <p>收款凭证</p>
+      </li>
+      <li>
+        <p>付款凭证</p>
+      </li>
+      <li>
+        <p>转账凭证</p>
+      </li>
+    </ul>
+  </li>
 </ul>
-</li>
-<li><p>记账凭证</p>
 
-<ul>
-<li><p>收款凭证</p></li>
-<li><p>付款凭证</p></li>
-<li><p>转账凭证</p></li>
-</ul>
-</li>
-</ul>
-
-
-<h2>会计恒等式</h2>
+<h2 id="section-2">会计恒等式</h2>
 
 <p>资产 = 负债 + 所有者权益</p>
 
-<h2>为什么要设定会计和出纳两个职位</h2>
+<h2 id="section-3">为什么要设定会计和出纳两个职位</h2>
 
 <ul>
-<li><p>要求出纳和会计都登记资金类账簿，是为了互相核对的需要</p></li>
-<li><p>出纳的银行存款日记账要求更严格，如果出现错误，只能原页修改，而会计的银行存款证明细账可用活页替换</p></li>
+  <li>
+    <p>要求出纳和会计都登记资金类账簿，是为了互相核对的需要</p>
+  </li>
+  <li>
+    <p>出纳的银行存款日记账要求更严格，如果出现错误，只能原页修改，而会计的银行存款证明细账可用活页替换</p>
+  </li>
 </ul>
 
-
-<h2>一般公司的差旅报销流程</h2>
+<h2 id="section-4">一般公司的差旅报销流程</h2>
 
 <ul>
-<li><p>报销人填写差旅报销单</p></li>
-<li><p>分管领导签字</p></li>
-<li><p>会计统计明细账，核对单据</p></li>
-<li><p>财务负责人签字</p></li>
-<li><p>出纳支取</p></li>
-<li><p>领取人签字</p></li>
+  <li>
+    <p>报销人填写差旅报销单</p>
+  </li>
+  <li>
+    <p>分管领导签字</p>
+  </li>
+  <li>
+    <p>会计统计明细账，核对单据</p>
+  </li>
+  <li>
+    <p>财务负责人签字</p>
+  </li>
+  <li>
+    <p>出纳支取</p>
+  </li>
+  <li>
+    <p>领取人签字</p>
+  </li>
 </ul>
 
-
-<h2>一般纳税人和中小规模纳税人</h2>
+<h2 id="section-5">一般纳税人和中小规模纳税人</h2>
 
 <ul>
-<li><p>一般纳税人： 开具增值税专用票，17个点的抵扣</p></li>
-<li><p>中小规模纳税人： 可由国税局代开增值税专用票，3个点的抵扣</p></li>
+  <li>
+    <p>一般纳税人： 开具增值税专用票，17个点的抵扣</p>
+  </li>
+  <li>
+    <p>中小规模纳税人： 可由国税局代开增值税专用票，3个点的抵扣</p>
+  </li>
 </ul>
-
 
 <p>ps: 上海市国税地税不分家的，所以这个要实际操作才知道。</p>
 </div>
@@ -224,26 +277,48 @@
 <p>但是那时候只是停留在意识层次，最近痛下决心，慢慢学习，试图理解什么是好的产品，好的产品是怎么成就的。</p>
 
 <ul>
-<li><p>好产品满足人的 <code>贪懒嗔痴</code>，就这个理论来看，我一直坚定不移的抱持一个观点，互联网的篮下，是色情流量。</p></li>
-<li><p>好产品不是设计出来的，是慢慢生长起来的</p></li>
-<li><p>成功的产品初期，应该只有一个功能</p></li>
-<li><p>成功产品，slogan一句话就说明白</p></li>
-<li><p>面向场景来做设计而非功能列表</p></li>
-<li><p>好产品会召唤用户，如果没有自然增长就不必推广</p></li>
+  <li>
+    <p>好产品满足人的 <code>贪懒嗔痴</code>，就这个理论来看，我一直坚定不移的抱持一个观点，互联网的篮下，是色情流量。</p>
+  </li>
+  <li>
+    <p>好产品不是设计出来的，是慢慢生长起来的</p>
+  </li>
+  <li>
+    <p>成功的产品初期，应该只有一个功能</p>
+  </li>
+  <li>
+    <p>成功产品，slogan一句话就说明白</p>
+  </li>
+  <li>
+    <p>面向场景来做设计而非功能列表</p>
+  </li>
+  <li>
+    <p>好产品会召唤用户，如果没有自然增长就不必推广</p>
+  </li>
 </ul>
 
-
-<h4>听了一堂产品经理培训，问了几个问题，记录一下</h4>
+<h4 id="section">听了一堂产品经理培训，问了几个问题，记录一下</h4>
 
 <ul>
-<li><p>[问题]王老师你好，我是一个程序员。虽然工作方面是后台开发，但也懂一点前台，前一段时间自学Android，开发了一个小游戏。但是总觉得有道坎，不能达到那种专业的产品水准。早期我理想中的好的产品草根典型，是hao123.com。我也一直往这方面去学习，但考虑实际的用户场景时总是感觉磕磕绊绊，比如我现在在写一个经营微信公众号的工具类网站，对于需求、取舍考虑很多，也反复改了几版，总是觉得不是那种“就是它了”的程度。请问怎么继续学习提高呢？</p></li>
-<li><p>解答: 实现为主，快速上线，反复迭代，等用户吐槽。</p></li>
-<li><p>[问题]王老师，如果你的团队这个sprint的任务都排满了。这个时候boss过来要强加功能，你一番权衡之后觉得还是放在下个sprint为好。怎么和boss沟通呢？谢谢。</p></li>
-<li><p>解答：搞清楚BOSS的目的，协调、沟通，解决。切忌直接反对。</p></li>
-<li><p>[问题]王老师，请问网易的WEB产品经理懂CSS、JS等前端知识吗？关注诸如nodejs、React等新知识吗？能有独立开发一个小网站的能力吗？能熟悉Linux常用操作吗？你认为产品经理需要有这些技能吗？</p></li>
-<li><p>解答：需要。学无止境。</p></li>
+  <li>
+    <p>[问题]王老师你好，我是一个程序员。虽然工作方面是后台开发，但也懂一点前台，前一段时间自学Android，开发了一个小游戏。但是总觉得有道坎，不能达到那种专业的产品水准。早期我理想中的好的产品草根典型，是hao123.com。我也一直往这方面去学习，但考虑实际的用户场景时总是感觉磕磕绊绊，比如我现在在写一个经营微信公众号的工具类网站，对于需求、取舍考虑很多，也反复改了几版，总是觉得不是那种“就是它了”的程度。请问怎么继续学习提高呢？</p>
+  </li>
+  <li>
+    <p>解答: 实现为主，快速上线，反复迭代，等用户吐槽。</p>
+  </li>
+  <li>
+    <p>[问题]王老师，如果你的团队这个sprint的任务都排满了。这个时候boss过来要强加功能，你一番权衡之后觉得还是放在下个sprint为好。怎么和boss沟通呢？谢谢。</p>
+  </li>
+  <li>
+    <p>解答：搞清楚BOSS的目的，协调、沟通，解决。切忌直接反对。</p>
+  </li>
+  <li>
+    <p>[问题]王老师，请问网易的WEB产品经理懂CSS、JS等前端知识吗？关注诸如nodejs、React等新知识吗？能有独立开发一个小网站的能力吗？能熟悉Linux常用操作吗？你认为产品经理需要有这些技能吗？</p>
+  </li>
+  <li>
+    <p>解答：需要。学无止境。</p>
+  </li>
 </ul>
-
 </div>
   
   
@@ -282,29 +357,36 @@
   </header>
 
 
-  <div class="entry-content"><h2>Issue</h2>
+  <div class="entry-content"><h2 id="issue">Issue</h2>
 
 <p>netstat -s output shows high number of Udp: packet receive errors</p>
 
 <p>Getting high number of UDP packet drops or loss</p>
 
-<p>SNMP trap issue :&ndash; SNMP trap seems to be fluctuating on my RHEL server.</p>
+<p>SNMP trap issue :- SNMP trap seems to be fluctuating on my RHEL server.</p>
 
-<h2>Resolution</h2>
+<h2 id="resolution">Resolution</h2>
 
 <p>Udp: packet receive errors is increased for the following reasons:</p>
 
 <ul>
-<li><p>Not enough socket buffer space</p></li>
-<li><p>UDP checksum failure</p></li>
-<li><p>UDP length mismatch</p></li>
-<li><p>IPSec Security Policy failure</p></li>
+  <li>
+    <p>Not enough socket buffer space</p>
+  </li>
+  <li>
+    <p>UDP checksum failure</p>
+  </li>
+  <li>
+    <p>UDP length mismatch</p>
+  </li>
+  <li>
+    <p>IPSec Security Policy failure</p>
+  </li>
 </ul>
 
+<h2 id="diagnostic-steps">Diagnostic Steps</h2>
 
-<h2>Diagnostic Steps</h2>
-
-<h4>Gather statistics</h4>
+<h4 id="gather-statistics">Gather statistics</h4>
 
 <p>Run the command netstat -nsu and see the Udp: section:</p>
 
@@ -341,23 +423,26 @@ users:(("processname",pid=1234,fd=3))
 
 <p>Note this means the application is not receiving from the buffer fast enough. It may be necessary to reconfigure or redesign the application to perform better.</p>
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>The statistic Udp: packet receive errors is reporting the SNMP MIB called UDP_MIB_INERRORS.</p>
 
-<h2>Commands</h2>
+<h2 id="commands">Commands</h2>
 
 <ul>
-<li><p>run udp server</p>
+  <li>
+    <p>run udp server</p>
 
-<pre><code>  nc -4 -u -l 2389
-</code></pre></li>
-<li><p>cli to server</p>
+    <pre><code>  nc -4 -u -l 2389
+</code></pre>
+  </li>
+  <li>
+    <p>cli to server</p>
 
-<pre><code>  echo -n "hello" | nc -u x.x.x.x 2389
-</code></pre></li>
+    <pre><code>  echo -n "hello" | nc -u x.x.x.x 2389
+</code></pre>
+  </li>
 </ul>
-
 </div>
   
   
@@ -396,39 +481,56 @@ users:(("processname",pid=1234,fd=3))
   </header>
 
 
-  <div class="entry-content"><h2>如何在vCenter上LVM分区扩容</h2>
+  <div class="entry-content"><h2 id="vcenterlvm">如何在vCenter上LVM分区扩容</h2>
 
 <ul>
-<li><p>导入镜像后，编辑虚拟机，增加第二块硬盘</p></li>
-<li><p>这个时候我们执行下面命令就可以看到新加的磁盘</p>
+  <li>
+    <p>导入镜像后，编辑虚拟机，增加第二块硬盘</p>
+  </li>
+  <li>
+    <p>这个时候我们执行下面命令就可以看到新加的磁盘</p>
 
-<pre><code>  ls -alh /dev/sdb
-</code></pre></li>
-<li><p>使用fdisk 创建lvm分区，方法和创建普通分区的方法一致，然后lvm的分区类型是8e</p></li>
-<li><p>执行下面的命令看看效果，现在/dev/sdb1 已经是linux LVM类型的分区了</p>
+    <pre><code>  ls -alh /dev/sdb
+</code></pre>
+  </li>
+  <li>
+    <p>使用fdisk 创建lvm分区，方法和创建普通分区的方法一致，然后lvm的分区类型是8e</p>
+  </li>
+  <li>
+    <p>执行下面的命令看看效果，现在/dev/sdb1 已经是linux LVM类型的分区了</p>
 
-<pre><code>  fdisk -l
-</code></pre></li>
-<li><p>创建PV</p>
+    <pre><code>  fdisk -l
+</code></pre>
+  </li>
+  <li>
+    <p>创建PV</p>
 
-<pre><code>  pvcreate /dev/sdb1
+    <pre><code>  pvcreate /dev/sdb1
   pvdisplay
-</code></pre></li>
-<li><p>把PV加入VG中</p>
+</code></pre>
+  </li>
+  <li>
+    <p>把PV加入VG中</p>
 
-<pre><code>  vgdisplay
+    <pre><code>  vgdisplay
   vgextend centos /dev/sdb1
-</code></pre></li>
-<li><p>扩容LV</p>
+</code></pre>
+  </li>
+  <li>
+    <p>扩容LV</p>
 
-<pre><code>  lvdisplay
+    <pre><code>  lvdisplay
   lvextend -L 150G  /dev/centos/opt
   xfs_growfs /dev/centos/opt
-</code></pre></li>
-<li><p>df -h看一下，打完收工</p></li>
-<li><p>如果再不够，可以加第三块盘，同样的操作</p></li>
+</code></pre>
+  </li>
+  <li>
+    <p>df -h看一下，打完收工</p>
+  </li>
+  <li>
+    <p>如果再不够，可以加第三块盘，同样的操作</p>
+  </li>
 </ul>
-
 </div>
   
   
@@ -471,9 +573,9 @@ users:(("processname",pid=1234,fd=3))
 
 <p>首先海淘和跨境电商不是同一个概念，两者的区别在于，海淘除了跨境模式正规申报进境外，还有“海外代购”和“境外购买后通过转运入境”两种情况。</p>
 
-<h2>按照时间顺序来一遍行业发展史吧</h2>
+<h2 id="section">按照时间顺序来一遍行业发展史吧</h2>
 
-<h4>2013年10月1日之前</h4>
+<h4 id="section-1">2013年10月1日之前</h4>
 
 <p>这是蛮荒时代，海外代购商品与在境外电商平台购买后通过转运公司运至国内的商品，大多是通过包裹邮递渠道进境，与通过跨境申报进境的商品一样，都以参照物品征收“行邮税”，这意味着通过跨境电商模式进境的商品，被当作物品来征管。</p>
 
@@ -481,21 +583,19 @@ users:(("processname",pid=1234,fd=3))
 
 <p>此时，海淘就是行邮模式。没有跨境电商这个概念。</p>
 
-<h4>2013年10月1日之后</h4>
+<h4 id="section-2">2013年10月1日之后</h4>
 
 <p>国务院办公厅转发商务部《关于适时支持跨境电子商务零售出口的有关政策的意见》后，电子商务通关服务试点率先在上海、重庆、杭州和宁波等五城市开展，此时除了蛮荒时代的海淘之外，正规军又有了两种模式：跨境零售进口直邮模式、跨境零售进口保税备货模式。</p>
 
 <ul>
-<li>跨境零售进口直邮模式:</li>
+  <li>跨境零售进口直邮模式:</li>
 </ul>
-
 
 <p>国内消费者在电商网站购买境外商品，由电商海外仓库直接发送包裹，邮寄给国内消费者。</p>
 
 <ul>
-<li>跨境零售进口保税备货模式</li>
+  <li>跨境零售进口保税备货模式</li>
 </ul>
-
 
 <p>电商企业从境外直接采购货物，运送至国内海关保税区内备货，国内消费者从其网站购买商品后，电商直接从海关特殊监管区域发货，送达消费者。</p>
 
@@ -504,31 +604,28 @@ users:(("processname",pid=1234,fd=3))
 <p>此时的市场如下:</p>
 
 <ul>
-<li>海淘模式</li>
+  <li>海淘模式</li>
 </ul>
-
 
 <p>一批朋友圈个人买手，或者个人消费者美亚或亚马逊，这是散户。他们一般走转运，渠道有阳光和非阳光，征税看天命，价格优势明显。 然后洋码头和天猫国际做的是散户平台C2C，有点像海淘版的淘宝，物流和服务上有所保障。</p>
 
 <ul>
-<li>跨境零售进口直邮模式</li>
+  <li>跨境零售进口直邮模式</li>
 </ul>
-
 
 <p>玩这个的一般是天猫或者京东B2C的入驻商家。这个成本太高，所以一般主打个性化的牌。</p>
 
 <ul>
-<li>跨境零售进口保税备货模式</li>
+  <li>跨境零售进口保税备货模式</li>
 </ul>
-
 
 <p>这个模式就是跨境电商的主流了，既有B2C，又有B2B，可以说这几年享尽了政策红利，所以基本上有钱的主一拥而上。现在有点名号的估计都在保税区占着个仓库。</p>
 
-<h4>2016年4月8日之后</h4>
+<h4 id="section-3">2016年4月8日之后</h4>
 
 <p>这么挣钱实在太爽了，而且有偷税之嫌，肯定有人眼红啦。所以当当当当，4月8日实施了一个跨境电商税收政策，这个政策比较细，内容比较多，可以直接去看知乎：</p>
 
-<p><a href="https://www.zhihu.com/question/41749303">https://www.zhihu.com/question/41749303</a></p>
+<p>https://www.zhihu.com/question/41749303</p>
 
 <p>总之就是，行邮税提升，保税区里面的货要征收关税、增值税和消费税。</p>
 
@@ -536,13 +633,13 @@ users:(("processname",pid=1234,fd=3))
 
 <p>散户的影响不好说，要看你的主力购买什么东西，可能有升有降，而且还有走灰色渠道进来的，可能还是个利好，因为正规一点的对手成本增加了。</p>
 
-<p>但是&hellip;..这个政策绝对是一拨人拍了脑袋，最后没有一个人全盘想明白，就出来的，因为&hellip;.4月7日，财政部、发展改革委、工业和信息化部、农业部、商务部、海关总署、国家税务总局、质检总局、食品药品监管总局、濒管办、密码局等11个部门共同公布了《跨境电子商务零售进口商品清单》。</p>
+<p>但是…..这个政策绝对是一拨人拍了脑袋，最后没有一个人全盘想明白，就出来的，因为….4月7日，财政部、发展改革委、工业和信息化部、农业部、商务部、海关总署、国家税务总局、质检总局、食品药品监管总局、濒管办、密码局等11个部门共同公布了《跨境电子商务零售进口商品清单》。</p>
 
 <p>看到这么多人共同出的一个东西，相信对中国政策有点了解的人都会打哆嗦。</p>
 
-<p>这个清单里很多东西都要证明和各种检疫报告之类的东西&mdash;>这些证明的取得不是一年半载就能有的&mdash;&ndash;>然后你懂的&hellip;.</p>
+<p>这个清单里很多东西都要证明和各种检疫报告之类的东西–&gt;这些证明的取得不是一年半载就能有的—&gt;然后你懂的….</p>
 
-<p>相信很多保税区现在已经是人迹寥落了，相信很多大佬都在开会拍脑袋了&hellip;&hellip;.</p>
+<p>相信很多保税区现在已经是人迹寥落了，相信很多大佬都在开会拍脑袋了…….</p>
 
 <p>这份清单对于 <code>跨境零售进口保税备货模式</code>的人来说，真乃核打击。</p>
 
@@ -550,28 +647,44 @@ users:(("processname",pid=1234,fd=3))
 
 <p>对于洋码头这种走C2C的模式来说，影响肯定有，但是不好说有多大。</p>
 
-<h2>对于跨境电商和海淘业务的一点YY</h2>
+<h2 id="yy">对于跨境电商和海淘业务的一点YY</h2>
 
 <p>下面的内容纯属一个码农的YY</p>
 
 <ul>
-<li><p>跨境电商实际上是对传统外贸模式的一种颠覆。首先，既得利益团体不会内部革命，所以跨境电商是农村包围城市之计</p></li>
-<li><p>中国的电商业务其实已经笑傲全球了，可能不论是技术上、业务模式创新上，绝对全球领先</p></li>
-<li><p>和早期国内做电子商务不同，那个时候没有人看好，只有两三家，现在的跨境电商是军阀割据，什么招都有，什么B2B，B2C，C2C， O2O，平台入驻的，微博营销的，微信朋友圈的，走正路的，走歪路的，反正是沸沸扬扬</p></li>
-<li><p>国家一方面不希望传统的一般贸易被冲击，又想释放国内的消费能力多征点税，种种纠结之下，估计会政令频发，调整频繁</p></li>
-<li><p>总之，这绝对是个风口，至于是上风口还是下风口，得看天时地利人和，缺一不可</p></li>
-<li><p>挑战与机遇并存啦，可能玩的就是心跳，也可能过把瘾就死</p></li>
+  <li>
+    <p>跨境电商实际上是对传统外贸模式的一种颠覆。首先，既得利益团体不会内部革命，所以跨境电商是农村包围城市之计</p>
+  </li>
+  <li>
+    <p>中国的电商业务其实已经笑傲全球了，可能不论是技术上、业务模式创新上，绝对全球领先</p>
+  </li>
+  <li>
+    <p>和早期国内做电子商务不同，那个时候没有人看好，只有两三家，现在的跨境电商是军阀割据，什么招都有，什么B2B，B2C，C2C， O2O，平台入驻的，微博营销的，微信朋友圈的，走正路的，走歪路的，反正是沸沸扬扬</p>
+  </li>
+  <li>
+    <p>国家一方面不希望传统的一般贸易被冲击，又想释放国内的消费能力多征点税，种种纠结之下，估计会政令频发，调整频繁</p>
+  </li>
+  <li>
+    <p>总之，这绝对是个风口，至于是上风口还是下风口，得看天时地利人和，缺一不可</p>
+  </li>
+  <li>
+    <p>挑战与机遇并存啦，可能玩的就是心跳，也可能过把瘾就死</p>
+  </li>
 </ul>
 
-
-<h2>从一个码农的角度看业务支撑</h2>
+<h2 id="section-4">从一个码农的角度看业务支撑</h2>
 
 <ul>
-<li><p>这种环境可说是乱花迷人眼，由于政策变化，一年之内战略改个三五次都有可能，估计各家就是要拼运营，拼后台支撑了</p></li>
-<li><p>哪种组合能挣钱，估计一个脑子想不明白了。我觉得得有一张大表，每种模式，每个 case都画出来，然后隔一个周就填一遍所有流程的成本，看看行业变化是什么</p></li>
-<li><p>这个行当这是有点像改革开发初期搞外贸啊&hellip;&hellip;&hellip;.</p></li>
+  <li>
+    <p>这种环境可说是乱花迷人眼，由于政策变化，一年之内战略改个三五次都有可能，估计各家就是要拼运营，拼后台支撑了</p>
+  </li>
+  <li>
+    <p>哪种组合能挣钱，估计一个脑子想不明白了。我觉得得有一张大表，每种模式，每个 case都画出来，然后隔一个周就填一遍所有流程的成本，看看行业变化是什么</p>
+  </li>
+  <li>
+    <p>这个行当这是有点像改革开发初期搞外贸啊……….</p>
+  </li>
 </ul>
-
 </div>
   
   
@@ -611,90 +724,125 @@ users:(("processname",pid=1234,fd=3))
 
 
   <div class="entry-content"><ul>
-<li><p>启动</p>
+  <li>
+    <p>启动</p>
 
-<pre><code>  service openvswitch start
-</code></pre></li>
-<li><p>创建网桥</p>
+    <pre><code>  service openvswitch start
+</code></pre>
+  </li>
+  <li>
+    <p>创建网桥</p>
 
-<pre><code>  ovs-vsctl add-br br0
+    <pre><code>  ovs-vsctl add-br br0
   ifconfig br0 up
-</code></pre></li>
-<li><p>显示所有网桥</p>
+</code></pre>
+  </li>
+  <li>
+    <p>显示所有网桥</p>
 
-<pre><code>  ovs-vsctl show
-</code></pre></li>
-<li><p>删除网桥</p>
+    <pre><code>  ovs-vsctl show
+</code></pre>
+  </li>
+  <li>
+    <p>删除网桥</p>
 
-<pre><code>  ovs-vsctl del-br br0
-</code></pre></li>
-<li><p>增加端口</p>
+    <pre><code>  ovs-vsctl del-br br0
+</code></pre>
+  </li>
+  <li>
+    <p>增加端口</p>
 
-<pre><code>  ovs-vsctl add-port br0 eth0
-</code></pre></li>
-<li><p>设置网卡为none</p>
+    <pre><code>  ovs-vsctl add-port br0 eth0
+</code></pre>
+  </li>
+  <li>
+    <p>设置网卡为none</p>
 
-<pre><code>  dhclient br0
-</code></pre></li>
-<li><p>用 Namespace 模拟两台虚拟机网络</p>
+    <pre><code>  dhclient br0
+</code></pre>
+  </li>
+  <li>
+    <p>用 Namespace 模拟两台虚拟机网络</p>
 
-<pre><code>  p netns add network1
+    <pre><code>  p netns add network1
   ip netns add network2
-</code></pre></li>
-<li><p>创建两个虚拟网卡并加入网桥</p>
+</code></pre>
+  </li>
+  <li>
+    <p>创建两个虚拟网卡并加入网桥</p>
 
-<pre><code>  ovs-vsctl add-port br0 vport1 -- set interface vport1 type=internal
+    <pre><code>  ovs-vsctl add-port br0 vport1 -- set interface vport1 type=internal
   ovs-vsctl add-port br0 vport2 -- set interface vport2 type=internal
   tunctl -p -t vport1
   tunctl -p -t vport2
-</code></pre></li>
-<li><p>两个虚拟网卡接入namespace</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个虚拟网卡接入namespace</p>
 
-<pre><code>  ip link set vport1 netns network1
+    <pre><code>  ip link set vport1 netns network1
   ip link set vport2 netns network2
-</code></pre></li>
-<li><p>设置虚拟网卡的IP</p>
+</code></pre>
+  </li>
+  <li>
+    <p>设置虚拟网卡的IP</p>
 
-<pre><code>  ip netns exec network1 ifconfig vport1 192.168.0.1/24 up
+    <pre><code>  ip netns exec network1 ifconfig vport1 192.168.0.1/24 up
   ip netns exec network2 ifconfig vport2 192.168.0.2/24 up
-</code></pre></li>
-<li><p>两个namsespace PING</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个namsespace PING</p>
 
-<pre><code>  ip netns exec network1 ping 192.168.0.2
+    <pre><code>  ip netns exec network1 ping 192.168.0.2
   ip netns exec network2 tcpdump -i vport2
-</code></pre></li>
-<li><p>两个namsespace  NC传输</p>
+</code></pre>
+  </li>
+  <li>
+    <p>两个namsespace  NC传输</p>
 
-<pre><code>  ip netns exec network2 nc -l 1234
+    <pre><code>  ip netns exec network2 nc -l 1234
   ip netns exec network2 tcpdump -i vport2
   ip netns exec network1 nc 192.168.0.2 1234
-</code></pre></li>
-<li><p>显示vlan信息</p>
+</code></pre>
+  </li>
+  <li>
+    <p>显示vlan信息</p>
 
-<pre><code>  ovs-appctl fdb/show br0
-</code></pre></li>
-<li><p>显示openflow信息</p>
+    <pre><code>  ovs-appctl fdb/show br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示openflow信息</p>
 
-<pre><code>  ovs-ofctl show br0
-</code></pre></li>
-<li><p>显示流表信息</p>
+    <pre><code>  ovs-ofctl show br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示流表信息</p>
 
-<pre><code>  ovs-ofctl dump-flows br0
-</code></pre></li>
-<li><p>显示网桥详细信息</p>
+    <pre><code>  ovs-ofctl dump-flows br0
+</code></pre>
+  </li>
+  <li>
+    <p>显示网桥详细信息</p>
 
-<pre><code>  ovs-vsctl list Bridge
-</code></pre></li>
-<li><p>显示端口详细信息</p>
+    <pre><code>  ovs-vsctl list Bridge
+</code></pre>
+  </li>
+  <li>
+    <p>显示端口详细信息</p>
 
-<pre><code>  ovs-vsctl list Port
-</code></pre></li>
-<li><p>显示接口详细信息</p>
+    <pre><code>  ovs-vsctl list Port
+</code></pre>
+  </li>
+  <li>
+    <p>显示接口详细信息</p>
 
-<pre><code>  ovs-vsctl list Interface
-</code></pre></li>
+    <pre><code>  ovs-vsctl list Interface
+</code></pre>
+  </li>
 </ul>
-
 </div>
   
   
@@ -780,7 +928,7 @@ sysctl -w fs.inotify.max_user_instances=8192
 
   <div class="entry-content"><p>最近发现了一个开源的JS东东，webtorrent:</p>
 
-<p><a href="https://github.com/feross/webtorrent">https://github.com/feross/webtorrent</a></p>
+<p>https://github.com/feross/webtorrent</p>
 
 <p>用webRTC实现了一个浏览器端的bt客户端。</p>
 
@@ -790,9 +938,10 @@ sysctl -w fs.inotify.max_user_instances=8192
 
 <p>脑洞开一下，话说这会不会是快播们的春天来了。</p>
 
-<p>严肃一点再想想，是不是CDN提供商们可以利用它分担压力，提升速度，走上人生巅峰&hellip;.</p>
+<p>严肃一点再想想，是不是CDN提供商们可以利用它分担压力，提升速度，走上人生巅峰….</p>
 
 <p>留待后续观察。</p>
+
 </div>
   
   
@@ -835,53 +984,53 @@ sysctl -w fs.inotify.max_user_instances=8192
 
 <p>作为一个实用党，下面我企图用一问一答的形式来瞎扯一番:</p>
 
-<h3>Q: 我是个中小企业，用openstack好还是vCenter虚拟化好？</h3>
+<h3 id="q-openstackvcenter">Q: 我是个中小企业，用openstack好还是vCenter虚拟化好？</h3>
 
 <p>A: 如果你能招到一个合适的人(注意，这个概率我觉得是万分之一)，你可以上openstack。</p>
 
-<p>   如果你有足够的M，上vCenter。</p>
+<p>如果你有足够的M，上vCenter。</p>
 
-<p>   如果你什么都没有，上阿里云 (我是认真的，不要黑我)。</p>
+<p>如果你什么都没有，上阿里云 (我是认真的，不要黑我)。</p>
 
-<p>   总之，随着网络带宽提升，我觉得中小企业自建运维越来越不划算。云化是趋势。</p>
+<p>总之，随着网络带宽提升，我觉得中小企业自建运维越来越不划算。云化是趋势。</p>
 
-<h3>Q: 容器技术会颠覆现有的虚拟化技术吗？</h3>
+<h3 id="q-">Q: 容器技术会颠覆现有的虚拟化技术吗？</h3>
 
 <p>A: 不会，容器技术只是补充，全虚拟化有自己不可替代优势。</p>
 
-<h3>Q: SDN会替代现在的网络设备吗？</h3>
+<h3 id="q-sdn">Q: SDN会替代现在的网络设备吗？</h3>
 
 <p>A: 可能会替代大部分网络交换设备。但是就现在的情况来看，各种SDN解决方案的性能还没有和硬件处在同一档次上。</p>
 
-<p>   所以将来在大型数据中心，肯定是软硬结合和持续很长一段时间。</p>
+<p>所以将来在大型数据中心，肯定是软硬结合和持续很长一段时间。</p>
 
-<p>   在很多中小云平台，大部分硬件设备已经在迁移过程中了。</p>
+<p>在很多中小云平台，大部分硬件设备已经在迁移过程中了。</p>
 
-<h3>Q: SDN真的比传统设备灵活吗？简单吗？方便吗？</h3>
+<h3 id="q-sdn-1">Q: SDN真的比传统设备灵活吗？简单吗？方便吗？</h3>
 
 <p>A: 首先要看方案，和传统网络一样，不同的场景实施方案也不一样。一千个现场会有一千个云实施方案。</p>
 
-<p>   SDN有灵活性的优势。</p>
+<p>SDN有灵活性的优势。</p>
 
-<p>   SDN某种意义上说，比传统网络还要复杂。</p>
+<p>SDN某种意义上说，比传统网络还要复杂。</p>
 
-<p>   首先，真实世界的网络就是复杂的。任何隐藏复杂性的尝试都会增加复杂性。所以SDN不能拯救世界，传统硬件设备面临的复杂问题，它也一样要面对。</p>
+<p>首先，真实世界的网络就是复杂的。任何隐藏复杂性的尝试都会增加复杂性。所以SDN不能拯救世界，传统硬件设备面临的复杂问题，它也一样要面对。</p>
 
-<p>   SDN的优势就是灵活，并非简单。</p>
+<p>SDN的优势就是灵活，并非简单。</p>
 
-<h3>Q: 未来从事中小企业云的部署咨询工作，有戏吗？</h3>
+<h3 id="q--1">Q: 未来从事中小企业云的部署咨询工作，有戏吗？</h3>
 
 <p>A: 我觉得单纯做部署顾问之类的没戏。做openstack的番茄花园有戏。</p>
 
-<p>   如果将来GPU虚拟化成熟的话，做打金工作室的openstack 包装发行版相当有戏。</p>
+<p>如果将来GPU虚拟化成熟的话，做打金工作室的openstack 包装发行版相当有戏。</p>
 
-<h3>Q: SDN领域有何机会？</h3>
+<h3 id="q-sdn-2">Q: SDN领域有何机会？</h3>
 
 <p>A: 也许SDN领域将来不会再孕育思科华为那样的大玩家，但是一定会有许多独角兽出来。</p>
 
-<p>   目前看到的看准一个痛点，比如苏州盛科那样，软硬结合，做芯片，交换机白牌供应商，很有机会。</p>
+<p>目前看到的看准一个痛点，比如苏州盛科那样，软硬结合，做芯片，交换机白牌供应商，很有机会。</p>
 
-<p>   或者瞅准市场空白，比如说做性能比较低的软tap，我觉得很有戏。</p>
+<p>或者瞅准市场空白，比如说做性能比较低的软tap，我觉得很有戏。</p>
 </div>
   
   
@@ -920,7 +1069,7 @@ sysctl -w fs.inotify.max_user_instances=8192
   </header>
 
 
-  <div class="entry-content"><p>Craig Wright 又在声明他是&#8221;中本聪&#8221;了.</p>
+  <div class="entry-content"><p>Craig Wright 又在声明他是”中本聪”了.</p>
 
 <p>“中本聪”给出的签名是：</p>
 
@@ -939,27 +1088,27 @@ sysctl -w fs.inotify.max_user_instances=8192
 
 <p>中找出这个签名。可通过：</p>
 
-<p><a href="https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex">https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</a></p>
+<p>https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</p>
 
 <p>找到十六进制串的交易内容</p>
 
 <p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
 
-<p>但是令人疑惑的是GAVIN ANDRESEN为这位&#8221;中本聪&#8221;背书:</p>
+<p>但是令人疑惑的是GAVIN ANDRESEN为这位”中本聪”背书:</p>
 
-<p><a href="http://gavinandresen.ninja/satoshi">http://gavinandresen.ninja/satoshi</a></p>
+<p>http://gavinandresen.ninja/satoshi</p>
 
 <p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
 
-<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家&hellip;&hellip;</p>
+<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家……</p>
 
-<p>卫平布莱恩特老师说,这球有意思啊&hellip;&hellip;.</p>
+<p>卫平布莱恩特老师说,这球有意思啊…….</p>
 
 <p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
 
 <p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
 
-<p><a href="https://www.zhihu.com/question/22199390/answer/76083139">https://www.zhihu.com/question/22199390/answer/76083139</a></p>
+<p>https://www.zhihu.com/question/22199390/answer/76083139</p>
 
 <p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
 
@@ -992,7 +1141,7 @@ sysctl -w fs.inotify.max_user_instances=8192
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

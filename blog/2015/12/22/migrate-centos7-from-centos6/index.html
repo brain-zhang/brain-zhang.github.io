@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -113,38 +129,46 @@
 
 <p>下面记一下从Centos6迁移到Centos7上 常见的Question:</p>
 
-<h2>Q: 为什么引入systemd 代替 SysV init，我就是习惯原来的 /etc/init.d/xxxx 的方法?</h2>
+<h2 id="q-systemd--sysv-init-etcinitdxxxx-">Q: 为什么引入systemd 代替 SysV init，我就是习惯原来的 /etc/init.d/xxxx 的方法?</h2>
 
 <p>A: 在我看来，有两点:</p>
 
 <ol>
-<li><p> 快。 真的是快，嗖嗖的快</p></li>
-<li><p> 日志。 终于能取代syslog了，我对syslog素无好感，配置复杂，level巨多，还不好排障。</p></li>
+  <li>
+    <p>快。 真的是快，嗖嗖的快</p>
+  </li>
+  <li>
+    <p>日志。 终于能取代syslog了，我对syslog素无好感，配置复杂，level巨多，还不好排障。</p>
+  </li>
 </ol>
-
 
 <p>参考资料:</p>
 
-<p><a href="http://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/">http://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/</a></p>
+<p>http://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/</p>
 
-<p><a href="https://wiki.archlinux.org/index.php/Systemd">https://wiki.archlinux.org/index.php/Systemd</a></p>
+<p>https://wiki.archlinux.org/index.php/Systemd</p>
 
-<h2>Q: 为什么网卡名字这么奇怪，我要原来的简单明了的办法!!!</h2>
+<h2 id="q-">Q: 为什么网卡名字这么奇怪，我要原来的简单明了的办法!!!</h2>
 
 <p>A: 呃，好吧，我觉得虽然有一堆理由，但是网卡名字这个改变可能真的是没有产品经理的弊端。你想回到从前，很简单:</p>
 
 <ul>
-<li><p>在 grub 加入 net.ifnames=0 and biosdevname=0 作为内核参数</p></li>
-<li><p>在 /etc/sysconfig/network-scripts/ 内把你的网络卡配置文件换名为 ifcfg-ethX</p></li>
-<li><p>假若你拥有多个界面并希望控制每个设备的名称，不想由内核作主，你似乎有必要通过 /etc/udev/rules.d/60-net.rules 盖过 /usr/lib/udev/rules.d/60-net.rules。</p></li>
+  <li>
+    <p>在 grub 加入 net.ifnames=0 and biosdevname=0 作为内核参数</p>
+  </li>
+  <li>
+    <p>在 /etc/sysconfig/network-scripts/ 内把你的网络卡配置文件换名为 ifcfg-ethX</p>
+  </li>
+  <li>
+    <p>假若你拥有多个界面并希望控制每个设备的名称，不想由内核作主，你似乎有必要通过 /etc/udev/rules.d/60-net.rules 盖过 /usr/lib/udev/rules.d/60-net.rules。</p>
+  </li>
 </ul>
 
-
-<h2>Q: grub.cfg 文件生成怎么这个奇怪，还要先配置 /etc/default/grub，再用命令生成一遍？我要直接改!!</h2>
+<h2 id="q-grubcfg--etcdefaultgrub">Q: grub.cfg 文件生成怎么这个奇怪，还要先配置 /etc/default/grub，再用命令生成一遍？我要直接改!!</h2>
 
 <p>A:  醒醒吧，我对这个改动双手赞成，至少她解决了centos6上一直被人诟病的efi问题。</p>
 
-<h2>Q: 嗯，我想问，ifconfig和 netstat哪里去了?</h2>
+<h2 id="q-ifconfig-netstat">Q: 嗯，我想问，ifconfig和 netstat哪里去了?</h2>
 
 <p>A: 额，套用官方原话回答吧:</p>
 
@@ -152,7 +176,8 @@
 
 <p>更多请参考：</p>
 
-<p><a href="https://wiki.centos.org/zh/FAQ/CentOS7#head-d04a9f331b47791774aefd7c11371934e7350ab3">https://wiki.centos.org/zh/FAQ/CentOS7#head-d04a9f331b47791774aefd7c11371934e7350ab3</a></p>
+<p>https://wiki.centos.org/zh/FAQ/CentOS7#head-d04a9f331b47791774aefd7c11371934e7350ab3</p>
+
 </div>
 
 
@@ -247,7 +272,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

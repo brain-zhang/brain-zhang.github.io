@@ -10,8 +10,7 @@
 
   
   <meta name="description" content="grep 一个100GB的文件总是很有压力，怎么才能提速呢? 瞎优化 1
-LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt LC_ALL=C比LC_ALL=UTF-8要块
-不需要正则的话，用fgrep可以提速 &hellip;">
+LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt LC_ALL=C比LC_ALL=UTF-8要块 不需要正则的话，用fgrep可以提速 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -34,6 +33,22 @@ LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt LC_ALL=C比LC_ALL=UTF-
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -109,62 +124,60 @@ LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt LC_ALL=C比LC_ALL=UTF-
 
 <div class="entry-content"><p>grep 一个100GB的文件总是很有压力，怎么才能提速呢?</p>
 
-<h3>瞎优化</h3>
+<h3 id="section">瞎优化</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li><p><code>LC_ALL=C</code>比<code>LC_ALL=UTF-8</code>要块</p></li>
-<li><p>不需要正则的话，用fgrep可以提速</p></li>
+  <li>
+    <p><code>LC_ALL=C</code>比<code>LC_ALL=UTF-8</code>要块</p>
+  </li>
+  <li>
+    <p>不需要正则的话，用fgrep可以提速</p>
+  </li>
 </ul>
 
+<h3 id="linux-parallel-all-cmdsperl">不过这样优化总是治标不治本，下面隆重推出linux 里面parallel all cmds的perl工具</h3>
 
-<h3>不过这样优化总是治标不治本，下面隆重推出linux 里面parallel all cmds的perl工具</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>使用parallel ，和不使用parallel直接grep。结果显而易见，相差 20 倍。这比用啥 ack，ag优化效果明显多了</p>
 
-<h3>xargs也有一个-n的多核选项，可以作为备用</h3>
+<h3 id="xargs-n">xargs也有一个-n的多核选项，可以作为备用</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ time echo {1..5} |xargs -n 1  sleep
-</span><span class='line'>
-</span><span class='line'>real    0m15.005s
-</span><span class='line'>user    0m0.000s
-</span><span class='line'>sys 0m0.000s</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ time echo {1..5} |xargs -n 1  sleep
+</span><span class="line">
+</span><span class="line">real    0m15.005s
+</span><span class="line">user    0m0.000s
+</span><span class="line">sys 0m0.000s</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这一条xargs把每个echo的数作为参数传给sleep ，所以一共sleep了 1+2+3+4+5=15秒。</p>
 
 <p>如果使用 -P 参数分给5个核，每个核各sleep 1,2,3,4,5秒，所以执行完之后总共sleep的5秒。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ time echo {1..5} |xargs -n 1 -P 5 sleep
-</span><span class='line'>
-</span><span class='line'>real    0m5.003s
-</span><span class='line'>user    0m0.000s
-</span><span class='line'>sys 0m0.000s</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ time echo {1..5} |xargs -n 1 -P 5 sleep
+</span><span class="line">
+</span><span class="line">real    0m5.003s
+</span><span class="line">user    0m0.000s
+</span><span class="line">sys 0m0.000s</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>引自:</li>
+  <li>引自:</li>
 </ul>
 
-
-<p><a href="https://www.jianshu.com/p/c5a2369fa613">https://www.jianshu.com/p/c5a2369fa613</a></p>
+<p>https://www.jianshu.com/p/c5a2369fa613</p>
 </div>
 
 
@@ -259,7 +272,7 @@ LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt LC_ALL=C比LC_ALL=UTF-
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

@@ -34,6 +34,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -114,18 +130,22 @@
 <p>在比特币的历史发展中，钱包大致经过了三次进化:</p>
 
 <ol>
-<li><p>非确定性（随机）钱包</p></li>
-<li><p>确定性（种子）钱包</p></li>
-<li><p>分层确定性钱包（HD Wallets (BIP-32/BIP-44)）</p></li>
+  <li>
+    <p>非确定性（随机）钱包</p>
+  </li>
+  <li>
+    <p>确定性（种子）钱包</p>
+  </li>
+  <li>
+    <p>分层确定性钱包（HD Wallets (BIP-32/BIP-44)）</p>
+  </li>
 </ol>
-
 
 <p>下面我们就好好说说钱包的历史发展轨迹</p>
 
 <!-- more -->
 
-
-<h2>非确定性（随机）钱包</h2>
+<h2 id="section">非确定性（随机）钱包</h2>
 
 <p>在比特币刚诞生时，Bitcoin Core客户端实现了第一个钱包功能，当时因为早期的用户并不多且都是专业人士，钱包只是随机生成的私钥集合。这种类型的钱包被称作零型非确定钱包。具体的实现细节就是:
 比特币核心客户端预先生成100个随机私钥，每个密钥只使用一次；用完之后再生成100个；</p>
@@ -136,17 +156,17 @@
 
 <p>当比特币用户群逐渐扩大时，不少人因为随机生成的100个私钥用完后，没有备份老钱包，生成新的私钥后原先的钱包弃用，造成了未花费币的丢失。现在看看是个不可思议的幼稚的BUG，但是在比特币蛮荒时代，这种漫不经心的错误导致的丢币比比皆是。</p>
 
-<h2>确定性（种子）钱包</h2>
+<h2 id="section-1">确定性（种子）钱包</h2>
 
 <p>比特币私钥可以用任意方法生成，自然也可以通过一个随机短语进行多次hash得到不同的私钥。这种思路下，社区提出了确定性（种子）钱包的方案。</p>
 
 <p>确定性，或者“种子”钱包包含通过使用HASH函数而可从公共的种子生成的私钥。种子是随机生成的数字。在确定性钱包中，种子足够恢复所有的已经产生的私钥，所以只用在初始创建时的一个简单备份就足以搞定。并且种子也足够让钱包导入或者导出。这就很容易允许使用者的私钥在钱包之间轻松转移。</p>
 
-<p>比如，我们上一篇文章中用<code>satoshi</code>作为种子，得到SHA256(&lsquo;satoshi&rsquo;)作为私钥，完全可以继续用SHA256(SHA256(&lsquo;satoshi&rsquo;))&hellip;这样推导下去得出更多的私钥，同时，只需要记住<code>satoshi</code>这个种子，就可以方便的导入导出私钥。更进一步，可以加入password和更多的混淆短语，提高私钥生成的健壮性。</p>
+<p>比如，我们上一篇文章中用<code>satoshi</code>作为种子，得到SHA256(‘satoshi’)作为私钥，完全可以继续用SHA256(SHA256(‘satoshi’))…这样推导下去得出更多的私钥，同时，只需要记住<code>satoshi</code>这个种子，就可以方便的导入导出私钥。更进一步，可以加入password和更多的混淆短语，提高私钥生成的健壮性。</p>
 
 <p>这种方案提出后，因为简单易行，多个轻钱包都做了自己的实现；虽然原理相似，但是他们之间并不通用，所以不同的钱包私钥导入导出还有一些不方便。社区就在此基础上继续探索，最终整理形成了BIP32、BIP39、BIP43，BIP44等规范，创造了我们今天通用的HD钱包。</p>
 
-<h2>分层确定性钱包（Hierarchical Deterministic wallet&mdash;HD Wallet）</h2>
+<h2 id="hierarchical-deterministic-wallet--hd-wallet">分层确定性钱包（Hierarchical Deterministic wallet–HD Wallet）</h2>
 
 <p>首先用一张经典的图来描述HD钱包的私钥生成:</p>
 
@@ -155,14 +175,17 @@
 <p>分层钱包说白了，就是将<code>seed-&gt;私钥</code>的过程变成了，<code>助记词-&gt;seed-&gt;一级私钥-&gt;二级私钥-&gt;三级私钥....</code>，即多层树状私钥生成的方案。HD钱包包含以树状结构衍生的密钥，使得父密钥可以衍生一系列子密钥，每个子密钥又可以衍生出一系列孙密钥，以此类推，无限衍生。HD钱包有两个主要的优势。</p>
 
 <ol>
-<li><p>树状结构可以被用来表达额外的组织含义。比如当一个特定分支的子密钥被用来接收交易收入并且有另一个分支的子密钥用来负责支付花费。不同分支的密钥都可以被用在企业环境中，这就可以支配不同的分支部门、子公司、具体功能以及会计类别。</p></li>
-<li><p>它可以允许使用者去建立一个公共密钥的序列而不需要访问相对应的私钥。这可允许HD钱包在不安全的服务器中使用或者在每笔交易中发行不同的公钥。公钥不需要被预先加载或者提前衍生，而在服务器中不需要存储私钥。</p></li>
+  <li>
+    <p>树状结构可以被用来表达额外的组织含义。比如当一个特定分支的子密钥被用来接收交易收入并且有另一个分支的子密钥用来负责支付花费。不同分支的密钥都可以被用在企业环境中，这就可以支配不同的分支部门、子公司、具体功能以及会计类别。</p>
+  </li>
+  <li>
+    <p>它可以允许使用者去建立一个公共密钥的序列而不需要访问相对应的私钥。这可允许HD钱包在不安全的服务器中使用或者在每笔交易中发行不同的公钥。公钥不需要被预先加载或者提前衍生，而在服务器中不需要存储私钥。</p>
+  </li>
 </ol>
-
 
 <p>再来一个在线工具用于验证:</p>
 
-<p><a href="https://iancoleman.io/bip39/">https://iancoleman.io/bip39/</a></p>
+<p>https://iancoleman.io/bip39/</p>
 
 <p>最初的私钥seed来源于一个助记词（又称为Mnemonic Code），为了便于在不同的钱包中转移、导出和导入，社区对助记词的长度，范围，变换标准等等做了详尽的描述，最终形成了<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP39</a>规范。这个规范由Trezor硬件钱包背后的公司提出，已经成为事实上的行业标准。</p>
 
@@ -170,89 +193,81 @@
 
 <p>先是创建助记词，然后是从助记词到种子。下面我们从一个<code>ffffffffffffffffffffffffffffffff</code> 的128bits 熵开始，演示HD钱包是如何生成、管理私钥的。让我们一步一步解释。</p>
 
-<h3>先看看创建助记词的部分</h3>
+<h3 id="section-2">先看看创建助记词的部分</h3>
 
-<h4>生成步骤</h4>
+<h4 id="section-3">生成步骤</h4>
 
 <ul>
-<li><p>1、创建一个128到256位的随机序列（熵）。我们取<code>ffffffffffffffffffffffffffffffff</code>，称之为原始熵。</p></li>
-<li><p>2、用SHA256 HASH原始熵，就可以创造一个随机序列的校验和。代码如下</p></li>
+  <li>
+    <p>1、创建一个128到256位的随机序列（熵）。我们取<code>ffffffffffffffffffffffffffffffff</code>，称之为原始熵。</p>
+  </li>
+  <li>
+    <p>2、用SHA256 HASH原始熵，就可以创造一个随机序列的校验和。代码如下</p>
+  </li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from binascii import unhexlify
-</span><span class='line'>from hashlib import sha256
-</span><span class='line'>data = 'f' * 32
-</span><span class='line'>data_unhexlify = unhexlify(data)
-</span><span class='line'>h = hashlib.sha256(data_unhexlify)
-</span><span class='line'>checksum = bin(int(h, 16))[2:].zfill(256)[:len(data) * 8 // 32]</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from binascii import unhexlify
+</span><span class="line">from hashlib import sha256
+</span><span class="line">data = 'f' * 32
+</span><span class="line">data_unhexlify = unhexlify(data)
+</span><span class="line">h = hashlib.sha256(data_unhexlify)
+</span><span class="line">checksum = bin(int(h, 16))[2:].zfill(256)[:len(data) * 8 // 32]</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>得到checksum为<code>0101</code></p>
 
 <ul>
-<li>3、首先求得原始熵的二进制表示，然后将校验和添加到随机序列的末尾。代码如下:</li>
+  <li>3、首先求得原始熵的二进制表示，然后将校验和添加到随机序列的末尾。代码如下:</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from binascii import unhexlify, hexlify
-</span><span class='line'>data = 'f' * 32
-</span><span class='line'>data_unhexlify = unhexlify(data)
-</span><span class='line'>body = bin(int(hexlify(data), 16))[2:].zfill(len(data) * 8)
-</span><span class='line'>final_result = body + checksum</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from binascii import unhexlify, hexlify
+</span><span class="line">data = 'f' * 32
+</span><span class="line">data_unhexlify = unhexlify(data)
+</span><span class="line">body = bin(int(hexlify(data), 16))[2:].zfill(len(data) * 8)
+</span><span class="line">final_result = body + checksum</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>得出的结果为</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110101</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>4、将序列划分为包含11位的不同部分。</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111110101</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110101</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>5、将每个包含11位部分的值作为下标索引，与一个已经预先定义2048个单词的字典做对应。BIP39中对应的字典文件可以参考这里:</li>
+  <li>4、将序列划分为包含11位的不同部分。</li>
 </ul>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111110101</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p><a href="https://github.com/trezor/python-mnemonic/tree/master/mnemonic/wordlist">https://github.com/trezor/python-mnemonic/tree/master/mnemonic/wordlist</a></p>
+<ul>
+  <li>5、将每个包含11位部分的值作为下标索引，与一个已经预先定义2048个单词的字典做对应。BIP39中对应的字典文件可以参考这里:</li>
+</ul>
+
+<p>https://github.com/trezor/python-mnemonic/tree/master/mnemonic/wordlist</p>
 
 <p>以上二进制表示的下标值为:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2037</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2037</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>为什么单词数目是2048呢？ 其实seed可以有12-24个单词，所有的组合可能性为 2048^12 – 2048^24；</p>
 
-<p>为什么单词数目是2048呢？ 其实seed可以有12-24个单词，所有的组合可能性为 2048<sup>12</sup> &mdash; 2048<sup>24</sup>；</p>
-
-<p>还记得我们之前的文章吗？比特币公钥->地址的倒数第二步是RIPEMD160，他一共有2<sup>160</sup>可能性，上面seed的生成空间覆盖了RIPEMD160的生成空间。</p>
+<p>还记得我们之前的文章吗？比特币公钥-&gt;地址的倒数第二步是RIPEMD160，他一共有2^160可能性，上面seed的生成空间覆盖了RIPEMD160的生成空间。</p>
 
 <ul>
-<li>6、生成的有顺序的单词组，就是助记码(Mnemonic Code)。在咱们的例子中如果采用英文字典，对应的结果为:</li>
+  <li>6、生成的有顺序的单词组，就是助记码(Mnemonic Code)。在咱们的例子中如果采用英文字典，对应的结果为:</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>一张图展示熵如何生成助记词:</p>
 
@@ -261,56 +276,55 @@
 <p>在上面这个例子中，我们选取了128Bits 原始熵，BIP39规范中，用户有128bits, 160bits, 192bits, 224bits, 256bits多个选择;下面的表格说明了熵数据的大小和助记词的长度之间的关系:</p>
 
 <table>
-<thead>
-<tr>
-<th>Entropy(bits) </th>
-<th> Checksum(bits)</th>
-<th> Entropy + checksum(bits) </th>
-<th> Mnemonic length(words)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>128</td>
-<td>4</td>
-<td>132</td>
-<td>12</td>
-</tr>
-<tr>
-<td>160</td>
-<td>5</td>
-<td>165</td>
-<td>15</td>
-</tr>
-<tr>
-<td>192</td>
-<td>6</td>
-<td>198</td>
-<td>18</td>
-</tr>
-<tr>
-<td>224</td>
-<td>7</td>
-<td>231</td>
-<td>21</td>
-</tr>
-<tr>
-<td>256</td>
-<td>8</td>
-<td>264</td>
-<td>24</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Entropy(bits)</th>
+      <th>Checksum(bits)</th>
+      <th>Entropy + checksum(bits)</th>
+      <th>Mnemonic length(words)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>128</td>
+      <td>4</td>
+      <td>132</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>160</td>
+      <td>5</td>
+      <td>165</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <td>192</td>
+      <td>6</td>
+      <td>198</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>224</td>
+      <td>7</td>
+      <td>231</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <td>256</td>
+      <td>8</td>
+      <td>264</td>
+      <td>24</td>
+    </tr>
+  </tbody>
 </table>
 
+<p>目前最流行的实现还是跟我们上面的例子一样，选取128bits-&gt;12words 的Mnemonic code生成。</p>
 
-<p>目前最流行的实现还是跟我们上面的例子一样，选取128bits->12words 的Mnemonic code生成。</p>
-
-<h3>从助记词生成种子</h3>
+<h3 id="section-4">从助记词生成种子</h3>
 
 <p>现在我们已经从<code>ffffffffffffffffffffffffffffffff</code>随机熵得到了助记码<code>zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong</code>，现在需要从助记码再生成种子。</p>
 
-<h4>PBKDF2函数</h4>
+<h4 id="pbkdf2">PBKDF2函数</h4>
 
 <p>这里我们需要先介绍一个函数:PBKDF2(Password-Based Key Derivation Function)，它是一个用来导出密钥的函数，常用于生成加密的密码。</p>
 
@@ -328,11 +342,11 @@
 
 <p>简而言之，HMAC提供了标准的在HASH过程中混入salt的方法。 HMAC方法适用于任意HASH函数。</p>
 
-<p>而比特币私钥生成过程中采用的PBKDF2算法，大量使用HMAC-SHA512算法，使用2048次 HASH来延伸助记符和salt参数，产生一个512位的值作为其最终输出。</p>
+<p>而比特币私钥生成过程中采用的PBKDF2算法，大量使用HMAC-SHA512算法，使用2048次 HASH来延伸助记符和salt参数，产生一个512位的值作为其最终输出。 </p>
 
 <p>这个512位的值就是种子。</p>
 
-<h4>利用PBKDF2从助记词得到种子步骤</h4>
+<h4 id="pbkdf2-1">利用PBKDF2从助记词得到种子步骤</h4>
 
 <p>1、PBKDF2密钥延伸函数的第一个参数是从步骤6生成的助记符(<code>zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong</code>)。</p>
 
@@ -340,31 +354,30 @@
 
 <p>3、PBKDF2使用HMAC-SHA512算法，使用2048次哈希来延伸助记符和salt参数，产生一个512位的值作为其最终输出。 这个512bits的值就是种子:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; import hashlib
-</span><span class='line'>&gt; import hmac
-</span><span class='line'>&gt; from pbkdf2 import PBKDF2
-</span><span class='line'>&gt; from binascii import hexlify
-</span><span class='line'>&gt; PBKDF2_ROUNDS = 2048
-</span><span class='line'>&gt; mnemonic = "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong"
-</span><span class='line'>&gt; passphrase = "test"
-</span><span class='line'>&gt; seed = PBKDF2(mnemonic, 'mnemonic' + passphrase, iterations=PBKDF2_ROUNDS, macmodule=hmac, digestmodule=hashlib.sha512).read(64)
-</span><span class='line'>&gt; print(hexlify(seed))
-</span><span class='line'>
-</span><span class='line'>b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870de86587b2663c462dd9425d3d3ef04'</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; import hashlib
+</span><span class="line">&gt; import hmac
+</span><span class="line">&gt; from pbkdf2 import PBKDF2
+</span><span class="line">&gt; from binascii import hexlify
+</span><span class="line">&gt; PBKDF2_ROUNDS = 2048
+</span><span class="line">&gt; mnemonic = "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong"
+</span><span class="line">&gt; passphrase = "test"
+</span><span class="line">&gt; seed = PBKDF2(mnemonic, 'mnemonic' + passphrase, iterations=PBKDF2_ROUNDS, macmodule=hmac, digestmodule=hashlib.sha512).read(64)
+</span><span class="line">&gt; print(hexlify(seed))
+</span><span class="line">
+</span><span class="line">b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870de86587b2663c462dd9425d3d3ef04'</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h3>从种子中创造HD钱包</h3>
+<h3 id="hd">从种子中创造HD钱包</h3>
 
 <p>我们已经得到了一个512bits的种子，我们把这个种子称之为<code>根种子</code>(root seed)。这个根种子是下面一切私钥产生的源泉。</p>
 
@@ -372,98 +385,98 @@
 
 <p>这是一个精妙的设计。下面我们还是采用步步为营的方法来演示一遍:</p>
 
-<h4>私有子密钥的衍生</h4>
+<h4 id="section-5">私有子密钥的衍生</h4>
 
 <ul>
-<li>1、 首先我们需要安装一个BIP32 Python解析库<code>pip install bip32utils</code>:</li>
+  <li>1、 首先我们需要安装一个BIP32 Python解析库<code>pip install bip32utils</code>:</li>
 </ul>
 
-
-<p><a href="https://pypi.org/project/bip32utils/">https://pypi.org/project/bip32utils/</a></p>
+<p>https://pypi.org/project/bip32utils/</p>
 
 <ul>
-<li>2、 根种子输入到HMAC-SHA512中，得到一个512bits的输出:</li>
+  <li>2、 根种子输入到HMAC-SHA512中，得到一个512bits的输出:</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; import binascii
-</span><span class='line'>&gt; import hmac
-</span><span class='line'>&gt; seed = b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870de86587b2663c462dd9425d3d3ef04'
-</span><span class='line'>&gt; entropy = binascii.hexlify(seed)
-</span><span class='line'>&gt; I = hmac.new(b"Bitcoin seed", entropy, hashlib.sha512).digest()</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; import binascii
+</span><span class="line">&gt; import hmac
+</span><span class="line">&gt; seed = b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870de86587b2663c462dd9425d3d3ef04'
+</span><span class="line">&gt; entropy = binascii.hexlify(seed)
+</span><span class="line">&gt; I = hmac.new(b"Bitcoin seed", entropy, hashlib.sha512).digest()</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>3、 这个512bits的<code>I</code>可以分为两个部分，左边的256bits用作Master Private Key，右边的256bits用作Master Chain Code。Master Private Key又可以推导出Master Public Key。整个表示如下:</li>
+  <li>3、 这个512bits的<code>I</code>可以分为两个部分，左边的256bits用作Master Private Key，右边的256bits用作Master Chain Code。Master Private Key又可以推导出Master Public Key。整个表示如下:</li>
 </ul>
-
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181113/bg3.jpg" alt="img" /></p>
 
 <ul>
-<li><p>4、 这样我们从一个512bits的输出里面分成了两个变量: Master Pirvate Key以及Master  Chain Code；下面分别说说他们的作用</p>
+  <li>
+    <p>4、 这样我们从一个512bits的输出里面分成了两个变量: Master Pirvate Key以及Master  Chain Code；下面分别说说他们的作用</p>
 
-<ul>
-<li><p>Master Private Key: 又被称作母私钥，很明显的，它可以衍生出公钥以及地址；但是我们的需求是生成多个公私钥对，所以我们又引入了一个索引号(32 bits)的概念，这样，一个母私钥+索引号，就可以生成2<sup>31</sup>个子私钥，2<sup>31</sup>是整个2<sup>32</sup>范围可用的一半，因为另一半是为特定类型的推导而保留的，我们将在稍后讨论。</p></li>
-<li><p>Master Chain Code: 有了Master Private Key，可以在这一层生成2<sup>31</sup>个子私钥，但是这样无法得到我们想要的分层结构；于是就需要Master Chain Code的帮忙。这样上面的步骤我们需要三个输入：将Master Chain Code和Master Private Key以及索引号作为HMAC-SHA512的输入，又可以得到一个512bits的输出，左边的256bts就是我们需要的子私钥；重复这个过程，我们就得到了一个分层的私钥结构</p></li>
-</ul>
-</li>
-<li><p>5、让我们总结一下这个过程:</p>
+    <ul>
+      <li>
+        <p>Master Private Key: 又被称作母私钥，很明显的，它可以衍生出公钥以及地址；但是我们的需求是生成多个公私钥对，所以我们又引入了一个索引号(32 bits)的概念，这样，一个母私钥+索引号，就可以生成2^31个子私钥，2^31是整个2^32范围可用的一半，因为另一半是为特定类型的推导而保留的，我们将在稍后讨论。</p>
+      </li>
+      <li>
+        <p>Master Chain Code: 有了Master Private Key，可以在这一层生成2^31个子私钥，但是这样无法得到我们想要的分层结构；于是就需要Master Chain Code的帮忙。这样上面的步骤我们需要三个输入：将Master Chain Code和Master Private Key以及索引号作为HMAC-SHA512的输入，又可以得到一个512bits的输出，左边的256bts就是我们需要的子私钥；重复这个过程，我们就得到了一个分层的私钥结构</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>5、让我们总结一下这个过程:</p>
 
-<ul>
-<li>每次HMAC-SHA512，都得到一对Master Private Key以及Master Chain Code，再加上引入一个索引号，我们就能在这一层生成2<sup>31</sup>个私钥</li>
-<li>用这一层的Master Chain Code和Master Chain Code以及选取一个固定的索引号作为HMAC-SHA512的输入，又可以得到下一层的Master Private Key以及Master Chain Code，</li>
-<li>重复这个递归的过程就可以构造一棵私钥树状结构</li>
-<li>这个递归构造的函数我们称之为CKD（child key derivation)函数</li>
-</ul>
-</li>
-<li><p>6、 CKD (子密钥衍生函数): 这个函数有三个输入</p>
+    <ul>
+      <li>每次HMAC-SHA512，都得到一对Master Private Key以及Master Chain Code，再加上引入一个索引号，我们就能在这一层生成2^31个私钥</li>
+      <li>用这一层的Master Chain Code和Master Chain Code以及选取一个固定的索引号作为HMAC-SHA512的输入，又可以得到下一层的Master Private Key以及Master Chain Code，</li>
+      <li>重复这个递归的过程就可以构造一棵私钥树状结构</li>
+      <li>这个递归构造的函数我们称之为CKD（child key derivation)函数</li>
+    </ul>
+  </li>
+  <li>
+    <p>6、 CKD (子密钥衍生函数): 这个函数有三个输入</p>
 
-<ul>
-<li>一个母私钥(Master Private Key 256bits)</li>
-<li>一个链码(Master Chain code 256 bits)</li>
-<li>一个索引号 (32 bits)</li>
+    <ul>
+      <li>一个母私钥(Master Private Key 256bits)</li>
+      <li>一个链码(Master Chain code 256 bits)</li>
+      <li>一个索引号 (32 bits)</li>
+    </ul>
+  </li>
 </ul>
-</li>
-</ul>
-
 
 <p>这三个输入可以得到一个512bits的输出，在得到一个私钥的同时，也可以作为一棵树的根节点，从而衍生出无数个子密钥。</p>
 
 <p>叶子节点衍生出的子密钥并不能让它发现自己的姊妹密钥，除非你已经有了链码。最初的链码种子（在密码树的根部）是用随机数据构成的，随后链码从各自的母链码中衍生出来。</p>
 
-<h4>扩展密钥</h4>
+<h4 id="section-6">扩展密钥</h4>
 
 <p>正如我们之前看到的，CKD函数可以被用来创造密钥树上任何层级的子密钥。这只需要三个输入量：一个密钥，一个链码以及想要的子密钥的索引。密钥以及链码这两个重要的部分被结合之后，就叫做扩展密钥（extended key）。术语“extended key”也被认为是“可扩展的密钥”，因为这种密钥可以用来衍生子密钥。</p>
 
-<p>引入我们之前的例子，这里我们第一层的扩展密钥为:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; from bip32utils import BIP32Key
-</span><span class='line'>&gt; from binascii import hexlify
-</span><span class='line'>&gt; seed = b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870d
-</span><span class='line'>&gt; root = BIP32Key.fromEntropy(hexlify(seed))
-</span><span class='line'>&gt; print(root.ExtendedKey())
-</span><span class='line'>
-</span><span class='line'>xprv9s21ZrQH143K35KaAEjp6RjB4LoeCR3prWBv6vmX7HuGnPFygragV39uDC24D3UZvMnWbhame5nykoXCcfy1Rbgg8uqSzmwoQgFEqt2bUNy</span></code></pre></td></tr></table></div></figure>
-
+<p>引入我们之前的例子，这里我们第一层的扩展密钥为:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">&gt; from bip32utils import BIP32Key
+</span><span class="line">&gt; from binascii import hexlify
+</span><span class="line">&gt; seed = b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870d
+</span><span class="line">&gt; root = BIP32Key.fromEntropy(hexlify(seed))
+</span><span class="line">&gt; print(root.ExtendedKey())
+</span><span class="line">
+</span><span class="line">xprv9s21ZrQH143K35KaAEjp6RjB4LoeCR3prWBv6vmX7HuGnPFygragV39uDC24D3UZvMnWbhame5nykoXCcfy1Rbgg8uqSzmwoQgFEqt2bUNy</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
 <p>第一层的扩展私钥也被称之为<code>BIP32 Root Key</code>；</p>
 
 <p>得到了一个扩展私钥，就代表得到了树状结构中某个层级的完全控制权，这个扩展密钥可以创造出子密钥并且作为根节点能创造出密钥树结构中的整个分支。分享扩展密钥就可以访问整个分支。</p>
 
-<h4>公共子密钥推导</h4>
+<h4 id="section-7">公共子密钥推导</h4>
 
 <p>再审视一下前面的CKD函数，第一个输入是<code>一个母私钥(Master Private Key 256bits)</code>，这让我们思考，如果不是输入私钥，而是输入公钥会发生什么呢？</p>
 
@@ -479,7 +492,7 @@
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181113/bg4.jpg" alt="img" /></p>
 
-<h4>硬化子密钥的衍生</h4>
+<h4 id="section-8">硬化子密钥的衍生</h4>
 
 <p>从扩展公钥衍生一个分支公钥的能力是很重要的，但牵扯一些风险。访问扩展公钥并不能得到访问子私钥的途径。但是，因为扩展公钥包含有链码，如果子私钥被知道或者被泄漏的话，链码就可以被用来衍生所有的其他子私钥。简单地泄露的私钥以及一个母链码，可以暴露所有的子密钥。更糟糕的是，子私钥与母链码可以用来推断母私钥。</p>
 
@@ -491,15 +504,15 @@
 
 <p>简单地来说，如果你想要利用扩展公钥的便捷来衍生公钥的分支而不将你自己暴露在泄露扩展链码的风险下， 你应该从强化母私钥衍生公钥，而不是从一般的母私钥来衍生。最好的方式是，为了避免了推到出主密钥，主密钥所衍生的第一层级的子密钥最好使用强化衍生。</p>
 
-<h4>正常衍生和强化衍生的索引号码</h4>
+<h4 id="section-9">正常衍生和强化衍生的索引号码</h4>
 
-<p>还记得我们前面说:一个母私钥+索引号，就可以生成2<sup>31</sup>个子私钥，2<sup>31</sup>是整个2<sup>32</sup>范围可用的一半，另一半是做什么的呢？</p>
+<p>还记得我们前面说:一个母私钥+索引号，就可以生成2^31个子私钥，2^31是整个2^32范围可用的一半，另一半是做什么的呢？</p>
 
-<p>用在衍生函数中的索引号码是32位的整数。为了区分密钥是从正常衍生函数中衍生出来还是从强化衍生函数中产出，这个索引号被分为两个范围。索引号在0和2<sup>31</sup>–1(0x0 to 0x7FFFFFFF)之间的是只被用在常规衍生。索引号在2<sup>31</sup>和2<sup>32</sup>– 1(0x80000000 to 0xFFFFFFFF)之间的只被用在强化衍生。因此，索引号小于2<sup>31</sup>就意味着子密钥是常规的，而大于或者等于2<sup>31</sup>的子密钥就是强化型的。</p>
+<p>用在衍生函数中的索引号码是32位的整数。为了区分密钥是从正常衍生函数中衍生出来还是从强化衍生函数中产出，这个索引号被分为两个范围。索引号在0和2^31–1(0x0 to 0x7FFFFFFF)之间的是只被用在常规衍生。索引号在2^31和2^32– 1(0x80000000 to 0xFFFFFFFF)之间的只被用在强化衍生。因此，索引号小于2^31就意味着子密钥是常规的，而大于或者等于2^31的子密钥就是强化型的。</p>
 
-<p>为了让索引号码更容易被阅读和展示，强化子密钥的索引号码是从0开始展示的，但是右上角有一个小撇号。第一个常规子密钥因此被表述为0，但是第一个强化子密钥（索引号为0x80000000）就被表示为0&#8217;。第二个强化密钥依序有了索 引号0x80000001，且被显示为1&#8217;，以此类推。当你看到HD钱包索引号i&#8217;，这就意味着 2<sup>31</sup>+i。</p>
+<p>为了让索引号码更容易被阅读和展示，强化子密钥的索引号码是从0开始展示的，但是右上角有一个小撇号。第一个常规子密钥因此被表述为0，但是第一个强化子密钥（索引号为0x80000000）就被表示为0’。第二个强化密钥依序有了索 引号0x80000001，且被显示为1’，以此类推。当你看到HD钱包索引号i’，这就意味着 2^31+i。</p>
 
-<h3>HD钱包密钥识别符</h3>
+<h3 id="hd-1">HD钱包密钥识别符</h3>
 
 <p>我们看到，一个树状的私钥组织，命名就成了一个问题，如何快速的表示<code>这是一个由第三层的第n个扩展子私钥衍生的主密钥</code>呢？</p>
 
@@ -509,87 +522,83 @@
 
 <p>密钥的“祖先”是从右向左读，直到你达到了衍生出的它的主密钥。举个例子，标识符m/x/y/z描述的是子密钥m/x/y的第z个子密钥。而子密钥m/x/y又是m/x的第y个子密钥。m/x又是m的第x个子密钥。</p>
 
-<h4>HD钱包树状结构的导航</h4>
+<h4 id="hd-2">HD钱包树状结构的导航</h4>
 
 <p>HD钱包树状结构提供了极大的灵活性。每一个母扩展密钥有40亿个子密钥：20亿个常规子密钥和20亿个强化子密钥。 而每个子密钥又会有40亿个子密钥并且以此类推。只要你愿意，这个树结构可以无限类推到无穷代。但是，又由于有了这个灵活性，对无限的树状结构进行导航就变得异常困难。尤其是对于在不同的HD钱包之间进行转移交易，因为内部组织到内部分支以及子分支的可能性是无穷的。</p>
 
-<p>两个比特币改进建议（BIPs）提供了这个复杂问题的解决办法——通过创建几个HD钱包树的提议标准。BIP-43提出使用第一个强化子索引作为特殊的标识符表示树状结构的“purpose”。基于BIP-43，HD钱包应该使用且只用第一层级的树的分支，而且有索引号码去识别结构并且有命名空间来定义剩余的树的目的地。举个例子，HD钱包只使用分支m/i&#8217;/是 为了表明那个被索引号“i”定义的特殊为目地。</p>
+<p>两个比特币改进建议（BIPs）提供了这个复杂问题的解决办法——通过创建几个HD钱包树的提议标准。BIP-43提出使用第一个强化子索引作为特殊的标识符表示树状结构的“purpose”。基于BIP-43，HD钱包应该使用且只用第一层级的树的分支，而且有索引号码去识别结构并且有命名空间来定义剩余的树的目的地。举个例子，HD钱包只使用分支m/i’/是 为了表明那个被索引号“i”定义的特殊为目地。</p>
 
-<p>在BIP-43标准下，为了延长的那个特殊规范，BIP-44提议了多账户结构作为“purpose”。所有遵循BIP-44的HD钱包依据只使用树的第一个分支的要求而被定义：m/44&#8217;/。 BIP-44指定了包含5个预定义树状层级的结构：</p>
+<p>在BIP-43标准下，为了延长的那个特殊规范，BIP-44提议了多账户结构作为“purpose”。所有遵循BIP-44的HD钱包依据只使用树的第一个分支的要求而被定义：m/44’/。 BIP-44指定了包含5个预定义树状层级的结构：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>m / purpose' / coin_type' / account' / change / address_index</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">m / purpose' / coin_type' / account' / change / address_index</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>第一层的purpose总是被设定为44’。</p>
 
-<p>第一层的purpose总是被设定为44&#8217;。</p>
+<p>第二层的“coin_type”特指币种并且允许多元货币HD钱包中的货币在第二个层级下有自己的亚树状结构。目前有三种货币被定义：Bitcoin is m/44’/0’、Bitcoin Testnet is m/44’/1’，以及 Litecoin is m/44’/2’, Ethereum 是 60’。</p>
 
-<p>第二层的“coin_type”特指币种并且允许多元货币HD钱包中的货币在第二个层级下有自己的亚树状结构。目前有三种货币被定义：Bitcoin is m/44&#8217;/0&#8217;、Bitcoin Testnet is m/44&#8217;/1&#8217;，以及 Litecoin is m/44&#8217;/2&#8217;, Ethereum 是 60&#8217;。</p>
-
-<p>树的第三层级是“account”，这可以允许使用者为了会计或者组织目的，而去再细分他们的钱包到独立的逻辑性子账户。 举个例子，一个HD钱包可能包含两个比特币“账户”：m/44&#8217;/0&#8217;/0&#8217; 和 m/44&#8217;/0&#8217;/1&#8217;。每个账户都是它自己子树的根。</p>
+<p>树的第三层级是“account”，这可以允许使用者为了会计或者组织目的，而去再细分他们的钱包到独立的逻辑性子账户。 举个例子，一个HD钱包可能包含两个比特币“账户”：m/44’/0’/0’ 和 m/44’/0’/1’。每个账户都是它自己子树的根。</p>
 
 <p>第四层级就是“change”。每一个HD钱包有两个子树，一个是用来接收地址一个是用来创造找零地址。注意无论先前的层级是否使用强化衍生，这一层级使用的都是常规衍生。这是为了允许这一层级的树可以在不安全环境下，输出扩展公钥。</p>
 
-<p>被HD钱包衍生的可用的地址是第四层级的子级，就是第五层级的树的“address_index”。比如，第三个层级的主账户收到比特币支付的地址就是 M/44&#8217;/0&#8217;/0&#8217;/0/2。</p>
+<p>被HD钱包衍生的可用的地址是第四层级的子级，就是第五层级的树的“address_index”。比如，第三个层级的主账户收到比特币支付的地址就是 M/44’/0’/0’/0/2。</p>
 
-<h2>几个BIP规范</h2>
+<h2 id="bip">几个BIP规范</h2>
 
 <p>到这里为止，我们已经了解到了比特币HD钱包的绝大部分构造知识。如果能完全理解了上述内容，我们已经是<code>专家</code>了。让我们再简要回顾一下过程:</p>
 
 <ol>
-<li>生成一个随机序列作为原始熵</li>
-<li>通过一系列变换操作得到了一个Mnemonic Code，这些操作需要大量的HASH过程，抵御了暴力碰撞。同时，生成的Mnemonic Code作为人类易读的助记词，可以轻易的抄写备份，导入导出，这个Mnemonic  Code代表着钱包的完全控制权</li>
-<li>从Mnemonic得到了一个root seed，进而转化为 BIP32 Root Key，这可以构造一棵私钥树的根节点</li>
-<li>从BIP32 Root Key开始，可以构造更多的公共子密钥，或者公共密钥；根据使用场景的不同，可以构造出完全控制的HD钱包，或者离线签署的只读钱包。</li>
+  <li>生成一个随机序列作为原始熵</li>
+  <li>通过一系列变换操作得到了一个Mnemonic Code，这些操作需要大量的HASH过程，抵御了暴力碰撞。同时，生成的Mnemonic Code作为人类易读的助记词，可以轻易的抄写备份，导入导出，这个Mnemonic  Code代表着钱包的完全控制权</li>
+  <li>从Mnemonic得到了一个root seed，进而转化为 BIP32 Root Key，这可以构造一棵私钥树的根节点</li>
+  <li>从BIP32 Root Key开始，可以构造更多的公共子密钥，或者公共密钥；根据使用场景的不同，可以构造出完全控制的HD钱包，或者离线签署的只读钱包。</li>
 </ol>
-
 
 <p>这上面一系列的操作细节，被社区总结到了几个BIP规范当中。</p>
 
-<h4>BIP32</h4>
+<h4 id="bip32">BIP32</h4>
 
-<p>定义 Hierarchical Deterministic wallet (简称 &ldquo;HD Wallet&rdquo;)，是一个系统可以从单一个 seed 产生一树状结构储存多组 keypairs（私钥和公钥）。好处是可以方便的备份、转移到其他相容装置（因为都只需要 seed），以及分层的权限控制等。</p>
+<p>定义 Hierarchical Deterministic wallet (简称 “HD Wallet”)，是一个系统可以从单一个 seed 产生一树状结构储存多组 keypairs（私钥和公钥）。好处是可以方便的备份、转移到其他相容装置（因为都只需要 seed），以及分层的权限控制等。</p>
 
-<h4>BIP39</h4>
+<h4 id="bip39">BIP39</h4>
 
 <p>将 seed 用方便记忆和书写的单字表示。一般由 12 个单字组成，称为 mnemonic code(phrase)，中文称为助记词或助记码。例如：</p>
 
 <p><code>zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong</code></p>
 
-<h4>BIP43</h4>
+<h4 id="bip43">BIP43</h4>
 
 <p>提出使用第一个强化子索引作为特殊的标识符表示树状结构的“purpose”</p>
 
-<h4>BIP44</h4>
+<h4 id="bip44">BIP44</h4>
 
 <p>基于 BIP32和BIP43 的定义，赋予树状结构中的各层特殊的意义。让同一个 seed 可以支持多币种、多帐户等。各层定义如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>m / purpose' / coin_type' / account' / change / address_index</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">m / purpose' / coin_type' / account' / change / address_index</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>其中的 purporse’ 固定是 44’，代表使用 BIP44。而 coin_type’ 用来表示不同币种，例如 Bitcoin 就是 0’，Ethereum 是 60’。</p>
 
-<p>其中的 purporse&#8217; 固定是 44&#8217;，代表使用 BIP44。而 coin_type&#8217; 用来表示不同币种，例如 Bitcoin 就是 0&#8217;，Ethereum 是 60&#8217;。</p>
-
-<h4>BIP49，BIP84, BIP141</h4>
+<h4 id="bip49bip84-bip141">BIP49，BIP84, BIP141</h4>
 
 <p>加入隔离验证后的账户方案</p>
 
-<h2>安全性</h2>
+<h2 id="section-10">安全性</h2>
 
 <p>关于安全性，reddit上面的<a href="https://www.reddit.com/r/Bitcoin/comments/6twuj1/are_12word_seeds_for_bitcoin_private_keys_secure/">一个帖子</a>做了比较全面的计算，可以参考。</p>
 
-<h2>总结</h2>
+<h2 id="section-11">总结</h2>
 
 <p>呼，漫长的一顿操作之后；我们终于拥有了一个完整的HD钱包，它有下面几个特性:</p>
 
 <ol>
-<li>只要记住seed，即12-24个单词，就可以在不同得系统中导入/导出这个钱包，并掌有完全的控制权，除了知道seed的人，世界上没有任何一个组织能操作这个账户</li>
-<li>这个钱包拥有衍生无数个账户的能力，并通过树状层次组织</li>
-<li>这棵树的任意一个节点都可以衍生出一棵子树，适用于大型组织的财务处理；比如国王拥有根seed的绝对掌控权，他分配了几个一级扩展私钥给总理大臣，而这几个一级扩展私钥又可以作为根节点衍生出二级扩展私钥分配给更多的人&hellip;..依次衍生下去无穷无尽，每一级的扩展私钥掌控者都拥有下级的资金调度权力，而同级别的私钥掌控者互不可见；</li>
-<li>通过一个类似于文件系统命名的路径方式，扩展私钥的拥有者可以掌管任意一个子节点的账户，比如将来全家共享一个钱包，父母对子女的零花钱流水账有完全的掌控</li>
-<li>可以构造出一个完全离线的只用来收款而不能付款的钱包账户，用于海量用户的电子商户系统</li>
-<li>可以汇聚多个公私钥体系的电子货币；可以想象，未来所有的电子货币系统都聚集在一个钱包之中</li>
+  <li>只要记住seed，即12-24个单词，就可以在不同得系统中导入/导出这个钱包，并掌有完全的控制权，除了知道seed的人，世界上没有任何一个组织能操作这个账户</li>
+  <li>这个钱包拥有衍生无数个账户的能力，并通过树状层次组织</li>
+  <li>这棵树的任意一个节点都可以衍生出一棵子树，适用于大型组织的财务处理；比如国王拥有根seed的绝对掌控权，他分配了几个一级扩展私钥给总理大臣，而这几个一级扩展私钥又可以作为根节点衍生出二级扩展私钥分配给更多的人…..依次衍生下去无穷无尽，每一级的扩展私钥掌控者都拥有下级的资金调度权力，而同级别的私钥掌控者互不可见；</li>
+  <li>通过一个类似于文件系统命名的路径方式，扩展私钥的拥有者可以掌管任意一个子节点的账户，比如将来全家共享一个钱包，父母对子女的零花钱流水账有完全的掌控</li>
+  <li>可以构造出一个完全离线的只用来收款而不能付款的钱包账户，用于海量用户的电子商户系统</li>
+  <li>可以汇聚多个公私钥体系的电子货币；可以想象，未来所有的电子货币系统都聚集在一个钱包之中</li>
 </ol>
-
 
 <p>是不是非常神奇的感觉；呼呼，写到这里，我们已经将电子货币系统的钱包设计完全探究了一番；</p>
 
@@ -694,7 +703,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

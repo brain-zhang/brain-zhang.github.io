@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="几天前有人在github创建了一个issue: https://github.com/dominictarr/event-stream/issues/116 标题为：&#8221;I don&rsquo;t know what to say.&ldquo;，翻译过来大概就是“我无语了”。因为 &hellip;">
+  <meta name="description" content="几天前有人在github创建了一个issue: https://github.com/dominictarr/event-stream/issues/116 标题为：”I don’t know what to say.”，翻译过来大概就是“我无语了”。因为 event-stream &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -107,12 +123,11 @@
 
 <div class="entry-content"><p>几天前有人在github创建了一个issue:</p>
 
-<p><a href="https://github.com/dominictarr/event-stream/issues/116">https://github.com/dominictarr/event-stream/issues/116</a></p>
+<p>https://github.com/dominictarr/event-stream/issues/116</p>
 
-<p>标题为：&#8221;I don&rsquo;t know what to say.&ldquo;，翻译过来大概就是“我无语了”。因为 event-stream 包突然多出了一个名为 flatmap-stream 的依赖项，而这个依赖项正在窃取用户的数字货币。</p>
+<p>标题为：”I don’t know what to say.”，翻译过来大概就是“我无语了”。因为 event-stream 包突然多出了一个名为 flatmap-stream 的依赖项，而这个依赖项正在窃取用户的数字货币。</p>
 
 <!-- more -->
-
 
 <p>event-stream 被很多的前端流行框架和库使用，每月有几千万的下载量。作为最流行的前端框架之一，在 Vue 的官方脚手架 vue-cli 中也使用了这个依赖，作为最流行的前端框架之一，这个影响还是挺大的，这个影响还是挺大的。而 React 则躲过了。</p>
 
@@ -120,13 +135,13 @@
 
 <p>COPAY钱包因为引用了event-stream库，它在今年9、10、以及11月27日之前发布的所有版本都受到了感染，COPAY是bitpay旗下的开源钱包，市场占有率不可小觑；下面这个链接进行了分析，使用被感染钱包的用户很有可能被窃取私钥:</p>
 
-<p><a href="https://github.com/bitpay/copay/issues/9346">https://github.com/bitpay/copay/issues/9346</a></p>
+<p>https://github.com/bitpay/copay/issues/9346</p>
 
 <p>COPAY紧急发布了5.2.2修正版本：</p>
 
-<p><a href="https://github.com/bitpay/copay/pull/9348">https://github.com/bitpay/copay/pull/9348</a></p>
+<p>https://github.com/bitpay/copay/pull/9348</p>
 
-<h2>使用COPAY钱包的人，请立即升级新版本，并且生成新的钱包，把老钱包里面的币转走。</h2>
+<h2 id="copay">使用COPAY钱包的人，请立即升级新版本，并且生成新的钱包，把老钱包里面的币转走。</h2>
 
 <p>这个恶意模块更可怕之处，在于背后的骇客是个深谋远虑、精于社工的人。</p>
 
@@ -142,33 +157,30 @@
 
 <p>感染恶意代码的程序，也不会全部发作。只有COPAY钱包运行时，他才会悄悄的窃取用户信息，并发送到下面这几台服务器：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>copayapi.host
-</span><span class='line'>51.38.112.212
-</span><span class='line'>145.249.104.239
-</span><span class='line'>111.90.151.134</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">copayapi.host
+</span><span class="line">51.38.112.212
+</span><span class="line">145.249.104.239
+</span><span class="line">111.90.151.134</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>我不知道截止到现在黑客获取了多少币，但整个事件非常惊悚。而且这个漏洞刚刚被发现，我认为还会持续有消息不灵通的受害者。</p>
 
 <p>另外，如果想查看自己的项目是否受到影响，可以运行：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm ls event-stream flatmap-stream...flatmap-stream@0.1.1...</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ npm ls event-stream flatmap-stream...flatmap-stream@0.1.1...</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>如果在输出里面包含了 flatmap-stream 则说明你也可能被攻击。</p>
 
 <p>如果使用 yarn 则可以运行：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yarn why flatmap-stream</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ yarn why flatmap-stream</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h2>区块链历史中的传奇HACK手段</h2>
+<h2 id="hack">区块链历史中的传奇HACK手段</h2>
 
 <p>我在以前的文章中多次感叹所谓的区块链技术出来后，简直是黑客的黄金年代！大概从2011年开始，精彩的HACK事件层出不穷，如果要全部整理出来，可能会是一部让所谓的<code>区块链专家</code>和<code>区块链投资者</code>冷汗直流，后怕不已的手册。</p>
 
@@ -176,15 +188,15 @@
 
 <p>我随意的说几件印象非常深刻的HACK事件。</p>
 
-<h4>整个国家DNS 流量劫持事件</h4>
+<h4 id="dns-">整个国家DNS 流量劫持事件</h4>
 
 <p>我记得大概是2015年，巴西的骨干网DNS整个被黑客劫持了，导致当时的blockchain.info 在线钱包有几个小时的流量完全被导向了钓鱼网站，这次事件导致的丢币数目不可统计。</p>
 
 <p>但是给你一个启示，当利益足够大的时候，任何设施，包括国家设施都是不可信、不安全的。结合这两天发现的jd.com流量返利劫持，你就知道：网络世界里，有的组织或者个人，完全可以劫持一个国家的网络流量，这不是天方夜谭。</p>
 
-<h4>官方域名劫持事件</h4>
+<h4 id="section">官方域名劫持事件</h4>
 
-<p>今年二月份的时候，有人花大价钱买了&#8221;electrumltc.org&#8221;这个域名，仿照&#8221;<a href="https://electrum-ltc.org/">https://electrum-ltc.org/</a>&ldquo;官网，精心炮制了一个以假乱真的网站，然后把下载链接改成了恶意钱包，并且做了Google SEO，把自己的骗子网站搜索结果推到了第一名；有人因此丢了2399个LTC，那个时候可是不少钱。</p>
+<p>今年二月份的时候，有人花大价钱买了”electrumltc.org”这个域名，仿照”https://electrum-ltc.org/”官网，精心炮制了一个以假乱真的网站，然后把下载链接改成了恶意钱包，并且做了Google SEO，把自己的骗子网站搜索结果推到了第一名；有人因此丢了2399个LTC，那个时候可是不少钱。</p>
 
 <p>很讽刺的是，恰恰是因为真正的开发者买不起这个域名，才搞了一个山寨的域名发布自己的软件，让骇客有机可乘。</p>
 
@@ -196,9 +208,9 @@
 
 <p>整个事件回顾：</p>
 
-<p><a href="https://github.com/pooler/electrum-ltc/issues/176">https://github.com/pooler/electrum-ltc/issues/176</a></p>
+<p>https://github.com/pooler/electrum-ltc/issues/176</p>
 
-<h4>~~~~</h4>
+<h4 id="section-1">~~~~</h4>
 
 <p>这么罗列下去，我可以轻易列举出更多的涉及上亿美元的hack事件。每个事件说起来好像天方夜谭一样，不明技术的小白可能会惊叹：怎么可能有这种事情？！</p>
 
@@ -297,7 +309,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

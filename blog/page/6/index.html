@@ -32,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -160,7 +176,7 @@
 
 <p>Michael Atiyah老爷子来一场数学报告，已然惊动众多娱乐媒体和赌徒大佬。老爷子的秀场视频在这里，快去瞻仰:</p>
 
-<p><a href="https://www.youtube.com/watch?v=oe4Jo4i3w_w">https://www.youtube.com/watch?v=oe4Jo4i3w_w</a></p>
+<p>https://www.youtube.com/watch?v=oe4Jo4i3w_w</p>
 
 <p>为了跟上时代的步伐，民工也要求上进啊，只能又去填鸭科普了一下数学ABC。</p>
 
@@ -250,7 +266,7 @@
   </header>
 
 
-  <div class="entry-content"><p>我们平时老看到<code>X86指令集</code>, <code>X86架构</code>等等词汇，很容易就猜到这个86来源于Intel那款名动天下的处理器&mdash;8086，那么8086的名字又是怎么来的呢？</p>
+  <div class="entry-content"><p>我们平时老看到<code>X86指令集</code>, <code>X86架构</code>等等词汇，很容易就猜到这个86来源于Intel那款名动天下的处理器–8086，那么8086的名字又是怎么来的呢？</p>
 
 </div>
   
@@ -533,7 +549,7 @@
 
 <p>前几天看到bellard都在浏览器里面用WebAssembly跑虚拟机了，点进去试试，竟然模拟Win2000都有模有样了。</p>
 
-<p><a href="https://bellard.org/jslinux/index.html">https://bellard.org/jslinux/index.html</a></p>
+<p>https://bellard.org/jslinux/index.html</p>
 
 <p>不由得感叹人折腾的能力真是无比强大。</p>
 
@@ -565,7 +581,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

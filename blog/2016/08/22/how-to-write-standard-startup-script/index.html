@@ -9,7 +9,8 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板&hellip; 模板实例: systemV init script template 1
+  <meta name="description" content="centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板… 模板实例: systemV init script template
+1
 2
 3
 4
@@ -21,7 +22,10 @@
 10
 11
 12
-13 &hellip;">
+13
+14
+15
+16 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +48,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -117,308 +137,301 @@
   </header>
 
 
-<div class="entry-content"><p>centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板&hellip;</p>
+<div class="entry-content"><p>centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板…</p>
 
-<p>模板实例:</p>
+<p>模板实例:
+<!-- more --></p>
 
-<!-- more -->
+<h2 id="systemv-init-script-template">systemV init script template</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
+</span><span class="line">
+</span><span class="line"># testclient - Startup script for testclient
+</span><span class="line">
+</span><span class="line"># chkconfig: 35 85 15
+</span><span class="line"># description: testclient is your openstack VMS monitor and ovs auto config bot.
+</span><span class="line"># processname: testclient
+</span><span class="line"># config: /etc/testclient.conf
+</span><span class="line">
+</span><span class="line">. /etc/rc.d/init.d/functions
+</span><span class="line">
+</span><span class="line"># NOTE: if you change any OPTIONS here, you get what you pay for:
+</span><span class="line"># this script assumes all options are in the config file.
+</span><span class="line">CONFIGFILE="/etc/testclient.conf"
+</span><span class="line">
+</span><span class="line">testCLIENT=/usr/local/bin/testclient
+</span><span class="line">
+</span><span class="line">testCLIENT_USER=helloworldtest
+</span><span class="line">testCLIENT_GROUP=helloworldtest
+</span><span class="line">
+</span><span class="line"># things from testclient.conf get there by testclient reading it
+</span><span class="line">PIDFILEPATH=`awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?pidFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
+</span><span class="line">PIDDIR=`dirname $PIDFILEPATH`
+</span><span class="line">LOGFILEPATH=`awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?logFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
+</span><span class="line">LOGDIR=`dirname $LOGFILEPATH`
+</span><span class="line">
+</span><span class="line">OPTIONS=" -c $CONFIGFILE"
+</span><span class="line">
+</span><span class="line">start()
+</span><span class="line">{
+</span><span class="line">  # Make sure the default pidfile directory exists
+</span><span class="line">  if [ ! -d $PIDDIR ]; then
+</span><span class="line">    install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $PIDDIR
+</span><span class="line">  fi
+</span><span class="line">  if [ ! -d $LOGDIR ]; then
+</span><span class="line">    install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $LOGDIR
+</span><span class="line">  fi
+</span><span class="line">
+</span><span class="line">  echo -n $"Starting testclient: "
+</span><span class="line">  daemon --pidfile "$PIDFILEPATH" --user "$testCLIENT_USER" --check $testCLIENT "$testCLIENT $OPTIONS &gt;$LOGFILEPATH 2&gt;&amp;1 &amp;"
+</span><span class="line">
+</span><span class="line">  RETVAL=$?
+</span><span class="line">  pid=`ps -A x | grep $testCLIENT | grep -v grep | cut -d" " -f1 | head -n 1`
+</span><span class="line">  if [ -n "$pid" ]; then
+</span><span class="line">          echo $pid &gt; $PIDFILEPATH
+</span><span class="line">  fi
+</span><span class="line">
+</span><span class="line">  [ $RETVAL -eq 0 ] &amp;&amp; touch /var/lock/subsys/testclient
+</span><span class="line">  echo
+</span><span class="line">  return $RETVAL
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">stop()
+</span><span class="line">{
+</span><span class="line">  echo -n $"Stopping testclient: "
+</span><span class="line">  testclient_killproc "$PIDFILEPATH" $testCLIENT
+</span><span class="line">  RETVAL=$?
+</span><span class="line">  echo
+</span><span class="line">  [ $RETVAL -eq 0 ] &amp;&amp; rm -f /var/lock/subsys/testclient
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">restart () {
+</span><span class="line">        stop
+</span><span class="line">        start
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line"># Send TERM signal to process and wait up to 300 seconds for process to go away.
+</span><span class="line"># If process is still alive after 300 seconds, send KILL signal.
+</span><span class="line"># Built-in killproc() (found in /etc/init.d/functions) is on certain versions of Linux
+</span><span class="line"># where it sleeps for the full $delay seconds if process does not respond fast enough to
+</span><span class="line"># the initial TERM signal.
+</span><span class="line">testclient_killproc()
+</span><span class="line">{
+</span><span class="line">  local pid_file=$1
+</span><span class="line">  local procname=$2
+</span><span class="line">  local -i delay=10
+</span><span class="line">  local -i duration=1
+</span><span class="line">  local pid=`pidofproc -p "${pid_file}" ${procname}`
+</span><span class="line">
+</span><span class="line">  kill -TERM $pid &gt;/dev/null 2&gt;&amp;1
+</span><span class="line">  usleep 1000
+</span><span class="line">  local -i x=0
+</span><span class="line">  while [ $x -le $delay ] &amp;&amp; checkpid $pid; do
+</span><span class="line">    sleep $duration
+</span><span class="line">    x=$(( $x + $duration))
+</span><span class="line">  done
+</span><span class="line">
+</span><span class="line">  kill -KILL $pid &gt;/dev/null 2&gt;&amp;1
+</span><span class="line">  usleep 1000
+</span><span class="line">
+</span><span class="line">  checkpid $pid # returns 0 only if the process exists
+</span><span class="line">  local RC=$?
+</span><span class="line">  [ "$RC" -eq 0 ] &amp;&amp; failure "${procname} shutdown" || rm -f "${pid_file}"; success "${procname} shutdown"
+</span><span class="line">  RC=$((! $RC)) # invert return code so we return 0 when process is dead.
+</span><span class="line">  return $RC
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">RETVAL=0
+</span><span class="line">
+</span><span class="line">case "$1" in
+</span><span class="line">  start)
+</span><span class="line">    start
+</span><span class="line">    ;;
+</span><span class="line">  stop)
+</span><span class="line">    stop
+</span><span class="line">    ;;
+</span><span class="line">  restart|reload|force-reload)
+</span><span class="line">    restart
+</span><span class="line">    ;;
+</span><span class="line">  condrestart)
+</span><span class="line">    [ -f $PIDFILEPATH] &amp;&amp; restart || :
+</span><span class="line">    ;;
+</span><span class="line">  status)
+</span><span class="line">    status $testCLIENT
+</span><span class="line">    RETVAL=$?
+</span><span class="line">    ;;
+</span><span class="line">  *)
+</span><span class="line">    echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+</span><span class="line">    RETVAL=1
+</span><span class="line">esac
+</span><span class="line">
+</span><span class="line">exit $RETVAL</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h2 id="systemd-startup-script-template">systemd startup script template</h2>
 
-<h2>systemV init script template</h2>
+<h4 id="helloworldconf">helloworld.conf</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'># testclient - Startup script for testclient
-</span><span class='line'>
-</span><span class='line'># chkconfig: 35 85 15
-</span><span class='line'># description: testclient is your openstack VMS monitor and ovs auto config bot.
-</span><span class='line'># processname: testclient
-</span><span class='line'># config: /etc/testclient.conf
-</span><span class='line'>
-</span><span class='line'>. /etc/rc.d/init.d/functions
-</span><span class='line'>
-</span><span class='line'># NOTE: if you change any OPTIONS here, you get what you pay for:
-</span><span class='line'># this script assumes all options are in the config file.
-</span><span class='line'>CONFIGFILE="/etc/testclient.conf"
-</span><span class='line'>
-</span><span class='line'>testCLIENT=/usr/local/bin/testclient
-</span><span class='line'>
-</span><span class='line'>testCLIENT_USER=helloworldtest
-</span><span class='line'>testCLIENT_GROUP=helloworldtest
-</span><span class='line'>
-</span><span class='line'># things from testclient.conf get there by testclient reading it
-</span><span class='line'>PIDFILEPATH=`awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?pidFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
-</span><span class='line'>PIDDIR=`dirname $PIDFILEPATH`
-</span><span class='line'>LOGFILEPATH=`awk -F'[:=]' -v IGNORECASE=1 '/^[[:blank:]]*(processManagement\.)?logFilePath[[:blank:]]*[:=][[:blank:]]*/{print $2}' "$CONFIGFILE" | tr -d "[:blank:]\"'" | aw
-</span><span class='line'>LOGDIR=`dirname $LOGFILEPATH`
-</span><span class='line'>
-</span><span class='line'>OPTIONS=" -c $CONFIGFILE"
-</span><span class='line'>
-</span><span class='line'>start()
-</span><span class='line'>{
-</span><span class='line'>  # Make sure the default pidfile directory exists
-</span><span class='line'>  if [ ! -d $PIDDIR ]; then
-</span><span class='line'>    install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $PIDDIR
-</span><span class='line'>  fi
-</span><span class='line'>  if [ ! -d $LOGDIR ]; then
-</span><span class='line'>    install -d -m 0755 -o $testCLIENT_USER -g $testCLIENT_GROUP $LOGDIR
-</span><span class='line'>  fi
-</span><span class='line'>
-</span><span class='line'>  echo -n $"Starting testclient: "
-</span><span class='line'>  daemon --pidfile "$PIDFILEPATH" --user "$testCLIENT_USER" --check $testCLIENT "$testCLIENT $OPTIONS &gt;$LOGFILEPATH 2&gt;&1 &"
-</span><span class='line'>
-</span><span class='line'>  RETVAL=$?
-</span><span class='line'>  pid=`ps -A x | grep $testCLIENT | grep -v grep | cut -d" " -f1 | head -n 1`
-</span><span class='line'>  if [ -n "$pid" ]; then
-</span><span class='line'>          echo $pid &gt; $PIDFILEPATH
-</span><span class='line'>  fi
-</span><span class='line'>
-</span><span class='line'>  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/testclient
-</span><span class='line'>  echo
-</span><span class='line'>  return $RETVAL
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>stop()
-</span><span class='line'>{
-</span><span class='line'>  echo -n $"Stopping testclient: "
-</span><span class='line'>  testclient_killproc "$PIDFILEPATH" $testCLIENT
-</span><span class='line'>  RETVAL=$?
-</span><span class='line'>  echo
-</span><span class='line'>  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/testclient
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>restart () {
-</span><span class='line'>        stop
-</span><span class='line'>        start
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'># Send TERM signal to process and wait up to 300 seconds for process to go away.
-</span><span class='line'># If process is still alive after 300 seconds, send KILL signal.
-</span><span class='line'># Built-in killproc() (found in /etc/init.d/functions) is on certain versions of Linux
-</span><span class='line'># where it sleeps for the full $delay seconds if process does not respond fast enough to
-</span><span class='line'># the initial TERM signal.
-</span><span class='line'>testclient_killproc()
-</span><span class='line'>{
-</span><span class='line'>  local pid_file=$1
-</span><span class='line'>  local procname=$2
-</span><span class='line'>  local -i delay=10
-</span><span class='line'>  local -i duration=1
-</span><span class='line'>  local pid=`pidofproc -p "${pid_file}" ${procname}`
-</span><span class='line'>
-</span><span class='line'>  kill -TERM $pid &gt;/dev/null 2&gt;&1
-</span><span class='line'>  usleep 1000
-</span><span class='line'>  local -i x=0
-</span><span class='line'>  while [ $x -le $delay ] && checkpid $pid; do
-</span><span class='line'>    sleep $duration
-</span><span class='line'>    x=$(( $x + $duration))
-</span><span class='line'>  done
-</span><span class='line'>
-</span><span class='line'>  kill -KILL $pid &gt;/dev/null 2&gt;&1
-</span><span class='line'>  usleep 1000
-</span><span class='line'>
-</span><span class='line'>  checkpid $pid # returns 0 only if the process exists
-</span><span class='line'>  local RC=$?
-</span><span class='line'>  [ "$RC" -eq 0 ] && failure "${procname} shutdown" || rm -f "${pid_file}"; success "${procname} shutdown"
-</span><span class='line'>  RC=$((! $RC)) # invert return code so we return 0 when process is dead.
-</span><span class='line'>  return $RC
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>RETVAL=0
-</span><span class='line'>
-</span><span class='line'>case "$1" in
-</span><span class='line'>  start)
-</span><span class='line'>    start
-</span><span class='line'>    ;;
-</span><span class='line'>  stop)
-</span><span class='line'>    stop
-</span><span class='line'>    ;;
-</span><span class='line'>  restart|reload|force-reload)
-</span><span class='line'>    restart
-</span><span class='line'>    ;;
-</span><span class='line'>  condrestart)
-</span><span class='line'>    [ -f $PIDFILEPATH] && restart || :
-</span><span class='line'>    ;;
-</span><span class='line'>  status)
-</span><span class='line'>    status $testCLIENT
-</span><span class='line'>    RETVAL=$?
-</span><span class='line'>    ;;
-</span><span class='line'>  *)
-</span><span class='line'>    echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
-</span><span class='line'>    RETVAL=1
-</span><span class='line'>esac
-</span><span class='line'>
-</span><span class='line'>exit $RETVAL</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">node = 1
+</span><span class="line">
+</span><span class="line">[system]
+</span><span class="line">pidFilePath=/var/lib/helloworldtest/run/hello.pid
+</span><span class="line">logFilePath=/var/lib/helloworldtest/log/hello.log</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h2>systemd startup script template</h2>
-
-<h4>helloworld.conf</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>node = 1
-</span><span class='line'>
-</span><span class='line'>[system]
-</span><span class='line'>pidFilePath=/var/lib/helloworldtest/run/hello.pid
-</span><span class='line'>logFilePath=/var/lib/helloworldtest/log/hello.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>/usr/lib/systemd/system/helloworld.service</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Unit]
-</span><span class='line'>Description=helloworld
-</span><span class='line'>
-</span><span class='line'>[Service]
-</span><span class='line'>Type=forking
-</span><span class='line'>EnvironmentFile=/etc/helloworld.conf
-</span><span class='line'>ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${logFilePath} )'
-</span><span class='line'>ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${pidFilePath} )'
-</span><span class='line'>ExecStart=/usr/local/sbin/daemonize -p ${pidFilePath} -a -o ${logFilePath} -e ${logFilePath} /usr/local/bin/helloworld -c /etc/helloworld.conf
-</span><span class='line'>ExecStopPost=/bin/kill $MAINPID
-</span><span class='line'>Restart=always
-</span><span class='line'>
-</span><span class='line'>[Install]
-</span><span class='line'>WantedBy=default.target</span></code></pre></td></tr></table></div></figure>
-
+<h4 id="usrlibsystemdsystemhelloworldservice">/usr/lib/systemd/system/helloworld.service</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[Unit]
+</span><span class="line">Description=helloworld
+</span><span class="line">
+</span><span class="line">[Service]
+</span><span class="line">Type=forking
+</span><span class="line">EnvironmentFile=/etc/helloworld.conf
+</span><span class="line">ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${logFilePath} )'
+</span><span class="line">ExecStartPre=/bin/sh -c '/bin/install -d -m 0755 -o root -g root $( /usr/bin/dirname ${pidFilePath} )'
+</span><span class="line">ExecStart=/usr/local/sbin/daemonize -p ${pidFilePath} -a -o ${logFilePath} -e ${logFilePath} /usr/local/bin/helloworld -c /etc/helloworld.conf
+</span><span class="line">ExecStopPost=/bin/kill $MAINPID
+</span><span class="line">Restart=always
+</span><span class="line">
+</span><span class="line">[Install]
+</span><span class="line">WantedBy=default.target</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -513,7 +526,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

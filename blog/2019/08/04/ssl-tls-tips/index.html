@@ -9,8 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz&hellip;.. 话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~ 现在有两个选择: 放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦
-死磕openssl， &hellip;">
+  <meta name="description" content="每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz….. 话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~ 现在有两个选择: 放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦 死磕openssl，把它彻底搞明白 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -33,6 +32,22 @@
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -106,152 +121,144 @@
   </header>
 
 
-<div class="entry-content"><p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz&hellip;..</p>
+<div class="entry-content"><p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz…..</p>
 
 <p>话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~</p>
 
 <!-- more -->
 
-
 <p>现在有两个选择:</p>
 
 <ol>
-<li>放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦</li>
-<li>死磕openssl，把它彻底搞明白</li>
+  <li>放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦</li>
+  <li>死磕openssl，把它彻底搞明白</li>
 </ol>
-
 
 <p>利弊权衡之下我选择了1，不过当然我也在2上花了一点时间，复习了一下基础知识，在此记录下来。</p>
 
-<h3>libssl3是个什么东东</h3>
+<h3 id="libssl3">libssl3是个什么东东</h3>
 
 <p>在探究libssl.so的时候，我无意发现我的系统里面还有一个libssl3.so；这个是什么东东？我印象里面openssl还只有1.x版本才对；</p>
 
 <p>我在ubuntu16.04下查看这个so文件来源;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ locate libssl3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libssl3.so</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ locate libssl3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libssl3.so</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>nm看一下:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ nm /usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class='line'>nm: /usr/lib/x86_64-linux-gnu/libssl3.so: no symbols
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ nm /usr/lib/x86_64-linux-gnu/libssl3.so
+</span><span class="line">nm: /usr/lib/x86_64-linux-gnu/libssl3.so: no symbols
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>奇怪，没有任何符号；继续用ldd看一下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ ldd /usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class='line'>ldd /usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007ffe833bb000)
-</span><span class='line'>        libnss3.so =&gt; /usr/lib/x86_64-linux-gnu/libnss3.so (0x00007faf3cc8a000)
-</span><span class='line'>        libnssutil3.so =&gt; /usr/lib/x86_64-linux-gnu/libnssutil3.so (0x00007faf3ca5d000)
-</span><span class='line'>        libplc4.so =&gt; /usr/lib/x86_64-linux-gnu/libplc4.so (0x00007faf3c858000)
-</span><span class='line'>        libnspr4.so =&gt; /usr/lib/x86_64-linux-gnu/libnspr4.so (0x00007faf3c619000)
-</span><span class='line'>        libpthread.so.0 =&gt; /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007faf3c3fc000)
-</span><span class='line'>        libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007faf3c032000)
-</span><span class='line'>        libz.so.1 =&gt; /lib/x86_64-linux-gnu/libz.so.1 (0x00007faf3be18000)
-</span><span class='line'>        libplds4.so =&gt; /usr/lib/x86_64-linux-gnu/libplds4.so (0x00007faf3bc14000)
-</span><span class='line'>        libdl.so.2 =&gt; /lib/x86_64-linux-gnu/libdl.so.2 (0x00007faf3ba10000)
-</span><span class='line'>        librt.so.1 =&gt; /lib/x86_64-linux-gnu/librt.so.1 (0x00007faf3b808000)
-</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007faf3d21d000)
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ ldd /usr/lib/x86_64-linux-gnu/libssl3.so
+</span><span class="line">ldd /usr/lib/x86_64-linux-gnu/libssl3.so
+</span><span class="line">        linux-vdso.so.1 =&gt;  (0x00007ffe833bb000)
+</span><span class="line">        libnss3.so =&gt; /usr/lib/x86_64-linux-gnu/libnss3.so (0x00007faf3cc8a000)
+</span><span class="line">        libnssutil3.so =&gt; /usr/lib/x86_64-linux-gnu/libnssutil3.so (0x00007faf3ca5d000)
+</span><span class="line">        libplc4.so =&gt; /usr/lib/x86_64-linux-gnu/libplc4.so (0x00007faf3c858000)
+</span><span class="line">        libnspr4.so =&gt; /usr/lib/x86_64-linux-gnu/libnspr4.so (0x00007faf3c619000)
+</span><span class="line">        libpthread.so.0 =&gt; /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007faf3c3fc000)
+</span><span class="line">        libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007faf3c032000)
+</span><span class="line">        libz.so.1 =&gt; /lib/x86_64-linux-gnu/libz.so.1 (0x00007faf3be18000)
+</span><span class="line">        libplds4.so =&gt; /usr/lib/x86_64-linux-gnu/libplds4.so (0x00007faf3bc14000)
+</span><span class="line">        libdl.so.2 =&gt; /lib/x86_64-linux-gnu/libdl.so.2 (0x00007faf3ba10000)
+</span><span class="line">        librt.so.1 =&gt; /lib/x86_64-linux-gnu/librt.so.1 (0x00007faf3b808000)
+</span><span class="line">        /lib64/ld-linux-x86-64.so.2 (0x00007faf3d21d000)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>嗯，找到了一个有意思的依赖:libnss3.so</p>
 
 <p>再用命令dpkg看一下</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ dpkg -S /usr/lib/x86_64-linux-gnu/libnss3.so
-</span><span class='line'>libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg -S /usr/lib/x86_64-linux-gnu/libnss3.so
+</span><span class="line">libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>基本上确定是libnss3这个库引入的libssl3.so了，最后再用dpkg确认一下:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ dpkg-query -L libnss3
-</span><span class='line'>/.
-</span><span class='line'>/usr
-</span><span class='line'>/usr/lib
-</span><span class='line'>/usr/lib/x86_64-linux-gnu
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libnssutil3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libfreebl3.chk
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libnssckbi.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.chk
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.chk
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.chk
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/nss/libnsssysinit.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libsmime3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libnss3.so
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class='line'>/usr/share
-</span><span class='line'>/usr/share/doc
-</span><span class='line'>/usr/share/doc/libnss3
-</span><span class='line'>/usr/share/doc/libnss3/copyright
-</span><span class='line'>/usr/share/doc/libnss3/changelog.Debian.gz
-</span><span class='line'>/usr/share/lintian
-</span><span class='line'>/usr/share/lintian/overrides
-</span><span class='line'>/usr/share/lintian/overrides/libnss3</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg-query -L libnss3
+</span><span class="line">/.
+</span><span class="line">/usr
+</span><span class="line">/usr/lib
+</span><span class="line">/usr/lib/x86_64-linux-gnu
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libnssutil3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreebl3.chk
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnssckbi.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.chk
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.chk
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.chk
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnsssysinit.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libsmime3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libnss3.so
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libssl3.so
+</span><span class="line">/usr/share
+</span><span class="line">/usr/share/doc
+</span><span class="line">/usr/share/doc/libnss3
+</span><span class="line">/usr/share/doc/libnss3/copyright
+</span><span class="line">/usr/share/doc/libnss3/changelog.Debian.gz
+</span><span class="line">/usr/share/lintian
+</span><span class="line">/usr/share/lintian/overrides
+</span><span class="line">/usr/share/lintian/overrides/libnss3</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h3 id="libnss3">libnss3是个什么东东?</h3>
 
-<h3>libnss3是个什么东东?</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>apt-cache show libnss3</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">apt-cache show libnss3</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>看了一下，发现是mozilla基金会搞得东东；再google一下，发现是自己孤陋寡闻了；</p>
 
@@ -261,9 +268,9 @@
 
 <p>至于Windows平台的，还有C++阵营的，都有自己实现的ssl库，具体可参见:</p>
 
-<p><a href="https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter">https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</a></p>
+<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
 
-<h3>nss在centos中</h3>
+<h3 id="nsscentos">nss在centos中</h3>
 
 <p>搜素的过程中，我惊奇的发现，ubuntu和centos上面的curl，竟然链接的libssl也不一样：</p>
 
@@ -273,288 +280,271 @@
 
 <p>做事要做全套，我分别切换到ubuntu16.04和centos7.2上面，看看他们官方仓库中自带的curl是如何编译的。</p>
 
-<h4>centos7.2</h4>
+<h4 id="centos72">centos7.2</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ rpm -q --requires curl
-</span><span class='line'>libc.so.6()(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.14)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.17)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.2.5)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.3)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.4)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.7)(64bit)
-</span><span class='line'>libcurl = 7.29.0-51.el7
-</span><span class='line'>libcurl.so.4()(64bit)
-</span><span class='line'>libdl.so.2()(64bit)
-</span><span class='line'>libnspr4.so()(64bit)
-</span><span class='line'>libnss3.so()(64bit)
-</span><span class='line'>libnssutil3.so()(64bit)
-</span><span class='line'>libplc4.so()(64bit)
-</span><span class='line'>libplds4.so()(64bit)
-</span><span class='line'>libpthread.so.0()(64bit)
-</span><span class='line'>libpthread.so.0(GLIBC_2.2.5)(64bit)
-</span><span class='line'>libsmime3.so()(64bit)
-</span><span class='line'>libssl3.so()(64bit)
-</span><span class='line'>libz.so.1()(64bit)
-</span><span class='line'>rpmlib(CompressedFileNames) &lt;= 3.0.4-1
-</span><span class='line'>rpmlib(FileDigests) &lt;= 4.6.0-1
-</span><span class='line'>rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
-</span><span class='line'>rtld(GNU_HASH)
-</span><span class='line'>rpmlib(PayloadIsXz) &lt;= 5.2-1</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ rpm -q --requires curl
+</span><span class="line">libc.so.6()(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.14)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.17)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.2.5)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.3)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.4)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.7)(64bit)
+</span><span class="line">libcurl = 7.29.0-51.el7
+</span><span class="line">libcurl.so.4()(64bit)
+</span><span class="line">libdl.so.2()(64bit)
+</span><span class="line">libnspr4.so()(64bit)
+</span><span class="line">libnss3.so()(64bit)
+</span><span class="line">libnssutil3.so()(64bit)
+</span><span class="line">libplc4.so()(64bit)
+</span><span class="line">libplds4.so()(64bit)
+</span><span class="line">libpthread.so.0()(64bit)
+</span><span class="line">libpthread.so.0(GLIBC_2.2.5)(64bit)
+</span><span class="line">libsmime3.so()(64bit)
+</span><span class="line">libssl3.so()(64bit)
+</span><span class="line">libz.so.1()(64bit)
+</span><span class="line">rpmlib(CompressedFileNames) &lt;= 3.0.4-1
+</span><span class="line">rpmlib(FileDigests) &lt;= 4.6.0-1
+</span><span class="line">rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
+</span><span class="line">rtld(GNU_HASH)
+</span><span class="line">rpmlib(PayloadIsXz) &lt;= 5.2-1</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>用的是libcurl = 7.29.0-51.el7；</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ rpm -q --requires libcurl
-</span><span class='line'>/sbin/ldconfig
-</span><span class='line'>libc.so.6()(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.14)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.15)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.16)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.17)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.2.5)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.3)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.3.4)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.4)(64bit)
-</span><span class='line'>libc.so.6(GLIBC_2.7)(64bit)
-</span><span class='line'>libcom_err.so.2()(64bit)
-</span><span class='line'>libdl.so.2()(64bit)
-</span><span class='line'>libgssapi_krb5.so.2()(64bit)
-</span><span class='line'>libgssapi_krb5.so.2(gssapi_krb5_2_MIT)(64bit)
-</span><span class='line'>libidn.so.11()(64bit)
-</span><span class='line'>libidn.so.11(LIBIDN_1.0)(64bit)
-</span><span class='line'>libk5crypto.so.3()(64bit)
-</span><span class='line'>libkrb5.so.3()(64bit)
-</span><span class='line'>liblber-2.4.so.2()(64bit)
-</span><span class='line'>libldap-2.4.so.2()(64bit)
-</span><span class='line'>libnspr4.so()(64bit)
-</span><span class='line'>libnss3.so()(64bit)
-</span><span class='line'>libnss3.so(NSS_3.10)(64bit)
-</span><span class='line'>libnss3.so(NSS_3.12.1)(64bit)
-</span><span class='line'>libnss3.so(NSS_3.12.5)(64bit)
-</span><span class='line'>libnss3.so(NSS_3.2)(64bit)
-</span><span class='line'>
-</span><span class='line'>....</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ rpm -q --requires libcurl
+</span><span class="line">/sbin/ldconfig
+</span><span class="line">libc.so.6()(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.14)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.15)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.16)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.17)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.2.5)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.3)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.3.4)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.4)(64bit)
+</span><span class="line">libc.so.6(GLIBC_2.7)(64bit)
+</span><span class="line">libcom_err.so.2()(64bit)
+</span><span class="line">libdl.so.2()(64bit)
+</span><span class="line">libgssapi_krb5.so.2()(64bit)
+</span><span class="line">libgssapi_krb5.so.2(gssapi_krb5_2_MIT)(64bit)
+</span><span class="line">libidn.so.11()(64bit)
+</span><span class="line">libidn.so.11(LIBIDN_1.0)(64bit)
+</span><span class="line">libk5crypto.so.3()(64bit)
+</span><span class="line">libkrb5.so.3()(64bit)
+</span><span class="line">liblber-2.4.so.2()(64bit)
+</span><span class="line">libldap-2.4.so.2()(64bit)
+</span><span class="line">libnspr4.so()(64bit)
+</span><span class="line">libnss3.so()(64bit)
+</span><span class="line">libnss3.so(NSS_3.10)(64bit)
+</span><span class="line">libnss3.so(NSS_3.12.1)(64bit)
+</span><span class="line">libnss3.so(NSS_3.12.5)(64bit)
+</span><span class="line">libnss3.so(NSS_3.2)(64bit)
+</span><span class="line">
+</span><span class="line">....</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>看到libnss3了,重点输出：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">libnss3.so</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+那么这个包是谁提供的？输入如下命令：</p>
 
-
-<p>看到libnss3了,重点输出：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>libnss3.so</span></code></pre></td></tr></table></div></figure>
-
-
-<p>那么这个包是谁提供的？输入如下命令：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ rpm -qf /usr/lib64/libnss3.so 
-</span><span class='line'>    nss-3.36.0-7.1.el7_6.x86_64
-</span><span class='line'>~ rpm -ql nss
-</span><span class='line'>/etc/pki/nss-legacy
-</span><span class='line'>/etc/pki/nss-legacy/nss-rhel7.config
-</span><span class='line'>/etc/pki/nssdb
-</span><span class='line'>/etc/pki/nssdb/cert8.db
-</span><span class='line'>/etc/pki/nssdb/cert9.db
-</span><span class='line'>/etc/pki/nssdb/key3.db
-</span><span class='line'>/etc/pki/nssdb/key4.db
-</span><span class='line'>/etc/pki/nssdb/pkcs11.txt
-</span><span class='line'>/etc/pki/nssdb/secmod.db
-</span><span class='line'>/usr/lib64/libnss3.so
-</span><span class='line'>/usr/lib64/libnssckbi.so
-</span><span class='line'>/usr/lib64/libsmime3.so
-</span><span class='line'>/usr/lib64/libssl3.so
-</span><span class='line'>/usr/lib64/nss/libnssckbi.so
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ rpm -qf /usr/lib64/libnss3.so 
+</span><span class="line">    nss-3.36.0-7.1.el7_6.x86_64
+</span><span class="line">~ rpm -ql nss
+</span><span class="line">/etc/pki/nss-legacy
+</span><span class="line">/etc/pki/nss-legacy/nss-rhel7.config
+</span><span class="line">/etc/pki/nssdb
+</span><span class="line">/etc/pki/nssdb/cert8.db
+</span><span class="line">/etc/pki/nssdb/cert9.db
+</span><span class="line">/etc/pki/nssdb/key3.db
+</span><span class="line">/etc/pki/nssdb/key4.db
+</span><span class="line">/etc/pki/nssdb/pkcs11.txt
+</span><span class="line">/etc/pki/nssdb/secmod.db
+</span><span class="line">/usr/lib64/libnss3.so
+</span><span class="line">/usr/lib64/libnssckbi.so
+</span><span class="line">/usr/lib64/libsmime3.so
+</span><span class="line">/usr/lib64/libssl3.so
+</span><span class="line">/usr/lib64/nss/libnssckbi.so
+</span><span class="line">...</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>至此水落石出，还可以看到我们熟悉的证书cert8.db文件；但其实 curl 最终使用的根证书库并不是该文件。那 curl 使用的根证书文件在哪儿呢？</p>
 
-<p>使用 curl-config 命令行工具，能够了解更多：</p>
+<p>使用 curl-config 命令行工具，能够了解更多：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">~ curl-config --ca                        
+</span><span class="line">/etc/pki/tls/certs/ca-bundle.crt</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ curl-config --ca                        
-</span><span class='line'>/etc/pki/tls/certs/ca-bundle.crt</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>ubuntu16.04</h4>
+<h4 id="ubuntu1604">ubuntu16.04</h4>
 
 <p>ubuntu16上面验证类似，不一一说明了~~~</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ dpkg-query -L libcurl3
-</span><span class='line'>/.
-</span><span class='line'>/usr
-</span><span class='line'>/usr/share
-</span><span class='line'>/usr/share/doc
-</span><span class='line'>/usr/share/doc/libcurl3
-</span><span class='line'>/usr/share/doc/libcurl3/copyright
-</span><span class='line'>/usr/share/doc/libcurl3/changelog.Debian.gz
-</span><span class='line'>/usr/share/doc/libcurl3/NEWS.Debian.gz
-</span><span class='line'>/usr/share/lintian
-</span><span class='line'>/usr/share/lintian/overrides
-</span><span class='line'>/usr/share/lintian/overrides/libcurl3
-</span><span class='line'>/usr/lib
-</span><span class='line'>/usr/lib/x86_64-linux-gnu
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libcurl.so.3
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/libcurl.so.4
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg-query -L libcurl3
+</span><span class="line">/.
+</span><span class="line">/usr
+</span><span class="line">/usr/share
+</span><span class="line">/usr/share/doc
+</span><span class="line">/usr/share/doc/libcurl3
+</span><span class="line">/usr/share/doc/libcurl3/copyright
+</span><span class="line">/usr/share/doc/libcurl3/changelog.Debian.gz
+</span><span class="line">/usr/share/doc/libcurl3/NEWS.Debian.gz
+</span><span class="line">/usr/share/lintian
+</span><span class="line">/usr/share/lintian/overrides
+</span><span class="line">/usr/share/lintian/overrides/libcurl3
+</span><span class="line">/usr/lib
+</span><span class="line">/usr/lib/x86_64-linux-gnu
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.3
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.4
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ apt-cache depends  libcurl3
-</span><span class='line'>  Depends: libc6
-</span><span class='line'>  Depends: libgssapi-krb5-2
-</span><span class='line'>  Depends: libidn11
-</span><span class='line'>  Depends: libldap-2.4-2
-</span><span class='line'>  Depends: librtmp1
-</span><span class='line'>  Depends: libssl1.0.0
-</span><span class='line'>  Depends: zlib1g
-</span><span class='line'>  Recommends: ca-certificates</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ apt-cache depends  libcurl3
+</span><span class="line">  Depends: libc6
+</span><span class="line">  Depends: libgssapi-krb5-2
+</span><span class="line">  Depends: libidn11
+</span><span class="line">  Depends: libldap-2.4-2
+</span><span class="line">  Depends: librtmp1
+</span><span class="line">  Depends: libssl1.0.0
+</span><span class="line">  Depends: zlib1g
+</span><span class="line">  Recommends: ca-certificates</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后寻找libcurl的依赖库:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ ldd /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0|grep ssl
-</span><span class='line'>libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ ldd /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0|grep ssl
+</span><span class="line">libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>验证一下:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~ apt-cache depends openssl
-</span><span class='line'>openssl
-</span><span class='line'>  Depends: libc6
-</span><span class='line'>  Depends: libssl1.0.0
-</span><span class='line'>  Suggests: ca-certificates
-</span><span class='line'>  
-</span><span class='line'>~ apt-cache rdepends  libssl1.0.0 | grep curl
-</span><span class='line'>  libcurl3  </span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ apt-cache depends openssl
+</span><span class="line">openssl
+</span><span class="line">  Depends: libc6
+</span><span class="line">  Depends: libssl1.0.0
+</span><span class="line">  Suggests: ca-certificates
+</span><span class="line">  
+</span><span class="line">~ apt-cache rdepends  libssl1.0.0 | grep curl
+</span><span class="line">  libcurl3  </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h3>总结</h3>
+<h3 id="section">总结</h3>
 
 <p>所以这就是想要解决一个问题的中途，又被带到了另外一条小路上；该说我是还有那么一点好奇心呢？还是注意力不集中呢？</p>
 
-<p>Orz&hellip;&hellip;&hellip;</p>
+<p>Orz………</p>
 
-<h3>参考资料:</h3>
+<h3 id="section-1">参考资料:</h3>
 
-<p><a href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
+<p>https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</p>
 
-<p><a href="https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter">https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</a></p>
+<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
 
-<p><a href="https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E">https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E</a></p>
+<p>https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E</p>
 
-<p><a href="https://www.lbbniu.com/6680.html">https://www.lbbniu.com/6680.html</a></p>
+<p>https://www.lbbniu.com/6680.html</p>
 </div>
 
 
@@ -649,7 +639,7 @@
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">

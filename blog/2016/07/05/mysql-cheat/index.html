@@ -10,10 +10,11 @@
 
   
   <meta name="description" content="整理一下经常忘记的mysql命令 连接 1
-$ mysql -u root -p list 1
+$ mysql -u root -p list
+1
 2
 $ show DATABASES;
-$ show TABLES; Error ERROR 1045 (28000): Access denied for user &lsquo;root&rsquo &hellip;">
+$ show TABLES; Error ERROR 1045 (28000): Access denied for user ‘root’@’localhost &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -36,6 +37,22 @@ $ show TABLES; Error ERROR 1045 (28000): Access denied for user &lsquo;root&rsqu
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 
 
   
@@ -111,36 +128,31 @@ $ show TABLES; Error ERROR 1045 (28000): Access denied for user &lsquo;root&rsqu
 
 <div class="entry-content"><p>整理一下经常忘记的mysql命令</p>
 
-<h1>连接</h1>
+<h1 id="section">连接</h1>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root -p</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ mysql -u root -p</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h1 id="list">list</h1>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ show DATABASES;
+</span><span class="line">$ show TABLES;</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h1>list</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ show DATABASES;
-</span><span class='line'>$ show TABLES;</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Error</h1>
+<h1 id="error">Error</h1>
 
 <ul>
-<li>ERROR 1045 (28000): Access denied for user &lsquo;root&rsquo;@&lsquo;localhost&rsquo; (using password: YES)</li>
+  <li>ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: YES)</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysqld --skip-grant-tables
-</span><span class='line'>$ mysql -u root mysql
-</span><span class='line'>$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
-</span><span class='line'>$ mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ mysqld --skip-grant-tables
+</span><span class="line">$ mysql -u root mysql
+</span><span class="line">$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
+</span><span class="line">$ mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -235,7 +247,7 @@ $ show TABLES; Error ERROR 1045 (28000): Access denied for user &lsquo;root&rsqu
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
       </li>
     
       <li class="post">
