@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-01T16:00:24+08:00</updated>
+  <updated>2019-09-01T16:04:34+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -3219,7 +3219,7 @@ ac = a * c
 
 <h2>既有项目</h2>
 
-<p>假设你已经有了一个 go 项目， 比如在$GOPATH/github.com/memoryboxes/hello下， 你可以使用go mod init github.com/memoryboxes/hello在这个文件夹下创建一个空的 go.mod (只有第一行 module github.com/memoryboxes/hello)。</p>
+<p>假设你已经有了一个 go 项目， 比如在$GOPATH/github.com/brain-zhang/hello下， 你可以使用go mod init github.com/brain-zhang/hello在这个文件夹下创建一个空的 go.mod (只有第一行 module github.com/brain-zhang/hello)。</p>
 
 <p>然后你可以通过 go get ./&hellip;让它查找依赖，并记录在 go.mod 文件中 (你还可以指定 -tags, 这样可以把 tags 的依赖都查找到)。</p>
 
@@ -3243,7 +3243,7 @@ ac = a * c
 </span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>依赖库中的replace对你的主 go.mod 不起作用，比如github.com/memoryboxes/hello的 go.mod 已经增加了replace, 但是你的 go.mod 虽然require了rpcx的库，但是没有设置replace的话， go get还是会访问golang.org/x。</p>
+<p>依赖库中的replace对你的主 go.mod 不起作用，比如github.com/brain-zhang/hello的 go.mod 已经增加了replace, 但是你的 go.mod 虽然require了rpcx的库，但是没有设置replace的话， go get还是会访问golang.org/x。</p>
 
 <p>所以如果想编译哪个项目，就在哪个项目中增加replace。</p>
 
@@ -4040,7 +4040,7 @@ ac = a * c
 
 <p>代码放在这里：</p>
 
-<p><a href="https://github.com/memoryboxes/kanglong">https://github.com/memoryboxes/kanglong</a></p>
+<p><a href="https://github.com/brain-zhang/kanglong">https://github.com/brain-zhang/kanglong</a></p>
 
 <p>好啦，我们还是以沪深300为基准，看看这个策略和原指数的对比：</p>
 
