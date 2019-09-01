@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>吴恩达机器学习笔记 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="这个系列教程大名鼎鼎，之前我都是用到啥就瞎试一通；最近花了两个周，认认真真把这些基础知识重新学了一遍；做个笔记； 苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌远，我一直在路上； 1-监督学习（Supervised Learning) 根据训练数据是否拥有标记信息， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">吴恩达机器学习笔记</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-01T15:59:41+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2019</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>这个系列教程大名鼎鼎，之前我都是用到啥就瞎试一通；最近花了两个周，认认真真把这些基础知识重新学了一遍；做个笔记；</p>
+
+<p>苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌远，我一直在路上；</p>
+
+<!-- more -->
+
+
+<h2>1-监督学习（Supervised Learning)</h2>
+
+<p>根据训练数据是否拥有标记信息，学习任务可大致被分为两类：</p>
+
+<ul>
+<li><p>监督学习（Supervised Learning）监督学习的代表是回归和分类。</p>
+
+<ul>
+<li>回归:预测连续值的模型: 已知房子大小和房价数据集，预测某一房子的价格
+
+<ul>
+<li><p>分类:预测离散值的模型: 已知肿瘤性质和大小数据集，预测肿瘤是否良性</p></li>
+<li><p>无监督学习（Unsupervised Learning） 无监督学习的代表是聚类。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>2-单变量线性回归</h2>
+
+<h4>模型表示</h4>
+
+<pre><code>``math
+h_{\theta}(x) = \theta_{0} + \theta_{1}x
+``
+</code></pre>
+
+<h4>代价函数</h4>
+
+<pre><code>求两个值，使模型最为匹配当前数据集；求解匹配度的过程提炼出代价函数；代价函数值越小，匹配度越高
+
+``math
+J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2}
+``
+
+当𝜃1=0时，代价函数为一抛物线；
+当𝜃0，𝜃1都不为0时，代价函数为一三维曲面；
+</code></pre>
+
+<h4>自动求解代价函数</h4>
+
+<pre><code>我们我们有函数  𝐽(𝜃0,𝜃1) , 可以不断的调整  𝜃0  和  𝜃1 , 来使得  𝐽(𝜃0,𝜃1)  , 直到  𝐽(𝜃0,𝜃1)  达到最小值为止
+
+梯度下降是一个用来求函数最小值的算法，我们将使用梯度下降算法来求出代价函数 𝐽(𝜃0,𝜃1) 的最小值。
+
+梯度下降背后的思想是：开始时我们随机选择一个参数的组合 (𝜃0,𝜃1,......,𝜃𝑛)  ，计算代价函数，然后我们寻找下一个能让代价函数值下降最多的参数组合。我们持续这么做直到抵达一个局部最小值（local minimum），因为我们并没有尝试完所有的参数组合，所以不能确定我们得到的局部最小值是否便是全局最小值（global minimum），选择不同的初始参数组合，可能会找到不同的局部最小值。
+
+帅气的梯度下降算法公式:
+
+``math
+\theta_{j} := \theta_{j} - \alpha\frac{\partial}{\partial{\theta_{j}}}J(\theta)
+``
+
+对 𝜃 赋值，使得  𝐽(𝜃) 按梯度下降最快方向进行，一直迭代下去，最终得到局部最小值。其中 𝛼 是学习率（learning rate），它决定了我们沿着能让代价函数下降程度最大的方向向下迈出的步子有多大。
+
+* 如果 𝛼 太小了，即我的学习速率太小，可能会很慢，因为它会一点点挪动，它会需要很多步才能到达全局最低点。
+* 如果 𝛼 太大，那么梯度下降法可能会越过最低点，下一次迭代又移动了一大步，越过一次，又越过一次，一次次越过最低点，直到你发现实际上离最低点越来越远，最终会导致无法收敛，甚至发散。
+*
+</code></pre>
+
+<h2>3-矩阵和向量</h2>
+
+<h4>一个2X2矩阵</h4>
+
+<pre><code>``
+import numpy as np
+a=np.array([[1, 2], [3, 4]])
+``
+</code></pre>
+
+<h4>向量是列数为1的特殊矩阵:</h4>
+
+<pre><code>``
+b = np.array(np.zeros((3,1)))
+``
+</code></pre>
+
+<h4>矩阵的加法</h4>
+
+<pre><code>行列数相等的才可以做加法，两个矩阵相加就是行列对应的元素相加。
+
+``
+import numpy as np
+a = np.mat([[1,0],[2,5],[3,1]])
+b = np.mat([[4,0.5],[2,5],[0,1]])
+print ("a: \n",a, "\nb: \n",b)
+print ("a+b: \n",a+b)  # a + b，矩阵相加
+``
+</code></pre>
+
+<h4>矩阵的标量乘法</h4>
+
+<pre><code>矩阵和标量的乘法也很简单,就是矩阵的每个元素都与标量相乘。
+
+``
+print ("a: \n",a)
+print ("3*a: \n",3* a)  #矩阵标量乘法
+``
+</code></pre>
+
+<h4>向量乘法</h4>
+
+<pre><code>m×n 的矩阵乘以 n×1 的向量，得到的是 m×1 的向量
+``
+import numpy as np
+a = np.mat([[-1,2],[2,3]])
+c = np.mat([[3],[4]])
+ac = a * c
+``
+</code></pre>
+
+<h4>矩阵乘法的性质</h4>
+
+<pre><code>* 矩阵的乘法不满足交换律： 𝐴×𝐵≠𝐵×𝐴
+* 矩阵的乘法满足结合律。即： 𝐴×（𝐵×𝐶）=（𝐴×𝐵）×𝐶
+* 在矩阵的乘法中，有一种矩阵起着特殊的作用，如同数的乘法中的 1,我们称这种矩阵为单位矩阵．它是个方阵，一般用 I 或者 E 表示，本讲义都用 I 代表单位矩阵，从左上角到右下角的对角线（称为主对角线）上的元素均为 1 以外全都为 0。
+</code></pre>
+
+<h4>逆矩阵</h4>
+
+<pre><code>矩阵 A 是一个 m×m 矩阵（方阵），如果有逆矩阵，则：𝐴𝐴−1=𝐴−1𝐴=𝐼
+
+ 没有逆矩阵的矩阵, 称为奇异 (singlar/degenerate)矩阵
+
+ ``
+ import numpy as np
+
+ a = np.mat([[1,2],[3,4]])
+ print ('a:\n',a)
+ res = np.linalg.inv(a)
+ print('a inverse:\n', res)
+ ``
+
+ 备注: 再octave中，可以用pinv函数(伪逆矩阵)对奇异矩阵求逆；
+</code></pre>
+
+<h4>矩阵转置</h4>
+
+<pre><code> 设 A 为 m×n 阶矩阵（即 m 行 n 列），第 i 行 j 列的元素是 a(i,j)，即：A=a(i,j) 定义 A 的转置为这样一个 n×m 阶矩阵 B，满足 B=a(j,i)，即 b (i,j)=a (j,i)（B 的第 i 行第 j 列元素是 A 的第 j 行第 i 列元素），记  𝐴𝑇=𝐵 。
+ ``
+ a = np.mat([[1,2],[3,4]])
+ print ('a:\n',a)
+ res = a.T
+ print('a transpose:\n', res)
+ ```&gt;
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-01T15:59:41+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ai/'>ai</a>, <a class='category' href='/blog/categories/develop/'>develop,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/" title="Previous Post: 理想中的比特币全节点实现">&laquo; 理想中的比特币全节点实现</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <!-- source\_includes\custom\asides\recent_comments.html -->
+
+<section>
+  <h1>近期回复</h1>
+  <script type="text/javascript">
+    function recent_comments(obj){
+      if(obj.response.length){
+        resault = '<ul>';
+        obj.response.forEach(function(response){
+          resault += '<li>';
+          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
+          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
+          resault += '<span>'+response.message+'</span><br>'
+          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
+          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
+          resault += '</li>';
+        });
+        resault += '</ul>';
+        document.write(resault);
+      }else{
+        document.write("目前沒有回复");
+      }
+    };
+  </script>
+  <script type="text/javascript" src="http://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=IVQOSOjZknRNZi3rYa3gxFA5CCLjuGP9ojHi3TSeUenFl2mckhh3gl9k9NqGDetu&related=thread&callback=recent_comments"></script>
+</section>
+
+<section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/">Using a GPG Key and Ssh Auth</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/09/python-requests-post-for-5-styles/">Python Requests Post for 5 Styles</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/';
+        var disqus_url = 'https://happy123.me/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
