@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Develop, | Living a Simple Life is a Happy Life]]></title>
+  <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:05:38+08:00</updated>
+  <updated>2019-09-02T09:07:00+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -230,6 +230,669 @@ x_n = \frac{x_n - \mu_n}{s_n}
 </script>
 
 <p>只要特征变量的数目并不大，标准方程是一个很好的计算参数 𝜃 的替代方法。具体地说，只要特征变量的数量小于一万，通常使用标准方程法，而不使用梯度下降法。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[为Flask RestAPI集成Swagger UI]]></title>
+    <link href="https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/"/>
+    <updated>2019-08-18T15:38:02+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui</id>
+    <content type="html"><![CDATA[<p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
+
+<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来…T_T”</p>
+
+<p>还是老老实实流水账记一下吧:</p>
+
+<!-- more -->
+
+<h3 id="section">依赖组件</h3>
+
+<ul>
+  <li><a href="https://flask-restplus.readthedocs.io">flask-restplus</a></li>
+</ul>
+
+<p>restplus能让人很方便的通过几个decorator就可以集成很漂亮的restapi，它提供了api命名空间、Request和Response解析以及Swagger UI的集成</p>
+
+<p>另外，flask-restplus的文档和例子写的非常简洁清晰，赞一个。</p>
+
+<ul>
+  <li><a href="https://flask-httpauth.readthedocs.io/en/latest/">flask-httpauth</a></li>
+</ul>
+
+<p>用来集成验证机制，支持基本的密码验证、Token验证；短小精悍，够用了</p>
+
+<h3 id="section-1">起步</h3>
+
+<p>引用官网的例子:</p>
+
+<h4 id="api">构建api对象</h4>
+
+<p>```
+from flask import Flask
+from flask_restplus import Api, Resource, fields
+from werkzeug.contrib.fixers import ProxyFix</p>
+
+<p>app = Flask(<strong>name</strong>)
+app.wsgi_app = ProxyFix(app.wsgi_app)</p>
+
+<p>api = Api(app, version=’1.0’, title=’Chainhorn API’,
+    description=’A simple ChainHorn API’,
+)</p>
+
+<p>ns = api.namespace(‘node’, description=’node operations’)
+```</p>
+
+<p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
+
+<p>下面紧跟着构建了一个<code>ns</code> –<code>namespace</code>对象，作用是为不同的资源，不同的url分组，这样最后反映到界面上好看一点；</p>
+
+<h4 id="section-2">修饰</h4>
+
+<p><code>
+@ns.route('')
+  class NodeGetInfo(Resource):
+      @ns_node.doc('get node info')
+      def get(self):
+          '''get node info'''
+          info = spv.getinfo()
+          return {'nodeinfo': info}, 200
+</code></p>
+
+<p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
+
+<h4 id="request">Request参数处理</h4>
+
+<p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
+下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code>
+<code>
+@ns.route('/broadcast/&lt;string:tx&gt;')
+  class WalletBroadcastTx(Resource):
+      @ns.doc('broadcast raw tx')
+      @ns.param('tx', 'The transaction hash identifier')
+      def post(self, tx):
+          '''broadcast raw tx'''
+          sendrawtransaction(spv, tx)
+          return {'broadcast': 'ok'}, 200
+</code></p>
+
+<p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
+
+<p><code>
+TxModel = {'tx': fields.String(required=True, description='The hex tx')}
+@ns.route('/broadcast')
+  class WalletBroadcastTx(Resource):
+      @ns.doc('broadcast raw tx')
+      @ns.expect(TxModel, 200)
+      def post(self, tx):
+          '''broadcast raw tx'''
+          sendrawtransaction(spv, api.payload['tx'])
+          return {'broadcast': 'ok'}, 200
+</code>          </p>
+
+<h4 id="response">Response参数处理</h4>
+
+<p>同样的，如果需要返回一个对象，在界面上出现这个对象的详细描述信息，可以用<code>marshal_with</code>和<code>marshal_list_with</code>来修饰；</p>
+
+<p>具体请参考:</p>
+
+<p>https://flask-restplus.readthedocs.io/en/stable/parsing.html</p>
+
+<h4 id="section-3">用户验证</h4>
+
+<p>例如，为API加上HTTP Token Auth，要用到<code>HTTPTokenAuth</code>对象；</p>
+
+<p>首先我们先定义验证规则:</p>
+
+<p>```
+auth = HTTPTokenAuth()
+tokens = {
+  ‘APIKEY’:’hello’,
+  “APPID”: “chainhorn”
+}</p>
+
+<p>@auth.verify_token
+def verify_token(token):
+  if request.headers.get(‘APIKEY’, ‘’).strip()==tokens[‘APIKEY’] and \
+     request.headers.get(‘APPID’, ‘’).strip() == tokens[‘APPID’]:
+      return True
+  else:
+      return False
+```</p>
+
+<p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
+
+<p>```
+@ns.route(‘’)
+class NodeGetInfo(Resource):
+  @ns.doc(‘get node info’)
+  @auth.login_required
+  def get(self):
+      ‘'’get node info’’’
+      info = spv.getinfo()
+      return {‘nodeinfo’: info}, 200</p>
+
+<p>```</p>
+
+<p>这样后台验证就有了；那么前台输入呢？</p>
+
+<p>这个例子里面，我们需要前台输入的时候在HTTP Header里面传入两个Key: APIKEY和APPKEY；直接用用Swagger UI自带的组件实现就可以了，把api对象构造为:</p>
+
+<p>```
+AUTHORIZATIONS = {
+    ‘apikey’: {
+        ‘type’: ‘apiKey’,
+        ‘in’: ‘header’,
+        ‘name’: ‘APIKEY’
+    },
+    ‘appid’: {
+        ‘type’: ‘apiKey’,
+        ‘in’: ‘header’,
+        ‘name’: ‘APPID’
+    }  <br />
+}
+api = Api(app,
+        version=’v1’,
+        authorizations=AUTHORIZATIONS,
+        security=list(AUTHORIZATIONS.keys()),
+        title=’Chainhorn API’,
+        description=’Chainhorn API’,
+)</p>
+
+<p>```</p>
+
+<p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>
+
+<p>此时前台的界面是这样的:</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg" alt="Auth1" /></p>
+
+<p>可以点击右上角的Authorize一次性设置所有API的访问密钥；</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg" alt="Auth2" /></p>
+
+<p>也可以在每个API的右上角设置访问密钥；</p>
+
+<p>当然，我们目前的密钥是后台写死的，你可以引入一个三方库为每个用户生成不同的密钥存到数据库里面，然后每次验证~~~</p>
+
+<h3 id="section-4">综合例子</h3>
+
+<p>最后，在github上面有个集大成的例子,值得推荐</p>
+
+<p>https://github.com/frol/flask-restplus-server-example</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Requests Post for 5 Styles]]></title>
+    <link href="https://happy123.me/blog/2019/08/09/python-requests-post-for-5-styles/"/>
+    <updated>2019-08-09T09:13:32+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/09/python-requests-post-for-5-styles</id>
+    <content type="html"><![CDATA[<h4 id="requestspost">requests库发送post请求的五种姿势;</h4>
+
+<!-- more -->
+
+<h4 id="applicationx-www-form-urlencoded">1.application/x-www-form-urlencoded</h4>
+
+<p>最常见的 POST 提交数据的方式了。浏览器的原生 form 表单，如果不设置 enctype属性，那么最终就会以 application/x-www-form-urlencoded方式提交数据。请求类似于下面这样:</p>
+
+<p><code>
+POST http://www.example.com HTTP/1.1    Content-Type:
+application/x-www-form-urlencoded;charset=utf-8
+title=test&amp;sub%5B%5D=1&amp;sub%5B%5D=2&amp;sub%5B%5D=3
+</code></p>
+
+<p>requests默认处理就是这种方式， exp:</p>
+
+<p><code>
+url = 'http://httpbin.org/post'
+d = {'key1': 'value1', 'key2': 'value2'}
+r = requests.post(url, data=d)
+print r.text
+</code></p>
+
+<h4 id="multipartform-data">2.multipart/form-data</h4>
+
+<p>除了传统的application/x-www-form-urlencoded表单，我们另一个经常用到的是上传文件用的表单，这种表单的类型为multipart/form-data。
+这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 form 的 enctyped 等于这个值:</p>
+
+<p>requests exp:
+```
+from requests_toolbelt import MultipartEncoder
+import requests</p>
+
+<p>m = MultipartEncoder(
+    fields={‘field0’: ‘value’, ‘field1’: ‘value’,
+            ‘field2’: (‘filename’, open(‘file.py’, ‘rb’), ‘text/plain’)}
+    )</p>
+
+<p>r = requests.post(‘http://httpbin.org/post’, data=m,
+                  headers={‘Content-Type’: m.content_type})
+```</p>
+
+<h4 id="applicationjson">3.application/json</h4>
+
+<p>application/json 这个 Content-Type作为响应头大家肯定不陌生。实际上，现在越来越多的人把它作为请求头，用来告诉服务端消息主体是序列化后的 JSON 字符串。</p>
+
+<p>requests exp:
+<code>
+url = 'http://httpbin.org/post'
+s = json.dumps({'key1': 'value1', 'key2': 'value2'})
+r = requests.post(url, data=s)
+print r.text
+</code></p>
+
+<p>or
+<code>
+requests.post(url='',data=json.dumps({'key1':'value1','key2':'value2'}),headers={'Content-Type':'application/json'})
+</code></p>
+
+<p>or</p>
+
+<p><code>
+requests.post(url='',json=key1,headers={'Content-Type':'application/json'})
+</code></p>
+
+<h4 id="textxml">4. text/xml</h4>
+<p>跟json类似，XML 作为编码方式的远程调用规范。</p>
+
+<p>requests exp:
+<code>
+requests.post(url='',data='&lt;?xml  ?&gt;',headers={'Content-Type':'text/xml'})
+</code></p>
+
+<h4 id="binary">5. binary</h4>
+
+<p>直接二进制流数据传输，多用于上传图片</p>
+
+<p>requests exp:</p>
+
+<p><code>
+requests.post(url='',files={'file':open('test.xls','rb')},headers={'Content-Type':'binary'})
+</code></p>
+
+<p>or</p>
+
+<p><code>
+url = 'http://httpbin.org/post'
+files = {'file': open('report.txt', 'rb')}
+r = requests.post(url, files=files)
+print r.text
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SSL&TLS Tips]]></title>
+    <link href="https://happy123.me/blog/2019/08/04/ssl-tls-tips/"/>
+    <updated>2019-08-04T09:35:42+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/04/ssl-tls-tips</id>
+    <content type="html"><![CDATA[<p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz…..</p>
+
+<p>话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~</p>
+
+<!-- more -->
+
+<p>现在有两个选择:</p>
+
+<ol>
+  <li>放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦</li>
+  <li>死磕openssl，把它彻底搞明白</li>
+</ol>
+
+<p>利弊权衡之下我选择了1，不过当然我也在2上花了一点时间，复习了一下基础知识，在此记录下来。</p>
+
+<h3 id="libssl3">libssl3是个什么东东</h3>
+
+<p>在探究libssl.so的时候，我无意发现我的系统里面还有一个libssl3.so；这个是什么东东？我印象里面openssl还只有1.x版本才对；</p>
+
+<p>我在ubuntu16.04下查看这个so文件来源;</p>
+
+<p><code>
+~ locate libssl3.so
+/usr/lib/x86_64-linux-gnu/libssl3.so
+</code></p>
+
+<p>nm看一下:</p>
+
+<p>```
+~ nm /usr/lib/x86<em>64-linux-gnu/libssl3.so
+nm: /usr/lib/x86</em>64-linux-gnu/libssl3.so: no symbols</p>
+
+<p>```</p>
+
+<p>奇怪，没有任何符号；继续用ldd看一下：</p>
+
+<p>```
+~ ldd /usr/lib/x86<em>64-linux-gnu/libssl3.so
+ldd /usr/lib/x86</em>64-linux-gnu/libssl3.so
+        linux-vdso.so.1 =&gt;  (0x00007ffe833bb000)
+        libnss3.so =&gt; /usr/lib/x86<em>64-linux-gnu/libnss3.so (0x00007faf3cc8a000)
+        libnssutil3.so =&gt; /usr/lib/x86</em>64-linux-gnu/libnssutil3.so (0x00007faf3ca5d000)
+        libplc4.so =&gt; /usr/lib/x86<em>64-linux-gnu/libplc4.so (0x00007faf3c858000)
+        libnspr4.so =&gt; /usr/lib/x86</em>64-linux-gnu/libnspr4.so (0x00007faf3c619000)
+        libpthread.so.0 =&gt; /lib/x86<em>64-linux-gnu/libpthread.so.0 (0x00007faf3c3fc000)
+        libc.so.6 =&gt; /lib/x86</em>64-linux-gnu/libc.so.6 (0x00007faf3c032000)
+        libz.so.1 =&gt; /lib/x86<em>64-linux-gnu/libz.so.1 (0x00007faf3be18000)
+        libplds4.so =&gt; /usr/lib/x86</em>64-linux-gnu/libplds4.so (0x00007faf3bc14000)
+        libdl.so.2 =&gt; /lib/x86<em>64-linux-gnu/libdl.so.2 (0x00007faf3ba10000)
+        librt.so.1 =&gt; /lib/x86</em>64-linux-gnu/librt.so.1 (0x00007faf3b808000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007faf3d21d000)</p>
+
+<p>```</p>
+
+<p>嗯，找到了一个有意思的依赖:libnss3.so</p>
+
+<p>再用命令dpkg看一下</p>
+
+<p><code>
+~ dpkg -S /usr/lib/x86_64-linux-gnu/libnss3.so
+libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so
+</code></p>
+
+<p>基本上确定是libnss3这个库引入的libssl3.so了，最后再用dpkg确认一下:</p>
+
+<p><code>
+~ dpkg-query -L libnss3
+/.
+/usr
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libnssutil3.so
+/usr/lib/x86_64-linux-gnu/nss
+/usr/lib/x86_64-linux-gnu/nss/libfreebl3.chk
+/usr/lib/x86_64-linux-gnu/nss/libnssckbi.so
+/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
+/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.chk
+/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.chk
+/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.so
+/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.chk
+/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.so
+/usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
+/usr/lib/x86_64-linux-gnu/nss/libnsssysinit.so
+/usr/lib/x86_64-linux-gnu/libsmime3.so
+/usr/lib/x86_64-linux-gnu/libnss3.so
+/usr/lib/x86_64-linux-gnu/libssl3.so
+/usr/share
+/usr/share/doc
+/usr/share/doc/libnss3
+/usr/share/doc/libnss3/copyright
+/usr/share/doc/libnss3/changelog.Debian.gz
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/libnss3
+</code></p>
+
+<h3 id="libnss3">libnss3是个什么东东?</h3>
+
+<p><code>
+apt-cache show libnss3
+</code></p>
+
+<p>看了一下，发现是mozilla基金会搞得东东；再google一下，发现是自己孤陋寡闻了；</p>
+
+<p>原来，SSL&amp;TSL的实现，不只是openssl一家独大，像Mozilla Firefox就用自家实现的Nss；</p>
+
+<p>Google Chrome之前也是用Nss的，后来迁移到了openssl，再后来，2014年，openssl1.0.1出现了heartbeat 漏洞，Google干脆自己开了个分支，用自己定制的openssl了；</p>
+
+<p>至于Windows平台的，还有C++阵营的，都有自己实现的ssl库，具体可参见:</p>
+
+<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
+
+<h3 id="nsscentos">nss在centos中</h3>
+
+<p>搜素的过程中，我惊奇的发现，ubuntu和centos上面的curl，竟然链接的libssl也不一样：</p>
+
+<p>ubuntu上的curl默认链接的是openssl，而centos上面默认链接的是libnss3；</p>
+
+<p>耐人寻味啊，莫非redhat系的人发现了什么~~~~</p>
+
+<p>做事要做全套，我分别切换到ubuntu16.04和centos7.2上面，看看他们官方仓库中自带的curl是如何编译的。</p>
+
+<h4 id="centos72">centos7.2</h4>
+
+<p><code>
+~ rpm -q --requires curl
+libc.so.6()(64bit)
+libc.so.6(GLIBC_2.14)(64bit)
+libc.so.6(GLIBC_2.17)(64bit)
+libc.so.6(GLIBC_2.2.5)(64bit)
+libc.so.6(GLIBC_2.3)(64bit)
+libc.so.6(GLIBC_2.4)(64bit)
+libc.so.6(GLIBC_2.7)(64bit)
+libcurl = 7.29.0-51.el7
+libcurl.so.4()(64bit)
+libdl.so.2()(64bit)
+libnspr4.so()(64bit)
+libnss3.so()(64bit)
+libnssutil3.so()(64bit)
+libplc4.so()(64bit)
+libplds4.so()(64bit)
+libpthread.so.0()(64bit)
+libpthread.so.0(GLIBC_2.2.5)(64bit)
+libsmime3.so()(64bit)
+libssl3.so()(64bit)
+libz.so.1()(64bit)
+rpmlib(CompressedFileNames) &lt;= 3.0.4-1
+rpmlib(FileDigests) &lt;= 4.6.0-1
+rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
+rtld(GNU_HASH)
+rpmlib(PayloadIsXz) &lt;= 5.2-1
+</code>
+用的是libcurl = 7.29.0-51.el7；</p>
+
+<p>```
+~ rpm -q –requires libcurl
+/sbin/ldconfig
+libc.so.6()(64bit)
+libc.so.6(GLIBC<em>2.14)(64bit)
+libc.so.6(GLIBC</em>2.15)(64bit)
+libc.so.6(GLIBC<em>2.16)(64bit)
+libc.so.6(GLIBC</em>2.17)(64bit)
+libc.so.6(GLIBC<em>2.2.5)(64bit)
+libc.so.6(GLIBC</em>2.3)(64bit)
+libc.so.6(GLIBC<em>2.3.4)(64bit)
+libc.so.6(GLIBC</em>2.4)(64bit)
+libc.so.6(GLIBC<em>2.7)(64bit)
+libcom_err.so.2()(64bit)
+libdl.so.2()(64bit)
+libgssapi_krb5.so.2()(64bit)
+libgssapi_krb5.so.2(gssapi_krb5</em>2<em>MIT)(64bit)
+libidn.so.11()(64bit)
+libidn.so.11(LIBIDN</em>1.0)(64bit)
+libk5crypto.so.3()(64bit)
+libkrb5.so.3()(64bit)
+liblber-2.4.so.2()(64bit)
+libldap-2.4.so.2()(64bit)
+libnspr4.so()(64bit)
+libnss3.so()(64bit)
+libnss3.so(NSS<em>3.10)(64bit)
+libnss3.so(NSS</em>3.12.1)(64bit)
+libnss3.so(NSS<em>3.12.5)(64bit)
+libnss3.so(NSS</em>3.2)(64bit)</p>
+
+<p>….
+<code>
+看到libnss3了,重点输出：
+</code>
+libnss3.so
+```
+那么这个包是谁提供的？输入如下命令：</p>
+
+<p><code>
+~ rpm -qf /usr/lib64/libnss3.so 
+    nss-3.36.0-7.1.el7_6.x86_64
+~ rpm -ql nss
+/etc/pki/nss-legacy
+/etc/pki/nss-legacy/nss-rhel7.config
+/etc/pki/nssdb
+/etc/pki/nssdb/cert8.db
+/etc/pki/nssdb/cert9.db
+/etc/pki/nssdb/key3.db
+/etc/pki/nssdb/key4.db
+/etc/pki/nssdb/pkcs11.txt
+/etc/pki/nssdb/secmod.db
+/usr/lib64/libnss3.so
+/usr/lib64/libnssckbi.so
+/usr/lib64/libsmime3.so
+/usr/lib64/libssl3.so
+/usr/lib64/nss/libnssckbi.so
+...
+</code>
+至此水落石出，还可以看到我们熟悉的证书cert8.db文件；但其实 curl 最终使用的根证书库并不是该文件。那 curl 使用的根证书文件在哪儿呢？</p>
+
+<p>使用 curl-config 命令行工具，能够了解更多：
+<code>
+~ curl-config --ca                        
+/etc/pki/tls/certs/ca-bundle.crt
+</code></p>
+
+<h4 id="ubuntu1604">ubuntu16.04</h4>
+
+<p>ubuntu16上面验证类似，不一一说明了~~~</p>
+
+<p>```
+~ dpkg-query -L libcurl3
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/libcurl3
+/usr/share/doc/libcurl3/copyright
+/usr/share/doc/libcurl3/changelog.Debian.gz
+/usr/share/doc/libcurl3/NEWS.Debian.gz
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/libcurl3
+/usr/lib
+/usr/lib/x86<em>64-linux-gnu
+/usr/lib/x86</em>64-linux-gnu/libcurl.so.4.4.0
+/usr/lib/x86<em>64-linux-gnu/libcurl.so.3
+/usr/lib/x86</em>64-linux-gnu/libcurl.so.4</p>
+
+<p>```</p>
+
+<p><code>
+~ apt-cache depends  libcurl3
+  Depends: libc6
+  Depends: libgssapi-krb5-2
+  Depends: libidn11
+  Depends: libldap-2.4-2
+  Depends: librtmp1
+  Depends: libssl1.0.0
+  Depends: zlib1g
+  Recommends: ca-certificates
+</code></p>
+
+<p>然后寻找libcurl的依赖库:</p>
+
+<p><code>
+~ ldd /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0|grep ssl
+libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)
+</code></p>
+
+<p>验证一下:</p>
+
+<p>```
+~ apt-cache depends openssl
+openssl
+  Depends: libc6
+  Depends: libssl1.0.0
+  Suggests: ca-certificates</p>
+
+<p>~ apt-cache rdepends  libssl1.0.0 | grep curl
+  libcurl3<br />
+```</p>
+
+<h3 id="section">总结</h3>
+
+<p>所以这就是想要解决一个问题的中途，又被带到了另外一条小路上；该说我是还有那么一点好奇心呢？还是注意力不集中呢？</p>
+
+<p>Orz………</p>
+
+<h3 id="section-1">参考资料:</h3>
+
+<p>https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</p>
+
+<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
+
+<p>https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E</p>
+
+<p>https://www.lbbniu.com/6680.html</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Libssl Segfaults on python3.6 With Threading]]></title>
+    <link href="https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/"/>
+    <updated>2019-08-03T20:23:47+08:00</updated>
+    <id>https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading</id>
+    <content type="html"><![CDATA[<p>openssl1.0.0 和 openssl1.0.1 使用Python3.6的绑定:</p>
+
+<!-- more -->
+
+<p>```
+import ctypes
+import logging</p>
+
+<p>try:
+    ssl_library = ctypes.cdll.LoadLibrary(‘libeay32.dll’)
+except Exception:
+    ssl_library = ctypes.cdll.LoadLibrary(‘libssl.so’)</p>
+
+<p>def check_result(val, func, args):
+    if val == 0:
+        raise ValueError
+    else:
+        return ctypes.c_void_p(val)</p>
+
+<h1 id="ssllibraryeckeynewrestype--ctypescvoidp">ssl_library.EC_KEY_new.restype = ctypes.c_void_p</h1>
+<p>ssl_library.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
+ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result</p>
+
+<p>k = ssl_library.EC_KEY_new_by_curve_name(NID_secp256k1)</p>
+
+<p>if ssl_library.EC_KEY_generate_key(k) != 1:
+    raise Exception(“internal error”)
+ssl_library.EC_KEY_free(k)</p>
+
+<p>```</p>
+
+<p>这段代码在多线程的时候会出现segmentation fault error； google一下发现<code>EC_KEY_generate_key</code>并不是线程安全的；于是:</p>
+
+<p>```
+openssl_locks = [threading.Lock() for _ in range(ssl_library.CRYPTO_num_locks())]
+openssl_locking_function = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int, ctypes.c_char_p, ctypes.c_int)
+openssl_threadid_function = ctypes.CFUNCTYPE(ctypes.c_ulong)</p>
+
+<p>@openssl_locking_function
+def openssl_lock(mode, type, file, line):
+    if (mode &amp; CRYPTO_LOCK) != 0:
+        openssl_locks[type].acquire()
+    else:
+        openssl_locks[type].release()</p>
+
+<p>@openssl_threadid_function
+def openssl_threadid():
+    v = threading.current_thread().ident
+    return v</p>
+
+<p>ssl_library.CRYPTO_set_id_callback(openssl_threadid)
+ssl_library.CRYPTO_set_locking_callback(openssl_lock)
+```</p>
+
+<p>诡异的是还是不定时的crash掉，又一通google之后发现是openssl1.0.0的实现问题，参考:</p>
+
+<p>https://bugs.python.org/issue29340</p>
+
+<p>需要升级至openssl1.1.0；</p>
+
+<p>这个是今天我在实现一个简单的比特币钱包的时候发现的，用函数名google了一通没发现问题；挂上gdb才追踪到了lib库里面；</p>
+
+<p>我当时通读了electrum的代码，还纳闷他为啥自己实现了一遍ECDSA，这回明白了；</p>
+
+<p>原来解决这种问题还蛮有兴致的，现在是越来越懒，有时候觉得这样效率真低啊，难道已经到了智力衰退期了，话说程序员有个35岁限制，我原来是不信的，现在有点体会了~~~</p>
 ]]></content>
   </entry>
   
