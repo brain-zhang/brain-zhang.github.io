@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -44,10 +44,11 @@ from peewee import SqliteDatabase, Model, CharField</p>
 
 <h2 id="section">创建</h2>
 
-<p><code>
-&gt;&gt;&gt; db.connect()
-&gt;&gt;&gt; db.create_tables([User])
-</code></p>
+<p>```
+»&gt; db.connect()
+»&gt; db.create_tables([User])</p>
+
+<p>```</p>
 
 <h2 id="section-1">保存</h2>
 
@@ -72,16 +73,18 @@ User.insert_many(user_records, fields=fields).execute()</p>
 
 <h2 id="section-3">查询</h2>
 
-<p><code>
+<p>```
 for user in User.select().where(User.username.contains(username)):
-    print(user.username ....)
-</code></p>
+    print(user.username ….)</p>
+
+<p>```</p>
 
 <h2 id="section-4">关闭</h2>
 
-<p><code>
-&gt;&gt;&gt; db.close()
-</code></p>
+<p>```
+»&gt; db.close()</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   

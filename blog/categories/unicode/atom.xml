@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unicode | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/unicode/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -20,46 +20,50 @@
     <id>https://happy123.me/blog/2014/09/17/python2-dot-x:error-when-printing-an-exception-containing-a-unicode-string</id>
     <content type="html"><![CDATA[<p>Python2.x中抛出Unicode的异常需要注意:</p>
 
-<p><code>
-&gt;&gt;&gt; try:
-...     raise Exception(u'Error when printing 中文异常')
-... except Exception, e:
-...     print e
-...     print str(e)
-</code>
+<p>```
+»&gt; try:
+…     raise Exception(u’Error when printing 中文异常’)
+… except Exception, e:
+…     print e
+…     print str(e)</p>
+
+<p>```
 会报UnicodeEncodeError: ‘ascii’ codec can’t encode character …</p>
 
 <p>同样，如果在log中直接输出，也会报错</p>
 
-<p><code>
-&gt;&gt;&gt; import logging
-    logger = logging.getLogger('default')
+<p>```
+»&gt; import logging
+    logger = logging.getLogger(‘default’)
     try:
-...     raise Exception(u'Error when printing 中文异常')
-... except Exception, e:
-...     logger.error(e)
-...     logger.error("%s", e)
-...     logger.error("%s", str(e))
-</code></p>
+…     raise Exception(u’Error when printing 中文异常’)
+… except Exception, e:
+…     logger.error(e)
+…     logger.error(“%s”, e)
+…     logger.error(“%s”, str(e))</p>
+
+<p>```</p>
 
 <p>简单的解决办法就是用e.message</p>
 
-<p><code>
-&gt;&gt;&gt; try:
-...     raise Exception(u'Error when printing 中文异常')
-... except Exception, e:
-...     print e.message
-...     print "%s" % e.message
-</code></p>
+<p>```
+»&gt; try:
+…     raise Exception(u’Error when printing 中文异常’)
+… except Exception, e:
+…     print e.message
+…     print “%s” % e.message</p>
+
+<p>```</p>
 
 <p>也可以详细的可以指定encoder</p>
 
-<p><code>
-&gt;&gt;&gt; try:
-...     raise Exception(u'Error when printing 中文异常')
-... except Exception, e:
-...     print unicode(e.message).encode('utf-8')
-</code></p>
+<p>```
+»&gt; try:
+…     raise Exception(u’Error when printing 中文异常’)
+… except Exception, e:
+…     print unicode(e.message).encode(‘utf-8’)</p>
+
+<p>```</p>
 
 <p>Python3就没这个事了，备忘一下。</p>
 

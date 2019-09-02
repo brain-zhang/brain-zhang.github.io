@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript_pattern | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/javascript-pattern/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -37,12 +37,13 @@ function Person(name) {
 }</p>
 
 <p>var reader = new Person(‘memoryboxes’);
-reader.getName();
-```</p>
+reader.getName();</p>
+
+<p>```</p>
 
 <p>好，下面定义一个它的子类</p>
 
-<p><code>
+<p>```
 /* Class Author */
 function Author(name, books) {
     Person.call(this, name);
@@ -50,14 +51,17 @@ function Author(name, books) {
 }
 Author.prototype = new Persion();  //set up the prototype chain
 Author.prototype.contructor = Author; //set the constructor attribute to author
-Author.getBooks = function() {return this.books;}
-</code></p>
+Author.getBooks = function() {return this.books;}</p>
 
-<p>容易费解的是这两行:
-<code>
+<p>```</p>
+
+<p>容易费解的是这两行:</p>
+
+<p>```
 Author.prototype = new Persion();  //set up the prototype chain
-Author.prototype.contructor = Author; //set the constructor attribute to author
-</code></p>
+Author.prototype.contructor = Author; //set the constructor attribute to author</p>
+
+<p>```</p>
 
 <p>javascript中，每个对象都有一个原型对象，在创建一个对象时，javascript会自动将其原型对象设置为其构造函数的prototype属性所指的对象。
 在访问对象的某个成员时，如果这个成员未见于当前对象，那么javascript会沿着原型链向上逐一访问每个原型对象(最顶端为Object.prototype对象)，直到找到这个成员为止。
@@ -68,18 +72,20 @@ Author.prototype.contructor = Author; //set the constructor attribute to author
 
 <p>最后，为了简化类的声明，可以将这些工作封装在extend函数中:</p>
 
-<p><code>
+<p>```
 function extend(subClass, superClass) {
     var F = function(){};
     F.prototype = superClass.prototype;
     subClass.prototype = new F();
     subClass.prototype.contructor = subClass;
-}
-</code>
+}</p>
+
+<p>```
 作为改进，定义了一个新对象F，避免基类对象过大，创建实例浪费资源。</p>
 
-<p>但是这样还有个小缺点，声明 Author的时候，还要显式的调用一下<code>Person.call()</code>，下面这个版本进一步做了改进：
-```
+<p>但是这样还有个小缺点，声明 Author的时候，还要显式的调用一下<code>Person.call()</code>，下面这个版本进一步做了改进：</p>
+
+<p>```
 function extend(subClass, superClass) {
     var F = function(){};
     F.prototype = superClass.prototype;
@@ -89,19 +95,23 @@ function extend(subClass, superClass) {
 <pre><code>subClass.superclass = superClass.prototype;
 if(superClass.prototype.contructor == Object.prototype.constructor) {
     superClass.prototype.contructor = superClass;
-} } ```
+} }
 </code></pre>
 
-<p>增加了一个superclass属性来直接访问基类，这样声明Author的时候可以这么写:
-<code>
+<p>```</p>
+
+<p>增加了一个superclass属性来直接访问基类，这样声明Author的时候可以这么写:</p>
+
+<p>```
 /* Class Author */
 function Author(name, books) {
     Author.superclass.contructor.call(this, name);
     this.books = books;
 }
 extend(Author, Person);
-Author.getBooks = function() {return this.books;}
-</code></p>
+Author.getBooks = function() {return this.books;}</p>
+
+<p>```</p>
 
 <h2 id="section-2">原型式继承</h2>
 <p>TODO</p>
@@ -136,8 +146,9 @@ Book.prototype.display = function() {…};</p>
 Book.prototype = {
     display: function(){…},
     checkIsdn: function(){…}
-};
-```</p>
+};</p>
+
+<p>```</p>
 
 <ul>
   <li>优点：简单</li>
@@ -175,8 +186,12 @@ Book.prototype = {
 getIsbn: function() {
     return this._isbn;
 }
-....... }; ``` * 优点：简单，安全性也有所增强 * 缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。
+....... };
 </code></pre>
+
+<p>```
+* 优点：简单，安全性也有所增强
+* 缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。</p>
 
 <h2 id="section-3">闭包实现私有成员</h2>
 
@@ -214,8 +229,9 @@ this.setAuthor(iauthor); };
 <p>Book.prototype = {
     display: fucntion(){},
     ….
-}
-```</p>
+}</p>
+
+<p>```</p>
 
 <p>这里应用了js的闭包特性，isbn等属性不再通过<code>this</code>来引用，而是放到函数的构造器里面。既要访问到私有成员，又要对外的方法放到函数的构造中，对私有成员没有依赖的函数用prototype。</p>
 
@@ -267,8 +283,9 @@ Book.converTotitleCase = function(){…};</p>
 <p>Book.prototype = {
     display: fucntion(){},
     ….
-}
-```</p>
+}</p>
+
+<p>```</p>
 
 <p>这里和<code>闭包实现私有成员</code>的区别就在于构造函数变成了一个内嵌函数，这样就创建了一个闭包，可以把静态的私有成员声明在最顶层。</p>
 
@@ -301,19 +318,20 @@ Book.converTotitleCase = function(){…};</p>
   <li>匿名函数</li>
 </ul>
 
-<p><code>
+<p>```
 (function(){
     var foo = 10;
     var bar = 2;
     alert(foo * bar);
-})();
-</code></p>
+})();</p>
+
+<p>```</p>
 
 <ul>
   <li>闭包</li>
 </ul>
 
-<p><code>
+<p>```
 var baz;
 (function(){
     var foo = 10;
@@ -322,8 +340,9 @@ var baz;
         return foo * bar;
     }
 })();
-baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行
-</code></p>
+baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行</p>
+
+<p>```</p>
 
 <ul>
   <li>

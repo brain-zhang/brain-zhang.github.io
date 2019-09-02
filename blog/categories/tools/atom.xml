@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -32,36 +32,42 @@
 <h3 id="gpg">GPG</h3>
 
 <ul>
-  <li>
-    <p>生成证书
-<code>
-gpg --gen-key
-</code></p>
-  </li>
-  <li>
-    <p>生成撤销证书</p>
-  </li>
+  <li>生成证书</li>
 </ul>
 
-<p><code>
-gpg --gen-revoke [用户ID]
-</code></p>
+<p>```
+gpg –gen-key</p>
+
+<p>```</p>
 
 <ul>
-  <li>列出所有密钥
-<code>
-gpg --list-keys
-</code></li>
+  <li>生成撤销证书</li>
 </ul>
 
-<p>输出
-<code>
+<p>```
+gpg –gen-revoke [用户ID]</p>
+
+<p>```</p>
+
+<ul>
+  <li>列出所有密钥</li>
+</ul>
+
+<p>```
+gpg –list-keys</p>
+
+<p>```</p>
+
+<p>输出</p>
+
+<p>```
 /home/brain/.gnupg/pubring.gpg
--------------------------------
+——————————-
 pub   4096R/xxxxxxxx 2018-08-16
 uid                  brain.zhang (happy123.me) &lt;brain.zhangbin#xxx.com&gt;
-sub   4096R/yyyyyyyy 2018-08-16
-</code></p>
+sub   4096R/yyyyyyyy 2018-08-16</p>
+
+<p>```</p>
 
 <p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示”用户ID”，第四行显示subkey。</p>
 
@@ -69,80 +75,104 @@ sub   4096R/yyyyyyyy 2018-08-16
   <li>输出密钥</li>
 </ul>
 
-<p><code>
-gpg --armor --output public-key.txt --export [用户ID]
-</code></p>
+<p>```
+gpg –armor –output public-key.txt –export [用户ID]</p>
+
+<p>```</p>
 
 <ul>
-  <li>
-    <p>输出密钥时转换私钥
-<code>
-gpg --armor --output private-key.txt --export-secret-keys
-</code></p>
-  </li>
-  <li>
-    <p>上传公钥
-<code>
-gpg --keyserver keys.gnupg.net --send-keys [pub key ID] 
-...
-gpg --keyserver keys.gnupg.net --search-keys brain.zhang
-</code></p>
-  </li>
-  <li>
-    <p>生成公钥指纹供别人检查
-<code>
-gpg --fingerprint [用户ID]
-</code></p>
-  </li>
-  <li>
-    <p>加密文件
-<code>
-gpg --recipient [用户ID] --output demo.en.txt --encrypt demo.txt
-</code></p>
-  </li>
-  <li>
-    <p>解密文件
-<code>
-gpg --decrypt demo.en.txt --output demo.de.txt
-</code></p>
-  </li>
-  <li>
-    <p>对文件签名
-<code>
-gpg --clearsign demo.txt
-</code></p>
-  </li>
-  <li>
-    <p>获得单独的签名文件
-<code>
-gpg --armor --detach-sign demo.txt
-</code></p>
-  </li>
-  <li>
-    <p>验证签名
-<code>
-gpg --verify demo.txt.asc demo.txt
-</code></p>
-  </li>
+  <li>输出密钥时转换私钥</li>
 </ul>
+
+<p>```
+gpg –armor –output private-key.txt –export-secret-keys</p>
+
+<p>```</p>
+
+<ul>
+  <li>上传公钥</li>
+</ul>
+
+<p>```
+gpg –keyserver keys.gnupg.net –send-keys [pub key ID] 
+…
+gpg –keyserver keys.gnupg.net –search-keys brain.zhang</p>
+
+<p>```</p>
+
+<ul>
+  <li>生成公钥指纹供别人检查</li>
+</ul>
+
+<p>```
+gpg –fingerprint [用户ID]</p>
+
+<p>```</p>
+
+<ul>
+  <li>加密文件</li>
+</ul>
+
+<p>```
+gpg –recipient [用户ID] –output demo.en.txt –encrypt demo.txt</p>
+
+<p>```</p>
+
+<ul>
+  <li>解密文件</li>
+</ul>
+
+<p>```
+gpg –decrypt demo.en.txt –output demo.de.txt</p>
+
+<p>```</p>
+
+<ul>
+  <li>对文件签名</li>
+</ul>
+
+<p>```
+gpg –clearsign demo.txt</p>
+
+<p>```</p>
+
+<ul>
+  <li>获得单独的签名文件</li>
+</ul>
+
+<p>```
+gpg –armor –detach-sign demo.txt</p>
+
+<p>```</p>
+
+<ul>
+  <li>验证签名</li>
+</ul>
+
+<p>```
+gpg –verify demo.txt.asc demo.txt</p>
+
+<p>```</p>
 
 <h3 id="section">导入第三方公钥</h3>
 
 <ul>
-  <li>
-    <p>获得公钥
-<code>
-gpg --keyserver keys.gnupg.net --search-keys &lt;user ID&gt;
-...
-gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang
-</code></p>
-  </li>
-  <li>
-    <p>验证公钥
-```
- gpg –edit-key <key /></p>
-  </li>
+  <li>获得公钥</li>
 </ul>
+
+<p>```
+gpg –keyserver keys.gnupg.net –search-keys <user>
+...
+gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang</user></p>
+
+<p>```</p>
+
+<ul>
+  <li>验证公钥</li>
+</ul>
+
+<p>```
+ gpg –edit-key <key /></p>
 
 <p>```
 你可以键入<code>fpr</code> 来打印这个主钥的指纹，和你得到的主钥指纹进行对比，如果一致则键入<code>trust</code> 来设置主钥的信任度。如果主钥被设置为绝对可信的（ultimately），GPG 会根据主钥的公钥验证从钥的签名，最终完成信任建立。最后键入quit 退出。</p>
@@ -150,64 +180,74 @@ gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang
 <h3 id="githubgpg">在Github中使用GPG</h3>
 
 <ul>
-  <li>
-    <p>输出key id
-<code>
-gpg --list-secret-keys --keyid-format LONG
-</code></p>
-  </li>
-  <li>
-    <p>设置提交
-```
- git config  user.signingkey <key /></p>
-  </li>
+  <li>输出key id</li>
 </ul>
+
+<p>```
+gpg –list-secret-keys –keyid-format LONG</p>
 
 <p>```</p>
 
 <ul>
-  <li>
-    <p>对单次提交进行签名： 
-<code>
-git commit -S -m "-S选项表示对此次提交使用gpg进行签名"
-</code></p>
-  </li>
-  <li>
-    <p>签名标签
-<code>
-git tag -s &lt;tag&gt;
-</code></p>
-  </li>
+  <li>设置提交</li>
 </ul>
+
+<p>```
+ git config  user.signingkey <key /></p>
+
+<p>```</p>
+
+<ul>
+  <li>对单次提交进行签名： </li>
+</ul>
+
+<p>```
+git commit -S -m “-S选项表示对此次提交使用gpg进行签名”</p>
+
+<p>```</p>
+
+<ul>
+  <li>签名标签</li>
+</ul>
+
+<p>```
+git tag -s <tag /></p>
+
+<p>```</p>
 
 <h3 id="ssh-server-gen">ssh server gen</h3>
 
 <ul>
-  <li>
-    <p>制作密钥对
-<code>
-[root@host ~]$ ssh-keygen 
-</code></p>
-  </li>
-  <li>
-    <p>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥
-<code>
-[root@host ~]$ cd .ssh
-[root@host .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys
-[root@host .ssh]$ chmod 600 authorized_keys
-[root@host .ssh]$ chmod 700 ~/.ssh
-</code></p>
-  </li>
-  <li>
-    <p>设置 SSHD，打开密钥登录功能
-编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
-  </li>
+  <li>制作密钥对</li>
 </ul>
 
-<p><code>
+<p>```
+[root@host ~]$ ssh-keygen </p>
+
+<p>```</p>
+
+<ul>
+  <li>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥</li>
+</ul>
+
+<p>```
+[root@host ~]$ cd .ssh
+[root@host .ssh]$ cat id_rsa.pub » authorized_keys
+[root@host .ssh]$ chmod 600 authorized_keys
+[root@host .ssh]$ chmod 700 ~/.ssh</p>
+
+<p>```</p>
+
+<ul>
+  <li>设置 SSHD，打开密钥登录功能
+编辑 /etc/ssh/sshd_config 文件，进行如下设置：</li>
+</ul>
+
+<p>```
 PubkeyAuthentication yes
-PermitRootLogin yes
-</code></p>
+PermitRootLogin yes</p>
+
+<p>```</p>
 
 <ul>
   <li>将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</li>
@@ -220,12 +260,14 @@ PermitRootLogin yes
 <p>今后，当你使用 PuTTY 登录时，可以在左侧的 Connection -&gt; SSH -&gt; Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
 
 <ul>
-  <li>验证无误，关闭密码登陆
-<code>
-PasswordAuthentication no
-[root@host .ssh]$ service sshd restart
-</code></li>
+  <li>验证无误，关闭密码登陆</li>
 </ul>
+
+<p>```
+PasswordAuthentication no
+[root@host .ssh]$ service sshd restart</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   
@@ -238,9 +280,10 @@ PasswordAuthentication no
 
 <p>WSL最让我满意的，是命令行里面可以结合Windows和Linux的命令行工具来管道处理，这个实在是太赞了。纯粹计算类的程序，Windows上面有很多现成的命令行工具，现在终于能:</p>
 
-<p><code>
-ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~
-</code></p>
+<p>```
+ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~</p>
+
+<p>```</p>
 
 <p>这样来搞了，事实上，我自己写了很多Python脚本来处理Powershell自带的很多工具输出的内容，还有不少GPU运算程序大多数跑在Windows上面，能直接重定向到Linux上面实在太好了。</p>
 
@@ -254,9 +297,10 @@ ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~
   <li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
 </ul>
 
-<p><code>
-sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g
-</code></p>
+<p>```
+sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs “G:” /mnt/g</p>
+
+<p>```</p>
 
 <ul>
   <li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
@@ -275,17 +319,19 @@ sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g
     <id>https://happy123.me/blog/2019/01/16/alias-rm-to-mv</id>
     <content type="html"><![CDATA[<p>之前一直简单的用</p>
 
-<p><code>
-alias rm='mv -f $@ ~/.trash'
-</code> </p>
+<p>``` 
+alias rm=’mv -f $@ ~/.trash’</p>
+
+<p>``` </p>
 
 <p>取代rm命令。</p>
 
 <p>这样用着有个不便的地方，就是有时候做个脚本命令，带个<code>;</code>的时候会解析有问题。今天突然发现一个用函数来替代的好办法，记一下：</p>
 
-<p><code>
-alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'
-</code></p>
+<p>```
+alias rm=’move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@’</p>
+
+<p>```</p>
 
 <p>参考资料：</p>
 
@@ -434,28 +480,31 @@ alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'
     <id>https://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file</id>
     <content type="html"><![CDATA[<p>有一个100G的大文本文件 emailinfo.dict，包含邮箱及用户昵称; 格式为</p>
 
-<p><code>
+<p>```
 hello@163.com,你是我的海
-...
-</code></p>
+…</p>
+
+<p>```</p>
 
 <p>有一个用户名文件user.txt，格式为:</p>
 
-<p><code>
+<p>```
 aaa
 xxxx
-....
-</code></p>
+….</p>
+
+<p>```</p>
 
 <p>我们希望找出emailinfo.dict中，以user.txt中用户名开头的所有内容。</p>
 
 <p>首先将user.txt内容改为:</p>
 
-<p><code>
+<p>```
 ^aaa
 ^xxxx
-....
-</code></p>
+….</p>
+
+<p>```</p>
 
 <p>然后执行:</p>
 

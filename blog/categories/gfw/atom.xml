@@ -4,7 +4,7 @@
   <title><![CDATA[Category: GFW | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/gfw/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -22,27 +22,33 @@
 
 <h2 id="install-docker-ce">Install Docker CE</h2>
 
-<p><code>
+<p>```
 $ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
-$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
-$ sudo yum install docker-ce
-</code></p>
+$ sudo yum-config-manager    –add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+$ sudo yum install docker-ce</p>
+
+<p>```</p>
 
 <h2 id="start--docker">start  docker</h2>
 
-<p><code>
-sudo systemctl start docker
-</code></p>
+<p>```
+sudo systemctl start docker</p>
+
+<p>```</p>
 
 <h2 id="pull-shadowsocks-container">pull shadowsocks container</h2>
-<p><code>
-sudo docker pull oddrationale/docker-shadowsocks
-</code></p>
+
+<p>```
+sudo docker pull oddrationale/docker-shadowsocks</p>
+
+<p>```</p>
 
 <h2 id="start-shadowsocks-service">start shadowsocks service</h2>
-<p><code>
-sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb
-</code></p>
+
+<p>```
+sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb</p>
+
+<p>```</p>
 
 <p>You can configure the service to run on a port of your choice. Just make sure the port number given to Docker is the same as the one given to shadowsocks. Also, it is highly recommended that you store the shadowsocks password in an environment variable as shown above. This way the password will not show in plain text when you run docker ps.</p>
 

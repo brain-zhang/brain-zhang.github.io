@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -86,47 +86,52 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 
 <h4 id="x2">一个2X2矩阵</h4>
 
-<p><code>
+<p>```
 import numpy as np
-a=np.array([[1, 2], [3, 4]])
-</code></p>
+a=np.array([[1, 2], [3, 4]])</p>
+
+<p>```</p>
 
 <h4 id="section-5">向量是列数为1的特殊矩阵:</h4>
 
-<p><code>
-b = np.array(np.zeros((3,1)))
-</code></p>
+<p>```
+b = np.array(np.zeros((3,1)))</p>
+
+<p>```</p>
 
 <h4 id="section-6">矩阵的加法</h4>
 
 <p>行列数相等的才可以做加法，两个矩阵相加就是行列对应的元素相加。</p>
 
-<p><code>
+<p>```
 import numpy as np
 a = np.mat([[1,0],[2,5],[3,1]])
 b = np.mat([[4,0.5],[2,5],[0,1]])
-print ("a: \n",a, "\nb: \n",b)
-print ("a+b: \n",a+b)  # a + b，矩阵相加
-</code></p>
+print (“a: \n”,a, “\nb: \n”,b)
+print (“a+b: \n”,a+b)  # a + b，矩阵相加</p>
+
+<p>```</p>
 
 <h4 id="section-7">矩阵的标量乘法</h4>
 
 <p>矩阵和标量的乘法也很简单,就是矩阵的每个元素都与标量相乘。</p>
 
-<p><code>
-print ("a: \n",a)
-print ("3*a: \n",3* a)  #矩阵标量乘法
-</code></p>
+<p>```
+print (“a: \n”,a)
+print (“3<em>a: \n”,3</em> a)  #矩阵标量乘法</p>
+
+<p>```</p>
 
 <h4 id="section-8">向量乘法</h4>
 <p>m×n 的矩阵乘以 n×1 的向量，得到的是 m×1 的向量</p>
 
-<p><code>
+<p>```
 import numpy as np
 a = np.mat([[-1,2],[2,3]])
 c = np.mat([[3],[4]])
-ac = a * c
-</code></p>
+ac = a * c</p>
+
+<p>```</p>
 
 <h4 id="section-9">矩阵乘法的性质</h4>
 <ul>
@@ -147,8 +152,9 @@ import numpy as np</p>
 <p>a = np.mat([[1,2],[3,4]])
 print (‘a:\n’,a)
 res = np.linalg.inv(a)
-print(‘a inverse:\n’, res)
-```</p>
+print(‘a inverse:\n’, res)</p>
+
+<p>```</p>
 
 <p>备注: 再octave中，可以用pinv函数(伪逆矩阵)对奇异矩阵求逆；</p>
 
@@ -156,12 +162,13 @@ print(‘a inverse:\n’, res)
 
 <p>设 A 为 m×n 阶矩阵（即 m 行 n 列），第 i 行 j 列的元素是 a(i,j)，即：A=a(i,j) 定义 A 的转置为这样一个 n×m 阶矩阵 B，满足 B=a(j,i)，即 b (i,j)=a (j,i)（B 的第 i 行第 j 列元素是 A 的第 j 行第 i 列元素），记  𝐴𝑇=𝐵 。</p>
 
-<p><code>
+<p>```
 a = np.mat([[1,2],[3,4]])
-print ('a:\n',a)
+print (‘a:\n’,a)
 res = a.T
-print('a transpose:\n', res)
-</code></p>
+print(‘a transpose:\n’, res)</p>
+
+<p>```</p>
 
 <h2 id="section-12">4-多变量线性回归</h2>
 
@@ -187,12 +194,13 @@ h_{\theta}(x) = \theta^TX
 J(\theta_{0}, \theta_{1}...\theta_{n}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2}
 </script>
 
-<p><code>
+<p>```
 # 代价函数的python代码实现
 def Cost(X, y, theta):
     inner = np.power(((X * theta.T) - y), 2)
-    return np.sum(inner) / (2 * len(X))
-</code></p>
+    return np.sum(inner) / (2 * len(X))</p>
+
+<p>```</p>
 
 <h4 id="section-14">梯度下降 - 特征缩放</h4>
 
@@ -280,8 +288,9 @@ app.wsgi_app = ProxyFix(app.wsgi_app)</p>
     description=’A simple ChainHorn API’,
 )</p>
 
-<p>ns = api.namespace(‘node’, description=’node operations’)
-```</p>
+<p>ns = api.namespace(‘node’, description=’node operations’)</p>
+
+<p>```</p>
 
 <p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
 
@@ -289,15 +298,16 @@ app.wsgi_app = ProxyFix(app.wsgi_app)</p>
 
 <h4 id="section-2">修饰</h4>
 
-<p><code>
-@ns.route('')
+<p>```
+@ns.route(‘’)
   class NodeGetInfo(Resource):
-      @ns_node.doc('get node info')
+      @ns_node.doc(‘get node info’)
       def get(self):
-          '''get node info'''
+          ‘'’get node info’’’
           info = spv.getinfo()
-          return {'nodeinfo': info}, 200
-</code></p>
+          return {‘nodeinfo’: info}, 200</p>
+
+<p>```</p>
 
 <p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
 
@@ -306,30 +316,32 @@ app.wsgi_app = ProxyFix(app.wsgi_app)</p>
 <p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
 下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code></p>
 
-<p><code>
-@ns.route('/broadcast/&lt;string:tx&gt;')
+<p>```
+@ns.route(‘/broadcast/<string:tx>')
   class WalletBroadcastTx(Resource):
       @ns.doc('broadcast raw tx')
       @ns.param('tx', 'The transaction hash identifier')
       def post(self, tx):
           '''broadcast raw tx'''
           sendrawtransaction(spv, tx)
-          return {'broadcast': 'ok'}, 200
-</code></p>
+          return {'broadcast': 'ok'}, 200</string:tx></p>
+
+<p>```</p>
 
 <p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
 
-<p><code>
-TxModel = {'tx': fields.String(required=True, description='The hex tx')}
-@ns.route('/broadcast')
+<p>```
+TxModel = {‘tx’: fields.String(required=True, description=’The hex tx’)}
+@ns.route(‘/broadcast’)
   class WalletBroadcastTx(Resource):
-      @ns.doc('broadcast raw tx')
+      @ns.doc(‘broadcast raw tx’)
       @ns.expect(TxModel, 200)
       def post(self, tx):
-          '''broadcast raw tx'''
-          sendrawtransaction(spv, api.payload['tx'])
-          return {'broadcast': 'ok'}, 200
-</code></p>
+          ‘'’broadcast raw tx’’’
+          sendrawtransaction(spv, api.payload[‘tx’])
+          return {‘broadcast’: ‘ok’}, 200</p>
+
+<p>```</p>
 
 <h4 id="response">Response参数处理</h4>
 
@@ -358,8 +370,9 @@ def verify_token(token):
      request.headers.get(‘APPID’, ‘’).strip() == tokens[‘APPID’]:
       return True
   else:
-      return False
-```</p>
+      return False</p>
+
+<p>```</p>
 
 <p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
 
@@ -438,28 +451,31 @@ api = Api(app,
 
 <p>最常见的 POST 提交数据的方式了。浏览器的原生 form 表单，如果不设置 enctype属性，那么最终就会以 application/x-www-form-urlencoded方式提交数据。请求类似于下面这样:</p>
 
-<p><code>
+<p>```
 POST http://www.example.com HTTP/1.1    Content-Type:
 application/x-www-form-urlencoded;charset=utf-8
-title=test&amp;sub%5B%5D=1&amp;sub%5B%5D=2&amp;sub%5B%5D=3
-</code></p>
+title=test&amp;sub%5B%5D=1&amp;sub%5B%5D=2&amp;sub%5B%5D=3</p>
+
+<p>```</p>
 
 <p>requests默认处理就是这种方式， exp:</p>
 
-<p><code>
-url = 'http://httpbin.org/post'
-d = {'key1': 'value1', 'key2': 'value2'}
+<p>```
+url = ‘http://httpbin.org/post’
+d = {‘key1’: ‘value1’, ‘key2’: ‘value2’}
 r = requests.post(url, data=d)
-print r.text
-</code></p>
+print r.text</p>
+
+<p>```</p>
 
 <h4 id="multipartform-data">2.multipart/form-data</h4>
 
 <p>除了传统的application/x-www-form-urlencoded表单，我们另一个经常用到的是上传文件用的表单，这种表单的类型为multipart/form-data。
 这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 form 的 enctyped 等于这个值:</p>
 
-<p>requests exp:
-```
+<p>requests exp:</p>
+
+<p>```
 from requests_toolbelt import MultipartEncoder
 import requests</p>
 
@@ -469,39 +485,47 @@ import requests</p>
     )</p>
 
 <p>r = requests.post(‘http://httpbin.org/post’, data=m,
-                  headers={‘Content-Type’: m.content_type})
-```</p>
+                  headers={‘Content-Type’: m.content_type})</p>
+
+<p>```</p>
 
 <h4 id="applicationjson">3.application/json</h4>
 
 <p>application/json 这个 Content-Type作为响应头大家肯定不陌生。实际上，现在越来越多的人把它作为请求头，用来告诉服务端消息主体是序列化后的 JSON 字符串。</p>
 
-<p>requests exp:
-<code>
-url = 'http://httpbin.org/post'
-s = json.dumps({'key1': 'value1', 'key2': 'value2'})
-r = requests.post(url, data=s)
-print r.text
-</code></p>
+<p>requests exp:</p>
 
-<p>or
-<code>
-requests.post(url='',data=json.dumps({'key1':'value1','key2':'value2'}),headers={'Content-Type':'application/json'})
-</code></p>
+<p>```
+url = ‘http://httpbin.org/post’
+s = json.dumps({‘key1’: ‘value1’, ‘key2’: ‘value2’})
+r = requests.post(url, data=s)
+print r.text</p>
+
+<p>```</p>
 
 <p>or</p>
 
-<p><code>
-requests.post(url='',json=key1,headers={'Content-Type':'application/json'})
-</code></p>
+<p>```
+requests.post(url=’‘,data=json.dumps({‘key1’:’value1’,’key2’:’value2’}),headers={‘Content-Type’:’application/json’})</p>
+
+<p>```</p>
+
+<p>or</p>
+
+<p>```
+requests.post(url=’‘,json={{‘key1’:’value1’,’key2’:’value2’}},headers={‘Content-Type’:’application/json’})</p>
+
+<p>```</p>
 
 <h4 id="textxml">4. text/xml</h4>
 <p>跟json类似，XML 作为编码方式的远程调用规范。</p>
 
-<p>requests exp:
-<code>
-requests.post(url='',data='&lt;?xml  ?&gt;',headers={'Content-Type':'text/xml'})
-</code></p>
+<p>requests exp:</p>
+
+<p>```
+requests.post(url=’‘,data=’<?xml  ?>‘,headers={‘Content-Type’:’text/xml’})</p>
+
+<p>```</p>
 
 <h4 id="binary">5. binary</h4>
 
@@ -509,18 +533,20 @@ requests.post(url='',data='&lt;?xml  ?&gt;',headers={'Content-Type':'text/xml'})
 
 <p>requests exp:</p>
 
-<p><code>
-requests.post(url='',files={'file':open('test.xls','rb')},headers={'Content-Type':'binary'})
-</code></p>
+<p>```
+requests.post(url=’‘,files={‘file’:open(‘test.xls’,’rb’)},headers={‘Content-Type’:’binary’})</p>
+
+<p>```</p>
 
 <p>or</p>
 
-<p><code>
-url = 'http://httpbin.org/post'
-files = {'file': open('report.txt', 'rb')}
+<p>```
+url = ‘http://httpbin.org/post’
+files = {‘file’: open(‘report.txt’, ‘rb’)}
 r = requests.post(url, files=files)
-print r.text
-</code></p>
+print r.text</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   
@@ -550,10 +576,11 @@ print r.text
 
 <p>我在ubuntu16.04下查看这个so文件来源;</p>
 
-<p><code>
+<p>```
 ~ locate libssl3.so
-/usr/lib/x86_64-linux-gnu/libssl3.so
-</code></p>
+/usr/lib/x86_64-linux-gnu/libssl3.so</p>
+
+<p>```</p>
 
 <p>nm看一下:</p>
 
@@ -587,34 +614,35 @@ ldd /usr/lib/x86</em>64-linux-gnu/libssl3.so
 
 <p>再用命令dpkg看一下</p>
 
-<p><code>
-~ dpkg -S /usr/lib/x86_64-linux-gnu/libnss3.so
-libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so
-</code></p>
+<p>```
+~ dpkg -S /usr/lib/x86<em>64-linux-gnu/libnss3.so
+libnss3:amd64: /usr/lib/x86</em>64-linux-gnu/libnss3.so</p>
+
+<p>```</p>
 
 <p>基本上确定是libnss3这个库引入的libssl3.so了，最后再用dpkg确认一下:</p>
 
-<p><code>
+<p>```
 ~ dpkg-query -L libnss3
 /.
 /usr
 /usr/lib
-/usr/lib/x86_64-linux-gnu
-/usr/lib/x86_64-linux-gnu/libnssutil3.so
-/usr/lib/x86_64-linux-gnu/nss
-/usr/lib/x86_64-linux-gnu/nss/libfreebl3.chk
-/usr/lib/x86_64-linux-gnu/nss/libnssckbi.so
-/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
-/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.chk
-/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.chk
-/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.so
-/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.chk
-/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.so
-/usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
-/usr/lib/x86_64-linux-gnu/nss/libnsssysinit.so
-/usr/lib/x86_64-linux-gnu/libsmime3.so
-/usr/lib/x86_64-linux-gnu/libnss3.so
-/usr/lib/x86_64-linux-gnu/libssl3.so
+/usr/lib/x86<em>64-linux-gnu
+/usr/lib/x86</em>64-linux-gnu/libnssutil3.so
+/usr/lib/x86<em>64-linux-gnu/nss
+/usr/lib/x86</em>64-linux-gnu/nss/libfreebl3.chk
+/usr/lib/x86<em>64-linux-gnu/nss/libnssckbi.so
+/usr/lib/x86</em>64-linux-gnu/nss/libsoftokn3.so
+/usr/lib/x86<em>64-linux-gnu/nss/libsoftokn3.chk
+/usr/lib/x86</em>64-linux-gnu/nss/libfreeblpriv3.chk
+/usr/lib/x86<em>64-linux-gnu/nss/libfreeblpriv3.so
+/usr/lib/x86</em>64-linux-gnu/nss/libnssdbm3.chk
+/usr/lib/x86<em>64-linux-gnu/nss/libnssdbm3.so
+/usr/lib/x86</em>64-linux-gnu/nss/libfreebl3.so
+/usr/lib/x86<em>64-linux-gnu/nss/libnsssysinit.so
+/usr/lib/x86</em>64-linux-gnu/libsmime3.so
+/usr/lib/x86<em>64-linux-gnu/libnss3.so
+/usr/lib/x86</em>64-linux-gnu/libssl3.so
 /usr/share
 /usr/share/doc
 /usr/share/doc/libnss3
@@ -622,14 +650,16 @@ libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so
 /usr/share/doc/libnss3/changelog.Debian.gz
 /usr/share/lintian
 /usr/share/lintian/overrides
-/usr/share/lintian/overrides/libnss3
-</code></p>
+/usr/share/lintian/overrides/libnss3</p>
+
+<p>```</p>
 
 <h3 id="libnss3">libnss3是个什么东东?</h3>
 
-<p><code>
-apt-cache show libnss3
-</code></p>
+<p>```
+apt-cache show libnss3</p>
+
+<p>```</p>
 
 <p>看了一下，发现是mozilla基金会搞得东东；再google一下，发现是自己孤陋寡闻了；</p>
 
@@ -653,15 +683,15 @@ apt-cache show libnss3
 
 <h4 id="centos72">centos7.2</h4>
 
-<p><code>
-~ rpm -q --requires curl
+<p>```
+~ rpm -q –requires curl
 libc.so.6()(64bit)
-libc.so.6(GLIBC_2.14)(64bit)
-libc.so.6(GLIBC_2.17)(64bit)
-libc.so.6(GLIBC_2.2.5)(64bit)
-libc.so.6(GLIBC_2.3)(64bit)
-libc.so.6(GLIBC_2.4)(64bit)
-libc.so.6(GLIBC_2.7)(64bit)
+libc.so.6(GLIBC<em>2.14)(64bit)
+libc.so.6(GLIBC</em>2.17)(64bit)
+libc.so.6(GLIBC<em>2.2.5)(64bit)
+libc.so.6(GLIBC</em>2.3)(64bit)
+libc.so.6(GLIBC<em>2.4)(64bit)
+libc.so.6(GLIBC</em>2.7)(64bit)
 libcurl = 7.29.0-51.el7
 libcurl.so.4()(64bit)
 libdl.so.2()(64bit)
@@ -679,8 +709,9 @@ rpmlib(CompressedFileNames) &lt;= 3.0.4-1
 rpmlib(FileDigests) &lt;= 4.6.0-1
 rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
 rtld(GNU_HASH)
-rpmlib(PayloadIsXz) &lt;= 5.2-1
-</code>
+rpmlib(PayloadIsXz) &lt;= 5.2-1</p>
+
+<p>```
 用的是libcurl = 7.29.0-51.el7；</p>
 
 <p>```
@@ -713,17 +744,20 @@ libnss3.so(NSS</em>3.12.1)(64bit)
 libnss3.so(NSS<em>3.12.5)(64bit)
 libnss3.so(NSS</em>3.2)(64bit)</p>
 
-<p>….
-<code>
-看到libnss3了,重点输出：
-</code>
-libnss3.so
-```
+<p>….</p>
+
+<p>```
+看到libnss3了,重点输出：</p>
+
+<p>```
+libnss3.so</p>
+
+<p>```
 那么这个包是谁提供的？输入如下命令：</p>
 
-<p><code>
+<p>```
 ~ rpm -qf /usr/lib64/libnss3.so 
-    nss-3.36.0-7.1.el7_6.x86_64
+    nss-3.36.0-7.1.el7<em>6.x86</em>64
 ~ rpm -ql nss
 /etc/pki/nss-legacy
 /etc/pki/nss-legacy/nss-rhel7.config
@@ -739,15 +773,18 @@ libnss3.so
 /usr/lib64/libsmime3.so
 /usr/lib64/libssl3.so
 /usr/lib64/nss/libnssckbi.so
-...
-</code>
+…</p>
+
+<p>```
 至此水落石出，还可以看到我们熟悉的证书cert8.db文件；但其实 curl 最终使用的根证书库并不是该文件。那 curl 使用的根证书文件在哪儿呢？</p>
 
-<p>使用 curl-config 命令行工具，能够了解更多：
-<code>
-~ curl-config --ca                        
-/etc/pki/tls/certs/ca-bundle.crt
-</code></p>
+<p>使用 curl-config 命令行工具，能够了解更多：</p>
+
+<p>```
+~ curl-config –ca                      <br />
+/etc/pki/tls/certs/ca-bundle.crt</p>
+
+<p>```</p>
 
 <h4 id="ubuntu1604">ubuntu16.04</h4>
 
@@ -774,7 +811,7 @@ libnss3.so
 
 <p>```</p>
 
-<p><code>
+<p>```
 ~ apt-cache depends  libcurl3
   Depends: libc6
   Depends: libgssapi-krb5-2
@@ -783,15 +820,17 @@ libnss3.so
   Depends: librtmp1
   Depends: libssl1.0.0
   Depends: zlib1g
-  Recommends: ca-certificates
-</code></p>
+  Recommends: ca-certificates</p>
+
+<p>```</p>
 
 <p>然后寻找libcurl的依赖库:</p>
 
-<p><code>
-~ ldd /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0|grep ssl
-libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)
-</code></p>
+<p>```
+~ ldd /usr/lib/x86<em>64-linux-gnu/libcurl.so.4.4.0|grep ssl
+libssl.so.1.0.0 =&gt; /lib/x86</em>64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)</p>
+
+<p>```</p>
 
 <p>验证一下:</p>
 
@@ -803,8 +842,9 @@ openssl
   Suggests: ca-certificates</p>
 
 <p>~ apt-cache rdepends  libssl1.0.0 | grep curl
-  libcurl3<br />
-```</p>
+  libcurl3  </p>
+
+<p>```</p>
 
 <h3 id="section">总结</h3>
 
@@ -880,8 +920,9 @@ def openssl_threadid():
     return v</p>
 
 <p>ssl_library.CRYPTO_set_id_callback(openssl_threadid)
-ssl_library.CRYPTO_set_locking_callback(openssl_lock)
-```</p>
+ssl_library.CRYPTO_set_locking_callback(openssl_lock)</p>
+
+<p>```</p>
 
 <p>诡异的是还是不定时的crash掉，又一通google之后发现是openssl1.0.0的实现问题，参考:</p>
 

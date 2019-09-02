@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ai | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/ai/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -86,47 +86,52 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 
 <h4 id="x2">一个2X2矩阵</h4>
 
-<p><code>
+<p>```
 import numpy as np
-a=np.array([[1, 2], [3, 4]])
-</code></p>
+a=np.array([[1, 2], [3, 4]])</p>
+
+<p>```</p>
 
 <h4 id="section-5">向量是列数为1的特殊矩阵:</h4>
 
-<p><code>
-b = np.array(np.zeros((3,1)))
-</code></p>
+<p>```
+b = np.array(np.zeros((3,1)))</p>
+
+<p>```</p>
 
 <h4 id="section-6">矩阵的加法</h4>
 
 <p>行列数相等的才可以做加法，两个矩阵相加就是行列对应的元素相加。</p>
 
-<p><code>
+<p>```
 import numpy as np
 a = np.mat([[1,0],[2,5],[3,1]])
 b = np.mat([[4,0.5],[2,5],[0,1]])
-print ("a: \n",a, "\nb: \n",b)
-print ("a+b: \n",a+b)  # a + b，矩阵相加
-</code></p>
+print (“a: \n”,a, “\nb: \n”,b)
+print (“a+b: \n”,a+b)  # a + b，矩阵相加</p>
+
+<p>```</p>
 
 <h4 id="section-7">矩阵的标量乘法</h4>
 
 <p>矩阵和标量的乘法也很简单,就是矩阵的每个元素都与标量相乘。</p>
 
-<p><code>
-print ("a: \n",a)
-print ("3*a: \n",3* a)  #矩阵标量乘法
-</code></p>
+<p>```
+print (“a: \n”,a)
+print (“3<em>a: \n”,3</em> a)  #矩阵标量乘法</p>
+
+<p>```</p>
 
 <h4 id="section-8">向量乘法</h4>
 <p>m×n 的矩阵乘以 n×1 的向量，得到的是 m×1 的向量</p>
 
-<p><code>
+<p>```
 import numpy as np
 a = np.mat([[-1,2],[2,3]])
 c = np.mat([[3],[4]])
-ac = a * c
-</code></p>
+ac = a * c</p>
+
+<p>```</p>
 
 <h4 id="section-9">矩阵乘法的性质</h4>
 <ul>
@@ -147,8 +152,9 @@ import numpy as np</p>
 <p>a = np.mat([[1,2],[3,4]])
 print (‘a:\n’,a)
 res = np.linalg.inv(a)
-print(‘a inverse:\n’, res)
-```</p>
+print(‘a inverse:\n’, res)</p>
+
+<p>```</p>
 
 <p>备注: 再octave中，可以用pinv函数(伪逆矩阵)对奇异矩阵求逆；</p>
 
@@ -156,12 +162,13 @@ print(‘a inverse:\n’, res)
 
 <p>设 A 为 m×n 阶矩阵（即 m 行 n 列），第 i 行 j 列的元素是 a(i,j)，即：A=a(i,j) 定义 A 的转置为这样一个 n×m 阶矩阵 B，满足 B=a(j,i)，即 b (i,j)=a (j,i)（B 的第 i 行第 j 列元素是 A 的第 j 行第 i 列元素），记  𝐴𝑇=𝐵 。</p>
 
-<p><code>
+<p>```
 a = np.mat([[1,2],[3,4]])
-print ('a:\n',a)
+print (‘a:\n’,a)
 res = a.T
-print('a transpose:\n', res)
-</code></p>
+print(‘a transpose:\n’, res)</p>
+
+<p>```</p>
 
 <h2 id="section-12">4-多变量线性回归</h2>
 
@@ -187,12 +194,13 @@ h_{\theta}(x) = \theta^TX
 J(\theta_{0}, \theta_{1}...\theta_{n}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2}
 </script>
 
-<p><code>
+<p>```
 # 代价函数的python代码实现
 def Cost(X, y, theta):
     inner = np.power(((X * theta.T) - y), 2)
-    return np.sum(inner) / (2 * len(X))
-</code></p>
+    return np.sum(inner) / (2 * len(X))</p>
+
+<p>```</p>
 
 <h4 id="section-14">梯度下降 - 特征缩放</h4>
 

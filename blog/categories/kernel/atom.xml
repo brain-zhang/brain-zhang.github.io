@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Kernel | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/kernel/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -57,12 +57,13 @@
 
 <h4 id="kernel-acpiselinux">在kernel 参数中加入调试开关，关闭ACPI，selinux</h4>
 
-<p><code>
-  title CentOS (2.6.32-358.el6.x86_64)
+<p>```
+  title CentOS (2.6.32-358.el6.x86<em>64)
           root (hd0,0)
-          kernel /vmlinuz-2.6.32-358.el6.x86_64 ro root=/dev/mapper/vg_localhost-lv_root rd_NO_LUKS rd_NO_MD rd_LVM_LV=vg_localhost/lv_swap crashkernel=128M LANG=zh_CN.UTF-8 rd_LVM_LV=vg_localhost/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM debug selinux=0 acpi=0
-          initrd /initramfs-2.6.32-358.el6.x86_64.img
-</code>    </p>
+          kernel /vmlinuz-2.6.32-358.el6.x86</em>64 ro root=/dev/mapper/vg_localhost-lv_root rd_NO_LUKS rd_NO_MD rd_LVM_LV=vg_localhost/lv_swap crashkernel=128M LANG=zh_CN.UTF-8 rd_LVM_LV=vg_localhost/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM debug selinux=0 acpi=0
+          initrd /initramfs-2.6.32-358.el6.x86_64.img</p>
+
+<p>```    </p>
 
 <p>这是考验人品的时候，不管三七二十一，先把最有可能的问题点排除掉。另外redhat系的会在kernel后面加上 <code>rhgb quiet</code> 之类的参数，统统去掉，开机的时候好好盯着屏幕看看，有没有可疑的东东输出。 因为系统可能会在短时间内输出大量log而没有记录，你需要设置一下输出log的速率和暂停时机，更详细的参数可以在这里找到:</p>
 

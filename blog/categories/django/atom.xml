@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Django | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/django/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -31,21 +31,23 @@
 
 <p>写一个最简单的test.py:</p>
 
-<p><code>
+<p>```
 # test.py
 def application(env, start_response):
-    start_response('200 OK', [('Content-Type','text/html')])
-    return "Hello World"
-</code></p>
+    start_response(‘200 OK’, [(‘Content-Type’,’text/html’)])
+    return “Hello World”</p>
+
+<p>```</p>
 
 <p>python3的话需要返回一个binary</p>
 
-<p><code>
+<p>```
 # test.py
 def application(env, start_response):
-    start_response('200 OK', [('Content-Type','text/html')])
-    return [b"Hello World"]
-</code></p>
+    start_response(‘200 OK’, [(‘Content-Type’,’text/html’)])
+    return [b”Hello World”]</p>
+
+<p>```</p>
 
 <p>执行shell命令:</p>
 
@@ -81,8 +83,9 @@ sys.setdefaultencoding(‘utf8’)</p>
 <p>os.environ.setdefault(“DJANGO_SETTINGS_MODULE”, “mysite.settings”)</p>
 
 <p>from django.core.handlers.wsgi import WSGIHandler
-application = WSGIHandler()
-```</p>
+application = WSGIHandler()</p>
+
+<p>```</p>
 
 <p>执行:</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Docker | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/docker/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -68,9 +68,10 @@ RUN mkdir -p /home/build/npm3 &amp;&amp; \
 
 <p>Docker build不支持 –privileged，所以默认的/etc/init.d/mongod  这个脚本中的</p>
 
-<p><code>
-runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'
-</code></p>
+<p>```
+runuser -s /bin/bash mongod -c ‘ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numactl –interleave=all /usr/bin/mongod -f /etc/mongod.conf’</p>
+
+<p>```</p>
 
 <p>这种写法就死翘翘了。</p>
 
@@ -93,15 +94,17 @@ runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numac
 
 <p>可是启动这个image为container后，执行:</p>
 
-<p><code>
-/etc/init.d/mongod start
-</code></p>
+<p>```
+/etc/init.d/mongod start</p>
+
+<p>```</p>
 
 <p>报错:</p>
 
-<p><code>
- [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted
-</code></p>
+<p>```
+ [initandlisten] warning couldn’t write to / rename file /datadir/journal/prealloc.0: couldn’t open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted</p>
+
+<p>```</p>
 
 <p>虾米，明明已经加了mongod的group了。而且errorno是1，不是 <code>"errno:13 Permission denied"</code>，有点奇怪。</p>
 
@@ -111,9 +114,10 @@ runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numac
 
 <p>要再加一个指令:</p>
 
-<p><code>
-setcap cap_fowner+ep /usr/bin/mongod
-</code></p>
+<p>```
+setcap cap_fowner+ep /usr/bin/mongod</p>
+
+<p>```</p>
 
 <p>就是这么折腾。</p>
 ]]></content>
@@ -153,8 +157,9 @@ setcap cap_fowner+ep /usr/bin/mongod
 <p>```
 ip addr add 10.12.0.117/21 dev em1</p>
 
-<p>docker run -d –name web -p 10.12.0.117:80:80 centos/simpleweb
-```</p>
+<p>docker run -d –name web -p 10.12.0.117:80:80 centos/simpleweb</p>
+
+<p>```</p>
 
 <p>这种方法简单，但也有上面所说的各种缺点</p>
 
@@ -235,22 +240,24 @@ ip addr add 10.12.0.117/21 dev em1</p>
     <id>https://happy123.me/blog/2014/09/18/docker-cheat-sheet</id>
     <content type="html"><![CDATA[<h1 id="container">container相关</h1>
 
-<p><code>
+<p>```
 $ docker run -it xxx /bin/bash                                      // 启动一个container
 $ docker rm -f xxx                                                  // 结束一个container，加-f表示删除掉，这样比较干净
-$ docker run -it --add-host host:ip xxx /bin/bash                   // 启动一个container,增加/etc/hosts设定
-$ docker run -d -p 127.0.0.1:5000:5000 webapp python app.py         // 启动一个container,映射本地的5000端口
-</code></p>
+$ docker run -it –add-host host:ip xxx /bin/bash                   // 启动一个container,增加/etc/hosts设定
+$ docker run -d -p 127.0.0.1:5000:5000 webapp python app.py         // 启动一个container,映射本地的5000端口</p>
+
+<p>```</p>
 
 <h1 id="image-">image 相关</h1>
 
-<p><code>
+<p>```
 $ docker rmi -f xxx                                                 // 删除一个image，以下情况下不能删除:
                                                                     // * 有其他image依赖于这个image
                                                                     // * 有已创建的container依赖于这个image
-                                                                    // build的过程会出现很多&lt;none&gt;的临时image，最好不要去手工清除
-$ docker build tag Dockerfile_dir                                   // build一个image
-</code></p>
+                                                                    // build的过程会出现很多<none>的临时image，最好不要去手工清除
+$ docker build tag Dockerfile_dir                                   // build一个image</none></p>
+
+<p>```</p>
 
 <h1 id="docker-service-">docker service 相关</h1>
 

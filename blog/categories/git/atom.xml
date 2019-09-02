@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/git/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -388,23 +388,25 @@ git log --name-status
 
 <h1 id="remote-">remote 同步</h1>
 
-<p><code>
+<p>```
 $ git remote -v                                                     // 查看当前远程版本库
 $ git remote add cocos2d-x git://github.com/cocos2d/cocos2d-x.git   // 添加原始版本库
 $ git fetch cocos2d-x                                               // 获取原始版本库的更新
-$ git merge cocos2d-x/master                                        // 合并原始版本库的代码到当前版本库中，合并前确保当前分支是master
-</code></p>
+$ git merge cocos2d-x/master                                        // 合并原始版本库的代码到当前版本库中，合并前确保当前分支是master</p>
+
+<p>```</p>
 
 <h1 id="remote-branch">remote branch</h1>
 
-<p><code>
+<p>```
 $ git branch -a                                                     //查看所有分支
 $ git checkout -b branches/xxx origin/branches/xxx                  //chekcout远程分支
-$ git push origin --delete &lt;branchname&gt;                             //删除远程分支
-$ git push origin --delete tag &lt;tagname&gt;                            //删除远程tag
-$ git push origin :&lt;branchName&gt;                                     //推送一个空分支到远程分支，相当于删除分支
-$ git push origin :refs/tags/&lt;tagName&gt;                              //推送一个空tag到远程，相当于删除tag
-</code></p>
+$ git push origin –delete <branchname>                             //删除远程分支
+$ git push origin --delete tag <tagname>                            //删除远程tag
+$ git push origin :<branchname>                                     //推送一个空分支到远程分支，相当于删除分支
+$ git push origin :refs/tags/<tagname>                              //推送一个空tag到远程，相当于删除tag</tagname></branchname></tagname></branchname></p>
+
+<p>```</p>
 
 <h2 id="section">删除不存在对应远程分支的本地分支</h2>
 
@@ -417,31 +419,35 @@ $ git push origin :refs/tags/&lt;tagName&gt;                              //推�
   <li>其他人再次执行fetch或者pull并不会删除这个他们本地的 b1 分支，运行 git branch -a 也不能看出这个branch被删除了，如何处理？</li>
 </ol>
 
-<p><code>
-git fetch -p                                                        //在fetch之后删除掉没有与远程分支对应的本地分支
-</code></p>
+<p>```
+git fetch -p                                                        //在fetch之后删除掉没有与远程分支对应的本地分支</p>
+
+<p>```</p>
 
 <h2 id="section-1">重命名远程分支</h2>
 
 <p>在git中重命名远程分支，其实就是先删除远程分支，然后重命名本地分支，再重新提交一个远程分支</p>
 
-<p><code>
-$ git push --delete origin devel                                    //删除远程分支
+<p>```
+$ git push –delete origin devel                                    //删除远程分支
 $ git branch -m devel develop                                       //重命名本地分支
-$ git push origin develop                                           //推送本地分支
-</code></p>
+$ git push origin develop                                           //推送本地分支</p>
+
+<p>```</p>
 
 <h2 id="tag">把本地tag推送到远程</h2>
 
-<p><code>
-$ git push --tags
-</code></p>
+<p>```
+$ git push –tags</p>
+
+<p>```</p>
 
 <h2 id="tag-1">获取远程tag</h2>
 
-<p><code>
-$ git fetch origin tag &lt;tagname&gt;
-</code></p>
+<p>```
+$ git fetch origin tag <tagname /></p>
+
+<p>```</p>
 
 <h2 id="branch">合并branch上的指定文件</h2>
 
@@ -454,8 +460,9 @@ $ git checkout master                                               //首先切�
 
 <p>$ git checkout branches/A B.h                                       //去掉-p参数，新增该B.h文件</p>
 
-<p>$ rm C.h                                                            //删除文件目前还没找到其他办法，但效果是一样的
-```</p>
+<p>$ rm C.h                                                            //删除文件目前还没找到其他办法，但效果是一样的</p>
+
+<p>```</p>
 
 <h2 id="section-2">分支的衍合</h2>
 
@@ -465,38 +472,46 @@ $ git checkout master                                               //首先切�
 
 <p>只显示两个分支间的差异，如果你想找出‘master’,‘test’的共有 父分支和’test’分支之间的差异，你用3个‘.’来取代前面的两个’.’ 。</p>
 
-<p><code>
-$ git diff master..test
-</code></p>
+<p>```
+$ git diff master..test</p>
+
+<p>```</p>
 
 <p>显示你当前的索引和上次提交间的差异；这些内容在不带”-a”参数运行 “git commit”命令时就会被提交。</p>
 
-<p><code>
-$ git diff --cached
-</code></p>
+<p>```
+$ git diff –cached</p>
+
+<p>```</p>
 
 <p>显示你工作目录与上次提交时之间的所有差别，这条命令所显示的 内容都会在执行”git commit -a”命令时被提交。</p>
 
-<p><code>
-$ git diff HEAD
-</code></p>
+<p>```
+$ git diff HEAD</p>
+
+<p>```</p>
 
 <p>如果你要查看当前的工作目录与另外一个分支的差别，你可以用下面的命令执行:
-这会显示你当前工作目录与另外一个叫’test’分支的差别。你也以加上路径限定符，来只 比较某一个文件或目录。
-<code>
-$ git diff test
-</code></p>
+这会显示你当前工作目录与另外一个叫’test’分支的差别。你也以加上路径限定符，来只 比较某一个文件或目录。</p>
 
-<p>显示你当前工作目录下的lib目录与上次提交之间的差别(或者更准确的 说是在当前分支)。
-<code>
-$ git diff HEAD -- ./lib
-</code></p>
+<p>```
+$ git diff test</p>
+
+<p>```</p>
+
+<p>显示你当前工作目录下的lib目录与上次提交之间的差别(或者更准确的 说是在当前分支)。</p>
+
+<p>```
+$ git diff HEAD – ./lib</p>
+
+<p>```</p>
 
 <p>如果不是查看每个文件的详细差别，而是统计一下有哪些文件被改动，有多少行被改 动，就可以使用‘–stat’ 参数。</p>
 
-<p><code>
-$ git diff --stat
-</code></p>
+<p>```
+$ git diff –stat</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   
@@ -525,21 +540,26 @@ $ git diff --stat
 <h1 id="section-1">处理</h1>
 
 <ul>
-  <li>
-    <p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
+  <li>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</li>
+</ul>
 
-    <p><code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
- </code></p>
+<p>```
+        ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com</p>
 
-    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
+<p>```</p>
 
-    <p><code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
- </code></p>
+<pre><code>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key
+</code></pre>
 
-    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p>
-  </li>
+<p>```
+        ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com</p>
+
+<p>```</p>
+
+<pre><code>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key
+</code></pre>
+
+<ul>
   <li>
     <p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p>
   </li>
@@ -560,8 +580,10 @@ $ git diff --stat
 Host 172.16.11.11
  HostName 172.16.11.11
  User work
- IdentityFile ~/.ssh/id_rsa_work ```
+ IdentityFile ~/.ssh/id_rsa_work
 </code></pre>
+
+<p>```</p>
 
 <p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
 
@@ -583,8 +605,10 @@ Host 172.16.11.11
 Host A.github.com
  HostName github.com
  User git
- IdentityFile ~/.ssh/id_rsa_github_B ```
+ IdentityFile ~/.ssh/id_rsa_github_B
 </code></pre>
+
+<p>```</p>
 
 <p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
 
@@ -606,23 +630,24 @@ Host A.github.com
 
 <p>很简单， 直接更改 <code>repo/.git/config</code> 里面的url即可，把里面对应tag下的url增加一个就可以了。例:</p>
 
-<p><code>
-[remote "GitHub"]
+<p>```
+[remote “GitHub”]
     url = git@github.com:elliottcable/Paws.o.git
-    fetch = +refs/heads/*:refs/remotes/GitHub/*
-[branch "Master"]
+    fetch = +refs/heads/<em>:refs/remotes/GitHub/</em>
+[branch “Master”]
     remote = GitHub
     merge = refs/heads/Master
-[remote "Codaset"]
+[remote “Codaset”]
     url = git@codaset.com:elliottcable/paws-o.git
-    fetch = +refs/heads/*:refs/remotes/Codaset/*
-[remote "Paws"]
+    fetch = +refs/heads/<em>:refs/remotes/Codaset/</em>
+[remote “Paws”]
     url = git@github.com:Paws/Paws.o.git
-    fetch = +refs/heads/*:refs/remotes/Paws/*
-[remote "Origin"]
+    fetch = +refs/heads/<em>:refs/remotes/Paws/</em>
+[remote “Origin”]
     url = git@github.com:Paws/Paws.o.git
-    url = git@codaset.com:elliottcable/paws-o.git
-</code></p>
+    url = git@codaset.com:elliottcable/paws-o.git</p>
+
+<p>```</p>
 
 <p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
 

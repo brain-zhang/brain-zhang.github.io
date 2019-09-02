@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cisco | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/cisco/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:31:34+08:00</updated>
+  <updated>2019-09-02T09:34:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -24,52 +24,58 @@
   <li>查看所有信息</li>
 </ul>
 
-<p><code>
-    show run
-</code></p>
+<p>```
+    show run</p>
+
+<p>```</p>
 
 <ul>
   <li>查看span</li>
 </ul>
 
-<p><code>
-    show span
-</code></p>
+<p>```
+    show span</p>
+
+<p>```</p>
 
 <ul>
   <li>为某个vlan id建立spanning-tree</li>
 </ul>
 
-<p><code>
-    spanning-tree vlan 15
-</code></p>
+<p>```
+    spanning-tree vlan 15</p>
+
+<p>```</p>
 
 <ul>
   <li>取消某个vlan id的spanning-tree</li>
 </ul>
 
-<p><code>
-    no spanning-tree vlan 15
-</code></p>
+<p>```
+    no spanning-tree vlan 15</p>
+
+<p>```</p>
 
 <ul>
   <li>将某个端口加入vlan中</li>
 </ul>
 
-<p><code>
+<p>```
     sh run init gi 0/39
     config t
-    switchport access vlan 14
-</code></p>
+    switchport access vlan 14</p>
+
+<p>```</p>
 
 <ul>
   <li>保存配置</li>
 </ul>
 
-<p><code>
+<p>```
     do wr
-    copy running-config startup-config
-</code></p>
+    copy running-config startup-config</p>
+
+<p>```</p>
 
 <p>顺便记一下cisco catalyst交换机配置</p>
 
@@ -77,23 +83,25 @@
   <li>登陆交换机</li>
 </ul>
 
-<p><code>
-    ssh admin@10.1.0.2
-</code></p>
+<p>```
+    ssh admin@10.1.0.2</p>
+
+<p>```</p>
 
 <ul>
   <li>查看现有配置</li>
 </ul>
 
-<p><code>
-    show running-config
-</code></p>
+<p>```
+    show running-config</p>
+
+<p>```</p>
 
 <ul>
   <li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
 </ul>
 
-<p><code>
+<p>```
     #conf t
     (config)#int ra g0/37 -39
     (config-if-range)#sw mo acc
@@ -103,14 +111,15 @@
     (config-if-range)#sw tr e d
     (config-if-range)#sw mo tr
     (config-if-range)#end
-    #wr
-</code></p>
+    #wr</p>
+
+<p>```</p>
 
 <ul>
   <li>开启/关闭端口</li>
 </ul>
 
-<p><code>
+<p>```
     TEST3#conf t
     Enter configuration commands, one per line.  End with CNTL/Z.
     TEST3(config)#int g0/41
@@ -118,8 +127,9 @@
     TEST3(config-if)#shutdown
     TEST3(config-if)#no shutdown
     TEST3(config-if)#end
-    TEST3#
-</code></p>
+    TEST3#</p>
+
+<p>```</p>
 
 <p>例如 配置vlan15 和 trunk:</p>
 
@@ -136,9 +146,10 @@ interface GigabitEthernet0/39
 
 <p>去掉</p>
 
-<p><code>
-no switchport access vlan 15
-</code></p>
+<p>```
+no switchport access vlan 15</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   
