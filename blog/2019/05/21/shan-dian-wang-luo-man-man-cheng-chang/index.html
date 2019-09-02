@@ -133,8 +133,10 @@ MathJax.Hub.Config({
 <p>#### 2.需要运行一个bitcoin全节点，因为都是命令行操作，所以要<code>手工创建钱包</code> -&gt; <code>转账确保钱包有余额</code></p>
 
 <ul>
-  <li>bitcoin.conf的配置文件模板
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>bitcoin.conf的配置文件模板</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -144,9 +146,8 @@ MathJax.Hub.Config({
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
-<span class="line-number">11</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">rpcuser=xxxxx
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpcuser=xxxxx
 </span><span class="line">rpcpassword=xxxxx
 </span><span class="line">rpcallowip=127.0.0.1/16
 </span><span class="line">rpcport=18332
@@ -156,13 +157,14 @@ MathJax.Hub.Config({
 </span><span class="line">rest=1
 </span><span class="line">testnet=1
 </span><span class="line">zmqpubrawblock=tcp://127.0.0.1:28332
-</span><span class="line">zmqpubrawtx=tcp://127.0.0.1:28333</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">zmqpubrawtx=tcp://127.0.0.1:28333</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>启动bitcoind
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>启动bitcoind</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">bitcoin/bin/bitcoind --conf=~/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ </span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bitcoin/bin/bitcoind --conf=~/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>同步后找到当前钱包收款地址</li>
@@ -176,11 +178,12 @@ MathJax.Hub.Config({
     <p>发送一笔转账到此地址，也可以直接去<a href="https://bitcoinfaucet.uo1.net/send.php">bitcoinfaucet</a>领一些测试币</p>
   </li>
   <li>
-    <p>确认钱包余额
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></p>
+    <p>确认钱包余额</p>
   </li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">bitcoin-cli getwalletinfo</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bitcoin-cli getwalletinfo</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="lnd-daemon">3.运行一个LND Daemon</h4>
 
@@ -190,65 +193,88 @@ MathJax.Hub.Config({
 
 <ul>
   <li>按照项目文档构建Go编译环境，编译生成lnd和lnd-cli两个可执行文件</li>
-  <li>启动lnd daemon(注意这里没有启用验证，在mainnet上面切不可这么做)
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>启动lnd daemon(注意这里没有启用验证，在mainnet上面切不可这么做)</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=xxxxx  --bitcoind.rpcpass='xxxxx' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --no-macaroons</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;
-* 之后lnd会通过bitcoind node同步区块头，大概需要10分钟
-* 创建lnd的钱包，保存seed，便于之后恢复
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli --network=testnet create</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-* 创建一个segwit地址
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=xxxxx  --bitcoind.rpcpass='xxxxx' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --no-macaroons</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>之后lnd会通过bitcoind node同步区块头，大概需要10分钟</li>
+  <li>创建lnd的钱包，保存seed，便于之后恢复</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet create</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>创建一个segwit地址</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli --network=testnet newaddress np2wkh
-</span><span class="line">2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-* 打一些测试币给这个地址
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">/bitcoin-cli sendtoaddress 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf 0.005</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-* 看一下钱包信息，收到款没有
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli --no-macaroons --network=testnet walletbalance</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet newaddress np2wkh
+</span><span class="line">2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>打一些测试币给这个地址</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/bitcoin-cli sendtoaddress 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf 0.005</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>看一下钱包信息，收到款没有</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --no-macaroons --network=testnet walletbalance</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section">4. 建立通道</h4>
 
 <ul>
-  <li>直接到<a href="https://1ml.com/testnet/">1ml.com</a>找最近连接数最多的节点, 比如<a href="https://1ml.com/testnet/node/038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9">Node: aranguren.org</a>:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>直接到<a href="https://1ml.com/testnet/">1ml.com</a>找最近连接数最多的节点, 比如<a href="https://1ml.com/testnet/node/038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9">Node: aranguren.org</a>:</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">node ID:038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">node ID:038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>连接这个节点：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>连接这个节点：</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli --no-macaroons --network=testnet connect 038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --no-macaroons --network=testnet connect 038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>建立通道，放一笔钱进去
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>建立通道，放一笔钱进去</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli --no-macaroons --network=testnet openchannel --node_key=038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9 40000</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --no-macaroons --network=testnet openchannel --node_key=038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9 40000</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>需要一段时间同步，然后看一下通道状态:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>需要一段时间同步，然后看一下通道状态:</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli --network=testnet listchannels</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet listchannels</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-1">5. 支付</h4>
 
 <ul>
-  <li>首先到<a href="https://testnet.satoshis.place/">testnet.satoshis.place</a>涂鸦两笔，得到一个支付地址:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>首先到<a href="https://testnet.satoshis.place/">testnet.satoshis.place</a>涂鸦两笔，得到一个支付地址:</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>lnd-cli支付
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>lnd-cli支付</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  sendpayment --pay_req lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax 500</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  sendpayment --pay_req lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax 500</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-2">6. 收款</h4>
 

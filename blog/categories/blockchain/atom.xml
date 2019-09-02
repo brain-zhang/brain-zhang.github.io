@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T09:07:00+08:00</updated>
+  <updated>2019-09-02T09:31:34+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -54,9 +54,10 @@
 <p>#### 2.需要运行一个bitcoin全节点，因为都是命令行操作，所以要<code>手工创建钱包</code> -&gt; <code>转账确保钱包有余额</code></p>
 
 <ul>
-  <li>
-    <p>bitcoin.conf的配置文件模板
-<code>
+  <li>bitcoin.conf的配置文件模板</li>
+</ul>
+
+<p><code>
 rpcuser=xxxxx
 rpcpassword=xxxxx
 rpcallowip=127.0.0.1/16
@@ -69,16 +70,17 @@ testnet=1
 zmqpubrawblock=tcp://127.0.0.1:28332
 zmqpubrawtx=tcp://127.0.0.1:28333
 </code></p>
-  </li>
-  <li>
-    <p>启动bitcoind
-<code>
+
+<ul>
+  <li>启动bitcoind</li>
+</ul>
+
+<p><code>
 bitcoin/bin/bitcoind --conf=~/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ 
 </code></p>
-  </li>
-  <li>
-    <p>同步后找到当前钱包收款地址</p>
-  </li>
+
+<ul>
+  <li>同步后找到当前钱包收款地址</li>
 </ul>
 
 <p><code>
@@ -90,12 +92,13 @@ bitcoin-cli listaddressgroupings
     <p>发送一笔转账到此地址，也可以直接去<a href="https://bitcoinfaucet.uo1.net/send.php">bitcoinfaucet</a>领一些测试币</p>
   </li>
   <li>
-    <p>确认钱包余额
-<code>
-bitcoin-cli getwalletinfo
-</code></p>
+    <p>确认钱包余额</p>
   </li>
 </ul>
+
+<p><code>
+bitcoin-cli getwalletinfo
+</code></p>
 
 <h4 id="lnd-daemon">3.运行一个LND Daemon</h4>
 
@@ -105,75 +108,98 @@ bitcoin-cli getwalletinfo
 
 <ul>
   <li>按照项目文档构建Go编译环境，编译生成lnd和lnd-cli两个可执行文件</li>
-  <li>启动lnd daemon(注意这里没有启用验证，在mainnet上面切不可这么做)
-<code>
+  <li>启动lnd daemon(注意这里没有启用验证，在mainnet上面切不可这么做)</li>
+</ul>
+
+<p><code>
 lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=xxxxx  --bitcoind.rpcpass='xxxxx' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --no-macaroons
-</code></li>
+</code></p>
+
+<ul>
   <li>之后lnd会通过bitcoind node同步区块头，大概需要10分钟</li>
-  <li>创建lnd的钱包，保存seed，便于之后恢复
-<code>
+  <li>创建lnd的钱包，保存seed，便于之后恢复</li>
+</ul>
+
+<p><code>
 lncli --network=testnet create
-</code></li>
-  <li>创建一个segwit地址
-<code>
+</code></p>
+
+<ul>
+  <li>创建一个segwit地址</li>
+</ul>
+
+<p><code>
 lncli --network=testnet newaddress np2wkh
 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf
-</code></li>
-  <li>打一些测试币给这个地址
-<code>
-/bitcoin-cli sendtoaddress 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf 0.005
-</code></li>
-  <li>看一下钱包信息，收到款没有
-<code>
-lncli --no-macaroons --network=testnet walletbalance
-</code></li>
+</code></p>
+
+<ul>
+  <li>打一些测试币给这个地址</li>
 </ul>
+
+<p><code>
+/bitcoin-cli sendtoaddress 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf 0.005
+</code></p>
+
+<ul>
+  <li>看一下钱包信息，收到款没有</li>
+</ul>
+
+<p><code>
+lncli --no-macaroons --network=testnet walletbalance
+</code></p>
 
 <h4 id="section">4. 建立通道</h4>
 
 <ul>
-  <li>
-    <p>直接到<a href="https://1ml.com/testnet/">1ml.com</a>找最近连接数最多的节点, 比如<a href="https://1ml.com/testnet/node/038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9">Node: aranguren.org</a>:
-<code>
+  <li>直接到<a href="https://1ml.com/testnet/">1ml.com</a>找最近连接数最多的节点, 比如<a href="https://1ml.com/testnet/node/038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9">Node: aranguren.org</a>:</li>
+</ul>
+
+<p><code>
 node ID:038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735
 </code></p>
-  </li>
-  <li>
-    <p>连接这个节点：
-<code>
+
+<ul>
+  <li>连接这个节点：</li>
+</ul>
+
+<p><code>
 lncli --no-macaroons --network=testnet connect 038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735
 </code></p>
-  </li>
-  <li>
-    <p>建立通道，放一笔钱进去
-<code>
+
+<ul>
+  <li>建立通道，放一笔钱进去</li>
+</ul>
+
+<p><code>
 lncli --no-macaroons --network=testnet openchannel --node_key=038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9 40000
 </code></p>
-  </li>
-  <li>
-    <p>需要一段时间同步，然后看一下通道状态:
-<code>
+
+<ul>
+  <li>需要一段时间同步，然后看一下通道状态:</li>
+</ul>
+
+<p><code>
 lncli --network=testnet listchannels
 </code></p>
-  </li>
-</ul>
 
 <h4 id="section-1">5. 支付</h4>
 
 <ul>
-  <li>
-    <p>首先到<a href="https://testnet.satoshis.place/">testnet.satoshis.place</a>涂鸦两笔，得到一个支付地址:
-<code>
+  <li>首先到<a href="https://testnet.satoshis.place/">testnet.satoshis.place</a>涂鸦两笔，得到一个支付地址:</li>
+</ul>
+
+<p><code>
 lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax
 </code></p>
-  </li>
-  <li>
-    <p>lnd-cli支付
-<code>
+
+<ul>
+  <li>lnd-cli支付</li>
+</ul>
+
+<p><code>
 lncli  sendpayment --pay_req lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax 500
 </code></p>
-  </li>
-</ul>
 
 <h4 id="section-2">6. 收款</h4>
 
