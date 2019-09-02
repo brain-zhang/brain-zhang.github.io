@@ -202,34 +202,7 @@ MathJax.Hub.Config({
 
 <aside class="sidebar">
   
-    <!-- source\_includes\custom\asides\recent_comments.html -->
-
-<section>
-  <h1>近期回复</h1>
-  <script type="text/javascript">
-    function recent_comments(obj){
-      if(obj.response.length){
-        resault = '<ul>';
-        obj.response.forEach(function(response){
-          resault += '<li>';
-          resault += '<a href="'+response.author.profileUrl+'"><img src="'+response.author.avatar.permalink+'" width=32 height=32 style="float: left; margin-right: 5px;"></a>';
-          resault += '<a href="'+response.author.profileUrl+'">'+response.author.name+'</a>：';
-          resault += '<span>'+response.message+'</span><br>'
-          resault += '<a href="'+response.thread.link+'">'+response.thread.title+'</a><br>'
-          resault += 'at <a href="'+response.url+'">'+response.createdAt+'</a>'
-          resault += '</li>';
-        });
-        resault += '</ul>';
-        document.write(resault);
-      }else{
-        document.write("目前沒有回复");
-      }
-    };
-  </script>
-  <script type="text/javascript" src="https://disqus.com/api/3.0/forums/listPosts.jsonp?forum=memoryboxes&api_key=tNvKxEx3fk3qkU15YVwAG5wRMnlWZl1kQywqNc0q9rMQWGePzfZrSDVEgmVjBLwf&related=thread&callback=recent_comments"></script>
-</section>
-
-<section>
+    <section>
   <h1>最新发布</h1>
   <ul id="最新文章">
     
