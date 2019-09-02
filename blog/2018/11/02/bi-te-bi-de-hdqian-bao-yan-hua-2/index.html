@@ -134,7 +134,8 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">&gt; printf "satoshi"|sha256sum
-</span><span class="line">da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f  -
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>得到私钥为<code>da2876b3eb31edb4436fa4650673fc6f01f90de2f1793c4ec332b2387b09726f</code></p>
 
@@ -188,6 +189,7 @@ MathJax.Hub.Config({
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
+<span class="line-number">8</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">def gen_pubk_from_privk(private_key, compressed=True):
 </span><span class="line">    # private_key = codecs.encode(os.urandom(32), 'hex').decode()
 </span><span class="line">    secret_exponent = int('0x' + private_key, 0)
@@ -195,6 +197,7 @@ MathJax.Hub.Config({
 </span><span class="line">    public_pair = ecdsa.public_pair_for_secret_exponent(ecdsa.secp256k1.generator_secp256k1, secret_exponent)
 </span><span class="line">    print('public pair:', public_pair)
 </span><span class="line">    return public_pair
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>WIF格式分为非压缩和压缩格式，压缩私钥其实是对非压缩私钥后缀追加了01之后的Base58Check编码，具体生成过程为:</p>
@@ -226,7 +229,8 @@ MathJax.Hub.Config({
 <p>加上前缀04，完整的公钥为:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">K = 0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">K = 0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-2">为什么要区分压缩格式和非压缩格式</h4>
 
@@ -328,7 +332,8 @@ MathJax.Hub.Config({
 </span><span class="line">    ripemd160 = encoding.public_pair_to_hash160_sec(public_pair, compressed=compressed)
 </span><span class="line">    # 再用Base58Check计算最终地址
 </span><span class="line">    addr = encoding.hash160_sec_to_bitcoin_address(ripemd160)
-</span><span class="line">    return addr</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return addr
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>因为公钥存在压缩形式和非压缩两种形式，所以完整的结果是:</p>
 
@@ -355,7 +360,8 @@ MathJax.Hub.Config({
 </span><span class="line">uncompress address
 </span><span class="line">WIF: 5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
 </span><span class="line">hash160: 650d0497e014e60d4680fce6997d405de264f042
-</span><span class="line">Bitcoin address:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">Bitcoin address:1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p><code>satoshi</code>作为seed生成了两个地址:</p>
 
@@ -495,7 +501,8 @@ MathJax.Hub.Config({
 </span><span class="line">FINAL_CRACK_ADDRESS:00135d1c8f99cc657ad1f246bc5051ad03f95d32:u:sha256:Mussolini:11QCR3sk9r4jeyMqCKGEYabGTfjzhgGdZ:5K2x6UanMSevNX7f19oB4to46C3zXoGTUBGVqv8WNtCRwJNGBGC
 </span><span class="line">FINAL_CRACK_ADDRESS:001ed6fae0af0b37126004029defcc4521b300dd:u:sha256:meagerness:11dwnVzCyGoMZcGDndQteWgR9b7FKsJMu:5JKVJhbZWXmHxj2MuttZCDaFk7TC9KBVYjbPRjztP63mmAUV6Vm
 </span><span class="line">FINAL_CRACK_ADDRESS:002607c11a2311825a087f37c95d7816e0491a9d:u:sha256:vertebrate:11nZPfxYPeDm4d4fd93BaFa1BezFRTP6F:5HsBbgzEXZEaeLRCZHs66ho2ekpFEqeAJyyBPe8YyMkCqCHWv6j
-</span><span class="line">...</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>不过我们现在已经掌握到了比特币地址的生成原理，所以如何提高安全性就不用我再啰嗦了，相信你心中已有答案。</p>
 
@@ -711,6 +718,7 @@ https://github.com/walletgeneratornet/WalletGenerator.net</p>
 <span class="line-number">201</span>
 <span class="line-number">202</span>
 <span class="line-number">203</span>
+<span class="line-number">204</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start
 </span><span class="line">"2GIVE",               0x27, 0xa7, "6",    "R"
 </span><span class="line">"42coin",              0x08, 0x88, "5",    "M"
@@ -914,6 +922,7 @@ https://github.com/walletgeneratornet/WalletGenerator.net</p>
 </span><span class="line">"Testnet MonetaryUnit",0x26, 0x40, "3",    "A"
 </span><span class="line">"Testnet PIVX",        0x8b, 0xef, "9",    "c"
 </span><span class="line">"Testnet WACoins",     0x51, 0xd1, "8",    "[XY]"
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>哈哈，洋洋大观啊。这也说明了folk一个山寨币的成本是如何的低；然后有了以太坊的ERC20之后，发一个新币的成本简直低到令人发指，也无怪乎场子里面骗子横行了。</p>
@@ -1034,14 +1043,16 @@ https://github.com/walletgeneratornet/WalletGenerator.net</p>
 </span><span class="line">    raw_address = utils.privtoaddr(private_key)
 </span><span class="line">    account_address = utils.checksum_encode(raw_address)
 </span><span class="line">    print("word:{}:private:{}:address:{}".format(passpharse.decode('utf-8'), private_key.hex(), account_address))
-</span><span class="line">    </span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">&gt; python genaddr.py word2addr 'hello'
 </span><span class="line">
-</span><span class="line">word:hello:private:1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8:address:0x5ccfa55C29F0522f062E3C15004E35a69dD45F6B</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">word:hello:private:1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8:address:0x5ccfa55C29F0522f062E3C15004E35a69dD45F6B
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>以太坊账户方式的一个弱点是：为了阻止重放攻击，每笔交易必须有nonce。这就使得账户需要跟踪nonce的使用情况。而且，不再使用的账户，无法从账户状态中移除。</p>
 
@@ -1269,7 +1280,8 @@ https://github.com/walletgeneratornet/WalletGenerator.net</p>
 </span><span class="line">    }
 </span><span class="line">    
 </span><span class="line">    return c ^ 1;
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>具体的规则可以详细参考<a href="https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md">这里</a>。</p>
 
 <h4 id="section-12">地址转换生成</h4>
@@ -1278,21 +1290,37 @@ https://github.com/walletgeneratornet/WalletGenerator.net</p>
   <li>1.取<code>satoshi</code> 生成的非压缩地址<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code></li>
   <li>2.这个地址是一个主网地址，前缀为<code>bitcoincash:xxxxx</code></li>
   <li>3.这个地址类型为<code>P2PKH</code>，version_bits为0000</li>
-  <li>4.<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>进行base58 Decode，去掉末尾的4字节checksum，得到的hash值用list表示
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>4.<code>1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE</code>进行base58 Decode，去掉末尾的4字节checksum，得到的hash值用list表示</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">payload = [101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;
-* 5.加入version前缀
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">payload = [0, 101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-* 6.将hash进行8bits-&gt;5bits BCH码的转换
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">payload = [0, 1, 18, 16, 26, 1, 4, 23, 28, 0, 10, 14, 12, 3, 10, 6, 16, 3, 30, 14, 13, 6, 11, 29, 8, 1, 14, 30, 4, 25, 7, 16, 8, 8]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-* 7.计算校验和
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">checksum=[24, 25, 19, 1, 12, 3, 18, 8]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-* 8.对payload + checksum进行base32编码，得到<code>qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code>
-* 9.加入前缀<code>bitcoincash:</code>，组合得到最后地址<code>bitcoincash:qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">payload = [101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ul>
+  <li>5.加入version前缀</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">payload = [0, 101, 13, 4, 151, 224, 20, 230, 13, 70, 128, 252, 230, 153, 125, 64, 93, 226, 100, 240, 66]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ul>
+  <li>6.将hash进行8bits-&gt;5bits BCH码的转换</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">payload = [0, 1, 18, 16, 26, 1, 4, 23, 28, 0, 10, 14, 12, 3, 10, 6, 16, 3, 30, 14, 13, 6, 11, 29, 8, 1, 14, 30, 4, 25, 7, 16, 8, 8]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ul>
+  <li>7.计算校验和</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">checksum=[24, 25, 19, 1, 12, 3, 18, 8]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ul>
+  <li>8.对payload + checksum进行base32编码，得到<code>qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
+  <li>9.加入前缀<code>bitcoincash:</code>，组合得到最后地址<code>bitcoincash:qpjs6pyhuq2wvr2xsr7wdxtagpw7ye8sggcenpvrjg</code></li>
+</ul>
 
 <p>有许多在线转换工具可以验证，比如:</p>
 

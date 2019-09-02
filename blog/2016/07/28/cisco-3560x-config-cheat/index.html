@@ -132,28 +132,32 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">show run</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">show run
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查看span</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">show span</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">show span
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>为某个vlan id建立spanning-tree</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">spanning-tree vlan 15
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>取消某个vlan id的spanning-tree</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">no spanning-tree vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">no spanning-tree vlan 15
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>将某个端口加入vlan中</li>
@@ -164,7 +168,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">sh run init gi 0/39
 </span><span class="line">config t
-</span><span class="line">switchport access vlan 14</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">switchport access vlan 14
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>保存配置</li>
@@ -173,7 +178,8 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">do wr
-</span><span class="line">copy running-config startup-config</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">copy running-config startup-config
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>顺便记一下cisco catalyst交换机配置</p>
 
@@ -182,14 +188,16 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ssh admin@10.1.0.2</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">ssh admin@10.1.0.2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查看现有配置</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">show running-config</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">show running-config
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>批量修改vlan：端口37-39改成vlan15。端口41-46改成trunk</li>
@@ -214,7 +222,8 @@ MathJax.Hub.Config({
 </span><span class="line">(config-if-range)#sw tr e d
 </span><span class="line">(config-if-range)#sw mo tr
 </span><span class="line">(config-if-range)#end
-</span><span class="line">#wr</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">#wr
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>开启/关闭端口</li>
@@ -235,7 +244,8 @@ MathJax.Hub.Config({
 </span><span class="line">TEST3(config-if)#shutdown
 </span><span class="line">TEST3(config-if)#no shutdown
 </span><span class="line">TEST3(config-if)#end
-</span><span class="line">TEST3#</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">TEST3#
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>例如 配置vlan15 和 trunk:</p>
 
@@ -246,6 +256,7 @@ MathJax.Hub.Config({
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
+<span class="line-number">8</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">interface GigabitEthernet0/39
 </span><span class="line"> switchport access vlan 15
 </span><span class="line">  switchport mode access
@@ -253,12 +264,14 @@ MathJax.Hub.Config({
 </span><span class="line">interface GigabitEthernet0/46
 </span><span class="line"> switchport trunk encapsulation dot1q
 </span><span class="line">  switchport mode trunk
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>去掉</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">no switchport access vlan 15</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">no switchport access vlan 15
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

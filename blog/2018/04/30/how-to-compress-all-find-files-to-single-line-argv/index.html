@@ -10,8 +10,7 @@
 
   
   <meta name="description" content="有时候find的所有文件要合并为一个argv管道到一个命令里面: 1
-find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file
-">
+find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -126,7 +125,8 @@ MathJax.Hub.Config({
 <div class="entry-content"><p>有时候find的所有文件要合并为一个argv管道到一个命令里面:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">find /path/to/directory/ -name *.csv -print0 | xargs -0 -I file cat file &gt; merged.file
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

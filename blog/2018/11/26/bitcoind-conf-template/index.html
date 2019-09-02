@@ -154,14 +154,16 @@ MathJax.Hub.Config({
 </span><span class="line">rpcthreads=10
 </span><span class="line">server=1
 </span><span class="line">rest=1
-</span><span class="line">walletnotify=/usr/bin/python3 /xxx.py</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">walletnotify=/usr/bin/python3 /xxx.py
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>另外<code>getaddressesbyaccount</code>即将废弃，可以使用<code>getaddressesbylabel</code>代替</p>
 
 <p><code>signrawtransaction</code>即将废弃，实在要用的话只能在启动命令行中加deprecatedrpc指定。</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bin/bitcoind --conf=/xxx/bitcoin.conf --datadir=/xxx/blockdata/mainnet --deprecatedrpc=signrawtransaction</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">bin/bitcoind --conf=/xxx/bitcoin.conf --datadir=/xxx/blockdata/mainnet --deprecatedrpc=signrawtransaction
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

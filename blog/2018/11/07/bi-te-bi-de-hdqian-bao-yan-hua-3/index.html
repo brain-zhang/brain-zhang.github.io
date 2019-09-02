@@ -217,7 +217,8 @@ MathJax.Hub.Config({
 </span><span class="line">data = 'f' * 32
 </span><span class="line">data_unhexlify = unhexlify(data)
 </span><span class="line">h = hashlib.sha256(data_unhexlify)
-</span><span class="line">checksum = bin(int(h, 16))[2:].zfill(256)[:len(data) * 8 // 32]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">checksum = bin(int(h, 16))[2:].zfill(256)[:len(data) * 8 // 32]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>得到checksum为<code>0101</code></p>
 
@@ -234,18 +235,21 @@ MathJax.Hub.Config({
 </span><span class="line">data = 'f' * 32
 </span><span class="line">data_unhexlify = unhexlify(data)
 </span><span class="line">body = bin(int(hexlify(data), 16))[2:].zfill(len(data) * 8)
-</span><span class="line">final_result = body + checksum</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">final_result = body + checksum
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>得出的结果为</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110101</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110101
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>4、将序列划分为包含11位的不同部分。</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111110101</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111111111 11111110101
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>5、将每个包含11位部分的值作为下标索引，与一个已经预先定义2048个单词的字典做对应。BIP39中对应的字典文件可以参考这里:</li>
@@ -256,7 +260,8 @@ MathJax.Hub.Config({
 <p>以上二进制表示的下标值为:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2037</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2047, 2037
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>为什么单词数目是2048呢？ 其实seed可以有12-24个单词，所有的组合可能性为 2048^12 – 2048^24；</p>
 
@@ -267,7 +272,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>一张图展示熵如何生成助记词:</p>
 
@@ -375,7 +381,8 @@ MathJax.Hub.Config({
 </span><span class="line">&gt; seed = PBKDF2(mnemonic, 'mnemonic' + passphrase, iterations=PBKDF2_ROUNDS, macmodule=hmac, digestmodule=hashlib.sha512).read(64)
 </span><span class="line">&gt; print(hexlify(seed))
 </span><span class="line">
-</span><span class="line">b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870de86587b2663c462dd9425d3d3ef04'</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870de86587b2663c462dd9425d3d3ef04'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="hd">从种子中创造HD钱包</h3>
 
@@ -406,7 +413,8 @@ MathJax.Hub.Config({
 </span><span class="line">&gt; import hmac
 </span><span class="line">&gt; seed = b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870de86587b2663c462dd9425d3d3ef04'
 </span><span class="line">&gt; entropy = binascii.hexlify(seed)
-</span><span class="line">&gt; I = hmac.new(b"Bitcoin seed", entropy, hashlib.sha512).digest()</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">&gt; I = hmac.new(b"Bitcoin seed", entropy, hashlib.sha512).digest()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>3、 这个512bits的<code>I</code>可以分为两个部分，左边的256bits用作Master Private Key，右边的256bits用作Master Chain Code。Master Private Key又可以推导出Master Public Key。整个表示如下:</li>
@@ -456,21 +464,23 @@ MathJax.Hub.Config({
 
 <p>正如我们之前看到的，CKD函数可以被用来创造密钥树上任何层级的子密钥。这只需要三个输入量：一个密钥，一个链码以及想要的子密钥的索引。密钥以及链码这两个重要的部分被结合之后，就叫做扩展密钥（extended key）。术语“extended key”也被认为是“可扩展的密钥”，因为这种密钥可以用来衍生子密钥。</p>
 
-<p>引入我们之前的例子，这里我们第一层的扩展密钥为:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<p>引入我们之前的例子，这里我们第一层的扩展密钥为:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">&gt; from bip32utils import BIP32Key
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; from bip32utils import BIP32Key
 </span><span class="line">&gt; from binascii import hexlify
 </span><span class="line">&gt; seed = b'0d756ad408b442341ec4895e854fe5ee55d2a93c6544d3e77b073100e9739e35b897b3fc81ef622babd3f6d7347af2e870d
 </span><span class="line">&gt; root = BIP32Key.fromEntropy(hexlify(seed))
 </span><span class="line">&gt; print(root.ExtendedKey())
 </span><span class="line">
-</span><span class="line">xprv9s21ZrQH143K35KaAEjp6RjB4LoeCR3prWBv6vmX7HuGnPFygragV39uDC24D3UZvMnWbhame5nykoXCcfy1Rbgg8uqSzmwoQgFEqt2bUNy</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</span><span class="line">xprv9s21ZrQH143K35KaAEjp6RjB4LoeCR3prWBv6vmX7HuGnPFygragV39uDC24D3UZvMnWbhame5nykoXCcfy1Rbgg8uqSzmwoQgFEqt2bUNy
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>第一层的扩展私钥也被称之为<code>BIP32 Root Key</code>；</p>
 
@@ -531,7 +541,8 @@ MathJax.Hub.Config({
 <p>在BIP-43标准下，为了延长的那个特殊规范，BIP-44提议了多账户结构作为“purpose”。所有遵循BIP-44的HD钱包依据只使用树的第一个分支的要求而被定义：m/44’/。 BIP-44指定了包含5个预定义树状层级的结构：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">m / purpose' / coin_type' / account' / change / address_index</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">m / purpose' / coin_type' / account' / change / address_index
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>第一层的purpose总是被设定为44’。</p>
 
@@ -575,7 +586,8 @@ MathJax.Hub.Config({
 <p>基于 BIP32和BIP43 的定义，赋予树状结构中的各层特殊的意义。让同一个 seed 可以支持多币种、多帐户等。各层定义如下：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">m / purpose' / coin_type' / account' / change / address_index</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">m / purpose' / coin_type' / account' / change / address_index
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>其中的 purporse’ 固定是 44’，代表使用 BIP44。而 coin_type’ 用来表示不同币种，例如 Bitcoin 就是 0’，Ethereum 是 60’。</p>
 

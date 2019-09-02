@@ -235,7 +235,8 @@ yumdownloader &lt;package&gt; --resolve
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rpm -ivh --replacepkgs xxx.rpm</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -ivh --replacepkgs xxx.rpm
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>修改prefix</li>
@@ -244,7 +245,8 @@ yumdownloader &lt;package&gt; --resolve
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">rpm -qp --queryformat "%{defaultprefix}\n" &lt;packagefile&gt;
-</span><span class="line">rpm -ivh --prefix &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">rpm -ivh --prefix &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查询某个包包含的文件</li>
@@ -253,55 +255,66 @@ yumdownloader &lt;package&gt; --resolve
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">rpm -ql &lt;packagefile&gt;
-</span><span class="line">rpm -qs &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">rpm -qs &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查询某个包包含的配置文件</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qc &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qc &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查询某个包安装时要执行的脚本文件</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rpm -q --scripts &lt;packagefile&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -q --scripts &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查询某个文件属于哪个包</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qf &lt;filepath&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查询某个可执行文件的配置文件和log文件</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qcf &lt;filepath&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qcf &lt;filepath&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>寻找最近安装的包
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span></figure></notextile></li>
+  <li>寻找最近安装的包</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">find /bin -type f -mtime -14 | rpm -qF
-</span><span class="line">rpm -qa --queryformat '%{installtime} %{name}-%{version}-%{release} %{installtime:date}\n' | sort -nr +1 | sed -e 's/^[^ ]* //'</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">find /bin -type f -mtime -14 | rpm -qF
+</span><span class="line">rpm -qa --queryformat '%{installtime} %{name}-%{version}-%{release} %{installtime:date}\n' | sort -nr +1 | sed -e 's/^[^ ]* //'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>寻找最大的安装包
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>寻找最大的安装包</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">rpm -qa --queryformat '%{name-%{version}-%{release} %{size}\n' | sort -nr +1}'</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qa --queryformat '%{name-%{version}-%{release} %{size}\n' | sort -nr +1}'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>解压一个rpm文件
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>解压一个rpm文件</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">rpm2cpio xxx.rpm | cpio -div</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm2cpio xxx.rpm | cpio -div
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

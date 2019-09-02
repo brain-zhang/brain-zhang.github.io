@@ -22,7 +22,8 @@
 11
 12
 13
-def get_html(url): headers = { 'User-Agent': 'Mozilla/5.0 ( &hellip;">
+14
+def get_html(url): headers = { 'User-Agent': 'Mozilla/5.0 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -153,6 +154,7 @@ MathJax.Hub.Config({
 <span class="line-number">11</span>
 <span class="line-number">12</span>
 <span class="line-number">13</span>
+<span class="line-number">14</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">def get_html(url):
 </span><span class="line">    headers = {
 </span><span class="line">        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
@@ -166,6 +168,7 @@ MathJax.Hub.Config({
 </span><span class="line">        return resp.content
 </span><span class="line">    else:
 </span><span class="line">        raise ValueError("Not valid response:{}".format(resp.content))
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="beautifulsoup">beautifulsoup</h2>
@@ -181,7 +184,8 @@ MathJax.Hub.Config({
 </span><span class="line">    soup = BeautifulSoup(html, 'lxml')
 </span><span class="line">    user_div = soup.find(id='uhd')
 </span><span class="line">    username = user_div.find('h2', class_='mt').get_text().strip()
-</span><span class="line">    return username</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return username
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="phantomjs">phantomjs</h2>
 
@@ -256,6 +260,7 @@ MathJax.Hub.Config({
 <span class="line-number">67</span>
 <span class="line-number">68</span>
 <span class="line-number">69</span>
+<span class="line-number">70</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">class WebClient(object):
 </span><span class="line">
 </span><span class="line">    USER_AGENTS = [
@@ -325,6 +330,7 @@ MathJax.Hub.Config({
 </span><span class="line">    @property
 </span><span class="line">    def driver(self):
 </span><span class="line">        return self._driver
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>用起来也很简单，拿登陆163邮箱做例子:</p>
@@ -386,7 +392,8 @@ MathJax.Hub.Config({
 </span><span class="line">    login_info = driver.find_element_by_xpath('//div[@class="fgreet"]/strong').text
 </span><span class="line">    driver.quit()
 </span><span class="line">
-</span><span class="line">    return login_info.strip() == email</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return login_info.strip() == email
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

@@ -192,12 +192,14 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
-</span><span class="line">a=np.array([[1, 2], [3, 4]])</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">a=np.array([[1, 2], [3, 4]])
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-5">向量是列数为1的特殊矩阵:</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">b = np.array(np.zeros((3,1)))</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">b = np.array(np.zeros((3,1)))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-6">矩阵的加法</h4>
 
@@ -212,7 +214,8 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 </span><span class="line">a = np.mat([[1,0],[2,5],[3,1]])
 </span><span class="line">b = np.mat([[4,0.5],[2,5],[0,1]])
 </span><span class="line">print ("a: \n",a, "\nb: \n",b)
-</span><span class="line">print ("a+b: \n",a+b)  # a + b，矩阵相加</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">print ("a+b: \n",a+b)  # a + b，矩阵相加
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-7">矩阵的标量乘法</h4>
 
@@ -221,7 +224,8 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">print ("a: \n",a)
-</span><span class="line">print ("3*a: \n",3* a)  #矩阵标量乘法</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">print ("3*a: \n",3* a)  #矩阵标量乘法
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-8">向量乘法</h4>
 <p>m×n 的矩阵乘以 n×1 的向量，得到的是 m×1 的向量</p>
@@ -233,7 +237,8 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 </pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
 </span><span class="line">a = np.mat([[-1,2],[2,3]])
 </span><span class="line">c = np.mat([[3],[4]])
-</span><span class="line">ac = a * c</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ac = a * c
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-9">矩阵乘法的性质</h4>
 <ul>
@@ -259,7 +264,8 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 </span><span class="line">a = np.mat([[1,2],[3,4]])
 </span><span class="line">print ('a:\n',a)
 </span><span class="line">res = np.linalg.inv(a)
-</span><span class="line">print('a inverse:\n', res)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">print('a inverse:\n', res)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>备注: 再octave中，可以用pinv函数(伪逆矩阵)对奇异矩阵求逆；</p>
 
@@ -274,7 +280,8 @@ J(\theta_{0}, \theta_{1}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)}
 </pre></td><td class="code"><pre><code class=""><span class="line">a = np.mat([[1,2],[3,4]])
 </span><span class="line">print ('a:\n',a)
 </span><span class="line">res = a.T
-</span><span class="line">print('a transpose:\n', res)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">print('a transpose:\n', res)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-12">4-多变量线性回归</h2>
 
@@ -307,7 +314,8 @@ J(\theta_{0}, \theta_{1}...\theta_{n}) = \frac{1}{2m}\sum_{i=1}^m(h_{\theta}(x^{
 </pre></td><td class="code"><pre><code class=""><span class="line"># 代价函数的python代码实现
 </span><span class="line">def Cost(X, y, theta):
 </span><span class="line">    inner = np.power(((X * theta.T) - y), 2)
-</span><span class="line">    return np.sum(inner) / (2 * len(X))</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return np.sum(inner) / (2 * len(X))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-14">梯度下降 - 特征缩放</h4>
 

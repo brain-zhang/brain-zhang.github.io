@@ -138,7 +138,8 @@ MathJax.Hub.Config({
 <p>难度值在区块中并不记录，仅仅是为了人类直观感受解题难度而演变出的一个浮点数。难度每2016个区块改变一次，公式如下：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">diffculty = difficulty_1_target / currentTarget</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">diffculty = difficulty_1_target / currentTarget
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>此处的 difficulty_1_target 为一个常数，非常大的一个数字。表示矿池挖矿最大难度。目标值越小，区块生成难度越大。区块中存储的是这个名为target的值。</p>
 
@@ -147,7 +148,8 @@ MathJax.Hub.Config({
 <p>在区块中存储的是Target，但是将Target经类似于浮点数的一种压缩表示法，字段为nbits。例如，如果区块bits记录为0x1b0404cb，那么他表示的十六进制的Target值为：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">0x0404cb * 2**(8*(0x1b - 3)) = 0x00000000000404CB000000000000000000000000000000000000000000000000</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">0x0404cb * 2**(8*(0x1b - 3)) = 0x00000000000404CB000000000000000000000000000000000000000000000000
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="x0404cb10x1b">在计算时，后面3个字节0x0404cb作为底，前面1字节0x1b表示次方数。具体压缩过程如下：</h3>
 
@@ -169,25 +171,28 @@ MathJax.Hub.Config({
 <h4 id="section-1">例如，将数字1000压缩，先转换为256进制数</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">1000 = 0x03 * 256 + 0xe8 * 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">1000 = 0x03 * 256 + 0xe8 * 1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>那么是由两个数字构成：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">03   e8</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">03   e8
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>第一个数未超过0x7f,则不需填0，但长度两位低于三位，在后面补零，最终表示为：0x0203e800</p>
 
 <h3 id="section-2">等等，我有点晕了，为什么要采取这种绕弯的存储方式呢?</h3>
 
 <ul>
-  <li>
-    <p>比特币的工作量证明本质是计算一个256bits的hash值，并保证这个值小于target，表示为公式如下:</p>
+  <li>比特币的工作量证明本质是计算一个256bits的hash值，并保证这个值小于target，表示为公式如下:</li>
+</ul>
 
-    <p><code>
-  SHA256(SHA256(区块头)) &lt; Target
- </code></p>
-  </li>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">SHA256(SHA256(区块头)) &lt; Target
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
   <li>
     <p>初始Target，即difficulty_1_target设置为<code>0x00000000FFFF0000000000000000000000000000000000000000000000000000</code>，此时难度为1</p>
   </li>
@@ -199,14 +204,15 @@ MathJax.Hub.Config({
   </li>
   <li>
     <p>那么初始Target其实可以表示为0x1D00FFFFFF，解压验证一下:</p>
+  </li>
+</ul>
 
-    <p><code>
-      0x00ffff *256** (0x1d - 3)  = ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- </code></p>
-  </li>
-  <li>
-    <p>0x1D00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</p>
-  </li>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">    0x00ffff *256** (0x1d - 3)  = ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>0x1D00FFFFFF 这个值可以称为nbits，就是存储在区块中的原始值，通过nbits可以推算当前Target，通过当前Target及初始Target可以推算当前难度</li>
 </ul>
 
 <h2 id="section-3">难度如何调节</h2>
@@ -214,7 +220,8 @@ MathJax.Hub.Config({
 <p>目标值计算公式如下，但在实际计算时有些特别处理，将目标值控制在一定范围内。</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">新目标值= 当前目标值 * 实际2016个区块出块时间 / 理论2016个区块出块时间(2周)。</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">新目标值= 当前目标值 * 实际2016个区块出块时间 / 理论2016个区块出块时间(2周)。
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
   <li>
@@ -244,47 +251,57 @@ MathJax.Hub.Config({
 <h2 id="nbits">知道nbits，如何推算全网算力</h2>
 
 <ul>
-  <li>
-    <p>nbits为0x1b0404cb时，难度为：</p>
+  <li>nbits为0x1b0404cb时，难度为：</li>
+</ul>
 
-    <p><code>
-  0x00000000FFFF0000000000000000000000000000000000000000000000000000 / 0x00000000000404CB000000000000000000000000000000000000000000000000 = 16307.420938523983
- </code></p>
-  </li>
-  <li>
-    <p>为了找到新区块，该区块的target值必须小于目标target值，实际上是一个在0到2^256-1之间的随机数，难度1的偏移量是：</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">0x00000000FFFF0000000000000000000000000000000000000000000000000000 / 0x00000000000404CB000000000000000000000000000000000000000000000000 = 16307.420938523983
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-    <p><code>
- 0xffff * 2^208
-</code></p>
-  </li>
-  <li>
-    <p>难度D的偏移量是</p>
+<ul>
+  <li>为了找到新区块，该区块的target值必须小于目标target值，实际上是一个在0到2^256-1之间的随机数，难度1的偏移量是：</li>
+</ul>
 
-    <p><code>
- (0xffff * 2^208)/D
-</code></p>
-  </li>
-  <li>
-    <p>在难度D下，为了找到新区块，我们预期要计算的HASH数量是</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   0xffff * 2^208
+</span><span class="line">   </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-    <p><code>
- D * 2^256 / (0xffff * 2^208)
-</code></p>
-  </li>
-  <li>
-    <p>难度的设定，是为了以每10分钟一个区块的产生速度产生2016个区块，因而我们在600秒内计算 (D * 2^48 / 0xffff) 个HASH，这就意味着产生2016个区块的网络HASH速率(算力)是</p>
+<ul>
+  <li>难度D的偏移量是</li>
+</ul>
 
-    <p><code>
- D * 2^48 / 0xffff / 600
-</code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   (0xffff * 2^208)/D
+</span><span class="line">   </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-    <p>可以进一步简化为：</p>
+<ul>
+  <li>在难度D下，为了找到新区块，我们预期要计算的HASH数量是</li>
+</ul>
 
-    <p><code>
- D * 2^32 / 600
-</code></p>
-  </li>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   D * 2^256 / (0xffff * 2^208)
+</span><span class="line">   </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>难度的设定，是为了以每10分钟一个区块的产生速度产生2016个区块，因而我们在600秒内计算 (D * 2^48 / 0xffff) 个HASH，这就意味着产生2016个区块的网络HASH速率(算力)是</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   D * 2^48 / 0xffff / 600
+</span><span class="line">   </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可以进一步简化为：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   D * 2^32 / 600
+</span><span class="line">   </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
   <li>
     <p>2018-02-12 21:00:00(UTC+8), 难度值D为2,874,674,234,415; 此时全网算力为20.75EH/S</p>
   </li>
@@ -300,12 +317,14 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">0x00000000FFFF0000000000000000000000000000000000000000000000000000</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">0x00000000FFFF0000000000000000000000000000000000000000000000000000
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>但是在绝大部分矿池里面表示为</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样挖矿的时候，挖矿软件显示的难度和比特币客户端api调用算出来的难度有微小差别，可以忽略。这个其实时早期矿池实现的时候找方便造成的不统一，因为比特币客户端判断HASH合法性的时候用的是nbits来判断，所以不影响最终计算结果</p>
 
@@ -314,7 +333,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">difficulty = [prev_target] * 【前2015个区块生成所用的时间】 / 1209600 （按标准每10分钟出一个块，2016个块所需要的秒数）</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">difficulty = [prev_target] * 【前2015个区块生成所用的时间】 / 1209600 （按标准每10分钟出一个块，2016个块所需要的秒数）
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>为啥？就是中本聪早期的代码比较糙，他在循环的时候因为还有一个genius block要处理，可能为了代码干净起见就不去特殊处理了，其实也没啥影响</p>
 </div>

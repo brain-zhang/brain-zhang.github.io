@@ -141,7 +141,8 @@ MathJax.Hub.Config({
 </span><span class="line">...     raise Exception(u'Error when printing 中文异常')
 </span><span class="line">... except Exception, e:
 </span><span class="line">...     print e
-</span><span class="line">...     print str(e)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">...     print str(e)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>会报UnicodeEncodeError: ‘ascii’ codec can’t encode character …</p>
 
 <p>同样，如果在log中直接输出，也会报错</p>
@@ -161,7 +162,8 @@ MathJax.Hub.Config({
 </span><span class="line">... except Exception, e:
 </span><span class="line">...     logger.error(e)
 </span><span class="line">...     logger.error("%s", e)
-</span><span class="line">...     logger.error("%s", str(e))</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">...     logger.error("%s", str(e))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>简单的解决办法就是用e.message</p>
 
@@ -174,7 +176,8 @@ MathJax.Hub.Config({
 </span><span class="line">...     raise Exception(u'Error when printing 中文异常')
 </span><span class="line">... except Exception, e:
 </span><span class="line">...     print e.message
-</span><span class="line">...     print "%s" % e.message</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">...     print "%s" % e.message
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>也可以详细的可以指定encoder</p>
 
@@ -185,7 +188,8 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; try:
 </span><span class="line">...     raise Exception(u'Error when printing 中文异常')
 </span><span class="line">... except Exception, e:
-</span><span class="line">...     print unicode(e.message).encode('utf-8')</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">...     print unicode(e.message).encode('utf-8')
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Python3就没这个事了，备忘一下。</p>
 

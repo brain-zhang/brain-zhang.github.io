@@ -128,7 +128,8 @@ MathJax.Hub.Config({
 <p>Docker build不支持 –privileged，所以默认的/etc/init.d/mongod  这个脚本中的</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">runuser -s /bin/bash mongod -c 'ulimit -S -c 0 &gt;/dev/null 2&gt;&amp;1 ; numactl --interleave=all /usr/bin/mongod -f /etc/mongod.conf'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这种写法就死翘翘了。</p>
 
@@ -143,9 +144,11 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
+<span class="line-number">4</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">mongod --fork -f /etc/mongod.conf &amp;&amp; \
 </span><span class="line">mongod --shutdown -f /etc/mongod.conf &amp;&amp; \
 </span><span class="line">chown mongod:mongod /opt/lib/mongodbpath -R
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样build就顺利完成了。</p>
@@ -153,12 +156,14 @@ MathJax.Hub.Config({
 <p>可是启动这个image为container后，执行:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/etc/init.d/mongod start</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">/etc/init.d/mongod start
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>报错:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"> [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line"> [initandlisten] warning couldn't write to / rename file /datadir/journal/prealloc.0: couldn't open file /datadir/journal/prealloc.0 for writing errno:1 Operation not permitted
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>虾米，明明已经加了mongod的group了。而且errorno是1，不是 <code>"errno:13 Permission denied"</code>，有点奇怪。</p>
 
@@ -169,7 +174,8 @@ MathJax.Hub.Config({
 <p>要再加一个指令:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">setcap cap_fowner+ep /usr/bin/mongod</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">setcap cap_fowner+ep /usr/bin/mongod
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>就是这么折腾。</p>
 </div>

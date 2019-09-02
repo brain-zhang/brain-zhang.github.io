@@ -497,20 +497,26 @@ systemctl disable firewalld.service #禁止firewall开机启动
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
 </span><span class="line">$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
-</span><span class="line">$ sudo yum install docker-ce</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">$ sudo yum install docker-ce
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="start--docker">start  docker</h2>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl start docker</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl start docker
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="pull-shadowsocks-container">pull shadowsocks container</h2>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker pull oddrationale/docker-shadowsocks</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker pull oddrationale/docker-shadowsocks
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="start-shadowsocks-service">start shadowsocks service</h2>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>You can configure the service to run on a port of your choice. Just make sure the port number given to Docker is the same as the one given to shadowsocks. Also, it is highly recommended that you store the shadowsocks password in an environment variable as shown above. This way the password will not show in plain text when you run docker ps.</p>
 

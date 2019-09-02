@@ -127,7 +127,8 @@ MathJax.Hub.Config({
 <h3 id="section">瞎优化</h3>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>
@@ -141,7 +142,8 @@ MathJax.Hub.Config({
 <h3 id="linux-parallel-all-cmdsperl">不过这样优化总是治标不治本，下面隆重推出linux 里面parallel all cmds的perl工具</h3>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>使用parallel ，和不使用parallel直接grep。结果显而易见，相差 20 倍。这比用啥 ack，ag优化效果明显多了</p>
 
@@ -156,7 +158,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">real    0m15.005s
 </span><span class="line">user    0m0.000s
-</span><span class="line">sys 0m0.000s</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这一条xargs把每个echo的数作为参数传给sleep ，所以一共sleep了 1+2+3+4+5=15秒。</p>
 
@@ -171,7 +174,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">real    0m5.003s
 </span><span class="line">user    0m0.000s
-</span><span class="line">sys 0m0.000s</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>引自:</li>

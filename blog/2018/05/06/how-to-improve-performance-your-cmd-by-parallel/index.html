@@ -130,12 +130,14 @@ MathJax.Hub.Config({
 <p>例如，一个1T的文本，百亿条数据，我想要:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">wc -l test.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">wc -l test.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>或者</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">fgrep xxxx test.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">fgrep xxxx test.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>一般机器就会自觉进入<code>一核有难，其它核点赞</code>的看戏模式。</p>
 
@@ -148,48 +150,60 @@ MathJax.Hub.Config({
 <p>例如:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">wc -l test.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">wc -l test.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>简单想想就是用个for循环split文件，挨个wc，然后相加。parallel就是自动帮你把这类事情做掉而已。大道不过两三行，所谓外部排序，Map-Reduce莫不如是。</p>
 
 <h2 id="ubuntu-1604lts">安装 (ubuntu 16.04LTS)</h2>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"> apt-get install parallel</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line"> apt-get install parallel
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-1">示例</h2>
 
 <h4 id="section-2">最快的办法计算一个大文件的行数</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe wc -l | awk '{s+=$1} END {print s}'</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe wc -l | awk '{s+=$1} END {print s}'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>非常的巧妙，先使用parallel命令‘mapping’出大量的wc -l调用，形成子计算，最后通过管道发送给awk进行汇总</p>
 
 <h4 id="sed-sed">SED, 想在一个巨大的文件里使用sed命令做大量的替换操作吗？</h4>
 
-<p>常规做法：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sed s^old^new^g bigfile.txt</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>常规做法：</p>
 
-<p>现在你可以：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe sed s^old^new^g</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sed s^old^new^g bigfile.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>现在你可以：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe sed s^old^new^g
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="grep-">GREP 一个非常大的文本文件</h4>
 
 <p>以前你可能会这样：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">grep pattern bigfile.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">grep pattern bigfile.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>现在你可以这样：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe grep 'pattern'</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>现在你可以这样：</p>
 
-<p>或者这样：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.txt | parallel --no-notice --block 10M --pipe grep 'pattern'</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt | parallel --no-notice --pipe grep 'pattern'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>或者这样：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt | parallel --no-notice --block 10M --pipe grep 'pattern'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这第二种用法使用了 –block 10M参数，这是说每个内核处理1千万行——你可以用这个参数来调整每个CUP内核处理多少行数据。</p>
 
@@ -197,13 +211,17 @@ MathJax.Hub.Config({
 
 <p>bzip2是比gzip更好的压缩工具，但它很慢！别折腾了，我们有办法解决这问题。</p>
 
-<p>以前的做法：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.bin | bzip2 --best &gt; compressedfile.bz2</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>以前的做法：</p>
 
-<p>现在这样：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">cat bigfile.bin | parallel --no-notice --pipe --recend '' -k bzip2 --best &gt; compressedfile.bz2</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.bin | bzip2 --best &gt; compressedfile.bz2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>现在这样：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.bin | parallel --no-notice --pipe --recend '' -k bzip2 --best &gt; compressedfile.bz2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-4">扩展</h2>
 
@@ -218,7 +236,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">with io.open(sys.argv[1], encoding='utf-8') as fp:
 </span><span class="line">    for line in fp:
-</span><span class="line">        print(lazy_pinyin(line))</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">        print(lazy_pinyin(line))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>lazy_pinyin的效率奇慢无比，这回陷入了一核有难，其它核+内存+磁盘全部看戏模式</p>
 
@@ -237,7 +256,8 @@ MathJax.Hub.Config({
 </span><span class="line">with io.open(sys.argv[1], encoding='utf-8') as fp:
 </span><span class="line">    pool.map(lazy_pinyin, fp, 16)
 </span><span class="line">    pool.close()
-</span><span class="line">    pool.join()</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    pool.join()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>嗯，很好，16个核都跑起来了；但是你有很快尴尬的发现，map把文件一把load进来，内存有难了</p>
 
@@ -260,12 +280,14 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">if __name__ == '__main__':
 </span><span class="line">    for line in fileinput.input():
-</span><span class="line">        lazy_pinyin(line)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">        lazy_pinyin(line)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后执行:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt| parallel --no-notice --pipe python pinyinconv.py &gt; pinyin.result</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat bigfile.txt| parallel --no-notice --pipe python pinyinconv.py &gt; pinyin.result
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>享受所有CPU满负荷运载的工头压榨工人的快感吧</p>
 
@@ -282,7 +304,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"> seq 3|parallel --no-notice -q echo seq{}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line"> seq 3|parallel --no-notice -q echo seq{}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>这个命令很好，但是语法好像啰嗦了一些，还有其它的替代命令吗？</li>

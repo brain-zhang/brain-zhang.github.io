@@ -298,7 +298,8 @@ MathJax.Hub.Config({
 </span><span class="line">	},
 </span><span class="line">	"error": null,
 </span><span class="line">	"id": null
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>在整笔交易里面，输入输出信息以及金额大小属于第一部分，scriptSig属于第二部分。</p>
 
@@ -313,24 +314,28 @@ MathJax.Hub.Config({
 <p>首先回顾下P2PKH的锁定脚本(scriptPubKey)与解锁脚本(scriptSig)内容</p>
 
 <ul>
-  <li>P2PKH
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span></figure></notextile></li>
+  <li>P2PKH</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">  scriptSig:    &lt;signature&gt; &lt;pubkey&gt;
-</span><span class="line">  scriptPubKey: OP_DUP OP_HASH160 &lt;20-byte hash of Pubkey&gt; OP_EQUALVERIFY OP_CHECKSIG</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">  scriptSig:    &lt;signature&gt; &lt;pubkey&gt;
+</span><span class="line">  scriptPubKey: OP_DUP OP_HASH160 &lt;20-byte hash of Pubkey&gt; OP_EQUALVERIFY OP_CHECKSIG
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>再来看一下P2WPKH的脚本内容</p>
 
 <ul>
-  <li>P2WPKH<br />
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span></figure></notextile></li>
+  <li>P2WPKH  </li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">  scriptSig:    (empty)
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">  scriptSig:    (empty)
 </span><span class="line">  scriptPubKey: 0 &lt;20-byte hash of Pubkey&gt;
-</span><span class="line">  witness:      &lt;signature&gt; &lt;pubkey&gt;</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">  witness:      &lt;signature&gt; &lt;pubkey&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>P2WPKH的锁定脚本较P2PKH要精简不少，第一位的数字0是版本号，有了版本号，未来脚本升级就能更容易的向前兼容。</p>
 
@@ -345,17 +350,20 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">  scriptSig:    0 &lt;SigA&gt; &lt;SigB&gt; &lt;2 PubkeyA PubkeyB PubkeyC PubkeyD PubkeyE 5 CHECKMULTISIG&gt;
-</span><span class="line">  scriptPubKey: HASH160 &lt;20-byte hash of redeem script&gt; EQUAL</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">  scriptPubKey: HASH160 &lt;20-byte hash of redeem script&gt; EQUAL
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>P2WSH<br />
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span></figure></notextile></li>
+  <li>P2WSH  </li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">  scriptSig:    (empty)
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">  scriptSig:    (empty)
 </span><span class="line">  scriptPubKey: 0 &lt;32-byte hash of redeem script&gt;
-</span><span class="line">  witness:      0 &lt;SigA&gt; &lt;SigB&gt; &lt;2 PubkeyA PubkeyB PubkeyC PubkeyD PubkeyE 5 CHECKMULTISIG&gt;</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">  witness:      0 &lt;SigA&gt; &lt;SigB&gt; &lt;2 PubkeyA PubkeyB PubkeyC PubkeyD PubkeyE 5 CHECKMULTISIG&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>P2WSH锁定脚本与P2WPKH类似，第一位是版本号，第二位是赎回脚本(Redeem script)的Hash值。</p>
 
@@ -386,12 +394,14 @@ MathJax.Hub.Config({
 <p>传统交易的txid是以下序列 double sha256的结果:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[nVersion][txins][txouts][nLockTime]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">[nVersion][txins][txouts][nLockTime]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最后开发者们又引入了另外一个id，称之为wtxid；它是对整个交易double sha256的结果:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[nVersion][marker][flag][txins][txouts][witness][nLockTime]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">[nVersion][marker][flag][txins][txouts][witness][nLockTime]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>我们知道，每笔交易的txid是临时计算的，并不入块。但是整个Block是以所有交易的txid以Merkle Tree的形式组织的(这部分知识我们还没讲，需要到后面将bitcoin blockchain的时候提到)；现在多了一个wtxid，该怎么办呢？</p>
 
@@ -438,6 +448,7 @@ MathJax.Hub.Config({
 <span class="line-number">27</span>
 <span class="line-number">28</span>
 <span class="line-number">29</span>
+<span class="line-number">30</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">std::vector&lt;unsigned char&gt; GenerateCoinbaseCommitment(CBlock&amp; block, const CBlockIndex* pindexPrev, 
 </span><span class="line">                                                      const Consensus::Params&amp; consensusParams)
 </span><span class="line">{
@@ -467,6 +478,7 @@ MathJax.Hub.Config({
 </span><span class="line">    UpdateUncommittedBlockStructures(block, pindexPrev, consensusParams);  //更新区块其他结构
 </span><span class="line">    return commitment;
 </span><span class="line">}
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-8">隔离见证新的签名算法</h4>
@@ -522,7 +534,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">  scriptSig:    0 &lt;20-byte hash of Pubkey&gt;
 </span><span class="line">  scriptPubKey: HASH160 &lt;20-byte hash of script&gt; EQUAL
-</span><span class="line">  witness:      &lt;signature&gt; &lt;pubkey&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">  witness:      &lt;signature&gt; &lt;pubkey&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>此处的脚本Hash值为RIPEMD160(SHA256(0 &lt;20-byte hash of Pubkey&gt;))的结果，将该脚本Hash转换为P2SH地址，就是一个兼容segwit的地址，不支持隔离见证的客户端可以正常支付比特币给这种P2SH地址。
 而对于支持隔离见证的客户端，仍可以将验证信息放在witness结构中，当然这种过渡方案的交易会较完全形态的方案稍大一些，但比无隔离见证的情况要小。</p>
@@ -558,7 +571,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">Block weight = Base size * 3 + Total size
 </span><span class="line">Base size是不包含witness数据的块大小
-</span><span class="line">Total size是包含了witness数据的总大小</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">Total size是包含了witness数据的总大小
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>隔离见证限制Block weight &lt;= 4000000</p>
 
@@ -624,7 +638,8 @@ Block的size的计算方式做了调整，引入了Block weight的概念。 </p>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">block weight = base_size * 4 + witness_size 
-</span><span class="line">block weight &lt;= 4M</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">block weight &lt;= 4M
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>其中，base_size就是block的前2部分数据（header + 没有witness的所有交易数据）</p>
 

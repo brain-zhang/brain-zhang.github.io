@@ -33,6 +33,7 @@
 22
 23
 24
+25
 import ctypes
 import logging try: &hellip;">
   
@@ -174,6 +175,7 @@ MathJax.Hub.Config({
 <span class="line-number">22</span>
 <span class="line-number">23</span>
 <span class="line-number">24</span>
+<span class="line-number">25</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">import ctypes
 </span><span class="line">import logging
 </span><span class="line">
@@ -198,6 +200,7 @@ MathJax.Hub.Config({
 </span><span class="line">if ssl_library.EC_KEY_generate_key(k) != 1:
 </span><span class="line">    raise Exception("internal error")
 </span><span class="line">ssl_library.EC_KEY_free(k)
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这段代码在多线程的时候会出现segmentation fault error； google一下发现<code>EC_KEY_generate_key</code>并不是线程安全的；于是:</p>
@@ -237,7 +240,8 @@ MathJax.Hub.Config({
 </span><span class="line">    return v
 </span><span class="line">
 </span><span class="line">ssl_library.CRYPTO_set_id_callback(openssl_threadid)
-</span><span class="line">ssl_library.CRYPTO_set_locking_callback(openssl_lock)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ssl_library.CRYPTO_set_locking_callback(openssl_lock)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>诡异的是还是不定时的crash掉，又一通google之后发现是openssl1.0.0的实现问题，参考:</p>
 

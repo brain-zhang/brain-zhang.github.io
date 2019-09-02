@@ -145,14 +145,17 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">~ locate libssl3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libssl3.so</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">/usr/lib/x86_64-linux-gnu/libssl3.so
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>nm看一下:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
+<span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">~ nm /usr/lib/x86_64-linux-gnu/libssl3.so
 </span><span class="line">nm: /usr/lib/x86_64-linux-gnu/libssl3.so: no symbols
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>奇怪，没有任何符号；继续用ldd看一下：</p>
@@ -171,6 +174,7 @@ MathJax.Hub.Config({
 <span class="line-number">12</span>
 <span class="line-number">13</span>
 <span class="line-number">14</span>
+<span class="line-number">15</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">~ ldd /usr/lib/x86_64-linux-gnu/libssl3.so
 </span><span class="line">ldd /usr/lib/x86_64-linux-gnu/libssl3.so
 </span><span class="line">        linux-vdso.so.1 =&gt;  (0x00007ffe833bb000)
@@ -185,6 +189,7 @@ MathJax.Hub.Config({
 </span><span class="line">        libdl.so.2 =&gt; /lib/x86_64-linux-gnu/libdl.so.2 (0x00007faf3ba10000)
 </span><span class="line">        librt.so.1 =&gt; /lib/x86_64-linux-gnu/librt.so.1 (0x00007faf3b808000)
 </span><span class="line">        /lib64/ld-linux-x86-64.so.2 (0x00007faf3d21d000)
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>嗯，找到了一个有意思的依赖:libnss3.so</p>
@@ -194,7 +199,8 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg -S /usr/lib/x86_64-linux-gnu/libnss3.so
-</span><span class="line">libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>基本上确定是libnss3这个库引入的libssl3.so了，最后再用dpkg确认一下:</p>
 
@@ -253,12 +259,14 @@ MathJax.Hub.Config({
 </span><span class="line">/usr/share/doc/libnss3/changelog.Debian.gz
 </span><span class="line">/usr/share/lintian
 </span><span class="line">/usr/share/lintian/overrides
-</span><span class="line">/usr/share/lintian/overrides/libnss3</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">/usr/share/lintian/overrides/libnss3
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="libnss3">libnss3是个什么东东?</h3>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">apt-cache show libnss3</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">apt-cache show libnss3
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>看了一下，发现是mozilla基金会搞得东东；再google一下，发现是自己孤陋寡闻了；</p>
 
@@ -333,7 +341,8 @@ MathJax.Hub.Config({
 </span><span class="line">rpmlib(FileDigests) &lt;= 4.6.0-1
 </span><span class="line">rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
 </span><span class="line">rtld(GNU_HASH)
-</span><span class="line">rpmlib(PayloadIsXz) &lt;= 5.2-1</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">rpmlib(PayloadIsXz) &lt;= 5.2-1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>用的是libcurl = 7.29.0-51.el7；</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -395,11 +404,14 @@ MathJax.Hub.Config({
 </span><span class="line">libnss3.so(NSS_3.12.5)(64bit)
 </span><span class="line">libnss3.so(NSS_3.2)(64bit)
 </span><span class="line">
-</span><span class="line">....</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>看到libnss3了,重点输出：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">libnss3.so</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-那么这个包是谁提供的？输入如下命令：</p>
+</span><span class="line">....
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>看到libnss3了,重点输出：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">libnss3.so
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>那么这个包是谁提供的？输入如下命令：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -436,14 +448,17 @@ MathJax.Hub.Config({
 </span><span class="line">/usr/lib64/libsmime3.so
 </span><span class="line">/usr/lib64/libssl3.so
 </span><span class="line">/usr/lib64/nss/libnssckbi.so
-</span><span class="line">...</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>至此水落石出，还可以看到我们熟悉的证书cert8.db文件；但其实 curl 最终使用的根证书库并不是该文件。那 curl 使用的根证书文件在哪儿呢？</p>
 
-<p>使用 curl-config 命令行工具，能够了解更多：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<p>使用 curl-config 命令行工具，能够了解更多：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">~ curl-config --ca                        
-</span><span class="line">/etc/pki/tls/certs/ca-bundle.crt</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</pre></td><td class="code"><pre><code class=""><span class="line">~ curl-config --ca                        
+</span><span class="line">/etc/pki/tls/certs/ca-bundle.crt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="ubuntu1604">ubuntu16.04</h4>
 
@@ -466,6 +481,7 @@ MathJax.Hub.Config({
 <span class="line-number">15</span>
 <span class="line-number">16</span>
 <span class="line-number">17</span>
+<span class="line-number">18</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg-query -L libcurl3
 </span><span class="line">/.
 </span><span class="line">/usr
@@ -483,6 +499,7 @@ MathJax.Hub.Config({
 </span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
 </span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.3
 </span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.4
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -502,14 +519,16 @@ MathJax.Hub.Config({
 </span><span class="line">  Depends: librtmp1
 </span><span class="line">  Depends: libssl1.0.0
 </span><span class="line">  Depends: zlib1g
-</span><span class="line">  Recommends: ca-certificates</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">  Recommends: ca-certificates
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后寻找libcurl的依赖库:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">~ ldd /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0|grep ssl
-</span><span class="line">libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>验证一下:</p>
 
@@ -528,7 +547,8 @@ MathJax.Hub.Config({
 </span><span class="line">  Suggests: ca-certificates
 </span><span class="line">  
 </span><span class="line">~ apt-cache rdepends  libssl1.0.0 | grep curl
-</span><span class="line">  libcurl3  </span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">  libcurl3  
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="section">总结</h3>
 

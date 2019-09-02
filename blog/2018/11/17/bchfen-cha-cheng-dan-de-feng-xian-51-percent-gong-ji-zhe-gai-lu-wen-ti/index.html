@@ -191,17 +191,20 @@ MathJax.Hub.Config({
 <p>当酒鬼走完第一步后，他要么到了 <code>x = 0</code>（此事件发生的概率是 1－p），要么到了 <code>x = 2</code> 的位置（此事件发生的概率是 p），他再从 <code>x = 2</code> 出发最终走到 <code>x = 0</code> 被吸收的概率就是 <code>P（2）</code>。这时我们可以得到方程1:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">P(1) = 1 - p + p * P(2)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">P(1) = 1 - p + p * P(2)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>而自 <code>x =2</code> 走出并最终到达 <code>x = 0</code> 的情况可以分解为两个阶段：先从 <code>x = 2</code> 到 <code>x = 1</code>（可以走任意步）, 然后从 <code>x = 1</code>到 <code>x = 0</code>（同样可以走任意步）。我们知道后一个的概率是 P（1）,那么前一个呢？其实是一样的，也是 P（1），它可以看作后一种情况的平移。又因为这两个事件相互独立，所以得到方程2:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">P(2) = P(1)²</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">P(2) = P(1)²
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>将方程2代入方程1，得到一个简单的一元二次方程:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">P(1) = 1 - p + p* P(1)²</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">P(1) = 1 - p + p* P(1)²
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>解得  <code>P(1) = 1</code>  或者   <code>P(1) = (1-p)／p</code></p>
 
@@ -236,14 +239,18 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
+<span class="line-number">4</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">p(0) = 1
 </span><span class="line">
 </span><span class="line">p(n+1) = 2 * p(n) - p(n-1)，
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>也就是 
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">p(n+1) - p(n) = p(n) - p(n-1)</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>也就是 </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">p(n+1) - p(n) = p(n) - p(n-1)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>容易验证 <code>p(n) = n * p(1) - (n-1)</code> 正好符合上面的递推关系。</p>
 

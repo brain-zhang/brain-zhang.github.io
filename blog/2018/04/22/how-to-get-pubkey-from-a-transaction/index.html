@@ -199,7 +199,8 @@ MathJax.Hub.Config({
 </span><span class="line">        }
 </span><span class="line">    }
 </span><span class="line">    version 1
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>注意script那一段，就是分成了两部分，前面一个中括号里面是签名，后面是公钥。</p>
 
@@ -252,14 +253,16 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">pubkey = "044da006f958beba78ec54443df4a3f52237253f7ae8cbdb17dccf3feaa57f3126da0a0909f11998130c2d0e86a485f4e79ee466a183a476c432c68758ab9e630b"
 </span><span class="line">print(len(pubkey))
-</span><span class="line">print("Address: %s" % PubkeyToAddress(pubkey))</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">print("Address: %s" % PubkeyToAddress(pubkey))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>输出是这样的:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">130
-</span><span class="line">Address: 1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">Address: 1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>OK，打完收工。</p>
 

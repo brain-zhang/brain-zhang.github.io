@@ -133,14 +133,16 @@ MathJax.Hub.Config({
 </ol>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">git rev-list --objects --all | grep "$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | awk '{print$1}')"</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">git rev-list --objects --all | grep "$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | awk '{print$1}')"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
   <li>然后通过filter-branch来重写这些大文件涉及到的所有提交（重写历史记录）：</li>
 </ol>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">git filter-branch -f --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch your-file-name' --tag-name-filter cat -- --all</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">git filter-branch -f --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch your-file-name' --tag-name-filter cat -- --all
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
   <li>再删除缓存的对象，顺便瘦身一下:</li>
@@ -151,7 +153,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
 </span><span class="line">git reflog expire --expire=now --all
-</span><span class="line">git gc --prune=now</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">git gc --prune=now
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>打完收工</p>
 </div>

@@ -193,7 +193,8 @@ MathJax.Hub.Config({
 <p>大部分函数都是双向函数，<code>双向</code>意味着可逆。比如加倍函数就是一个双向函数:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">y = 2x</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">y = 2x
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>知道了x，很容易能求得y；同理，知道了y，很容易逆向求得x。</p>
 
@@ -202,7 +203,8 @@ MathJax.Hub.Config({
 <p>与上面相对的，知道x，很容易能求得y；但是知道了y，逆向很难推出x。这就是单向函数。举一个最常见的例子:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">y = 453^x % 21997</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">y = 453^x % 21997
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>一个很大的数的x次方来模除另一个很大的数，取模得到y，知道x，y是很容易计算的，但是反向从y推导x却十分困难。这就是一个单向函数。</p>
 
@@ -336,7 +338,8 @@ MathJax.Hub.Config({
 <p>对于我们小白来说，椭圆曲线可以暂时简单的理解为描述了特定点的集合的公式：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">y^2 = X^3 + ax + b</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">y^2 = X^3 + ax + b
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>取不同的a值和b值，这个函数在坐标轴上绘制出来的曲线大概是这样的:</p>
 
@@ -351,7 +354,8 @@ MathJax.Hub.Config({
 <p>a和b的不同取值可以画出多条不同的曲线，比特币使用了secp256k1标准所定义的一种特殊的椭圆曲线和一系列数学常数。该标准由美国国家标准与技术研究院 （NIST）设立。secp256k1曲线由下述函数定义，该函数可产生一条椭圆曲线：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">y^2 % p = (X^3 + 7) % p</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">y^2 % p = (X^3 + 7) % p
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>看到了吧，这个函数结合了我们之前介绍的取模操作和椭圆曲线函数。</p>
 

@@ -221,7 +221,8 @@ MathJax.Hub.Config({
 <p>GDP（用Y代表）被分为四个组成部分：消费（C）、投资（I）、政府购买（G）、净出口（NX）：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Y = C ＋ I ＋ G ＋ NX</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">Y = C ＋ I ＋ G ＋ NX
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
   
@@ -427,11 +428,14 @@ MathJax.Hub.Config({
 <p>目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">AWS p2.8xlarge	32 vCores Xeon v4, 8x K80 GPUs (50% each)	~80-88M/s</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">AWS p2.8xlarge	32 vCores Xeon v4, 8x K80 GPUs (50% each)	~80-88M/s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">2^136 / 2^30 = 2 ^106</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">2^136 / 2^30 = 2 ^106
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>2^106 级别的碰撞效率还是遥遥无期啊；</p>
 
@@ -482,7 +486,8 @@ MathJax.Hub.Config({
 <p>WSL最让我满意的，是命令行里面可以结合Windows和Linux的命令行工具来管道处理，这个实在是太赞了。纯粹计算类的程序，Windows上面有很多现成的命令行工具，现在终于能:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样来搞了，事实上，我自己写了很多Python脚本来处理Powershell自带的很多工具输出的内容，还有不少GPU运算程序大多数跑在Windows上面，能直接重定向到Linux上面实在太好了。</p>
 
@@ -497,7 +502,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
@@ -547,14 +553,16 @@ MathJax.Hub.Config({
   <div class="entry-content"><p>之前一直简单的用</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">alias rm='mv -f $@ ~/.trash'</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">alias rm='mv -f $@ ~/.trash'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>取代rm命令。</p>
 
 <p>这样用着有个不便的地方，就是有时候做个脚本命令，带个<code>;</code>的时候会解析有问题。今天突然发现一个用函数来替代的好办法，记一下：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">alias rm='move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>参考资料：</p>
 

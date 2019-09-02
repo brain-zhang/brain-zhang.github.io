@@ -166,7 +166,8 @@ MathJax.Hub.Config({
 </span><span class="line">tidy        add missing and remove unused modules (增加丢失的 modules，去掉未用的 modules)
 </span><span class="line">vendor      make vendored copy of dependencies (将依赖复制到 vendor 下)
 </span><span class="line">verify      verify dependencies have expected content (校验依赖)
-</span><span class="line">why         explain why packages or modules are needed (解释为什么需要依赖)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">why         explain why packages or modules are needed (解释为什么需要依赖)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section">既有项目</h2>
 
@@ -191,7 +192,8 @@ MathJax.Hub.Config({
 </span><span class="line">  golang.org/x/crypto v0.0.0-20180820150726-614d502a4dac =&gt; github.com/golang/crypto v0.0.0-20180820150726-614d502a4dac
 </span><span class="line">  golang.org/x/net v0.0.0-20180821023952-922f4815f713 =&gt; github.com/golang/net v0.0.0-20180826012351-8a410e7b638d
 </span><span class="line">  golang.org/x/text v0.3.0 =&gt; github.com/golang/text v0.3.0
-</span><span class="line">)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>依赖库中的replace对你的主 go.mod 不起作用，比如github.com/brain-zhang/hello的 go.mod 已经增加了replace, 但是你的 go.mod 虽然require了rpcx的库，但是没有设置replace的话， go get还是会访问golang.org/x。</p>
 
 <p>所以如果想编译哪个项目，就在哪个项目中增加replace。</p>
@@ -209,7 +211,8 @@ MathJax.Hub.Config({
 </span><span class="line">gopkg.in/vmihailenco/msgpack.v2 v2.9.1
 </span><span class="line">gopkg.in/yaml.v2 &lt;=v2.2.1
 </span><span class="line">github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e
-</span><span class="line">latest</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">latest
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>版本号遵循如下规律：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -219,7 +222,8 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">vX.Y.Z-pre.0.yyyymmddhhmmss-abcdefabcdef
 </span><span class="line">vX.0.0-yyyymmddhhmmss-abcdefabcdef
 </span><span class="line">vX.Y.(Z+1)-0.yyyymmddhhmmss-abcdefabcdef
-</span><span class="line">vX.Y.Z</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">vX.Y.Z
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>也就是版本号 + 时间戳 + hash，我们自己指定版本时只需要制定版本号即可，没有版本 tag 的则需要找到对应 commit 的时间和 hash 值。</p>
 
 <p>另外版本号是支持 query 表达式的，其求值算法是 “选择最接近于比较目标的版本 (tagged version)”，即上文中的 gopkg.in/yaml.v2 会找不高于 v2.2.1 的最高版本。</p>

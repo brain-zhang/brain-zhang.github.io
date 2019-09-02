@@ -9,8 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板… 模板实例: systemV init script template
-1
+  <meta name="description" content="centos6中的init.d systemV script升级为systemd startup script，让我们有个easy setup的模板… 模板实例: systemV init script template 1
 2
 3
 4
@@ -143,6 +142,7 @@ MathJax.Hub.Config({
 <!-- more --></p>
 
 <h2 id="systemv-init-script-template">systemV init script template</h2>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -386,7 +386,8 @@ MathJax.Hub.Config({
 </span><span class="line">    RETVAL=1
 </span><span class="line">esac
 </span><span class="line">
-</span><span class="line">exit $RETVAL</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">exit $RETVAL
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="systemd-startup-script-template">systemd startup script template</h2>
 
@@ -401,9 +402,11 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">[system]
 </span><span class="line">pidFilePath=/var/lib/helloworldtest/run/hello.pid
-</span><span class="line">logFilePath=/var/lib/helloworldtest/log/hello.log</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">logFilePath=/var/lib/helloworldtest/log/hello.log
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="usrlibsystemdsystemhelloworldservice">/usr/lib/systemd/system/helloworld.service</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -431,7 +434,8 @@ MathJax.Hub.Config({
 </span><span class="line">Restart=always
 </span><span class="line">
 </span><span class="line">[Install]
-</span><span class="line">WantedBy=default.target</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">WantedBy=default.target
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

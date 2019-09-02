@@ -394,12 +394,14 @@ MathJax.Hub.Config({
 </span><span class="line">server=1
 </span><span class="line">#daemon=1
 </span><span class="line">zmqpubrawblock=tcp://192.168.2.1:28332
-</span><span class="line">zmqpubrawtx=tcp://192.168.2.1:28333</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">zmqpubrawtx=tcp://192.168.2.1:28333
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>启动bitcoind:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/blockdata/testnet3/bitcoin.conf --datadir=/opt//blockdata/ --deprecatedrpc=signrawtransaction &gt;&gt; test.log 2&gt;&amp;1</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/blockdata/testnet3/bitcoin.conf --datadir=/opt//blockdata/ --deprecatedrpc=signrawtransaction &gt;&gt; test.log 2&gt;&amp;1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-15">建立闪电网络节点</h4>
 
@@ -412,7 +414,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo apt-get install golang-1.11-go</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo apt-get install golang-1.11-go
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>设置环境变量</li>
@@ -421,7 +424,8 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">export GOPATH=~/gocode
-</span><span class="line">export PATH=$PATH:$GOPATH/bin</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">export PATH=$PATH:$GOPATH/bin
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>Clone &amp;&amp; 编译</li>
@@ -432,23 +436,27 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">go get -d github.com/lightningnetwork/lnd
 </span><span class="line">cd $GOPATH/src/github.com/lightningnetwork/lnd
-</span><span class="line">make &amp;&amp; make install</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">make &amp;&amp; make install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>启动lnd</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=xxxx --bitcoind.rpcpass=xxxx --bitcoind.zmqpubrawblock=tcp://192.168.2.1:28332 --bitcoind.zmqpubrawtx=tcp://192.168.2.1:28333</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=xxxx --bitcoind.rpcpass=xxxx --bitcoind.zmqpubrawblock=tcp://192.168.2.1:28332 --bitcoind.zmqpubrawtx=tcp://192.168.2.1:28333
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-16">建立一个新钱包，充值</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet create</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet create
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>之后按照提示一路回车下去，建立一个新钱包，然后执行下列命令得到一个新地址</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet newaddress np2wkh</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet newaddress np2wkh
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>去下面这几个网址列表领取一些免费的TestNet Bitcoin:</li>
@@ -461,7 +469,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet walletbalance</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet walletbalance
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-17">连接通道</h4>
 
@@ -470,7 +479,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet getinfo</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet getinfo
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>确认<code>synced_to_chain</code>字段已经变成true，代表区块头同步完毕。</p>
 
 <ul>
@@ -484,21 +494,24 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet connect 03a8334aba5660e241468e2f0deb2526bfd50d0e3fe808d882913e39094dc1a028@138.229.205.237:9735</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet connect 03a8334aba5660e241468e2f0deb2526bfd50d0e3fe808d882913e39094dc1a028@138.229.205.237:9735
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>下一步建立通道，这里我们存0.1btc到通道里:</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet openchannel --node_key=03a8334aba5660e241468e2f0deb2526bfd50d0e3fe808d882913e39094dc1a028 --local_amt=10000000</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet openchannel --node_key=03a8334aba5660e241468e2f0deb2526bfd50d0e3fe808d882913e39094dc1a028 --local_amt=10000000
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>查看节点连接状态：</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet listpeers</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet listpeers
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这里我们还需要等待3次确认，通道才能建立成功，记住刚才建立完的transaction id，去网上查询等待3次确认。</p>
 
@@ -507,7 +520,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet listchannels</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet listchannels
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>当通道打开的时候，就可以用闪电网络支付啦！</p>
 
 <h4 id="section-18">支付</h4>
@@ -517,14 +531,16 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lntb25480n1pwrn3czpp5em4jyjp85rfq5l3489wepp8vu49a2ezly7hc65jmp4crgdymen0sdzy2pshjmt9de6zqen0wgsrydf58qs8q6tcv4k8xgrpwss8xct5daeks6tn9ecxcctrv5hqxqzjccqp2pg8zne6q7f6vsxyd30ja23e49ysmuy8qp3z9wxl400l64x0958qzn90e02dfdglp5e3c3s8me0tdnk33uakp269fl5j7enmzxhnkgncqacr95d</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lntb25480n1pwrn3czpp5em4jyjp85rfq5l3489wepp8vu49a2ezly7hc65jmp4crgdymen0sdzy2pshjmt9de6zqen0wgsrydf58qs8q6tcv4k8xgrpwss8xct5daeks6tn9ecxcctrv5hqxqzjccqp2pg8zne6q7f6vsxyd30ja23e49ysmuy8qp3z9wxl400l64x0958qzn90e02dfdglp5e3c3s8me0tdnk33uakp269fl5j7enmzxhnkgncqacr95d
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>在命令行里支付：</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet sendpayment --pay_req  lntb25480n1pwrn3czpp5em4jyjp85rfq5l3489wepp8vu49a2ezly7hc65jmp4crgdymen0sdzy2pshjmt9de6zqen0wgsrydf58qs8q6tcv4k8xgrpwss8xct5daeks6tn9ecxcctrv5hqxqzjccqp2pg8zne6q7f6vsxyd30ja23e49ysmuy8qp3z9wxl400l64x0958qzn90e02dfdglp5e3c3s8me0tdnk33uakp269fl5j7enmzxhnkgncqacr95d</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet sendpayment --pay_req  lntb25480n1pwrn3czpp5em4jyjp85rfq5l3489wepp8vu49a2ezly7hc65jmp4crgdymen0sdzy2pshjmt9de6zqen0wgsrydf58qs8q6tcv4k8xgrpwss8xct5daeks6tn9ecxcctrv5hqxqzjccqp2pg8zne6q7f6vsxyd30ja23e49ysmuy8qp3z9wxl400l64x0958qzn90e02dfdglp5e3c3s8me0tdnk33uakp269fl5j7enmzxhnkgncqacr95d
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>顺利的话，瞬间支付成功。</p>
 

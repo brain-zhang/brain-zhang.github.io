@@ -146,7 +146,8 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line"># test.py
 </span><span class="line">def application(env, start_response):
 </span><span class="line">    start_response('200 OK', [('Content-Type','text/html')])
-</span><span class="line">    return "Hello World"</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return "Hello World"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>python3的话需要返回一个binary</p>
 
@@ -157,7 +158,8 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line"># test.py
 </span><span class="line">def application(env, start_response):
 </span><span class="line">    start_response('200 OK', [('Content-Type','text/html')])
-</span><span class="line">    return [b"Hello World"]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return [b"Hello World"]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>执行shell命令:</p>
 
@@ -206,7 +208,8 @@ MathJax.Hub.Config({
 </span><span class="line">os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
 </span><span class="line">
 </span><span class="line">from django.core.handlers.wsgi import WSGIHandler
-</span><span class="line">application = WSGIHandler()</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">application = WSGIHandler()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>执行:</p>
 

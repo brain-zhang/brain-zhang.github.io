@@ -131,14 +131,16 @@ MathJax.Hub.Config({
 <h4 id="section-1">比较常见标点有这些：</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>调用zhon包的zhon.hanzi.punctuation函数即可得到这些中文标点。</p>
 
 <p>如果想用英文的标点，则可调用string包的string.punctuation函数可得到：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">!"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">!"#$%&amp;\'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>因此，比如需要将所有标点符号去除，可以进行以下操作：</p>
 
@@ -149,12 +151,14 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; import re
 </span><span class="line">&gt;&gt;&gt; from zhon.hanzo import punctuation
 </span><span class="line">&gt;&gt;&gt; line = "测试。。去除标点。。"
-</span><span class="line">&gt;&gt;&gt; print re.sub("[{}]+".format(punctuation), "", line.decode("utf-8")) # 需要将str转换为unicode</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">&gt;&gt;&gt; print re.sub("[{}]+".format(punctuation), "", line.decode("utf-8")) # 需要将str转换为unicode
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>当然，如果想去除重复的符号而只保留一个，那么可以用\1指明：比如</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; re.sub(ur"([{}])+".format(punctuation), "\1", line.decode("utf-8"))</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; re.sub(ur"([{}])+".format(punctuation), "\1", line.decode("utf-8"))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>你也可以手工指定这些标点符号</p>
 
@@ -163,7 +167,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">punctuation = """！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏"""
 </span><span class="line">re_punctuation = "[{}]+".format(punctuation)
-</span><span class="line">line = re.sub(re_punctuation, "", line)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">line = re.sub(re_punctuation, "", line)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="unicodestrip">可以通过直接指定unicode码范围的办法来strip，比如:</h3>
 
@@ -176,7 +181,8 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">def remove_punctuation(line):
 </span><span class="line">    rule = re.compile(ur"[^a-zA-Z0-9\u4e00-\u9fa5]")
 </span><span class="line">    line = rule.sub('',line)
-</span><span class="line">    return line</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return line
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>汉字的范围为”\u4e00-\u9fa5“，这个是用Unicode表示的，所以前面必须要加”u“；字符”r“的意思是表示忽略后面的转义字符，这样简化了后面正则表达式里每遇到一个转义字符还得挨个转义的麻烦</p>
 
@@ -201,7 +207,8 @@ MathJax.Hub.Config({
 </span><span class="line">        re_punctuation = "[{}]+".format(punctuation)
 </span><span class="line">        line = re.sub(re_punctuation, "", line)
 </span><span class="line">
-</span><span class="line">    return line.strip()</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return line.strip()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="section-3">清洗完毕后，有时候我们希望按照多个标点符号来分割</h3>
 
@@ -212,7 +219,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">strip_chars = '？"。.，,《》[]〖〗“”'
 </span><span class="line">single_line = single_line.translate(str.maketrans(dict.fromkeys(strip_chars, '#')))
-</span><span class="line">single_line = single_line.split('#')</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">single_line = single_line.split('#')
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
 

@@ -139,7 +139,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">git config --global --unset http.proxy
 </span><span class="line">
-</span><span class="line">git config --global --unset https.proxy</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">git config --global --unset https.proxy
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="local">local设置和取消:</h3>
 
@@ -156,7 +157,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">git config  --unset http.proxy
 </span><span class="line">
-</span><span class="line">git config  --unset https.proxy</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">git config  --unset https.proxy
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
   
@@ -274,12 +276,14 @@ MathJax.Hub.Config({
   <div class="entry-content"><p>有时候需要压缩文件的时候同时分割一下:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">tar czvf - -C /mnt/g/dict/ weakpass_merge.dict |split -b 10000M - "weakpass.part.tar.gz."</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">tar czvf - -C /mnt/g/dict/ weakpass_merge.dict |split -b 10000M - "weakpass.part.tar.gz."
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>还原:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat weakpass.part.tar.gz.*|tar zxvf</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat weakpass.part.tar.gz.*|tar zxvf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -473,7 +477,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">for X in small-chunk*; do sort -u &lt; $X &gt; sorted-$X; done
 </span><span class="line">
-</span><span class="line">sort -u -m sorted-small-chunk* &gt; sorted-huge-file &amp;&amp; rm -rf small-chunk* sorted-small-chunk*</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">sort -u -m sorted-small-chunk* &gt; sorted-huge-file &amp;&amp; rm -rf small-chunk* sorted-small-chunk*
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="tips">小TIPS:</h3>
 
@@ -489,7 +494,8 @@ MathJax.Hub.Config({
 <p>可以利用awk的数组是内存hash表的特性，直接awk来做，前提是你内存够大，瞎估估需要十倍于数据的内存吧:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="ps">PS:</h3>
 
@@ -537,17 +543,20 @@ MathJax.Hub.Config({
 <p>用sort+uniq直接搞定:</p>
 
 <h2 id="section">交集</h2>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
 </span><span class="line">$ sort b.txt | uniq &gt; bb.txt
-</span><span class="line">$ cat aa.txt bb.txt | sort | uniq -d</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">$ cat aa.txt bb.txt | sort | uniq -d
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-1">并集</h2>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt b.txt | sort | uniq</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt b.txt | sort | uniq
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-2">差集</h2>
 
@@ -556,7 +565,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
 </span><span class="line">$ sort b.txt | uniq &gt; bb.txt
-</span><span class="line">$ cat aa.txt bb.txt bb.txt | sort | uniq -u</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">$ cat aa.txt bb.txt bb.txt | sort | uniq -u
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
@@ -604,7 +614,8 @@ MathJax.Hub.Config({
 <h3 id="section">瞎优化</h3>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>
@@ -618,7 +629,8 @@ MathJax.Hub.Config({
 <h3 id="linux-parallel-all-cmdsperl">不过这样优化总是治标不治本，下面隆重推出linux 里面parallel all cmds的perl工具</h3>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>使用parallel ，和不使用parallel直接grep。结果显而易见，相差 20 倍。这比用啥 ack，ag优化效果明显多了</p>
 
@@ -633,7 +645,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">real    0m15.005s
 </span><span class="line">user    0m0.000s
-</span><span class="line">sys 0m0.000s</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这一条xargs把每个echo的数作为参数传给sleep ，所以一共sleep了 1+2+3+4+5=15秒。</p>
 
@@ -648,7 +661,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">real    0m5.003s
 </span><span class="line">user    0m0.000s
-</span><span class="line">sys 0m0.000s</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>引自:</li>
@@ -696,7 +710,8 @@ MathJax.Hub.Config({
   <div class="entry-content"><p>有时候想在xargs后面接多条命令，这个时候直接加<code>;</code>是不行的，要这样做:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt | xargs -I@  sh -c 'command1; command2; ...'</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt | xargs -I@  sh -c 'command1; command2; ...'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

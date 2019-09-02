@@ -534,7 +534,8 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">hello@163.com,你是我的海
-</span><span class="line">...</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>有一个用户名文件user.txt，格式为:</p>
 
@@ -543,7 +544,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">aaa
 </span><span class="line">xxxx
-</span><span class="line">....</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">....
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>我们希望找出emailinfo.dict中，以user.txt中用户名开头的所有内容。</p>
 
@@ -554,7 +556,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">^aaa
 </span><span class="line">^xxxx
-</span><span class="line">....</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">....
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后执行:</p>
 
@@ -619,6 +622,7 @@ MathJax.Hub.Config({
 <span class="line-number">11</span>
 <span class="line-number">12</span>
 <span class="line-number">13</span>
+<span class="line-number">14</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">from peewee import SqliteDatabase, Model, CharField
 </span><span class="line">
 </span><span class="line">db = SqliteDatabase('testdb.sqlite3')
@@ -632,6 +636,7 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">    class Meta:
 </span><span class="line">        database = db
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section">创建</h2>
@@ -639,14 +644,17 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.connect()
-</span><span class="line">&gt;&gt;&gt; db.create_tables([User])</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">&gt;&gt;&gt; db.create_tables([User])
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-1">保存</h2>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
+<span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; user_record = User(name='Bob', password="", email="hello@world.com", birthday=date(1960, 1, 15), is_relative=True)
 </span><span class="line">&gt;&gt;&gt; user_record.save()
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-2">批量插入</h2>
@@ -658,6 +666,7 @@ MathJax.Hub.Config({
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
+<span class="line-number">8</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
 </span><span class="line">user_records.append(
 </span><span class="line">    (username, password, email, birthday, True),
@@ -665,6 +674,7 @@ MathJax.Hub.Config({
 </span><span class="line">    (username, password, email, birthday, True),
 </span><span class="line">)
 </span><span class="line">User.insert_many(user_records, fields=fields).execute()
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-3">查询</h2>
@@ -672,12 +682,14 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">for user in User.select().where(User.username.contains(username)):
-</span><span class="line">    print(user.username ....)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    print(user.username ....)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-4">关闭</h2>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.close()</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.close()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

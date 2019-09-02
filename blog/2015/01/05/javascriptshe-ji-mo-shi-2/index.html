@@ -177,7 +177,8 @@ MathJax.Hub.Config({
 </span><span class="line">Book.prototype = {
 </span><span class="line">    display: function(){...},
 </span><span class="line">    checkIsdn: function(){...}
-</span><span class="line">};</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">};
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>优点：简单</li>
@@ -243,7 +244,8 @@ MathJax.Hub.Config({
 </span><span class="line">        return this._isbn;
 </span><span class="line">    }
 </span><span class="line">    .......
-</span><span class="line">};</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">};
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <ul>
   <li>优点：简单，安全性也有所增强</li>
   <li>缺点：不是真正的私有成员，内部的成员还是有很大可能被修改的。</li>
@@ -318,7 +320,8 @@ MathJax.Hub.Config({
 </span><span class="line">Book.prototype = {
 </span><span class="line">    display: fucntion(){},
 </span><span class="line">    ....
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这里应用了js的闭包特性，isbn等属性不再通过<code>this</code>来引用，而是放到函数的构造器里面。既要访问到私有成员，又要对外的方法放到函数的构造中，对私有成员没有依赖的函数用prototype。</p>
 
@@ -410,7 +413,8 @@ MathJax.Hub.Config({
 </span><span class="line">Book.prototype = {
 </span><span class="line">    display: fucntion(){},
 </span><span class="line">    ....
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这里和<code>闭包实现私有成员</code>的区别就在于构造函数变成了一个内嵌函数，这样就创建了一个闭包，可以把静态的私有成员声明在最顶层。</p>
 

@@ -198,7 +198,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
 </span><span class="line">echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
-</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>之后建立这三个路由表的内容，因为这三个路由表的只是用来响应来自不同接口的，而不是用来相应从哪个接口出去的，所以只需要每个路由表里面建立默认网关即可。</p>
 
@@ -207,7 +208,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">ip route add default via 1.1.1.254 dev eth0 table ChinaNet
 </span><span class="line">ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>之后再加上三条规则，使来自不同的口的走不同的路由表</p>
 
@@ -216,7 +218,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">ip rule add from 1.1.1.1 table ChinaNet
 </span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>至此无论是电信还是网通还是教育网用户，访问三个ip的任意一个地址都能够连通了。即便是服务器上本身的默认路由都没有设置，也能够让外面的用户正常访问。</p>
 
@@ -247,7 +250,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">ip rule add from 1.1.1.1 table ChinaNet
 </span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
   
@@ -371,7 +375,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">ip addr add 10.12.0.117/21 dev em1
 </span><span class="line">
-</span><span class="line">docker run -d --name web -p 10.12.0.117:80:80 centos/simpleweb</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">docker run -d --name web -p 10.12.0.117:80:80 centos/simpleweb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这种方法简单，但也有上面所说的各种缺点</p>
 
@@ -500,21 +505,24 @@ MathJax.Hub.Config({
 <h1 id="section-1">处理</h1>
 
 <ul>
-  <li>
-    <p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
+  <li>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</li>
+</ul>
 
-    <p><code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
- </code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">    ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
+<pre><code>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key
+</code></pre>
 
-    <p><code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
- </code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">    ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p>
-  </li>
+<pre><code>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key
+</code></pre>
+
+<ul>
   <li>
     <p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p>
   </li>
@@ -546,7 +554,8 @@ MathJax.Hub.Config({
 </span><span class="line">Host 172.16.11.11
 </span><span class="line"> HostName 172.16.11.11
 </span><span class="line"> User work
-</span><span class="line"> IdentityFile ~/.ssh/id_rsa_work</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line"> IdentityFile ~/.ssh/id_rsa_work
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
 
@@ -579,7 +588,8 @@ MathJax.Hub.Config({
 </span><span class="line">Host A.github.com
 </span><span class="line"> HostName github.com
 </span><span class="line"> User git
-</span><span class="line"> IdentityFile ~/.ssh/id_rsa_github_B</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line"> IdentityFile ~/.ssh/id_rsa_github_B
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
 
@@ -630,7 +640,8 @@ MathJax.Hub.Config({
 </span><span class="line">    fetch = +refs/heads/*:refs/remotes/Paws/*
 </span><span class="line">[remote "Origin"]
 </span><span class="line">    url = git@github.com:Paws/Paws.o.git
-</span><span class="line">    url = git@codaset.com:elliottcable/paws-o.git</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    url = git@codaset.com:elliottcable/paws-o.git
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
 
@@ -1058,7 +1069,8 @@ http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locatio
 </pre></td><td class="code"><pre><code class=""><span class="line"># test.py
 </span><span class="line">def application(env, start_response):
 </span><span class="line">    start_response('200 OK', [('Content-Type','text/html')])
-</span><span class="line">    return "Hello World"</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return "Hello World"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>python3的话需要返回一个binary</p>
 
@@ -1069,7 +1081,8 @@ http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locatio
 </pre></td><td class="code"><pre><code class=""><span class="line"># test.py
 </span><span class="line">def application(env, start_response):
 </span><span class="line">    start_response('200 OK', [('Content-Type','text/html')])
-</span><span class="line">    return [b"Hello World"]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return [b"Hello World"]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>执行shell命令:</p>
 
@@ -1118,7 +1131,8 @@ http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locatio
 </span><span class="line">os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
 </span><span class="line">
 </span><span class="line">from django.core.handlers.wsgi import WSGIHandler
-</span><span class="line">application = WSGIHandler()</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">application = WSGIHandler()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>执行:</p>
 
@@ -1219,7 +1233,8 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 </span><span class="line">abort_count=`grep 'Aborting' *.log|wc -l`
 </span><span class="line">if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
 </span><span class="line">    exit 1
-</span><span class="line">fi</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">fi
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样jenkins编译失败，就会标红了</p>
 
@@ -1228,7 +1243,8 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">svn add static/dist/ --force</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">svn add static/dist/ --force
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>最后，极少数的情况编译后会出现冲突，因为编译的时候有人同样编译了一把提交了，这样自动提交会失败，也需要标记一下:</li>
@@ -1247,7 +1263,8 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 </span><span class="line">abort_count=`grep 'Aborting' *.log|wc -l`
 </span><span class="line">if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
 </span><span class="line">    exit 1
-</span><span class="line">fi</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">fi
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样基本上看看jenkins的状态，或是让jenkins自动发发邮件，就舒心了。</p>
 </div>

@@ -134,8 +134,10 @@ MathJax.Hub.Config({
 <p>scriptSig是一笔UTXO的开锁脚本，scriptPubKey是输出UTXO的加锁脚本，一笔交易就是打开上家的保险箱，将资金转移到下家的保险箱并重新加锁的过程:</p>
 
 <ul>
-  <li>上家-TransA: id(b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b) -&gt; vout scriptPubkey (转移到保险箱A，并给A上锁)
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>上家-TransA: id(b0a0afb65ac08f453b26fa03a40215be653b6d173510d366321019ab8248ea3b) -&gt; vout scriptPubkey (转移到保险箱A，并给A上锁)</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -146,9 +148,8 @@ MathJax.Hub.Config({
 <span class="line-number">9</span>
 <span class="line-number">10</span>
 <span class="line-number">11</span>
-<span class="line-number">12</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">		{
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">		{
 </span><span class="line">			"value": 0.00010000,
 </span><span class="line">			"n": 0,
 </span><span class="line">			"scriptPubKey": {
@@ -159,7 +160,8 @@ MathJax.Hub.Config({
 </span><span class="line">				"addresses": [
 </span><span class="line">					"1ADJqstUMBB5zFquWg19UqZ7Zc6ePCpzLE"
 </span><span class="line">				]
-</span><span class="line">			}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">			}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>转移-TransB: id(3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517) -&gt; vin scriptSig (解锁保险箱A，拿出资金)</li>
@@ -182,11 +184,14 @@ MathJax.Hub.Config({
 </span><span class="line">				"hex": "47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5"
 </span><span class="line">			},
 </span><span class="line">			"sequence": 4294967295
-</span><span class="line">		}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">		}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>下家-TransB: id(3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517) -&gt;vout scriptPubkey (转移到保险箱B，并给B上锁)
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>下家-TransB: id(3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517) -&gt;vout scriptPubkey (转移到保险箱B，并给B上锁)</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -198,9 +203,8 @@ MathJax.Hub.Config({
 <span class="line-number">10</span>
 <span class="line-number">11</span>
 <span class="line-number">12</span>
-<span class="line-number">13</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">		{
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">		{
 </span><span class="line">			"value": 0.00007000,
 </span><span class="line">			"n": 0,
 </span><span class="line">			"scriptPubKey": {
@@ -212,7 +216,8 @@ MathJax.Hub.Config({
 </span><span class="line">					"1aau2Kgn7xBRWS6gPkYXWiw4cnzyKi7rR"
 </span><span class="line">				]
 </span><span class="line">			}
-</span><span class="line">		}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">		}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>具体怎么理解这两个东东呢？我们还需要一点前置知识。</p>
 
@@ -247,7 +252,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">x = 0x23
 </span><span class="line">x += 0x4b
-</span><span class="line">x *= 0x1e</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">x *= 0x1e
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后转换为类似汇编语言的比较简单的操作码形式, 我们需要以下指令集：</p>
 
@@ -289,7 +295,8 @@ MathJax.Hub.Config({
 <p>在上面这个表格中，我们定义了三种最简单的操作码：<code>0xab, 0xac, 0xad</code>，跟在这三个操作码后面的2个字节就是操作数；将上面的计算步骤用代码表示如下(小端排序):</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ab 23 00 ac 4b 00 ad 1e 00</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">ab 23 00 ac 4b 00 ad 1e 00
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>我们可以实现一个最简单的脚本逻辑，顺序parse这段代码，并转换为相应的操作码，然后进行运算；</p>
 
@@ -334,29 +341,40 @@ MathJax.Hub.Config({
 </span><span class="line">    return d;
 </span><span class="line">
 </span><span class="line">    /* 4 */
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <ol>
   <li>第一步函数刚刚跳转执行，栈初始化为空。[]</li>
-  <li>第二步，三个变量<code>a,b,c</code>压入栈中(PUSH STACK)
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span></figure></notextile></li>
+  <li>第二步，三个变量<code>a,b,c</code>压入栈中(PUSH STACK)</li>
 </ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[12]
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[12]
 </span><span class="line">[12, a4 00]
-</span><span class="line">[12, a4 00, e7 a5 02 00]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;
-3. 结合我们上面的操作码，计算<code>a,b,c</code>的和，并将结果压栈
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[12, a4 00, e7 a5 02 00, 9d a6 02 00]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-4. 返回结果，并将栈元素弹出(POP STACK)，恢复到初始状态。
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+</span><span class="line">[12, a4 00, e7 a5 02 00]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ol>
+  <li>结合我们上面的操作码，计算<code>a,b,c</code>的和，并将结果压栈</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[12, a4 00, e7 a5 02 00, 9d a6 02 00]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ol>
+  <li>返回结果，并将栈元素弹出(POP STACK)，恢复到初始状态。</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[12, a4 00, e7 a5 02 00]
+</pre></td><td class="code"><pre><code class=""><span class="line">[12, a4 00, e7 a5 02 00]
 </span><span class="line">[12, a4 00]
 </span><span class="line">[12]
-</span><span class="line">[]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</span><span class="line">[]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="script-language">Script Language</h3>
 
@@ -402,11 +420,13 @@ MathJax.Hub.Config({
 <p>然后下面一段示例脚本代码：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">54 57 00 60</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">54 57 00 60
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>或者直接翻译为:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">OP_4 OP_7 OP_0 OP_16</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">OP_4 OP_7 OP_0 OP_16
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>作用就是将四个值依次压栈，栈状态可以表示为:</p>
 
@@ -419,7 +439,8 @@ MathJax.Hub.Config({
 </span><span class="line">[04]
 </span><span class="line">[04, 07]
 </span><span class="line">[04, 07, 00]
-</span><span class="line">[04, 07, 00, 10]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">[04, 07, 00, 10]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>此时栈顶元素值为0x10，前面我们说了，栈顶元素即返回值，所以这个脚本的返回值为0x10。当然，这个脚本现在就是将四个值压栈，并没有什么实际作用。</p>
 
@@ -470,7 +491,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">4c 14 11 06 03 55 04 8a
 </span><span class="line">0c 70 3e 63 2e 31 26 30
-</span><span class="line">24 06 6c 95 20 30</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">24 06 6c 95 20 30
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>前面的<code>0x4c</code>代表是<code>OP_PUSHDATA1</code>操作符，后面的<code>0x14</code>代表压入20个字节，然后后面跟着20字节的数据</p>
 
@@ -481,7 +503,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">[11 06 03 55 04 8a 0c 70
 </span><span class="line"> 3e 63 2e 31 26 30 24 06
-</span><span class="line"> 6c 95 20 30]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line"> 6c 95 20 30]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>另外，为了节省空间，还有一个非常取巧的设计:
 对于非常短的数据有一种特殊的编码。如果一个操作码位于01到4b之间(包括在内)，它就是一个push数据操作，其中操作码本身就是字节长度:</p>
@@ -508,12 +531,14 @@ MathJax.Hub.Config({
 <p>比如下面的例子:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">07 8f 49 b2 e2 ec 7c 44</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">07 8f 49 b2 e2 ec 7c 44
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最前面的<code>07</code>代表着直接将后面7个字节压栈</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[8f 49 b2 e2 ec 7c 44]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">[8f 49 b2 e2 ec 7c 44]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-3">算术操作码</h4>
 
@@ -543,12 +568,14 @@ MathJax.Hub.Config({
 <p>例如:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">55 59 93 56 94</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">55 59 93 56 94
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>或者直接翻译为:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">OP_5 OP_9 OP_ADD OP_6 OP_SUB</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">OP_5 OP_9 OP_ADD OP_6 OP_SUB
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>每一步操作的栈状态:</p>
 
@@ -563,7 +590,8 @@ MathJax.Hub.Config({
 </span><span class="line">[5, 9]          # OP_9
 </span><span class="line">[14]            # POP; POP; OP_ADD(5, 9)
 </span><span class="line">[14, 6]         # OP_6
-</span><span class="line">[8]             # POP; POP; OP_SUB(14, 6)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">[8]             # POP; POP; OP_SUB(14, 6)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最后的结果是8</p>
 
@@ -595,12 +623,14 @@ MathJax.Hub.Config({
 <p>跟之前的算术操作码结合起来的一个例子:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">02 c3 72 02 03 72 01 c0 93 87</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">02 c3 72 02 03 72 01 c0 93 87
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>翻译为</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[c3 72] [03 72] [c0] OP_ADD OP_EQUAL</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">[c3 72] [03 72] [c0] OP_ADD OP_EQUAL
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>执行起来是这样子的：</p>
 
@@ -615,7 +645,8 @@ MathJax.Hub.Config({
 </span><span class="line">[c3 72, 03 72]          # `02 03 72`代表03 72两个字节直接入栈
 </span><span class="line">[c3 72, 03 72, c0]      # `01 c0`代表c0直接入栈
 </span><span class="line">[c3 72, c3 72]          # 栈顶弹出c000, 0372, 相加得 c3 72
-</span><span class="line">[1]                     # 栈顶弹出c372，c372，比较为真</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">[1]                     # 栈顶弹出c372，c372，比较为真
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最后这个表达式结果为1。</p>
 
@@ -641,12 +672,14 @@ MathJax.Hub.Config({
 <p>例子:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">04 b9 0c a2 fe 76 87</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">04 b9 0c a2 fe 76 87
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>翻译为:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[b9 0c a2 fe] OP_DUP OP_EQUAL</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">[b9 0c a2 fe] OP_DUP OP_EQUAL
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>执行起来是这样子的：</p>
 
@@ -657,7 +690,8 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">[]                          # 栈初始化
 </span><span class="line">[b9 0c a2 fe]               # 04代表后面4个字节压栈
 </span><span class="line">[b9 0c a2 fe, b9 0c a2 fe]  # 复制栈顶4字节然后压栈
-</span><span class="line">[1]                         # 弹出栈顶8字节，比较结果为真</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">[1]                         # 弹出栈顶8字节，比较结果为真
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>可以看出来，如果OP_DUP后面跟着OP_EQUAL，执行结果永远为真。</p>
 
@@ -695,7 +729,8 @@ MathJax.Hub.Config({
 <h4 id="transa-scritpubkey-">首先然我们来解析一下TransA的 scritPubkey 加锁脚本</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">76a914650d0497e014e60d4680fce6997d405de264f04288ac</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">76a914650d0497e014e60d4680fce6997d405de264f04288ac
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>翻译为</p>
 
@@ -710,12 +745,14 @@ MathJax.Hub.Config({
 <p>最后翻译为:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>再简化一下</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">OP_DUP OP_HASH160 &lt;PubkeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">OP_DUP OP_HASH160 &lt;PubkeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这段脚本代表 TransA的发起者把一笔钱转入到保险箱后，用这个脚本设置了一把锁，谁能提供另外一个脚本，跟此脚本合并运算后，栈元素全部出栈，并且最后出栈元素为真，那么就视为解锁成功，可以花费这笔钱。</p>
 
@@ -740,24 +777,28 @@ MathJax.Hub.Config({
 <h4 id="transbscriptsig-">那么我们提供的解锁脚本TransB的scriptSig 同样解析一遍看一下</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>解析为:</p>
 
 <p>1.0x47代表后面71个字节入栈，这其实就是签名<code>Sig</code>:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac001</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac001
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>2.0x41后面代表65个字节入栈，这是<code>Pubkey</code>:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">04c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">04c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最终简化为</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&lt;Sig&gt; &lt;PubKey&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;Sig&gt; &lt;PubKey&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这就是我们开锁的钥匙！</p>
 
@@ -802,7 +843,8 @@ MathJax.Hub.Config({
 </span><span class="line">[Sig, Pubkey]                                                   # 检查公钥是否有效，如果有效，出栈
 </span><span class="line">[Sig, Pubkey, OP_CHECKSIG]                                      # 将scriptPubKey中的 OP_CHECKSIG入栈
 </span><span class="line">[1]                                                             # 执行OP_CHECKSIG，用Pubkey检查Sig的有效性；检查通过
-</span><span class="line">[]                                                              # Gooooooooood!! 钥匙合法，开锁成功</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">[]                                                              # Gooooooooood!! 钥匙合法，开锁成功
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最后合并运算的结果返回为True。解锁成功。</p>
 
@@ -819,7 +861,8 @@ MathJax.Hub.Config({
 <p>TransB的scriptPubkey 构造为:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603 OP_CHECKSIG</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">03db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603 OP_CHECKSIG
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>?? 这怎么跟我们上一笔TransA的scriptPubkey长的不一样？</p>
 
@@ -834,7 +877,8 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">scriptPubkey: &lt;pubkey&gt; OP_CHECKSIG
-</span><span class="line">scriptSig: &lt;sig&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">scriptSig: &lt;sig&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>如果你感兴趣的话，自己去找找这笔交易对应的scriptSig吧。</p>
 

@@ -152,7 +152,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
 </span><span class="line">echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
-</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>之后建立这三个路由表的内容，因为这三个路由表的只是用来响应来自不同接口的，而不是用来相应从哪个接口出去的，所以只需要每个路由表里面建立默认网关即可。</p>
 
@@ -161,7 +162,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">ip route add default via 1.1.1.254 dev eth0 table ChinaNet
 </span><span class="line">ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>之后再加上三条规则，使来自不同的口的走不同的路由表</p>
 
@@ -170,7 +172,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">ip rule add from 1.1.1.1 table ChinaNet
 </span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>至此无论是电信还是网通还是教育网用户，访问三个ip的任意一个地址都能够连通了。即便是服务器上本身的默认路由都没有设置，也能够让外面的用户正常访问。</p>
 
@@ -201,7 +204,8 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">ip rule add from 1.1.1.1 table ChinaNet
 </span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
 

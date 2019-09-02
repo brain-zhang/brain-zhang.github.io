@@ -141,21 +141,24 @@ MathJax.Hub.Config({
 <h1 id="section-1">处理</h1>
 
 <ul>
-  <li>
-    <p>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</p>
+  <li>先假设我有两个账号，一个是github上的，一个是公司gitlab上面的。先为不同的账号生成不同的ssh-key</li>
+</ul>
 
-    <p><code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
- </code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">    ssh-keygen -t rsa -f ~/.ssh/id_rsa_work -c xxx@gmail.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key</p>
+<pre><code>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_work和id_rsa_work.pub两个文件，id_rsa_work.pub文件里存放的就是我们要使用的key
+</code></pre>
 
-    <p><code>
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
- </code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">    ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -c xxx@gmail.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-    <p>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key</p>
-  </li>
+<pre><code>然后根据提示连续回车即可在~/.ssh目录下得到id_rsa_github和id_rsa_github.pub两个文件，id_rsa_gthub.pub文件里存放的就是我们要使用的key
+</code></pre>
+
+<ul>
   <li>
     <p>把id_rsa_xxx.pub中的key添加到github或gitlab上，这一步在github或gitlab上都有帮助，不再赘述</p>
   </li>
@@ -187,7 +190,8 @@ MathJax.Hub.Config({
 </span><span class="line">Host 172.16.11.11
 </span><span class="line"> HostName 172.16.11.11
 </span><span class="line"> User work
-</span><span class="line"> IdentityFile ~/.ssh/id_rsa_work</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line"> IdentityFile ~/.ssh/id_rsa_work
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>编辑完成后可以使用命令 <code>ssh -vT git@github.com</code> 看看是不是采用了正确的id_rsa_github.pub文件</p>
 
@@ -220,7 +224,8 @@ MathJax.Hub.Config({
 </span><span class="line">Host A.github.com
 </span><span class="line"> HostName github.com
 </span><span class="line"> User git
-</span><span class="line"> IdentityFile ~/.ssh/id_rsa_github_B</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line"> IdentityFile ~/.ssh/id_rsa_github_B
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>同时你的github的repo ssh url就要做相应的修改了，比如根据上面的配置,原连接地址是:</p>
 
@@ -271,7 +276,8 @@ MathJax.Hub.Config({
 </span><span class="line">    fetch = +refs/heads/*:refs/remotes/Paws/*
 </span><span class="line">[remote "Origin"]
 </span><span class="line">    url = git@github.com:Paws/Paws.o.git
-</span><span class="line">    url = git@codaset.com:elliottcable/paws-o.git</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    url = git@codaset.com:elliottcable/paws-o.git
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>上面这个立即就是有4个远端仓库，不同的tag表示不同的远端仓库，最后的Origin标签写法表示默认push到github和codaset这两个远端仓库去。当然，你可以自己随意定制tag和url</p>
 

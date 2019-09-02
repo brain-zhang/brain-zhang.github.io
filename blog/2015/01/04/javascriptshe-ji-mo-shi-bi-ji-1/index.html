@@ -148,7 +148,8 @@ MathJax.Hub.Config({
 </span><span class="line">    var foo = 10;
 </span><span class="line">    var bar = 2;
 </span><span class="line">    alert(foo * bar);
-</span><span class="line">})();</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">})();
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>闭包</li>
@@ -171,7 +172,8 @@ MathJax.Hub.Config({
 </span><span class="line">        return foo * bar;
 </span><span class="line">    }
 </span><span class="line">})();
-</span><span class="line">baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>
@@ -245,6 +247,7 @@ MathJax.Hub.Config({
 <span class="line-number">23</span>
 <span class="line-number">24</span>
 <span class="line-number">25</span>
+<span class="line-number">26</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">/*
 </span><span class="line">interface Composite {
 </span><span class="line">    function add(child);
@@ -270,6 +273,7 @@ MathJax.Hub.Config({
 </span><span class="line">CompositeForm.prototype.save= function() {
 </span><span class="line">    ...
 </span><span class="line">}
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
@@ -319,6 +323,7 @@ MathJax.Hub.Config({
 <span class="line-number">36</span>
 <span class="line-number">37</span>
 <span class="line-number">38</span>
+<span class="line-number">39</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">/*
 </span><span class="line">interface Composite {
 </span><span class="line">    function add(child);
@@ -357,6 +362,7 @@ MathJax.Hub.Config({
 </span><span class="line">    }
 </span><span class="line">    return true;
 </span><span class="line">}
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
@@ -414,6 +420,7 @@ MathJax.Hub.Config({
 <span class="line-number">46</span>
 <span class="line-number">47</span>
 <span class="line-number">48</span>
+<span class="line-number">49</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">var Composite = new Intreface('Composite', ['add', 'remove']);
 </span><span class="line">var FormItem = new Interface('FormItem', ['save']);
 </span><span class="line">var CompositeForm = function(id, method, action) {
@@ -462,6 +469,7 @@ MathJax.Hub.Config({
 </span><span class="line">        }
 </span><span class="line">    }
 </span><span class="line">}
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>

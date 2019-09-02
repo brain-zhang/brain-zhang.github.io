@@ -142,9 +142,11 @@ MathJax.Hub.Config({
 </span><span class="line">  "title": "My 2 blog entry",
 </span><span class="line">  "text":  "I am starting to get the hang of this...",
 </span><span class="line">  "date":  "2014/01/02"
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-2">修改</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -158,9 +160,11 @@ MathJax.Hub.Config({
 </span><span class="line">      "tags" : [ "testing..." ],
 </span><span class="line">      "views": 0
 </span><span class="line">   }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-3">查询</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -186,19 +190,25 @@ MathJax.Hub.Config({
 </span><span class="line">GET /_search
 </span><span class="line">{
 </span><span class="line">    "query": YOUR_QUERY_HERE
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-4">删除</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">DELETE /website/_doc/1</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">DELETE /website/_doc/1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="api">文档功能API</h2>
 
 <h4 id="section-5">获取映射信息</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">GET /website/_mapping</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /website/_mapping
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-6">测试分析器</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -208,9 +218,11 @@ MathJax.Hub.Config({
 </span><span class="line">{
 </span><span class="line">  "field": "tweet",
 </span><span class="line">  "text": "Black-cats" 
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-7">多层级对象用扁平化的方法来存储，比如</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -236,6 +248,7 @@ MathJax.Hub.Config({
 <span class="line-number">23</span>
 <span class="line-number">24</span>
 <span class="line-number">25</span>
+<span class="line-number">26</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">{
 </span><span class="line">  "gb": {
 </span><span class="line">    "tweet": { 
@@ -261,6 +274,7 @@ MathJax.Hub.Config({
 </span><span class="line">    }
 </span><span class="line">  }
 </span><span class="line">}
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>会被转换为如下内部对象:</p>
 
@@ -281,7 +295,8 @@ MathJax.Hub.Config({
 </span><span class="line">    "user.name.full":   [john, smith],
 </span><span class="line">    "user.name.first":  [john],
 </span><span class="line">    "user.name.last":   [smith]
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="nested-object">内部对象数组会丢失一部分相关信息，我们需要用嵌套对象(nested object)来处理</h4>
 
@@ -290,44 +305,50 @@ MathJax.Hub.Config({
 <h4 id="section-9">查询语句的结构</h4>
 
 <ul>
-  <li>一个查询语句 的典型结构：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>一个查询语句 的典型结构：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
-<span class="line-number">6</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">{
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{
 </span><span class="line">    QUERY_NAME: {
 </span><span class="line">        ARGUMENT: VALUE,
 </span><span class="line">        ARGUMENT: VALUE,...
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt; </p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>如果是针对某个字段，那么它的结构如下：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>如果是针对某个字段，那么它的结构如下：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
-<span class="line-number">8</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">{
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{
 </span><span class="line">    QUERY_NAME: {
 </span><span class="line">        FIELD_NAME: {
 </span><span class="line">            ARGUMENT: VALUE,
 </span><span class="line">            ARGUMENT: VALUE,...
 </span><span class="line">        }
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>一条复合语句
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>一条复合语句</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -339,9 +360,8 @@ MathJax.Hub.Config({
 <span class="line-number">10</span>
 <span class="line-number">11</span>
 <span class="line-number">12</span>
-<span class="line-number">13</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">{
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{
 </span><span class="line">    "bool": {
 </span><span class="line">        "must": { "match":   { "email": "business opportunity" }},
 </span><span class="line">        "should": [
@@ -353,13 +373,16 @@ MathJax.Hub.Config({
 </span><span class="line">        ],
 </span><span class="line">        "minimum_should_match": 1
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-10">实战查询</h4>
 
 <ul>
-  <li>精确查询
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>精确查询</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -370,9 +393,8 @@ MathJax.Hub.Config({
 <span class="line-number">9</span>
 <span class="line-number">10</span>
 <span class="line-number">11</span>
-<span class="line-number">12</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /website/_search
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /website/_search
 </span><span class="line">{
 </span><span class="line">  "query": {
 </span><span class="line">    "constant_score" : {
@@ -383,11 +405,14 @@ MathJax.Hub.Config({
 </span><span class="line">      }
 </span><span class="line">    }
 </span><span class="line">  }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>多词组合
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>多词组合</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -397,9 +422,8 @@ MathJax.Hub.Config({
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
-<span class="line-number">11</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /website/_search
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /website/_search
 </span><span class="line">{
 </span><span class="line">    "query": {
 </span><span class="line">        "match": {
@@ -409,31 +433,36 @@ MathJax.Hub.Config({
 </span><span class="line">            }
 </span><span class="line">        }
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>短语匹配
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>短语匹配</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
-<span class="line-number">8</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /website/_search
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /website/_search
 </span><span class="line">{
 </span><span class="line">    "query": {
 </span><span class="line">        "match_phrase": {
 </span><span class="line">            "title": "quick brown fox"
 </span><span class="line">        }
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>混合短语匹配
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>混合短语匹配</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -443,9 +472,8 @@ MathJax.Hub.Config({
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
-<span class="line-number">11</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /website/_search
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /website/_search
 </span><span class="line">{
 </span><span class="line">    "query": {
 </span><span class="line">        "match_phrase": {
@@ -455,31 +483,36 @@ MathJax.Hub.Config({
 </span><span class="line">            }
 </span><span class="line">        }
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>正则查询 (性能慢)
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>正则查询 (性能慢)</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
-<span class="line-number">8</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /my_index/_search
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /my_index/_search
 </span><span class="line">{
 </span><span class="line">    "query": {
 </span><span class="line">        "wildcard": {
 </span><span class="line">            "postcode": "W?F*HW" 
 </span><span class="line">        }
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>智能匹配
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>智能匹配</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -489,9 +522,8 @@ MathJax.Hub.Config({
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
-<span class="line-number">11</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /my_index/_search
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /my_index/_search
 </span><span class="line">{
 </span><span class="line">    "query": {
 </span><span class="line">        "match_phrase_prefix" : {
@@ -501,11 +533,14 @@ MathJax.Hub.Config({
 </span><span class="line">                }
 </span><span class="line">        }
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>控制精度
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>控制精度</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -529,9 +564,8 @@ MathJax.Hub.Config({
 <span class="line-number">22</span>
 <span class="line-number">23</span>
 <span class="line-number">24</span>
-<span class="line-number">25</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /website/_search
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /website/_search
 </span><span class="line">{
 </span><span class="line">  "query": {
 </span><span class="line">    "match": {
@@ -555,11 +589,14 @@ MathJax.Hub.Config({
 </span><span class="line">      "minimum_should_match": 2 
 </span><span class="line">    }
 </span><span class="line">  }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>按受欢迎度提升权重
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>按受欢迎度提升权重</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -577,9 +614,8 @@ MathJax.Hub.Config({
 <span class="line-number">16</span>
 <span class="line-number">17</span>
 <span class="line-number">18</span>
-<span class="line-number">19</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">GET /blogposts/post/_search
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">GET /blogposts/post/_search
 </span><span class="line">{
 </span><span class="line">  "query": {
 </span><span class="line">    "function_score": { 
@@ -597,9 +633,11 @@ MathJax.Hub.Config({
 </span><span class="line">}
 </span><span class="line">
 </span><span class="line">微调:
-</span><span class="line">https://www.elastic.co/guide/cn/elasticsearch/guide/current/boosting-by-popularity.html</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">https://www.elastic.co/guide/cn/elasticsearch/guide/current/boosting-by-popularity.html
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-11">排障</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -615,7 +653,8 @@ MathJax.Hub.Config({
 </span><span class="line">         "text" : "really powerful"
 </span><span class="line">      }
 </span><span class="line">   }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-12">结果排序</h4>
 
@@ -636,11 +675,13 @@ MathJax.Hub.Config({
 </span><span class="line">        }
 </span><span class="line">    },
 </span><span class="line">    "sort": { "date": { "order": "desc" }}
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-13">索引操作</h2>
 
 <h4 id="section-14">增加</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -658,9 +699,11 @@ MathJax.Hub.Config({
 </span><span class="line">        "type_two": { ... any mappings ... },
 </span><span class="line">        ...
 </span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-15">删除</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -668,7 +711,8 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">DELETE /my_index
 </span><span class="line">DELETE /index_one,index_two
 </span><span class="line">DELETE /index_*
-</span><span class="line">DELETE /_all</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">DELETE /_all
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>#### 配置</p>
 
 <ul>
@@ -684,6 +728,7 @@ MathJax.Hub.Config({
 <p>每个主分片的副本数，默认值是 1 。对于活动的索引库，这个配置可以随时修改。</p>
 
 <h4 id="section-16">重新索引</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -693,6 +738,7 @@ MathJax.Hub.Config({
 <span class="line-number">7</span>
 <span class="line-number">8</span>
 <span class="line-number">9</span>
+<span class="line-number">10</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">POST _reindex
 </span><span class="line">{
 </span><span class="line">  "source": {
@@ -702,11 +748,14 @@ MathJax.Hub.Config({
 </span><span class="line">    "index": "new_twitter"
 </span><span class="line">  }
 </span><span class="line">}
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-17">释放空间</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">POST /_all/_forcemerge?only_expunge_deletes=true</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">POST /_all/_forcemerge?only_expunge_deletes=true
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

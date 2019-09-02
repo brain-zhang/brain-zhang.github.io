@@ -174,7 +174,8 @@ MathJax.Hub.Config({
 </span><span class="line">    description='A simple ChainHorn API',
 </span><span class="line">)
 </span><span class="line">
-</span><span class="line">ns = api.namespace('node', description='node operations')</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ns = api.namespace('node', description='node operations')
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
 
@@ -195,7 +196,8 @@ MathJax.Hub.Config({
 </span><span class="line">      def get(self):
 </span><span class="line">          '''get node info'''
 </span><span class="line">          info = spv.getinfo()
-</span><span class="line">          return {'nodeinfo': info}, 200</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">          return {'nodeinfo': info}, 200
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
 
@@ -219,7 +221,8 @@ MathJax.Hub.Config({
 </span><span class="line">      def post(self, tx):
 </span><span class="line">          '''broadcast raw tx'''
 </span><span class="line">          sendrawtransaction(spv, tx)
-</span><span class="line">          return {'broadcast': 'ok'}, 200</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">          return {'broadcast': 'ok'}, 200
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
 
@@ -240,7 +243,8 @@ MathJax.Hub.Config({
 </span><span class="line">      def post(self, tx):
 </span><span class="line">          '''broadcast raw tx'''
 </span><span class="line">          sendrawtransaction(spv, api.payload['tx'])
-</span><span class="line">          return {'broadcast': 'ok'}, 200</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">          return {'broadcast': 'ok'}, 200
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="response">Response参数处理</h4>
 
@@ -281,7 +285,8 @@ MathJax.Hub.Config({
 </span><span class="line">     request.headers.get('APPID', '').strip() == tokens['APPID']:
 </span><span class="line">      return True
 </span><span class="line">  else:
-</span><span class="line">      return False</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">      return False
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
 
@@ -293,6 +298,7 @@ MathJax.Hub.Config({
 <span class="line-number">6</span>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
+<span class="line-number">9</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">@ns.route('')
 </span><span class="line">class NodeGetInfo(Resource):
 </span><span class="line">  @ns.doc('get node info')
@@ -301,6 +307,7 @@ MathJax.Hub.Config({
 </span><span class="line">      '''get node info'''
 </span><span class="line">      info = spv.getinfo()
 </span><span class="line">      return {'nodeinfo': info}, 200
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样后台验证就有了；那么前台输入呢？</p>
@@ -326,6 +333,7 @@ MathJax.Hub.Config({
 <span class="line-number">17</span>
 <span class="line-number">18</span>
 <span class="line-number">19</span>
+<span class="line-number">20</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">AUTHORIZATIONS = {
 </span><span class="line">    'apikey': {
 </span><span class="line">        'type': 'apiKey',
@@ -345,6 +353,7 @@ MathJax.Hub.Config({
 </span><span class="line">        title='Chainhorn API',
 </span><span class="line">        description='Chainhorn API',
 </span><span class="line">)
+</span><span class="line">
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>

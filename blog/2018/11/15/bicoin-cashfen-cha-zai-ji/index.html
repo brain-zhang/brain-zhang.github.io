@@ -134,7 +134,8 @@ MathJax.Hub.Config({
 <p>执行 <code>git diff 802629f d9b12a --stat</code> 瞄一眼:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">699 files changed, 11634 insertions(+), 197401 deletions(-)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">699 files changed, 11634 insertions(+), 197401 deletions(-)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>看起来改了不少，但是从头review一遍，他们从2018-08-22搞到现在，啥实质改动都没有，就开了几个操作码，改了几个测试；原本MAXBLOCKSIZE就变成可配置的了，他们不过是稍稍改了一下判断条件而已，改动最大的反而是README和release notes文件，最值得吐槽的就是这个提交：</p>
 

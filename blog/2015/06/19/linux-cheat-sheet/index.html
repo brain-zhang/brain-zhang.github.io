@@ -132,7 +132,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">iconv -f UTF-16 -t UTF-8 file_name</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">iconv -f UTF-16 -t UTF-8 file_name
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="web">web开发命令</h2>
 
@@ -141,14 +142,16 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>curl post 一个json字符串</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-1">系统时间</h2>
 
@@ -161,7 +164,8 @@ MathJax.Hub.Config({
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 </span><span class="line">vim /etc/sysconfig/clock
-</span><span class="line">ZONE="Asia/Shanghai"</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">ZONE="Asia/Shanghai"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>centos7系列修改时区</li>
@@ -170,14 +174,16 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">timedatectl list-timezones | grep Asia
-</span><span class="line">timedatectl set-timezone Asia/Shanghai</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">timedatectl set-timezone Asia/Shanghai
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>设置系统时间</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">date +"%Y%m%d%H%M%S"</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">date +"%Y%m%d%H%M%S"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-2">系统状态</h2>
 
@@ -186,7 +192,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-3">程序</h2>
 
@@ -195,7 +202,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="shell-">shell 处理</h2>
 
@@ -204,7 +212,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>检查CPU load</li>
@@ -213,14 +222,16 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">CURRENT_LOAD=`top -b -n 1|grep 'load average'|awk '{print $12}'|sed 's/,//'`
-</span><span class="line">declare -i current_load=${CURRENT_LOAD%.*}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">declare -i current_load=${CURRENT_LOAD%.*}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>find 匹配多个pattern</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">find /usr/lib64 -name '*.so' -o -name '*.so.1'</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">find /usr/lib64 -name '*.so' -o -name '*.so.1'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-4">文本处理</h2>
 
@@ -229,7 +240,8 @@ MathJax.Hub.Config({
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sort -u -t, -k1 file</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">sort -u -t, -k1 file
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

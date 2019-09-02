@@ -134,12 +134,14 @@ MathJax.Hub.Config({
 <p>在<a href="https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/">比特币的HD钱包-2</a>中，我们已经算出来私钥的WIF表示:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">5KUN8s42BCTkQVMTy3oFfqeXE8awVskbDi6XbDMpRnFvHJW9fgk
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>以及公钥:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">0489077434373547985693783396961781741114890330080946587550950125758215996319671114001858762817543140175961139571810325965930451644331549950109688554928624341
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="body">交易body</h4>
 
@@ -210,7 +212,8 @@ MathJax.Hub.Config({
 </span><span class="line">        "%02x".format(len(outputs)) + # number of outputs
 </span><span class="line">        formattedOutputs +
 </span><span class="line">        "00000000" # lockTime
-</span><span class="line">        )</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">        )
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="outputs">outputs构造</h4>
 
@@ -228,7 +231,8 @@ MathJax.Hub.Config({
 <p>这个scriptPubkey是这样子的:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&lt;pubkey&gt;  OP_CHECKSIG</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;pubkey&gt;  OP_CHECKSIG
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>PubKeyHash其实就是收币的地址，其它操作符都是现成的。</p>
 
@@ -261,7 +265,8 @@ MathJax.Hub.Config({
 </span><span class="line">&gt; print(makeOutput(7000, 0, '2103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac'))
 </span><span class="line">&gt; 581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac
 </span><span class="line">&gt; outputs = ['581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac']
-</span><span class="line">    </span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="scriptsig">如何对一笔交易签名(scriptSig)</h2>
 
@@ -383,7 +388,8 @@ MathJax.Hub.Config({
 </span><span class="line">    scriptSig = utils.varstr(sig).encode('hex') + utils.varstr(pubKey.decode('hex')).encode('hex')
 </span><span class="line">    signed_txn = makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs)
 </span><span class="line">    verifyTxnSignature(signed_txn)
-</span><span class="line">    return signed_txn</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">    return signed_txn
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="section-7">广播交易</h2>
 
@@ -444,14 +450,16 @@ MathJax.Hub.Config({
 </span><span class="line">sock.send(msgUtils.getVersionMsg())
 </span><span class="line">sock.recv(1000) # receive version
 </span><span class="line">sock.recv(1000) # receive verack
-</span><span class="line">sock.send(msgUtils.getTxMsg("01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000".decode('hex')))</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">sock.send(msgUtils.getTxMsg("01000000013bea4882ab19103266d31035176d3b65be1502a403fa263b458fc05ab6afa0b0000000008a47304402204f1eeeb46dbd896a4d421a14b156ad541afb4062a9076d601e8661c952b32fbf022018f01408dc85d503776946e71d942578ab551029b6bee7d3c30a8ce39f2f7ac0014104c4f00a8aa87f595b60b1e390f17fc64d12c1a1f505354a7eea5f2ee353e427b7fc0ac3f520dfd4946ab28ac5fa3173050f90c6b2d186333e998d7777fdaa52d5ffffffff01581b000000000000232103db3c3977c5165058bf38c46f72d32f4e872112dbafc13083a948676165cd1603ac00000000".decode('hex')))
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>HOST IP 怎么获取呢？</p>
 
 <p>如果你有一个全节点，可以直接调用RPC接口的getpeers函数。或者你直接执行:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nslookup bitseed.xf2.org</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">nslookup bitseed.xf2.org
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>从公共服务器里面检索nodes，里面随便挑一个IP 吧。</p>
 
