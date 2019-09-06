@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-02T10:13:58+08:00</updated>
+  <updated>2019-09-06T11:42:09+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Unicode String Parse With Python and Fileinput]]></title>
+    <link href="https://happy123.me/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/"/>
+    <updated>2019-09-06T11:41:03+08:00</updated>
+    <id>https://happy123.me/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput</id>
+    <content type="html"><![CDATA[<p>用fileinput模块parse数据很方便:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import fileinput
+</span><span class="line">
+</span><span class="line">if __name__ == '__main__':
+</span><span class="line">    for line in fileinput.input():
+</span><span class="line">        sys.stdout.write(line)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>但有时候会碰到UnicodeDecodeError:</p>
+
+<p>比如执行:</p>
+
+<!-- more -->
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo -e "foo\x80bar" |python3 testinput.py
+</span><span class="line">
+</span><span class="line">...
+</span><span class="line">UnicodeDecodeError: 'utf8' codec can't decode byte 0x80 in position 3: invalid start byte</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这种错误还不好用<code>try .. catch</code>忽略掉，因为它是在fileinput模块中自己parse的；</p>
+
+<p>Python2的时候很罗嗦，需要自己用codecs去判断之后，才能parse;</p>
+
+<p>Python3总算是引入了一个openhook参数，可以自己hook处理了；</p>
+
+<p>最简单的处理方式:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import fileinput
+</span><span class="line">import io
+</span><span class="line">import sys
+</span><span class="line">
+</span><span class="line">if __name__ == '__main__':
+</span><span class="line">    sys.stdin = io.TextIOWrapper(sys.stdin.buffer, errors='replace')
+</span><span class="line">    for line in fileinput.input(openhook=fileinput.hook_encoded("utf-8")):
+</span><span class="line">        sys.stdout.write(line)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>参考:</p>
+
+<p>https://stackoverflow.com/questions/24754861/unicode-file-with-python-and-fileinput</p>
+
+<p>https://bugs.python.org/issue26756</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-1]]></title>
@@ -4122,136 +4190,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 </ol>
 
 <h4 id="section-67">当然，看后视镜开车开的再好也只是个参考，这个策略作为一个简单易行的思路还是有不少借鉴意义的。关键是它给了我们<code>身处何方</code>的坐标。</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[资产配置初探]]></title>
-    <link href="https://happy123.me/blog/2019/04/07/zi-chan-pei-zhi-chu-tan/"/>
-    <updated>2019-04-07T14:51:33+08:00</updated>
-    <id>https://happy123.me/blog/2019/04/07/zi-chan-pei-zhi-chu-tan</id>
-    <content type="html"><![CDATA[<p>在<a href="https://www.douban.com/doulist/112721741/">死读书一年</a>之后，对这个问题自我感觉颇有心得，谬论如下：</p>
-
-<blockquote>
-  <p>道理已在书单中，只记录我的思考结果</p>
-</blockquote>
-
-<ul>
-  <li>这个世界上有两种永远成立的投资方法：基于选取资产标的获取超额收益，以及基于资产配置获取市场平均收益。</li>
-  <li>对普通人来说，资产配置优于择时择股</li>
-</ul>
-
-<!-- more -->
-
-<p>资产配置选择包括不动产、国债、黄金、大类资产、货币基金、银行固收、债券逆回购、可转债、地方债、企业债、分级基金、指数基金、个股、股指期货等；</p>
-
-<p>个人能驾驭的不过是三样：不动产、债券、ETF</p>
-
-<p>我个人认为除了中心城市的不动产有配置价值之外，其他城市只有使用价值，故而排除在外；以下我尝试着只利用权益类资产来构建一个可攻可守的组合。</p>
-
-<p>为了娱乐自己，我总结出来的普适个人的资产配置方法称之为降龙四式：</p>
-
-<h4 id="section">第一式密云不雨</h4>
-
-<p>总流动现金的20%配置为现金、银行固收、货币基金、7天债券逆回购；</p>
-
-<p>要求拥有完全的流动性和安全性；其边际风险等同于国债。这是完全的防守招式。</p>
-
-<h4 id="section-1">第二式潜龙在渊</h4>
-
-<p>总流动现金的35%构建一个股债平衡的资产包；</p>
-
-<p>其中80%选取流动性好、配置稳健的债基、其20%选取两个ETF(沪深300和中证500)做二八轮动；</p>
-
-<p>80%的债和20%的股每过半年做动态再平衡；</p>
-
-<p>且慢有个<a href="https://qieman.com/portfolios/ZH006358">安心动盈</a>的策略，跟我不谋而合。</p>
-
-<p>这一招守中带攻，在第一式的基础上(两招相加55%的现金流)保证自己立于不败之地</p>
-
-<h4 id="section-2">第三式亢龙有悔</h4>
-
-<p>总现金流的15% 价值平均策略定投低估指数；</p>
-
-<p>选取宽基策略指数(具体策略另外文章详述)；根据PE、PB、ROE、十年国债收益率确定入场时机，根据半凯利公式决定仓位，采用价值平均策略定投，子弹五年陆续打完；</p>
-
-<p>这一招以攻代守，在指数低估时间入场、利用定时不定额定投降低风险；</p>
-
-<p>切记，只有在前两式基础上，才能施展此招；这三式已然能在江湖行走而自保。</p>
-
-<h4 id="section-3">第四式飞龙在天</h4>
-
-<p>将总资金的30%投入到你最看好的一项资产中，<strong>永远持有</strong></p>
-
-<p>这一招具有极大的杀伤性，用的好伤敌一千，用的差自伤八百。一定要在前三式完全施展之后才能接续此招。</p>
-
-<h4 id="section-4">动态再平衡</h4>
-
-<p>20%，35%，15%, 30%的比例每年做一次动态再平衡，同时取出一年生活用的现金流。</p>
-
-<h2 id="section-5">总结</h2>
-
-<p>前三式配置了所有资金的70%，是个攻守结合的套路，并且每一式都充分考虑了安全边际，力求风险最小化；</p>
-
-<p>最后一式是一往无前、只求进攻、落子无悔的拼命招式，带有大概率的赌的成分；其成败完全取决于个人眼光和运势；</p>
-
-<p>施展飞龙在天，我个人认为最好要35岁之后，一旦施展，无从回头；</p>
-
-<h2 id="section-6">实践</h2>
-
-<p>光说不练假把式，下面是我的实盘配置：</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>招式</th>
-      <th>配置品种</th>
-      <th>比例%</th>
-      <th>期待收益%</th>
-      <th>最大回撤%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>密云不雨</td>
-      <td>定存、货基、7天债券逆回购</td>
-      <td>20</td>
-      <td>3.5 (等同于十年国债收益率)</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>潜龙在渊</td>
-      <td>安心动盈</td>
-      <td>35</td>
-      <td>8-10</td>
-      <td>3-5</td>
-    </tr>
-    <tr>
-      <td>亢龙有悔</td>
-      <td>低估指数定投(具体策略另述)</td>
-      <td>15</td>
-      <td>12-18 (企业长期ROE)</td>
-      <td>10-20</td>
-    </tr>
-    <tr>
-      <td>飞龙在天</td>
-      <td>比特币</td>
-      <td>30</td>
-      <td>50</td>
-      <td>90</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>每年收益的最大期望值为： 20 * 0.035 + 35 * 0.1 + 15 * 0.18 + 30 * 0.5 =  21.9%</p>
-
-<p>每年最大回撤为: 20 * 0 + 35 * 0.05 + 15 * 0.2 + 30 * 0.9 = 31.75%</p>
-
-<p>由此可以看出飞龙在天这一招的风险所在，飞龙在天的风险远远超过了收益，在纯粹的概率游戏中不应该施展；</p>
-
-<p>但是对我而言，经过了5年多的反复思量，我认为这个标的值得施展这一招；</p>
-
-<h4 id="section-7">当然，过度自信是悲剧的源泉，好在31.75%的风险还算不上万劫不复；如果没有绝对的自信的话，前三招行走江湖足矣。</h4>
 ]]></content>
   </entry>
   
