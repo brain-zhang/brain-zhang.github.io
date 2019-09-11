@@ -98,6 +98,104 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/">How to Parallel All Cmds for Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-01T13:07:20+08:00" pubdate data-updated="true">May 1<span>st</span>, 2018</time>
+        
+           | <a href="/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>grep 一个100GB的文件总是很有压力，怎么才能提速呢?</p>
+
+<h3 id="section">瞎优化</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>
+    <p><code>LC_ALL=C</code>比<code>LC_ALL=UTF-8</code>要块</p>
+  </li>
+  <li>
+    <p>不需要正则的话，用fgrep可以提速</p>
+  </li>
+</ul>
+
+<h3 id="linux-parallel-all-cmdsperl">不过这样优化总是治标不治本，下面隆重推出linux 里面parallel all cmds的perl工具</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>使用parallel ，和不使用parallel直接grep。结果显而易见，相差 20 倍。这比用啥 ack，ag优化效果明显多了</p>
+
+<h3 id="xargs-n">xargs也有一个-n的多核选项，可以作为备用</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ time echo {1..5} |xargs -n 1  sleep
+</span><span class="line">
+</span><span class="line">real    0m15.005s
+</span><span class="line">user    0m0.000s
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这一条xargs把每个echo的数作为参数传给sleep ，所以一共sleep了 1+2+3+4+5=15秒。</p>
+
+<p>如果使用 -P 参数分给5个核，每个核各sleep 1,2,3,4,5秒，所以执行完之后总共sleep的5秒。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ time echo {1..5} |xargs -n 1 -P 5 sleep
+</span><span class="line">
+</span><span class="line">real    0m5.003s
+</span><span class="line">user    0m0.000s
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>引自:</li>
+</ul>
+
+<p>https://www.jianshu.com/p/c5a2369fa613</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/">How to Calling Multiple Commands Through Xargs</a></h1>
     
     
@@ -544,53 +642,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/">Disable Performance_schema to Save Mysql&#8217;s Memory</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-02T09:14:01+08:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2018</time>
-        
-           | <a href="/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/04/02/disable-performance-schema-to-save-mysqls-memory/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>小VPS内存一般都不大，比如 1GB 什么的。估计总是发现装完 LAMP 就基本上内存全用光了。</p>
-
-<p>访问量不大的话，可以在 my.conf 中加入以下配置，关掉性能优化。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[mysqld]
-</span><span class="line">performance_schema=off
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -608,6 +659,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/">Unicode String Parse With Python and Fileinput</a>
       </li>
     
@@ -621,10 +676,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/">Using a GPG Key and Ssh Auth</a>
       </li>
     
   </ul>
@@ -679,7 +730,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
 <li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
-<li class='category'><a href='/blog/categories/ai/'>ai (1)</a></li>
+<li class='category'><a href='/blog/categories/ai/'>ai (2)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
 <li class='category'><a href='/blog/categories/blockchain/'>blockchain (53)</a></li>
@@ -688,7 +739,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (30)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (31)</a></li>
 <li class='category'><a href='/blog/categories/django/'>django (2)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (5)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>

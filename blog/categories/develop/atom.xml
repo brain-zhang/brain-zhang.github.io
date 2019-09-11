@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-06T11:57:00+08:00</updated>
+  <updated>2019-09-11T10:58:27+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,242 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[吴恩达机器学习笔记-2]]></title>
+    <link href="https://happy123.me/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/"/>
+    <updated>2019-09-11T10:53:38+08:00</updated>
+    <id>https://happy123.me/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2</id>
+    <content type="html"><![CDATA[<p class="info">Logistic回归， 正则化</p>
+
+<!-- more -->
+
+<h2 id="logistic">1-Logistic回归</h2>
+
+<h4 id="section">分类</h4>
+
+<p>逻辑回归 (Logistic Regression)是分类问题的一个代表算法，这是目前最流行使用最广泛的一种学习算法。</p>
+
+<p>我们将因变量(dependant variable)可能属于的两个类分别称为负向类（negative class）和 正向类（positive class），则因变量  𝑦∈0,1 ，其中 0 表示负向类，1 表示正向类。</p>
+
+<p>分类问题下，可以采用逻辑回归的分类算法，这个算法的性质是：它的输出值永远在 0 到 1 之间。 它适用于标签 y 取值离散的情况，如：1 0 0 1。</p>
+
+<h4 id="section-1">假设陈述</h4>
+
+<p>分类问题，希望分类器的输出值在 0 和 1 之间，因此，假设函数需要满足预测值要在 0 和 1 之间。</p>
+
+<p>回归模型的假设是：</p>
+
+<script type="math/tex; mode=display">
+h_\theta(x)=g(\theta^TX)
+</script>
+
+<p>其中：
+* X 代表特征向量
+* g 代表逻辑函数（logistic function）, 是一个常用的逻辑函数为 S形函数（Sigmoid function），公式为：</p>
+
+<script type="math/tex; mode=display">
+g(z) = \frac{1}{1+e^{-z}}
+</script>
+
+<ul>
+  <li>python 代码实现sigmoid函数：</li>
+</ul>
+
+<p><code>
+import numpy as np
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+</code></p>
+
+<p>结合起来，获得逻辑回归的假设：</p>
+
+<script type="math/tex; mode=display">
+h_\theta(x) =  \frac{1}{1+e^{-\theta^TX}}
+</script>
+
+<table>
+  <tbody>
+    <tr>
+      <td>𝜃(𝑥) 的作用是，对于给定的输入变量，根据选择的参数计算输出变量为1 的可能性 （estimated probablity），即  ℎ𝜃(𝑥)=𝑃(𝑦=1</td>
+      <td>𝑥;𝜃) 。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-2">代价函数</h4>
+
+<p>逻辑回归的代价函数为：</p>
+
+<script type="math/tex; mode=display">
+J(\theta)= \frac{1}{m}\sum^m_{i=1}Cost(h_\theta(x^{(i)}), y^{(i)})
+</script>
+
+<p>其中:</p>
+
+<script type="math/tex; mode=display">
+Cost(h_\theta(x), y)=-y\times{log(h_\theta(x))}-(1-y)\times{log(1-h_\theta(x))}
+</script>
+
+<p>代入代价函数:</p>
+
+<script type="math/tex; mode=display">
+J(\theta) = -\frac{1}{m}\sum^m_{i=1}[y^{(i)}log(h_\theta(x^{(i)}))+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]
+</script>
+
+<ul>
+  <li>逻辑回归代价函数的Python代码实现：</li>
+</ul>
+
+<p><code>
+import numpy as np
+def cost(theta, X, y):
+    theta = np.matrix(theta)
+    X = np.matrix(X)
+    y = np.matrix(y)
+    first = np.multiply(-y, np.log(sigmoid(X * theta.T)))
+    second = np.multiply((1 - y), np.log(1 - sigmoid(X * theta.T)))
+    return np.sum(first - second) / (len(X))
+</code></p>
+
+<h4 id="section-3">简化代价函数和梯度下降</h4>
+
+<script type="math/tex; mode=display">
+\theta_j := \theta_j - \alpha \frac{1}{m}\sum^m_{i=1}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j
+</script>
+
+<p>这个更新规则和之前用来做线性回归梯度下降的式子是一样的， 但是假设的定义发生了变化。即使更新参数的规则看起来基本相同，但由于假设的定义发生了变化，所以逻辑函数的梯度下降，跟线性回归的梯度下降实际上是两个完全不同的东西。</p>
+
+<h4 id="section-4">多分类任务 一对多</h4>
+
+<p>邮件归类， 假如说你现在需要一个学习算法能自动地将邮件归类到不同的文件夹里，区分开来自工作的邮件、来自朋友的邮件、来自家人的邮件或者是有关兴趣爱好的邮件，那么，就有了一个四分类问题：其类别有四个，分别用 y=1、y=2、y=3、y=4 来代表。</p>
+
+<p>多分类的关键就是构建多个逻辑分类函数；具体：</p>
+
+<p>我们将多个类中的一个类标记为正向类（y=1），然后将其他所有类都标记为负向类，这个模型记作 ℎ(1)𝜃(𝑥)。接着，类似地第我们选择另一个类标记为 正向类（y=2），再将其它类都标记为负向类，将这个模型记作  ℎ(2)𝜃(𝑥) ,依此类推。 最后我们得到一系列的模型简记为：</p>
+
+<script type="math/tex; mode=display">
+h^{(i)_\theta(x)} = p(y=i|x;\theta)
+</script>
+
+<p>最后，在我们需要做预测时，我们将所有的分类机都运行一遍，然后对每一个输入变量，都选择最高可能性的输出变量。 总之，我们已经把要做的做完了，现在要做的就是训练这个逻辑回归分类器： ℎ(𝑖)𝜃(𝑥) ， 其中 i对应每一个可能的y=i，最后，为了做出预测，我们给出输入一个新的 x 值做预测。我们要做的就是在我们三个分类器里面输入 x，然后我们选择一个让  ℎ(𝑖)𝜃(𝑥) 最大的 i，即</p>
+
+<script type="math/tex; mode=display">
+\max_ih^{(i)_\theta(x)}
+</script>
+
+<h2 id="section-5">2-正则化</h2>
+
+<h4 id="section-6">过拟合问题</h4>
+
+<p>就以多项式理解，x 的次数越高，拟合的越好，但相应的预测的能力就可能变差。</p>
+
+<p>如何解决？</p>
+
+<ul>
+  <li>
+    <p>丢弃一些不能帮助我们正确预测的特征。可以是手工选择保留哪些特征，或者使用一些模型选择的算法来帮忙（例如 PCA, LDA），缺点是丢弃特征的同时，也丢弃了这些相应的信息；</p>
+  </li>
+  <li>
+    <p>正则化。 保留所有的特征，但是减少参数的大小（magnitude），当我们有大量的特征，每个特征都对目标值有一点贡献的时候，比较有效。</p>
+  </li>
+  <li>
+    <p>还有一个解决方式就是增加数据集,因为过拟合导致的原因就过度拟合测试数据集, 那么增加数据集就很大程度提高了泛化性了.</p>
+  </li>
+</ul>
+
+<h4 id="section-7">代价函数</h4>
+
+<p>正则化的基本方法：对高次项添加惩罚值，让高次项的系数接近于0。</p>
+
+<p>假如我们有非常多的特征，我们并不知道其中哪些特征我们要惩罚，我们将对所有的特征进行惩罚，并且让代价函数最优化的软件来选择这些惩罚的程度。这样的结果是得到了一个较为简单的能防止过拟合问题的假设：</p>
+
+<script type="math/tex; mode=display">
+J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2} + \lambda\sum_{j=1}^n\theta^2_j  ]
+</script>
+
+<p>其中 𝜆 又称为正则化参数（Regularization Parameter）</p>
+
+<p>```
+import numpy as np
+def mseWithRegular(predict, y, w, lmd=0.1):
+    ‘’’
+        predict: 模型输出
+        y: 真实标签
+        w: 模型权重
+        lmd: 正则化参数
+    ‘’’
+    constrct_loss = np.sum((predict - y) ** 2)
+    experience_loss = lmd * np.sum(w ** 2)
+    loss = (constrct_loss + experience_loss) / (2 * len(predict))
+    return loss</p>
+
+<p>predict = np.array([1, 1.5, 2])
+y = np.array([0.9, 1.4, 2.1])
+w = np.array([[1], [1], [1]])
+mseWithRegular(predict, y, w)
+```</p>
+
+<p>如果选择的正则化参数 𝜆 过大，则会把所有的参数都最小化了，导致模型变成  ℎ𝜃(𝑥)=𝜃0 ，造成欠拟合。</p>
+
+<p>所以对于正则化，我们要取一个合理的λ的值，这样才能更好的应用正则化。</p>
+
+<h4 id="section-8">线性回归正则化</h4>
+<p>对于线性回归的求解，我们之前推导了两种学习算法：一种基于梯度下降，一种基于正规方程</p>
+
+<p>正则化线性回归的代价函数为：</p>
+
+<script type="math/tex; mode=display">
+J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2} + \lambda\sum_{j=1}^n\theta^2_j ]
+</script>
+
+<ul>
+  <li>梯度下降使代价函数最小化</li>
+</ul>
+
+<script type="math/tex; mode=display">
+\theta_j := \theta_j (1-a\frac{\lambda}{m})- \alpha \frac{1}{m}\sum^m_{i=1}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j
+</script>
+
+<ul>
+  <li>正规方程来求解正则化线性回归模型</li>
+</ul>
+
+<p>TODO: 暂时没有理解</p>
+
+<h4 id="section-9">逻辑回归正则化</h4>
+
+<p>针对逻辑回归问题，我们在之前的课程已经学习过两种优化算法：梯度下降法，更高级的优化算法需要你自己设计代价函数 𝐽(𝜃) 。</p>
+
+<p>给代价函数增加一个正则化的表达式，得到代价函数:</p>
+
+<script type="math/tex; mode=display">
+J(\theta) = \frac{1}{m}\sum^m_{i=1}[-y^{(i)}log(h_\theta(x^{(i)}))-(1-y^{(i)}log(1-h_\theta(x^{(i)}))]+\frac{\lambda}{2m}\sum_{j=1}^n\theta^2_j
+</script>
+
+<p>代码实现:</p>
+
+<p>```
+import numpy as np
+def sigmoid(x, derivative=False):
+    sigm = 1. / (1. + np.exp(-x))
+    if derivative:
+        return sigm * (1. - sigm)
+    return sigm</p>
+
+<p>def costReg(theta, X, y, learningRate):
+    theta = np.matrix(theta)
+    X = np.matrix(X)
+    y = np.matrix(y)
+    first = np.multiply(-y, np.log(sigmoid(X * theta.T)))
+    second = np.multiply((1 - y), np.log(1 - sigmoid(X * theta.T)))
+    reg = (learningRate / 2 * len(X)) * np.sum(np.power(theta[:,1:theta.shape[1]], 2))
+    return np.sum(first - second) / (len(X)) + reg
+```</p>
+
+<p>最后，它的梯度下降看上去同正则化的线性回归一样，但是由于假设ℎ𝜃(𝑥)=𝑔(𝜃𝑇𝑋) ，所以与线性回归不同。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Unicode String Parse With Python and Fileinput]]></title>
@@ -603,320 +839,6 @@ r = requests.post(url, files=files)
 print r.text</p>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SSL&TLS Tips]]></title>
-    <link href="https://happy123.me/blog/2019/08/04/ssl-tls-tips/"/>
-    <updated>2019-08-04T09:35:42+08:00</updated>
-    <id>https://happy123.me/blog/2019/08/04/ssl-tls-tips</id>
-    <content type="html"><![CDATA[<p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz…..</p>
-
-<p>话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~</p>
-
-<!-- more -->
-
-<p>现在有两个选择:</p>
-
-<ol>
-  <li>放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦</li>
-  <li>死磕openssl，把它彻底搞明白</li>
-</ol>
-
-<p>利弊权衡之下我选择了1，不过当然我也在2上花了一点时间，复习了一下基础知识，在此记录下来。</p>
-
-<h3 id="libssl3">libssl3是个什么东东</h3>
-
-<p>在探究libssl.so的时候，我无意发现我的系统里面还有一个libssl3.so；这个是什么东东？我印象里面openssl还只有1.x版本才对；</p>
-
-<p>我在ubuntu16.04下查看这个so文件来源;</p>
-
-<p>```
-~ locate libssl3.so
-/usr/lib/x86_64-linux-gnu/libssl3.so</p>
-
-<p>```</p>
-
-<p>nm看一下:</p>
-
-<p>```
-~ nm /usr/lib/x86<em>64-linux-gnu/libssl3.so
-nm: /usr/lib/x86</em>64-linux-gnu/libssl3.so: no symbols</p>
-
-<p>```</p>
-
-<p>奇怪，没有任何符号；继续用ldd看一下：</p>
-
-<p>```
-~ ldd /usr/lib/x86<em>64-linux-gnu/libssl3.so
-ldd /usr/lib/x86</em>64-linux-gnu/libssl3.so
-        linux-vdso.so.1 =&gt;  (0x00007ffe833bb000)
-        libnss3.so =&gt; /usr/lib/x86<em>64-linux-gnu/libnss3.so (0x00007faf3cc8a000)
-        libnssutil3.so =&gt; /usr/lib/x86</em>64-linux-gnu/libnssutil3.so (0x00007faf3ca5d000)
-        libplc4.so =&gt; /usr/lib/x86<em>64-linux-gnu/libplc4.so (0x00007faf3c858000)
-        libnspr4.so =&gt; /usr/lib/x86</em>64-linux-gnu/libnspr4.so (0x00007faf3c619000)
-        libpthread.so.0 =&gt; /lib/x86<em>64-linux-gnu/libpthread.so.0 (0x00007faf3c3fc000)
-        libc.so.6 =&gt; /lib/x86</em>64-linux-gnu/libc.so.6 (0x00007faf3c032000)
-        libz.so.1 =&gt; /lib/x86<em>64-linux-gnu/libz.so.1 (0x00007faf3be18000)
-        libplds4.so =&gt; /usr/lib/x86</em>64-linux-gnu/libplds4.so (0x00007faf3bc14000)
-        libdl.so.2 =&gt; /lib/x86<em>64-linux-gnu/libdl.so.2 (0x00007faf3ba10000)
-        librt.so.1 =&gt; /lib/x86</em>64-linux-gnu/librt.so.1 (0x00007faf3b808000)
-        /lib64/ld-linux-x86-64.so.2 (0x00007faf3d21d000)</p>
-
-<p>```</p>
-
-<p>嗯，找到了一个有意思的依赖:libnss3.so</p>
-
-<p>再用命令dpkg看一下</p>
-
-<p>```
-~ dpkg -S /usr/lib/x86<em>64-linux-gnu/libnss3.so
-libnss3:amd64: /usr/lib/x86</em>64-linux-gnu/libnss3.so</p>
-
-<p>```</p>
-
-<p>基本上确定是libnss3这个库引入的libssl3.so了，最后再用dpkg确认一下:</p>
-
-<p>```
-~ dpkg-query -L libnss3
-/.
-/usr
-/usr/lib
-/usr/lib/x86<em>64-linux-gnu
-/usr/lib/x86</em>64-linux-gnu/libnssutil3.so
-/usr/lib/x86<em>64-linux-gnu/nss
-/usr/lib/x86</em>64-linux-gnu/nss/libfreebl3.chk
-/usr/lib/x86<em>64-linux-gnu/nss/libnssckbi.so
-/usr/lib/x86</em>64-linux-gnu/nss/libsoftokn3.so
-/usr/lib/x86<em>64-linux-gnu/nss/libsoftokn3.chk
-/usr/lib/x86</em>64-linux-gnu/nss/libfreeblpriv3.chk
-/usr/lib/x86<em>64-linux-gnu/nss/libfreeblpriv3.so
-/usr/lib/x86</em>64-linux-gnu/nss/libnssdbm3.chk
-/usr/lib/x86<em>64-linux-gnu/nss/libnssdbm3.so
-/usr/lib/x86</em>64-linux-gnu/nss/libfreebl3.so
-/usr/lib/x86<em>64-linux-gnu/nss/libnsssysinit.so
-/usr/lib/x86</em>64-linux-gnu/libsmime3.so
-/usr/lib/x86<em>64-linux-gnu/libnss3.so
-/usr/lib/x86</em>64-linux-gnu/libssl3.so
-/usr/share
-/usr/share/doc
-/usr/share/doc/libnss3
-/usr/share/doc/libnss3/copyright
-/usr/share/doc/libnss3/changelog.Debian.gz
-/usr/share/lintian
-/usr/share/lintian/overrides
-/usr/share/lintian/overrides/libnss3</p>
-
-<p>```</p>
-
-<h3 id="libnss3">libnss3是个什么东东?</h3>
-
-<p>```
-apt-cache show libnss3</p>
-
-<p>```</p>
-
-<p>看了一下，发现是mozilla基金会搞得东东；再google一下，发现是自己孤陋寡闻了；</p>
-
-<p>原来，SSL&amp;TSL的实现，不只是openssl一家独大，像Mozilla Firefox就用自家实现的Nss；</p>
-
-<p>Google Chrome之前也是用Nss的，后来迁移到了openssl，再后来，2014年，openssl1.0.1出现了heartbeat 漏洞，Google干脆自己开了个分支，用自己定制的openssl了；</p>
-
-<p>至于Windows平台的，还有C++阵营的，都有自己实现的ssl库，具体可参见:</p>
-
-<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
-
-<h3 id="nsscentos">nss在centos中</h3>
-
-<p>搜素的过程中，我惊奇的发现，ubuntu和centos上面的curl，竟然链接的libssl也不一样：</p>
-
-<p>ubuntu上的curl默认链接的是openssl，而centos上面默认链接的是libnss3；</p>
-
-<p>耐人寻味啊，莫非redhat系的人发现了什么~~~~</p>
-
-<p>做事要做全套，我分别切换到ubuntu16.04和centos7.2上面，看看他们官方仓库中自带的curl是如何编译的。</p>
-
-<h4 id="centos72">centos7.2</h4>
-
-<p>```
-~ rpm -q –requires curl
-libc.so.6()(64bit)
-libc.so.6(GLIBC<em>2.14)(64bit)
-libc.so.6(GLIBC</em>2.17)(64bit)
-libc.so.6(GLIBC<em>2.2.5)(64bit)
-libc.so.6(GLIBC</em>2.3)(64bit)
-libc.so.6(GLIBC<em>2.4)(64bit)
-libc.so.6(GLIBC</em>2.7)(64bit)
-libcurl = 7.29.0-51.el7
-libcurl.so.4()(64bit)
-libdl.so.2()(64bit)
-libnspr4.so()(64bit)
-libnss3.so()(64bit)
-libnssutil3.so()(64bit)
-libplc4.so()(64bit)
-libplds4.so()(64bit)
-libpthread.so.0()(64bit)
-libpthread.so.0(GLIBC_2.2.5)(64bit)
-libsmime3.so()(64bit)
-libssl3.so()(64bit)
-libz.so.1()(64bit)
-rpmlib(CompressedFileNames) &lt;= 3.0.4-1
-rpmlib(FileDigests) &lt;= 4.6.0-1
-rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
-rtld(GNU_HASH)
-rpmlib(PayloadIsXz) &lt;= 5.2-1</p>
-
-<p>```
-用的是libcurl = 7.29.0-51.el7；</p>
-
-<p>```
-~ rpm -q –requires libcurl
-/sbin/ldconfig
-libc.so.6()(64bit)
-libc.so.6(GLIBC<em>2.14)(64bit)
-libc.so.6(GLIBC</em>2.15)(64bit)
-libc.so.6(GLIBC<em>2.16)(64bit)
-libc.so.6(GLIBC</em>2.17)(64bit)
-libc.so.6(GLIBC<em>2.2.5)(64bit)
-libc.so.6(GLIBC</em>2.3)(64bit)
-libc.so.6(GLIBC<em>2.3.4)(64bit)
-libc.so.6(GLIBC</em>2.4)(64bit)
-libc.so.6(GLIBC<em>2.7)(64bit)
-libcom_err.so.2()(64bit)
-libdl.so.2()(64bit)
-libgssapi_krb5.so.2()(64bit)
-libgssapi_krb5.so.2(gssapi_krb5</em>2<em>MIT)(64bit)
-libidn.so.11()(64bit)
-libidn.so.11(LIBIDN</em>1.0)(64bit)
-libk5crypto.so.3()(64bit)
-libkrb5.so.3()(64bit)
-liblber-2.4.so.2()(64bit)
-libldap-2.4.so.2()(64bit)
-libnspr4.so()(64bit)
-libnss3.so()(64bit)
-libnss3.so(NSS<em>3.10)(64bit)
-libnss3.so(NSS</em>3.12.1)(64bit)
-libnss3.so(NSS<em>3.12.5)(64bit)
-libnss3.so(NSS</em>3.2)(64bit)</p>
-
-<p>….</p>
-
-<p>```
-看到libnss3了,重点输出：</p>
-
-<p>```
-libnss3.so</p>
-
-<p>```
-那么这个包是谁提供的？输入如下命令：</p>
-
-<p>```
-~ rpm -qf /usr/lib64/libnss3.so 
-    nss-3.36.0-7.1.el7<em>6.x86</em>64
-~ rpm -ql nss
-/etc/pki/nss-legacy
-/etc/pki/nss-legacy/nss-rhel7.config
-/etc/pki/nssdb
-/etc/pki/nssdb/cert8.db
-/etc/pki/nssdb/cert9.db
-/etc/pki/nssdb/key3.db
-/etc/pki/nssdb/key4.db
-/etc/pki/nssdb/pkcs11.txt
-/etc/pki/nssdb/secmod.db
-/usr/lib64/libnss3.so
-/usr/lib64/libnssckbi.so
-/usr/lib64/libsmime3.so
-/usr/lib64/libssl3.so
-/usr/lib64/nss/libnssckbi.so
-…</p>
-
-<p>```
-至此水落石出，还可以看到我们熟悉的证书cert8.db文件；但其实 curl 最终使用的根证书库并不是该文件。那 curl 使用的根证书文件在哪儿呢？</p>
-
-<p>使用 curl-config 命令行工具，能够了解更多：</p>
-
-<p>```
-~ curl-config –ca                      <br />
-/etc/pki/tls/certs/ca-bundle.crt</p>
-
-<p>```</p>
-
-<h4 id="ubuntu1604">ubuntu16.04</h4>
-
-<p>ubuntu16上面验证类似，不一一说明了~~~</p>
-
-<p>```
-~ dpkg-query -L libcurl3
-/.
-/usr
-/usr/share
-/usr/share/doc
-/usr/share/doc/libcurl3
-/usr/share/doc/libcurl3/copyright
-/usr/share/doc/libcurl3/changelog.Debian.gz
-/usr/share/doc/libcurl3/NEWS.Debian.gz
-/usr/share/lintian
-/usr/share/lintian/overrides
-/usr/share/lintian/overrides/libcurl3
-/usr/lib
-/usr/lib/x86<em>64-linux-gnu
-/usr/lib/x86</em>64-linux-gnu/libcurl.so.4.4.0
-/usr/lib/x86<em>64-linux-gnu/libcurl.so.3
-/usr/lib/x86</em>64-linux-gnu/libcurl.so.4</p>
-
-<p>```</p>
-
-<p>```
-~ apt-cache depends  libcurl3
-  Depends: libc6
-  Depends: libgssapi-krb5-2
-  Depends: libidn11
-  Depends: libldap-2.4-2
-  Depends: librtmp1
-  Depends: libssl1.0.0
-  Depends: zlib1g
-  Recommends: ca-certificates</p>
-
-<p>```</p>
-
-<p>然后寻找libcurl的依赖库:</p>
-
-<p>```
-~ ldd /usr/lib/x86<em>64-linux-gnu/libcurl.so.4.4.0|grep ssl
-libssl.so.1.0.0 =&gt; /lib/x86</em>64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)</p>
-
-<p>```</p>
-
-<p>验证一下:</p>
-
-<p>```
-~ apt-cache depends openssl
-openssl
-  Depends: libc6
-  Depends: libssl1.0.0
-  Suggests: ca-certificates</p>
-
-<p>~ apt-cache rdepends  libssl1.0.0 | grep curl
-  libcurl3  </p>
-
-<p>```</p>
-
-<h3 id="section">总结</h3>
-
-<p>所以这就是想要解决一个问题的中途，又被带到了另外一条小路上；该说我是还有那么一点好奇心呢？还是注意力不集中呢？</p>
-
-<p>Orz………</p>
-
-<h3 id="section-1">参考资料:</h3>
-
-<p>https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</p>
-
-<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
-
-<p>https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E</p>
-
-<p>https://www.lbbniu.com/6680.html</p>
 ]]></content>
   </entry>
   
