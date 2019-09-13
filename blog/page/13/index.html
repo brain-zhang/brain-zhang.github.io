@@ -98,6 +98,60 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">How to Change Systemd Service Timeout Value</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-05T17:56:04+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/05/how-to-change-systemd-service-timeout-value/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/07/05/how-to-change-systemd-service-timeout-value/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1 id="show-value">show value</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl show SERVICE_NAME.service -p TimeoutStopUSec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h1 id="change-value">change value</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /usr/lib/systemd/system/node.service
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>TimeoutStopUSec = 900</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl daemon-reexec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
     
     
@@ -667,70 +721,6 @@ default         192.168.159.2   0.0.0.0         UG    0      0        0 eth0
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">How to Keep Environment Variables and PATH When Using SUDO</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-02T09:15:19+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="sudo-tips">sudo tips</h2>
-
-<h4 id="how-to-keep-environment-variables-when-using-sudo">How to keep Environment Variables when Using SUDO</h4>
-
-<p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
-
-<pre><code>Defaults env_keep += "HOME"
-</code></pre>
-
-<p>or and pay attention to the -E flag. This works:</p>
-
-<pre><code>export HOME=/home/users/memorybox
-sudo -E bash -c 'echo $HOME'
-</code></pre>
-
-<h4 id="how-to-keep-path-variables-when-using-sudo">How to keep PATH Variables when Using SUDO</h4>
-
-<pre><code>vim /etc/sudoers
-sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
-</code></pre>
-
-<h4 id="how-to-change-root-env">How to change root env</h4>
-
-<pre><code>sudo -i
-</code></pre>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/14/">&larr; Older</a>
@@ -748,6 +738,10 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/">Eltoo-闪电和离线契约更新机制</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a>
       </li>
     
@@ -761,10 +755,6 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
     
       <li class="post">
         <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
       </li>
     
   </ul>
@@ -822,7 +812,7 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
 <li class='category'><a href='/blog/categories/ai/'>ai (2)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (53)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (54)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

@@ -98,6 +98,70 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">How to Keep Environment Variables and PATH When Using SUDO</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-02T09:15:19+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2016</time>
+        
+           | <a href="/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/06/02/how-to-keep-environment-variables-and-path-when-using-sudo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="sudo-tips">sudo tips</h2>
+
+<h4 id="how-to-keep-environment-variables-when-using-sudo">How to keep Environment Variables when Using SUDO</h4>
+
+<p>The trick is to add environment variables to sudoers file via sudo visudo command and add these lines:</p>
+
+<pre><code>Defaults env_keep += "HOME"
+</code></pre>
+
+<p>or and pay attention to the -E flag. This works:</p>
+
+<pre><code>export HOME=/home/users/memorybox
+sudo -E bash -c 'echo $HOME'
+</code></pre>
+
+<h4 id="how-to-keep-path-variables-when-using-sudo">How to keep PATH Variables when Using SUDO</h4>
+
+<pre><code>vim /etc/sudoers
+sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/bin/.....:#g' /etc/sudoers
+</code></pre>
+
+<h4 id="how-to-change-root-env">How to change root env</h4>
+
+<pre><code>sudo -i
+</code></pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/25/enable-ldap-on-centos/">Enable Ldap on Centos</a></h1>
     
     
@@ -1033,60 +1097,6 @@ sysctl -w fs.inotify.max_user_instances=8192
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/10/webtorrent-redefine-cdn/">Webtorrent Redefine CDN?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-10T10:00:19+08:00" pubdate data-updated="true">May 10<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/10/webtorrent-redefine-cdn/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/05/10/webtorrent-redefine-cdn/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近发现了一个开源的JS东东，webtorrent:</p>
-
-<p>https://github.com/feross/webtorrent</p>
-
-<p>用webRTC实现了一个浏览器端的bt客户端。</p>
-
-<p>这个点子我还在几年前试过呢？当时想用socketio来做，但各种限制，当时webRTC还是个小众，没有被浏览器主流实现。</p>
-
-<p>试了一下，效果还差强人意。</p>
-
-<p>脑洞开一下，话说这会不会是快播们的春天来了。</p>
-
-<p>严肃一点再想想，是不是CDN提供商们可以利用它分担压力，提升速度，走上人生巅峰….</p>
-
-<p>留待后续观察。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -1104,6 +1114,10 @@ sysctl -w fs.inotify.max_user_instances=8192
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/">Eltoo-闪电和离线契约更新机制</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a>
       </li>
     
@@ -1117,10 +1131,6 @@ sysctl -w fs.inotify.max_user_instances=8192
     
       <li class="post">
         <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
       </li>
     
   </ul>
@@ -1178,7 +1188,7 @@ sysctl -w fs.inotify.max_user_instances=8192
 <li class='category'><a href='/blog/categories/ai/'>ai (2)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (53)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (54)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

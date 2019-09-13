@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Eltoo-闪电和离线契约更新机制 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="在我们之前的文章中，对闪电网络的来龙去脉和原理做了详尽的分析；我们提出，相对于现在的传统支付技术，闪电网络技术有一个不可思议的跨越，用时髦一点的话来说，这是次世代的支付技术，假以时日，我相信它的未来不可限量； 闪电网络可以说是比特币二层网络技术的急先锋，它除了开拓比特币的支付愿景， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Eltoo-闪电和离线契约更新机制</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-13T10:29:32+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2019</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在我们之前的文章中，对闪电网络的来龙去脉和原理做了详尽的分析；我们提出，相对于现在的传统支付技术，闪电网络技术有一个不可思议的跨越，用时髦一点的话来说，这是次世代的支付技术，假以时日，我相信它的未来不可限量；</p>
+
+<p>闪电网络可以说是比特币二层网络技术的急先锋，它除了开拓比特币的支付愿景，还在很多层面对将来二层网络的发展提出了很多基础协议功能；这一切目前都收集在闪电网络基础技术规范，简称BOLT(Basis of Lightning Technology文档中；</p>
+
+<p>https://github.com/lightningnetwork/lightning-rfc</p>
+
+<!-- more -->
+
+<p>仔细阅读BOLT就会发现，闪电网络并不是一个单一的协议，它是一整套协议，并且许多部分都被设计为可替代的；最典型的就是支付通道的部分；</p>
+
+<p>为了保证支付通道双方不作弊，需要给作弊方施加足够的惩罚威慑，目前的支付通道采用的惩罚机制称为 “L2-penalty”机制；这是是JosephPoon和Thaddeus Dryja在原版Lightning Network白皮书中发明的协议;因此也被称为<code>Poon-Dryja通道</code>;</p>
+
+<p>除了这种实现，其实还有另外一种双向支付通道协议，称为[双工小额支付渠道（DMC）]，由Decker和Wattenhofer [2015年]发明。Christian Decker是Blockstream的开发人员，后来blockstream将这个协议进一步完善，发展为Eltoo规范，并在2018年提出；</p>
+
+<p>Eltoo简化了惩罚机制，效率更高，不仅能用于支付渠道当中，还有一个更广泛的应用，打开人任意多方(&lt;7)在二层网络上实现智能合约的可能性；</p>
+
+<p>这个原理讲起来脑洞很大，我读它的论文的时候又一次感叹: 还有这种操作？</p>
+
+<p>看来比特币社区的技术发展已经远远走到了时代的前面，你不能说比特币的技术是老旧的，以目前的发展来看，比特币的底层架构之稳健，足够支持更多的未来黑科技运行在上面；</p>
+
+<p>…….TODO 需要填坑</p>
+
+<p>Eltoo的实施需要一个软分叉，需要现有的比特币主网支持名为<code>SIGHASH_NOINPUT</code>的操作符，结合Schnorr 签名技术，将来会实现许多非常有意思的功能；</p>
+
+<p>最后再强调一遍，闪电网络不仅仅是一个支付的技术，他为比特币二层网络的各种应用构建提供了基础，相信在未来，会出现很多神奇的应用，有多神奇我无法想象；但这个技术绝不是一时的噱头，现在种种迹象表明，它会为比特币开启下一个十年；</p>
+
+<p>引用资料:</p>
+
+<p>https://blockstream.com/2018/04/30/en-eltoo-next-lightning/</p>
+
+<p>https://blockstream.com/eltoo.pdf</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-13T10:29:32+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blockchain/'>blockchain</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/" title="Previous Post: 吴恩达机器学习笔记-2">&laquo; 吴恩达机器学习笔记-2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/">Eltoo-闪电和离线契约更新机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/">Unicode String Parse With Python and Fileinput</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/';
+        var disqus_url = 'https://happy123.me/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

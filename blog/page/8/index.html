@@ -98,6 +98,50 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/07/04/crawler-abc/">Crawler ABC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-04T19:04:58+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/07/04/crawler-abc/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/07/04/crawler-abc/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一个小爬虫的主要的套路就是requests, beautifulsoup, phantomjs.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/07/04/crawler-abc/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a></h1>
     
     
@@ -706,77 +750,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-05-01T22:18:33+08:00" pubdate data-updated="true">May 1<span>st</span>, 2018</time>
-        
-           | <a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。</p>
-
-<p>用sort+uniq直接搞定:</p>
-
-<h2 id="section">交集</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
-</span><span class="line">$ sort b.txt | uniq &gt; bb.txt
-</span><span class="line">$ cat aa.txt bb.txt | sort | uniq -d
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="section-1">并集</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt b.txt | sort | uniq
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="section-2">差集</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
-</span><span class="line">$ sort b.txt | uniq &gt; bb.txt
-</span><span class="line">$ cat aa.txt bb.txt bb.txt | sort | uniq -u
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -794,6 +767,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/">Eltoo-闪电和离线契约更新机制</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a>
       </li>
     
@@ -807,10 +784,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
       </li>
     
   </ul>
@@ -868,7 +841,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ai/'>ai (2)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (53)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (54)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

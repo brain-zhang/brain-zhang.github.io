@@ -98,6 +98,87 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/">How to Penetrate GFW With ShadowSocks Docker Container on Centos7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-04T20:23:40+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2017/12/04/how-to-penetrate-gfw-with-shadowsocks-docker-container-on-centos7/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The quickest way to Penetrate GFW With ShadowSocks(Docker Container) On Centos7.</p>
+
+<h2 id="install-docker-ce">Install Docker CE</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo yum install -y yum-utils   device-mapper-persistent-data  lvm2
+</span><span class="line">$ sudo yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+</span><span class="line">$ sudo yum install docker-ce
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="start--docker">start  docker</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl start docker
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="pull-shadowsocks-container">pull shadowsocks container</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker pull oddrationale/docker-shadowsocks
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="start-shadowsocks-service">start shadowsocks service</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k $SSPASSWORD -m aes-256-cfb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>You can configure the service to run on a port of your choice. Just make sure the port number given to Docker is the same as the one given to shadowsocks. Also, it is highly recommended that you store the shadowsocks password in an environment variable as shown above. This way the password will not show in plain text when you run docker ps.</p>
+
+<p>For more command line options, refer to the <a href="https://github.com/shadowsocks/shadowsocks/tree/master">shadowsocks documentation</a></p>
+
+<h2 id="windows-client">windows Client</h2>
+
+<p>Client is the machine you want to bypass the GFW.</p>
+
+<p>Download the client package <a href="https://github.com/shadowsocks/shadowsocks-windows/releases">Shadowsocks-win-latest-release</a>, extract it, and run.</p>
+
+<p>You can check its “System Proxy” option, which is convenient for all browsers and terminal.</p>
+
+<h2 id="now-enjoy-it">now enjoy it</h2>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/12/04/game-theory/">Game Theory</a></h1>
     
     
@@ -664,69 +745,6 @@ gcc --version
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">用Pyinstaller打包python脚本适配windows</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-02-14T16:13:52+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2017</time>
-        
-           | <a href="/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2017/02/14/yong-pyinstallerda-bao-pythonjiao-ben-gua-pei-windows/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>一行命令的事，纯python脚本打包出来一般5Mb左右，大小还可以接收。</p>
-
-<p>首先在脚本同目录下加入一个pyinstaller.py:</p>
-
-<pre><code>#!/usr/bin/env python
-from PyInstaller.__main__ import run
-run()
-</code></pre>
-
-<p>然后执行:</p>
-
-<pre><code>python pyinstaller.py -c -F &lt;xxxx.py&gt; -p &lt;sdk&gt;
-</code></pre>
-
-<ul>
-  <li>
-    <xxxx.py> 为脚本名称
-</xxxx.py>
-  </li>
-  <li>
-    <sdk> 为三方包目录
-
-</sdk>
-  </li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/12/">&larr; Older</a>
@@ -744,6 +762,10 @@ run()
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/">Eltoo-闪电和离线契约更新机制</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a>
       </li>
     
@@ -757,10 +779,6 @@ run()
     
       <li class="post">
         <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/">为Flask RestAPI集成Swagger UI</a>
       </li>
     
   </ul>
@@ -818,7 +836,7 @@ run()
 <li class='category'><a href='/blog/categories/ai/'>ai (2)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (53)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (54)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
