@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-13T10:30:26+08:00</updated>
+  <updated>2019-09-13T10:51:18+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Paste Fails When Using Bracketed-paste-magic on zsh5.1.1]]></title>
+    <link href="https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/"/>
+    <updated>2019-09-13T10:50:31+08:00</updated>
+    <id>https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1</id>
+    <content type="html"><![CDATA[<p>突然碰到了zsh5.1.1的一个bug，粘贴中文的时候会把shell freeze；</p>
+
+<p>不知道是不是on-my-zsh升级的时候搞坏的，一通搜索发现了这个:</p>
+
+<p>https://github.com/zsh-users/zsh-autosuggestions/issues/102</p>
+
+<p>没有升级zsh，我直接到配置文件里把那段自动转义的功能注释掉了，嗯，简单粗暴~~~这东西我也不想天天升级；</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~/.oh-my-zsh/lib/misc.zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Eltoo-闪电和离线契约更新机制]]></title>
@@ -3624,37 +3642,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 <p>指数PE是永远也算不准的，那一个算不准的指标有啥好参考的？相信很快会有很多人跳出来说出各种理论~~~</p>
 
 <p>无辜的摊手，我也不知道，呵呵哒。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Berkshire's Charlie Munger Calls Bitcoin 'Noxious Poison']]></title>
-    <link href="https://happy123.me/blog/2019/05/09/berkshires-charlie-munger-calls-bitcoin-noxious-poison/"/>
-    <updated>2019-05-09T10:12:02+08:00</updated>
-    <id>https://happy123.me/blog/2019/05/09/berkshires-charlie-munger-calls-bitcoin-noxious-poison</id>
-    <content type="html"><![CDATA[<p>Berkshire annual meeting 2019 Q&amp;A，巴菲特和芒格老爷子又来Diss bitcoin了；</p>
-
-<h4 id="munger">Munger:</h4>
-
-<blockquote>
-  <p>It’s just disgusting. Bitcoin is noxious poison.</p>
-</blockquote>
-
-<h4 id="buffet">Buffet:</h4>
-
-<blockquote>
-  <p>It’s a gambling device… there’s been a lot of frauds connected with it. There’s been disappearances, so there’s a lot lost on it. Bitcoin hasn’t produced anything</p>
-</blockquote>
-
-<blockquote>
-  <p>It doesn’t do anything. It just sits there. It’s like a seashell or something, and that is not an investment to me</p>
-</blockquote>
-
-<p>两位老爷子是bitcoin社区值得敬重的对手，从一而终，一直坚定的黑；</p>
-
-<p>和一些骑墙派比起来，这份<code>坚守自己能力圈</code>的自律的确让人敬重。</p>
-
-<p>不管今后结果如何，要把这两位智慧老人的话牢牢记在心里；记住我们的贪婪、愚蠢、傲慢等等;</p>
 ]]></content>
   </entry>
   

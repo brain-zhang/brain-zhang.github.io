@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-13T10:30:26+08:00</updated>
+  <updated>2019-09-13T10:51:18+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Paste Fails When Using Bracketed-paste-magic on zsh5.1.1]]></title>
+    <link href="https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/"/>
+    <updated>2019-09-13T10:50:31+08:00</updated>
+    <id>https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1</id>
+    <content type="html"><![CDATA[<p>突然碰到了zsh5.1.1的一个bug，粘贴中文的时候会把shell freeze；</p>
+
+<p>不知道是不是on-my-zsh升级的时候搞坏的，一通搜索发现了这个:</p>
+
+<p>https://github.com/zsh-users/zsh-autosuggestions/issues/102</p>
+
+<p>没有升级zsh，我直接到配置文件里把那段自动转义的功能注释掉了，嗯，简单粗暴~~~这东西我也不想天天升级；</p>
+
+<p><code>
+~/.oh-my-zsh/lib/misc.zsh
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using a GPG Key and Ssh Auth]]></title>
@@ -470,48 +489,6 @@ alias rm=’move1(){ /bin/mv -f $@ ~/.trash/; };move1 $@’</p>
 
 <h4 id="qcow2-">最后，让我们期望所有的服务商都能提供 qcow2 的导入导出功能</h4>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Grep Obtain Patterns From File]]></title>
-    <link href="https://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/"/>
-    <updated>2018-07-04T18:06:55+08:00</updated>
-    <id>https://happy123.me/blog/2018/07/04/how-to-grep-obtain-patterns-from-file</id>
-    <content type="html"><![CDATA[<p>有一个100G的大文本文件 emailinfo.dict，包含邮箱及用户昵称; 格式为</p>
-
-<p>```
-hello@163.com,你是我的海
-…</p>
-
-<p>```</p>
-
-<p>有一个用户名文件user.txt，格式为:</p>
-
-<p>```
-aaa
-xxxx
-….</p>
-
-<p>```</p>
-
-<p>我们希望找出emailinfo.dict中，以user.txt中用户名开头的所有内容。</p>
-
-<p>首先将user.txt内容改为:</p>
-
-<p>```
-^aaa
-^xxxx
-….</p>
-
-<p>```</p>
-
-<p>然后执行:</p>
-
-<pre><code>grep -G -f user.txt emailinfo.dict
-</code></pre>
-
-<p>这个<code>-G</code>参数又花了我半个小时去读文档，我都不知道第几次做这种事情了。人年纪大了果然只能靠笔记。</p>
 ]]></content>
   </entry>
   

@@ -845,8 +845,14 @@
         <lastmod>2019-09-13T10:30:08+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/
+        </loc>
+        <lastmod>2019-09-13T10:51:05+08:00</lastmod>
+    </url>
+    <url>
         <loc>https://happy123.me/</loc>
-        <lastmod>2019-09-13T10:30:08+08:00</lastmod>
+        <lastmod>2019-09-13T10:51:05+08:00</lastmod>
     </url>
     <url>
         <loc>https://happy123.me/privacy/</loc>
@@ -858,7 +864,7 @@
     </url>
     <url>
         <loc>https://happy123.me/blog/archives/</loc>
-        <lastmod>2019-09-13T10:30:08+08:00</lastmod>
+        <lastmod>2019-09-13T10:51:05+08:00</lastmod>
     </url>
     <url>
         <loc>https://happy123.me/robots.txt</loc>

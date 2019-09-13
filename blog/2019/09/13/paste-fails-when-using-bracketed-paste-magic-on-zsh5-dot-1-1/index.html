@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Linux多网卡多路由设置 - Living a Simple Life is a Happy Life</title>
+  <title>Paste Fails When Using Bracketed-paste-magic on zsh5.1.1 - Living a Simple Life is a Happy Life</title>
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="折腾了半天，原始出处不知道了，转记一下。 比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此 eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254 eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254 eth2是教育网， &hellip;">
+  <meta name="description" content="突然碰到了zsh5.1.1的一个bug，粘贴中文的时候会把shell freeze； 不知道是不是on-my-zsh升级的时候搞坏的，一通搜索发现了这个: https://github.com/zsh-users/zsh-autosuggestions/issues/102 没有升级zsh， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +20,7 @@
   
 
   
-  <link rel="canonical" href="https://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi">
+  <link rel="canonical" href="https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
@@ -95,7 +95,7 @@ MathJax.Hub.Config({
   
   <header>
     
-      <h1 class="entry-title">Linux多网卡多路由设置</h1>
+      <h1 class="entry-title">Paste Fails When Using Bracketed-paste-magic on zsh5.1.1</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ MathJax.Hub.Config({
   
 
 
-<time datetime="2014-12-30T09:40:53+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2014</time>
+<time datetime="2019-09-13T10:50:31+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2019</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://happy123.me">Comments</a>
@@ -121,92 +121,16 @@ MathJax.Hub.Config({
   </header>
 
 
-<div class="entry-content"><p>折腾了半天，原始出处不知道了，转记一下。</p>
+<div class="entry-content"><p>突然碰到了zsh5.1.1的一个bug，粘贴中文的时候会把shell freeze；</p>
 
-<p>比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此</p>
+<p>不知道是不是on-my-zsh升级的时候搞坏的，一通搜索发现了这个:</p>
 
-<ul>
-  <li>
-    <p>eth0是电信，ip地址为1.1.1.1/24，电信网关为1.1.1.254</p>
-  </li>
-  <li>
-    <p>eth1是网通，ip地址为2.2.2.2/24，网通网关为2.2.2.254</p>
-  </li>
-  <li>
-    <p>eth2是教育网，ip地址为3.3.3.3/24，教育网网关为3.3.3.254</p>
-  </li>
-</ul>
+<p>https://github.com/zsh-users/zsh-autosuggestions/issues/102</p>
 
-<p>传统情况下，如果是为了从内向外访问获得更好的速度，让访问电信走电信，访问网通走网通，那么配置是网关只能够配置一个。</p>
-
-<p>比如以电信为主的，那么网关就只设置电信的1.1.1.254，而针对网通和教育网设置不同的路由，路由下一跳指向网通和教育网对应的 网关。</p>
-
-<p>如果这样做的目的只是实现内部访问外面，那么是没问题了，但是如果是为了让外面的用户能够正常访问到服务器上的服务就会出问题。比如电信用户会无法访问网通和教育网的ip，网通用户会无法访问电信和教育网的ip。</p>
-
-<p>要解决这个问题，思路就是由哪个网口进来的流量希望全部就由哪个回去。用lartc里面提到的方法就是来源的口不同，走不同的路由表。在默认的路由表基础上再建立三个路由表。</p>
-
-<p>用 ip route show 可以看到默认有local,main,default三个路由表，这三个路由表的名称命名来自 /etc/iproute2/rt_tables ，这里先在这个配置文件里面添加三个不同的路由表表名，</p>
+<p>没有升级zsh，我直接到配置文件里把那段自动转义的功能注释掉了，嗯，简单粗暴~~~这东西我也不想天天升级；</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
-</span><span class="line">echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
-</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>之后建立这三个路由表的内容，因为这三个路由表的只是用来响应来自不同接口的，而不是用来相应从哪个接口出去的，所以只需要每个路由表里面建立默认网关即可。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ip route add default via 1.1.1.254 dev eth0 table ChinaNet
-</span><span class="line">ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>之后再加上三条规则，使来自不同的口的走不同的路由表</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ip rule add from 1.1.1.1 table ChinaNet
-</span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>至此无论是电信还是网通还是教育网用户，访问三个ip的任意一个地址都能够连通了。即便是服务器上本身的默认路由都没有设置，也能够让外面的用户正常访问。</p>
-
-<p>命令汇总：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ip route show
-</span><span class="line">
-</span><span class="line">echo “101 ChinaNet” &gt;&gt; /etc/iproute2/rt_tables
-</span><span class="line">echo ”102 ChinaCnc“ &gt;&gt; /etc/iproute2/rt_tables
-</span><span class="line">echo ”103 ChinaEdu“ &gt;&gt; /etc/iproute2/rt_tables // 这里也可以直接通过Vi编辑
-</span><span class="line">
-</span><span class="line">ip route add default via 1.1.1.254 dev eth0 table ChinaNet
-</span><span class="line">ip route add default via 2.2.2.254 dev eth1 table ChinaCnc
-</span><span class="line">ip route add default via 3.3.3.254 dev eth2 table ChinaEdu
-</span><span class="line">
-</span><span class="line">ip rule add from 1.1.1.1 table ChinaNet
-</span><span class="line">ip rule add from 2.2.2.2 table ChinaCnc
-</span><span class="line">ip rule add from 3.3.3.3 table ChinaEdu //如果用数字，可以不要上面的“echo”过程
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
+</pre></td><td class="code"><pre><code class=""><span class="line">~/.oh-my-zsh/lib/misc.zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -229,12 +153,12 @@ MathJax.Hub.Config({
   
 
 
-<time datetime="2014-12-30T09:40:53+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2014</time>
+<time datetime="2019-09-13T10:50:31+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2019</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/network/'>network</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -250,10 +174,8 @@ MathJax.Hub.Config({
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/" title="Previous Post: libpcap PACKET_MMAP内存分配">&laquo; libpcap PACKET_MMAP内存分配</a>
+        <a class="basic-alignment left" href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/" title="Previous Post: Eltoo-闪电和离线契约更新机制">&laquo; Eltoo-闪电和离线契约更新机制</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/" title="Next Post: Macvtap Ethernet support tcpdump">Macvtap Ethernet support tcpdump &raquo;</a>
       
     </p>
   </footer>
@@ -348,8 +270,8 @@ MathJax.Hub.Config({
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/';
-        var disqus_url = 'https://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/';
+        var disqus_identifier = 'https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/';
+        var disqus_url = 'https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/';
         var disqus_script = 'embed.js';
       
     (function () {
