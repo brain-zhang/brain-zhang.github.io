@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>吴恩达机器学习笔记-3 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="神经网络学习, 反向传播算法， 模型优化 神经网络学习 为什么需要神经网络 普通的逻辑回归模型，不能有效地处理大量的特征，这时候我们需要神经网络。 神经元和大脑 大脑是个通用处理机，同样的一部分大脑区域，可以处理声音、视觉、味觉等多种信号； 从某种意义上来说，如果我们能找出大脑的学习算法， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">吴恩达机器学习笔记-3</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-16T16:55:56+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2019</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>神经网络学习, 反向传播算法， 模型优化</p>
+
+<!-- more -->
+
+<h2 id="section">神经网络学习</h2>
+
+<h4 id="section-1">为什么需要神经网络</h4>
+
+<p>普通的逻辑回归模型，不能有效地处理大量的特征，这时候我们需要神经网络。</p>
+
+<h4 id="section-2">神经元和大脑</h4>
+
+<p>大脑是个通用处理机，同样的一部分大脑区域，可以处理声音、视觉、味觉等多种信号；</p>
+
+<p>从某种意义上来说，如果我们能找出大脑的学习算法，然后在计算机上执 行大脑学习算法或与之相似的算法，也许这将是我们向人工智能迈进做出的最好的尝试。人工智能的梦想就是：有一天能制造出真正的智能机器。</p>
+
+<h4 id="section-3">模型表示</h4>
+
+<p><img src="https://i.loli.net/2018/12/01/5c01f2d2b8ac5.png" alt="" /></p>
+
+<p>第一层称为输入层（Input Layer），最后一 层称为输出层（Output Layer），中间一层称为隐藏层（Hidden Layers）。在神经网络中，参数又可被称为权重（weight）。我们为每一层都增加一个偏差单位（bias unit）</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">
+</span><span class="line">def sigmoid(x):
+</span><span class="line">    return 1/(1+np.exp(-x))
+</span><span class="line">
+</span><span class="line">def net():
+</span><span class="line">    # todo 确定输入和权重的维度
+</span><span class="line">    X = np.array([[1],[-2],[3],[-4]])
+</span><span class="line">    theta1 = np.random.uniform(size=(3, 4))
+</span><span class="line">    hidden_input = sigmoid(np.matmul(theta1,X))
+</span><span class="line">    print('hidden_input',hidden_input)
+</span><span class="line">    hidden_input = np.insert(hidden_input, 0, [1], axis=0)
+</span><span class="line">    print('hidden_input',hidden_input)
+</span><span class="line">    theta2 = np.random.uniform(size=(1, 4))
+</span><span class="line">    output = sigmoid(np.matmul( theta2,hidden_input))
+</span><span class="line">    return output</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-4">模型的表示实例</h4>
+
+<p>从本质上讲，神经网络能够通过学习得出其自身的一系列特征。</p>
+
+<p>在普通的逻辑回归中，我们被限制为使用数据中的原始特征 𝑥0,𝑥1,𝑥2,𝑥3 我们虽然可以使用一些二项式项来组合这些特征，但是我们仍然受到这些原始特征的限制。</p>
+
+<p>在神经网络中，原始特征只是输入层，在我们上面三层的神经网络例子中，第三层也就是输出层做出的预测利用的是第二层的特征，而非输入层中的原始特征，我们可以认为第二层中的特征是神经网络通过学习后自己得出的一系列用于预测输出变量的新特征。</p>
+
+<p>神经网络中，单层神经元（无中间层）的计算可用来表示逻辑运算，比如逻辑与（AND）、逻辑或（OR）。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 实现AND函数
+</span><span class="line">import numpy as np
+</span><span class="line">
+</span><span class="line">def sigmoid(x):
+</span><span class="line">    return 1/(1+np.exp(-x))
+</span><span class="line">
+</span><span class="line">class Net():
+</span><span class="line">    def __init__(self,theta):
+</span><span class="line">        self.theta=theta
+</span><span class="line">    def run(self,X):   
+</span><span class="line">        output = sigmoid(np.matmul(self.theta,X))
+</span><span class="line">        return output
+</span><span class="line">
+</span><span class="line">net = Net(np.array([[-30,20,20]]))</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-5">多分类任务</h4>
+
+<p>one-hot的基本思想：将离散型特征的每一种取值都看成一种状态，若你的这一特征中有N个不相同的取值，那么我们就可以将该特征抽象成N种不同的状态，one-hot编码保证了每一个取值只会使得一种状态处于“激活态”，也就是说这N种状态中只有一个状态位值为1，其他状态位都是0。</p>
+
+<p>如果分类问题有四个结果，
+我们不会将y的取值为：0，1，2，3 而是会将y表示为一个1*4的向量</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">import tqdm
+</span><span class="line">def onehot(x):
+</span><span class="line">    unique_values = list(set(x))
+</span><span class="line">    number_of_dimension = len(unique_values)
+</span><span class="line">    onehot_features = np.zeros(shape=(len(x), number_of_dimension))
+</span><span class="line">    for row in tqdm.tqdm(range(len(x))):
+</span><span class="line">        onehot_features[row, unique_values.index(x[row])] = 1
+</span><span class="line">    return onehot_features</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-6">反向传播算法</h2>
+
+<h4 id="section-7">代价函数</h4>
+
+<p><img src="https://i.loli.net/2018/12/01/5c02139ee8b60.png" alt="" /></p>
+
+<p>通过代价函数来观察算法预测的结果与真实情况的误差有多大，与逻辑回归唯一不同的是，对于每一行特征，我们都会给出 K 个预测，基本上我们可以利用循环，对每一行特征都预测 K 个不同结果，然后在利用循环
+在 K 个预测中选择可能性最高的一个，将其与 y 中的实际数据进行比较。 </p>
+
+<h4 id="section-8">反向传播</h4>
+
+<p>计算神经网络预测结果的时候我们采用了一种正向传播方法，我们从第一层开始正向一层一层进行计算，直到最后一层的 ℎ𝜃(𝑥) </p>
+
+<p>计算代价函数的偏导数，我们需要采用一种反向传播算法，也就是首先计算最后一层的误差，然后再一层一层反向求出各层的误差，直到倒数第二层。</p>
+
+<p>老实说，反向传播的原理推导一直没搞明白，留一个通俗版先不求甚解：</p>
+
+<p>https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/</p>
+
+<p>最后，反向传播是为了提升神经网络学习模型中梯度下降的训练速度；是一种快速计算导数的方法；</p>
+
+<h4 id="section-9">梯度校验</h4>
+
+<p>名词跟梯度下降很相似，但是作用不一样；</p>
+
+<p>当我们对一个较为复杂的模型（例如神经网络）使用梯度下降算法时，可能会存在一些不容易察觉的错误，意味着，虽然代价看上去在不断减小，但最终的结果可能并不是最优解。</p>
+
+<p>为了避免这样的问题，我们采取一种叫做梯度的数值检验（Numerical Gradient Checking）的方法。这种方法的思想是通过估计梯度值来检验我们计算的导数值是否真的是我们要求的。</p>
+
+<p>对梯度的估计采用的方法是在代价函数上沿着切线的方向选择离两个非常近的点然后计算两个点的平均值用以估计梯度。即对于某个特定的 𝜃 ，我们计算出在  𝜃−𝜎 处和 𝜃+𝜎 的代价值（ 𝜎 是一个非常小的值，通常选取 0.001），然后求两个代价的平均，用以估计在 𝜃 处的代价值。</p>
+
+<p>当 𝜃 是一个向量时，我们则需要对偏导数进行检验。因为代价函数的偏导数检验只针对一个参数的改变进行检验，下面是一个只针对 𝜃1 进行检验的示例：</p>
+
+<script type="math/tex; mode=display">
+\frac{\partial}{\partial\theta_1} = \frac{J(\theta_1+\sigma_1,\theta_2,\theta_3,...,\theta_n)-J(\theta_1-\sigma_1,\theta_2,\theta_3,...,\theta_n)}{2\sigma}
+</script>
+
+<h4 id="section-10">随机初始化</h4>
+
+<p>任何优化算法都需要一些初始的参数。到目前为止我们都是初始所有参数为 0，这样的 初始方法对于逻辑回归来说是可行的，但是对于神经网络来说是不可行的。</p>
+
+<p>如果我们令所有的初始参数都为 0，这将意味着我们第二层的所有激活单元都会有相同的值。同理，如果我们初始所有的参数都为一个非 0 的数，结果也是一样的。</p>
+
+<p>我们通常初始参数为正负 ε 之间的随机值，假设我们要随机初始一个尺寸为 10×11 的参数矩阵，代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">a= np.random.rand(10,11) # 机初始一个尺寸为 10×11 的参数矩阵
+</span><span class="line">print(a)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-11">小结:</h4>
+
+<ol>
+  <li>参数的随机初始化</li>
+  <li>利用正向传播方法计算所有的 hθ(x)</li>
+  <li>编写计算代价函数 J 的代码</li>
+  <li>利用反向传播方法计算所有偏导数</li>
+  <li>利用数值检验方法检验这些偏导数</li>
+  <li>使用优化算法来最小化代价函数</li>
+</ol>
+
+<h2 id="section-12">神经网络优化</h2>
+
+<p>当我们建立一个神经网络学习模型之后，如何检验他到底好不好用？ 如果不好用，该怎样优化？</p>
+
+<h4 id="section-13">假设检验</h4>
+
+<p>为了检验算法是否过拟合，我们将数据分成训练集和测试集，通常用70%的数据作为训练集，用剩下30%的数据作为测试集。</p>
+
+<ul>
+  <li>线性回归模型，我们利用测试数据集计算代价函数J ；</li>
+</ul>
+
+<script type="math/tex; mode=display">
+J_{test}(\theta)=\frac{1}{2m_{test}}\sum^{m_{test}}_{i=1}({h_\theta(x^{(i)}_{test})-y^{(i)}_{test}})^2
+</script>
+
+<ul>
+  <li>逻辑回归模型，我们可以利用测试数据集来计算代价函数：</li>
+</ul>
+
+<script type="math/tex; mode=display">
+J_{test}(\theta)=-\frac{1}{m_{test}}\sum^{m_{test}}_{i=1}(y^{(i)}_{test}\log{h_\theta(x^{(i)}_{test})}+(1-y^{(i)}_{test}）\log{(1-h_\theta(x^{(i)}_{test}))})
+</script>
+
+<h4 id="section-14">模型选择与训练集</h4>
+
+<p>显然越高次数的多项式模型越能够适应我们的训练数据集，但是适应训练数据集并不代表着能推广至一般情况，我们应该选择一个更能适应一般情况的模型。我们需要使用交叉验证集来帮助选择模型。</p>
+
+<p>交叉验证集：训练集（train）用60%的数据，交叉验证集（validation）用20%的数据，测试集(test)用20%的数据</p>
+
+<p>模型选择的方法为：</p>
+
+<ol>
+  <li>使用训练集训练出 10 个模型</li>
+  <li>用 10 个模型分别对交叉验证集计算得出交叉验证误差（代价函数的值）</li>
+  <li>选取代价函数值最小的模型</li>
+  <li>用步骤 3 中选出的模型对测试集计算得出推广误差（代价函数的值）</li>
+</ol>
+
+<h4 id="section-15">诊断偏差和方差</h4>
+
+<p>诊断偏差或是方差，即判断欠拟合还是过拟合;</p>
+
+<ul>
+  <li>训练集误差和交叉验证集误差都很高时：高偏差(欠拟合)</li>
+  <li>训练集误差很小, 且交叉验证集误差远大于训练集误差时：高方差(过拟合)</li>
+</ul>
+
+<h4 id="section-16">正则化，偏差和方差</h4>
+
+<p>选择 𝜆 的方法为：</p>
+
+<ol>
+  <li>使用训练集训练出 12 个不同程度正则化的模型</li>
+  <li>用 12 模型分别对交叉验证集计算的出交叉验证误差</li>
+  <li>选择得出交叉验证误差最小的模型</li>
+  <li>运用步骤 3 中选出模型对测试集计算得出推广误差，我们也可以同时将训练集和交叉验证集模型的代价函数误差与 𝜆 的值绘制在一张图表上：</li>
+</ol>
+
+<ul>
+  <li>当 𝜆 较小时，训练集误差较小（过拟合）而交叉验证集误差较大</li>
+  <li>随着 𝜆 的增加，训练集误差不断增加（欠拟合），而交叉验证集误差则是先减小后增加</li>
+</ul>
+
+<h4 id="section-17">学习曲线</h4>
+
+<p>学习曲线是将训练集误差和交叉验证集误差作为训练集实例数量（m）的函数绘制的图表。</p>
+
+<p>思想是：当训练较少行数据的时候，训练的模型将能够非常完美地适应较少的训练数据，但是训练出来的模型却不能很好地适应交叉验证集数据或测试集数据。</p>
+
+<p>当交叉验证集误差远大于训练集误差时，往训练集增加更多数据可以提高模型的效果。</p>
+
+<h4 id="section-18">小结</h4>
+
+<ul>
+  <li>获得更多的训练实例——解决高方差</li>
+  <li>尝试减少特征的数量——解决高方差</li>
+  <li>尝试获得更多的特征——解决高偏差</li>
+  <li>尝试增加多项式特征——解决高偏差</li>
+  <li>尝试减少正则化程度 λ——解决高偏差</li>
+  <li>
+    <p>尝试增加正则化程度 λ——解决高方差</p>
+  </li>
+  <li>使用较小的神经网络，类似于参数较少的情况，容易导致高偏差和欠拟合，但计算代价较小</li>
+  <li>使用较大的神经网络，类似于参数较多的情况，容易导致高方差和过拟合，虽然计算代价比较大，但是可以通过正则化手段来调整而更加适应数据。</li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-16T16:55:56+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ai/'>ai</a>, <a class='category' href='/blog/categories/develop/'>develop</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/" title="Previous Post: Paste fails when using bracketed-paste-magic on zsh5.1.1">&laquo; Paste fails when using bracketed-paste-magic on zsh5.1.1</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3/">吴恩达机器学习笔记-3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/">Paste Fails When Using Bracketed-paste-magic on zsh5.1.1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/">Eltoo-闪电和离线契约更新机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/">Unicode String Parse With Python and Fileinput</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3/';
+        var disqus_url = 'https://happy123.me/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
