@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-17T14:41:08+08:00</updated>
+  <updated>2019-09-17T14:52:03+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,7 +18,7 @@
     <link href="https://happy123.me/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/"/>
     <updated>2019-09-13T10:29:32+08:00</updated>
     <id>https://happy123.me/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi</id>
-    <content type="html"><![CDATA[<p>在我们之前的文章中，对闪电网络的来龙去脉和原理做了详尽的分析；我们提出，相对于现在的传统支付技术，闪电网络技术有一个不可思议的跨越，用时髦一点的话来说，这是次世代的支付技术，假以时日，我相信它的未来不可限量；</p>
+    <content type="html"><![CDATA[<p class="info">在我们之前的文章中，对闪电网络的来龙去脉和原理做了详尽的分析；我们提出，相对于现在的传统支付技术，闪电网络技术有一个不可思议的跨越，用时髦一点的话来说，这是次世代的支付技术，假以时日，我相信它的未来不可限量；</p>
 
 <p>闪电网络可以说是比特币二层网络技术的急先锋，它除了开拓比特币的支付愿景，还在很多层面对将来二层网络的发展提出了很多基础协议功能；这一切目前都收集在闪电网络基础技术规范，简称BOLT(Basis of Lightning Technology文档中；</p>
 
