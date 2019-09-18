@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-18T17:00:24+08:00</updated>
+  <updated>2019-09-18T17:06:48+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -122,14 +122,13 @@ F_1Score = 2\frac{PR}{P+R}
 <p>𝜇𝑐(𝑖) 代表与𝑥(𝑖) 最近的聚类中心点。优化目标便是找出使得代价函数最小的𝑐(1),𝑐(2),…𝑐(𝑚)和 𝜇1,𝜇2,…,𝜇𝑘。</p>
 
 <ul>
-  <li>K-均值迭代算法
-*
-    <ol>
-      <li>第一个循环(cluster assignment)是用于减小 𝑐(𝑖) 引起的代价</li>
-      <li>第二个循环(move centroid)则是用于减小 𝜇𝑖 引起的代价。</li>
-    </ol>
-  </li>
+  <li>K-均值迭代算法</li>
 </ul>
+
+<ol>
+  <li>第一个循环(cluster assignment)是用于减小 𝑐(𝑖) 引起的代价</li>
+  <li>第二个循环(move centroid)则是用于减小 𝜇𝑖 引起的代价。</li>
+</ol>
 
 <h4 id="section-11">随机初始化</h4>
 
