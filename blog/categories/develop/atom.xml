@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-17T14:52:03+08:00</updated>
+  <updated>2019-09-18T17:00:24+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,143 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[吴恩达机器学习笔记-4]]></title>
+    <link href="https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4/"/>
+    <updated>2019-09-18T16:59:17+08:00</updated>
+    <id>https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4</id>
+    <content type="html"><![CDATA[<p class="info">机器学习系统设计思路，向量机，聚类</p>
+
+<!-- more -->
+
+<h2 id="section">机器学习系统设计</h2>
+
+<h4 id="section-1">确定优先级</h4>
+
+<ul>
+  <li>如何设计一个垃圾邮件分类器算法?</li>
+</ul>
+
+<ol>
+  <li>
+    <p>首先，决定如何选择并表达特征向量x：可以选择一个由 100 个最常出现在垃圾邮件中的词所构成的列表，根据这些词是否有在邮件中出现，来获得我们的特征向量（出现为 1，不出现为 0），尺寸为 100×1。</p>
+  </li>
+  <li>收集更多的数据，让我们有更多的垃圾邮件和非垃圾邮件的样本</li>
+  <li>基于邮件的路由信息开发一系列复杂的特征</li>
+  <li>基于邮件的正文信息开发一系列复杂的特征，包括考虑截词的处理</li>
+  <li>为探测刻意的拼写错误（例如: 把 watch 写成 w4tch）开发复杂的算法</li>
+</ol>
+
+<h4 id="section-2">误差分析</h4>
+
+<p>构建一个学习算法的推荐方法为：</p>
+
+<ol>
+  <li>从一个简单的能快速实现的算法开始，实现该算法并用交叉验证集数据测试这个算法</li>
+  <li>绘制学习曲线，决定是增加更多数据，或者添加更多特征，还是其他选择</li>
+  <li>进行误差分析：人工检查交叉验证集中我们算法中产生预测误差的实例，看看这些实例是否有某种系统化的趋势</li>
+</ol>
+
+<h4 id="section-3">不对称分类的误差</h4>
+
+<p>偏斜类（skewed classes）问题，表现为训练集中有非常多的同一种类的实例，只有很少或没有其他类的实例。</p>
+
+<ul>
+  <li>
+    <p>查准率（Precision） = TP/（TP+FP）。
+例：肿瘤预测中，在所有预测有恶性肿瘤的病人中，实际上有恶性肿 瘤的病人的百分比，越高越好。</p>
+  </li>
+  <li>
+    <p>查全率（Recall） = TP/（TP+FN）。
+例：肿瘤预测中，在所有实际上有恶性肿瘤的病人中，成功预测有恶性肿瘤的病人的百分比，越高越好。</p>
+  </li>
+</ul>
+
+<p>对于肿瘤预测来说, 查全率更重要</p>
+
+<h4 id="section-4">精确率和召回率的权衡</h4>
+
+<p>如果希望只在非常确信的情况下预测为真（肿瘤为恶性），即我们希望更高的查准率，我们可以使用比 0.5 更大的阀值，如 0.7，0.9。这样做我们会减少错误预测病人为恶性肿瘤的情况，同时却会增加未能成功预测肿瘤为恶性的情况。</p>
+
+<p>如果我们希望提高查全率，尽可能地让所有有可能是恶性肿瘤的病人都得到进一步地检查、诊断，我们可以使用比 0.5 更小的阀值，如 0.3。</p>
+
+<p>选择阈值的一种方法是是计算 F1 值（F1 Score），其计算公式为：</p>
+
+<script type="math/tex; mode=display">
+F_1Score = 2\frac{PR}{P+R}
+</script>
+
+<h4 id="section-5">机器学习数据</h4>
+
+<p>关于机器学习数据与特征值的选取比较有效的检测方法：</p>
+
+<ol>
+  <li>
+    <p>一个人类专家看到了特征值 x，能很有信心的预测出 y 值吗？因为这可以证明 y 可以根据特征值 x 被准确地预测出来。</p>
+  </li>
+  <li>
+    <p>我们实际上能得到一组庞大的训练集，并且在这个训练集中训练一个有很多参数的学习算法吗？</p>
+  </li>
+</ol>
+
+<h2 id="section-6">向量机</h2>
+
+<h4 id="section-7">支持向量机</h4>
+
+<p>简称 SVM，在学习复杂的非线性方程时提供了一种更为清晰，更加强大的方式。</p>
+
+<p>老实说，向量机没有理解；它是作为一种分类器来使用的，他画出来的分类线比线性回归和逻辑回归的偏差更小；简称大间距分类器，意思是分类线的到每一个样本点的距离，都保持最大间隔，这样就跟具有鲁棒性，分的就明显；</p>
+
+<h4 id="section-8">核函数</h4>
+
+<p>TODO，待理解</p>
+
+<h2 id="section-9">非监督学习</h2>
+
+<h4 id="k-means">K-Means算法</h4>
+
+<p>K-均值是最普及的聚类算法，算法接受一个未标记的数据集，然后将数据聚类成不同的组。假设我们想要将数据聚类成 n 个组，其方法为:</p>
+
+<ol>
+  <li>选择 k 个随机的点，称为聚类中心（cluster centroids）；</li>
+  <li>对于数据集中的每一个数据，按照距离 K个中心点的距离，将其与距离最近的中心点关联起来，与同一个中心点关联的所有点聚成一类；</li>
+  <li>计算每一个组的平均值，将该组所关联的中心点移动到平均值的位置；</li>
+  <li>重复步骤 2-4 直至中心点不再变化。</li>
+</ol>
+
+<h4 id="section-10">优化</h4>
+
+<p>𝜇𝑐(𝑖) 代表与𝑥(𝑖) 最近的聚类中心点。优化目标便是找出使得代价函数最小的𝑐(1),𝑐(2),…𝑐(𝑚)和 𝜇1,𝜇2,…,𝜇𝑘。</p>
+
+<ul>
+  <li>K-均值迭代算法
+*
+    <ol>
+      <li>第一个循环(cluster assignment)是用于减小 𝑐(𝑖) 引起的代价</li>
+      <li>第二个循环(move centroid)则是用于减小 𝜇𝑖 引起的代价。</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="section-11">随机初始化</h4>
+
+<p>随机初始化所有的聚类中心点的做法：</p>
+
+<ol>
+  <li>我们应该选择 K &lt; m，即聚类中心点的个数要小于所有训练集实例的数量</li>
+  <li>随机选择 K 个训练实例，然后令 K 个聚类中心分别与这 K 个训练实例相等</li>
+</ol>
+
+<h4 id="section-12">选择聚类数目</h4>
+
+<p>改变 聚类数k 值，运行K-均值聚类方法，然后计算成本 函数或者计算畸变函数 J。</p>
+
+<p>我们可能会得到一条这样像肘部的曲线，这就是“肘部法则”所做的。
+这种模式下，它的畸变值会迅速下降，从 1 到 2，从 2 到 3 之后，你会在 3 的时候达到一个肘点。
+在此之后，畸变值就下降的非常慢，我们就选这个转折点。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-3]]></title>
@@ -780,203 +917,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 </script>
 
 <p>只要特征变量的数目并不大，标准方程是一个很好的计算参数 𝜃 的替代方法。具体地说，只要特征变量的数量小于一万，通常使用标准方程法，而不使用梯度下降法。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[为Flask RestAPI集成Swagger UI]]></title>
-    <link href="https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/"/>
-    <updated>2019-08-18T15:38:02+08:00</updated>
-    <id>https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui</id>
-    <content type="html"><![CDATA[<p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
-
-<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来…T_T”</p>
-
-<p>还是老老实实流水账记一下吧:</p>
-
-<!-- more -->
-
-<h3 id="section">依赖组件</h3>
-
-<ul>
-  <li><a href="https://flask-restplus.readthedocs.io">flask-restplus</a></li>
-</ul>
-
-<p>restplus能让人很方便的通过几个decorator就可以集成很漂亮的restapi，它提供了api命名空间、Request和Response解析以及Swagger UI的集成</p>
-
-<p>另外，flask-restplus的文档和例子写的非常简洁清晰，赞一个。</p>
-
-<ul>
-  <li><a href="https://flask-httpauth.readthedocs.io/en/latest/">flask-httpauth</a></li>
-</ul>
-
-<p>用来集成验证机制，支持基本的密码验证、Token验证；短小精悍，够用了</p>
-
-<h3 id="section-1">起步</h3>
-
-<p>引用官网的例子:</p>
-
-<h4 id="api">构建api对象</h4>
-
-<p>```
-from flask import Flask
-from flask_restplus import Api, Resource, fields
-from werkzeug.contrib.fixers import ProxyFix</p>
-
-<p>app = Flask(<strong>name</strong>)
-app.wsgi_app = ProxyFix(app.wsgi_app)</p>
-
-<p>api = Api(app, version=’1.0’, title=’Chainhorn API’,
-    description=’A simple ChainHorn API’,
-)</p>
-
-<p>ns = api.namespace(‘node’, description=’node operations’)</p>
-
-<p>```</p>
-
-<p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
-
-<p>下面紧跟着构建了一个<code>ns</code> –<code>namespace</code>对象，作用是为不同的资源，不同的url分组，这样最后反映到界面上好看一点；</p>
-
-<h4 id="section-2">修饰</h4>
-
-<p>```
-@ns.route(‘’)
-  class NodeGetInfo(Resource):
-      @ns_node.doc(‘get node info’)
-      def get(self):
-          ‘'’get node info’’’
-          info = spv.getinfo()
-          return {‘nodeinfo’: info}, 200</p>
-
-<p>```</p>
-
-<p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
-
-<h4 id="request">Request参数处理</h4>
-
-<p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
-下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code></p>
-
-<p>```
-@ns.route(‘/broadcast/<string:tx>')
-  class WalletBroadcastTx(Resource):
-      @ns.doc('broadcast raw tx')
-      @ns.param('tx', 'The transaction hash identifier')
-      def post(self, tx):
-          '''broadcast raw tx'''
-          sendrawtransaction(spv, tx)
-          return {'broadcast': 'ok'}, 200</string:tx></p>
-
-<p>```</p>
-
-<p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
-
-<p>```
-TxModel = {‘tx’: fields.String(required=True, description=’The hex tx’)}
-@ns.route(‘/broadcast’)
-  class WalletBroadcastTx(Resource):
-      @ns.doc(‘broadcast raw tx’)
-      @ns.expect(TxModel, 200)
-      def post(self, tx):
-          ‘'’broadcast raw tx’’’
-          sendrawtransaction(spv, api.payload[‘tx’])
-          return {‘broadcast’: ‘ok’}, 200</p>
-
-<p>```</p>
-
-<h4 id="response">Response参数处理</h4>
-
-<p>同样的，如果需要返回一个对象，在界面上出现这个对象的详细描述信息，可以用<code>marshal_with</code>和<code>marshal_list_with</code>来修饰；</p>
-
-<p>具体请参考:</p>
-
-<p>https://flask-restplus.readthedocs.io/en/stable/parsing.html</p>
-
-<h4 id="section-3">用户验证</h4>
-
-<p>例如，为API加上HTTP Token Auth，要用到<code>HTTPTokenAuth</code>对象；</p>
-
-<p>首先我们先定义验证规则:</p>
-
-<p>```
-auth = HTTPTokenAuth()
-tokens = {
-  ‘APIKEY’:’hello’,
-  “APPID”: “chainhorn”
-}</p>
-
-<p>@auth.verify_token
-def verify_token(token):
-  if request.headers.get(‘APIKEY’, ‘’).strip()==tokens[‘APIKEY’] and \
-     request.headers.get(‘APPID’, ‘’).strip() == tokens[‘APPID’]:
-      return True
-  else:
-      return False</p>
-
-<p>```</p>
-
-<p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
-
-<p>```
-@ns.route(‘’)
-class NodeGetInfo(Resource):
-  @ns.doc(‘get node info’)
-  @auth.login_required
-  def get(self):
-      ‘'’get node info’’’
-      info = spv.getinfo()
-      return {‘nodeinfo’: info}, 200</p>
-
-<p>```</p>
-
-<p>这样后台验证就有了；那么前台输入呢？</p>
-
-<p>这个例子里面，我们需要前台输入的时候在HTTP Header里面传入两个Key: APIKEY和APPKEY；直接用用Swagger UI自带的组件实现就可以了，把api对象构造为:</p>
-
-<p>```
-AUTHORIZATIONS = {
-    ‘apikey’: {
-        ‘type’: ‘apiKey’,
-        ‘in’: ‘header’,
-        ‘name’: ‘APIKEY’
-    },
-    ‘appid’: {
-        ‘type’: ‘apiKey’,
-        ‘in’: ‘header’,
-        ‘name’: ‘APPID’
-    }
-}
-api = Api(app,
-        version=’v1’,
-        authorizations=AUTHORIZATIONS,
-        security=list(AUTHORIZATIONS.keys()),
-        title=’Chainhorn API’,
-        description=’Chainhorn API’,
-)</p>
-
-<p>```</p>
-
-<p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>
-
-<p>此时前台的界面是这样的:</p>
-
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg" alt="Auth1" /></p>
-
-<p>可以点击右上角的Authorize一次性设置所有API的访问密钥；</p>
-
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg" alt="Auth2" /></p>
-
-<p>也可以在每个API的右上角设置访问密钥；</p>
-
-<p>当然，我们目前的密钥是后台写死的，你可以引入一个三方库为每个用户生成不同的密钥存到数据库里面，然后每次验证~~~</p>
-
-<h3 id="section-4">综合例子</h3>
-
-<p>最后，在github上面有个集大成的例子,值得推荐</p>
-
-<p>https://github.com/frol/flask-restplus-server-example</p>
-
 ]]></content>
   </entry>
   

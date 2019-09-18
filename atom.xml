@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-17T14:52:03+08:00</updated>
+  <updated>2019-09-18T17:00:24+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,143 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[吴恩达机器学习笔记-4]]></title>
+    <link href="https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4/"/>
+    <updated>2019-09-18T16:59:17+08:00</updated>
+    <id>https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4</id>
+    <content type="html"><![CDATA[<p class="info">机器学习系统设计思路，向量机，聚类</p>
+
+<!-- more -->
+
+<h2 id="section">机器学习系统设计</h2>
+
+<h4 id="section-1">确定优先级</h4>
+
+<ul>
+  <li>如何设计一个垃圾邮件分类器算法?</li>
+</ul>
+
+<ol>
+  <li>
+    <p>首先，决定如何选择并表达特征向量x：可以选择一个由 100 个最常出现在垃圾邮件中的词所构成的列表，根据这些词是否有在邮件中出现，来获得我们的特征向量（出现为 1，不出现为 0），尺寸为 100×1。</p>
+  </li>
+  <li>收集更多的数据，让我们有更多的垃圾邮件和非垃圾邮件的样本</li>
+  <li>基于邮件的路由信息开发一系列复杂的特征</li>
+  <li>基于邮件的正文信息开发一系列复杂的特征，包括考虑截词的处理</li>
+  <li>为探测刻意的拼写错误（例如: 把 watch 写成 w4tch）开发复杂的算法</li>
+</ol>
+
+<h4 id="section-2">误差分析</h4>
+
+<p>构建一个学习算法的推荐方法为：</p>
+
+<ol>
+  <li>从一个简单的能快速实现的算法开始，实现该算法并用交叉验证集数据测试这个算法</li>
+  <li>绘制学习曲线，决定是增加更多数据，或者添加更多特征，还是其他选择</li>
+  <li>进行误差分析：人工检查交叉验证集中我们算法中产生预测误差的实例，看看这些实例是否有某种系统化的趋势</li>
+</ol>
+
+<h4 id="section-3">不对称分类的误差</h4>
+
+<p>偏斜类（skewed classes）问题，表现为训练集中有非常多的同一种类的实例，只有很少或没有其他类的实例。</p>
+
+<ul>
+  <li>
+    <p>查准率（Precision） = TP/（TP+FP）。
+例：肿瘤预测中，在所有预测有恶性肿瘤的病人中，实际上有恶性肿 瘤的病人的百分比，越高越好。</p>
+  </li>
+  <li>
+    <p>查全率（Recall） = TP/（TP+FN）。
+例：肿瘤预测中，在所有实际上有恶性肿瘤的病人中，成功预测有恶性肿瘤的病人的百分比，越高越好。</p>
+  </li>
+</ul>
+
+<p>对于肿瘤预测来说, 查全率更重要</p>
+
+<h4 id="section-4">精确率和召回率的权衡</h4>
+
+<p>如果希望只在非常确信的情况下预测为真（肿瘤为恶性），即我们希望更高的查准率，我们可以使用比 0.5 更大的阀值，如 0.7，0.9。这样做我们会减少错误预测病人为恶性肿瘤的情况，同时却会增加未能成功预测肿瘤为恶性的情况。</p>
+
+<p>如果我们希望提高查全率，尽可能地让所有有可能是恶性肿瘤的病人都得到进一步地检查、诊断，我们可以使用比 0.5 更小的阀值，如 0.3。</p>
+
+<p>选择阈值的一种方法是是计算 F1 值（F1 Score），其计算公式为：</p>
+
+<script type="math/tex; mode=display">
+F_1Score = 2\frac{PR}{P+R}
+</script>
+
+<h4 id="section-5">机器学习数据</h4>
+
+<p>关于机器学习数据与特征值的选取比较有效的检测方法：</p>
+
+<ol>
+  <li>
+    <p>一个人类专家看到了特征值 x，能很有信心的预测出 y 值吗？因为这可以证明 y 可以根据特征值 x 被准确地预测出来。</p>
+  </li>
+  <li>
+    <p>我们实际上能得到一组庞大的训练集，并且在这个训练集中训练一个有很多参数的学习算法吗？</p>
+  </li>
+</ol>
+
+<h2 id="section-6">向量机</h2>
+
+<h4 id="section-7">支持向量机</h4>
+
+<p>简称 SVM，在学习复杂的非线性方程时提供了一种更为清晰，更加强大的方式。</p>
+
+<p>老实说，向量机没有理解；它是作为一种分类器来使用的，他画出来的分类线比线性回归和逻辑回归的偏差更小；简称大间距分类器，意思是分类线的到每一个样本点的距离，都保持最大间隔，这样就跟具有鲁棒性，分的就明显；</p>
+
+<h4 id="section-8">核函数</h4>
+
+<p>TODO，待理解</p>
+
+<h2 id="section-9">非监督学习</h2>
+
+<h4 id="k-means">K-Means算法</h4>
+
+<p>K-均值是最普及的聚类算法，算法接受一个未标记的数据集，然后将数据聚类成不同的组。假设我们想要将数据聚类成 n 个组，其方法为:</p>
+
+<ol>
+  <li>选择 k 个随机的点，称为聚类中心（cluster centroids）；</li>
+  <li>对于数据集中的每一个数据，按照距离 K个中心点的距离，将其与距离最近的中心点关联起来，与同一个中心点关联的所有点聚成一类；</li>
+  <li>计算每一个组的平均值，将该组所关联的中心点移动到平均值的位置；</li>
+  <li>重复步骤 2-4 直至中心点不再变化。</li>
+</ol>
+
+<h4 id="section-10">优化</h4>
+
+<p>𝜇𝑐(𝑖) 代表与𝑥(𝑖) 最近的聚类中心点。优化目标便是找出使得代价函数最小的𝑐(1),𝑐(2),…𝑐(𝑚)和 𝜇1,𝜇2,…,𝜇𝑘。</p>
+
+<ul>
+  <li>K-均值迭代算法
+*
+    <ol>
+      <li>第一个循环(cluster assignment)是用于减小 𝑐(𝑖) 引起的代价</li>
+      <li>第二个循环(move centroid)则是用于减小 𝜇𝑖 引起的代价。</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="section-11">随机初始化</h4>
+
+<p>随机初始化所有的聚类中心点的做法：</p>
+
+<ol>
+  <li>我们应该选择 K &lt; m，即聚类中心点的个数要小于所有训练集实例的数量</li>
+  <li>随机选择 K 个训练实例，然后令 K 个聚类中心分别与这 K 个训练实例相等</li>
+</ol>
+
+<h4 id="section-12">选择聚类数目</h4>
+
+<p>改变 聚类数k 值，运行K-均值聚类方法，然后计算成本 函数或者计算畸变函数 J。</p>
+
+<p>我们可能会得到一条这样像肘部的曲线，这就是“肘部法则”所做的。
+这种模式下，它的畸变值会迅速下降，从 1 到 2，从 2 到 3 之后，你会在 3 的时候达到一个肘点。
+在此之后，畸变值就下降的非常慢，我们就选这个转折点。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-3]]></title>
@@ -3607,160 +3744,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
     </ul>
   </li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Is Craig Wright Real Satoshi Nakamoto-2]]></title>
-    <link href="https://happy123.me/blog/2019/05/19/is-craig-wright-real-satoshi-nakamoto-2/"/>
-    <updated>2019-05-19T10:15:27+08:00</updated>
-    <id>https://happy123.me/blog/2019/05/19/is-craig-wright-real-satoshi-nakamoto-2</id>
-    <content type="html"><![CDATA[<p>之前我们写过两篇文章来八卦所谓的<code>澳本聪</code>的故事:</p>
-
-<p><a href="https://happy123.me/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/">Is Craig Wright Real Satoshi Nakamoto?</a></p>
-
-<p><a href="https://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">Satoshi Craig Wright Is Being Sued for $10 Billion</a></p>
-
-<p>PS: 学术界普遍怀疑其实 <a href="https://www.blogger.com/profile/16820399856274245684">Nick Szabo</a>才是中本聪；偶也50%认同；</p>
-
-<p>最近这个故事又有了新的神转折，实在是太有意思了。现实生活中，有时候我觉得八卦那些明星太无聊了，但是在cyberspace中，偶的八卦之心熊熊燃烧，都让我有点体会那些狗崽队的心情了~~~</p>
-
-<!-- more -->
-
-<p>之前我们做出的推论是:</p>
-
-<blockquote>
-  <p>Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
-</blockquote>
-
-<blockquote>
-  <p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
-</blockquote>
-
-<blockquote>
-  <p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
-</blockquote>
-
-<p>之后的剧情就是 David Kleiman的亲属起诉Craig Wright，声称他窃取了 本该属于  David Kleiman 的100w bitcoin；其起诉文书中公布了大量的由 Craig Wright声称其属于他和Kleiman成立的名为<code>郁金香信托</code>基金的bitcoin address;</p>
-
-<p>参见<a href="https://www.coindesk.com/satoshi-craig-wright-sued-10-billion">这里</a>， <a href="https://www.reddit.com/r/Bitcoin/comments/80e2l9/10_billion_lawsuit_filed_against_craig_wright/">这里</a></p>
-
-<p>很快，就有人对其文件中所列出的地址做了详细分析；认为其地址根本就是 Craig Wright 随便在bitcoin blockchain找的大额未动币的地址，根本和他没关系；当然，跟David Kleiman也没关系；两拨人马完全是在为<code>一笔完全不存在的财富</code>纠缠不清；</p>
-
-<p>甚至，这些地址中，有一个地址是Mtgox小偷的地址！ 如果这份文件是真的，那么岂不是说Craig Wright自己承认是Mtgox的窃贼！</p>
-
-<p>参考<a href="https://blog.wizsec.jp/2018/02/kleiman-v-craig-wright-bitcoins.html">这里</a>；</p>
-
-<p>地址分析：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">12tLs9c9RsALt4ockxa1hB4iTCTSmxj2me: unknown
-</span><span class="line">1933phfhK3ZgFQNLGSDXvqCn32k2buXY8a: MtGox user
-</span><span class="line">1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF: first major MtGox theft
-</span><span class="line">1f1miYFQWTzdLiCBxtHHnNiW7WAWPUccr: unknown
-</span><span class="line">1MHdm5XZMrfoZFoUktEaGhYevmdiXoc4x4: unknown (early miner)
-</span><span class="line">18JPragfuDVHWWG8ABQ15cghJFetnXUjBD: MtGox user
-</span><span class="line">1LXc28hWx1t8np5sCAb2EaNFqPwqJCuERD: unknown
-</span><span class="line">1FpqQnKQCgDkJFMC94JL8FpRyHTZ3uRVZ1: unknown (early miner)
-</span><span class="line">1F34duy2eeMz5mSrvFepVzy7Y1rBsnAyWC: from MyBitcoin.com
-</span><span class="line">1JtpgqCf3SSeCeYWEDJjkfYFH7Ruhy4Vp1: unknown (early miner)
-</span><span class="line">18k9tin39LKegFzHe8rxSgvJXDpuMriGJq: unknown
-</span><span class="line">1HtTw9zR9wWFfgV8Jy8MqsaeVi7ZXrjdq6: part of a long chain of transactions that send minor amounts into a BTC-e deposit address
-</span><span class="line">18pn4NQ7NgsJjeuFjazeTdVRnsmfw5ofTz: unknown
-</span><span class="line">12fZ2HxkLjG9zn1u44XYsFFYKHM4A2zCea: MtGox user
-</span><span class="line">12tkqA9xSoowkzoERHMWNKsTey55YEBqkv: unknown (early miner)
-</span><span class="line">16Ls6azc76ixc9Ny7AB5ZPPq6oiEL9XwXy: MtGox cold storage
-</span><span class="line">12HddUDLhRP2F8JjpKYeKaDxxt5wUvx5nq: MtGox cold storage
-</span><span class="line">1P3S1grZYmcqYDuaEDVDYobJ5Fx85E9fE9: MtGox cold storage
-</span><span class="line">1MyGwFAJjVtB5rGJa32M6Yh46cGirUta1K: MtGox cold storage
-</span><span class="line">145YHsQU7HMzkRnD5SBSuFAzQgCYnAnLkN: unknown (early miner)
-</span><span class="line">16TPVCpvtJ6FkV5xNKBp35aMo4BWFGxiEY: unknown
-</span><span class="line">1KbrSKrT3GeEruTuuYYUSQ35JwKbrAWJYm: unknown
-</span><span class="line">1FLFnbN7m5psLfvLEwYfRUUjJ34YkmV3dM: donation recipient
-</span><span class="line">1A6SDef1TJAM8Saw2SqmqFGhkWR1y3qMx2: MtGox deposit address
-</span><span class="line">16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT: MtGox user
-</span><span class="line">12ib7dApVFvg82TXKycWBNpN8kFyiAN1dr: unknown (early miner)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>呵呵，就在前几天，有人用<code>16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT</code>这个地址的私钥，签名发布了一段消息：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Address 16cou7Ht6WjTzuFyDBnht9hmvXytg6XdVT does not belong to Satoshi or to Craig Wright.
-</span><span class="line">Craig is a liar and a fraud.
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这段消息的签名是:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">G39S6i4XsfQnixN5ePMjVPboWvGXdnW8xFFAXiwEriZFCclflbD7umP58u3Sl+dvvXC5BxBrRNkTMNf92O1UIXw=
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>这段签名可以用Electrum的工具验证无误；懂一点技术的人自然明白这意味这什么。</p>
-
-<p>那么问题又来了，为什么这位英雄好汉不在去年早点揭露这件事呢？</p>
-
-<p>也许是法律文件太过冗长，没什么人仔细去研究，更不用说作为一个早期的Bitcoiner Hodler了；</p>
-
-<p>嗯，这个理由很合理；但是~~~~</p>
-
-<p>马上又有人挖出了更大的瓜，这个地址是Roger Ver控制的；</p>
-
-<p>https://www.reddit.com/r/btc/comments/bpdac1/address_16cou7ht6wjtzufydbnht9hmvxytg6xdvt_does/</p>
-
-<p>https://www.reddit.com/r/btc/comments/7cehzo/roger_ver_45000_bitcoin_moved_to_exchange/</p>
-
-<p>之前在Bitcoin扩容之争的时候，Roger Ver还用这个地址投过票；</p>
-
-<p>而Roger Ver与Craig Wright的关系也是百转千回~~</p>
-
-<ul>
-  <li>
-    <p>Craig Wright初次宣布自己是Satoshi, Roger Ver 坚持黑；</p>
-  </li>
-  <li>
-    <p>BCH分叉， Craig Wright投入BCH阵营， Roger Ver 粉；</p>
-  </li>
-  <li>
-    <p>BSV分叉， Craig Wright自立门户， Roger Ver 出来掀桌了；</p>
-  </li>
-</ul>
-
-<p>真相目前不得而知，但是可以确认的有一件事情：</p>
-
-<p>像所有的区块链项目以及牵涉其中的人一样， Craig Wright, Roger Ver， 所谓的<code>郁金香信托</code>， Mtgox， BCH, BSV 等等，他们之间充斥着谎言中的谎言，是迷宫中的迷宫；</p>
-
-<p>我觉得所谓的<code>区块链行业</code>有个铁律：</p>
-
-<h4 id="section">有区块链的地方一定会有骗子。</h4>
-
-<p>这再一次提醒我们，在区块链世界中，任何人都不值得信任，唯一可以依靠的只有自己的知识和判断：</p>
-
-<h2 id="dont-trust-verify">Don’t Trust. Verify.</h2>
 ]]></content>
   </entry>
   
