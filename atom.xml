@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-18T17:06:48+08:00</updated>
+  <updated>2019-09-22T18:02:59+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,211 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[吴恩达机器学习笔记-5]]></title>
+    <link href="https://happy123.me/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/"/>
+    <updated>2019-09-22T18:01:34+08:00</updated>
+    <id>https://happy123.me/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5</id>
+    <content type="html"><![CDATA[<p class="info">降维，异常检测，推荐系统，大规模机器学习</p>
+
+<!-- more -->
+
+<h2 id="section">数据压缩</h2>
+
+<h4 id="section-1">降维问题</h4>
+
+<p>假设我们未知两个的特征： 𝑥1 :长度, 用厘米表示； 𝑥2：是用英寸表示同一物体的长度。</p>
+
+<p>这给了我们高度冗余表示，也许不是两个分开的特征  𝑥1  和  𝑥2 ，这两个基本的长度度量，我们可以减少数据到一维。</p>
+
+<p>假使我们有有关于许多不同国家的数据，每一个特征向量都有 50 个特征（如，GDP，人均GDP，平均寿命等）。如果要将这个 50 维的数据可视化是不可能的。使用降维的方法将其降至 2 维，我们便可以将其可视化了。</p>
+
+<h4 id="pca-">PCA 降维算法</h4>
+
+<p>在 PCA 中，我们要做的是找到一个方向向量（Vector direction），
+当我们把所有的数据都投射到该向量上时，我们希望投射平均均方误差能尽可能地小。
+方向向量是一个经过原点的向量，而投射误差是从特征向量向该方向向量作垂线的长度。</p>
+
+<p>主成分分析与线性回归是两种不同的算法。
+主成分分析最小化的是投射误差（Projected Error），而线性回归尝试的是最小化预测误差。
+线性回归的目的是预测结果，而主成分分析不作任何预测。</p>
+
+<p>过程：</p>
+
+<ol>
+  <li>均值归一化 (mean normalization)。计算出所有特征的均值，然后令 𝑥𝑗=𝑥𝑗−𝜇𝑗 。如果特征是在不同的数量级上，我们还需要将其除以标准差  𝜎2 。</li>
+  <li>计算协方差矩阵（covariance matrix）Σ：</li>
+  <li>是计算协方差矩阵 Σ 的特征向量（eigenvectors）: 可以利用奇异值分解（singular value decomposition 理解 SVD）来求解，[U, S, V]= svd(Σ)。</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
+</span><span class="line">
+</span><span class="line">def covariance_matrix(X):
+</span><span class="line">    """
+</span><span class="line">    Args:
+</span><span class="line">        X (ndarray) (m, n)
+</span><span class="line">    Return:
+</span><span class="line">        cov_mat (ndarray) (n, n):
+</span><span class="line">            covariance matrix of X
+</span><span class="line">    """
+</span><span class="line">    m = X.shape[0]
+</span><span class="line">
+</span><span class="line">    return (X.T @ X) / m
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">def normalize(X):
+</span><span class="line">    """
+</span><span class="line">        for each column, X-mean / std
+</span><span class="line">    """
+</span><span class="line">    X_copy = X.copy()
+</span><span class="line">    m, n = X_copy.shape
+</span><span class="line">
+</span><span class="line">    for col in range(n):
+</span><span class="line">        X_copy[:, col] = (X_copy[:, col] - X_copy[:, col].mean()) / X_copy[:, col].std()
+</span><span class="line">
+</span><span class="line">    return X_copy
+</span><span class="line">
+</span><span class="line">def pca(x, keep_dims=None):
+</span><span class="line">    if not keep_dims:
+</span><span class="line">        keep_dims = x.shape[1] - 1
+</span><span class="line">    # todo 进行归一化
+</span><span class="line">    normalize_x = normalize(x)
+</span><span class="line">    # todo 求出协方差矩阵
+</span><span class="line">    cov_x = covariance_matrix(x)
+</span><span class="line">    # todo 奇异值分解
+</span><span class="line">    U, S, V = np.linalg.svd(cov_x)  # U: principle components (n, n)
+</span><span class="line">    # todo 选取前 keep_dims 维特征
+</span><span class="line">    reduction = U[:, :keep_dims]
+</span><span class="line">    # todo 得到降维的结果
+</span><span class="line">    return np.matmul(x, reduction)
+</span><span class="line">
+</span><span class="line">x = np.random.uniform(size=(10, 10))
+</span><span class="line">pca(x).shape</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">异常检测</h2>
+
+<p>用途:
+1.识别欺骗。特征：用户多久登录一次，访问过的页面，在论坛发布的帖子数量，甚至是打字速度等。构建模型来识别那些不符合该模式的用户,
+2.数据中心。特征：内存使用情况，被访问的磁盘数量，CPU 的负载，网络的通信量等。构建模型来判断某些计算机是不是有可能出错了。</p>
+
+<h4 id="section-3">高斯分布</h4>
+
+<p>如果变量 𝑥 符合高斯分布 𝑥 𝑁(𝜇,𝜎2) , 则其概率密度函数为：</p>
+
+<script type="math/tex; mode=display">
+p(x,\mu, \sigma^2) = \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(x-\mu)^2}{2\sigma^2})
+</script>
+
+<h4 id="section-4">高斯分布的异常检测算法</h4>
+
+<p>对于每一个样本值，计算特征，并以此估算高斯分布中的𝜇 和𝜎2的估计值;</p>
+
+<p>以此来绘制一个估计函数，在这个估计函数之外的值即异常值；</p>
+
+<p>模型计算  𝑝(𝑥) :</p>
+
+<script type="math/tex; mode=display">
+p(x)=\prod_{j=1}^n p(x_j;\mu_j,\sigma^2_j)=\prod_{j=1}^n \frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma^2_j})
+</script>
+
+<script type="math/tex; mode=display">
+p(x)=\prod_{j=1}^n p(x_j;\mu_j,\sigma^2_j)=\prod_{j=1}^n \frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma^2_j})
+</script>
+
+<p>当  𝑝(𝑥)&lt;𝜀 时，为异常。</p>
+
+<h4 id="section-5">开发和评价一个异常检测系统</h4>
+
+<ol>
+  <li>根据测试集数据，我们估计特征的平均值和方差并构建 𝑝(𝑥) 函数</li>
+  <li>对交叉检验集，我们尝试使用不同的 𝜀 值作为阀值，并预测数据是否异常，根据F1值或者查准率与查全率的比例来选择 𝜀</li>
+  <li>选出 𝜀 后，针对测试集进行预测，计算异常检验系统的 F1 值，或者查准率与查全率之比。</li>
+</ol>
+
+<h4 id="section-6">特征选择</h4>
+
+<p>我们通常可以通过将一些相关的特征进行组合，来获得一些新的更好的特征（异常数据的该特征值异常地大或小），例如，在检测数据中心的计算机状况的例子中，我们可以用 CPU 负载与网络通信量的比例作为一个新的特征，如果该值异常地大，便有可能意味着该服务器是陷入了一些问题中。</p>
+
+<h4 id="section-7">多元高斯分布</h4>
+
+<p>TODO…</p>
+
+<h2 id="section-8">推荐系统</h2>
+
+<h4 id="section-9">协同过滤</h4>
+
+<p>TODO….</p>
+
+<h2 id="section-10">大规模机器学习</h2>
+
+<h4 id="section-11">大型数据集的学习</h4>
+
+<p>我们应该怎样应对一个有 100 万条记录的训练集？</p>
+
+<p>以线性回归模型为例，每一次梯度下降迭代，我们都需要计算训练集的误差的平方和，如果我们的学习算法需要有 20 次迭代，这便已经是非常大的计算代价。</p>
+
+<p>首先应该做的事是去检查一个这么大规模的训练集是否真的必要，也许我们只用 1000 个训练集也能获得较好的效果，我们可以绘制学习曲线来帮助判断。</p>
+
+<h4 id="section-12">随机梯度下降</h4>
+
+<p>随机梯度下降算法在每一次计算之后便更新参数 θ，而不需要首先将所有的训练集求和，在梯度下降算法还没有完成一次迭代时，随机梯度下降算法便已经走出了很远。但是这样的算法存在的问题是，不是每一步都是朝着”正确”的方向迈出的。因此算法虽然会逐渐走向全局最小值的位置，但是可能无法站到那个最小值的那一点，而是在最小值点附近徘徊。</p>
+
+<h4 id="section-13">小批量梯度下降</h4>
+<p>小批量梯度下降算法是介于批量梯度下降算法和随机梯度下降算法之间的算法，每计算常数 b 次训练实例，便更新一次参数 θ。</p>
+
+<p>通常我们会令 b 在 2-100 之间。这样做的好处在于，我们可以用向量化的方式来循环 b 个训练实例，如果我们用的线性代数函数库比较好，能够支持平行处理，那么算法的总体表现将不受影响（与随机梯度下降相同）。</p>
+
+<h4 id="map-reduce--">Map Reduce 和 数据并行</h4>
+
+<p>Map Reduce和数据并行对于大规模机器学习问题而言是非常重要的概念。</p>
+
+<p>之前提到，如果我们用批量梯度下降算法来求解大规模数据集的最优解，我们需要对整个训练集进行循环，计算偏导数和代价，再求和，计算代价非常大。如果我们能够将我们的数据集分配给多台计算机，让每一台计算机处理数据集的一个子集，然后我们将计算的结果汇总然后再求和。这样的方法叫做Map Reduce。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-4]]></title>
@@ -3510,239 +3715,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 <p>最好的博弈策略就是，简以至纯，承认弱点、正视弱点、规避弱点。  </p>
 
 <p>无波真古井，有节是秋筠；人生如逆旅，我亦是行人。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[闪电网络慢慢成长]]></title>
-    <link href="https://happy123.me/blog/2019/05/21/shan-dian-wang-luo-man-man-cheng-chang/"/>
-    <updated>2019-05-21T09:44:25+08:00</updated>
-    <id>https://happy123.me/blog/2019/05/21/shan-dian-wang-luo-man-man-cheng-chang</id>
-    <content type="html"><![CDATA[<p>学习一件事情的最好办法就是尽可能去用。</p>
-
-<p>我在Bitcoin Testnet上面运行一个LND全节点已经有很长时间了，对现在闪电网络的进化速度都有了直观的体验：<code>积跬步，至千里</code>；</p>
-
-<!-- more -->
-
-<p>首先必须先承认，现在要完整的体验闪电网络，即从后台构建+前端使用整个流程，是非常麻烦的，恐怕只有对其原理有比较深入了解的人才能完成这个过程；简单说一下:</p>
-
-<h4 id="linux">1.需要Linux环境</h4>
-
-<h4 id="bitcoin---">2.需要运行一个bitcoin全节点，因为都是命令行操作，所以要<code>手工创建钱包</code> -&gt; <code>转账确保钱包有余额</code></h4>
-
-<ul>
-  <li>bitcoin.conf的配置文件模板</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rpcuser=xxxxx
-</span><span class="line">rpcpassword=xxxxx
-</span><span class="line">rpcallowip=127.0.0.1/16
-</span><span class="line">rpcport=18332
-</span><span class="line">test.rpcport=18332
-</span><span class="line">rpcthreads=10
-</span><span class="line">server=1
-</span><span class="line">rest=1
-</span><span class="line">testnet=1
-</span><span class="line">zmqpubrawblock=tcp://127.0.0.1:28332
-</span><span class="line">zmqpubrawtx=tcp://127.0.0.1:28333
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>启动bitcoind</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bitcoin/bin/bitcoind --conf=~/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ 
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>同步后找到当前钱包收款地址</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bitcoin-cli listaddressgroupings
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>
-    <p>发送一笔转账到此地址，也可以直接去<a href="https://bitcoinfaucet.uo1.net/send.php">bitcoinfaucet</a>领一些测试币</p>
-  </li>
-  <li>
-    <p>确认钱包余额</p>
-  </li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bitcoin-cli getwalletinfo
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="lnd-daemon">3.运行一个LND Daemon</h4>
-
-<p>这方面有几个主流选择，lightning labs的<a href="https://github.com/lightningnetwork/lnd">lnd</a>，或者<a href="https://github.com/ElementsProject/lightning">c-lightning</a>，或者<a href="https://github.com/mit-dci/lit">lit</a></p>
-
-<p>lnd支持比较广泛，我们用其0.6beta版本搭建；</p>
-
-<ul>
-  <li>按照项目文档构建Go编译环境，编译生成lnd和lnd-cli两个可执行文件</li>
-  <li>启动lnd daemon(注意这里没有启用验证，在mainnet上面切不可这么做)</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=xxxxx  --bitcoind.rpcpass='xxxxx' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --no-macaroons
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>之后lnd会通过bitcoind node同步区块头，大概需要10分钟</li>
-  <li>创建lnd的钱包，保存seed，便于之后恢复</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet create
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>创建一个segwit地址</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet newaddress np2wkh
-</span><span class="line">2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>打一些测试币给这个地址</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/bitcoin-cli sendtoaddress 2NF5UC1ZgQzb8Ustm9JCTbQQTU5Ca438WWf 0.005
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>看一下钱包信息，收到款没有</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --no-macaroons --network=testnet walletbalance
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section">4. 建立通道</h4>
-
-<ul>
-  <li>直接到<a href="https://1ml.com/testnet/">1ml.com</a>找最近连接数最多的节点, 比如<a href="https://1ml.com/testnet/node/038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9">Node: aranguren.org</a>:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">node ID:038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>连接这个节点：</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --no-macaroons --network=testnet connect 038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9@203.132.95.10:9735
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>建立通道，放一笔钱进去</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --no-macaroons --network=testnet openchannel --node_key=038863cf8ab91046230f561cd5b386cbff8309fa02e3f0c3ed161a3aeb64a643b9 40000
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>需要一段时间同步，然后看一下通道状态:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli --network=testnet listchannels
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section-1">5. 支付</h4>
-
-<ul>
-  <li>首先到<a href="https://testnet.satoshis.place/">testnet.satoshis.place</a>涂鸦两笔，得到一个支付地址:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>lnd-cli支付</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  sendpayment --pay_req lntb1pwwykwhpp5jw4tekxmsqjwepw4070em7xe7gw3v8mxtenexmsp2np3pcc40jwqdqqxqruyqrzjqfcxsh9gr28y6ngphmk90q05ejfydpq89tjjc5rl36lfmtcv424hk9e8sgqqqvsqqqqqqqlgqqqqqeqqjqjpfnq26e2flenp79ywpyyftg3najf3wtpvkwuuw2h9y3dzdn7kc3342h6uzgf69ms8sx6fxsh5j2jcwzulr3dufryn9ljadm0wuj9fcpm86fax 500
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section-2">6. 收款</h4>
-
-<p>lnd构建一个收款节点比较麻烦，我们可以借助一个实现了lnd hub全功能的钱包来体验，推荐 <a href="https://github.com/ACINQ/eclair">elcair</a>；</p>
-
-<p><a href="https://bluewallet.io/">BlueWallet</a>也是一个非常受欢迎的闪电网络钱包，不过他并没有实现完整的lightning hub的功能，作为想要完全掌控一切的玩家不太合适，当然对于普通用户来说，BlueWallet更易用：</p>
-
-<p>https://medium.com/bluewallet/bluewallet-brings-zero-configuration-lightning-payments-to-ios-and-android-30137a69f071</p>
-
-<ul>
-  <li>关于 elcair如何构建一个收款地址的过程，可以参考:</li>
-</ul>
-
-<p>https://medium.com/@ACINQ/enabling-receive-on-eclair-mobile-2e1b87bd1e3a</p>
-
-<ul>
-  <li>老实说，使用elcair的过程也需要一点技术，至少要搞明白我们之前讲述闪电网络技术原理的那篇文章</li>
-</ul>
-
-<h4 id="section-3">7. 总结</h4>
-
-<p>好啦，相信小白看到这里已然头昏眼花，并发出怒吼：这么复杂的东西谁会用啊！</p>
-
-<p>我得说，在使用闪电网络的过程中，我体会到了巨大的乐趣，就跟我第一次手工完成一笔比特币交易一样的乐趣！</p>
-
-<p>回想互联网之初，发个电子邮件也需要精通命令行操作的<code>专家人士</code>来完成，跟现在闪电网络的使用体验完全一样！</p>
-
-<p>我也相信随着产业发展，这项技术迟早会变得跟电子邮件一样，在IPAD上动动手指就完成一切，我憧憬着这一天。</p>
-
-<p>然后我们看一下现在闪电网络面临的一些技术和实务上的挑战：</p>
-
-<ol>
-  <li>目前还没有完全靠谱的，敢于宣称可安全用于生产的基础软件实现，大家都在beta版</li>
-  <li>目前运行一个lnd，需要配置一个bitcoin fullnode，而且是一对一的，成本比较高，虽然运行一个全节点可以取得一些手续费，但是其风险和收益不成对比；bitmex有<a href="https://blog.bitmex.com/the-lightning-network-part-2-routing-fee-economics/">一篇文章</a>详细分析了现在运行一个闪电网络节点的收益情况；</li>
-  <li>现在lit项目和Neutrino项目都朝着<code>运行一个支持闪电节点的SPV节点</code>这个方向努力，但距离完成还有很长时间；</li>
-  <li>在我们之前的文章分析中，每一个钱包，都需要一个类似<code>瞭望塔</code>的模块，来监控通道的状态；围绕这个实现，目前有两大流派：一类就是elcair 钱包自己继承这个功能，这就要求用户的钱包不能脱离网络超过两周；第二类就是BlueWallet的实现，让用户放弃掌控一切，由钱包服务商托管；这两种方案各有优劣，之后还要看市场和众多黑客们的测试结果；</li>
-  <li>Electrum目前也在进行闪电网络的实现，他们采用了改造ElectrumX server端，增加一个和lnd连接的中间通讯层的方法，并且ElectrumX是可以复用的，以后如果lnd实现了Neutrino，可以完成<code>ElectrumX+Lnd+Neutrino</code>的部署，估计这样成本低，运营的好的话，能赚点小钱；</li>
-</ol>
-
-<p>最后的最后：</p>
-
-<ul>
-  <li>
-    <p>闪电网络的成长目前是一个非常壮丽的场景，堪比互联网发展之初；</p>
-  </li>
-  <li>
-    <p>终于出现了这样一种基础金融技术:</p>
-    <ul>
-      <li>可以支持个人开银行，没有任何法律、宗教、地域、政府的隔阂；</li>
-      <li>只要有网络和你的信用，就可以面向全球用户做一个银行家；</li>
-      <li>而且你的银行没有柜台、没有繁琐的开户流程，没有金碧辉煌的大楼，只需要一个联网的手机而已；但这是世界上最讲信用的，最具有扩展性的，最安全的银行；</li>
-      <li>你的用户也无需繁琐的身份证明，政策限制，高昂的手续费，屈服于传统银行的被冻结账户的风险，甚至都不需要物理的货币和钱包，只需要在脑子里记住一串密语而已；而对于将来的那些<code>世界银行家</code>来说，你的信用就是一切。酷!!!</li>
-    </ul>
-  </li>
-</ul>
 ]]></content>
   </entry>
   
