@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-09-22T18:02:59+08:00</updated>
+  <updated>2019-09-23T09:15:49+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -123,15 +123,15 @@
 </span><span class="line">def pca(x, keep_dims=None):
 </span><span class="line">    if not keep_dims:
 </span><span class="line">        keep_dims = x.shape[1] - 1
-</span><span class="line">    # todo 进行归一化
+</span><span class="line">    # 进行归一化
 </span><span class="line">    normalize_x = normalize(x)
-</span><span class="line">    # todo 求出协方差矩阵
+</span><span class="line">    # 求出协方差矩阵
 </span><span class="line">    cov_x = covariance_matrix(x)
-</span><span class="line">    # todo 奇异值分解
+</span><span class="line">    # 奇异值分解
 </span><span class="line">    U, S, V = np.linalg.svd(cov_x)  # U: principle components (n, n)
-</span><span class="line">    # todo 选取前 keep_dims 维特征
+</span><span class="line">    # 选取前 keep_dims 维特征
 </span><span class="line">    reduction = U[:, :keep_dims]
-</span><span class="line">    # todo 得到降维的结果
+</span><span class="line">    # 得到降维的结果
 </span><span class="line">    return np.matmul(x, reduction)
 </span><span class="line">
 </span><span class="line">x = np.random.uniform(size=(10, 10))
@@ -139,9 +139,16 @@
 
 <h2 id="section-2">异常检测</h2>
 
-<p>用途:
-1.识别欺骗。特征：用户多久登录一次，访问过的页面，在论坛发布的帖子数量，甚至是打字速度等。构建模型来识别那些不符合该模式的用户,
-2.数据中心。特征：内存使用情况，被访问的磁盘数量，CPU 的负载，网络的通信量等。构建模型来判断某些计算机是不是有可能出错了。</p>
+<p>用途:</p>
+
+<ol>
+  <li>
+    <p>识别欺骗。特征：用户多久登录一次，访问过的页面，在论坛发布的帖子数量，甚至是打字速度等。构建模型来识别那些不符合该模式的用户,</p>
+  </li>
+  <li>
+    <p>数据中心。特征：内存使用情况，被访问的磁盘数量，CPU 的负载，网络的通信量等。构建模型来判断某些计算机是不是有可能出错了。</p>
+  </li>
+</ol>
 
 <h4 id="section-3">高斯分布</h4>
 
