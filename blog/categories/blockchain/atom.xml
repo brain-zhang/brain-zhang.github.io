@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-05T17:18:40+08:00</updated>
+  <updated>2019-11-05T17:21:35+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -87,16 +87,25 @@
 
 <p>local_balance和remote_balance可以在不关闭通道的情况下多次更新，但是如果不关闭或者拼接通道，通道容量无法更改；</p>
 
-<p><img src="https://blog.muun.com/content/images/2019/04/hourglass--1--1.png" alt="img" />
-&gt; 我们可以把它想象成一个沙漏，虽然沙子的总量是固定的，但是我们可以在沙漏的上下部之间移动啥子，如果想要改变沙子的总量，就需要打破沙漏；</p>
+<p><img src="https://blog.muun.com/content/images/2019/04/hourglass--1--1.png" alt="img" /></p>
 
-<p><img src="https://blog.muun.com/content/images/2019/04/1-3.png" alt="img" />
-&gt; 如图：以你的视角来看，你和ROBERT的通道容量是8 btc, local_balance是5btc，remote_balance是3btc; 以ROBERT的视角来看，他的local_balance是3btc，remote_balance是5btc</p>
+<blockquote>
+  <p>我们可以把它想象成一个沙漏，虽然沙子的总量是固定的，但是我们可以在沙漏的上下部之间移动啥子，如果想要改变沙子的总量，就需要打破沙漏；</p>
+</blockquote>
+
+<p><img src="https://blog.muun.com/content/images/2019/04/1-3.png" alt="img" /></p>
+
+<blockquote>
+  <p>如图：以你的视角来看，你和ROBERT的通道容量是8 btc, local_balance是5btc，remote_balance是3btc; 以ROBERT的视角来看，他的local_balance是3btc，remote_balance是5btc</p>
+</blockquote>
 
 <p>每次你付款时，都会把local_balance的部分余额推给对端的ROBERT。 同样的，当收到一笔付款时，local_balance也会增加，remote_balance会减少；</p>
 
-<p><img src="https://blog.muun.com/content/images/2019/04/2-2.png" alt="img" />
-&gt; 如图：当你支付ROBERT 1BTC时，你的local_balance减少1BTC，而remote_balance增加1BTC;</p>
+<p><img src="https://blog.muun.com/content/images/2019/04/2-2.png" alt="img" /></p>
+
+<blockquote>
+  <p>如图：当你支付ROBERT 1BTC时，你的local_balance减少1BTC，而remote_balance增加1BTC;</p>
+</blockquote>
 
 <p>回到我们最初的例子，因为remote_balance的余额是0 satoshi，所以在只有这一个通道的情况下，你最多发送279176 satoshi，却无法接受付款；</p>
 
@@ -119,7 +128,7 @@
 <p>这个时候的闪电网络拓扑是这样的：</p>
 
 <p><img src="https://blog.muun.com/content/images/2019/04/3-2.png" alt="img" />
-&gt; 您打开了一个连接到LNTOP的支付通道，并在其中放入2个BTC，您的local_balance是2BTC，remote_balance为0BTC</p>
+&gt;您打开了一个连接到LNTOP的支付通道，并在其中放入2个BTC，您的local_balance是2BTC，remote_balance为0BTC</p>
 
 <p>现在，ANGELA想要买个披萨，并通过LNTOP支付给你。但是，你与LNTOP的支付通道里，remote_balance为0，所以LNTOP无法付款给你；</p>
 
