@@ -98,6 +98,55 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/">Difference of E1000 and VMXENT in Vmware Exsi</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-14T15:18:55+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/06/14/difference-of-e1000-and-vmxent-in-vmware-exsi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Exsi中新建虚拟机网卡，可以选择四种网卡：E1000; 可变; VMXNET 2(增加型)；VMXENT 3</p>
+
+<p>Vmware官网解释了区别:</p>
+
+<p>要想兼容性好，就是用E1000,基本上所有的OS的带了E1000的驱动。</p>
+
+<p>要想性能好(降低CPU的使用率)，那就用VMXNET 3，他是准虚拟化(ParaVirtualized)，需要在VM里面安装vmware的驱动(包含在vmware tools)，并且有一些限制，例如，虚拟机硬件版本必须是7以上，只有一些特定的操作系统被支持，</p>
+
+<p>参考:</p>
+
+<p>https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;cmd=displayKC&amp;externalId=1001805</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/06/11/tcp-slash-ip-illustrated-note2/">TCP/IP Illustrated Note2</a></h1>
     
     
@@ -787,95 +836,6 @@ exec "$@"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/22/man-man-xue-zhao-li-jie-hao-de-chan-pin-shi-shi-yao/">慢慢学着理解好的产品是什么</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-22T18:02:19+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/22/man-man-xue-zhao-li-jie-hao-de-chan-pin-shi-shi-yao/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/05/22/man-man-xue-zhao-li-jie-hao-de-chan-pin-shi-shi-yao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>从很久很久之前，我就不是很在意技术细节了。</p>
-
-<p>当年还四处走矿山的时候，我看到有人还在用一个很高级的电脑跑DOS的时候，震惊了。当时那个负责人说，有个矿压软件一直跑在DOS里，习惯了。就这么用下来了。</p>
-
-<p>互联网的产品之冠，在我看来，一直是hao123.com</p>
-
-<p>但是那时候只是停留在意识层次，最近痛下决心，慢慢学习，试图理解什么是好的产品，好的产品是怎么成就的。</p>
-
-<ul>
-  <li>
-    <p>好产品满足人的 <code>贪懒嗔痴</code>，就这个理论来看，我一直坚定不移的抱持一个观点，互联网的篮下，是色情流量。</p>
-  </li>
-  <li>
-    <p>好产品不是设计出来的，是慢慢生长起来的</p>
-  </li>
-  <li>
-    <p>成功的产品初期，应该只有一个功能</p>
-  </li>
-  <li>
-    <p>成功产品，slogan一句话就说明白</p>
-  </li>
-  <li>
-    <p>面向场景来做设计而非功能列表</p>
-  </li>
-  <li>
-    <p>好产品会召唤用户，如果没有自然增长就不必推广</p>
-  </li>
-</ul>
-
-<h4 id="section">听了一堂产品经理培训，问了几个问题，记录一下</h4>
-
-<ul>
-  <li>
-    <p>[问题]王老师你好，我是一个程序员。虽然工作方面是后台开发，但也懂一点前台，前一段时间自学Android，开发了一个小游戏。但是总觉得有道坎，不能达到那种专业的产品水准。早期我理想中的好的产品草根典型，是hao123.com。我也一直往这方面去学习，但考虑实际的用户场景时总是感觉磕磕绊绊，比如我现在在写一个经营微信公众号的工具类网站，对于需求、取舍考虑很多，也反复改了几版，总是觉得不是那种“就是它了”的程度。请问怎么继续学习提高呢？</p>
-  </li>
-  <li>
-    <p>解答: 实现为主，快速上线，反复迭代，等用户吐槽。</p>
-  </li>
-  <li>
-    <p>[问题]王老师，如果你的团队这个sprint的任务都排满了。这个时候boss过来要强加功能，你一番权衡之后觉得还是放在下个sprint为好。怎么和boss沟通呢？谢谢。</p>
-  </li>
-  <li>
-    <p>解答：搞清楚BOSS的目的，协调、沟通，解决。切忌直接反对。</p>
-  </li>
-  <li>
-    <p>[问题]王老师，请问网易的WEB产品经理懂CSS、JS等前端知识吗？关注诸如nodejs、React等新知识吗？能有独立开发一个小网站的能力吗？能熟悉Linux常用操作吗？你认为产品经理需要有这些技能吗？</p>
-  </li>
-  <li>
-    <p>解答：需要。学无止境。</p>
-  </li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -893,6 +853,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/11/05/hello-lightning-network-1/">Hello Lightning Network -1</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/">How to Run Tmux Service Scripts on Ubuntu Start Up</a>
       </li>
     
@@ -906,10 +870,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3/">吴恩达机器学习笔记-3</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/">Paste Fails When Using Bracketed-paste-magic on zsh5.1.1</a>
       </li>
     
   </ul>
@@ -967,7 +927,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/ai/'>ai (5)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (54)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (55)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
