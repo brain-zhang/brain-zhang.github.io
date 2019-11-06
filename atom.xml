@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-05T17:21:35+08:00</updated>
+  <updated>2019-11-06T14:36:05+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -142,26 +142,29 @@
 
 <h4 id="inbound-and-outbound-capacity">进出容量(Inbound and Outbound Capacity)</h4>
 
-<p>现在，我们已经更清楚的了解了是什么决定了通道的容量以及local_balance和remote_balance 平衡更新的方式，接下来我们考虑一下，如果您是连接节点网络的一部分，会发生什么情况？</p>
+<p>现在，我们已经更清楚的了解了是什么决定了通道的容量以及local_balance和remote_balance 平衡更新的方式，接下来我们考虑一下，如果你是连接节点网络的一部分，会发生什么情况？</p>
 
 <p>两个对等点不需要直接建立支付通道来互相支付。相反，他们可以通过路由节点中转支付。在路由的每一跳，都会发生对应通道内local_balance和remote_balance余额的更新。</p>
 
-<p>假设您想要通过闪电网络出售一个披萨。您至少需要连接到一个闪电网络节点。你会仔细的选择人气尽可能高的节点，为你的顾客–SOPHIE和ANGELA提供收款服务；</p>
+<p>假设你想要通过闪电网络出售一个披萨。你至少需要连接到一个闪电网络节点。你会仔细的选择人气尽可能高的节点，为你的顾客–SOPHIE和ANGELA提供收款服务；</p>
 
 <p>这个时候的闪电网络拓扑是这样的：</p>
 
-<p><img src="https://blog.muun.com/content/images/2019/04/3-2.png" alt="img" />
-&gt;您打开了一个连接到LNTOP的支付通道，并在其中放入2个BTC，您的local_balance是2BTC，remote_balance为0BTC</p>
+<p><img src="https://blog.muun.com/content/images/2019/04/3-2.png" alt="img" /></p>
+
+<blockquote>
+  <p>你打开了一个连接到LNTOP的支付通道，并在其中放入2个BTC，你的local_balance是2BTC，remote_balance为0BTC</p>
+</blockquote>
 
 <p>现在，ANGELA想要买个披萨，并通过LNTOP支付给你。但是，你与LNTOP的支付通道里，remote_balance为0，所以LNTOP无法付款给你；</p>
 
-<p>在某个特定时刻，您可以接收到的金额或者入站容量(Inbound Capacity)受到remote_balance的限制。你不能收到比你的邻接节点能发送给你的更多的金额。</p>
+<p>在某个特定时刻，你可以接收到的金额或者入站容量(Inbound Capacity)受到remote_balance的限制。你不能收到比你的邻接节点能发送给你的更多的金额。</p>
 
-<p>类似的，您可以发送的金额，或者说出站容量(Outbound Capacity)也同样受到local_balance的限制。</p>
+<p>类似的，你可以发送的金额，或者说出站容量(Outbound Capacity)也同样受到local_balance的限制。</p>
 
-<p>但你用LNTOP打开一个通道时，你决定想要锁定多少比特币，即你的local_balance；类似的，如果LNTOP与您打开一个通道，他们将确定您的初始remote_balance。这具有重要意义。虽然选择local_balance允许您决定初始Outbound Capacity，但您无法控制remote_balance和Inbound Capacity。</p>
+<p>当你用LNTOP打开一个通道时，你决定想要锁定多少比特币，即你的local_balance；类似的，如果LNTOP与你打开一个通道，他们将确定你的初始remote_balance。这具有重要意义。虽然选择local_balance允许你决定初始Outbound Capacity，但你无法控制remote_balance和Inbound Capacity。</p>
 
-<p>如果您今天启动您的闪电节点，并简单的打开一个通道到您选择的另一个节点，您可能会惊奇的发现，自己没有Inbound Capacity，从而无法通过闪电网络接收付款；这对于一个商家来说绝对是大问题；</p>
+<p>如果你今天启动你的闪电节点，并简单的打开一个通道到你选择的另一个节点，你可能会惊奇的发现，自己没有Inbound Capacity，从而无法通过闪电网络接收付款；这对于一个商家来说绝对是大问题；</p>
 
 <p>幸运的是，有好几种方法来获得Inboound Capacity，包括上面提到的，花钱给一些商家，让他们来为你提供一些remote_balance；</p>
 
@@ -169,7 +172,65 @@
 
 <h4 id="section-1">这样就解决问题了吗？</h4>
 
-<p>嗯……，当然不会这么简单……</p>
+<p>嗯……，当然不会这么简单……在一个复杂的网络中，即使你在直接相连的通道中有足够的remote_balance，但你不能保证支付路径上的每一个节点都有充足的remote_balance； 让我们揭示网络中所有节点的local_balance和remote_balance，来更好的理解资金如何流动。</p>
+
+<p><img src="https://blog.muun.com/content/images/2019/04/4-2.png" alt="img" /></p>
+
+<blockquote>
+  <p>如图: LNTOP是一个大的中转节点，与他相邻的每个节点都有LNTOP提供的remote_balance</p>
+</blockquote>
+
+<p>这样你与LNTOP的支付通道中，你的remote_balance为3BTC， 而LNTOP与ANGELA的支付渠道中，LNTOP的remote_balance为2BTC，这样ANGELA最多能发送给你2BTC；</p>
+
+<p><img src="https://blog.muun.com/content/images/2019/04/Gif_1-2.gif" alt="img" /></p>
+
+<blockquote>
+  <p>如图：ANGELA为你发送了1BTC</p>
+</blockquote>
+
+<p>但是在这个网络中，SOPHIE甚至不能发送1BTC给你。如果你看一下SOPHIE和你之间的支付路线，就会发现LNTOP没有接收SOPHIE付款的能力；</p>
+
+<p>对于收款，要求每个路由节点与你(接收方)之间都需要与前一个相邻的节点具有足够的remote_balance；因此，即使你可能通过相邻节点获得了remote_balance，但是整个支付路径上的某些节点可能并没有足够的remote_balance；这样你仍然不能完成收款；</p>
+
+<p>最致命的一点是，这种”显示所有节点的remote_balance和local_balance”的事情在闪电网络中是做不到的；作为网络的一个节点，我们只能知道其他支付通道的容量，而不知道它是如何在相连的两个节点之间分配资金的；</p>
+
+<h4 id="section-2">谁会受影响</h4>
+
+<p>在闪电网络中，并不是所有的节点都有同等的需求。查看我们的示例，全网至少会有三种类型的节点：</p>
+
+<h5 id="section-3">商人节点</h5>
+
+<p>商人节点主要需求是收款，因此，他需要remote_balance，并且从客户到商人节点之间的支付路径上每一个节点，都要有足够的remote_balance;</p>
+
+<h5 id="section-4">用户节点</h5>
+
+<p>用户主要通过闪电网络发送资金，偶尔也会从朋友那里收到一些钱； 对于这些用户，他们的关键是要连接到的节点具有足够的资金能路由给商家；这些用户需要少量的remote_balance即可；</p>
+
+<h5 id="section-5">路由节点</h5>
+
+<p>这些几点通过网络路由支付并为此收费。LNTOP就是这样的例子；</p>
+
+<p>他们的工作是探测可用的支付路径。所以他们需要上游与终端用户的Inbound Capacity，以及下游与商家的Outbound Capacity；此外，它们的收费必须与市场上其他的公司竞争，他们还需要确保可靠性、充裕的流动性；这是一项艰难的工作，不是吗？</p>
+
+<p>有很多攻击闪电网络的言论是：只有那些资金充裕的大公司才能有足够的精力和财力运行路由节点，根据马太效应，用户也会倾向于选择这些公司运营的节点服务；这样就会慢慢造成寡头垄断，最终比特币变成一个中心化的东西，变成一个大公司的玩物；</p>
+
+<p>真的是这样的吗？</p>
+
+<h4 id="section-6">结论</h4>
+
+<p>我们讨论了一个支付通道具有的特性，其通道容量、local_balance、remote_balance； 我们看到，闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
+
+<p>但我得说，这些批评者过于心急了；就像比特币诞生初期，很多传统的经济学家批评比特币的<code>通缩</code>特性一样；</p>
+
+<p>为了解决这些问题，社区以一个惊人的创新速度不断提出解决方法，包括WIP、Lightning Loop、多路径余额合并平衡等等；我们也将会在后面的文章中一一介绍；</p>
+
+<p>最后，数字货币世界还是处于蛮荒狂野时代，不是那么多事情都是理所当然的;乔帮主的训诫还是需要时时温习:饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</p>
+
+<h4 id="section-7">引用</h4>
+
+<p>https://blog.muun.com/the-inbound-capacity-problem-in-the-lightning-network/</p>
+
+<p>https://github.com/lightningnetwork/lightning-rfc</p>
 ]]></content>
   </entry>
   
