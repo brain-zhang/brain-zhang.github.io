@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-06T14:53:23+08:00</updated>
+  <updated>2019-11-06T14:56:29+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -185,7 +185,7 @@
 
 <h5 id="section-5">路由节点</h5>
 
-<p>这些几点通过网络路由支付并为此收费。LNTOP就是这样的例子；</p>
+<p>这些节点通过网络路由支付并为此收费。LNTOP就是这样的例子；</p>
 
 <p>他们的工作是探测可用的支付路径。所以他们需要上游与终端用户的Inbound Capacity，以及下游与商家的Outbound Capacity；此外，它们的收费必须与市场上其他的公司竞争，他们还需要确保可靠性、充裕的流动性；这是一项艰难的工作，不是吗？</p>
 
