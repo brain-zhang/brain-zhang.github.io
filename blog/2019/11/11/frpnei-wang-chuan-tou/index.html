@@ -653,7 +653,7 @@ MathJax.Hub.Config({
 
 <p>同样的，如果内网开通了某些服务，比如我们的配置模板里面已经映射出了8080,18332,18333,28332,28333,60000-60010这些端口，这些端口同样的映射到服务端了；</p>
 
-<p>比如，我们在内网运行要给简单的web服务:</p>
+<p>比如，我们在内网运行一个简单的web服务:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">python -m SimpleHTTPServer 8080</span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -662,6 +662,8 @@ MathJax.Hub.Config({
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">curl http://x.x.x.x:8080</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>我们也可以在内网运行要给bitcoin全节点+lnd，然后关闭不必要的服务，再运行一个轻量的vps，在vps上部署Tor服务，这样我们就可以通过多重跳板把闪电网络热钱包隐藏到Tor网络里面了，保证了安全性；</p>
 
 <h4 id="section-1">管理</h4>
 
