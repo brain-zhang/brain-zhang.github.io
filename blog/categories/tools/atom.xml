@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-11T10:55:51+08:00</updated>
+  <updated>2019-11-11T11:11:49+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -354,7 +354,7 @@ python -m SimpleHTTPServer 8080
 curl http://x.x.x.x:8080
 </code></p>
 
-<p>我们也可以在内网运行要给bitcoin全节点+lnd，然后关闭不必要的服务，再运行一个轻量的vps，在vps上部署Tor服务，这样我们就可以通过多重跳板把闪电网络热钱包隐藏到Tor网络里面了，保证了安全性；</p>
+<p>我们也可以在内网运行一个bitcoin全节点+lnd，然后关闭不必要的服务，再运行一个轻量的vps，在vps上部署Tor服务，这样我们就可以通过多重跳板把闪电网络热钱包隐藏到Tor网络里面了，保证了安全性；</p>
 
 <h4 id="section-1">管理</h4>
 
