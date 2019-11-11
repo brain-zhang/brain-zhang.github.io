@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-09T15:15:00+08:00</updated>
+  <updated>2019-11-11T10:46:32+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,567 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[FRP内网穿透]]></title>
+    <link href="https://happy123.me/blog/2019/11/11/frpnei-wang-chuan-tou/"/>
+    <updated>2019-11-11T10:45:34+08:00</updated>
+    <id>https://happy123.me/blog/2019/11/11/frpnei-wang-chuan-tou</id>
+    <content type="html"><![CDATA[<p>对于没有公网 IP 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。之前一直用最简单的nc做反代，折腾了几次之后迁移到FRP上面了；记录一下ABC;</p>
+
+<!-- more -->
+
+<p>内网穿透工具 FRP，FRP 全名：Fast Reverse Proxy。</p>
+
+<p>项目地址: https://github.com/fatedier/frp</p>
+
+<h4 id="frp-">FRP 的作用</h4>
+
+<ul>
+  <li>
+    <p>利用处于内网或防火墙后的机器，对外网环境提供 HTTP 或 HTTPS 服务。</p>
+  </li>
+  <li>
+    <p>对于 HTTP, HTTPS 服务支持基于域名的虚拟主机，支持自定义域名绑定，使多个域名可以共用一个 80 端口。</p>
+  </li>
+  <li>
+    <p>利用处于内网或防火墙后的机器，对外网环境提供 TCP 和 UDP 服务，例如在家里通过 SSH 访问处于公司内网环境内的主机。</p>
+  </li>
+</ul>
+
+<h4 id="frp--1">FRP 安装</h4>
+<p>FRP 采用 Go 语言开发，支持 Windows、Linux、MacOS、ARM等多平台部署。FRP 安装非常容易，只需下载对应系统平台的软件包，并解压就可用。</p>
+
+<p>这里以 Linux 为例，为了方便管理我们把解压后的目录重命名为 frp ：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"> wget https://github.com/fatedier/frp/releases/download/v0.29.1/frp_0.29.1_linux_amd64.tar.gz
+</span><span class="line"> tar xzvf frp_0.29.1_linux_amd64.tar.gz
+</span><span class="line"> mv frp_0.29.1_linux_amd64 frp
+</span><span class="line"> cp frp/frpc frp/frps /usr/bin/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="frp">FRP服务端配置</h4>
+
+<ul>
+  <li>首先建立配置文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir /etc/frp
+</span><span class="line">vim /etc/frp/frps.ini</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下面是模板，根据修改一下token，dashboard_user, dashboard_pwd，默认开了6000端口作为对外ssh端口， 7000作为frpc和frps通讯端口，7500端口作为web管理界面端口；</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># [common] is integral section
+</span><span class="line">[common]
+</span><span class="line"># A literal address or host name for IPv6 must be enclosed
+</span><span class="line"># in square brackets, as in "[::1]:80", "[ipv6-host]:http" or "[ipv6-host%zone]:80"
+</span><span class="line">bind_addr = 0.0.0.0
+</span><span class="line">bind_port = 7000
+</span><span class="line">
+</span><span class="line"># udp port to help make udp hole to penetrate nat
+</span><span class="line">bind_udp_port = 7001
+</span><span class="line">
+</span><span class="line"># udp port used for kcp protocol, it can be same with 'bind_port'
+</span><span class="line"># if not set, kcp is disabled in frps
+</span><span class="line">kcp_bind_port = 7000
+</span><span class="line">
+</span><span class="line"># specify which address proxy will listen for, default value is same with bind_addr
+</span><span class="line"># proxy_bind_addr = 127.0.0.1
+</span><span class="line">
+</span><span class="line"># if you want to support virtual host, you must set the http port for listening (optional)
+</span><span class="line"># Note: http port and https port can be same with bind_port
+</span><span class="line">vhost_http_port = 80
+</span><span class="line">vhost_https_port = 443
+</span><span class="line">
+</span><span class="line"># response header timeout(seconds) for vhost http server, default is 60s
+</span><span class="line"># vhost_http_timeout = 60
+</span><span class="line">
+</span><span class="line"># set dashboard_addr and dashboard_port to view dashboard of frps
+</span><span class="line"># dashboard_addr's default value is same with bind_addr
+</span><span class="line"># dashboard is available only if dashboard_port is set
+</span><span class="line">dashboard_addr = 0.0.0.0
+</span><span class="line">dashboard_port = 7500
+</span><span class="line">
+</span><span class="line"># dashboard user and passwd for basic auth protect, if not set, both default value is admin
+</span><span class="line">dashboard_user = user
+</span><span class="line">dashboard_pwd = user
+</span><span class="line">
+</span><span class="line"># dashboard assets directory(only for debug mode)
+</span><span class="line"># assets_dir = ./static
+</span><span class="line"># console or real logFile path like ./frps.log
+</span><span class="line">log_file = /var/log/frps.log
+</span><span class="line">
+</span><span class="line"># trace, debug, info, warn, error
+</span><span class="line">log_level = info
+</span><span class="line">
+</span><span class="line">log_max_days = 3
+</span><span class="line">
+</span><span class="line"># disable log colors when log_file is console, default is false
+</span><span class="line">disable_log_color = false
+</span><span class="line">
+</span><span class="line"># auth token
+</span><span class="line">token = 123456frp
+</span><span class="line">
+</span><span class="line"># heartbeat configure, it's not recommended to modify the default value
+</span><span class="line"># the default value of heartbeat_timeout is 90
+</span><span class="line"># heartbeat_timeout = 90
+</span><span class="line">
+</span><span class="line"># only allow frpc to bind ports you list, if you set nothing, there won't be any limit
+</span><span class="line">#allow_ports = 2000-3000,3001,3003,4000-50000
+</span><span class="line">allow_ports = 80,6000,8080,18332,18333,28332,28333,60000-60010
+</span><span class="line">
+</span><span class="line"># pool_count in each proxy will change to max_pool_count if they exceed the maximum value
+</span><span class="line">max_pool_count = 5
+</span><span class="line">
+</span><span class="line"># if subdomain_host is not empty, you can set subdomain when type is http or https in frpc's configure file
+</span><span class="line"># when subdomain is test, the host used by routing is test.frps.com
+</span><span class="line">subdomain_host = frps.com
+</span><span class="line">
+</span><span class="line"># if tcp stream multiplexing is used, default is true
+</span><span class="line">tcp_mux = true
+</span><span class="line">
+</span><span class="line"># custom 404 page for HTTP requests
+</span><span class="line"># custom_404_page = /path/to/404.html
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>再建立systemd 启动脚本</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /lib/systemd/system/frps.service
+</span><span class="line">
+</span><span class="line">[Unit]
+</span><span class="line">Description=Frp Server Service
+</span><span class="line">After=network.target
+</span><span class="line">
+</span><span class="line">[Service]
+</span><span class="line">Type=simple
+</span><span class="line">User=root
+</span><span class="line">Restart=on-failure
+</span><span class="line">RestartSec=5s
+</span><span class="line">ExecStart=/usr/bin/frps -c /etc/frp/frps.ini
+</span><span class="line">
+</span><span class="line">[Install]
+</span><span class="line">WantedBy=multi-user.target</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>启动服务，再设置为开机启动</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl start frps
+</span><span class="line">systemctl enable frps</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="frp-1">FRP客户端配置</h4>
+
+<ul>
+  <li>首先建立配置文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir /etc/frp
+</span><span class="line">vim /etc/frp/frpc.ini</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下面是模板，根据修改server_addr、admin_user, admin_pwd字段; token要设置的跟服务端的token相同；</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># [common] is integral section
+</span><span class="line">[common]
+</span><span class="line"># A literal address or host name for IPv6 must be enclosed
+</span><span class="line"># in square brackets, as in "[::1]:80", "[ipv6-host]:http" or "[ipv6-host%zone]:80"
+</span><span class="line">server_addr = x.x.x.x
+</span><span class="line">server_port = 7000
+</span><span class="line">
+</span><span class="line"># if you want to connect frps by http proxy or socks5 proxy, you can set http_proxy here or in global environment variables
+</span><span class="line"># it only works when protocol is tcp
+</span><span class="line"># http_proxy = http://user:passwd@192.168.1.128:8080
+</span><span class="line"># http_proxy = socks5://user:passwd@192.168.1.128:1080
+</span><span class="line">
+</span><span class="line"># console or real logFile path like ./frpc.log
+</span><span class="line">log_file = /var/log/frpc.log
+</span><span class="line">
+</span><span class="line"># trace, debug, info, warn, error
+</span><span class="line">log_level = info
+</span><span class="line">
+</span><span class="line">log_max_days = 3
+</span><span class="line">
+</span><span class="line"># disable log colors when log_file is console, default is false
+</span><span class="line">disable_log_color = false
+</span><span class="line">
+</span><span class="line"># for authentication
+</span><span class="line">token = 123456frp
+</span><span class="line">
+</span><span class="line"># set admin address for control frpc's action by http api such as reload
+</span><span class="line">admin_addr = 127.0.0.1
+</span><span class="line">admin_port = 7400
+</span><span class="line">admin_user = user
+</span><span class="line">admin_pwd = user
+</span><span class="line"># Admin assets directory. By default, these assets are bundled with frpc.
+</span><span class="line"># assets_dir = ./static
+</span><span class="line">
+</span><span class="line"># connections will be established in advance, default value is zero
+</span><span class="line">pool_count = 5
+</span><span class="line">
+</span><span class="line"># if tcp stream multiplexing is used, default is true, it must be same with frps
+</span><span class="line">tcp_mux = true
+</span><span class="line">
+</span><span class="line"># your proxy name will be changed to {user}.{proxy}
+</span><span class="line">user = brainzhang.bitcoin.testnet
+</span><span class="line">
+</span><span class="line"># decide if exit program when first login failed, otherwise continuous relogin to frps
+</span><span class="line"># default is true
+</span><span class="line">login_fail_exit = true
+</span><span class="line">
+</span><span class="line"># communication protocol used to connect to server
+</span><span class="line"># now it supports tcp and kcp and websocket, default is tcp
+</span><span class="line">protocol = tcp
+</span><span class="line">
+</span><span class="line"># if tls_enable is true, frpc will connect frps by tls
+</span><span class="line">tls_enable = true
+</span><span class="line">
+</span><span class="line"># specify a dns server, so frpc will use this instead of default one
+</span><span class="line"># dns_server = 8.8.8.8
+</span><span class="line">
+</span><span class="line"># proxy names you want to start seperated by ','
+</span><span class="line"># default is empty, means all proxies
+</span><span class="line"># start = ssh,dns
+</span><span class="line">
+</span><span class="line"># heartbeat configure, it's not recommended to modify the default value
+</span><span class="line"># the default value of heartbeat_interval is 10 and heartbeat_timeout is 90
+</span><span class="line"># heartbeat_interval = 30
+</span><span class="line"># heartbeat_timeout = 90
+</span><span class="line">
+</span><span class="line"># 'ssh' is the unique proxy name
+</span><span class="line"># if user in [common] section is not empty, it will be changed to {user}.{proxy} such as 'your_name.ssh'
+</span><span class="line">[ssh]
+</span><span class="line"># tcp | udp | http | https | stcp | xtcp, default is tcp
+</span><span class="line">type = tcp
+</span><span class="line">local_ip = 127.0.0.1
+</span><span class="line">local_port = 22
+</span><span class="line"># true or false, if true, messages between frps and frpc will be encrypted, default is false
+</span><span class="line">use_encryption = false
+</span><span class="line"># if true, message will be compressed
+</span><span class="line">use_compression = true
+</span><span class="line"># remote port listen by frps
+</span><span class="line">remote_port = 6000
+</span><span class="line"># frps will load balancing connections for proxies in same group
+</span><span class="line">#group = test_group
+</span><span class="line">## group should have same group key
+</span><span class="line">#group_key = 123456
+</span><span class="line">## enable health check for the backend service, it support 'tcp' and 'http' now
+</span><span class="line">## frpc will connect local service's port to detect it's healthy status
+</span><span class="line">#health_check_type = tcp
+</span><span class="line">## health check connection timeout
+</span><span class="line">#health_check_timeout_s = 3
+</span><span class="line">## if continuous failed in 3 times, the proxy will be removed from frps
+</span><span class="line">#health_check_max_failed = 3
+</span><span class="line">## every 10 seconds will do a health check
+</span><span class="line">#health_check_interval_s = 10
+</span><span class="line">
+</span><span class="line">#[ssh_random]
+</span><span class="line">#type = tcp
+</span><span class="line">#local_ip = 127.0.0.1
+</span><span class="line">#local_port = 22
+</span><span class="line">## if remote_port is 0, frps will assign a random port for you
+</span><span class="line">#remote_port = 0
+</span><span class="line">
+</span><span class="line"># if you want to expose multiple ports, add 'range:' prefix to the section name
+</span><span class="line"># frpc will generate multiple proxies such as 'tcp_port_6010', 'tcp_port_6011' and so on.
+</span><span class="line">[range:tcp_port]
+</span><span class="line">type = tcp
+</span><span class="line">local_ip = 127.0.0.1
+</span><span class="line">#local_port = 6010-6020,6022,6024-6028,
+</span><span class="line">#remote_port = 6010-6020,6022,6024-6028
+</span><span class="line">local_port = 8080,18332,18333,28332,28333,60000-60010
+</span><span class="line">remote_port = 8080,18332,18333,28332,28333,60000-60010
+</span><span class="line">use_encryption = false
+</span><span class="line">use_compression = false
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>再建立systemd 启动脚本</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /lib/systemd/system/frpc.service
+</span><span class="line">
+</span><span class="line">[Unit]
+</span><span class="line">Description=Frp Client Service
+</span><span class="line">After=network.target
+</span><span class="line">
+</span><span class="line">[Service]
+</span><span class="line">Type=simple
+</span><span class="line">User=root
+</span><span class="line">Restart=on-failure
+</span><span class="line">RestartSec=5s
+</span><span class="line">ExecStart=/usr/bin/frpc -c /etc/frp/frpc.ini
+</span><span class="line">ExecReload=/usr/bin/frpc reload -c /etc/frp/frpc.ini
+</span><span class="line">
+</span><span class="line">[Install]
+</span><span class="line">WantedBy=multi-user.target
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>启动服务，再设置为开机启动</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl start frpc
+</span><span class="line">systemctl enable frpc</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section">测试</h4>
+
+<p>现在可以从外网通过 frps服务端的ip(比如x.x.x.x)中转，访问内网了；比如ssh:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ssh -oPort=6000 root@x.x.x.x</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>同样的，如果内网开通了某些服务，比如我们的配置模板里面已经映射出了8080,18332,18333,28332,28333,60000-60010这些端口，这些端口同样的映射到服务端了；</p>
+
+<p>比如，我们在内网运行要给简单的web服务:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">python -m SimpleHTTPServer 8080</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可以通过frps服务端的ip(比如x.x.x.x)访问这个服务：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">curl http://x.x.x.x:8080</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-1">管理</h4>
+
+<p>可以通过下面的地址进入web管理界面，用户名和密码就是frps.ini中配置的dashboard_user、dashboard_pwd；</p>
+
+<p>http://x.x.x.x:7500</p>
+
+<h4 id="section-2">扩展</h4>
+
+<p>FRP还有非常多的功能，比如虚拟主机、多路复用、负载均衡、点对点内网穿透等等，请参考官方文档：</p>
+
+<p>https://github.com/fatedier/frp/blob/master/README_zh.md</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello Lightning Network -1]]></title>
@@ -3734,63 +4295,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 <p>“以讹传讹”可能就是当今各种“xxx曾经说过”的诠释吧。</p>
 
 <p>等待更多资料补充。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[货币是泡沫?]]></title>
-    <link href="https://happy123.me/blog/2019/06/22/huo-bi-shi-pao-mo/"/>
-    <updated>2019-06-22T18:31:19+08:00</updated>
-    <id>https://happy123.me/blog/2019/06/22/huo-bi-shi-pao-mo</id>
-    <content type="html"><![CDATA[<p>诺贝尔经济学奖得主「托马斯·萨金特」的话：客观来说，所有货币都是泡沫？</p>
-
-<p>萨金特教授解释道：</p>
-
-<blockquote>
-  <p>“客观来说，所有货币都是泡沫，因为当一种资产交易价格高于基础价值时候就是一种泡沫。我给你一美元，虽然它就是一张纸，但是因为你我承认其交换价值，使得这个价值得以维系。一旦有人不认同了，价值共识链条也将断裂。”</p>
-</blockquote>
-
-<p>https://36kr.com/p/5164521</p>
-
-<!-- more -->
-
-<p>关键是”货币”、”泡沫”很难量化。</p>
-
-<p>货币脱胎于商品，但是成为一般等价物之后，就丧失大部分的商品价值，变成纯粹的价格标签。</p>
-
-<p>现在各国发行的纸币基础就是这个国家的信用，假如国破家亡，这些货币将会飞速贬值，这也是可以预见的。</p>
-
-<p>某一国家的货币价格实际上就是这个国家长期信用的折现值。</p>
-
-<p>问题是世界上没有一种方法能用来衡量某一国家的长期信用折现值有多大，而且货币的发行、经济的兴衰完全无法预测。</p>
-
-<p>但是有一点可以保证，没有万世不灭的国家；从长久的尺度来说，一个国家必然灭亡，如果人均寿命远远超过一个国家货币的平均寿命，那么可以称之为泡沫。比如几十年前我们的粮票，本质上也是一种货币，持有粮票的人可能做梦也不会想到说废弃就废弃；但是有很多人家积攒的粮票来不及兑换，就变废纸了：从这方面看，粮票确实是个泡沫，而且直到废止(泡沫破灭)的那一刻，才确认是一个泡沫。</p>
-
-<p>所以可以把货币存在的基础看作是人们无可奈何的选择：人们知道早晚有一天会变成废纸，但这个早晚可能持续几十年，并且迄今为止没有更好的选择：贵金属由于其物理上的局限性无法承担信用交换的职责，利害权衡之下现有的货币制度还是可以接受的。</p>
-
-<p>这种现象放在任何一个高估的资产上面都是成立的，比如大家都知道房价是个泡沫，肯定会跌，但是要是100年之后才跌呢？泡沫是破了，但是和我有什么关系！？</p>
-
-<p>然后衍生到数字货币。我们说数字货币这个东西有点像是宗教，他是建立在数学及信息技术基础上的。如果你愿意，也可以把它看成是一种邪教组织：吸引的小部分核心教众是相信数理逻辑甚于国家信用的一小撮人，其它的都是投机赌博传销企图蹭一把油水的人~~~</p>
-
-<p>那么结论就很清晰了：</p>
-
-<ol>
-  <li>数字货币在初期是一种信用抢占器，他的竞争对手是传统世界里面信用缺失的行业；比如博彩、保险、黑市、洗钱、某些投机行业等，这些行业本身及其需要信用的保证，但传统的金融手段无法提供这种保证；所以我们现在看到的是场子里面骗子横行，正说明了数字货币正以强大的吸力吸引传统诈骗行业从业人员</li>
-  <li>数字货币第二步的竞争对手是某些信用非常弱小的国家的法币，比如委内瑞拉、津巴布韦等等；这些国家维持泡沫的能力比较弱，所以很容易受攻击</li>
-  <li>数字货币第三步的竞争对手是贵金属，当其证明自己的信用吸纳能力超过一些国家的法币之后，这个系统就变成了一个正反馈–他会源源不断的吸纳信用提升价值，然后会吸引更多教众加入其中，这一点非常像传销。但是比传销更高明的是它的核心模式可能会持续非常非常久远的时间</li>
-  <li>到底能持续多久远呢？这其实取决于人们的理智和贪婪的比例；一旦进入到泡沫正反馈的快车道，我挺悲观的，毕竟人的贪婪是无度的；当风潮来临时，能守住清明，抵住诱惑不动的人其实很少，所以我觉得数字货币很有可能发展到下一阶段，就是跟非常强势的国家货币竞争了；到了这一步，可能就不是简单的经济问题了，而是主权争夺，这个阶段可能会有围绕意识形态的战争、国家独立、个人建国、卫星劫持以维持系统运转等等等等</li>
-  <li>最后，抢占所有的信用高地之后，就看数字货币本身能不能维系、甚至创造信用了，这一点不好预测</li>
-</ol>
-
-<h4 id="section">如果从千年的尺度来看，除了贵金属，毫无疑问所有货币都是泡沫。</h4>
-
-<h4 id="section-1">如果从百年的尺度来看，大部分国家的货币是泡沫。</h4>
-
-<h4 id="section-2">如果以十年的尺度来看，也有不少国家的货币寿命小于这个时间的。</h4>
-
-<p>最后，比特币已经运转了10年，还能持续多少年呢？这是个很有意思的问题。</p>
-
-<p>只要没有归零，还有全节点运转，就很难说是泡沫破灭。让我们拭目以待吧。</p>
 ]]></content>
   </entry>
   
