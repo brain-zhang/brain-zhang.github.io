@@ -98,6 +98,66 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/">Unicode String Parse With Python and Fileinput</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-06T11:41:03+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>用fileinput模块parse数据很方便:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import fileinput
+</span><span class="line">
+</span><span class="line">if __name__ == '__main__':
+</span><span class="line">    for line in fileinput.input():
+</span><span class="line">        sys.stdout.write(line)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>但有时候会碰到UnicodeDecodeError:</p>
+
+<p>比如执行:</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/">吴恩达机器学习笔记-1</a></h1>
     
     
@@ -519,50 +579,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/06/22/fu-li-shi-shi-jie-di-ba-da-qi-ji-ai-yin-si-tan-zhen-de-shuo-guo-zhe-ju-hua-ma/">复利是世界第八大奇迹-爱因斯坦真的说过这句话吗?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-06-22T18:40:38+08:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2019</time>
-        
-           | <a href="/blog/2019/06/22/fu-li-shi-shi-jie-di-ba-da-qi-ji-ai-yin-si-tan-zhen-de-shuo-guo-zhe-ju-hua-ma/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2019/06/22/fu-li-shi-shi-jie-di-ba-da-qi-ji-ai-yin-si-tan-zhen-de-shuo-guo-zhe-ju-hua-ma/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>爱因斯坦说:”复利是世界第八大奇迹”，这句话随处可见于各类理财鸡汤文中，甚至巴菲特也在纪录片中转述过这句话，但是挺奇怪的，爱因斯坦究竟是在何种情况下说出这句“名言”？</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/06/22/fu-li-shi-shi-jie-di-ba-da-qi-ji-ai-yin-si-tan-zhen-de-shuo-guo-zhe-ju-hua-ma/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -580,6 +596,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/11/11/frpnei-wang-chuan-tou/">FRP内网穿透</a>
       </li>
     
@@ -593,10 +613,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/">吴恩达机器学习笔记-5</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4/">吴恩达机器学习笔记-4</a>
       </li>
     
   </ul>
@@ -698,7 +714,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (66)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (67)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

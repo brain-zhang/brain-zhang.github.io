@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-11T11:11:49+08:00</updated>
+  <updated>2019-11-13T11:46:11+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What Should You Do if Windows 10 Freezes Randomly]]></title>
+    <link href="https://happy123.me/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/"/>
+    <updated>2019-11-13T11:45:32+08:00</updated>
+    <id>https://happy123.me/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly</id>
+    <content type="html"><![CDATA[<p>是的，作为一名码农，日常最主要的工作就是修电脑；</p>
+
+<p>有一台装Win10的Thinkpad T440 笔记本会随机冻结，表现就是所有操作没有反应，鼠标键盘没有响应，画面不动，然后等待1分钟后自我恢复； 每天随机发生&gt;5次；</p>
+
+<!-- more -->
+
+<p>在Google了N多<code>What Should You Do If Windows 10 Freezes Randomly</code>的帖子之后，发现有这个问题的人可以组成一个军团，可谓是苦大仇深；</p>
+
+<p>至少这下面所有的方法我都试了一遍：</p>
+
+<p>https://www.partitionwizard.com/partitionmagic/win10-freezes-randomly.html</p>
+
+<p>最后无奈之下挂在winGDB，是的，就是这么无聊，追到了Chrome里面；</p>
+
+<p>我发现，只要关闭Chrome的 “设置-&gt;高级-&gt;使用硬件加速模式”，问题概率就会大大降低；</p>
+
+<p>这是什么原理，一番探究后，我发现这台笔记本是自动切换核显和独立显卡的；而Intel核显有个选项： “Intel Graphics Control Panel -&gt; Energy management -&gt; Panel Self Refresh”关闭之后就OK了；</p>
+
+<p>好吧，归根到底还是驱动的问题；Intel的这个显卡其实官方没有支持Win10的驱动，这是Win10自己瞎支持的，出现问题再所难免；</p>
+
+<p>以后遇到Win10冻结的情况，你的检查清单上还需要多加两项：</p>
+
+<ol>
+  <li>
+    <p>Chrome的硬件加速关闭试一试</p>
+  </li>
+  <li>
+    <p>如果有Intel的核显，关闭<code>Panel Self Refresh</code>试一试</p>
+  </li>
+</ol>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[FRP内网穿透]]></title>
@@ -757,47 +795,6 @@ PasswordAuthentication no
 [root@host .ssh]$ service sshd restart</p>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Wsl Best Practice]]></title>
-    <link href="https://happy123.me/blog/2019/01/16/wsl-best-practice/"/>
-    <updated>2019-01-16T14:13:58+08:00</updated>
-    <id>https://happy123.me/blog/2019/01/16/wsl-best-practice</id>
-    <content type="html"><![CDATA[<p>WSL用了一年，感觉还不错。尤其是在我的机器上pypy3.5版本的<code>SHA512 pbkdf</code>计算性能竟然超越了原生Linux和Windows。成为Python运行效率最高的平台，实在是匪夷所思的事情。</p>
-
-<p>WSL最让我满意的，是命令行里面可以结合Windows和Linux的命令行工具来管道处理，这个实在是太赞了。纯粹计算类的程序，Windows上面有很多现成的命令行工具，现在终于能:</p>
-
-<p>```
-ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~</p>
-
-<p>```</p>
-
-<p>这样来搞了，事实上，我自己写了很多Python脚本来处理Powershell自带的很多工具输出的内容，还有不少GPU运算程序大多数跑在Windows上面，能直接重定向到Linux上面实在太好了。</p>
-
-<p>另外，WSL网络协议栈和Windows是共享的，倒是直接省了一个事，我直接把http_proxy配置成本地的shadowsock服务就很安逸的翻墙了；方便。</p>
-
-<p>最后，就等着磁盘性能的改善了。</p>
-
-<p>下面记一下常用的坑：</p>
-
-<ul>
-  <li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
-</ul>
-
-<p>```
-sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs “G:” /mnt/g</p>
-
-<p>```</p>
-
-<ul>
-  <li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
-</ul>
-
-<p>目前无解；要么禁用卡巴斯基的HTTP过滤功能，要么回退2018版本</p>
-
-<p>最后，多个版本实验之后，锁定Win10 1709我也能连续3个月不关机了，稳定性可喜可贺。</p>
 ]]></content>
   </entry>
   
