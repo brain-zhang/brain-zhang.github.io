@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-18T15:20:02+08:00</updated>
+  <updated>2019-11-18T15:24:59+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -25,6 +25,7 @@
 <h2 id="bitcoin-core">Bitcoin Core</h2>
 
 <h4 id="section">启动</h4>
+
 <p><code>
 bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/
 </code></p>
@@ -36,6 +37,7 @@ bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/block
 </code></p>
 
 <h4 id="bitcoinconf">bitcoin.conf</h4>
+
 <p>```
 rpcuser=user
 rpcpassword=password
@@ -77,50 +79,56 @@ lncli  --network=testnet newaddr
 </code></p>
 
 <ul>
-  <li>
-    <p>查看余额
-<code>
-lncli  --network=testnet walletbalance
-lncli  --network=testnet listunspent
-</code></p>
-  </li>
-  <li>
-    <p>连接到一个闪电节点</p>
-  </li>
+  <li>查看余额</li>
 </ul>
 
 <p><code>
-lncli  --network=testnet connect " 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735"
+lncli  --network=testnet walletbalance
+lncli  --network=testnet listunspent
 </code></p>
 
 <ul>
-  <li>
-    <p>打开一个通道
-<code>
+  <li>连接到一个闪电节点</li>
+</ul>
+
+<p><code>
+lncli  --network=testnet connect "027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735"
+</code></p>
+
+<ul>
+  <li>打开一个通道</li>
+</ul>
+
+<p><code>
 lncli  --network=testnet openchannel --node_key 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8 100000
 </code></p>
-  </li>
-  <li>
-    <p>支付
-<code>
-lncli  --network=testnet sendpayment --pay_req ""lntb10n1pw6gf60pp5jxwg30u3k7qw2lzef7cnpy6tmnd80q2v5ytglf5tdaalrejhprzsdqhvf6xxmt9ypkxuepqw3jhxaqcqzpg9jsccqelkelayq89ydgrhxwf0hv2ffkdu2y6l27vtpmscszxj3pjsh..."
+
+<ul>
+  <li>支付</li>
+</ul>
+
+<p><code>
+lncli  --network=testnet sendpayment --pay_req "lntb10n1pw6gf60pp5jxwg30u3k7qw2lzef7cnpy6tmnd80q2v5ytglf5tdaalrejhprzsdqhvf6xxmt9ypkxuepqw3jhxaqcqzpg9jsccqelkelayq89ydgrhxwf0hv2ffkdu2y6l27vtpmscszxj3pjsh..."
 </code></p>
-  </li>
-  <li>
-    <p>接收付款
-<code>
+
+<ul>
+  <li>接收付款</li>
+</ul>
+
+<p><code>
 lncli  --network=testnet addinvoice --memo "invoice for lnd.fun test3" --amt 100000
 </code></p>
-  </li>
-  <li>
-    <p>关闭通道
-<code>
-lncli  --network=testnet closechannel ""1243f60a54c4c6b8ab5d124a0c701792e085ab13a68da135ca3ffbabb461f1cc"
+
+<ul>
+  <li>关闭通道</li>
+</ul>
+
+<p><code>
+lncli  --network=testnet closechannel "1243f60a54c4c6b8ab5d124a0c701792e085ab13a68da135ca3ffbabb461f1cc"
 </code></p>
-  </li>
-  <li>
-    <p>链上发送全部余额</p>
-  </li>
+
+<ul>
+  <li>链上发送全部余额</li>
 </ul>
 
 <p><code>
@@ -177,53 +185,63 @@ announce-addr=x.x.x.x:9735
 ```</p>
 
 <ul>
-  <li>注册、启动服务
-<code>
+  <li>注册、启动服务</li>
+</ul>
+
+<p><code>
 systemctl enable lightning
 systemctl start lightning
-</code></li>
-</ul>
+</code></p>
 
 <h4 id="section-4">常用命令</h4>
 
 <ul>
-  <li>
-    <p>建立一个新地址
-<code>
-lightning-cli newaddr
-</code></p>
-  </li>
-  <li>
-    <p>查看线上钱包地址
-<code>
-lightning-cli dev-listaddrs
-</code></p>
-  </li>
-  <li>
-    <p>连接node (1ml.com node)
-<code>
-lightning-cli connect 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735
-</code></p>
-  </li>
-  <li>
-    <p>建立通道
-<code>
-lightning-cli fundchannel id satoshi [feerate] [announce] [minconf]
-</code></p>
-  </li>
-  <li>
-    <p>查看链上和链下余额
-<code>
-lightning-cli listfunds
-</code></p>
-  </li>
-  <li>
-    <p>支付</p>
-  </li>
+  <li>建立一个新地址</li>
 </ul>
 
-<p>Send payment specified by {bolt11} with {amount}
-<code>
+<p><code>
+lightning-cli newaddr
+</code></p>
+
+<ul>
+  <li>查看线上钱包地址</li>
+</ul>
+
+<p><code>
+lightning-cli dev-listaddrs
+</code></p>
+
+<ul>
+  <li>连接node (1ml.com node)</li>
+</ul>
+
+<p><code>
+lightning-cli connect 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735
+</code></p>
+
+<ul>
+  <li>建立通道</li>
+</ul>
+
+<p><code>
+lightning-cli fundchannel id satoshi [feerate] [announce] [minconf]
+</code></p>
+
+<ul>
+  <li>查看链上和链下余额</li>
+</ul>
+
+<p><code>
+lightning-cli listfunds
+</code></p>
+
+<ul>
+  <li>支付</li>
+</ul>
+
+<p>Send payment specified by {bolt11} with {amount}</p>
+
+<p><code>
 lightning-cli pay bolt11 [msatoshi] [label] [riskfactor] [maxfeepercent] [retry_for] [maxdelay] [exemptfee]
 </code></p>
 
@@ -231,8 +249,9 @@ lightning-cli pay bolt11 [msatoshi] [label] [riskfactor] [maxfeepercent] [retry_
   <li>收款</li>
 </ul>
 
-<p>Create an invoice for {msatoshi} with {label} and {description} with optional {expiry} seconds (default 1 hour), optional {fallbacks} address list(default empty list) and optional {preimage}
-<code>
+<p>Create an invoice for {msatoshi} with {label} and {description} with optional {expiry} seconds (default 1 hour), optional {fallbacks} address list(default empty list) and optional {preimage}</p>
+
+<p><code>
 lightning-cli invoice msatoshi label description [expiry] [fallbacks] [preimage] [exposeprivatechannels]
 </code></p>
 
@@ -242,8 +261,9 @@ lightning-cli invoice msatoshi label description [expiry] [fallbacks] [preimage]
 
 <h4 id="section-5">部署</h4>
 
-<p>lightning-charge最好用docker直接集成c-lightning一把启动，比如我已经运行了一个bitcoin core全节点，可以直接下面的命令启动:
-<code>
+<p>lightning-charge最好用docker直接集成c-lightning一把启动，比如我已经运行了一个bitcoin core全节点，可以直接下面的命令启动:</p>
+
+<p><code>
 docker run -d -u `id -u` -v `pwd`/data:/data -p 9735:9735 -p 9112:9112 \
              -e API_TOKEN=mySecretToken \
              -e NETWORK=testnet  \
@@ -253,11 +273,12 @@ docker run -d -u `id -u` -v `pwd`/data:/data -p 9735:9735 -p 9112:9112 \
 注意BITCOIND_URL的IP是docker容器内向外连接的，如果不是用net的方式启动，要填docker的网桥地址；</p>
 
 <ul>
-  <li>查询运行状况
-<code>
-curl http://api-token:mySecretToken@localhost:9112/info
-</code></li>
+  <li>查询运行状况</li>
 </ul>
+
+<p><code>
+curl http://api-token:mySecretToken@localhost:9112/info
+</code></p>
 ]]></content>
   </entry>
   

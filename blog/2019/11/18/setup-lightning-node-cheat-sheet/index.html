@@ -9,8 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="运营一个闪电节点的基本命令速查； Bitcoin Core 启动
-1
+  <meta name="description" content="运营一个闪电节点的基本命令速查； Bitcoin Core 启动 1
 bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ 如果需要一些老接口 1
 bitcoind --conf &hellip;">
   
@@ -131,6 +130,7 @@ MathJax.Hub.Config({
 <h2 id="bitcoin-core">Bitcoin Core</h2>
 
 <h4 id="section">启动</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/</span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -140,6 +140,7 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ --deprecatedrpc=signrawtransaction</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="bitcoinconf">bitcoin.conf</h4>
+
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -192,43 +193,48 @@ MathJax.Hub.Config({
 </span><span class="line">lncli  --network=testnet newaddr</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>查看余额
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span></figure></notextile></li>
+  <li>查看余额</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet walletbalance
-</span><span class="line">lncli  --network=testnet listunspent</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet walletbalance
+</span><span class="line">lncli  --network=testnet listunspent</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>连接到一个闪电节点</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet connect " 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735"</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet connect "027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>打开一个通道
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>打开一个通道</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet openchannel --node_key 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8 100000</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet openchannel --node_key 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8 100000</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>支付
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>支付</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet sendpayment --pay_req ""lntb10n1pw6gf60pp5jxwg30u3k7qw2lzef7cnpy6tmnd80q2v5ytglf5tdaalrejhprzsdqhvf6xxmt9ypkxuepqw3jhxaqcqzpg9jsccqelkelayq89ydgrhxwf0hv2ffkdu2y6l27vtpmscszxj3pjsh..."</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet sendpayment --pay_req "lntb10n1pw6gf60pp5jxwg30u3k7qw2lzef7cnpy6tmnd80q2v5ytglf5tdaalrejhprzsdqhvf6xxmt9ypkxuepqw3jhxaqcqzpg9jsccqelkelayq89ydgrhxwf0hv2ffkdu2y6l27vtpmscszxj3pjsh..."</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>接收付款
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>接收付款</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet addinvoice --memo "invoice for lnd.fun test3" --amt 100000</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet addinvoice --memo "invoice for lnd.fun test3" --amt 100000</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>关闭通道
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>关闭通道</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet closechannel ""1243f60a54c4c6b8ab5d124a0c701792e085ab13a68da135ca3ffbabb461f1cc"</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet closechannel "1243f60a54c4c6b8ab5d124a0c701792e085ab13a68da135ca3ffbabb461f1cc"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>链上发送全部余额</li>
@@ -313,60 +319,68 @@ MathJax.Hub.Config({
 </span><span class="line">announce-addr=x.x.x.x:9735</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
 
 <ul>
-  <li>注册、启动服务
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span></figure></notextile></li>
+  <li>注册、启动服务</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">systemctl enable lightning
-</span><span class="line">systemctl start lightning</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl enable lightning
+</span><span class="line">systemctl start lightning</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-4">常用命令</h4>
 
 <ul>
-  <li>建立一个新地址
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>建立一个新地址</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli newaddr</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli newaddr</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>查看线上钱包地址
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>查看线上钱包地址</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli dev-listaddrs</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli dev-listaddrs</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>连接node (1ml.com node)
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>连接node (1ml.com node)</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli connect 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli connect 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>建立通道
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>建立通道</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli fundchannel id satoshi [feerate] [announce] [minconf]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli fundchannel id satoshi [feerate] [announce] [minconf]</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>查看链上和链下余额
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>查看链上和链下余额</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli listfunds</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli listfunds</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>支付</li>
 </ul>
 
-<p>Send payment specified by {bolt11} with {amount}
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli pay bolt11 [msatoshi] [label] [riskfactor] [maxfeepercent] [retry_for] [maxdelay] [exemptfee]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>Send payment specified by {bolt11} with {amount}</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli pay bolt11 [msatoshi] [label] [riskfactor] [maxfeepercent] [retry_for] [maxdelay] [exemptfee]</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>收款</li>
 </ul>
 
-<p>Create an invoice for {msatoshi} with {label} and {description} with optional {expiry} seconds (default 1 hour), optional {fallbacks} address list(default empty list) and optional {preimage}
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli invoice msatoshi label description [expiry] [fallbacks] [preimage] [exposeprivatechannels]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>Create an invoice for {msatoshi} with {label} and {description} with optional {expiry} seconds (default 1 hour), optional {fallbacks} address list(default empty list) and optional {preimage}</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli invoice msatoshi label description [expiry] [fallbacks] [preimage] [exposeprivatechannels]</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="c-lightning--lightning-charge">C-lightning &amp;&amp; lightning-charge</h2>
 
@@ -374,24 +388,26 @@ MathJax.Hub.Config({
 
 <h4 id="section-5">部署</h4>
 
-<p>lightning-charge最好用docker直接集成c-lightning一把启动，比如我已经运行了一个bitcoin core全节点，可以直接下面的命令启动:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<p>lightning-charge最好用docker直接集成c-lightning一把启动，比如我已经运行了一个bitcoin core全节点，可以直接下面的命令启动:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">docker run -d -u `id -u` -v `pwd`/data:/data -p 9735:9735 -p 9112:9112 \
+</pre></td><td class="code"><pre><code class=""><span class="line">docker run -d -u `id -u` -v `pwd`/data:/data -p 9735:9735 -p 9112:9112 \
 </span><span class="line">             -e API_TOKEN=mySecretToken \
 </span><span class="line">             -e NETWORK=testnet  \
 </span><span class="line">             -e BITCOIND_URI="http://user:password@172.18.0.1:18332" \
-</span><span class="line">             shesek/lightning-charge</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-注意BITCOIND_URL的IP是docker容器内向外连接的，如果不是用net的方式启动，要填docker的网桥地址；</p>
+</span><span class="line">             shesek/lightning-charge</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>注意BITCOIND_URL的IP是docker容器内向外连接的，如果不是用net的方式启动，要填docker的网桥地址；</p>
 
 <ul>
-  <li>查询运行状况
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>查询运行状况</li>
 </ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">curl http://api-token:mySecretToken@localhost:9112/info</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">curl http://api-token:mySecretToken@localhost:9112/info</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
