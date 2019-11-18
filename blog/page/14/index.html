@@ -98,6 +98,75 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-05T08:23:00+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/07/05/mysql-cheat/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/07/05/mysql-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>整理一下经常忘记的mysql命令</p>
+
+<h1 id="section">连接</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ mysql -u root -p
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h1 id="list">list</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ show DATABASES;
+</span><span class="line">$ show TABLES;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h1 id="error">Error</h1>
+
+<ul>
+  <li>ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: YES)</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ mysqld --skip-grant-tables
+</span><span class="line">$ mysql -u root mysql
+</span><span class="line">$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
+</span><span class="line">$ mysql&gt; FLUSH PRIVILEGES;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/07/03/shang-ye-luo-ji/">商业逻辑</a></h1>
     
     
@@ -662,84 +731,6 @@ sed -i 's#Defaults    secure_path =.*#Defaults    secure_path =/usr/java/latest/
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/25/enable-ldap-on-centos/">Enable Ldap on Centos</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-25T08:24:04+08:00" pubdate data-updated="true">May 25<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/25/enable-ldap-on-centos/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/05/25/enable-ldap-on-centos/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="dockerfile">Dockerfile</h2>
-
-<pre><code>FROM docker-registry.dev.netis.com.cn:5000/autobuild/centos6
-
-# Maintainer: docker_user &lt;docker_user at email.com&gt; (@docker_user)
-MAINTAINER memoryboxes memoryboxes@gmail.com
-
-# Commands to add ldap to image
-RUN mkdir -p /etc/openldap/cacerts/ &amp;&amp; \
-    rpm --rebuilddb &amp;&amp; \
-    yum clean all  &amp;&amp; \
-    wget http://xxxxxx/ca.cert -O /etc/openldap/cacerts/ca.cert &amp;&amp; \
-    wget http://xxxxxx/sshd_config -O /etc/ssh/sshd_config &amp;&amp; \
-    chmod 600 /etc/ssh/sshd_config &amp;&amp; \
-    sed -i  's/#PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config &amp;&amp; \
-    echo "xxxxxxx" | passwd --stdin root &amp;&amp; \
-    yum -y install pam_ldap.so authconfig nscd openldap-clients nss-pam-ldapd &amp;&amp; \
-    yum -y install sudo &amp;&amp; \
-    yum clean all
-
-ADD nscd /etc/dockerservices/nscd
-ADD nslcd /etc/dockerservices/nslcd
-COPY docker_entrypoint.sh /
-
-# Commands when creating a new container
-ENTRYPOINT ["/docker_entrypoint.sh"]
-CMD ["/usr/bin/svscan", "/etc/dockerservices"]
-</code></pre>
-
-<h2 id="dockerentrypointsh">docker_entrypoint.sh</h2>
-
-<pre><code>#!/bin/bash
-
-set -e
-
-echo "x.x.x.x ldap.xxx.com.cn" &gt;&gt;/etc/hosts
-authconfig --enableldap --enableldapauth --ldapserver=ldap.xxx.com.cn --ldapbasedn="dc=xxx,dc=com,dc=cn" --enablemkhomedir --enableldaptls --enablecache
-
-exec "$@"
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -757,6 +748,10 @@ exec "$@"
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/11/18/wslquan-xian-guan-li/">WSL权限管理</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a>
       </li>
     
@@ -770,10 +765,6 @@ exec "$@"
     
       <li class="post">
         <a href="/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/">How to Run Tmux Service Scripts on Ubuntu Start Up</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/">吴恩达机器学习笔记-5</a>
       </li>
     
   </ul>
@@ -875,7 +866,7 @@ exec "$@"
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (67)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (68)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

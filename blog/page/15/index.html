@@ -98,6 +98,84 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/25/enable-ldap-on-centos/">Enable Ldap on Centos</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-25T08:24:04+08:00" pubdate data-updated="true">May 25<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/05/25/enable-ldap-on-centos/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/05/25/enable-ldap-on-centos/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="dockerfile">Dockerfile</h2>
+
+<pre><code>FROM docker-registry.dev.netis.com.cn:5000/autobuild/centos6
+
+# Maintainer: docker_user &lt;docker_user at email.com&gt; (@docker_user)
+MAINTAINER memoryboxes memoryboxes@gmail.com
+
+# Commands to add ldap to image
+RUN mkdir -p /etc/openldap/cacerts/ &amp;&amp; \
+    rpm --rebuilddb &amp;&amp; \
+    yum clean all  &amp;&amp; \
+    wget http://xxxxxx/ca.cert -O /etc/openldap/cacerts/ca.cert &amp;&amp; \
+    wget http://xxxxxx/sshd_config -O /etc/ssh/sshd_config &amp;&amp; \
+    chmod 600 /etc/ssh/sshd_config &amp;&amp; \
+    sed -i  's/#PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config &amp;&amp; \
+    echo "xxxxxxx" | passwd --stdin root &amp;&amp; \
+    yum -y install pam_ldap.so authconfig nscd openldap-clients nss-pam-ldapd &amp;&amp; \
+    yum -y install sudo &amp;&amp; \
+    yum clean all
+
+ADD nscd /etc/dockerservices/nscd
+ADD nslcd /etc/dockerservices/nslcd
+COPY docker_entrypoint.sh /
+
+# Commands when creating a new container
+ENTRYPOINT ["/docker_entrypoint.sh"]
+CMD ["/usr/bin/svscan", "/etc/dockerservices"]
+</code></pre>
+
+<h2 id="dockerentrypointsh">docker_entrypoint.sh</h2>
+
+<pre><code>#!/bin/bash
+
+set -e
+
+echo "x.x.x.x ldap.xxx.com.cn" &gt;&gt;/etc/hosts
+authconfig --enableldap --enableldapauth --ldapserver=ldap.xxx.com.cn --ldapbasedn="dc=xxx,dc=com,dc=cn" --enablemkhomedir --enableldaptls --enablecache
+
+exec "$@"
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">再谈以太网帧格式</a></h1>
     
     
@@ -1009,95 +1087,6 @@ sysctl -w fs.inotify.max_user_instances=8192
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/">有关于云计算及SDN</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-10T08:25:16+08:00" pubdate data-updated="true">May 10<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>云计算和SDN这两个名词总是被许多人挂在嘴边，他们给人的印象就是在Qcon大会上念PPT的一拨人。</p>
-
-<p>作为一个实用党，下面我企图用一问一答的形式来瞎扯一番:</p>
-
-<h3 id="q-openstackvcenter">Q: 我是个中小企业，用openstack好还是vCenter虚拟化好？</h3>
-
-<p>A: 如果你能招到一个合适的人(注意，这个概率我觉得是万分之一)，你可以上openstack。</p>
-
-<p>如果你有足够的M，上vCenter。</p>
-
-<p>如果你什么都没有，上阿里云 (我是认真的，不要黑我)。</p>
-
-<p>总之，随着网络带宽提升，我觉得中小企业自建运维越来越不划算。云化是趋势。</p>
-
-<h3 id="q-">Q: 容器技术会颠覆现有的虚拟化技术吗？</h3>
-
-<p>A: 不会，容器技术只是补充，全虚拟化有自己不可替代优势。</p>
-
-<h3 id="q-sdn">Q: SDN会替代现在的网络设备吗？</h3>
-
-<p>A: 可能会替代大部分网络交换设备。但是就现在的情况来看，各种SDN解决方案的性能还没有和硬件处在同一档次上。</p>
-
-<p>所以将来在大型数据中心，肯定是软硬结合和持续很长一段时间。</p>
-
-<p>在很多中小云平台，大部分硬件设备已经在迁移过程中了。</p>
-
-<h3 id="q-sdn-1">Q: SDN真的比传统设备灵活吗？简单吗？方便吗？</h3>
-
-<p>A: 首先要看方案，和传统网络一样，不同的场景实施方案也不一样。一千个现场会有一千个云实施方案。</p>
-
-<p>SDN有灵活性的优势。</p>
-
-<p>SDN某种意义上说，比传统网络还要复杂。</p>
-
-<p>首先，真实世界的网络就是复杂的。任何隐藏复杂性的尝试都会增加复杂性。所以SDN不能拯救世界，传统硬件设备面临的复杂问题，它也一样要面对。</p>
-
-<p>SDN的优势就是灵活，并非简单。</p>
-
-<h3 id="q--1">Q: 未来从事中小企业云的部署咨询工作，有戏吗？</h3>
-
-<p>A: 我觉得单纯做部署顾问之类的没戏。做openstack的番茄花园有戏。</p>
-
-<p>如果将来GPU虚拟化成熟的话，做打金工作室的openstack 包装发行版相当有戏。</p>
-
-<h3 id="q-sdn-2">Q: SDN领域有何机会？</h3>
-
-<p>A: 也许SDN领域将来不会再孕育思科华为那样的大玩家，但是一定会有许多独角兽出来。</p>
-
-<p>目前看到的看准一个痛点，比如苏州盛科那样，软硬结合，做芯片，交换机白牌供应商，很有机会。</p>
-
-<p>或者瞅准市场空白，比如说做性能比较低的软tap，我觉得很有戏。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -1115,6 +1104,10 @@ sysctl -w fs.inotify.max_user_instances=8192
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/11/18/wslquan-xian-guan-li/">WSL权限管理</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a>
       </li>
     
@@ -1128,10 +1121,6 @@ sysctl -w fs.inotify.max_user_instances=8192
     
       <li class="post">
         <a href="/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/">How to Run Tmux Service Scripts on Ubuntu Start Up</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/">吴恩达机器学习笔记-5</a>
       </li>
     
   </ul>
@@ -1233,7 +1222,7 @@ sysctl -w fs.inotify.max_user_instances=8192
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (67)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (68)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

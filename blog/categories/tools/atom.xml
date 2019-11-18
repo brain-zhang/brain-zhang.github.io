@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-13T11:52:25+08:00</updated>
+  <updated>2019-11-18T10:46:35+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[WSL权限管理]]></title>
+    <link href="https://happy123.me/blog/2019/11/18/wslquan-xian-guan-li/"/>
+    <updated>2019-11-18T10:45:54+08:00</updated>
+    <id>https://happy123.me/blog/2019/11/18/wslquan-xian-guan-li</id>
+    <content type="html"><![CDATA[<p>重装系统，又折腾了一遍WSL环境，记录一下:</p>
+
+<p>WSL (Win­dows Sub­sys­tem for Linux) 通过 /mnt 目录下的 c、d、e 等目录可分别访问本地的 C、D、E 等盘，虽然可以直接访问 Win­dows 下的文件内容，但输入 ls -al 查看文件你会发现文件权限全都是 777。这会导致一些问题出现，比如 Git会保留这些文件的执行权限，如果你之前在 Win­dows 下使用过 Git Bash ，那么在 WSL 中使用 <code>git status</code>查看本地仓库的文件状态时你会发现它们全部被标记成了 modified。</p>
+
+<!-- more -->
+
+<h3 id="section">分析问题</h3>
+
+<p>首先要了解 WSL 中的两种文件系统：</p>
+
+<h4 id="volfs">VolFs</h4>
+<p>着力于在 Win­dows 文件系统上提供完整的 Linux 文件系统特性，通过各种手段实现了对 In­odes、Di­rec­tory en­tries、File ob­jects、File de­scrip­tors、Spe­cial file types 的支持。比如为了支持 Win­dows 上没有的 In­odes，VolFs 会把文件权限等信息保存在文件的 NTFS Ex­tended At­trib­utes 中。</p>
+
+<p>WSL 中的 / 使用的就是 VolFs 文件系统。</p>
+
+<h4 id="drvfs">DrvFs</h4>
+<p>着力于提供与 Win­dows 文件系统的互操作性。与 VolFs 不同，为了提供最大的互操作性，DrvFs 不会在文件的 NTFS Ex­tended At­trib­utes 中储存附加信息，而是从 Win­dows 的文件权限（Ac­cess Con­trol Lists，就是你右键文件 &gt; 属性 &gt; 安全选项卡中的那些权限配置）推断出该文件对应的的 Linux 文件权限。</p>
+
+<p>所有 Win­dows 盘符挂载至 WSL 下的 /mnt 时都是使用的 DrvFs 文件系统。</p>
+
+<p>简单来说就是 WSL 对 / 目录下的文件拥有完整的控制权，而 /mnt 目录中的文件无法被 WSL 完全控制（可修改数据，无法真实的修改权限）。WSL 对 /mnt 目录中权限的修改不会直接记录到文件本身，而在 Win­dows 下对文件权限的修改直接可作用到 WSL 。关于权限在<a href="https://p3terx.com/go/aHR0cHM6Ly9kZXZibG9ncy5taWNyb3NvZnQuY29tL2NvbW1hbmRsaW5lL2NobW9kLWNob3duLXdzbC1pbXByb3ZlbWVudHMv">微软开发者博客中</a>有更详细的说明。</p>
+
+<h3 id="section-1">解决方案</h3>
+
+<p>这只是让文件在 WSL 中的权限看起来正常（目录 755，文件 644），实际并不会作用到 Win­dows 文件系统下的文件本身。</p>
+
+<p>在 /etc/wsl.conf 中添加以下配置：</p>
+
+<p><code>
+[automount]
+enabled = true
+root = /mnt/
+options = "metadata,umask=22,fmask=111"
+mountFsTab = true
+</code></p>
+
+<p>上面的方法对所有盘符都有效，如果你想在 WSL 中调用 Win­dows 下的应用程序（比如 explorer.exe . 调用资源管理器打开当前路径）就需要对 C 盘进行单独设置，否则会提示没有权限。首先确认 wsl.conf 中的 mountFsTab 没有被设置为 false，然后编辑 /etc/fstab，添加如下内容：</p>
+
+<p><code>
+C:\ /mnt/c drvfs rw,noatime,uid=1000,gid=1000,metadata,umask=22,fmask=11 0 0
+</code></p>
+
+<p>此时执行<code>mkdir</code>等命令的时候，会发现新建的目录权限依然是 777。</p>
+
+<p>目前民间解决方案是在.profile、.bashrc、.zshrc 或者其他 shell 配置文件中添加如下命令，重新设置 umask</p>
+
+<p><code>
+[filesystem]
+umask = 022
+</code></p>
+
+<p>全部设置完成之后，最好重启一遍Windows系统。</p>
+
+<h4 id="section-2">参考:</h4>
+
+<p>https://segmentfault.com/a/1190000016677670</p>
+
+<p>https://p3terx.com/archives/problems-and-solutions-encountered-in-wsl-use-2.html</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What Should You Do if Windows 10 Freezes Randomly]]></title>
@@ -548,264 +614,6 @@ source ~/.bashrc
 <p><code>
 ~/.oh-my-zsh/lib/misc.zsh
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Using a GPG Key and Ssh Auth]]></title>
-    <link href="https://happy123.me/blog/2019/08/16/using-a-gpg-key-and-ssh-auth/"/>
-    <updated>2019-08-16T16:13:32+08:00</updated>
-    <id>https://happy123.me/blog/2019/08/16/using-a-gpg-key-and-ssh-auth</id>
-    <content type="html"><![CDATA[<p>在我的一台服务器被数不清的脚本小子暴力尝试登陆N次后，我下定决心将所有的开发环境换成统一的ssh key；并禁止用户登陆；</p>
-
-<p>其中最折腾的部分就是使用我的GPG Key统一所有的ssh 环境；我也很纳闷，为什么自己没有早点搞定这些事情；</p>
-
-<p>众所周知，GPG和Openssl的key是不兼容的，所以统一环境还是花了不少时间，主要是参考了这篇文章：</p>
-
-<p>https://ryanlue.com/posts/2017-06-29-gpg-for-ssh-auth</p>
-
-<p>常用命令:
-<!-- more --></p>
-
-<h3 id="gpg">GPG</h3>
-
-<ul>
-  <li>生成证书</li>
-</ul>
-
-<p>```
-gpg –gen-key</p>
-
-<p>```</p>
-
-<ul>
-  <li>生成撤销证书</li>
-</ul>
-
-<p>```
-gpg –gen-revoke [用户ID]</p>
-
-<p>```</p>
-
-<ul>
-  <li>列出所有密钥</li>
-</ul>
-
-<p>```
-gpg –list-keys</p>
-
-<p>```</p>
-
-<p>输出</p>
-
-<p>```
-/home/brain/.gnupg/pubring.gpg
-——————————-
-pub   4096R/xxxxxxxx 2018-08-16
-uid                  brain.zhang (happy123.me) &lt;brain.zhangbin#xxx.com&gt;
-sub   4096R/yyyyyyyy 2018-08-16</p>
-
-<p>```</p>
-
-<p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示”用户ID”，第四行显示subkey。</p>
-
-<ul>
-  <li>输出密钥</li>
-</ul>
-
-<p>```
-gpg –armor –output public-key.txt –export [用户ID]</p>
-
-<p>```</p>
-
-<ul>
-  <li>输出密钥时转换私钥</li>
-</ul>
-
-<p>```
-gpg –armor –output private-key.txt –export-secret-keys</p>
-
-<p>```</p>
-
-<ul>
-  <li>上传公钥</li>
-</ul>
-
-<p>```
-gpg –keyserver keys.gnupg.net –send-keys [pub key ID] 
-…
-gpg –keyserver keys.gnupg.net –search-keys brain.zhang</p>
-
-<p>```</p>
-
-<ul>
-  <li>生成公钥指纹供别人检查</li>
-</ul>
-
-<p>```
-gpg –fingerprint [用户ID]</p>
-
-<p>```</p>
-
-<ul>
-  <li>加密文件</li>
-</ul>
-
-<p>```
-gpg –recipient [用户ID] –output demo.en.txt –encrypt demo.txt</p>
-
-<p>```</p>
-
-<ul>
-  <li>解密文件</li>
-</ul>
-
-<p>```
-gpg –decrypt demo.en.txt –output demo.de.txt</p>
-
-<p>```</p>
-
-<ul>
-  <li>对文件签名</li>
-</ul>
-
-<p>```
-gpg –clearsign demo.txt</p>
-
-<p>```</p>
-
-<ul>
-  <li>获得单独的签名文件</li>
-</ul>
-
-<p>```
-gpg –armor –detach-sign demo.txt</p>
-
-<p>```</p>
-
-<ul>
-  <li>验证签名</li>
-</ul>
-
-<p>```
-gpg –verify demo.txt.asc demo.txt</p>
-
-<p>```</p>
-
-<h3 id="section">导入第三方公钥</h3>
-
-<ul>
-  <li>获得公钥</li>
-</ul>
-
-<p>```
-gpg –keyserver keys.gnupg.net –search-keys <user>
-...
-gpg --keyserver hkp://subkeys.pgp.net --search-keys brain.zhang</user></p>
-
-<p>```</p>
-
-<ul>
-  <li>验证公钥</li>
-</ul>
-
-<p>```
- gpg –edit-key <key /></p>
-
-<p>```
-你可以键入<code>fpr</code> 来打印这个主钥的指纹，和你得到的主钥指纹进行对比，如果一致则键入<code>trust</code> 来设置主钥的信任度。如果主钥被设置为绝对可信的（ultimately），GPG 会根据主钥的公钥验证从钥的签名，最终完成信任建立。最后键入quit 退出。</p>
-
-<h3 id="githubgpg">在Github中使用GPG</h3>
-
-<ul>
-  <li>输出key id</li>
-</ul>
-
-<p>```
-gpg –list-secret-keys –keyid-format LONG</p>
-
-<p>```</p>
-
-<ul>
-  <li>设置提交</li>
-</ul>
-
-<p>```
- git config  user.signingkey <key /></p>
-
-<p>```</p>
-
-<ul>
-  <li>对单次提交进行签名： </li>
-</ul>
-
-<p>```
-git commit -S -m “-S选项表示对此次提交使用gpg进行签名”</p>
-
-<p>```</p>
-
-<ul>
-  <li>签名标签</li>
-</ul>
-
-<p>```
-git tag -s <tag /></p>
-
-<p>```</p>
-
-<h3 id="ssh-server-gen">ssh server gen</h3>
-
-<ul>
-  <li>制作密钥对</li>
-</ul>
-
-<p>```
-[root@host ~]$ ssh-keygen </p>
-
-<p>```</p>
-
-<ul>
-  <li>把生成的/root/.ssh/id_rsa.pub拷贝到在服务器上，安装公钥</li>
-</ul>
-
-<p>```
-[root@host ~]$ cd .ssh
-[root@host .ssh]$ cat id_rsa.pub » authorized_keys
-[root@host .ssh]$ chmod 600 authorized_keys
-[root@host .ssh]$ chmod 700 ~/.ssh</p>
-
-<p>```</p>
-
-<ul>
-  <li>设置 SSHD，打开密钥登录功能
-编辑 /etc/ssh/sshd_config 文件，进行如下设置：</li>
-</ul>
-
-<p>```
-PubkeyAuthentication yes
-PermitRootLogin yes</p>
-
-<p>```</p>
-
-<ul>
-  <li>将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</li>
-</ul>
-
-<p>使用 WinSCP、SFTP 等工具将私钥文件 id_rsa 下载到客户端机器上。然后打开 PuTTYGen，单击 Actions 中的 Load 按钮，载入你刚才下载到的私钥文件。如果你刚才设置了密钥锁码，这时则需要输入。</p>
-
-<p>载入成功后，PuTTYGen 会显示密钥相关的信息。在 Key comment 中键入对密钥的说明信息，然后单击 Save private key 按钮即可将私钥文件存放为 PuTTY 能使用的格式。</p>
-
-<p>今后，当你使用 PuTTY 登录时，可以在左侧的 Connection -&gt; SSH -&gt; Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
-
-<ul>
-  <li>验证无误，关闭密码登陆</li>
-</ul>
-
-<p>```
-PasswordAuthentication no
-[root@host .ssh]$ service sshd restart</p>
-
-<p>```</p>
 ]]></content>
   </entry>
   

@@ -98,6 +98,95 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/">有关于云计算及SDN</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-10T08:25:16+08:00" pubdate data-updated="true">May 10<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>云计算和SDN这两个名词总是被许多人挂在嘴边，他们给人的印象就是在Qcon大会上念PPT的一拨人。</p>
+
+<p>作为一个实用党，下面我企图用一问一答的形式来瞎扯一番:</p>
+
+<h3 id="q-openstackvcenter">Q: 我是个中小企业，用openstack好还是vCenter虚拟化好？</h3>
+
+<p>A: 如果你能招到一个合适的人(注意，这个概率我觉得是万分之一)，你可以上openstack。</p>
+
+<p>如果你有足够的M，上vCenter。</p>
+
+<p>如果你什么都没有，上阿里云 (我是认真的，不要黑我)。</p>
+
+<p>总之，随着网络带宽提升，我觉得中小企业自建运维越来越不划算。云化是趋势。</p>
+
+<h3 id="q-">Q: 容器技术会颠覆现有的虚拟化技术吗？</h3>
+
+<p>A: 不会，容器技术只是补充，全虚拟化有自己不可替代优势。</p>
+
+<h3 id="q-sdn">Q: SDN会替代现在的网络设备吗？</h3>
+
+<p>A: 可能会替代大部分网络交换设备。但是就现在的情况来看，各种SDN解决方案的性能还没有和硬件处在同一档次上。</p>
+
+<p>所以将来在大型数据中心，肯定是软硬结合和持续很长一段时间。</p>
+
+<p>在很多中小云平台，大部分硬件设备已经在迁移过程中了。</p>
+
+<h3 id="q-sdn-1">Q: SDN真的比传统设备灵活吗？简单吗？方便吗？</h3>
+
+<p>A: 首先要看方案，和传统网络一样，不同的场景实施方案也不一样。一千个现场会有一千个云实施方案。</p>
+
+<p>SDN有灵活性的优势。</p>
+
+<p>SDN某种意义上说，比传统网络还要复杂。</p>
+
+<p>首先，真实世界的网络就是复杂的。任何隐藏复杂性的尝试都会增加复杂性。所以SDN不能拯救世界，传统硬件设备面临的复杂问题，它也一样要面对。</p>
+
+<p>SDN的优势就是灵活，并非简单。</p>
+
+<h3 id="q--1">Q: 未来从事中小企业云的部署咨询工作，有戏吗？</h3>
+
+<p>A: 我觉得单纯做部署顾问之类的没戏。做openstack的番茄花园有戏。</p>
+
+<p>如果将来GPU虚拟化成熟的话，做打金工作室的openstack 包装发行版相当有戏。</p>
+
+<h3 id="q-sdn-2">Q: SDN领域有何机会？</h3>
+
+<p>A: 也许SDN领域将来不会再孕育思科华为那样的大玩家，但是一定会有许多独角兽出来。</p>
+
+<p>目前看到的看准一个痛点，比如苏州盛科那样，软硬结合，做芯片，交换机白牌供应商，很有机会。</p>
+
+<p>或者瞅准市场空白，比如说做性能比较低的软tap，我觉得很有戏。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/">Is Craig Wright Real Satoshi Nakamoto?</a></h1>
     
     
@@ -1628,163 +1717,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/19/linux-cheat-sheet/">Linux Cheat Sheet</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-19T09:43:07+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/06/19/linux-cheat-sheet/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2015/06/19/linux-cheat-sheet/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>收集linux下需要多次google的命令</p>
-
-<h2 id="section">编码问题</h2>
-
-<ul>
-  <li>utf16 &gt; utf8</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">iconv -f UTF-16 -t UTF-8 file_name
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="web">web开发命令</h2>
-
-<ul>
-  <li>curl post 一个json文件</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">curl -H "Content-Type: application/json"--data @body.json http://localhost:8080/ui/webapp/conf
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>curl post 一个json字符串</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">curl -H "Content-Type: application/json"-d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="section-1">系统时间</h2>
-
-<ul>
-  <li>centos6系列修改时区</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</span><span class="line">vim /etc/sysconfig/clock
-</span><span class="line">ZONE="Asia/Shanghai"
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>centos7系列修改时区</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">timedatectl list-timezones | grep Asia
-</span><span class="line">timedatectl set-timezone Asia/Shanghai
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>设置系统时间</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">date +"%Y%m%d%H%M%S"
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="section-2">系统状态</h2>
-
-<ul>
-  <li>查看系统占用句柄数</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="section-3">程序</h2>
-
-<ul>
-  <li>mongo导出</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">mongoexport  -u crossflow -p '0701!1523#SH' -authenticationDatabase admin -d bpc -c main_app_datapath -o main_app_datapath.json
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="shell-">shell 处理</h2>
-
-<ul>
-  <li>获取当前路径</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">export CURRENT_PATH=$(cd "$(dirname "$0")"; pwd)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>检查CPU load</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">CURRENT_LOAD=`top -b -n 1|grep 'load average'|awk '{print $12}'|sed 's/,//'`
-</span><span class="line">declare -i current_load=${CURRENT_LOAD%.*}
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>find 匹配多个pattern</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">find /usr/lib64 -name '*.so' -o -name '*.so.1'
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="section-4">文本处理</h2>
-
-<ul>
-  <li>根据某个字段做uniq</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sort -u -t, -k1 file
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/17/">&larr; Older</a>
@@ -1802,6 +1734,10 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/11/18/wslquan-xian-guan-li/">WSL权限管理</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a>
       </li>
     
@@ -1815,10 +1751,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     
       <li class="post">
         <a href="/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/">How to Run Tmux Service Scripts on Ubuntu Start Up</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/">吴恩达机器学习笔记-5</a>
       </li>
     
   </ul>
@@ -1920,7 +1852,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (67)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (68)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

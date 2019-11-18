@@ -98,6 +98,52 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/11/18/wslquan-xian-guan-li/">WSL权限管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-11-18T10:45:54+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/11/18/wslquan-xian-guan-li/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2019/11/18/wslquan-xian-guan-li/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>重装系统，又折腾了一遍WSL环境，记录一下:</p>
+
+<p>WSL (Win­dows Sub­sys­tem for Linux) 通过 /mnt 目录下的 c、d、e 等目录可分别访问本地的 C、D、E 等盘，虽然可以直接访问 Win­dows 下的文件内容，但输入 ls -al 查看文件你会发现文件权限全都是 777。这会导致一些问题出现，比如 Git会保留这些文件的执行权限，如果你之前在 Win­dows 下使用过 Git Bash ，那么在 WSL 中使用 <code>git status</code>查看本地仓库的文件状态时你会发现它们全部被标记成了 modified。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/11/18/wslquan-xian-guan-li/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a></h1>
     
     
@@ -507,50 +553,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">吴恩达机器学习笔记-2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-09-11T10:53:38+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class="info">Logistic回归， 正则化</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -566,6 +568,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/11/18/wslquan-xian-guan-li/">WSL权限管理</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a>
       </li>
     
@@ -579,10 +585,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/">How to Run Tmux Service Scripts on Ubuntu Start Up</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/">吴恩达机器学习笔记-5</a>
       </li>
     
   </ul>
@@ -684,7 +686,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (67)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (68)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
