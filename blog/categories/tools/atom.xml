@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-18T10:46:35+08:00</updated>
+  <updated>2019-11-18T11:04:57+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[WSL环境备份恢复]]></title>
+    <link href="https://happy123.me/blog/2019/11/18/wslhuan-jing-bei-fen-hui-fu/"/>
+    <updated>2019-11-18T11:04:27+08:00</updated>
+    <id>https://happy123.me/blog/2019/11/18/wslhuan-jing-bei-fen-hui-fu</id>
+    <content type="html"><![CDATA[<p>WSL环境是可以单独备份还原的，有个工具名为LxRunOffline:</p>
+
+<p>https://github.com/DDoSolitary/LxRunOffline</p>
+
+<p>release版本下载下来之后直接使用就可以；记录一下操作命令:</p>
+
+<!-- more -->
+
+<h4 id="wsl">备份wsl</h4>
+
+<p><code>
+LxRunOffline.exe export -n Ubuntu-18.04 -f ubuntu18.04.backup.tar.gz
+</code></p>
+
+<p>-n ：wsl的别名，就是之前用list查看的其中一个</p>
+
+<p>-f ：备份的路径，我这直接备份到当前路径backup.tar.gz</p>
+
+<h4 id="wsl-1">还原wsl</h4>
+
+<p><code>
+LxRunOffline.exe install -n Ubuntu-18.04 -d C:\wsl -f D:\temp\ubuntu18.04.backup.tar.gz
+</code></p>
+
+<p>-n ：起个名字</p>
+
+<p>-d ：wsl安装目录</p>
+
+<p>-f ：备份文件目录</p>
+
+<h4 id="wsl-2">删除WSL环境</h4>
+
+<p>可以直接用wsl原生的命令：wslconfig</p>
+
+<p><code>
+wslconfig /u Ubuntu-18.04
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[WSL权限管理]]></title>
@@ -595,25 +640,6 @@ source ~/.bashrc
 /usr/bin/tmux send-keys -t bitcoin:1 “cd /opt/bitcoin &amp;&amp; ./checkwallet start” C-m</p>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Paste Fails When Using Bracketed-paste-magic on zsh5.1.1]]></title>
-    <link href="https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/"/>
-    <updated>2019-09-13T10:50:31+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1</id>
-    <content type="html"><![CDATA[<p>突然碰到了zsh5.1.1的一个bug，粘贴中文的时候会把shell freeze；</p>
-
-<p>不知道是不是on-my-zsh升级的时候搞坏的，一通搜索发现了这个:</p>
-
-<p>https://github.com/zsh-users/zsh-autosuggestions/issues/102</p>
-
-<p>没有升级zsh，我直接到配置文件里把那段自动转义的功能注释掉了，嗯，简单粗暴~~~这东西我也不想天天升级；</p>
-
-<p><code>
-~/.oh-my-zsh/lib/misc.zsh
-</code></p>
 ]]></content>
   </entry>
   
