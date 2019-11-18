@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-18T11:04:57+08:00</updated>
+  <updated>2019-11-18T15:20:02+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,282 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Setup Lightning Node Cheat Sheet]]></title>
+    <link href="https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet/"/>
+    <updated>2019-11-18T15:14:19+08:00</updated>
+    <id>https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet</id>
+    <content type="html"><![CDATA[<p>运营一个闪电节点的基本命令速查；</p>
+
+<!-- more -->
+
+<h2 id="bitcoin-core">Bitcoin Core</h2>
+
+<h4 id="section">启动</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果需要一些老接口</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ --deprecatedrpc=signrawtransaction</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="bitcoinconf">bitcoin.conf</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpcuser=user
+</span><span class="line">rpcpassword=password
+</span><span class="line">#rpcallowip=127.0.0.1/16
+</span><span class="line">rpcallowip=0.0.0.0/0
+</span><span class="line">rpcport=8332
+</span><span class="line">test.rpcport=8332
+</span><span class="line">rpcthreads=10
+</span><span class="line">server=1
+</span><span class="line">rest=1
+</span><span class="line">testnet=0
+</span><span class="line">zmqpubrawblock=tcp://127.0.0.1:28332
+</span><span class="line">zmqpubrawtx=tcp://127.0.0.1:28333
+</span><span class="line">
+</span><span class="line">#walletnotify=/usr/bin/echo "hello"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="lnd">Lnd</h2>
+
+<p>接口丰富，自带rpc和restapi接口，迭代速度快；</p>
+
+<p>https://github.com/lightningnetwork/lnd</p>
+
+<h4 id="section-1">部署</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=user --bitcoind.rpcpass='password' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --listen=0.0.0.0:9736 --externalip=207.246.105.100 --no-macaroons 2&gt;&amp;1 &gt;&gt; lndtest.log</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-2">常用命令</h4>
+
+<ul>
+  <li>解锁钱包</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet unlock
+</span><span class="line">lncli  --network=testnet newaddr</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查看余额
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet walletbalance
+</span><span class="line">lncli  --network=testnet listunspent</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>连接到一个闪电节点</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet connect " 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>打开一个通道
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet openchannel --node_key 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8 100000</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>支付
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet sendpayment --pay_req ""lntb10n1pw6gf60pp5jxwg30u3k7qw2lzef7cnpy6tmnd80q2v5ytglf5tdaalrejhprzsdqhvf6xxmt9ypkxuepqw3jhxaqcqzpg9jsccqelkelayq89ydgrhxwf0hv2ffkdu2y6l27vtpmscszxj3pjsh..."</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>接收付款
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet addinvoice --memo "invoice for lnd.fun test3" --amt 100000</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>关闭通道
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lncli  --network=testnet closechannel ""1243f60a54c4c6b8ab5d124a0c701792e085ab13a68da135ca3ffbabb461f1cc"</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>链上发送全部余额</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet sendcoins tbxxxxxx  --sweepall</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="c-lightning">C-lightning</h2>
+
+<p>接口简洁，能直接集成lightning-charge；</p>
+
+<p>https://github.com/ElementsProject/lightning</p>
+
+<h4 id="section-3">部署</h4>
+
+<ul>
+  <li>c-lightning提供了systemctl 服务脚本:</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat /etc/systemd/system/lightning.service
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">[Unit]
+</span><span class="line">Description=c-Lightning daemon
+</span><span class="line">
+</span><span class="line">[Service]
+</span><span class="line">ExecStart=/usr/bin/lightningd --pid-file=/root/.lightning/lightning.pid --daemon
+</span><span class="line">PIDFile=/root/.lightning/lightning.pid
+</span><span class="line">User=root
+</span><span class="line">Type=forking
+</span><span class="line">Restart=always
+</span><span class="line">RestartSec=10
+</span><span class="line">
+</span><span class="line">[Install]
+</span><span class="line">WantedBy=multi-user.target</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>配置文件:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">~/.lightning/config
+</span><span class="line">
+</span><span class="line">alias=brain_zhang_lightning_testnode
+</span><span class="line">log-level=debug
+</span><span class="line">#network=bitcoin
+</span><span class="line">network=testnet
+</span><span class="line">bitcoin-rpcuser=user
+</span><span class="line">bitcoin-rpcpassword=password
+</span><span class="line">bitcoin-rpcconnect=127.0.0.1
+</span><span class="line">bitcoin-rpcport=18332
+</span><span class="line">log-file=/var/log/lightning.log
+</span><span class="line">bind-addr=
+</span><span class="line">announce-addr=x.x.x.x:9735</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>注册、启动服务
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">systemctl enable lightning
+</span><span class="line">systemctl start lightning</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<h4 id="section-4">常用命令</h4>
+
+<ul>
+  <li>建立一个新地址
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli newaddr</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>查看线上钱包地址
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli dev-listaddrs</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>连接node (1ml.com node)
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli connect 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>建立通道
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli fundchannel id satoshi [feerate] [announce] [minconf]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>查看链上和链下余额
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli listfunds</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<ul>
+  <li>支付</li>
+</ul>
+
+<p>Send payment specified by {bolt11} with {amount}
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli pay bolt11 [msatoshi] [label] [riskfactor] [maxfeepercent] [retry_for] [maxdelay] [exemptfee]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<ul>
+  <li>收款</li>
+</ul>
+
+<p>Create an invoice for {msatoshi} with {label} and {description} with optional {expiry} seconds (default 1 hour), optional {fallbacks} address list(default empty list) and optional {preimage}
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">lightning-cli invoice msatoshi label description [expiry] [fallbacks] [preimage] [exposeprivatechannels]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h2 id="c-lightning--lightning-charge">C-lightning &amp;&amp; lightning-charge</h2>
+
+<p>https://github.com/btcme/lightning-charge</p>
+
+<h4 id="section-5">部署</h4>
+
+<p>lightning-charge最好用docker直接集成c-lightning一把启动，比如我已经运行了一个bitcoin core全节点，可以直接下面的命令启动:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">docker run -d -u `id -u` -v `pwd`/data:/data -p 9735:9735 -p 9112:9112 \
+</span><span class="line">             -e API_TOKEN=mySecretToken \
+</span><span class="line">             -e NETWORK=testnet  \
+</span><span class="line">             -e BITCOIND_URI="http://user:password@172.18.0.1:18332" \
+</span><span class="line">             shesek/lightning-charge</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+注意BITCOIND_URL的IP是docker容器内向外连接的，如果不是用net的方式启动，要填docker的网桥地址；</p>
+
+<ul>
+  <li>查询运行状况
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">curl http://api-token:mySecretToken@localhost:9112/info</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[WSL环境备份恢复]]></title>
@@ -3510,121 +3786,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 <p>https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E</p>
 
 <p>https://www.lbbniu.com/6680.html</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Libssl Segfaults on python3.6 With Threading]]></title>
-    <link href="https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/"/>
-    <updated>2019-08-03T20:23:47+08:00</updated>
-    <id>https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading</id>
-    <content type="html"><![CDATA[<p>openssl1.0.0 和 openssl1.0.1 使用Python3.6的绑定:</p>
-
-<!-- more -->
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import ctypes
-</span><span class="line">import logging
-</span><span class="line">
-</span><span class="line">try:
-</span><span class="line">    ssl_library = ctypes.cdll.LoadLibrary('libeay32.dll')
-</span><span class="line">except Exception:
-</span><span class="line">    ssl_library = ctypes.cdll.LoadLibrary('libssl.so')
-</span><span class="line">
-</span><span class="line">def check_result(val, func, args):
-</span><span class="line">    if val == 0:
-</span><span class="line">        raise ValueError
-</span><span class="line">    else:
-</span><span class="line">        return ctypes.c_void_p(val)
-</span><span class="line">
-</span><span class="line">
-</span><span class="line"># ssl_library.EC_KEY_new.restype = ctypes.c_void_p
-</span><span class="line">ssl_library.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
-</span><span class="line">ssl_library.EC_KEY_new_by_curve_name.errcheck = check_result
-</span><span class="line">
-</span><span class="line">k = ssl_library.EC_KEY_new_by_curve_name(NID_secp256k1)
-</span><span class="line">
-</span><span class="line">if ssl_library.EC_KEY_generate_key(k) != 1:
-</span><span class="line">    raise Exception("internal error")
-</span><span class="line">ssl_library.EC_KEY_free(k)
-</span><span class="line">
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这段代码在多线程的时候会出现segmentation fault error； google一下发现<code>EC_KEY_generate_key</code>并不是线程安全的；于是:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">openssl_locks = [threading.Lock() for _ in range(ssl_library.CRYPTO_num_locks())]
-</span><span class="line">openssl_locking_function = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int, ctypes.c_char_p, ctypes.c_int)
-</span><span class="line">openssl_threadid_function = ctypes.CFUNCTYPE(ctypes.c_ulong)
-</span><span class="line">
-</span><span class="line">@openssl_locking_function
-</span><span class="line">def openssl_lock(mode, type, file, line):
-</span><span class="line">    if (mode &amp; CRYPTO_LOCK) != 0:
-</span><span class="line">        openssl_locks[type].acquire()
-</span><span class="line">    else:
-</span><span class="line">        openssl_locks[type].release()
-</span><span class="line">
-</span><span class="line">@openssl_threadid_function
-</span><span class="line">def openssl_threadid():
-</span><span class="line">    v = threading.current_thread().ident
-</span><span class="line">    return v
-</span><span class="line">
-</span><span class="line">ssl_library.CRYPTO_set_id_callback(openssl_threadid)
-</span><span class="line">ssl_library.CRYPTO_set_locking_callback(openssl_lock)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>诡异的是还是不定时的crash掉，又一通google之后发现是openssl1.0.0的实现问题，参考:</p>
-
-<p>https://bugs.python.org/issue29340</p>
-
-<p>需要升级至openssl1.1.0；</p>
-
-<p>这个是今天我在实现一个简单的比特币钱包的时候发现的，用函数名google了一通没发现问题；挂上gdb才追踪到了lib库里面；</p>
-
-<p>我当时通读了electrum的代码，还纳闷他为啥自己实现了一遍ECDSA，这回明白了；</p>
-
-<p>原来解决这种问题还蛮有兴致的，现在是越来越懒，有时候觉得这样效率真低啊，难道已经到了智力衰退期了，话说程序员有个35岁限制，我原来是不信的，现在有点体会了~~~</p>
 ]]></content>
   </entry>
   

@@ -98,6 +98,66 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/">一种提高比特币私钥碰撞机率的思路</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-01-18T10:41:40+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前的文章里面我们提到了一个名为<a href="https://lbc.cryptoguru.org">LBC</a>的项目；它采用了遍历所有比特币私钥，bloomfilter所有未花费的币的地址来碰撞比特币私钥。</p>
+
+<p>这个项目本身详尽<a href="https://lbc.cryptoguru.org/stats">计算了这种碰撞成功的几率</a>，目前碰撞空间大概在 2^136 级别。</p>
+
+<p>目前在一台最顶级的AWS GPU计算节点上面的碰撞效率是这样的:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">AWS p2.8xlarge	32 vCores Xeon v4, 8x K80 GPUs (50% each)	~80-88M/s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>每秒钟大概碰撞8000w次；目前LBC这个项目最顶峰的时候，算力到了1G的级别，这样计算下来:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">2^136 / 2^30 = 2 ^106
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>2^106 级别的碰撞效率还是遥遥无期啊；</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/01/18/%5B%3F%5D-chong-ti-gao-bi-te-bi-si-yao-peng-zhuang-ji-lu-de-si-lu/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/01/16/wsl-best-practice/">Wsl Best Practice</a></h1>
     
     
@@ -554,62 +614,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">比特币的交易-2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-12-03T18:06:46+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2018</time>
-        
-           | <a href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前的文章我们说过，比特币的所有交易抽象成了UTXO的转移。所谓转移，可以这么理解：</p>
-
-<ul>
-  <li>有M个UTXO作为输入 (M &gt;= 0)</li>
-  <li>有N个UTXO作为输出 (N &gt; 0)</li>
-  <li>输入的UTXO总额==输出的UTXO总额</li>
-  <li>输入的UTXO来源于支付方控制的私钥账户</li>
-  <li>输出的UTXO流向收款方的公钥地址</li>
-</ul>
-
-<p>那么具体是怎么转移的？怎样手工的构造一笔交易呢？我们就在这篇文章里面详细的演示一遍。</p>
-
-<p>首先科普一下常见的交易类型:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/12/03/bi-te-bi-de-jiao-yi-2/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -627,6 +631,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/">Setup Lightning Node Cheat Sheet</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/11/18/wslhuan-jing-bei-fen-hui-fu/">WSL环境备份恢复</a>
       </li>
     
@@ -640,10 +648,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2019/11/11/frpnei-wang-chuan-tou/">FRP内网穿透</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/11/05/hello-lightning-network-1/">Hello Lightning Network -1</a>
       </li>
     
   </ul>
@@ -701,7 +705,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ai/'>ai (5)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (55)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (56)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
