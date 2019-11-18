@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Nginx配置多端口多域名访问 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="在一个服务器上部署多个站点，需要开放多个端口来访问不同的站点，流程很简单，调试花了2小时，记录一下： 主域名多端口访问 在DNS NameServer设置A记录 将 www.xxx.com 指向服务器ip 开放所需端口，修改nginx配置文件 比如我们有两个服务分别开放在80端口和8080端口 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="happy123.me" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Nginx配置多端口多域名访问</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-11-18T15:52:07+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2019</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://happy123.me">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在一个服务器上部署多个站点，需要开放多个端口来访问不同的站点，流程很简单，调试花了2小时，记录一下：</p>
+
+<!-- more -->
+
+<h2 id="section">主域名多端口访问</h2>
+
+<h4 id="dns-nameservera">在DNS NameServer设置A记录</h4>
+
+<p>将 www.xxx.com 指向服务器ip</p>
+
+<h4 id="nginx">开放所需端口，修改nginx配置文件</h4>
+
+<p>比如我们有两个服务分别开放在80端口和8080端口</p>
+
+<p>如果有iptable，先开放端口：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">iptables -A INPUT -ptcp --dport 80 -j ACCEPT
+</span><span class="line">iptables -A INPUT -ptcp --dport 8080 -j ACCEPT</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>修改配置文件:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#path: /usr/local/nginx/conf/nginx.conf
+</span><span class="line">
+</span><span class="line">server {
+</span><span class="line">listen 80;
+</span><span class="line">server_name www.xxx.com;
+</span><span class="line">access_log /data/www/log/33.33.33.33_nginx.log combined;
+</span><span class="line">index index.html index.htm index.php;
+</span><span class="line">include /usr/local/nginx/conf/rewrite/none.conf;
+</span><span class="line">root /data/www/website/33.33.33.33:80;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">location ~ [^/]\.php(/|$) {
+</span><span class="line">    fastcgi_pass unix:/dev/shm/php-cgi.sock;
+</span><span class="line">    fastcgi_index index.php;
+</span><span class="line">    include fastcgi.conf;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+</span><span class="line">    expires 30d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(js|css)?$ {
+</span><span class="line">    expires 7d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">}
+</span><span class="line">server {
+</span><span class="line">listen 8080;
+</span><span class="line">server_name A.xxx.com;
+</span><span class="line">access_log /data/www/log/33.33.33.33:8080_nginx.log combined;
+</span><span class="line">index index.html index.htm index.php;
+</span><span class="line">include /usr/local/nginx/conf/rewrite/none.conf;
+</span><span class="line">root /data/www/website/33.33.33.33:8080;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">location ~ [^/]\.php(/|$) {
+</span><span class="line">    fastcgi_pass unix:/dev/shm/php-cgi.sock;
+</span><span class="line">    fastcgi_index index.php;
+</span><span class="line">    include fastcgi.conf;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+</span><span class="line">    expires 30d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(js|css)?$ {
+</span><span class="line">    expires 7d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>关键就是两个<code>server</code>段配置，你也可以把这两段拆成两个配置文件，放到</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/etc/nginx/conf.d/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>目录下面；</p>
+
+<h2 id="section-1">子域名多端口访问</h2>
+
+<p>这种访问比较傻，因为你的8080端口的访问需要 http://xxx.com:8080 这样的格式；</p>
+
+<p>而且如果有两个不同的cgi，比如80端口对应一个php web服务， 8080端口对应一个nodejs web服务；而我们的nodejs自带web服务，已经在8080端口监听了，这怎么办？</p>
+
+<p>这个时候我们需要Nginx的反向代理功能，并在DNS Server上面增加一条A记录，最终实现</p>
+
+<ul>
+  <li>www.xxx.com 访问80端口</li>
+  <li>A.xxx.com 通过nginx转发访问8080端口服务</li>
+</ul>
+
+<h5 id="a">增加一条A记录</h5>
+
+<p>将 A.xxx.com 指向服务器ip</p>
+
+<h5 id="nginx-1">Nginx配置模板如下：</h5>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#path: /usr/local/nginx/conf/nginx.conf
+</span><span class="line">
+</span><span class="line">server {
+</span><span class="line">    listen 80;
+</span><span class="line">    server_name www.xxx.com;
+</span><span class="line">    access_log /data/www/log/33.33.33.33_nginx.log combined;
+</span><span class="line">    index index.html index.htm index.php;
+</span><span class="line">    include /usr/local/nginx/conf/rewrite/none.conf;
+</span><span class="line">    root /data/www/website/33.33.33.33:80;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">    location ~ [^/]\.php(/|$) {
+</span><span class="line">        fastcgi_pass unix:/dev/shm/php-cgi.sock;
+</span><span class="line">        fastcgi_index index.php;
+</span><span class="line">        include fastcgi.conf;
+</span><span class="line">        }
+</span><span class="line">    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+</span><span class="line">        expires 30d;
+</span><span class="line">        access_log off;
+</span><span class="line">        }
+</span><span class="line">    location ~ .*\.(js|css)?$ {
+</span><span class="line">        expires 7d;
+</span><span class="line">        access_log off;
+</span><span class="line">        }
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">server {
+</span><span class="line">    listen 80;
+</span><span class="line">    listen [::]:80;
+</span><span class="line">
+</span><span class="line">    server_name A.XXX.com;
+</span><span class="line">
+</span><span class="line">    proxy_connect_timeout  300s;
+</span><span class="line">    proxy_send_timeout  300s;
+</span><span class="line">    proxy_read_timeout  300s;
+</span><span class="line">    fastcgi_send_timeout 300s;
+</span><span class="line">    fastcgi_read_timeout 300s;
+</span><span class="line">
+</span><span class="line">    location / {
+</span><span class="line">        proxy_pass    http://127.0.0.1:3000;
+</span><span class="line">        proxy_http_version 1.1;
+</span><span class="line">        proxy_set_header Upgrade $http_upgrade;
+</span><span class="line">        proxy_set_header Connection 'upgrade';
+</span><span class="line">        proxy_set_header Host $host;
+</span><span class="line">        proxy_cache_bypass $http_upgrade;
+</span><span class="line">        try_files $uri $uri/ =404;
+</span><span class="line">    }
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="nginx-2">nginx重新载入配置文件</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">nginx -s reload</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-11-18T15:52:07+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/network/'>network</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/" title="Previous Post: Setup Lightning Node Cheat Sheet">&laquo; Setup Lightning Node Cheat Sheet</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/">Nginx配置多端口多域名访问</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/">Setup Lightning Node Cheat Sheet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/11/18/wslhuan-jing-bei-fen-hui-fu/">WSL环境备份恢复</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/11/18/wslquan-xian-guan-li/">WSL权限管理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/';
+        var disqus_url = 'https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

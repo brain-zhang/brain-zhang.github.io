@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-18T15:28:37+08:00</updated>
+  <updated>2019-11-18T15:52:50+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,262 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Nginx配置多端口多域名访问]]></title>
+    <link href="https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/"/>
+    <updated>2019-11-18T15:52:07+08:00</updated>
+    <id>https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen</id>
+    <content type="html"><![CDATA[<p>在一个服务器上部署多个站点，需要开放多个端口来访问不同的站点，流程很简单，调试花了2小时，记录一下：</p>
+
+<!-- more -->
+
+<h2 id="section">主域名多端口访问</h2>
+
+<h4 id="dns-nameservera">在DNS NameServer设置A记录</h4>
+
+<p>将 www.xxx.com 指向服务器ip</p>
+
+<h4 id="nginx">开放所需端口，修改nginx配置文件</h4>
+
+<p>比如我们有两个服务分别开放在80端口和8080端口</p>
+
+<p>如果有iptable，先开放端口：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">iptables -A INPUT -ptcp --dport 80 -j ACCEPT
+</span><span class="line">iptables -A INPUT -ptcp --dport 8080 -j ACCEPT</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>修改配置文件:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#path: /usr/local/nginx/conf/nginx.conf
+</span><span class="line">
+</span><span class="line">server {
+</span><span class="line">listen 80;
+</span><span class="line">server_name www.xxx.com;
+</span><span class="line">access_log /data/www/log/33.33.33.33_nginx.log combined;
+</span><span class="line">index index.html index.htm index.php;
+</span><span class="line">include /usr/local/nginx/conf/rewrite/none.conf;
+</span><span class="line">root /data/www/website/33.33.33.33:80;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">location ~ [^/]\.php(/|$) {
+</span><span class="line">    fastcgi_pass unix:/dev/shm/php-cgi.sock;
+</span><span class="line">    fastcgi_index index.php;
+</span><span class="line">    include fastcgi.conf;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+</span><span class="line">    expires 30d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(js|css)?$ {
+</span><span class="line">    expires 7d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">}
+</span><span class="line">server {
+</span><span class="line">listen 8080;
+</span><span class="line">server_name A.xxx.com;
+</span><span class="line">access_log /data/www/log/33.33.33.33:8080_nginx.log combined;
+</span><span class="line">index index.html index.htm index.php;
+</span><span class="line">include /usr/local/nginx/conf/rewrite/none.conf;
+</span><span class="line">root /data/www/website/33.33.33.33:8080;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">location ~ [^/]\.php(/|$) {
+</span><span class="line">    fastcgi_pass unix:/dev/shm/php-cgi.sock;
+</span><span class="line">    fastcgi_index index.php;
+</span><span class="line">    include fastcgi.conf;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+</span><span class="line">    expires 30d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">location ~ .*\.(js|css)?$ {
+</span><span class="line">    expires 7d;
+</span><span class="line">    access_log off;
+</span><span class="line">    }
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>关键就是两个<code>server</code>段配置，你也可以把这两段拆成两个配置文件，放到</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/etc/nginx/conf.d/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>目录下面；</p>
+
+<h2 id="section-1">子域名多端口访问</h2>
+
+<p>这种访问比较傻，因为你的8080端口的访问需要 http://xxx.com:8080 这样的格式；</p>
+
+<p>而且如果有两个不同的cgi，比如80端口对应一个php web服务， 8080端口对应一个nodejs web服务；而我们的nodejs自带web服务，已经在8080端口监听了，这怎么办？</p>
+
+<p>这个时候我们需要Nginx的反向代理功能，并在DNS Server上面增加一条A记录，最终实现</p>
+
+<ul>
+  <li>www.xxx.com 访问80端口</li>
+  <li>A.xxx.com 通过nginx转发访问8080端口服务</li>
+</ul>
+
+<h5 id="a">增加一条A记录</h5>
+
+<p>将 A.xxx.com 指向服务器ip</p>
+
+<h5 id="nginx-1">Nginx配置模板如下：</h5>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#path: /usr/local/nginx/conf/nginx.conf
+</span><span class="line">
+</span><span class="line">server {
+</span><span class="line">    listen 80;
+</span><span class="line">    server_name www.xxx.com;
+</span><span class="line">    access_log /data/www/log/33.33.33.33_nginx.log combined;
+</span><span class="line">    index index.html index.htm index.php;
+</span><span class="line">    include /usr/local/nginx/conf/rewrite/none.conf;
+</span><span class="line">    root /data/www/website/33.33.33.33:80;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">    location ~ [^/]\.php(/|$) {
+</span><span class="line">        fastcgi_pass unix:/dev/shm/php-cgi.sock;
+</span><span class="line">        fastcgi_index index.php;
+</span><span class="line">        include fastcgi.conf;
+</span><span class="line">        }
+</span><span class="line">    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
+</span><span class="line">        expires 30d;
+</span><span class="line">        access_log off;
+</span><span class="line">        }
+</span><span class="line">    location ~ .*\.(js|css)?$ {
+</span><span class="line">        expires 7d;
+</span><span class="line">        access_log off;
+</span><span class="line">        }
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">server {
+</span><span class="line">    listen 80;
+</span><span class="line">    listen [::]:80;
+</span><span class="line">
+</span><span class="line">    server_name A.XXX.com;
+</span><span class="line">
+</span><span class="line">    proxy_connect_timeout  300s;
+</span><span class="line">    proxy_send_timeout  300s;
+</span><span class="line">    proxy_read_timeout  300s;
+</span><span class="line">    fastcgi_send_timeout 300s;
+</span><span class="line">    fastcgi_read_timeout 300s;
+</span><span class="line">
+</span><span class="line">    location / {
+</span><span class="line">        proxy_pass    http://127.0.0.1:3000;
+</span><span class="line">        proxy_http_version 1.1;
+</span><span class="line">        proxy_set_header Upgrade $http_upgrade;
+</span><span class="line">        proxy_set_header Connection 'upgrade';
+</span><span class="line">        proxy_set_header Host $host;
+</span><span class="line">        proxy_cache_bypass $http_upgrade;
+</span><span class="line">        try_files $uri $uri/ =404;
+</span><span class="line">    }
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="nginx-2">nginx重新载入配置文件</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">nginx -s reload</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Setup Lightning Node Cheat Sheet]]></title>
@@ -3352,458 +3608,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 </span><span class="line">r = requests.post(url, files=files)
 </span><span class="line">print r.text
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SSL&TLS Tips]]></title>
-    <link href="https://happy123.me/blog/2019/08/04/ssl-tls-tips/"/>
-    <updated>2019-08-04T09:35:42+08:00</updated>
-    <id>https://happy123.me/blog/2019/08/04/ssl-tls-tips</id>
-    <content type="html"><![CDATA[<p>每天的日常编码工作：就是解决一个问题的时候再创造另外一个问题 Orz…..</p>
-
-<p>话说刚才生成一个私钥的时候， Python3绑定libssl1.1 又崩了；正在痛苦思考中~~~</p>
-
-<!-- more -->
-
-<p>现在有两个选择:</p>
-
-<ol>
-  <li>放弃ssl动态库调用，反正我只用ECDSA，所以找个原生库来用好啦</li>
-  <li>死磕openssl，把它彻底搞明白</li>
-</ol>
-
-<p>利弊权衡之下我选择了1，不过当然我也在2上花了一点时间，复习了一下基础知识，在此记录下来。</p>
-
-<h3 id="libssl3">libssl3是个什么东东</h3>
-
-<p>在探究libssl.so的时候，我无意发现我的系统里面还有一个libssl3.so；这个是什么东东？我印象里面openssl还只有1.x版本才对；</p>
-
-<p>我在ubuntu16.04下查看这个so文件来源;</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ locate libssl3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libssl3.so
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>nm看一下:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ nm /usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class="line">nm: /usr/lib/x86_64-linux-gnu/libssl3.so: no symbols
-</span><span class="line">
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>奇怪，没有任何符号；继续用ldd看一下：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ ldd /usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class="line">ldd /usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class="line">        linux-vdso.so.1 =&gt;  (0x00007ffe833bb000)
-</span><span class="line">        libnss3.so =&gt; /usr/lib/x86_64-linux-gnu/libnss3.so (0x00007faf3cc8a000)
-</span><span class="line">        libnssutil3.so =&gt; /usr/lib/x86_64-linux-gnu/libnssutil3.so (0x00007faf3ca5d000)
-</span><span class="line">        libplc4.so =&gt; /usr/lib/x86_64-linux-gnu/libplc4.so (0x00007faf3c858000)
-</span><span class="line">        libnspr4.so =&gt; /usr/lib/x86_64-linux-gnu/libnspr4.so (0x00007faf3c619000)
-</span><span class="line">        libpthread.so.0 =&gt; /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007faf3c3fc000)
-</span><span class="line">        libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007faf3c032000)
-</span><span class="line">        libz.so.1 =&gt; /lib/x86_64-linux-gnu/libz.so.1 (0x00007faf3be18000)
-</span><span class="line">        libplds4.so =&gt; /usr/lib/x86_64-linux-gnu/libplds4.so (0x00007faf3bc14000)
-</span><span class="line">        libdl.so.2 =&gt; /lib/x86_64-linux-gnu/libdl.so.2 (0x00007faf3ba10000)
-</span><span class="line">        librt.so.1 =&gt; /lib/x86_64-linux-gnu/librt.so.1 (0x00007faf3b808000)
-</span><span class="line">        /lib64/ld-linux-x86-64.so.2 (0x00007faf3d21d000)
-</span><span class="line">
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>嗯，找到了一个有意思的依赖:libnss3.so</p>
-
-<p>再用命令dpkg看一下</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg -S /usr/lib/x86_64-linux-gnu/libnss3.so
-</span><span class="line">libnss3:amd64: /usr/lib/x86_64-linux-gnu/libnss3.so
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>基本上确定是libnss3这个库引入的libssl3.so了，最后再用dpkg确认一下:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg-query -L libnss3
-</span><span class="line">/.
-</span><span class="line">/usr
-</span><span class="line">/usr/lib
-</span><span class="line">/usr/lib/x86_64-linux-gnu
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libnssutil3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreebl3.chk
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnssckbi.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libsoftokn3.chk
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.chk
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreeblpriv3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.chk
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnssdbm3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/nss/libnsssysinit.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libsmime3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libnss3.so
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libssl3.so
-</span><span class="line">/usr/share
-</span><span class="line">/usr/share/doc
-</span><span class="line">/usr/share/doc/libnss3
-</span><span class="line">/usr/share/doc/libnss3/copyright
-</span><span class="line">/usr/share/doc/libnss3/changelog.Debian.gz
-</span><span class="line">/usr/share/lintian
-</span><span class="line">/usr/share/lintian/overrides
-</span><span class="line">/usr/share/lintian/overrides/libnss3
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="libnss3">libnss3是个什么东东?</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">apt-cache show libnss3
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>看了一下，发现是mozilla基金会搞得东东；再google一下，发现是自己孤陋寡闻了；</p>
-
-<p>原来，SSL&amp;TSL的实现，不只是openssl一家独大，像Mozilla Firefox就用自家实现的Nss；</p>
-
-<p>Google Chrome之前也是用Nss的，后来迁移到了openssl，再后来，2014年，openssl1.0.1出现了heartbeat 漏洞，Google干脆自己开了个分支，用自己定制的openssl了；</p>
-
-<p>至于Windows平台的，还有C++阵营的，都有自己实现的ssl库，具体可参见:</p>
-
-<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
-
-<h3 id="nsscentos">nss在centos中</h3>
-
-<p>搜素的过程中，我惊奇的发现，ubuntu和centos上面的curl，竟然链接的libssl也不一样：</p>
-
-<p>ubuntu上的curl默认链接的是openssl，而centos上面默认链接的是libnss3；</p>
-
-<p>耐人寻味啊，莫非redhat系的人发现了什么~~~~</p>
-
-<p>做事要做全套，我分别切换到ubuntu16.04和centos7.2上面，看看他们官方仓库中自带的curl是如何编译的。</p>
-
-<h4 id="centos72">centos7.2</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ rpm -q --requires curl
-</span><span class="line">libc.so.6()(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.14)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.17)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.2.5)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.3)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.4)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.7)(64bit)
-</span><span class="line">libcurl = 7.29.0-51.el7
-</span><span class="line">libcurl.so.4()(64bit)
-</span><span class="line">libdl.so.2()(64bit)
-</span><span class="line">libnspr4.so()(64bit)
-</span><span class="line">libnss3.so()(64bit)
-</span><span class="line">libnssutil3.so()(64bit)
-</span><span class="line">libplc4.so()(64bit)
-</span><span class="line">libplds4.so()(64bit)
-</span><span class="line">libpthread.so.0()(64bit)
-</span><span class="line">libpthread.so.0(GLIBC_2.2.5)(64bit)
-</span><span class="line">libsmime3.so()(64bit)
-</span><span class="line">libssl3.so()(64bit)
-</span><span class="line">libz.so.1()(64bit)
-</span><span class="line">rpmlib(CompressedFileNames) &lt;= 3.0.4-1
-</span><span class="line">rpmlib(FileDigests) &lt;= 4.6.0-1
-</span><span class="line">rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
-</span><span class="line">rtld(GNU_HASH)
-</span><span class="line">rpmlib(PayloadIsXz) &lt;= 5.2-1
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>用的是libcurl = 7.29.0-51.el7；</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ rpm -q --requires libcurl
-</span><span class="line">/sbin/ldconfig
-</span><span class="line">libc.so.6()(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.14)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.15)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.16)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.17)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.2.5)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.3)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.3.4)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.4)(64bit)
-</span><span class="line">libc.so.6(GLIBC_2.7)(64bit)
-</span><span class="line">libcom_err.so.2()(64bit)
-</span><span class="line">libdl.so.2()(64bit)
-</span><span class="line">libgssapi_krb5.so.2()(64bit)
-</span><span class="line">libgssapi_krb5.so.2(gssapi_krb5_2_MIT)(64bit)
-</span><span class="line">libidn.so.11()(64bit)
-</span><span class="line">libidn.so.11(LIBIDN_1.0)(64bit)
-</span><span class="line">libk5crypto.so.3()(64bit)
-</span><span class="line">libkrb5.so.3()(64bit)
-</span><span class="line">liblber-2.4.so.2()(64bit)
-</span><span class="line">libldap-2.4.so.2()(64bit)
-</span><span class="line">libnspr4.so()(64bit)
-</span><span class="line">libnss3.so()(64bit)
-</span><span class="line">libnss3.so(NSS_3.10)(64bit)
-</span><span class="line">libnss3.so(NSS_3.12.1)(64bit)
-</span><span class="line">libnss3.so(NSS_3.12.5)(64bit)
-</span><span class="line">libnss3.so(NSS_3.2)(64bit)
-</span><span class="line">
-</span><span class="line">....
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>看到libnss3了,重点输出：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">libnss3.so
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>那么这个包是谁提供的？输入如下命令：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ rpm -qf /usr/lib64/libnss3.so 
-</span><span class="line">    nss-3.36.0-7.1.el7_6.x86_64
-</span><span class="line">~ rpm -ql nss
-</span><span class="line">/etc/pki/nss-legacy
-</span><span class="line">/etc/pki/nss-legacy/nss-rhel7.config
-</span><span class="line">/etc/pki/nssdb
-</span><span class="line">/etc/pki/nssdb/cert8.db
-</span><span class="line">/etc/pki/nssdb/cert9.db
-</span><span class="line">/etc/pki/nssdb/key3.db
-</span><span class="line">/etc/pki/nssdb/key4.db
-</span><span class="line">/etc/pki/nssdb/pkcs11.txt
-</span><span class="line">/etc/pki/nssdb/secmod.db
-</span><span class="line">/usr/lib64/libnss3.so
-</span><span class="line">/usr/lib64/libnssckbi.so
-</span><span class="line">/usr/lib64/libsmime3.so
-</span><span class="line">/usr/lib64/libssl3.so
-</span><span class="line">/usr/lib64/nss/libnssckbi.so
-</span><span class="line">...
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>至此水落石出，还可以看到我们熟悉的证书cert8.db文件；但其实 curl 最终使用的根证书库并不是该文件。那 curl 使用的根证书文件在哪儿呢？</p>
-
-<p>使用 curl-config 命令行工具，能够了解更多：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ curl-config --ca                        
-</span><span class="line">/etc/pki/tls/certs/ca-bundle.crt
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="ubuntu1604">ubuntu16.04</h4>
-
-<p>ubuntu16上面验证类似，不一一说明了~~~</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ dpkg-query -L libcurl3
-</span><span class="line">/.
-</span><span class="line">/usr
-</span><span class="line">/usr/share
-</span><span class="line">/usr/share/doc
-</span><span class="line">/usr/share/doc/libcurl3
-</span><span class="line">/usr/share/doc/libcurl3/copyright
-</span><span class="line">/usr/share/doc/libcurl3/changelog.Debian.gz
-</span><span class="line">/usr/share/doc/libcurl3/NEWS.Debian.gz
-</span><span class="line">/usr/share/lintian
-</span><span class="line">/usr/share/lintian/overrides
-</span><span class="line">/usr/share/lintian/overrides/libcurl3
-</span><span class="line">/usr/lib
-</span><span class="line">/usr/lib/x86_64-linux-gnu
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.3
-</span><span class="line">/usr/lib/x86_64-linux-gnu/libcurl.so.4
-</span><span class="line">
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ apt-cache depends  libcurl3
-</span><span class="line">  Depends: libc6
-</span><span class="line">  Depends: libgssapi-krb5-2
-</span><span class="line">  Depends: libidn11
-</span><span class="line">  Depends: libldap-2.4-2
-</span><span class="line">  Depends: librtmp1
-</span><span class="line">  Depends: libssl1.0.0
-</span><span class="line">  Depends: zlib1g
-</span><span class="line">  Recommends: ca-certificates
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>然后寻找libcurl的依赖库:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ ldd /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0|grep ssl
-</span><span class="line">libssl.so.1.0.0 =&gt; /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007fbdf8aa0000)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>验证一下:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~ apt-cache depends openssl
-</span><span class="line">openssl
-</span><span class="line">  Depends: libc6
-</span><span class="line">  Depends: libssl1.0.0
-</span><span class="line">  Suggests: ca-certificates
-</span><span class="line">  
-</span><span class="line">~ apt-cache rdepends  libssl1.0.0 | grep curl
-</span><span class="line">  libcurl3  
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section">总结</h3>
-
-<p>所以这就是想要解决一个问题的中途，又被带到了另外一条小路上；该说我是还有那么一点好奇心呢？还是注意力不集中呢？</p>
-
-<p>Orz………</p>
-
-<h3 id="section-1">参考资料:</h3>
-
-<p>https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</p>
-
-<p>https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/de-ruiter</p>
-
-<p>https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E</p>
-
-<p>https://www.lbbniu.com/6680.html</p>
 ]]></content>
   </entry>
   
