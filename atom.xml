@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-26T17:02:28+08:00</updated>
+  <updated>2019-11-26T17:11:27+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -1290,7 +1290,7 @@ Once disabled, I’ve no more experienced any freeze for several days.</p>
     <link href="https://happy123.me/blog/2019/11/05/hello-lightning-network-1/"/>
     <updated>2019-11-05T17:17:48+08:00</updated>
     <id>https://happy123.me/blog/2019/11/05/hello-lightning-network-1</id>
-    <content type="html"><![CDATA[<p>有许多比特币社区的先行者们面对小白的提问时，总是真诚的说：“去看看比特币的白皮书吧，把它真正弄明白吧，你就会理解一切的。” —–如今，我想对许多质疑闪电网络的比特币先驱们说：“去看看闪电网络的白皮书吧，把它真正弄明白吧，你就会理解一切的。”</p>
+    <content type="html"><![CDATA[<p class="info">有许多比特币社区的先行者们面对小白的提问时，总是真诚的说：“去看看比特币的白皮书吧，把它真正弄明白吧，你就会理解一切的。” —–如今，我想对许多质疑闪电网络的比特币先驱们说：“去看看闪电网络的白皮书吧，把它真正弄明白吧，你就会理解一切的。”</p>
 
 <p>我们之前写文章评价道，闪电网络是次世代的支付技术，它不仅仅是一个支付技术，更是建立在比特币主网上的二层网络协议，将来会有许许多多新奇的应用建立在上面，它会为比特币开启下一个十年；</p>
 
