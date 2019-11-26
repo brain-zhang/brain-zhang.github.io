@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lightning | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/lightning/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-18T15:55:28+08:00</updated>
+  <updated>2019-11-26T17:02:28+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -288,7 +288,7 @@ curl http://api-token:mySecretToken@localhost:9112/info
     <link href="https://happy123.me/blog/2019/11/05/hello-lightning-network-1/"/>
     <updated>2019-11-05T17:17:48+08:00</updated>
     <id>https://happy123.me/blog/2019/11/05/hello-lightning-network-1</id>
-    <content type="html"><![CDATA[<h2 id="section">简明闪电网络科普-1</h2>
+    <content type="html"><![CDATA[<p>有许多比特币社区的先行者们面对小白的提问时，总是真诚的说：“去看看比特币的白皮书吧，把它真正弄明白吧，你就会理解一切的。” —–如今，我想对许多质疑闪电网络的比特币先驱们说：“去看看闪电网络的白皮书吧，把它真正弄明白吧，你就会理解一切的。”</p>
 
 <p>我们之前写文章评价道，闪电网络是次世代的支付技术，它不仅仅是一个支付技术，更是建立在比特币主网上的二层网络协议，将来会有许许多多新奇的应用建立在上面，它会为比特币开启下一个十年；</p>
 
@@ -417,7 +417,7 @@ curl http://api-token:mySecretToken@localhost:9112/info
 
 <p>…TODO  方法待另一篇文章介绍</p>
 
-<h4 id="section-1">这样就解决问题了吗？</h4>
+<h4 id="section">这样就解决问题了吗？</h4>
 
 <p>嗯……，当然不会这么简单……在一个复杂的网络中，即使你在直接相连的通道中有足够的remote_balance，但你不能保证支付路径上的每一个节点都有充足的remote_balance； 让我们揭示网络中所有节点的local_balance和remote_balance，来更好的理解资金如何流动。</p>
 
@@ -441,19 +441,19 @@ curl http://api-token:mySecretToken@localhost:9112/info
 
 <p>最致命的一点是，这种”显示所有节点的remote_balance和local_balance”的事情在闪电网络中是做不到的；作为网络的一个节点，我们只能知道其他支付通道的容量，而不知道它是如何在相连的两个节点之间分配资金的；</p>
 
-<h4 id="section-2">谁会受影响</h4>
+<h4 id="section-1">谁会受影响</h4>
 
 <p>在闪电网络中，并不是所有的节点都有同等的需求。查看我们的示例，全网至少会有三种类型的节点：</p>
 
-<h5 id="section-3">商人节点</h5>
+<h5 id="section-2">商人节点</h5>
 
 <p>商人节点主要需求是收款，因此，他需要Inbound Capacity，并且从客户到商人节点之间的支付路径上每一个节点，都要有足够的Inbound Capacity;</p>
 
-<h5 id="section-4">用户节点</h5>
+<h5 id="section-3">用户节点</h5>
 
 <p>用户主要通过闪电网络发送资金，偶尔也会从朋友那里收到一些钱； 对于这些用户，他们的关键是要连接到的节点具有足够的资金能路由给商家；这些用户需要保有少量的remote_balance即可；</p>
 
-<h5 id="section-5">路由节点</h5>
+<h5 id="section-4">路由节点</h5>
 
 <p>这些节点通过网络路由支付并为此收费。LNTOP就是这样的例子；</p>
 
@@ -463,7 +463,7 @@ curl http://api-token:mySecretToken@localhost:9112/info
 
 <p>真的是这样的吗？</p>
 
-<h4 id="section-6">结论</h4>
+<h4 id="section-5">结论</h4>
 
 <p>我们讨论了一个支付通道具有的特性，其通道容量、local_balance、remote_balance、Inbound Capacity, Outbound Capacity； 我们看到，闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
 
@@ -475,7 +475,7 @@ curl http://api-token:mySecretToken@localhost:9112/info
 
 <p>乔帮主的训诫还是需要时时温习：饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</p>
 
-<h4 id="section-7">引用</h4>
+<h4 id="section-6">引用</h4>
 
 <p>https://blog.muun.com/the-inbound-capacity-problem-in-the-lightning-network/</p>
 
