@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-27T16:47:27+08:00</updated>
+  <updated>2019-11-27T17:11:30+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,9 +18,7 @@
     <link href="https://happy123.me/blog/2019/11/26/hello-lightning-network-2/"/>
     <updated>2019-11-26T17:14:16+08:00</updated>
     <id>https://happy123.me/blog/2019/11/26/hello-lightning-network-2</id>
-    <content type="html"><![CDATA[<h2 id="section">简明闪电网络科普-2</h2>
-
-<p>在上一篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
+    <content type="html"><![CDATA[<p>在上一篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
 
 <p>我们这篇文章就来探讨为了解决Inbound Capacity问题，目前lightningLab的一个实验项目：</p>
 
@@ -106,7 +104,7 @@
 
 <p>上述过程以及结构图的描述，就是创建RSMC的全部过程。</p>
 
-<h4 id="section-1">交易更新</h4>
+<h4 id="section">交易更新</h4>
 
 <p>Alice和Bob各自0.5BTC的余额，此时Alice从Bob处购买了一件商品，价格为0.1BTC，那么余额应该变为Alice 0.4BTC，Bob 0.6BTC。</p>
 
@@ -128,7 +126,7 @@
 
 <p>引入sequence的目的是，阻止后续交易进块（RD1a），给出一个实施惩罚窗口期，当发现对方破坏合约时，可以有1000个块确认的时间去实施惩罚交易，即广播BR1a代替RD1a。若错过1000个块时间窗口，则无法再实施惩罚了（RD1a进块了）。</p>
 
-<h4 id="section-2">小结</h4>
+<h4 id="section-1">小结</h4>
 
 <p>Alice和Bob两人通过不断的协商和推敲，最终建立了这样一个通道：</p>
 
@@ -142,7 +140,7 @@
 
 <h2 id="htlc-hashed-timelock-contract---htlc">HTLC (Hashed Timelock Contract) –哈希时间锁定合约HTLC</h2>
 
-<h4 id="section-3">交易中转</h4>
+<h4 id="section-2">交易中转</h4>
 
 <p>RSMC要求交易的双方一定要都缴纳一笔保证金，我每天都跟不同的商家打交道，不能跟每个人都去建立RSMC，存入一笔资金吧。而且通道的建立和关闭都是需要链上广播的，如果要建立多个支付通道，交易费用也不容小觑，这有点本末倒置了吧。</p>
 
@@ -178,8 +176,8 @@
 
 <ol>
   <li>Alice向Eric发出支付请求，Eric的LN节点使用随机数生成器创建一个密钥R。Eric的节点没有向任何人泄露这个秘密。相反，Eric的节点计算密钥R对应的散列H，并将此散列值H发送到Alice的节点</li>
-  <li>Alice的节点构造一个HTLC，支付到散列H，并具有10个区块时间锁用于（当前块+10）退款，数量为1.003比特币。额外的0.003比特币将用于补偿参与此支付路由的中间节点。Alice将此HTLC提供给Bob，从和Bob之间的通道余额中扣除1.003比特币，并将其提交给HTLC。该HTLC具有以下含义：“如果Bob知道密钥，Alice将其通道余额的1.003比特币支付给Bob，或者如果超过10个区块时间后，则退还到Alice的账号”。Alice和Bob之间的通道余额现在由Commitment Tx表示，其中有三个输出：Bob的2比特币余额，Alice的0.997比特币余额，Alice的HTLC中承诺的1.003比特币。承诺交易再从Alice的余额中减去HTLC中的金额。</li>
-  <li>Bob现在有一个Commitment交易，如果他能够在接下来的10个区块生产时间内获得密钥R，他可以获取Alice锁定的1.003。手上有了这一承诺，Bob的节点在和Carol的支付通道上构建了一个HTLC。Bob的HTLC提交一笔HTLC（这是一笔P2SH交易，输出1.002比特币及9个区块时间锁），如果Carol拥有密钥R，她就可以兑换这个HTLC。Bob知道，如果Carol要获取他的HTLC，她必须出示密钥R。如果Bob在9个区块的时间内有R，他可以用它给自己兑换Alice的HTLC。通过承诺自己的通道余额9个区块的时间，他也赚了0.001比特币。如果Carol无法获取他的HTLC，并且他也无法获取Alice的HTLC，那么一切都将恢复到之前的通道余额，没有人会亏损。Bob和Carol之间的通道余额现在是：2比特币给Carol，0.998比特币给Bob，1.002比特币由Bob承诺给HTLC。</li>
+  <li>Alice的节点构造一个HTLC，支付到散列H(P2SH交易)，并具有10个区块时间锁用于（当前块+10）退款，数量为1.003比特币。额外的0.003比特币将用于补偿参与此支付路由的中间节点。Alice将此HTLC提供给Bob，从和Bob之间的通道余额中扣除1.003比特币，并将其提交给HTLC。该HTLC具有以下含义：“如果Bob知道密钥，Alice将其通道余额的1.003比特币支付给Bob，或者如果超过10个区块时间后，则退还到Alice的账号”。Alice和Bob之间的通道余额现在由Commitment Tx表示，其中有三个输出：Bob的2比特币余额，Alice的0.997比特币余额，Alice的HTLC中承诺的1.003比特币。承诺交易再从Alice的余额中减去HTLC中的金额。</li>
+  <li>Bob现在有一个承诺，如果他能够在接下来的10个区块生产时间内获得密钥R，他可以获取Alice锁定的1.003。手上有了这一承诺，Bob的节点在和Carol的支付通道上构建了一个HTLC。Bob的HTLC提交一笔HTLC（这是一笔P2SH交易，输出1.002比特币及9个区块时间锁），如果Carol拥有密钥R，她就可以兑换这个HTLC。Bob知道，如果Carol要获取他的HTLC，她必须出示密钥R。如果Bob在9个区块的时间内有R，他可以用它给自己兑换Alice的HTLC。通过承诺自己的通道余额9个区块的时间，他也赚了0.001比特币。如果Carol无法获取他的HTLC，并且他也无法获取Alice的HTLC，那么一切都将恢复到之前的通道余额，没有人会亏损。Bob和Carol之间的通道余额现在是：2比特币给Carol，0.998比特币给Bob，1.002比特币由Bob承诺给HTLC。</li>
   <li>Carol现在有一个承诺，如果她在接下来的9个区块时间内获得R，她可以获取Bob的锁定1.002比特币。现在她可以在她与Diana的通道上构建HTLC承诺。她提交了一个1.001比特币的HTLC（一笔P2SH交易，输出1.001比特币及8个区块时间锁），如果Diana有密钥R，她就可以兑换。从Carol的角度来看，如果能够实现，她就可以获得0.001比特币，否则也没有失去任何东西。她提交给Diana的HTLC，只有在R是已知的情况下才可行，到那时候她可以从Bob那里索取HTLC。Carol和Diana之间的通道余额现在是：2比特币给Diana，0.999比特币给Carol，1.001比特币由Carol承诺给HTLC。</li>
   <li>最后，Diana可以提供给Eric一个HTLC，1比特币到散列H及7个区块时间锁。Diana与Eric之间的通道余额现在是：2比特币给Eric，1比特币给Diana，1比特币由Diana承诺给HTLC。</li>
   <li>Eric拥有密钥R，他可以获取Diana提供的HTLC。他将R发送给Diana，并获取1比特币，添加到他的通道余额中。通道余额现在是：1比特币给Diana，3比特币给Eric。</li>
@@ -190,7 +188,7 @@
 
 <p>在没有向Eric打开支付通道的情况下，Alice已经支付给Eric 1比特币。付款路线中的中间方无须互相信任。在他们的通道内做一个短时间的资金承诺，他们就可以赚取一小笔费用，唯一的风险是，如果通道关闭或路由付款失败，退款有段短的延迟时间。</p>
 
-<h4 id="section-4">路由加密</h4>
+<h4 id="section-3">路由加密</h4>
 
 <p>LN节点之间的所有通信都是点对点加密的。另外，节点有一个长期公钥，它们用作标识符并且彼此认证对方；</p>
 
@@ -200,7 +198,7 @@
 
 <p>这是闪电网络的一个重要特征，因为它确保了付款的隐私，并且使得很难对其应用监控、审查以及黑名单机制。但是，Alice如何建立这种付款路径，而不向中间节点透露任何内容呢？</p>
 
-<p>闪电网络实现了一种基于<a href="http://bit.ly/2q6ZDrP">Sphinx</a> 方案的洋葱路由协议。该路由协议确保支付发送者可以通过闪电网络构建和通信路径，使得：</p>
+<p>闪电网络实现了一种基于<a href="https://cypherpunks.ca/~iang/pubs/Sphinx_Oakland09.pdf">Sphinx</a> 方案的洋葱路由协议。该路由协议确保支付发送者可以通过闪电网络构建和通信路径，使得：</p>
 
 <ul>
   <li>
@@ -223,7 +221,7 @@
 
 <p>此时，你可能想知道节点如何不知道路径的长度及其在该路径中的位置。毕竟，它们收到一个消息，并将其转发到下一跳。难道它不会将路径缩短，或者允许他们推断出路径长短和位置？为了防止这种情况，路径总是固定在20跳，并用随机数据填充。每个节点都会看到下一跳和一个要转发的固定长度的加密消息。只有最终的收件人看得到没有下一跳。对于其他人来说，似乎总是有20多跳要走。</p>
 
-<h4 id="section-5">总览</h4>
+<h4 id="section-4">总览</h4>
 
 <p>中转交易和路由加密技术解决了回退交易以及隐私保护的问题；</p>
 
@@ -233,13 +231,37 @@
 
 <h4 id="htlc">HTLC细节</h4>
 
+<p>让我们再从头想想吧， HTLC本质上也是一个双方资金分配的问题，只不过这笔资金的解锁需要一个符合散列H值的原像R值，这就是一笔P2SH交易而已；</p>
+
+<p>但普通的P2SH交易并不能满足这个场景的所有需求，因为我们还需要在交易失败的时候设置回退机制，资金还要能回退回来；</p>
+
+<p>回到我们上图的例子中，在路由的第一跳，我们想象中的Alice付给Bob的HTLC交易逻辑是这样的：</p>
+
+<p><code>
+OP IF
+OP HASH160 &lt;Hash160（R）&gt; OP EQUALVERIFY
+2 &lt;Alice2&gt; &lt;Bob2&gt; OP CHECKMULTISIG
+OP ELSE
+2 &lt; Alice 1&gt; &lt;Bob1&gt; OP CHECKMULTISIG
+OP ENDIF
+</code></p>
+
+<p>这个脚本从单一的 HTLC 输出花费有两种可能的路径:</p>
+
+<ul>
+  <li>在第一个路径（定义为 OP IF）将资金发送给 Bob，如果 Bob 可以产生R。这个UTXO是可以立即花费的；</li>
+  <li>第二条路径是交易失败，被赎回的时候触发的， 它需要设置一个10 Block的时间锁定，当它被赎回时，需要10个block的时间才能上链，这段时间为支付路径上的每一个中转节点提供了回退的时间窗口；</li>
+</ul>
+
+<p>那么让我们再次继续RSMC中的例子，假设Alice和Bob已经在Funding Tx的基础上建立了Commitment Tx，并且每个人都注入了0.5BTC，现在Alice想要为Bob构造一个输出为0.1BTC的HTLC，细节是这样的：</p>
+
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg1-1.png" alt="img" /></p>
 
 <h2 id="loop">LOOP</h2>
 
 <h4 id="stay-hungry-stay-foolish">最后，让我们再次自我鞭策：饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
-<h4 id="section-6">引用</h4>
+<h4 id="section-5">引用</h4>
 
 <p>https://blog.lightning.engineering/posts/2018/05/30/routing.html</p>
 
