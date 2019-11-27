@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-27T14:56:20+08:00</updated>
+  <updated>2019-11-27T15:27:10+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -65,7 +65,7 @@
 
 <p>于是我们产生了一个初步的方案：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190106/bg0-2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg0-2.jpg" alt="img" /></p>
 
 <p>Alice构造了C1a交易，这笔交易的Input是Funing Tx的output，但是输出上做了限制，它将资金分配到了两个output:</p>
 
@@ -136,15 +136,47 @@
   <li>通道的资金可以在两方协商同意的情况下任意分配，而不需要交易广播上链</li>
 </ol>
 
-<p>在达成了Funding Tx、C1a, C2a, RD1a, RD2a 这些交易之后，Alice和Bob两人就可以广播Funding Tx了，这是唯一需要广播的交易，建立通道后，双方所有的交易就是更新Commitment Tx的过程了，这些更新都可以通过链下完成，交易速度自然可以轻易的超过上万TPS；</p>
+<p>在达成了Funding Tx、C1a, C2a, RD1a, RD2a 这些交易之后，Alice和Bob两人就可以广播Funding Tx了，这是唯一需要广播的交易，建立通道后，双方所有的交易就是更新Commitment Tx的过程了，这些更新都可以通过链下完成，交易速度理论上只取决于Alice及Bob两方的网络和机器性能，可以很轻易的提升至数千TPS；</p>
 
 <h2 id="htlc-hashed-timelock-contract---htlc">HTLC (Hashed Timelock Contract) –哈希时间锁定合约HTLC</h2>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg1.png" alt="img" /></p>
+<h4 id="section-2">交易中转</h4>
+
+<p>RSMC要求交易的双方一定要都缴纳一笔保证金，我每天都跟不同的商家打交道，不能跟每个人都去建立RSMC，存入一笔资金吧。而且通道的建立和关闭都是需要链上广播的，如果要建立多个支付通道，交易费用也不容小觑，这有点本末倒置了吧。</p>
+
+<p>为了解决这个问题，闪电网络又引入了HTLC ( Hashed Timelock Contract )，中文意思是“哈希的带时钟的合约”。这个其实就是限时转账。理解起来也很简单，通过智能合约，双方约定转账方先冻结一笔钱，并提供一个哈希值，如果在一定时间内有人能提出一个字符串，使得它哈希后的值跟已知值匹配（实际上意味着转账方授权了接收方来提现），则这笔钱转给接收方。</p>
+
+<p>推广一步，甲想转账给丙，丙先发给甲一个哈希值。甲可以先跟乙签订一个合同，如果你在一定时间内能告诉我一个暗语，我就给你多少钱。乙于是跑去跟丙签订一个合同，如果你告诉我那个暗语，我就给你多少钱。丙于是告诉乙暗语，拿到乙的钱，乙又从甲拿到钱。最终达到结果是甲转账给丙。这样甲和丙之间似乎构成了一条完整的虚拟的“支付通道”。而乙就做了中转节点。</p>
+
+<p>Alice想要支付0.5BTC给Bob，但她并没有一个渠道来和他进行交易。幸运的是，她和Charlie有一个交易渠道，而Charlie正好和Bob有一个交易渠道。这样Alice就能借助Charlie的交易渠道，通过哈希时间锁定合约（HTLC）来和Bob进行交易了。</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190106/bg4.png" alt="img" /></p>
+
+<p>为了完成这次交易，Alice就会给Bob发短信说：“嘿！我要给你付笔款。”这时Bob自己将收到一个随机数字（R），接着Bob便会回一个被哈希的数字（H）（你可以认为被哈希的数字R是随机数字的一种加密形式）给Alice。</p>
+
+<p>然后Alice的钱包紧接着就会联系Charlie说：“嘿，Charlie。如果你给我生成（H）的未加密值（R），那么我就同意更新我们渠道的支付分配，这样你就可以得到的就会比0.5BTC多一点，我得的比0.5少一点。”</p>
+
+<p>尽管Charlie并不知道R，但他也会同意。之后Charlie便会去找Bob说：“嘿，Bob。如果你给我那个能生成H的未加密的值R，我将同意更新我们渠道的支付分配，这样你就可以得到的会比0.5BTC多一点，我得到的比0.5少一点。”因为R就是从Bob这里生成的，所以他肯定知道。接着他马上将R告诉Charlie，并更新了其渠道的支付分配。然后Charlie将R告诉给了Alice之后也更新他们的渠道，最后交易完成，Alice以脱链的形式付给Bob0.5BTC。</p>
+
+<p>交易中转说起来很简单，但它也要解决一些工程细节问题：</p>
+
+<ol>
+  <li>如何构造一笔交易，保证Charlie 只有收到R值的时候才能花费</li>
+  <li>如果交易由于超时或者网络原因中断，如何回退交易</li>
+  <li>这笔交易其实是Alice和Bob之间的事情，形成一条交易路径时却要通知所有参与转发交易的节点，如何保护隐私？</li>
+</ol>
+
+<p>让我们用一个更复杂的例子来好好理清这个交易过程吧！</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg1-0.jpg" alt="img" /></p>
+
+<h4 id="htlc">HTLC</h4>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg1-1.png" alt="img" /></p>
 
 <h4 id="stay-hungry-stay-foolish">最后，让我们再次自我鞭策：饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
-<h4 id="section-2">引用</h4>
+<h4 id="section-3">引用</h4>
 
 <p>https://blog.lightning.engineering/posts/2018/05/30/routing.html</p>
 
