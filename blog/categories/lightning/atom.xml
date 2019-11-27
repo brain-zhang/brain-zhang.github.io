@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lightning | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/lightning/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-27T15:27:10+08:00</updated>
+  <updated>2019-11-27T16:47:27+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -18,7 +18,9 @@
     <link href="https://happy123.me/blog/2019/11/26/hello-lightning-network-2/"/>
     <updated>2019-11-26T17:14:16+08:00</updated>
     <id>https://happy123.me/blog/2019/11/26/hello-lightning-network-2</id>
-    <content type="html"><![CDATA[<p>在上一篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
+    <content type="html"><![CDATA[<h2 id="section">简明闪电网络科普-2</h2>
+
+<p>在上一篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
 
 <p>我们这篇文章就来探讨为了解决Inbound Capacity问题，目前lightningLab的一个实验项目：</p>
 
@@ -104,7 +106,7 @@
 
 <p>上述过程以及结构图的描述，就是创建RSMC的全部过程。</p>
 
-<h4 id="section">交易更新</h4>
+<h4 id="section-1">交易更新</h4>
 
 <p>Alice和Bob各自0.5BTC的余额，此时Alice从Bob处购买了一件商品，价格为0.1BTC，那么余额应该变为Alice 0.4BTC，Bob 0.6BTC。</p>
 
@@ -112,7 +114,7 @@
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20190106/bg2.jpg" alt="img" /></p>
 
-<p>交易更新时的交易结构此时两个状态均是有效的，那么最核心的问题来了，如何才能彻底废弃掉C1a和C1b呢？</p>
+<p>交易更新时的交易结构–此时两个状态均是有效的，那么最核心的问题来了，如何才能彻底废弃掉C1a和C1b呢？</p>
 
 <p>RSMC采用了一个非常巧妙的方法，在C1a的第一个输出中，采用了Alice2和Bob的多重签名，Alice将Alice2 的私钥交给Bob，即表示Alice放弃C1a，承认C2a。</p>
 
@@ -126,7 +128,7 @@
 
 <p>引入sequence的目的是，阻止后续交易进块（RD1a），给出一个实施惩罚窗口期，当发现对方破坏合约时，可以有1000个块确认的时间去实施惩罚交易，即广播BR1a代替RD1a。若错过1000个块时间窗口，则无法再实施惩罚了（RD1a进块了）。</p>
 
-<h4 id="section-1">小结</h4>
+<h4 id="section-2">小结</h4>
 
 <p>Alice和Bob两人通过不断的协商和推敲，最终建立了这样一个通道：</p>
 
@@ -140,7 +142,7 @@
 
 <h2 id="htlc-hashed-timelock-contract---htlc">HTLC (Hashed Timelock Contract) –哈希时间锁定合约HTLC</h2>
 
-<h4 id="section-2">交易中转</h4>
+<h4 id="section-3">交易中转</h4>
 
 <p>RSMC要求交易的双方一定要都缴纳一笔保证金，我每天都跟不同的商家打交道，不能跟每个人都去建立RSMC，存入一笔资金吧。而且通道的建立和关闭都是需要链上广播的，如果要建立多个支付通道，交易费用也不容小觑，这有点本末倒置了吧。</p>
 
@@ -170,13 +172,74 @@
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg1-0.jpg" alt="img" /></p>
 
-<h4 id="htlc">HTLC</h4>
+<p>在这个例子中，我们有五个参与者：Alice、Bob、Carol、Diana和Eric。这五名参与者彼此之间已经开设了支付通道。Alice和Bob有支付通道。Bob连接Carol，Carol连接到Diana，Diana连接Eric。为了简单起见，我们假设每个通道每个参与者都注资2个比特币资金，每个通道的总容量为4个比特币。</p>
+
+<p>现在Alice想要给Eric支付1个比特币，通过我们的交易中转机制，她发现了一条支付通道：Alice-&gt;Bob-&gt;Carol-&gt;Diana-&gt;Eric；然后支付步骤如下：</p>
+
+<ol>
+  <li>Alice向Eric发出支付请求，Eric的LN节点使用随机数生成器创建一个密钥R。Eric的节点没有向任何人泄露这个秘密。相反，Eric的节点计算密钥R对应的散列H，并将此散列值H发送到Alice的节点</li>
+  <li>Alice的节点构造一个HTLC，支付到散列H，并具有10个区块时间锁用于（当前块+10）退款，数量为1.003比特币。额外的0.003比特币将用于补偿参与此支付路由的中间节点。Alice将此HTLC提供给Bob，从和Bob之间的通道余额中扣除1.003比特币，并将其提交给HTLC。该HTLC具有以下含义：“如果Bob知道密钥，Alice将其通道余额的1.003比特币支付给Bob，或者如果超过10个区块时间后，则退还到Alice的账号”。Alice和Bob之间的通道余额现在由Commitment Tx表示，其中有三个输出：Bob的2比特币余额，Alice的0.997比特币余额，Alice的HTLC中承诺的1.003比特币。承诺交易再从Alice的余额中减去HTLC中的金额。</li>
+  <li>Bob现在有一个Commitment交易，如果他能够在接下来的10个区块生产时间内获得密钥R，他可以获取Alice锁定的1.003。手上有了这一承诺，Bob的节点在和Carol的支付通道上构建了一个HTLC。Bob的HTLC提交一笔HTLC（这是一笔P2SH交易，输出1.002比特币及9个区块时间锁），如果Carol拥有密钥R，她就可以兑换这个HTLC。Bob知道，如果Carol要获取他的HTLC，她必须出示密钥R。如果Bob在9个区块的时间内有R，他可以用它给自己兑换Alice的HTLC。通过承诺自己的通道余额9个区块的时间，他也赚了0.001比特币。如果Carol无法获取他的HTLC，并且他也无法获取Alice的HTLC，那么一切都将恢复到之前的通道余额，没有人会亏损。Bob和Carol之间的通道余额现在是：2比特币给Carol，0.998比特币给Bob，1.002比特币由Bob承诺给HTLC。</li>
+  <li>Carol现在有一个承诺，如果她在接下来的9个区块时间内获得R，她可以获取Bob的锁定1.002比特币。现在她可以在她与Diana的通道上构建HTLC承诺。她提交了一个1.001比特币的HTLC（一笔P2SH交易，输出1.001比特币及8个区块时间锁），如果Diana有密钥R，她就可以兑换。从Carol的角度来看，如果能够实现，她就可以获得0.001比特币，否则也没有失去任何东西。她提交给Diana的HTLC，只有在R是已知的情况下才可行，到那时候她可以从Bob那里索取HTLC。Carol和Diana之间的通道余额现在是：2比特币给Diana，0.999比特币给Carol，1.001比特币由Carol承诺给HTLC。</li>
+  <li>最后，Diana可以提供给Eric一个HTLC，1比特币到散列H及7个区块时间锁。Diana与Eric之间的通道余额现在是：2比特币给Eric，1比特币给Diana，1比特币由Diana承诺给HTLC。</li>
+  <li>Eric拥有密钥R，他可以获取Diana提供的HTLC。他将R发送给Diana，并获取1比特币，添加到他的通道余额中。通道余额现在是：1比特币给Diana，3比特币给Eric。</li>
+  <li>现在，Diana有密钥R，因此，她现在可以获取来自Carol的HTLC。Diana将R发送给Carol，并将1.001比特币添加到其通道余额中。现在Carol与Diana之间的通道余额是：0.999比特币给Carol，3.001比特币给Diana。Diana已经“赚了”参与这个付款路线0.001比特币。</li>
+  <li>Carol 拿到密钥R，重复了同样的事情，他获取了来自Bob的HTLC的1.002个比特币，将他们的通道余额设为：0.998比特币给Bob，3.002比特币给Carol</li>
+  <li>最后，Bob获取来自Alice的HTLC）。他们的通道余额更新为：0.997比特币给Alice，3.003比特币给Bob。</li>
+</ol>
+
+<p>在没有向Eric打开支付通道的情况下，Alice已经支付给Eric 1比特币。付款路线中的中间方无须互相信任。在他们的通道内做一个短时间的资金承诺，他们就可以赚取一小笔费用，唯一的风险是，如果通道关闭或路由付款失败，退款有段短的延迟时间。</p>
+
+<h4 id="section-4">路由加密</h4>
+
+<p>LN节点之间的所有通信都是点对点加密的。另外，节点有一个长期公钥，它们用作标识符并且彼此认证对方；</p>
+
+<p>在前面的例子中，Alice的节点使用这些路由发现机制之一来查找将她的节点连接到Eric的节点的一个或多个路径。一旦Alice的节点构建了路径，她将通过网络初始化该路径，传播一系列加密和嵌套的指令来连接每个相邻的支付通道。</p>
+
+<p>重要的是，这个路径只有Alice的节点才知道。付款路线上的所有其他参与者只能看到相邻的节点。从Carol的角度来看，这看起来像是从Bob到Diana的付款。Carol不知道Bob实际上是中继转发Alice的汇款。她也不知道Diana将会向Eric中继转发付款。</p>
+
+<p>这是闪电网络的一个重要特征，因为它确保了付款的隐私，并且使得很难对其应用监控、审查以及黑名单机制。但是，Alice如何建立这种付款路径，而不向中间节点透露任何内容呢？</p>
+
+<p>闪电网络实现了一种基于<a href="http://bit.ly/2q6ZDrP">Sphinx</a> 方案的洋葱路由协议。该路由协议确保支付发送者可以通过闪电网络构建和通信路径，使得：</p>
+
+<ul>
+  <li>
+    <p>中间节点可以验证和解密其部分路由信息，并找到下一跳。</p>
+  </li>
+  <li>
+    <p>除了上一跳和下一跳，他们不能获取路径上任何其他节点。</p>
+  </li>
+  <li>
+    <p>他们无法识别支付路径的长度，或者他们自己在该路径中的位置。</p>
+  </li>
+  <li>
+    <p>路径的每个部分都被加密，使得网络级别的攻击者不能将来自路径的不同部分的数据包相互关联。</p>
+  </li>
+</ul>
+
+<p>使用这种洋葱路由协议，Alice将路径的每个节点信息封装在一层加密中，从尾端开始倒过来运算。她用Eric的公钥加密了Eric的消息。该消息封装在加密到Diana的消息中，并将Eric标识为下一个收件人。给Diana的消息封装在加密到Carol的公钥的消息中，并将Diana识别为下一个收件人。对Carol的消息被Bob的密钥加密。这样一来，Alice已经构建了这个加密的多层“洋葱”的消息。她发送给Bob，他只能解密和解开外层。在里面，Bob发现了一封给Carol的消息，他可以转发给Carol，但不能自己破译。按照路径，消息被转发、解密、转发等，一路到Eric那里。每个参与者只知道各自这一跳的前一个和下一个节点。</p>
+
+<p>路径中的每个节点都包含有关HTLC必须扩展到下一个跳的信息，HTLC中的要发送的数量，要包括的费用以及CLTV锁定到期时间（以块为单位）。随着路由信息的传播，节点将HTLC承诺转发到下一跳。</p>
+
+<p>此时，你可能想知道节点如何不知道路径的长度及其在该路径中的位置。毕竟，它们收到一个消息，并将其转发到下一跳。难道它不会将路径缩短，或者允许他们推断出路径长短和位置？为了防止这种情况，路径总是固定在20跳，并用随机数据填充。每个节点都会看到下一跳和一个要转发的固定长度的加密消息。只有最终的收件人看得到没有下一跳。对于其他人来说，似乎总是有20多跳要走。</p>
+
+<h4 id="section-5">总览</h4>
+
+<p>中转交易和路由加密技术解决了回退交易以及隐私保护的问题；</p>
+
+<p>那么，剩下的就是最重要的问题，就是如何在双方的支付通道中，在Commitment Tx的基础上，构造HTLC交易，同时不会影响原有Commitment Tx的所有功能？</p>
+
+<p>我们即将探究闪电网络最后的，也是最精细的一个部分，就是HTLC的细节实现，堪称这支交响乐中最细腻的部分；</p>
+
+<h4 id="htlc">HTLC细节</h4>
 
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg1-1.png" alt="img" /></p>
 
+<h2 id="loop">LOOP</h2>
+
 <h4 id="stay-hungry-stay-foolish">最后，让我们再次自我鞭策：饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
-<h4 id="section-3">引用</h4>
+<h4 id="section-6">引用</h4>
 
 <p>https://blog.lightning.engineering/posts/2018/05/30/routing.html</p>
 
