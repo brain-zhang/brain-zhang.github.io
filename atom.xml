@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-27T17:25:35+08:00</updated>
+  <updated>2019-11-28T13:09:12+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -247,7 +247,7 @@
 </span><span class="line">OP HASH160 &lt;Hash160（R）&gt; OP EQUALVERIFY
 </span><span class="line">2 &lt;Alice2&gt; &lt;Bob2&gt; OP CHECKMULTISIG
 </span><span class="line">OP ELSE
-</span><span class="line">2 &lt; Alice 1&gt; &lt;Bob1&gt; OP CHECKMULTISIG
+</span><span class="line">2 &lt; Alice1&gt; &lt;Bob1&gt; OP CHECKMULTISIG
 </span><span class="line">OP ENDIF</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这个脚本从单一的 HTLC 输出花费有两种可能的路径:</p>
@@ -259,13 +259,72 @@
 
 <p>那么让我们再次继续RSMC中的例子，假设Alice和Bob已经在Funding Tx的基础上建立了Commitment Tx，并且每个人都注入了0.5BTC，现在Alice想要为Bob构造一个输出为0.1BTC的HTLC，细节是这样的：</p>
 
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/htlc2-1.jpg" alt="img" /></p>
+
+<p>这个图跟我们在更新Commitment Tx的时候没有多大区别，最大的不同就是我们多了一个Output: 即C2a,C2b中的第二个Output;</p>
+
+<p>这个输出就代表着0.1BTC的HTLC的完整逻辑；要花费它可以有两种方式，就是我们上面所定义的两种路径：</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/htlc2-2.jpg" alt="img" /></p>
+
+<p>我们以Alice的视角，来观察C2a交易中的HTLC输出，拆分为HT1a和HED1a；</p>
+
+<p>HED1a的输出很简单，就是只需要Bob2签名以及原像R，Bob就能立即得到0.1BTC；</p>
+
+<p>HT1a就复杂了，它解决了交易失败时，如何交易回退的问题：</p>
+
+<p>让我们仔细再想想，支付通道更新的过程中，C1a,C2a, C1b, C2b等等交易完全是不上链的，如果Bob没有在指定时间内提供原像R，Alice如何收回自己的0.1BTC呢？</p>
+
+<p>等等，这个问题好熟悉的感觉！！ 没错，这个问题其实与我们如何花费Funding Tx如出一辙！ 对于HTLC交易的处理跟Funding Tx的处理可以采取一样的方法：</p>
+
+<h5 id="htlcrsmc-">就是将HTLC交易放到一个RSMC 当中去！！</h5>
+
+<p>经历了漫长的探索，我们最终得到了闪电网络白皮书中这样一张大图：</p>
+
 <p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191126/bg1-1.png" alt="img" /></p>
 
-<h2 id="loop">LOOP</h2>
+<ul>
+  <li>当我们以Alice视角来看待HT1a交易时： </li>
+</ul>
+
+<p>对于付款人（Alice），“中转”交易作为 HTLC 执行交付交易（HED1a）被发送，其不受阻于 RSMC。假定支付路径成立，而且 Alice 证明公布的承诺交易C2a是最近的话。如果 Bob 可以产生原像 R，他将能够在该承诺交易C2a在 blockchain 上公布之后赎回资金。当然只有 Alice 给 Bob她的 HED1a 签名Alice2，Bob 才可以公布 HED1a。</p>
+
+<p>如果交易失败， Alice 公布她的承诺交易HT1a，本次交易需要multisig（Alice1，Bob1）。但是，需要三天的锁定期，Alice才可以公布HTLC Timeout交易（HT1a）。这项交易是一个 RSMC。HT1a的输出HTRD1a需要Alice3和Bob3的 multisig，并且1000个block之后才能入块； 这样为后面的再次调整HTLC金额留出了余地，即本次交易可以撤销，当另一个使用
+multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块的成熟度要求。所以Bob也可以放心的签署HTRD1a；</p>
+
+<ul>
+  <li>当我们以Bob视角来看待HE1b交易时： </li>
+</ul>
+
+<p>对于收款者（Bob），收到的“Timeout” 作为 HTLC Timeout 交付交易（HTD1b）被退还。本次交易直接返还资金给原始发件人（Alice），并不受 RSMC 的阻碍。假定该 HTLC从未被 Off-chain 终止，因为 Bob 证明公布的承诺交易（C2b）是最新的。如果 3 天已经过去，Alice 可以公布 HTD1b 并拿到退款。如果 Bob 公布 C2b，本次交易需要 multisig（PAlice5，PAlice5）。只有 Alice 可以公布 HTD1b，因为 Bob 给了 Alice 他 HTD1b 交易的签名。</p>
+
+<p>但是，如果 HTD1b 没有被公布（没有经过 3 天时间）并且 Bob 知道原像 R，如果他能产生R，则 Bob 将能够公布 HTLC 执行交易（HE1b）。这项交易是一个 RSMC。如果 Bob 公布C2b，它需要输出 multisig（Alice6，Bob6），并要求披露 R。此交易的输出是一个有 1000个区块相对成熟的 multisig（Alice7，Bob7）的 RSMC，和不需要区块确认成熟的 multisig（Alice8，Bob8）。只有 Alice 给 Bob 她 HT1a 的签名，Bob 才可以公布 HT1a。HT1A 进入 blockchain 并且 1000 次确认完成后，一个 HTLC Timeout 撤销交付交易（HERD1b）可以由 Bob 通过消耗 multisig（Alice7，Bob7）公布。只有 Alice 给 Bob 他 HERD1b 的签名，Bob 可以在公布 HE1b 1000 区块后公布 HERD1b。本次交易可以撤销，当另一个使用multisig（Alice8，Bob8）的交易取代 HERD1b，它没有对任何区块的成熟度要求。</p>
+
+<ul>
+  <li>交易终止</li>
+</ul>
+
+<p>HTLC 构造之后，为了终止 HTLC Off-chain 需要双方同意渠道的状态。如果收件人可以向对方证明 R 的信息，证明他们能够立即关闭比特币 blockchain 上的渠道并且接收资金。在这一点上，如果双方都希望保持渠道打开，就应终止 HTLC Off-chain，并创建一个新的承诺交易反应新的平衡。</p>
+
+<p>由于 Bob 向 Alice 证明，以告诉 Alice R 的有关信息来告诉 Alice，Alice 愿意用新的承诺交易更新平衡。此时不管公布 C2 或 C3，支付将是相同的。</p>
+
+<p>同样，如果收件人不能够通过公开 R 来证明 R 的信息，双方应同意终止 HTLC 并创建一个新的承诺交易， HTLC 中的余额退还给发件人。</p>
+
+<p>如果交易对手不能达成协议或不回应，他们应该通过在比特币 blockchain 公布必需的渠道交易来关闭渠道。</p>
+
+<p>但是，如果他们合作，他们可以通过首先生成具有新的平衡的承诺交易，然后通过交换违约补救交易（BR2a / BR2b）使先前承诺失效。此外，如果他们终止特定的 HTLC，也要交换一些在 HTLC 交易中使用的自己的私钥。</p>
+
+<h2 id="section-5">总结</h2>
+
+<p>为了研究解决Inbound Capacity的问题，我们不可避免的又把闪电网路的细节回顾了一遍；</p>
+
+<p>为了学习loop，我们需要理解HTLC；但文章也因此拉长了，我们想偷个懒，Loop放到下一篇文章再来介绍；</p>
 
 <h4 id="stay-hungry-stay-foolish">最后，让我们再次自我鞭策：饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
-<h4 id="section-5">引用</h4>
+<h4 id="section-6">引用</h4>
+
+<p>https://github.com/lightningnetwork/paper</p>
 
 <p>https://blog.lightning.engineering/posts/2018/05/30/routing.html</p>
 
