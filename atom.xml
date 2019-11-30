@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-11-30T09:25:07+08:00</updated>
+  <updated>2019-11-30T10:01:24+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -502,7 +502,7 @@
 
 <p>不要着急，LOOP技术为闪电网络通道的资金管理提供了无限的可能性；个人运行一个LOOP Server的成本非常低，并且可以想象，在闪电网络的极大繁荣期，并不是只有大公司才能以极大的资金量提供闪电通道的服务，小商家通过精细的运营和筹划，在安全保证本金的前提下，运营一个 LOOP节点来获得手续费用，其性价比会超过运营一个超大规模的闪电节点；就像换汇一样，如果开放自由市场，国家控制的大银行无疑在换汇服务中有极大的优势，但能提供更低廉、更方便的换汇服务的，往往是街头不起眼的小商小贩；</p>
 
-<p>不要因为它现在只是一棵幼苗而看清它，也许二十年后，它会成长为一棵参天大树。</p>
+<p>不要因为它现在只是一棵幼苗而轻视它，也许二十年后，它会成长为一棵参天大树。</p>
 
 <h4 id="stay-hungry-stay-foolish">饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
@@ -819,7 +819,7 @@ multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块�
 
 <h2 id="section-5">总结</h2>
 
-<p>为了研究解决Inbound Capacity的问题，我们不可避免的又把闪电网路的细节回顾了一遍；我们需要理解HTLC；但文章也因此拉长了，我们把解决方案的探讨留给下一篇文章。</p>
+<p>为了研究解决Inbound Capacity的问题，我们不可避免的又把闪电网络的细节回顾了一遍；我们需要理解HTLC；但文章也因此拉长了，我们把解决方案的探讨留给下一篇文章。</p>
 
 <h4 id="stay-hungry-stay-foolish">最后，让我们再次自我鞭策：饥渴求知，虚怀若愚(Stay Hungry, Stay Foolish)</h4>
 
