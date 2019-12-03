@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2019-12-01T07:40:54+08:00</updated>
+  <updated>2019-12-03T15:51:45+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -2076,6 +2076,11 @@ Once disabled, I’ve no more experienced any freeze for several days.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">ssh -oPort=6000 root@x.x.x.x</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>也可以直接用一条scp命令直接通过跳板机拷贝文件到内网机器</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">scp -P 6000 -r xxx root@xxxxxxx:/opt/</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>同样的，如果内网开通了某些服务，比如我们的配置模板里面已经映射出了8080,18332,18333,28332,28333,60000-60010这些端口，这些端口同样的映射到服务端了；</p>
 
