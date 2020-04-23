@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-03-11T08:10:28+08:00</updated>
+  <updated>2020-04-23T15:48:30+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[十行代码颠覆世界金融体系]]></title>
+    <link href="https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/"/>
+    <updated>2020-04-23T15:47:39+08:00</updated>
+    <id>https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi</id>
+    <content type="html"><![CDATA[<p>这个有点标题党了，但实话说许多”高科技”项目也是这种浮夸的宣传手段，且听我慢慢道来；</p>
+
+<p>最近央行将推出数字货币（DCEP）的消息沸沸扬扬，在没有实际用过之前，我无意对其做过多揣测；</p>
+
+<p>不过这个消息激起了我另一方面的兴趣，就是写一些那些在以太坊上面发行的各种山寨Token；</p>
+
+<p>众所周知，自从Ethereum的ERC20、ERC223、ERC777等Token合约标准以来，在Ethereum上面发行一种货币的成本低的令人发指，我测算，按照现在的ETH汇率，大概10块人民币就能让你发行一个具有发行、转账、增发、销毁等基本功能的电子货币，如果导入OpenZeppelin程序库，在部署合约的时候多出100块钱左右，就可以拥有一个具有融资上限、拍卖、行权计划和其他更复杂的功能的货币。</p>
+
+<p>伟大的先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币，借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
+
+<p>虽然比特币发明以来，把它的代码Folk一份，修改两个参数就出来”颠覆世界”的山寨币已经数不胜数，但真正把”造币”这件事情变成无门槛，像吃棒棒糖一样容易的，还是得说以太坊的ERC20的横空出世；</p>
+
+<p>那么，就先让我们体验一下，如何10行代码创造我们自己的棒棒糖币吧~~~</p>
+
+<p>~~~ 填坑中</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello Lightning Network -3]]></title>
@@ -1180,45 +1203,6 @@ curl http://api-token:mySecretToken@localhost:9112/info
 <p>https://blog.muun.com/the-inbound-capacity-problem-in-the-lightning-network/</p>
 
 <p>https://github.com/lightningnetwork/lightning-rfc</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Eltoo-闪电和离线契约更新机制]]></title>
-    <link href="https://happy123.me/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/"/>
-    <updated>2019-09-13T10:29:32+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi</id>
-    <content type="html"><![CDATA[<p class="info">在我们之前的文章中，对闪电网络的来龙去脉和原理做了详尽的分析；我们提出，相对于现在的传统支付技术，闪电网络技术有一个不可思议的跨越，用时髦一点的话来说，这是次世代的支付技术，假以时日，我相信它的未来不可限量；</p>
-
-<p>闪电网络可以说是比特币二层网络技术的急先锋，它除了开拓比特币的支付愿景，还在很多层面对将来二层网络的发展提出了很多基础协议功能；这一切目前都收集在闪电网络基础技术规范，简称BOLT(Basis of Lightning Technology文档中；</p>
-
-<p>https://github.com/lightningnetwork/lightning-rfc</p>
-
-<!-- more -->
-
-<p>仔细阅读BOLT就会发现，闪电网络并不是一个单一的协议，它是一整套协议，并且许多部分都被设计为可替代的；最典型的就是支付通道的部分；</p>
-
-<p>为了保证支付通道双方不作弊，需要给作弊方施加足够的惩罚威慑，目前的支付通道采用的惩罚机制称为 “L2-penalty”机制；这是是JosephPoon和Thaddeus Dryja在原版Lightning Network白皮书中发明的协议;因此也被称为<code>Poon-Dryja通道</code>;</p>
-
-<p>除了这种实现，其实还有另外一种双向支付通道协议，称为[双工小额支付渠道（DMC）]，由Decker和Wattenhofer [2015年]发明。Christian Decker是Blockstream的开发人员，后来blockstream将这个协议进一步完善，发展为Eltoo规范，并在2018年提出；</p>
-
-<p>Eltoo简化了惩罚机制，效率更高，不仅能用于支付渠道当中，还有一个更广泛的应用，打开人任意多方(&lt;7)在二层网络上实现智能合约的可能性；</p>
-
-<p>这个原理讲起来脑洞很大，我读它的论文的时候又一次感叹: 还有这种操作？</p>
-
-<p>看来比特币社区的技术发展已经远远走到了时代的前面，你不能说比特币的技术是老旧的，以目前的发展来看，比特币的底层架构之稳健，足够支持更多的未来黑科技运行在上面；</p>
-
-<p>…….TODO 需要填坑</p>
-
-<p>Eltoo的实施需要一个软分叉，需要现有的比特币主网支持名为<code>SIGHASH_NOINPUT</code>的操作符，结合Schnorr 签名技术，将来会实现许多非常有意思的功能；</p>
-
-<p>最后再强调一遍，闪电网络不仅仅是一个支付的技术，他为比特币二层网络的各种应用构建提供了基础，相信在未来，会出现很多神奇的应用，有多神奇我无法想象；但这个技术绝不是一时的噱头，现在种种迹象表明，它会为比特币开启下一个十年；</p>
-
-<p>引用资料:</p>
-
-<p>https://blockstream.com/2018/04/30/en-eltoo-next-lightning/</p>
-
-<p>https://blockstream.com/eltoo.pdf</p>
 ]]></content>
   </entry>
   

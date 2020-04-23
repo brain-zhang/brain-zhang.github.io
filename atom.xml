@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-03-11T08:10:28+08:00</updated>
+  <updated>2020-04-23T15:48:30+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[十行代码颠覆世界金融体系]]></title>
+    <link href="https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/"/>
+    <updated>2020-04-23T15:47:39+08:00</updated>
+    <id>https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi</id>
+    <content type="html"><![CDATA[<p>这个有点标题党了，但实话说许多”高科技”项目也是这种浮夸的宣传手段，且听我慢慢道来；</p>
+
+<p>最近央行将推出数字货币（DCEP）的消息沸沸扬扬，在没有实际用过之前，我无意对其做过多揣测；</p>
+
+<p>不过这个消息激起了我另一方面的兴趣，就是写一些那些在以太坊上面发行的各种山寨Token；</p>
+
+<p>众所周知，自从Ethereum的ERC20、ERC223、ERC777等Token合约标准以来，在Ethereum上面发行一种货币的成本低的令人发指，我测算，按照现在的ETH汇率，大概10块人民币就能让你发行一个具有发行、转账、增发、销毁等基本功能的电子货币，如果导入OpenZeppelin程序库，在部署合约的时候多出100块钱左右，就可以拥有一个具有融资上限、拍卖、行权计划和其他更复杂的功能的货币。</p>
+
+<p>伟大的先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币，借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
+
+<p>虽然比特币发明以来，把它的代码Folk一份，修改两个参数就出来”颠覆世界”的山寨币已经数不胜数，但真正把”造币”这件事情变成无门槛，像吃棒棒糖一样容易的，还是得说以太坊的ERC20的横空出世；</p>
+
+<p>那么，就先让我们体验一下，如何10行代码创造我们自己的棒棒糖币吧~~~</p>
+
+<p>~~~ 填坑中</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello Lightning Network -3]]></title>
@@ -3749,269 +3772,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 </ul>
 
 <p>我好像真贪心呢^_^</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[为Flask RestAPI集成Swagger UI]]></title>
-    <link href="https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui/"/>
-    <updated>2019-08-18T15:38:02+08:00</updated>
-    <id>https://happy123.me/blog/2019/08/18/wei-flask-restapiji-cheng-swagger-ui</id>
-    <content type="html"><![CDATA[<p>花了半天时间，给<a href="https://github.com/brain-zhang/chainhorn">chainhorn</a>集成了Swagger;</p>
-
-<p>虽然这种事情已经做过好几遍了，但是不读文档还是没辙；我把这种半吊子形容为“我认识人民币，但是画不出来…T_T”</p>
-
-<p>还是老老实实流水账记一下吧:</p>
-
-<!-- more -->
-
-<h3 id="section">依赖组件</h3>
-
-<ul>
-  <li><a href="https://flask-restplus.readthedocs.io">flask-restplus</a></li>
-</ul>
-
-<p>restplus能让人很方便的通过几个decorator就可以集成很漂亮的restapi，它提供了api命名空间、Request和Response解析以及Swagger UI的集成</p>
-
-<p>另外，flask-restplus的文档和例子写的非常简洁清晰，赞一个。</p>
-
-<ul>
-  <li><a href="https://flask-httpauth.readthedocs.io/en/latest/">flask-httpauth</a></li>
-</ul>
-
-<p>用来集成验证机制，支持基本的密码验证、Token验证；短小精悍，够用了</p>
-
-<h3 id="section-1">起步</h3>
-
-<p>引用官网的例子:</p>
-
-<h4 id="api">构建api对象</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">from flask import Flask
-</span><span class="line">from flask_restplus import Api, Resource, fields
-</span><span class="line">from werkzeug.contrib.fixers import ProxyFix
-</span><span class="line">
-</span><span class="line">app = Flask(__name__)
-</span><span class="line">app.wsgi_app = ProxyFix(app.wsgi_app)
-</span><span class="line">
-</span><span class="line">api = Api(app, version='1.0', title='Chainhorn API',
-</span><span class="line">    description='A simple ChainHorn API',
-</span><span class="line">)
-</span><span class="line">
-</span><span class="line">ns = api.namespace('node', description='node operations')
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>最重要的是构建了<code>api</code>对象，这样就可以为后面的资源增加url路由、参数解析同能；</p>
-
-<p>下面紧跟着构建了一个<code>ns</code> –<code>namespace</code>对象，作用是为不同的资源，不同的url分组，这样最后反映到界面上好看一点；</p>
-
-<h4 id="section-2">修饰</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">@ns.route('')
-</span><span class="line">  class NodeGetInfo(Resource):
-</span><span class="line">      @ns_node.doc('get node info')
-</span><span class="line">      def get(self):
-</span><span class="line">          '''get node info'''
-</span><span class="line">          info = spv.getinfo()
-</span><span class="line">          return {'nodeinfo': info}, 200
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>最简单的，用<code>@ns.route('')</code>，就定义了根url， 然后后面的套路都是相似的，为资源实现get方法，就直接响应 http Get请求了；</p>
-
-<h4 id="request">Request参数处理</h4>
-
-<p>如果直接在url后面跟参数，那么很方便的用 <code>ns.param</code>定义一下即可:
-下面这个函数就直接接受一个 <code>/broadcast/tx12345</code> 这样的tx12345作为参数<code>tx</code></p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">@ns.route('/broadcast/&lt;string:tx&gt;')
-</span><span class="line">  class WalletBroadcastTx(Resource):
-</span><span class="line">      @ns.doc('broadcast raw tx')
-</span><span class="line">      @ns.param('tx', 'The transaction hash identifier')
-</span><span class="line">      def post(self, tx):
-</span><span class="line">          '''broadcast raw tx'''
-</span><span class="line">          sendrawtransaction(spv, tx)
-</span><span class="line">          return {'broadcast': 'ok'}, 200
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>如果要放在FormData里面，可以用<code>ns.expect</code>来限制；它可以接受一个对象传入；比如上面的例子，要把<code>tx</code>字段放到POST请求的Form Data中，要这样做:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">TxModel = {'tx': fields.String(required=True, description='The hex tx')}
-</span><span class="line">@ns.route('/broadcast')
-</span><span class="line">  class WalletBroadcastTx(Resource):
-</span><span class="line">      @ns.doc('broadcast raw tx')
-</span><span class="line">      @ns.expect(TxModel, 200)
-</span><span class="line">      def post(self, tx):
-</span><span class="line">          '''broadcast raw tx'''
-</span><span class="line">          sendrawtransaction(spv, api.payload['tx'])
-</span><span class="line">          return {'broadcast': 'ok'}, 200
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="response">Response参数处理</h4>
-
-<p>同样的，如果需要返回一个对象，在界面上出现这个对象的详细描述信息，可以用<code>marshal_with</code>和<code>marshal_list_with</code>来修饰；</p>
-
-<p>具体请参考:</p>
-
-<p>https://flask-restplus.readthedocs.io/en/stable/parsing.html</p>
-
-<h4 id="section-3">用户验证</h4>
-
-<p>例如，为API加上HTTP Token Auth，要用到<code>HTTPTokenAuth</code>对象；</p>
-
-<p>首先我们先定义验证规则:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">auth = HTTPTokenAuth()
-</span><span class="line">tokens = {
-</span><span class="line">  'APIKEY':'hello',
-</span><span class="line">  "APPID": "chainhorn"
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">@auth.verify_token
-</span><span class="line">def verify_token(token):
-</span><span class="line">  if request.headers.get('APIKEY', '').strip()==tokens['APIKEY'] and \
-</span><span class="line">     request.headers.get('APPID', '').strip() == tokens['APPID']:
-</span><span class="line">      return True
-</span><span class="line">  else:
-</span><span class="line">      return False
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>然后在每个url 请求处理函数前面加上修饰符<code>auth_login_required</code>；比如我们最开始的例子:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">@ns.route('')
-</span><span class="line">class NodeGetInfo(Resource):
-</span><span class="line">  @ns.doc('get node info')
-</span><span class="line">  @auth.login_required
-</span><span class="line">  def get(self):
-</span><span class="line">      '''get node info'''
-</span><span class="line">      info = spv.getinfo()
-</span><span class="line">      return {'nodeinfo': info}, 200
-</span><span class="line">
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这样后台验证就有了；那么前台输入呢？</p>
-
-<p>这个例子里面，我们需要前台输入的时候在HTTP Header里面传入两个Key: APIKEY和APPKEY；直接用用Swagger UI自带的组件实现就可以了，把api对象构造为:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">AUTHORIZATIONS = {
-</span><span class="line">    'apikey': {
-</span><span class="line">        'type': 'apiKey',
-</span><span class="line">        'in': 'header',
-</span><span class="line">        'name': 'APIKEY'
-</span><span class="line">    },
-</span><span class="line">    'appid': {
-</span><span class="line">        'type': 'apiKey',
-</span><span class="line">        'in': 'header',
-</span><span class="line">        'name': 'APPID'
-</span><span class="line">    }
-</span><span class="line">}
-</span><span class="line">api = Api(app,
-</span><span class="line">        version='v1',
-</span><span class="line">        authorizations=AUTHORIZATIONS,
-</span><span class="line">        security=list(AUTHORIZATIONS.keys()),
-</span><span class="line">        title='Chainhorn API',
-</span><span class="line">        description='Chainhorn API',
-</span><span class="line">)
-</span><span class="line">
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这样默认所有的API访问都需要 在HTTP Header中传入两个Key: APIKEY和APPKEY，如果值不对的话就会访问失败；</p>
-
-<p>此时前台的界面是这样的:</p>
-
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg" alt="Auth1" /></p>
-
-<p>可以点击右上角的Authorize一次性设置所有API的访问密钥；</p>
-
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg" alt="Auth2" /></p>
-
-<p>也可以在每个API的右上角设置访问密钥；</p>
-
-<p>当然，我们目前的密钥是后台写死的，你可以引入一个三方库为每个用户生成不同的密钥存到数据库里面，然后每次验证~~~</p>
-
-<h3 id="section-4">综合例子</h3>
-
-<p>最后，在github上面有个集大成的例子,值得推荐</p>
-
-<p>https://github.com/frol/flask-restplus-server-example</p>
-
 ]]></content>
   </entry>
   
