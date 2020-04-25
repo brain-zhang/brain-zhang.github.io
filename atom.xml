@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-04-25T11:12:29+08:00</updated>
+  <updated>2020-04-25T11:20:27+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -68,13 +68,12 @@
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ mkdir BangToken
 </span><span class="line">$ cd BangToken
-</span><span class="line">$ truffle init </span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">$ truffle init</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
-  <li>开始编辑我们的棒棒糖Token合约</li>
-</ol>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+  <li>开始编辑我们的棒棒糖Token合约
+4.
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -88,22 +87,23 @@
 <span class="line-number">12</span>
 <span class="line-number">13</span>
 <span class="line-number">14</span>
-<span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ vim contracts/BangToken.sol
+<span class="line-number">15</span></figure></notextile></li>
+</ol>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">$ vim contracts/BangToken.sol
 </span><span class="line">
 </span><span class="line">pragma solidity ^0.5.0;
 </span><span class="line">contract BangToken {
 </span><span class="line">    mapping (address =&gt; uint256) public balanceOf;
 </span><span class="line">    constructor(uint256 initialSupply) public {
-</span><span class="line">        balanceOf[msg.sender] = initialSupply;              
+</span><span class="line">        balanceOf[msg.sender] = initialSupply;
 </span><span class="line">    }
 </span><span class="line">    function transfer(address _to, uint256 _value) public {
-</span><span class="line">        require(balanceOf[msg.sender] &gt;= _value);           
-</span><span class="line">        require(balanceOf[_to] + _value &gt;= balanceOf[_to]); 
-</span><span class="line">        balanceOf[msg.sender] -= _value;                    
-</span><span class="line">        balanceOf[_to] += _value;                  
+</span><span class="line">        require(balanceOf[msg.sender] &gt;= _value);
+</span><span class="line">        require(balanceOf[_to] + _value &gt;= balanceOf[_to]);
+</span><span class="line">        balanceOf[msg.sender] -= _value;
+</span><span class="line">        balanceOf[_to] += _value;
 </span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
 
 <ol>
   <li>编写一个部署脚本</li>
@@ -120,7 +120,8 @@
 </span><span class="line">var BangToken = artifacts.require("BangToken");
 </span><span class="line">module.exports = function(deployer) {
 </span><span class="line">  deployer.deploy(BangToken);
-</span><span class="line">};</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">};
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
   <li>编译部署上链</li>
@@ -136,8 +137,8 @@
   <li>可以执行央行的角色，把货币分发给其他人；至于分发的方式，就看你的心情了
     <ul>
       <li>可以像以太坊众筹一样，为某个时间点的所有比特币持有者做个快照，然后按照比特币的持有量给所有持有人发币</li>
-      <li>可以搞宣传诈骗，引那些不明真相的群众花钱来买你成本只有0.001ETH的棒棒糖币</li>
-      <li>纯粹为了玩，发行1000万亿货币随机分发给所有以太坊玩家</li>
+      <li>可以搞宣传诈骗，先创建一个美轮美奂的高大上的网站，然后引那些不明真相的群众花钱来买你成本只有0.001ETH的棒棒糖币</li>
+      <li>纯粹为了玩，发行1000万亿货币随机分发给所有以太坊玩家；这也是大多数山寨Token的初始发行办法–先把场子热起来；</li>
     </ul>
   </li>
 </ul>
@@ -151,7 +152,7 @@
 <p>上面的货币虽然简单好用，但是有一些缺陷：</p>
 
 <ul>
-  <li>初始发行量定了就不能改了，以后不能在增发货币</li>
+  <li>初始发行量定了就不能改了，以后不能再增发货币</li>
   <li>发行出去的货币无法注销</li>
   <li>初始发行者的权利不能转让</li>
   <li>无法开展融资等活动</li>
@@ -160,7 +161,7 @@
 
 <p>为了解决这些问题，我们想要一个更高级一点的棒棒糖货币；毕竟，金融就是一件把事情越做越复杂的活儿，这样才好浑水摸鱼嘛^_^；</p>
 
-<p>这么搞下来10行代码肯定不止了，但是程序员最大的特称就是造轮子，早就有人把这些东西封装成现成的库合约了，我们引入一下，代码量反而更少了；</p>
+<p>这么搞下来10行代码肯定不止了，但是程序员最大的特长就是造轮子，早就有人把这些东西封装成现成的库合约了，我们引入一下，代码量反而更少了；</p>
 
 <p>~~~ 填坑中</p>
 ]]></content>
