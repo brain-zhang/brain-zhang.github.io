@@ -174,8 +174,10 @@ MathJax.Hub.Config({
 </span><span class="line">$ truffle init </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
-  <li>开始编辑我们的棒棒糖Token合约
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>开始编辑我们的棒棒糖Token合约</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -189,9 +191,8 @@ MathJax.Hub.Config({
 <span class="line-number">12</span>
 <span class="line-number">13</span>
 <span class="line-number">14</span>
-<span class="line-number">15</span></figure></notextile></li>
-</ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">$ vim contracts/BangToken.sol
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ vim contracts/BangToken.sol
 </span><span class="line">
 </span><span class="line">pragma solidity ^0.5.0;
 </span><span class="line">contract BangToken {
@@ -205,7 +206,7 @@ MathJax.Hub.Config({
 </span><span class="line">        balanceOf[msg.sender] -= _value;                    
 </span><span class="line">        balanceOf[_to] += _value;                  
 </span><span class="line">    }
-</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
   <li>编写一个部署脚本</li>
@@ -222,8 +223,7 @@ MathJax.Hub.Config({
 </span><span class="line">var BangToken = artifacts.require("BangToken");
 </span><span class="line">module.exports = function(deployer) {
 </span><span class="line">  deployer.deploy(BangToken);
-</span><span class="line">};
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">};</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
   <li>编译部署上链</li>
