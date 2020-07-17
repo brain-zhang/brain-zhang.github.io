@@ -100,6 +100,102 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Debug Solidity Contract on Truffle Suite</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-07-17T17:33:45+08:00" pubdate data-updated="true">Jul 17<span>th</span>, 2020</time>
+        
+           | <a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ethereum的智能合约调试起来很麻烦，到目前为止还是没有一个方便的类似于console.log()或printf的调用；</p>
+
+<p>一般都是通过Event的方法来打印log；这种办法在写单元测试的时候很麻烦；</p>
+
+<p>目前最接近于官方的手段是构造一个公用的Console库合约，然后链接到主合约里面来用；</p>
+
+<p>https://github.com/trufflesuite/truffle-logger-example</p>
+
+<p>这个PR一直没有Merge到TruffleSuite的新版本中，我们只能先临时手工Copy下代码来Monkey Patch一下；</p>
+
+<p>步骤如下：</p>
+
+<ol>
+  <li>首先在主合约的同级目录添加Console.sol合约:</li>
+</ol>
+
+<p>https://github.com/trufflesuite/truffle/blob/truffleLogger/packages/core/lib/logging/Console.sol</p>
+
+<ol>
+  <li>然后在部署脚本里面增加这个库的链接(以官方示例MetaCoin为例)</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ vim migrations/2_deploy_contracts.js</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">const Console = artifacts.require("Console");
+</span><span class="line">const MetaCoin = artifacts.require("MetaCoin");
+</span><span class="line">
+</span><span class="line">module.exports = function(deployer) {
+</span><span class="line">      deployer.deploy(Console);
+</span><span class="line">        deployer.link(Console, MetaCoin);
+</span><span class="line">          deployer.deploy(MetaCoin);
+</span><span class="line">          };
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>在需要打印log的单元测试中引入Console.sol</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ vim test/TestMetaCoin.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import "../contracts/Console.sol";
+</span><span class="line">
+</span><span class="line">.....
+</span><span class="line">    console.log("xxxxxx");</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/">十行代码挑战世界金融体系</a></h1>
     
     
@@ -521,58 +617,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/11/05/hello-lightning-network-1/">Hello Lightning Network -1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-11-05T17:17:48+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/11/05/hello-lightning-network-1/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2019/11/05/hello-lightning-network-1/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class="info">有许多比特币社区的先行者们面对小白的提问时，总是真诚的说：“去看看比特币的白皮书吧，把它真正弄明白吧，你就会理解一切的。” —–如今，我想对许多质疑闪电网络的比特币先驱们说：“去看看闪电网络的白皮书吧，把它真正弄明白吧，你就会理解一切的。”</p>
-
-<p>我们之前写文章评价道，闪电网络是次世代的支付技术，它不仅仅是一个支付技术，更是建立在比特币主网上的二层网络协议，将来会有许许多多新奇的应用建立在上面，它会为比特币开启下一个十年；</p>
-
-<p>但是闪电网络还在实现的早期阶段，能耐心去读懂它的白皮书的人已经非常少了，更不用提现在飞速发展的<a href="https://github.com/lightningnetwork/lightning-rfc/">BOLT规范</a>了；这其实跟比特币刚诞生时是一样的，在动辄就大谈“区块链技术改变未来”的那一群人中，有几人会真正花时间，去把已经发表11年的比特币8页白皮书弄个明白呢？</p>
-
-<p>闪电网络的基本原理其实非常简单，在我们之前的文章中已经花费了大量篇幅去介绍；但是在实现过程中，还有数不清的工程细节上的权衡；由于现在的实现还只是一个雏形，我们实操闪电网络交易的时候会有各种各样的“？”，我打算写一个系列文章，把一些有趣或者让人困惑的地方抽丝剥茧，记录一下自己的学习过程，也把这项迷人的技术介绍给更多人。</p>
-
-<p>我们将在这篇文章中讨论闪电网络的通道入站容量(Inbound Capacity)问题。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/11/05/hello-lightning-network-1/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -588,6 +632,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Debug Solidity Contract on Truffle Suite</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/">十行代码挑战世界金融体系</a>
       </li>
     
@@ -601,10 +649,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/">Nginx配置多端口多域名访问</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/">Setup Lightning Node Cheat Sheet</a>
       </li>
     
   </ul>
@@ -670,7 +714,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ai/'>ai (5)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (59)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (60)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

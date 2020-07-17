@@ -100,6 +100,101 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/12/22/migrate-centos7-from-centos6/">Migrate Centos7 From Centos6</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-22T11:58:43+08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2015</time>
+        
+           | <a href="/blog/2015/12/22/migrate-centos7-from-centos6/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2015/12/22/migrate-centos7-from-centos6/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>工作环境切换到Centos7 半年有余，epel仓库里的软件版本比el6更新了不少，非常方便。</p>
+
+<p>另外systemd的引入让很多程序，尤其是开机启动上，速度提升了不少。</p>
+
+<p>总体来说，很多细节让你感觉很舒服，值得大家尽快切换到这个版本上了。</p>
+
+<p>下面记一下从Centos6迁移到Centos7上 常见的Question:</p>
+
+<h2 id="q-systemd--sysv-init-etcinitdxxxx-">Q: 为什么引入systemd 代替 SysV init，我就是习惯原来的 /etc/init.d/xxxx 的方法?</h2>
+
+<p>A: 在我看来，有两点:</p>
+
+<ol>
+  <li>
+    <p>快。 真的是快，嗖嗖的快</p>
+  </li>
+  <li>
+    <p>日志。 终于能取代syslog了，我对syslog素无好感，配置复杂，level巨多，还不好排障。</p>
+  </li>
+</ol>
+
+<p>参考资料:</p>
+
+<p>http://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/</p>
+
+<p>https://wiki.archlinux.org/index.php/Systemd</p>
+
+<h2 id="q-">Q: 为什么网卡名字这么奇怪，我要原来的简单明了的办法!!!</h2>
+
+<p>A: 呃，好吧，我觉得虽然有一堆理由，但是网卡名字这个改变可能真的是没有产品经理的弊端。你想回到从前，很简单:</p>
+
+<ul>
+  <li>
+    <p>在 grub 加入 net.ifnames=0 and biosdevname=0 作为内核参数</p>
+  </li>
+  <li>
+    <p>在 /etc/sysconfig/network-scripts/ 内把你的网络卡配置文件换名为 ifcfg-ethX</p>
+  </li>
+  <li>
+    <p>假若你拥有多个界面并希望控制每个设备的名称，不想由内核作主，你似乎有必要通过 /etc/udev/rules.d/60-net.rules 盖过 /usr/lib/udev/rules.d/60-net.rules。</p>
+  </li>
+</ul>
+
+<h2 id="q-grubcfg--etcdefaultgrub">Q: grub.cfg 文件生成怎么这个奇怪，还要先配置 /etc/default/grub，再用命令生成一遍？我要直接改!!</h2>
+
+<p>A:  醒醒吧，我对这个改动双手赞成，至少她解决了centos6上一直被人诟病的efi问题。</p>
+
+<h2 id="q-ifconfig-netstat">Q: 嗯，我想问，ifconfig和 netstat哪里去了?</h2>
+
+<p>A: 额，套用官方原话回答吧:</p>
+
+<p>ifconfig 及 netstat 工具程序在 CentOS 5 及 6 的应用手册内被置标为降级已接近十年，而 Redhat 决定在 CentOS 7 不会缺省安装 net-utils 组件。取而代之的工具是 ss 和 ip 。假如你真的、真的很需要 ifconfig 和 netstat，你可执行 yum install net-utils。</p>
+
+<p>更多请参考：</p>
+
+<p>https://wiki.centos.org/zh/FAQ/CentOS7#head-d04a9f331b47791774aefd7c11371934e7350ab3</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/10/28/send-large-packet-by-dpdk-pktgen/">Send Large Packet by Dpdk Pktgen</a></h1>
     
     
@@ -1477,62 +1572,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/06/how-to-xargs-separate-parameters/">How to Xargs Separate Parameters</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-06T08:06:52+08:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/05/06/how-to-xargs-separate-parameters/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2015/05/06/how-to-xargs-separate-parameters/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>做过很多遍了，每次还是得现查，记一下:</p>
-
-<pre><code>echo "'param 1' 'param 2'" | xargs -n1 | xargs -I@ echo \[@\] \[@\]
-</code></pre>
-
-<p>output:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[param 1] [param 1]
-</span><span class="line">[param 2] [param 2]
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="xargs">xargs里面替换字符串</h2>
-
-<pre><code>ls|xargs -I @  echo "mv @ @.pack"|sed 's/.json.pack.pack/.pack/g'|bash
-</code></pre>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/18/">&larr; Older</a>
@@ -1550,6 +1589,10 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Debug Solidity Contract on Truffle Suite</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/">十行代码挑战世界金融体系</a>
       </li>
     
@@ -1563,10 +1606,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     
       <li class="post">
         <a href="/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/">Nginx配置多端口多域名访问</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/">Setup Lightning Node Cheat Sheet</a>
       </li>
     
   </ul>
@@ -1632,7 +1671,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <li class='category'><a href='/blog/categories/ai/'>ai (5)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (59)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (60)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

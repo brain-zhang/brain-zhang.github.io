@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-04-26T08:54:09+08:00</updated>
+  <updated>2020-07-17T17:42:48+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Debug Solidity Contract on Truffle Suite]]></title>
+    <link href="https://happy123.me/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/"/>
+    <updated>2020-07-17T17:33:45+08:00</updated>
+    <id>https://happy123.me/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite</id>
+    <content type="html"><![CDATA[<p>Ethereum的智能合约调试起来很麻烦，到目前为止还是没有一个方便的类似于console.log()或printf的调用；</p>
+
+<p>一般都是通过Event的方法来打印log；这种办法在写单元测试的时候很麻烦；</p>
+
+<p>目前最接近于官方的手段是构造一个公用的Console库合约，然后链接到主合约里面来用；</p>
+
+<p>https://github.com/trufflesuite/truffle-logger-example</p>
+
+<p>这个PR一直没有Merge到TruffleSuite的新版本中，我们只能先临时手工Copy下代码来Monkey Patch一下；</p>
+
+<p>步骤如下：</p>
+
+<ol>
+  <li>首先在主合约的同级目录添加Console.sol合约:</li>
+</ol>
+
+<p>https://github.com/trufflesuite/truffle/blob/truffleLogger/packages/core/lib/logging/Console.sol</p>
+
+<ol>
+  <li>然后在部署脚本里面增加这个库的链接(以官方示例MetaCoin为例)</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ vim migrations/2_deploy_contracts.js</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">const Console = artifacts.require("Console");
+</span><span class="line">const MetaCoin = artifacts.require("MetaCoin");
+</span><span class="line">
+</span><span class="line">module.exports = function(deployer) {
+</span><span class="line">      deployer.deploy(Console);
+</span><span class="line">        deployer.link(Console, MetaCoin);
+</span><span class="line">          deployer.deploy(MetaCoin);
+</span><span class="line">          };
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>在需要打印log的单元测试中引入Console.sol</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ vim test/TestMetaCoin.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import "../contracts/Console.sol";
+</span><span class="line">
+</span><span class="line">.....
+</span><span class="line">    console.log("xxxxxx");</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[十行代码挑战世界金融体系]]></title>
@@ -3879,30 +3945,6 @@ x_n = \frac{x_n - \mu_n}{s_n}
 </script>
 
 <p>只要特征变量的数目并不大，标准方程是一个很好的计算参数 𝜃 的替代方法。具体地说，只要特征变量的数量小于一万，通常使用标准方程法，而不使用梯度下降法。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[理想中的比特币全节点实现]]></title>
-    <link href="https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/"/>
-    <updated>2019-08-18T15:59:29+08:00</updated>
-    <id>https://happy123.me/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian</id>
-    <content type="html"><![CDATA[<p>虽然比特币已经运行十年，各式各样的比特币全节点实现已经很多了，但是我觉得还是有必要再增添一员；</p>
-
-<p>我理想中的比特币全节点实现是这样的:</p>
-
-<ul>
-  <li>他的核心是模块化可拆分的</li>
-  <li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
-  <li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
-  <li>他要兼容Lightning，并实现其瞭望塔功能</li>
-  <li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
-  <li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
-  <li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
-  <li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
-</ul>
-
-<p>我好像真贪心呢^_^</p>
 ]]></content>
   </entry>
   
