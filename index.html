@@ -100,7 +100,7 @@ MathJax.Hub.Config({
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Debug Solidity Contract on Truffle Suite</a></h1>
+      <h1 class="entry-title"><a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Do Logging on Solidity Contract With Truffle Suite</a></h1>
     
     
       <p class="meta">
@@ -138,15 +138,16 @@ MathJax.Hub.Config({
 
 <p>步骤如下：</p>
 
-<ol>
+<ul>
   <li>首先在主合约的同级目录添加Console.sol合约:</li>
-</ol>
+</ul>
 
-<p>https://github.com/trufflesuite/truffle/blob/truffleLogger/packages/core/lib/logging/Console.sol</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">wget https://raw.githubusercontent.com/trufflesuite/truffle/truffleLogger/packages/core/lib/logging/Console.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
+<ul>
   <li>然后在部署脚本里面增加这个库的链接(以官方示例MetaCoin为例)</li>
-</ol>
+</ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ vim migrations/2_deploy_contracts.js</span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -169,9 +170,9 @@ MathJax.Hub.Config({
 </span><span class="line">          };
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
+<ul>
   <li>在需要打印log的单元测试中引入Console.sol</li>
-</ol>
+</ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ vim test/TestMetaCoin.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -632,7 +633,7 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Debug Solidity Contract on Truffle Suite</a>
+        <a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Do Logging on Solidity Contract With Truffle Suite</a>
       </li>
     
       <li class="post">
