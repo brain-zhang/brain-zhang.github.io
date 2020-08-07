@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-07-17T17:47:09+08:00</updated>
+  <updated>2020-08-07T10:06:43+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -88,7 +88,7 @@ import “../contracts/Console.sol”;</p>
 
 <p>众所周知，自从Ethereum的ERC20、ERC223、ERC777等Token合约标准诞生以来，在Ethereum上面发行一种货币的成本低的令人发指，我测算，按照现在的ETH汇率，大概10块人民币就能让你发行一个具有发行、转账、增发、销毁等基本功能的电子货币，如果导入OpenZeppelin程序库，在部署合约的时候多出100块钱左右，就可以拥有一个具有融资上限、拍卖、行权计划和其他更复杂的功能的货币。</p>
 
-<p>伟大的先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币；借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
+<p>先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币；借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
 
 <p>虽然比特币发明以来，把它的代码Folk一份，修改两个参数就出来”颠覆世界”的山寨币已经数不胜数，但真正把”造币”这件事情变成无门槛，像吃棒棒糖一样容易的，还是得说以太坊的ERC20的横空出世；</p>
 
@@ -126,8 +126,8 @@ import “../contracts/Console.sol”;</p>
 </ol>
 
 <p><code>
-$ mkdir BangToken
-$ cd BangToken
+$ mkdir CakeCoin
+$ cd CakeCoin
 $ truffle init
 </code></p>
 
@@ -136,10 +136,10 @@ $ truffle init
 </ol>
 
 <p>```
-$ vim contracts/BangToken.sol</p>
+$ vim contracts/CakeCoin.sol</p>
 
 <p>pragma solidity ^0.5.0;
-contract BangToken {
+contract CakeCoin {
     mapping (address =&gt; uint256) public balanceOf;
     constructor(uint256 initialSupply) public {
         balanceOf[msg.sender] = initialSupply;
@@ -160,9 +160,9 @@ contract BangToken {
 <p>```
 $ vim migrations/2_deploy_contact.js</p>
 
-<p>var BangToken = artifacts.require(“BangToken”);
+<p>var CakeCoin = artifacts.require(“CakeCoin”);
 module.exports = function(deployer) {
-  deployer.deploy(BangToken);
+  deployer.deploy(CakeCoin);
 };</p>
 
 <p>```</p>
@@ -194,6 +194,51 @@ $ truffle migrate
 
 <h3 id="section-2">第二版</h3>
 
+<p>虽然这个CakeCoin已经具备了最简单的发行和转账的功能，但是查询总发行零，账户持有量等等操作只能通过与合约交互来实现，对于非码农人士太困难了，我们就增加必要的接口:</p>
+
+<p>```
+pragma solidity ^0.5.0;</p>
+
+<p>contract CakeCoin {
+/* This creates an array with all balances */
+    mapping (address =&gt; uint256) public balanceOf;
+    uint256 public totalSupply;</p>
+
+<pre><code>event TransferEvent(address indexed _from, address indexed _to, uint256 _value);
+
+/* Initializes contract with initial supply tokens to the creator of the contract */
+constructor(uint256 initialSupply) public {
+    balanceOf[msg.sender] = initialSupply;
+    totalSupply = initialSupply;
+    // Give the creator all initial tokens
+}
+
+/* Send coins */
+function transfer(address _to, uint256 _value) public {
+    require(balanceOf[msg.sender] &gt;= _value);
+    // Check if the sender has enough
+    require(balanceOf[_to] + _value &gt;= balanceOf[_to]);
+    // Check for overflows
+    balanceOf[msg.sender] -= _value;
+    // Subtract from the sender
+    balanceOf[_to] += _value;
+    // Add the same to the recipient
+    emit TransferEvent(msg.sender, _to, _value);
+}
+
+    function getBalance(address addr) public view returns(uint) {
+            return balanceOf[addr];
+    } }
+</code></pre>
+
+<p>```</p>
+
+<p>然后提供一个web UI操作界面，具体代码可以参考：</p>
+
+<p>https://github.com/brain-zhang/CakeCoin/tree/branches/1.2</p>
+
+<h3 id="section-3">第二版</h3>
+
 <p>上面的货币虽然简单好用，但是有一些缺陷：</p>
 
 <ul>
@@ -204,9 +249,13 @@ $ truffle migrate
   <li>…..</li>
 </ul>
 
-<p>为了解决这些问题，我们想要一个更高级一点的棒棒糖货币；毕竟，金融就是一件把事情越做越复杂的活儿，这样才好浑水摸鱼嘛^_^；</p>
+<p>为了解决这些问题，我们想要一个更高级一点的糖果货币；毕竟，金融就是一件把事情越做越复杂的活儿，这样才好浑水摸鱼嘛^_^；</p>
 
-<p>这么搞下来10行代码肯定不止了，但是程序员最大的特长就是造轮子，早就有人把这些东西封装成现成的库合约了，我们引入一下，代码量反而更少了；</p>
+<p>这么搞下来10行代码肯定不止了，但是程序员最大的特长就是造轮子，早就有人把这些东西封装成现成的库合约了,比如这个项目：</p>
+
+<p>https://github.com/OpenZeppelin/openzeppelin-contracts</p>
+
+<p>我们引入一下，代码量反而更少了；</p>
 
 <p>~~~ 填坑中</p>
 ]]></content>

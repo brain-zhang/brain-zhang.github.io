@@ -131,7 +131,7 @@ MathJax.Hub.Config({
 
 <p>众所周知，自从Ethereum的ERC20、ERC223、ERC777等Token合约标准诞生以来，在Ethereum上面发行一种货币的成本低的令人发指，我测算，按照现在的ETH汇率，大概10块人民币就能让你发行一个具有发行、转账、增发、销毁等基本功能的电子货币，如果导入OpenZeppelin程序库，在部署合约的时候多出100块钱左右，就可以拥有一个具有融资上限、拍卖、行权计划和其他更复杂的功能的货币。</p>
 
-<p>伟大的先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币；借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
+<p>先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币；借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
 
 <p>虽然比特币发明以来，把它的代码Folk一份，修改两个参数就出来”颠覆世界”的山寨币已经数不胜数，但真正把”造币”这件事情变成无门槛，像吃棒棒糖一样容易的，还是得说以太坊的ERC20的横空出世；</p>
 
@@ -171,8 +171,8 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ mkdir BangToken
-</span><span class="line">$ cd BangToken
+</pre></td><td class="code"><pre><code class=""><span class="line">$ mkdir CakeCoin
+</span><span class="line">$ cd CakeCoin
 </span><span class="line">$ truffle init</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
@@ -194,10 +194,10 @@ MathJax.Hub.Config({
 <span class="line-number">13</span>
 <span class="line-number">14</span>
 <span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ vim contracts/BangToken.sol
+</pre></td><td class="code"><pre><code class=""><span class="line">$ vim contracts/CakeCoin.sol
 </span><span class="line">
 </span><span class="line">pragma solidity ^0.5.0;
-</span><span class="line">contract BangToken {
+</span><span class="line">contract CakeCoin {
 </span><span class="line">    mapping (address =&gt; uint256) public balanceOf;
 </span><span class="line">    constructor(uint256 initialSupply) public {
 </span><span class="line">        balanceOf[msg.sender] = initialSupply;
@@ -222,9 +222,9 @@ MathJax.Hub.Config({
 <span class="line-number">6</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ vim migrations/2_deploy_contact.js
 </span><span class="line">
-</span><span class="line">var BangToken = artifacts.require("BangToken");
+</span><span class="line">var CakeCoin = artifacts.require("CakeCoin");
 </span><span class="line">module.exports = function(deployer) {
-</span><span class="line">  deployer.deploy(BangToken);
+</span><span class="line">  deployer.deploy(CakeCoin);
 </span><span class="line">};
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -254,6 +254,82 @@ MathJax.Hub.Config({
 
 <h3 id="section-2">第二版</h3>
 
+<p>虽然这个CakeCoin已经具备了最简单的发行和转账的功能，但是查询总发行零，账户持有量等等操作只能通过与合约交互来实现，对于非码农人士太困难了，我们就增加必要的接口:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">pragma solidity ^0.5.0;
+</span><span class="line">
+</span><span class="line">contract CakeCoin {
+</span><span class="line">/* This creates an array with all balances */
+</span><span class="line">    mapping (address =&gt; uint256) public balanceOf;
+</span><span class="line">    uint256 public totalSupply;
+</span><span class="line">
+</span><span class="line">    event TransferEvent(address indexed _from, address indexed _to, uint256 _value);
+</span><span class="line">
+</span><span class="line">    /* Initializes contract with initial supply tokens to the creator of the contract */
+</span><span class="line">    constructor(uint256 initialSupply) public {
+</span><span class="line">        balanceOf[msg.sender] = initialSupply;
+</span><span class="line">        totalSupply = initialSupply;
+</span><span class="line">        // Give the creator all initial tokens
+</span><span class="line">    }
+</span><span class="line">
+</span><span class="line">    /* Send coins */
+</span><span class="line">    function transfer(address _to, uint256 _value) public {
+</span><span class="line">        require(balanceOf[msg.sender] &gt;= _value);
+</span><span class="line">        // Check if the sender has enough
+</span><span class="line">        require(balanceOf[_to] + _value &gt;= balanceOf[_to]);
+</span><span class="line">        // Check for overflows
+</span><span class="line">        balanceOf[msg.sender] -= _value;
+</span><span class="line">        // Subtract from the sender
+</span><span class="line">        balanceOf[_to] += _value;
+</span><span class="line">        // Add the same to the recipient
+</span><span class="line">        emit TransferEvent(msg.sender, _to, _value);
+</span><span class="line">    }
+</span><span class="line">
+</span><span class="line">        function getBalance(address addr) public view returns(uint) {
+</span><span class="line">                return balanceOf[addr];
+</span><span class="line">        }
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>然后提供一个web UI操作界面，具体代码可以参考：</p>
+
+<p>https://github.com/brain-zhang/CakeCoin/tree/branches/1.2</p>
+
+<h3 id="section-3">第二版</h3>
+
 <p>上面的货币虽然简单好用，但是有一些缺陷：</p>
 
 <ul>
@@ -264,9 +340,13 @@ MathJax.Hub.Config({
   <li>…..</li>
 </ul>
 
-<p>为了解决这些问题，我们想要一个更高级一点的棒棒糖货币；毕竟，金融就是一件把事情越做越复杂的活儿，这样才好浑水摸鱼嘛^_^；</p>
+<p>为了解决这些问题，我们想要一个更高级一点的糖果货币；毕竟，金融就是一件把事情越做越复杂的活儿，这样才好浑水摸鱼嘛^_^；</p>
 
-<p>这么搞下来10行代码肯定不止了，但是程序员最大的特长就是造轮子，早就有人把这些东西封装成现成的库合约了，我们引入一下，代码量反而更少了；</p>
+<p>这么搞下来10行代码肯定不止了，但是程序员最大的特长就是造轮子，早就有人把这些东西封装成现成的库合约了,比如这个项目：</p>
+
+<p>https://github.com/OpenZeppelin/openzeppelin-contracts</p>
+
+<p>我们引入一下，代码量反而更少了；</p>
 
 <p>~~~ 填坑中</p>
 </div>
