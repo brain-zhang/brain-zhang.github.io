@@ -174,7 +174,6 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">$ mkdir CakeCoin
 </span><span class="line">$ cd CakeCoin
 </span><span class="line">$ truffle init</span></code></pre></td></tr></table></div></figure></notextile></div>
-
 <ol>
   <li>开始编辑我们的棒棒糖Token合约</li>
 </ol>
@@ -209,7 +208,6 @@ MathJax.Hub.Config({
 </span><span class="line">        balanceOf[_to] += _value;
 </span><span class="line">    }
 </span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
 <ol>
   <li>编写一个部署脚本</li>
 </ol>
@@ -227,7 +225,6 @@ MathJax.Hub.Config({
 </span><span class="line">  deployer.deploy(CakeCoin);
 </span><span class="line">};
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-
 <ol>
   <li>编译部署上链</li>
 </ol>
@@ -254,7 +251,7 @@ MathJax.Hub.Config({
 
 <h3 id="section-2">第二版</h3>
 
-<p>虽然这个CakeCoin已经具备了最简单的发行和转账的功能，但是查询总发行零，账户持有量等等操作只能通过与合约交互来实现，对于非码农人士太困难了，我们就增加必要的接口:</p>
+<p>虽然这个CakeCoin已经具备了最简单的发行和转账的功能，但是查询总发行量，账户持有量等等操作只能通过与合约交互来实现，对于非码农人士太困难了，我们需要增加必要的接口:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -326,9 +323,9 @@ MathJax.Hub.Config({
 
 <p>然后提供一个web UI操作界面，具体代码可以参考：</p>
 
-<p>https://github.com/brain-zhang/CakeCoin/tree/branches/1.2</p>
+<p>https://github.com/brain-zhang/CakeCoin/tree/branches/1.2/src</p>
 
-<h3 id="section-3">第二版</h3>
+<h3 id="section-3">第三版</h3>
 
 <p>上面的货币虽然简单好用，但是有一些缺陷：</p>
 
@@ -347,6 +344,120 @@ MathJax.Hub.Config({
 <p>https://github.com/OpenZeppelin/openzeppelin-contracts</p>
 
 <p>我们引入一下，代码量反而更少了；</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">pragma solidity ^0.4.0;
+</span><span class="line">
+</span><span class="line">import 'openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
+</span><span class="line">
+</span><span class="line">contract CakeCoin is StandardToken {
+</span><span class="line">    string public constant name = 'CakeCoin';
+</span><span class="line">    string public constant symbol = 'CAKECOIN';
+</span><span class="line">    uint8 public constant decimals = 2;
+</span><span class="line">    uint constant _initial_supply = 10000;
+</span><span class="line">
+</span><span class="line">    function CakeCoin() public {
+</span><span class="line">        totalSupply_ = _initial_supply;
+</span><span class="line">        balances[msg.sender] = _initial_supply;
+</span><span class="line">        emit Transfer(address(0), msg.sender, _initial_supply);
+</span><span class="line">    }
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以上的合约相比我们第二版，可以一眼看出有几个变化:</p>
+
+<ol>
+  <li>有了个正式的名字 <code>CakeCoin</code>, 这是ERC20的规范</li>
+  <li>有了个正式的货币符号 <code>CAKECOIN</code>, 这是ERC20的规范</li>
+  <li>有了精度限制, 这是ERC20的规范</li>
+  <li>有了初始发行量, 这是ERC20的规范</li>
+  <li>有了以上这些明文约定的东西，就很容易被第三方的交易所解析，可以直接上架交易</li>
+</ol>
+
+<p><code>openzeppelin-contracts</code> 项目发展非常快，为了便于演示，我们先采用其早期版本作为基础库；其truffle-config.js配置如下：</p>
+
+<p>https://github.com/brain-zhang/CakeCoin/blob/branches/1.3/truffle-config.js&#8220;</p>
+
+<p>执行下面命令重新部署:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">truffle migrate --reset</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如此一来我们就有了一个完整的符合<a href="https://docs.openzeppelin.com/contracts/3.x/erc20">ERC20</a>规范的代币；让我们先在命令行里面体验一下其能力：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ truffle console
+</span><span class="line">
+</span><span class="line">truffle(development)&gt; CakeCoin.address
+</span><span class="line">
+</span><span class="line">'0xb634675Ea3B3aDBb2B72A975cD7Ed04Be79c4873'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>得到了合约的部署地址，然后我们执行下列命令看一下货币发行总量:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">truffle(development)&gt; let supply = await CakeCoin.deployed().then(instance =&gt; instance.totalSupply())
+</span><span class="line">truffle(development)&gt; supply.toString()
+</span><span class="line">
+</span><span class="line">'10000'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>接着，我们用本地的测试区块链上创建的账户进行一笔转账，并验证其余额:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">truffle(development)&gt; let accounts;
+</span><span class="line">truffle(development)&gt; web3.eth.getAccounts((err,res) =&gt; { accounts = res });
+</span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+</span><span class="line">truffle(development)&gt; 10000
+</span><span class="line">
+</span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.transfer(accounts[1], 100) })
+</span><span class="line">
+</span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+</span><span class="line">truffle(development)&gt; 9900
+</span><span class="line">
+</span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[1]).then((balance) =&gt; console.log(balance.toString())) })
+</span><span class="line">truffle(development)&gt; 100
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>OK，验证完毕，这样我们创造了一个符合ERC20规范，可以直接上架交易所，具备基本的发行、转账功能的代币；但是我们得到的还不止于此~~~</p>
+
+<p>ERC20最大的功能创新是使用了approve和transferFrom的两步式交易。这个流程允许代币的持有人授权其他地址操纵他们的代币。这通常用于授权给某一个合约地址，进行代币的分发，但也可以用于交易所的场景。</p>
+
+<p>例如，某个公司正在销售ICO的代币，他们使用授权某个众筹合约的地址进行一定数量的代币分发。这个众筹合约就可以使用transferFrom把代币从持有人的余额中转账给ICO代币的买方;</p>
+
+<p>下面我们就演示如何创建一个众筹合约来配合我们的CakeCoin实现一个自动化的代币分发</p>
 
 <p>~~~ 填坑中</p>
 </div>
