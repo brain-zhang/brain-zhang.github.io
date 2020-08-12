@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-08T09:14:57+08:00</updated>
+  <updated>2020-08-12T17:02:23+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xargs Sh -c Skipping the First Argument]]></title>
+    <link href="https://happy123.me/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/"/>
+    <updated>2020-08-12T16:46:27+08:00</updated>
+    <id>https://happy123.me/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument</id>
+    <content type="html"><![CDATA[<p>其实这个问题已经见过很多次了，但是知其然不知其所以然；今天偶尔在stackoverflow上看到了，记录一下；</p>
+
+<h4 id="shellarg1-arg2">shell中的arg1, arg2…</h4>
+
+<p>在bash shell中，$1, $2代表arg1, arg2，比如</p>
+
+<p>```
+# echo hello world|xargs echo $1 $2</p>
+
+<p>hello world
+```</p>
+
+<!-- more -->
+
+<p>$0 代表执行环境，如果是一个执行脚本的话，$0代表其脚本名；比如下面这个脚本hello.sh:</p>
+
+<p>```
+#!/bin/bash</p>
+
+<p>echo $0
+echo $1
+echo $2
+```</p>
+
+<p>执行:</p>
+
+<p>```
+# ./hello.sh arg1 arg2</p>
+
+<p>```
+会输出</p>
+
+<p><code>
+./hello.sh
+arg1
+arg2
+</code></p>
+
+<h4 id="xargs-sh--c-arg">xargs 调用sh -c 中的arg</h4>
+
+<p>但是使用<code>xargs sh -c</code>时会出现一个比较疑惑的情况，比如执行:</p>
+
+<p>```
+# echo hello world|xargs sh -c ‘echo $1 $2’</p>
+
+<p>world
+```</p>
+
+<p>此时$1代表world，$2已经没有值了；而执行</p>
+
+<p>```
+# echo hello world|xargs sh -c ‘echo $0 $1’</p>
+
+<p>hello world
+```</p>
+
+<p>反而得到了正确结果；</p>
+
+<h4 id="why">why</h4>
+
+<p>之前我一直认为<code>xargs sh -c</code>调用的时候吃掉了$0，不求甚解；偶尔读了一下sh的手册才发现玄机:</p>
+
+<p>” From the documentation for the -c option:</p>
+
+<p>” Read commands from the command_string operand. Set the value of special parameter 0 (see Special Parameters) from the value of the command_name operand and the positional parameters ($1, $2, and so on) in sequence from the remaining argument operands.</p>
+
+<p>就是说在上面这条命令中，其实是没有找到要执行的命令，或者说要执行的命令为空，而hello world作为$1, $2传给一个空命令了；</p>
+
+<p>后面追加一个dummy的命令会看的更清楚:</p>
+
+<p>```
+# echo hello world|xargs sh -c ‘echo $1 $2’ _</p>
+
+<p>hello world</p>
+
+<p>后面我加了一条下划线作为xargs的dummy command，这样$1, $2就恢复正常了；</p>
+
+<h4 id="section">总结</h4>
+
+<p>虽然这是一个啥用也没有的Magic Topic，但是搞明白之后还是挺有意思的，娱乐用；</p>
+
+<p>另外隐隐约约觉得这里面隐含着一些安全方面的问题，暂时只是一种感觉，将来需要留意有没有这方面的hack手段;</p>
+
+<h4 id="section-1">引用</h4>
+
+<p>https://stackoverflow.com/questions/41043163/xargs-sh-c-skipping-the-first-argument</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[WSL环境备份恢复]]></title>
@@ -533,119 +627,6 @@ curl http://x.x.x.x:8080
 <p>FRP还有非常多的功能，比如虚拟主机、多路复用、负载均衡、点对点内网穿透等等，请参考官方文档：</p>
 
 <p>https://github.com/fatedier/frp/blob/master/README_zh.md</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Run Tmux Service Scripts on Ubuntu Start Up]]></title>
-    <link href="https://happy123.me/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/"/>
-    <updated>2019-10-30T10:11:38+08:00</updated>
-    <id>https://happy123.me/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up</id>
-    <content type="html"><![CDATA[<p>是的，做了无数遍还是不长记性，昨天又在这上面踩坑了；在ubuntu上写的启动脚本不执行，仅仅是可执行权限和用户权限的问题，又浪费了一上午；</p>
-
-<!-- more -->
-
-<p>在unbuntu启动时自动做一些工作，最佳实践是：</p>
-
-<h4 id="section">你想要执行一个服务</h4>
-
-<ul>
-  <li>如果是比较老的ubuntu (version&lt;=14.04LTS);</li>
-</ul>
-
-<p>这个时候你需要利用ubuntu的<a href="http://upstart.ubuntu.com/">upstart机制</a></p>
-
-<p>简单说来，就是将一个这样的脚本:</p>
-
-<p><code>
-start on startup
-task
-exec /path/to/command
-</code></p>
-
-<p>存为taskxxx.conf文件，放到/etc/init 目录下面(这将会在开机时用root用户权限启动)；</p>
-
-<p>或者存为 ~/.config/upstart(这将会在开机时用当前用户权限启动)</p>
-
-<ul>
-  <li>如果你是比较现代的ubuntu (version&gt;=16.04LTS)</li>
-</ul>
-
-<p>你需要利用 <a href="https://github.com/systemd/systemd">systemd</a> 服务，这个我们之前写文章科普过：</p>
-
-<p>https://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script/</p>
-
-<h4 id="section-1">仅仅想执行一条简单的命令</h4>
-
-<p><code>
-sudo nano /etc/rc.local
-</code></p>
-
-<p>加入执行的命令，不要忘了最后加exit</p>
-
-<p><code>
-/opt/tmux.sh
-exit 0
-</code></p>
-
-<p>增加可执行权限</p>
-
-<p><code>
-sudo chmod +x /etc/rc.local
-</code></p>
-
-<p>注意：</p>
-
-<ul>
-  <li>要有可执行权限，这个最容易踩坑，ubuntu安装完毕 /etc/rc.local 是没有可执行权限的</li>
-  <li>注意执行命令的ENV变量，不确定的时候要在命令签名设定SHELL ENV Variable</li>
-  <li>如果是执行一个脚本，注意脚本命令调用的shell (bash or sh or zsh)，以及ENV Variable</li>
-  <li>注意执行脚本、执行命令的用户</li>
-</ul>
-
-<h4 id="section-2">如果是修改一个环境变量</h4>
-
-<p>修改当前用户:</p>
-
-<p><code>
-nano ~/.bashrc
-</code></p>
-
-<p>所有用户生效:</p>
-
-<p><code>
-nano ~/etc/profile
-</code></p>
-
-<h4 id="section-3">最后，附赠最简单粗暴的开机执行任务方式</h4>
-
-<p>就是在/etc/rc.local 里面启动一个tmux session，在里面执行想要运行的命令；简单粗暴有效</p>
-
-<p>来个模板:</p>
-
-<p>```
-#!/bin/bash
-# description “Start Tmux”</p>
-
-<h1 id="sleep-for-5-seconds-if-you-are-starting-more-than-one-tmux-session">Sleep for 5 seconds. If you are starting more than one tmux session</h1>
-<p>#   “at the same time”, then make sure they all sleep for different periods
-#   or you can experience problems
-/bin/sleep 5
-# Ensure the environment is available
-source ~/.bashrc
-# Create a new tmux session named newscrawler..
-/usr/bin/tmux new-session -d -s bitcoin
-# …and control the tmux session (initially ensure the environment
-#   is available, then run commands)</p>
-
-<h1 id="usrbintmux-send-keys--t-bitcoincash0-source-bashrc-c-m">/usr/bin/tmux send-keys -t bitcoincash:0 “source ~/.bashrc” C-m</h1>
-<p>tmux new-window -n console -t bitcoin
-/bin/sleep 3
-/usr/bin/tmux send-keys -t bitcoin:0 “cd /opt/bitcoin &amp;&amp; ./startbitcoind.sh” C-m
-/bin/sleep 3
-/usr/bin/tmux send-keys -t bitcoin:1 “cd /opt/bitcoin &amp;&amp; ./checkwallet start” C-m</p>
-
-<p>```</p>
 ]]></content>
   </entry>
   
