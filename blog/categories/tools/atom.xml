@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-12T17:02:23+08:00</updated>
+  <updated>2020-08-12T17:08:19+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -22,7 +22,7 @@
 
 <h4 id="shellarg1-arg2">shell中的arg1, arg2…</h4>
 
-<p>在bash shell中，$1, $2代表arg1, arg2，比如</p>
+<p>在bash shell中，<code>$1</code>, <code>$2</code>代表arg1, arg2，比如</p>
 
 <p>```
 # echo hello world|xargs echo $1 $2</p>
@@ -32,7 +32,7 @@
 
 <!-- more -->
 
-<p>$0 代表执行环境，如果是一个执行脚本的话，$0代表其脚本名；比如下面这个脚本hello.sh:</p>
+<p><code>$0</code> 代表执行环境，如果是一个执行脚本的话，<code>$0</code> 代表其脚本名；比如下面这个脚本hello.sh:</p>
 
 <p>```
 #!/bin/bash</p>
@@ -66,7 +66,7 @@ arg2
 <p>world
 ```</p>
 
-<p>此时$1代表world，$2已经没有值了；而执行</p>
+<p>此时<code>$1</code>代表world，<code>$2</code>已经没有值了；而执行</p>
 
 <p>```
 # echo hello world|xargs sh -c ‘echo $0 $1’</p>
@@ -78,22 +78,27 @@ arg2
 
 <h4 id="why">why</h4>
 
-<p>之前我一直认为<code>xargs sh -c</code>调用的时候吃掉了$0，不求甚解；偶尔读了一下sh的手册才发现玄机:</p>
+<p>之前我一直认为<code>xargs sh -c</code>调用的时候吃掉了<code>$0</code>，不求甚解；偶尔读了一下sh的手册才发现玄机:</p>
 
-<p>” From the documentation for the -c option:</p>
+<blockquote>
+  <p>From the documentation for the -c option:</p>
+</blockquote>
 
-<p>” Read commands from the command_string operand. Set the value of special parameter 0 (see Special Parameters) from the value of the command_name operand and the positional parameters ($1, $2, and so on) in sequence from the remaining argument operands.</p>
+<blockquote>
+  <p>Read commands from the command_string operand. Set the value of special parameter 0 (see Special Parameters) from the value of the command_name operand and the positional parameters ($1, $2, and so on) in sequence from the remaining argument operands.</p>
+</blockquote>
 
-<p>就是说在上面这条命令中，其实是没有找到要执行的命令，或者说要执行的命令为空，而hello world作为$1, $2传给一个空命令了；</p>
+<p>就是说在上面这条命令中，其实是没有找到要执行的命令，或者说要执行的命令为空，而hello world作为<code>$1</code>, <code>$2</code>传给一个空命令了；</p>
 
 <p>后面追加一个dummy的命令会看的更清楚:</p>
 
 <p>```
 # echo hello world|xargs sh -c ‘echo $1 $2’ _</p>
 
-<p>hello world</p>
+<p>hello world
+```</p>
 
-<p>后面我加了一条下划线作为xargs的dummy command，这样$1, $2就恢复正常了；</p>
+<p>后面我加了一条下划线作为xargs的dummy command，这样<code>$1</code>, <code>$2</code>就恢复正常了；</p>
 
 <h4 id="section">总结</h4>
 
