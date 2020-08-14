@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-14T18:02:04+08:00</updated>
+  <updated>2020-08-14T18:05:55+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -414,15 +414,17 @@ truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.bala
 truffle(development)&gt; 0
 </code></p>
 
-<p>好了，我们先转账到CakeCoinFaucet合约1000个CakeCoin;
-<code>
+<p>好了，我们先转账到CakeCoinFaucet合约1000个CakeCoin</p>
+
+<p><code>
 truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.approve(CakeCoinFaucet.address, 1000) })
 truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
 truffle(development)&gt; 9000
 </code></p>
 
-<p>提现试一下:
-<code>
+<p>提现试一下:</p>
+
+<p><code>
 truffle(development)&gt; CakeCoinFaucet.deployed().then(instance =&gt; { instance.withdraw(accounts[1], 1000) })
 truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[1]).then((balance) =&gt; console.log(balance.toString())) })
 truffle(development)&gt; 1000
