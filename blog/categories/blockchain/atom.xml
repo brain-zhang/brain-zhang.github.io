@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-12T17:08:19+08:00</updated>
+  <updated>2020-08-14T18:02:04+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -334,13 +334,103 @@ truffle(development)&gt; 100</p>
 
 <p>下面我们就演示如何创建一个众筹合约来配合我们的CakeCoin实现一个自动化的代币分发</p>
 
-<p>~~~ 填坑中</p>
+<h4 id="cakecoindemo">首先我们需要建立一个接收CakeCoin的合约Demo</h4>
+
+<p>```
+pragma solidity ^0.4;</p>
+
+<p>import ‘openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol’;</p>
+
+<p>// A faucet for ERC20 token CakeCoin
+contract CakeCoinFaucet {</p>
+
+<pre><code>    StandardToken public CakeCoin;
+    address public CakeCoinOwner;
+
+    // CakeCoinFaucet constructor, provide the address of CakeCoin contract and
+    // the owner address we will be approved to transferFrom
+    constructor(address _CakeCoin, address _CakeCoinOwner) public {
+
+            // Initialize the CakeCoin from the address provided
+            CakeCoin = StandardToken(_CakeCoin);
+            CakeCoinOwner = _CakeCoinOwner;
+    }
+
+    function withdraw(uint withdraw_amount) public {
+
+    // Limit withdrawal amount to 10 CakeCoin
+    require(withdraw_amount &lt;= 1000);
+
+            // Use the transferFrom function of CakeCoin
+            CakeCoin.transferFrom(CakeCoinOwner, msg.sender, withdraw_amount);
+}
+
+    // REJECT any incoming ether
+    function () public payable { revert(); }
+</code></pre>
+
+<p>}</p>
+
+<p>```
+这个合约的作用非常简单，就是接收CakeCoin，然后允许接收者提现到指定地址；</p>
+
+<h4 id="migratecakecoincakecoinfaucet">修改migrate同时部署CakeCoin以及CakeCoinFaucet</h4>
+
+<p>因为CakeCoinFaucet依赖于CakeCoin合约的部署，所以我们修订之前的2_deploy_contracts.js为:</p>
+
+<p>```
+const CakeCoin = artifacts.require(“CakeCoin”);
+const CakeCoinFaucet = artifacts.require(“CakeCoinFaucet”);</p>
+
+<p>module.exports = function(deployer, network, accounts) {
+  var owner = accounts[0];
+  deployer.deploy(CakeCoin, {from:owner}).then(function(){
+    // Then deploy CakeCoinFaucet and pass the address of CakeCoinToken  and the
+    // address of the owner of all the CakeCoin who will approve CakeCoinFaucet
+    console.log(CakeCoin.address);
+    return deployer.deploy(CakeCoinFaucet, CakeCoin.address, owner);
+  });
+};</p>
+
+<p>```</p>
+
+<p>注意，CakeCoin部署完毕后，才能得到实际的合约地址，然后CakeCoinFaucet的合约部署需要传入这个地址；</p>
+
+<h4 id="section-4">验证</h4>
+
+<p>首先看一下CakeCoin初始发币数目:</p>
 
 <p><code>
-CakeCoin.deployed().then(instance =&gt; { instance.transfer(Faucet.address, 100) })
+truffle(development)&gt; let accounts;
+truffle(development)&gt; web3.eth.getAccounts((err,res) =&gt; { accounts = res });
+truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+truffle(development)&gt; 10000
 </code></p>
 
-<h3 id="section-4">总结</h3>
+<p>看一下第二个测试地址的币:</p>
+
+<p><code>
+truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+truffle(development)&gt; 0
+</code></p>
+
+<p>好了，我们先转账到CakeCoinFaucet合约1000个CakeCoin;
+<code>
+truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.approve(CakeCoinFaucet.address, 1000) })
+truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+truffle(development)&gt; 9000
+</code></p>
+
+<p>提现试一下:
+<code>
+truffle(development)&gt; CakeCoinFaucet.deployed().then(instance =&gt; { instance.withdraw(accounts[1], 1000) })
+truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[1]).then((balance) =&gt; console.log(balance.toString())) })
+truffle(development)&gt; 1000
+</code></p>
+
+<p>~~~ 填坑中</p>
+
+<h3 id="section-5">总结</h3>
 
 <p>最后，也许你已经被这些名词、规范、绕来绕去的工具链给搞晕了；那么我们只需要认清一件事，就是这个领域在高速的发展，今天被热捧的概念，也许明天就会被抛弃；在这种蛮荒时代，骗子层出不穷，要当心啊~~~</p>
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-12T17:08:19+08:00</updated>
+  <updated>2020-08-14T18:02:04+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -527,12 +527,146 @@
 
 <p>下面我们就演示如何创建一个众筹合约来配合我们的CakeCoin实现一个自动化的代币分发</p>
 
-<p>~~~ 填坑中</p>
+<h4 id="cakecoindemo">首先我们需要建立一个接收CakeCoin的合约Demo</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">CakeCoin.deployed().then(instance =&gt; { instance.transfer(Faucet.address, 100) })</span></code></pre></td></tr></table></div></figure></notextile></div>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">pragma solidity ^0.4;
+</span><span class="line">
+</span><span class="line">import 'openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
+</span><span class="line">
+</span><span class="line">// A faucet for ERC20 token CakeCoin
+</span><span class="line">contract CakeCoinFaucet {
+</span><span class="line">
+</span><span class="line">        StandardToken public CakeCoin;
+</span><span class="line">        address public CakeCoinOwner;
+</span><span class="line">
+</span><span class="line">        // CakeCoinFaucet constructor, provide the address of CakeCoin contract and
+</span><span class="line">        // the owner address we will be approved to transferFrom
+</span><span class="line">        constructor(address _CakeCoin, address _CakeCoinOwner) public {
+</span><span class="line">
+</span><span class="line">                // Initialize the CakeCoin from the address provided
+</span><span class="line">                CakeCoin = StandardToken(_CakeCoin);
+</span><span class="line">                CakeCoinOwner = _CakeCoinOwner;
+</span><span class="line">        }
+</span><span class="line">
+</span><span class="line">        function withdraw(uint withdraw_amount) public {
+</span><span class="line">
+</span><span class="line">        // Limit withdrawal amount to 10 CakeCoin
+</span><span class="line">        require(withdraw_amount &lt;= 1000);
+</span><span class="line">
+</span><span class="line">                // Use the transferFrom function of CakeCoin
+</span><span class="line">                CakeCoin.transferFrom(CakeCoinOwner, msg.sender, withdraw_amount);
+</span><span class="line">    }
+</span><span class="line">
+</span><span class="line">        // REJECT any incoming ether
+</span><span class="line">        function () public payable { revert(); }
+</span><span class="line">
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>这个合约的作用非常简单，就是接收CakeCoin，然后允许接收者提现到指定地址；</p>
 
-<h3 id="section-4">总结</h3>
+<h4 id="migratecakecoincakecoinfaucet">修改migrate同时部署CakeCoin以及CakeCoinFaucet</h4>
+
+<p>因为CakeCoinFaucet依赖于CakeCoin合约的部署，所以我们修订之前的2_deploy_contracts.js为:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">const CakeCoin = artifacts.require("CakeCoin");
+</span><span class="line">const CakeCoinFaucet = artifacts.require("CakeCoinFaucet");
+</span><span class="line">
+</span><span class="line">module.exports = function(deployer, network, accounts) {
+</span><span class="line">  var owner = accounts[0];
+</span><span class="line">  deployer.deploy(CakeCoin, {from:owner}).then(function(){
+</span><span class="line">    // Then deploy CakeCoinFaucet and pass the address of CakeCoinToken  and the
+</span><span class="line">    // address of the owner of all the CakeCoin who will approve CakeCoinFaucet
+</span><span class="line">    console.log(CakeCoin.address);
+</span><span class="line">    return deployer.deploy(CakeCoinFaucet, CakeCoin.address, owner);
+</span><span class="line">  });
+</span><span class="line">};
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>注意，CakeCoin部署完毕后，才能得到实际的合约地址，然后CakeCoinFaucet的合约部署需要传入这个地址；</p>
+
+<h4 id="section-4">验证</h4>
+
+<p>首先看一下CakeCoin初始发币数目:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">truffle(development)&gt; let accounts;
+</span><span class="line">truffle(development)&gt; web3.eth.getAccounts((err,res) =&gt; { accounts = res });
+</span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+</span><span class="line">truffle(development)&gt; 10000</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>看一下第二个测试地址的币:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+</span><span class="line">truffle(development)&gt; 0</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>好了，我们先转账到CakeCoinFaucet合约1000个CakeCoin;
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.approve(CakeCoinFaucet.address, 1000) })
+</span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[0]).then((balance) =&gt; console.log(balance.toString())) })
+</span><span class="line">truffle(development)&gt; 9000</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<p>提现试一下:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">truffle(development)&gt; CakeCoinFaucet.deployed().then(instance =&gt; { instance.withdraw(accounts[1], 1000) })
+</span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[1]).then((balance) =&gt; console.log(balance.toString())) })
+</span><span class="line">truffle(development)&gt; 1000</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<p>~~~ 填坑中</p>
+
+<h3 id="section-5">总结</h3>
 
 <p>最后，也许你已经被这些名词、规范、绕来绕去的工具链给搞晕了；那么我们只需要认清一件事，就是这个领域在高速的发展，今天被热捧的概念，也许明天就会被抛弃；在这种蛮荒时代，骗子层出不穷，要当心啊~~~</p>
 ]]></content>
