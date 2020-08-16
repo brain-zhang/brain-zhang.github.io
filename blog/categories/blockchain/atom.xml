@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-16T17:15:55+08:00</updated>
+  <updated>2020-08-16T17:36:33+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -433,7 +433,7 @@ truffle(development)&gt; 1000
 
 <p>我们用10行代码就创建了可以在技术层面媲美现代金融系统中最安全的电子货币，这一切是如此轻而易举，总觉得有哪些地方不大对劲~~~</p>
 
-<p>是的，有的人认为这还是太麻烦了，最好有个web界面让我把币名、初始发行量、发行人等等信息填一下，最好加上两句蛊惑人心的宣传slug，然后一键发币~~</p>
+<p>是的，有的人认为这还是太麻烦了，最好有个web界面让我把币名、初始发行量、发行人等等信息填一下，最好加上两句蛊惑人心的宣传口号，然后一键发币~~</p>
 
 <p>是的，这个要求很合理，于是诞生了像<a href="https://vittominacori.github.io/erc20-generator/">ERC20-Generator</a> 这样的开源平台，它真正做到了让幼儿园小朋友也能一键发币！</p>
 
@@ -441,7 +441,7 @@ truffle(development)&gt; 1000
 
 <p>光发个币自娱自乐的人非常少，我们在之前的文章里面一再提醒，所谓的区块链领域，充斥着诈骗赌博投机者；不幸的是，这帮人对于新技术的利用和孜孜不倦的学习精神让真正的专家们汗颜；很快的，他们就把这项技术应用在割韭菜事业中~~~</p>
 
-<p>光发币还不足以割韭菜，还记得我们之前的介绍blockchain的文章吗？里面提到了比特币的侧链技术，并预言基于swap (原子交易)技术的交易所终将会大放光彩；</p>
+<p>光发币还不足以割韭菜，还记得我们之前的介绍blockchain的文章吗？里面提到了比特币的<a href="https://happy123.me/blog/2019/01/23/bi-te-bi-de-blockchain-2/">侧链</a>技术，并预言基于Atomic Swap (原子交易)技术的交易所终将会大放光彩；</p>
 
 <p>没错，以太坊作为技术急先锋试验场，诞生了像<a href="https://uniswap.org/">Uniswap</a> 这样的平台，它是完全去中心化的，开源的，可以自动上架ERC20代币，向全世界的ETH玩家们敞开了投机大门、并且是完全公正，没有人控制的一个交易平台(当然，它有没有漏洞、是不是万无一失还很难说)~~~</p>
 
