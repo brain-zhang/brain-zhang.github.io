@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-16T17:41:15+08:00</updated>
+  <updated>2020-08-17T08:36:57+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Sort by Length of String Followed by Alphabetical Order]]></title>
+    <link href="https://happy123.me/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/"/>
+    <updated>2020-08-17T08:34:52+08:00</updated>
+    <id>https://happy123.me/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order</id>
+    <content type="html"><![CDATA[<p>shell中，多行文本，先按照字母长度排序，相同长度再按照字母序排列；</p>
+
+<p>做了很多次，隔几天就忘，让人绝望：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat /tmp/xxx.txt|sort -u | awk '{print length($0), $0}'  | sort -k2,2n -k1,1n -k3,3 |cut -d" " -f2-|less</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Xargs Sh -c Skipping the First Argument]]></title>
@@ -4097,74 +4111,6 @@ J(\theta) = \frac{1}{m}\sum^m_{i=1}[-y^{(i)}log(h_\theta(x^{(i)}))-(1-y^{(i)}log
 </span><span class="line">    return np.sum(first - second) / (len(X)) + reg</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最后，它的梯度下降看上去同正则化的线性回归一样，但是由于假设ℎ𝜃(𝑥)=𝑔(𝜃𝑇𝑋) ，所以与线性回归不同。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Unicode String Parse With Python and Fileinput]]></title>
-    <link href="https://happy123.me/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/"/>
-    <updated>2019-09-06T11:41:03+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput</id>
-    <content type="html"><![CDATA[<p>用fileinput模块parse数据很方便:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import fileinput
-</span><span class="line">
-</span><span class="line">if __name__ == '__main__':
-</span><span class="line">    for line in fileinput.input():
-</span><span class="line">        sys.stdout.write(line)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>但有时候会碰到UnicodeDecodeError:</p>
-
-<p>比如执行:</p>
-
-<!-- more -->
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">echo -e "foo\x80bar" |python3 testinput.py
-</span><span class="line">
-</span><span class="line">...
-</span><span class="line">UnicodeDecodeError: 'utf8' codec can't decode byte 0x80 in position 3: invalid start byte</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这种错误还不好用<code>try .. catch</code>忽略掉，因为它是在fileinput模块中自己parse的；</p>
-
-<p>Python2的时候很罗嗦，需要自己用codecs去判断之后，才能parse;</p>
-
-<p>Python3总算是引入了一个openhook参数，可以自己hook处理了；</p>
-
-<p>最简单的处理方式:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import fileinput
-</span><span class="line">import io
-</span><span class="line">import sys
-</span><span class="line">
-</span><span class="line">if __name__ == '__main__':
-</span><span class="line">    sys.stdin = io.TextIOWrapper(sys.stdin.buffer, errors='replace')
-</span><span class="line">    for line in fileinput.input(openhook=fileinput.hook_encoded("utf-8")):
-</span><span class="line">        sys.stdout.write(line)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>参考:</p>
-
-<p>https://stackoverflow.com/questions/24754861/unicode-file-with-python-and-fileinput</p>
-
-<p>https://bugs.python.org/issue26756</p>
 ]]></content>
   </entry>
   
