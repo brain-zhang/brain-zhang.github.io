@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-17T09:00:28+08:00</updated>
+  <updated>2020-08-19T08:25:59+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -678,7 +678,69 @@
 </span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[1]).then((balance) =&gt; console.log(balance.toString())) })
 </span><span class="line">truffle(development)&gt; 1000</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-5">妖魔横行</h4>
+<h4 id="section-5">功能增强</h4>
+
+<p>翻阅<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol">ERC20基类代码</a>可以发现，它其实没有什么神奇之处，只不过是把各个电子货币的名称、发行量、支持接口标准化了而已，其中最重要的增强就是为其它合约支持ERC20代币提供了两个接口approve和trnasfrom；</p>
+
+<p>我们当然可以在ERC20的标准之上添加其它增强功能</p>
+
+<h5 id="section-6">比如创始人可以随时销毁这个合约</h5>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">contract owned {
+</span><span class="line">      address payable owner;
+</span><span class="line">      // Contract constructor: set owner
+</span><span class="line">      constructor() public {
+</span><span class="line">              owner = msg.sender;
+</span><span class="line">      }
+</span><span class="line">      // Access control modifier
+</span><span class="line">      modifier onlyOwner {
+</span><span class="line">             require(msg.sender == owner,
+</span><span class="line">                     "Only the contract owner can call this function");
+</span><span class="line">           _;
+</span><span class="line">      }
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">contract CakeCoin is StandardToken, owned {
+</span><span class="line">       // Contract destructor
+</span><span class="line">       function destroy() public onlyOwner {
+</span><span class="line">               selfdestruct(owner);
+</span><span class="line">       }
+</span><span class="line">}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="section-7">比如创始人可以销毁代币，或者增发代币</h5>
+
+<p>https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20Burnable.sol</p>
+
+<h5 id="section-8">比如创始人可以临时终止代币的使用</h5>
+
+<p>https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20Pausable.sol</p>
+
+<h4 id="section-9">甚至可以在某个合适的时间点对代币金融系统做个快照</h4>
+
+<p>https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20Snapshot.sol</p>
+
+<h4 id="section-10">妖魔横行</h4>
 
 <p>我们用10行代码就创建了可以在技术层面媲美现代金融系统中最安全的电子货币，这一切是如此轻而易举，总觉得有哪些地方不大对劲~~~</p>
 
@@ -698,9 +760,11 @@
 
 <p>这是一个完全颠覆传统证券市场、传统赌博行业的一个新兴割韭菜基地；赌博投机者以其敢为人先的魄力，绝对的技术Geek范、对新技术的开放心态、野兽般的学习进取精神，还有绝妙的工程能力让人肃然起敬；</p>
 
+<h3 id="section-11">第四版</h3>
+
 <p>~~~ 填坑中</p>
 
-<h3 id="section-6">总结</h3>
+<h3 id="section-12">总结</h3>
 
 <p>最后，也许你已经被这些名词、规范、绕来绕去的工具链给搞晕了；那么我们只需要认清一件事，就是这个领域在高速的发展，今天被热捧的概念，也许明天就会被抛弃；在这种蛮荒时代，骗子层出不穷，要当心啊~~~</p>
 ]]></content>
