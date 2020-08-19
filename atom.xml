@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-19T08:25:59+08:00</updated>
+  <updated>2020-08-19T10:55:55+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -211,7 +211,7 @@
 
 <p>不过这个消息激起了我另一方面的兴趣，就是写一写那些在以太坊上面发行的各种山寨Token；</p>
 
-<p>众所周知，自从Ethereum的ERC20、ERC223、ERC777等Token合约标准诞生以来，在Ethereum上面发行一种货币的成本低的令人发指，我测算，按照现在的ETH汇率，大概10块人民币就能让你发行一个具有发行、转账、增发、销毁等基本功能的电子货币，如果导入OpenZeppelin程序库，在部署合约的时候多出100块钱左右，就可以拥有一个具有融资上限、拍卖、行权计划和其他更复杂的功能的货币。</p>
+<p>众所周知，自从Ethereum的<a href="https://github.com/ethereum/EIPs/issues/20">ERC20</a>、<a href="https://github.com/ethereum/EIPs/issues/223">ERC223</a>、<a href="https://github.com/ethereum/EIPs/issues/721">ERC721</a>、<a href="https://github.com/ethereum/EIPs/issues/777">ERC777</a>等Token合约标准诞生以来，在Ethereum上面发行一种货币的成本低的令人发指，我测算，按照现在的ETH汇率，大概10块人民币就能让你发行一个具有发行、转账、增发、销毁等基本功能的电子货币，如果导入OpenZeppelin程序库，在部署合约的时候多出100块钱左右，就可以拥有一个具有融资上限、拍卖、行权计划和其他更复杂的功能的货币。</p>
 
 <p>先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币；借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
 
@@ -407,7 +407,7 @@
 
 <p>https://github.com/brain-zhang/CakeCoin/tree/branches/1.2/src</p>
 
-<h3 id="section-3">第三版</h3>
+<h3 id="erc20">第三版(ERC20)</h3>
 
 <p>上面的货币虽然简单好用，但是有一些缺陷：</p>
 
@@ -642,7 +642,7 @@
 
 <p>注意，CakeCoin部署完毕后，才能得到实际的合约地址，然后CakeCoinFaucet的合约部署需要传入这个地址；</p>
 
-<h4 id="section-4">验证</h4>
+<h4 id="section-3">验证</h4>
 
 <p>首先看一下CakeCoin初始发币数目:</p>
 
@@ -678,13 +678,13 @@
 </span><span class="line">truffle(development)&gt; CakeCoin.deployed().then(instance =&gt; { instance.balanceOf(accounts[1]).then((balance) =&gt; console.log(balance.toString())) })
 </span><span class="line">truffle(development)&gt; 1000</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-5">功能增强</h4>
+<h4 id="section-4">功能增强</h4>
 
 <p>翻阅<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol">ERC20基类代码</a>可以发现，它其实没有什么神奇之处，只不过是把各个电子货币的名称、发行量、支持接口标准化了而已，其中最重要的增强就是为其它合约支持ERC20代币提供了两个接口approve和trnasfrom；</p>
 
 <p>我们当然可以在ERC20的标准之上添加其它增强功能</p>
 
-<h5 id="section-6">比如创始人可以随时销毁这个合约</h5>
+<h5 id="section-5">比如创始人可以随时销毁这个合约</h5>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -728,19 +728,19 @@
 </span><span class="line">}
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h5 id="section-7">比如创始人可以销毁代币，或者增发代币</h5>
+<h5 id="section-6">比如创始人可以销毁代币，或者增发代币</h5>
 
 <p>https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20Burnable.sol</p>
 
-<h5 id="section-8">比如创始人可以临时终止代币的使用</h5>
+<h5 id="section-7">比如创始人可以临时终止代币的使用</h5>
 
 <p>https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20Pausable.sol</p>
 
-<h4 id="section-9">甚至可以在某个合适的时间点对代币金融系统做个快照</h4>
+<h4 id="section-8">甚至可以在某个合适的时间点对代币金融系统做个快照</h4>
 
 <p>https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20Snapshot.sol</p>
 
-<h4 id="section-10">妖魔横行</h4>
+<h4 id="section-9">妖魔横行</h4>
 
 <p>我们用10行代码就创建了可以在技术层面媲美现代金融系统中最安全的电子货币，这一切是如此轻而易举，总觉得有哪些地方不大对劲~~~</p>
 
@@ -760,11 +760,34 @@
 
 <p>这是一个完全颠覆传统证券市场、传统赌博行业的一个新兴割韭菜基地；赌博投机者以其敢为人先的魄力，绝对的技术Geek范、对新技术的开放心态、野兽般的学习进取精神，还有绝妙的工程能力让人肃然起敬；</p>
 
-<h3 id="section-11">第四版</h3>
+<h3 id="erc223">第四版(ERC223)</h3>
+
+<p>ERC20已经非常方便了，但是它还有一个明显的缺陷，就是把ERC20 Token发送到一个不支持它的合约B时，并不会报错，而是悄无声息的把这些Token冻结在B合约中，永远无法使用了；</p>
+
+<p>在合约开发中，一般开发者们都会充分的考虑到接收ETH的处理，即使不能返还，也很少发生冻结ETH的问题；但是为ERC20 Token的使用者们所做的考虑却不多；作为一个开发者的角度来说，我怎么才能为无穷尽的ERC20 Token去做适配呢？ 那些傻瓜持有者们乱发到我的合约里算他们自己倒霉，有人在大街上乱撒钱然后收不回来，责任只能自己承担嘛；</p>
+
+<p>在ICO群魔乱舞的时候，数不清的小白还没搞明白他们买到的Token到底是个什么东西，就迫不及待的充值各种合约，企图投机大赚一笔，这样做的结果就是有许多设计不当的投机合约冻结了大笔资金，并且…..没有人能取出来，即使你是这些合约的拥有者也无济于事；粗略估计这些小白们损失的资金在几百万美元的量级，可以参考：</p>
+
+<p>https://github.com/ethereum/EIPs/issues/223</p>
+
+<p>为了解决这个问题，有人非常贴心的提出了ERC223改进方案，思路也非常简单：</p>
+
+<ol>
+  <li>实现ERC20 Token的时候，转账函数需要检测要发送的地址是不是有效的合约</li>
+  <li>如果是有效的合约，需要调用一个约定好的函数(tokenFallback)看是否能处理我发送的Token</li>
+</ol>
+
+<p>如果不满足以上两个条件，则转账失败，Token不会实际发送；</p>
+
+<p>ERC223标准尚未被广泛采用，有关这个方案的后向兼容性、实现的形态到底是在合约接口层还是在用户界面等问题仍旧是以太坊社区讨论的焦点。</p>
+
+<h3 id="erc721">第五版(ERC721)</h3>
+
+<h3 id="erc777">第六版(ERC777)</h3>
 
 <p>~~~ 填坑中</p>
 
-<h3 id="section-12">总结</h3>
+<h3 id="section-10">总结</h3>
 
 <p>最后，也许你已经被这些名词、规范、绕来绕去的工具链给搞晕了；那么我们只需要认清一件事，就是这个领域在高速的发展，今天被热捧的概念，也许明天就会被抛弃；在这种蛮荒时代，骗子层出不穷，要当心啊~~~</p>
 ]]></content>
