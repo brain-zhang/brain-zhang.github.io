@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-08-19T11:22:50+08:00</updated>
+  <updated>2020-08-19T14:57:12+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -546,7 +546,44 @@ contract owned {
 
 <h3 id="erc721">番外篇(ERC721)</h3>
 
-<p>~~~ 填坑中</p>
+<p>当我们能随意发行代币之后，很容易就能扩展到金融行业另外的普遍需求，资产证券化；</p>
+
+<p>最直观的就是我们之前的文交所、邮币卡之类的证券交易，还有房产证券化REITs等产品；而这些东西在智能合约的帮助下很容易实现；</p>
+
+<p>可以预见，将来所有现实世界的融资手段或投机产品都能在区块链上找到对应的证券化模型；</p>
+
+<p>好了，让我们看看如何将一件唯一的资产(比如名画)在智能合约上进行交易呢？</p>
+
+<p>为了了解ERC20和ERC721的本质区别，我们只需要看一看ERC721的内部数据结构就可以了：</p>
+
+<p><code>
+// Mapping from deed ID to ownermapping 
+(uint256 =&gt; address) private deedOwner;
+</code></p>
+
+<p>ERC20将所有者作为映射的主键，跟踪每个所有者的余额；而ERC721将合约ID作为映射的主键； 这样，我们只要创造一个智能合约，收录所有证券化的画作，并分配ID；就可以将其在链上进行交易了；</p>
+
+<p>像ERC20规定了代币的标准化信息一样，ERC721也用一个Metadata提供了资产的标识信息，详细的实现请参考:</p>
+
+<p>https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol</p>
+
+<h3 id="erc1155">第六版(ERC1155)</h3>
+
+<p>到目前为止，我们已经为所有现实世界中拥有的证券化手段搬上了区块链，但是注意到了吗？这一切还有局限：</p>
+
+<p>从ERC20到ERC721，每个提案都是根据区块链应用的一步步发展慢慢提出草案来标准化的；刚开始大家想的比较简单，就是一类资产对应一个合约；但很快，就有了更大的远景，比如：</p>
+
+<p>如何在一个合约中发行多个代币，或多项资产？</p>
+
+<p>最典型的场景，我们开发了一款RPG游戏(暗黑破坏神)；里面充斥着大量的装备以及游戏金币，现在我们想要把这一切搬到区块链上，玩家们可以将金币Token化，从而交易各类装备；</p>
+
+<p>按照现有的实现，我们需要发行一个Token合约，以及好几个装备合约；这样无疑会增加交易的复杂度以及Gas成本；</p>
+
+<p>为了解决这类问题，有人提出了ERC1155，ERC1155借鉴了ERC20，ERC721和ERC777的全部思想；可以在一个合约中发行多个代币及资产，交易的时候可以批量完成多个交换：</p>
+
+<p>https://github.com/ethereum/eips/issues/1155</p>
+
+<p>老实说，这个合约的实现我还没有研究过，现在此类的应用也不多，让我们留到下次再探讨吧。</p>
 
 <h3 id="section-10">总结</h3>
 
