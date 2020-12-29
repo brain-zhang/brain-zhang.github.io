@@ -192,6 +192,8 @@ MathJax.Hub.Config({
 <span class="line-number">31</span>
 <span class="line-number">32</span>
 <span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">[Unit]
 </span><span class="line">Description=Bitcoin daemon
 </span><span class="line">After=network.target
@@ -205,6 +207,8 @@ MathJax.Hub.Config({
 </span><span class="line">Type=forking
 </span><span class="line">PIDFile=/run/bitcoind/bitcoind.pid
 </span><span class="line">Restart=on-failure
+</span><span class="line">StandardOutput=/var/log/bitcoind.log
+</span><span class="line">StandardError=/var/log/bitcoind.log
 </span><span class="line">
 </span><span class="line"># Hardening measures
 </span><span class="line">####################
@@ -228,6 +232,30 @@ MathJax.Hub.Config({
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2 id="reload-systemctl-daemon">Reload systemctl daemon</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl daemon-reload</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="enabled-new-bitcoind-service">Enabled new bitcoind service</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl enable bitcoind</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="commands-to-start-or-stop-the-service">Commands to start or stop the service</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl stop bitcoind
+</span><span class="line">systemctl start bitcoind</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="show-service-status">Show service status</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl status bitcoind.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>More info in:</p>
+
+<p>https://github.com/bitcoin/bitcoin/tree/master/contrib/init</p>
 </div>
 
 

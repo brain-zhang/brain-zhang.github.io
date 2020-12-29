@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-12-29T16:27:01+08:00</updated>
+  <updated>2020-12-29T16:51:08+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -37,7 +37,9 @@ RuntimeDirectoryPreserve=yes
 User=ubuntu
 Type=forking
 PIDFile=/run/bitcoind/bitcoind.pid
-Restart=on-failure</p>
+Restart=on-failure
+StandardOutput=/var/log/bitcoind.log
+StandardError=/var/log/bitcoind.log</p>
 
 <h1 id="hardening-measures">Hardening measures</h1>
 <p>####################</p>
@@ -62,6 +64,33 @@ WantedBy=multi-user.target</p>
 <p>```</p>
 
 <h2 id="reload-systemctl-daemon">Reload systemctl daemon</h2>
+
+<p><code>
+systemctl daemon-reload
+</code></p>
+
+<h2 id="enabled-new-bitcoind-service">Enabled new bitcoind service</h2>
+
+<p><code>
+systemctl enable bitcoind
+</code></p>
+
+<h2 id="commands-to-start-or-stop-the-service">Commands to start or stop the service</h2>
+
+<p><code>
+systemctl stop bitcoind
+systemctl start bitcoind
+</code></p>
+
+<h2 id="show-service-status">Show service status</h2>
+
+<p><code>
+systemctl status bitcoind.service
+</code></p>
+
+<p>More info in:</p>
+
+<p>https://github.com/bitcoin/bitcoin/tree/master/contrib/init</p>
 ]]></content>
   </entry>
   
