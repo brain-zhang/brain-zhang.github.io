@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-11-19T16:45:17+08:00</updated>
+  <updated>2020-12-29T16:27:01+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Set Systemd Startup Script for Bitcoind?]]></title>
+    <link href="https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/"/>
+    <updated>2020-12-29T16:22:42+08:00</updated>
+    <id>https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind</id>
+    <content type="html"><![CDATA[<h2 id="setup-bitcoindservice">setup bitcoind.service</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/systemd/system/bitcoind.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[Unit]
+</span><span class="line">Description=Bitcoin daemon
+</span><span class="line">After=network.target
+</span><span class="line">
+</span><span class="line">[Service]
+</span><span class="line">ExecStart=/opt/node/bitcoin/bin/bitcoind -daemon -conf=/opt/node/bitcoin/blockdata/bitcoin.conf -pid=/run/bitcoind/bitcoind.pid
+</span><span class="line"># Creates /run/bitcoind owned by bitcoin
+</span><span class="line">RuntimeDirectory=bitcoind
+</span><span class="line">RuntimeDirectoryPreserve=yes
+</span><span class="line">User=ubuntu
+</span><span class="line">Type=forking
+</span><span class="line">PIDFile=/run/bitcoind/bitcoind.pid
+</span><span class="line">Restart=on-failure
+</span><span class="line">
+</span><span class="line"># Hardening measures
+</span><span class="line">####################
+</span><span class="line">
+</span><span class="line"># Provide a private /tmp and /var/tmp.
+</span><span class="line">PrivateTmp=true
+</span><span class="line">
+</span><span class="line"># Mount /usr, /boot/ and /etc read-only for the process.
+</span><span class="line">ProtectSystem=full
+</span><span class="line">
+</span><span class="line"># Disallow the process and all of its children to gain
+</span><span class="line"># new privileges through execve().
+</span><span class="line">NoNewPrivileges=true
+</span><span class="line">
+</span><span class="line"># Use a new /dev namespace only populated with API pseudo devices
+</span><span class="line"># such as /dev/null, /dev/zero and /dev/random.
+</span><span class="line">PrivateDevices=true
+</span><span class="line">
+</span><span class="line">[Install]
+</span><span class="line">WantedBy=multi-user.target
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="reload-systemctl-daemon">Reload systemctl daemon</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Sort by Length of String Followed by Alphabetical Order]]></title>
@@ -3991,284 +4073,6 @@ J_{test}(\theta)=-\frac{1}{m_{test}}\sum^{m_{test}}_{i=1}(y^{(i)}_{test}\log{h_\
 <p>https://blockstream.com/2018/04/30/en-eltoo-next-lightning/</p>
 
 <p>https://blockstream.com/eltoo.pdf</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[吴恩达机器学习笔记-2]]></title>
-    <link href="https://happy123.me/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/"/>
-    <updated>2019-09-11T10:53:38+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2</id>
-    <content type="html"><![CDATA[<p class="info">Logistic回归， 正则化</p>
-
-<!-- more -->
-
-<h2 id="logistic">1-Logistic回归</h2>
-
-<h4 id="section">分类</h4>
-
-<p>逻辑回归 (Logistic Regression)是分类问题的一个代表算法，这是目前最流行使用最广泛的一种学习算法。</p>
-
-<p>我们将因变量(dependant variable)可能属于的两个类分别称为负向类（negative class）和 正向类（positive class），则因变量  𝑦∈0,1 ，其中 0 表示负向类，1 表示正向类。</p>
-
-<p>分类问题下，可以采用逻辑回归的分类算法，这个算法的性质是：它的输出值永远在 0 到 1 之间。 它适用于标签 y 取值离散的情况，如：1 0 0 1。</p>
-
-<h4 id="section-1">假设陈述</h4>
-
-<p>分类问题，希望分类器的输出值在 0 和 1 之间，因此，假设函数需要满足预测值要在 0 和 1 之间。</p>
-
-<p>回归模型的假设是：</p>
-
-<script type="math/tex; mode=display">
-h_\theta(x)=g(\theta^TX)
-</script>
-
-<p>其中：</p>
-
-<ul>
-  <li>
-    <p>X 代表特征向量</p>
-  </li>
-  <li>
-    <p>g 代表逻辑函数（logistic function）, 是一个常用的逻辑函数为 S形函数（Sigmoid function），公式为：</p>
-  </li>
-</ul>
-
-<script type="math/tex; mode=display">
-g(z) = \frac{1}{1+e^{-z}}
-</script>
-
-<ul>
-  <li>python 代码实现sigmoid函数：</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
-</span><span class="line">def sigmoid(z):
-</span><span class="line">    return 1 / (1 + np.exp(-z))</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>结合起来，获得逻辑回归的假设：</p>
-
-<script type="math/tex; mode=display">
-h_\theta(x) =  \frac{1}{1+e^{-\theta^TX}}
-</script>
-
-<table>
-  <tbody>
-    <tr>
-      <td>𝜃(𝑥) 的作用是，对于给定的输入变量，根据选择的参数计算输出变量为1 的可能性 （estimated probablity），即  ℎ𝜃(𝑥)=𝑃(𝑦=1</td>
-      <td>𝑥;𝜃) 。</td>
-    </tr>
-  </tbody>
-</table>
-
-<h4 id="section-2">代价函数</h4>
-
-<p>逻辑回归的代价函数为：</p>
-
-<script type="math/tex; mode=display">
-J(\theta)= \frac{1}{m}\sum^m_{i=1}Cost(h_\theta(x^{(i)}), y^{(i)})
-</script>
-
-<p>其中:</p>
-
-<script type="math/tex; mode=display">
-Cost(h_\theta(x), y)=-y\times{log(h_\theta(x))}-(1-y)\times{log(1-h_\theta(x))}
-</script>
-
-<p>代入代价函数:</p>
-
-<script type="math/tex; mode=display">
-J(\theta) = -\frac{1}{m}\sum^m_{i=1}[y^{(i)}log(h_\theta(x^{(i)}))+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]
-</script>
-
-<ul>
-  <li>逻辑回归代价函数的Python代码实现：</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
-</span><span class="line">def cost(theta, X, y):
-</span><span class="line">    theta = np.matrix(theta)
-</span><span class="line">    X = np.matrix(X)
-</span><span class="line">    y = np.matrix(y)
-</span><span class="line">    first = np.multiply(-y, np.log(sigmoid(X * theta.T)))
-</span><span class="line">    second = np.multiply((1 - y), np.log(1 - sigmoid(X * theta.T)))
-</span><span class="line">    return np.sum(first - second) / (len(X))</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section-3">简化代价函数和梯度下降</h4>
-
-<script type="math/tex; mode=display">
-\theta_j := \theta_j - \alpha \frac{1}{m}\sum^m_{i=1}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j
-</script>
-
-<p>这个更新规则和之前用来做线性回归梯度下降的式子是一样的， 但是假设的定义发生了变化。即使更新参数的规则看起来基本相同，但由于假设的定义发生了变化，所以逻辑函数的梯度下降，跟线性回归的梯度下降实际上是两个完全不同的东西。</p>
-
-<h4 id="section-4">多分类任务 一对多</h4>
-
-<p>邮件归类， 假如说你现在需要一个学习算法能自动地将邮件归类到不同的文件夹里，区分开来自工作的邮件、来自朋友的邮件、来自家人的邮件或者是有关兴趣爱好的邮件，那么，就有了一个四分类问题：其类别有四个，分别用 y=1、y=2、y=3、y=4 来代表。</p>
-
-<p>多分类的关键就是构建多个逻辑分类函数；具体：</p>
-
-<p>我们将多个类中的一个类标记为正向类（y=1），然后将其他所有类都标记为负向类，这个模型记作 ℎ(1)𝜃(𝑥)。接着，类似地第我们选择另一个类标记为 正向类（y=2），再将其它类都标记为负向类，将这个模型记作  ℎ(2)𝜃(𝑥) ,依此类推。 最后我们得到一系列的模型简记为：</p>
-
-<script type="math/tex; mode=display">
-h^{(i)_\theta(x)} = p(y=i|x;\theta)
-</script>
-
-<p>最后，在我们需要做预测时，我们将所有的分类机都运行一遍，然后对每一个输入变量，都选择最高可能性的输出变量。 总之，我们已经把要做的做完了，现在要做的就是训练这个逻辑回归分类器： ℎ(𝑖)𝜃(𝑥) ， 其中 i对应每一个可能的y=i，最后，为了做出预测，我们给出输入一个新的 x 值做预测。我们要做的就是在我们三个分类器里面输入 x，然后我们选择一个让  ℎ(𝑖)𝜃(𝑥) 最大的 i，即</p>
-
-<script type="math/tex; mode=display">
-\max_ih^{(i)_\theta(x)}
-</script>
-
-<h2 id="section-5">2-正则化</h2>
-
-<h4 id="section-6">过拟合问题</h4>
-
-<p>就以多项式理解，x 的次数越高，拟合的越好，但相应的预测的能力就可能变差。</p>
-
-<p>如何解决？</p>
-
-<ul>
-  <li>
-    <p>丢弃一些不能帮助我们正确预测的特征。可以是手工选择保留哪些特征，或者使用一些模型选择的算法来帮忙（例如 PCA, LDA），缺点是丢弃特征的同时，也丢弃了这些相应的信息；</p>
-  </li>
-  <li>
-    <p>正则化。 保留所有的特征，但是减少参数的大小（magnitude），当我们有大量的特征，每个特征都对目标值有一点贡献的时候，比较有效。</p>
-  </li>
-  <li>
-    <p>还有一个解决方式就是增加数据集,因为过拟合导致的原因就过度拟合测试数据集, 那么增加数据集就很大程度提高了泛化性了.</p>
-  </li>
-</ul>
-
-<h4 id="section-7">代价函数</h4>
-
-<p>正则化的基本方法：对高次项添加惩罚值，让高次项的系数接近于0。</p>
-
-<p>假如我们有非常多的特征，我们并不知道其中哪些特征我们要惩罚，我们将对所有的特征进行惩罚，并且让代价函数最优化的软件来选择这些惩罚的程度。这样的结果是得到了一个较为简单的能防止过拟合问题的假设：</p>
-
-<script type="math/tex; mode=display">
-J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2} + \lambda\sum_{j=1}^n\theta^2_j  ]
-</script>
-
-<p>其中 𝜆 又称为正则化参数（Regularization Parameter）</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
-</span><span class="line">def mseWithRegular(predict, y, w, lmd=0.1):
-</span><span class="line">    '''
-</span><span class="line">        predict: 模型输出
-</span><span class="line">        y: 真实标签
-</span><span class="line">        w: 模型权重
-</span><span class="line">        lmd: 正则化参数
-</span><span class="line">    '''
-</span><span class="line">    constrct_loss = np.sum((predict - y) ** 2)
-</span><span class="line">    experience_loss = lmd * np.sum(w ** 2)
-</span><span class="line">    loss = (constrct_loss + experience_loss) / (2 * len(predict))
-</span><span class="line">    return loss
-</span><span class="line">
-</span><span class="line">predict = np.array([1, 1.5, 2])
-</span><span class="line">y = np.array([0.9, 1.4, 2.1])
-</span><span class="line">w = np.array([[1], [1], [1]])
-</span><span class="line">mseWithRegular(predict, y, w)</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>如果选择的正则化参数 𝜆 过大，则会把所有的参数都最小化了，导致模型变成  ℎ𝜃(𝑥)=𝜃0 ，造成欠拟合。</p>
-
-<p>所以对于正则化，我们要取一个合理的λ的值，这样才能更好的应用正则化。</p>
-
-<h4 id="section-8">线性回归正则化</h4>
-<p>对于线性回归的求解，我们之前推导了两种学习算法：一种基于梯度下降，一种基于正规方程</p>
-
-<p>正则化线性回归的代价函数为：</p>
-
-<script type="math/tex; mode=display">
-J(\theta) = \frac{1}{2m} [ \sum_{i=1}^m(h_{\theta}(x^{(i)})-y^{(i)})^{2} + \lambda\sum_{j=1}^n\theta^2_j ]
-</script>
-
-<ul>
-  <li>梯度下降使代价函数最小化</li>
-</ul>
-
-<script type="math/tex; mode=display">
-\theta_j := \theta_j (1-a\frac{\lambda}{m})- \alpha \frac{1}{m}\sum^m_{i=1}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j
-</script>
-
-<ul>
-  <li>正规方程来求解正则化线性回归模型</li>
-</ul>
-
-<p>TODO: 暂时没有理解</p>
-
-<h4 id="section-9">逻辑回归正则化</h4>
-
-<p>针对逻辑回归问题，我们在之前的课程已经学习过两种优化算法：梯度下降法，更高级的优化算法需要你自己设计代价函数 𝐽(𝜃) 。</p>
-
-<p>给代价函数增加一个正则化的表达式，得到代价函数:</p>
-
-<script type="math/tex; mode=display">
-J(\theta) = \frac{1}{m}\sum^m_{i=1}[-y^{(i)}log(h_\theta(x^{(i)}))-(1-y^{(i)}log(1-h_\theta(x^{(i)}))]+\frac{\lambda}{2m}\sum_{j=1}^n\theta^2_j
-</script>
-
-<p>代码实现:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import numpy as np
-</span><span class="line">def sigmoid(x, derivative=False):
-</span><span class="line">    sigm = 1. / (1. + np.exp(-x))
-</span><span class="line">    if derivative:
-</span><span class="line">        return sigm * (1. - sigm)
-</span><span class="line">    return sigm
-</span><span class="line">
-</span><span class="line">def costReg(theta, X, y, learningRate):
-</span><span class="line">    theta = np.matrix(theta)
-</span><span class="line">    X = np.matrix(X)
-</span><span class="line">    y = np.matrix(y)
-</span><span class="line">    first = np.multiply(-y, np.log(sigmoid(X * theta.T)))
-</span><span class="line">    second = np.multiply((1 - y), np.log(1 - sigmoid(X * theta.T)))
-</span><span class="line">    reg = (learningRate / 2 * len(X)) * np.sum(np.power(theta[:,1:theta.shape[1]], 2))
-</span><span class="line">    return np.sum(first - second) / (len(X)) + reg</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>最后，它的梯度下降看上去同正则化的线性回归一样，但是由于假设ℎ𝜃(𝑥)=𝑔(𝜃𝑇𝑋) ，所以与线性回归不同。</p>
 ]]></content>
   </entry>
   

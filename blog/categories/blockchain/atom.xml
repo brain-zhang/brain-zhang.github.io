@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2020-11-19T16:45:17+08:00</updated>
+  <updated>2020-12-29T16:27:01+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Set Systemd Startup Script for Bitcoind?]]></title>
+    <link href="https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/"/>
+    <updated>2020-12-29T16:22:42+08:00</updated>
+    <id>https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind</id>
+    <content type="html"><![CDATA[<h2 id="setup-bitcoindservice">setup bitcoind.service</h2>
+
+<p><code>
+vim /etc/systemd/system/bitcoind.service
+</code></p>
+
+<p>```
+[Unit]
+Description=Bitcoin daemon
+After=network.target</p>
+
+<p>[Service]
+ExecStart=/opt/node/bitcoin/bin/bitcoind -daemon -conf=/opt/node/bitcoin/blockdata/bitcoin.conf -pid=/run/bitcoind/bitcoind.pid
+# Creates /run/bitcoind owned by bitcoin
+RuntimeDirectory=bitcoind
+RuntimeDirectoryPreserve=yes
+User=ubuntu
+Type=forking
+PIDFile=/run/bitcoind/bitcoind.pid
+Restart=on-failure</p>
+
+<h1 id="hardening-measures">Hardening measures</h1>
+<p>####################</p>
+
+<h1 id="provide-a-private-tmp-and-vartmp">Provide a private /tmp and /var/tmp.</h1>
+<p>PrivateTmp=true</p>
+
+<h1 id="mount-usr-boot-and-etc-read-only-for-the-process">Mount /usr, /boot/ and /etc read-only for the process.</h1>
+<p>ProtectSystem=full</p>
+
+<h1 id="disallow-the-process-and-all-of-its-children-to-gain">Disallow the process and all of its children to gain</h1>
+<p># new privileges through execve().
+NoNewPrivileges=true</p>
+
+<h1 id="use-a-new-dev-namespace-only-populated-with-api-pseudo-devices">Use a new /dev namespace only populated with API pseudo devices</h1>
+<p># such as /dev/null, /dev/zero and /dev/random.
+PrivateDevices=true</p>
+
+<p>[Install]
+WantedBy=multi-user.target</p>
+
+<p>```</p>
+
+<h2 id="reload-systemctl-daemon">Reload systemctl daemon</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Do Logging on Solidity Contract With Truffle Suite]]></title>
@@ -1296,276 +1348,6 @@ multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块�
 <p>https://blog.lightning.engineering/posts/2018/05/30/routing.html</p>
 
 <p>https://blog.lightning.engineering/technical/posts/2019/04/15/loop-out-in-depth.html</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Setup Lightning Node Cheat Sheet]]></title>
-    <link href="https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet/"/>
-    <updated>2019-11-18T15:14:19+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet</id>
-    <content type="html"><![CDATA[<p>运营一个闪电节点的基本命令速查；</p>
-
-<!-- more -->
-
-<h2 id="bitcoin-core">Bitcoin Core</h2>
-
-<h4 id="section">启动</h4>
-
-<p><code>
-bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/
-</code></p>
-
-<p>如果需要一些老接口</p>
-
-<p><code>
-bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ --deprecatedrpc=signrawtransaction
-</code></p>
-
-<h4 id="bitcoinconf">bitcoin.conf</h4>
-
-<p>```
-rpcuser=user
-rpcpassword=password
-#rpcallowip=127.0.0.1/16
-rpcallowip=0.0.0.0/0
-rpcport=8332
-test.rpcport=8332
-rpcthreads=10
-server=1
-rest=1
-testnet=0
-zmqpubrawblock=tcp://127.0.0.1:28332
-zmqpubrawtx=tcp://127.0.0.1:28333</p>
-
-<h1 id="walletnotifyusrbinecho-hello">walletnotify=/usr/bin/echo “hello”</h1>
-<p>```</p>
-
-<h2 id="lnd">Lnd</h2>
-
-<p>接口丰富，自带rpc和restapi接口，迭代速度快；</p>
-
-<p>https://github.com/lightningnetwork/lnd</p>
-
-<h4 id="section-1">部署</h4>
-
-<p><code>
-lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=user --bitcoind.rpcpass='password' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --listen=0.0.0.0:9736 --externalip=207.246.105.100 --no-macaroons 2&gt;&amp;1 &gt;&gt; lndtest.log
-</code></p>
-
-<h4 id="section-2">常用命令</h4>
-
-<ul>
-  <li>解锁钱包</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet unlock
-lncli  --network=testnet newaddr
-</code></p>
-
-<ul>
-  <li>查看余额</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet walletbalance
-lncli  --network=testnet listunspent
-</code></p>
-
-<ul>
-  <li>连接到一个闪电节点</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet connect "027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735"
-</code></p>
-
-<ul>
-  <li>打开一个通道</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet openchannel --node_key 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8 100000
-</code></p>
-
-<ul>
-  <li>支付</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet sendpayment --pay_req "lntb10n1pw6gf60pp5jxwg30u3k7qw2lzef7cnpy6tmnd80q2v5ytglf5tdaalrejhprzsdqhvf6xxmt9ypkxuepqw3jhxaqcqzpg9jsccqelkelayq89ydgrhxwf0hv2ffkdu2y6l27vtpmscszxj3pjsh..."
-</code></p>
-
-<ul>
-  <li>接收付款</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet addinvoice --memo "invoice for lnd.fun test3" --amt 100000
-</code></p>
-
-<ul>
-  <li>关闭通道</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet closechannel "1243f60a54c4c6b8ab5d124a0c701792e085ab13a68da135ca3ffbabb461f1cc"
-</code></p>
-
-<ul>
-  <li>链上发送全部余额</li>
-</ul>
-
-<p><code>
-lncli  --network=testnet sendcoins tbxxxxxx  --sweepall
-</code></p>
-
-<h2 id="c-lightning">C-lightning</h2>
-
-<p>接口简洁，能直接集成lightning-charge；</p>
-
-<p>https://github.com/ElementsProject/lightning</p>
-
-<h4 id="section-3">部署</h4>
-
-<ul>
-  <li>c-lightning提供了systemctl 服务脚本:</li>
-</ul>
-
-<p>```
-cat /etc/systemd/system/lightning.service</p>
-
-<p>[Unit]
-Description=c-Lightning daemon</p>
-
-<p>[Service]
-ExecStart=/usr/bin/lightningd –pid-file=/root/.lightning/lightning.pid –daemon
-PIDFile=/root/.lightning/lightning.pid
-User=root
-Type=forking
-Restart=always
-RestartSec=10</p>
-
-<p>[Install]
-WantedBy=multi-user.target
-```</p>
-
-<ul>
-  <li>配置文件:</li>
-</ul>
-
-<p>```
-~/.lightning/config</p>
-
-<p>alias=brain_zhang_lightning_testnode
-log-level=debug
-#network=bitcoin
-network=testnet
-bitcoin-rpcuser=user
-bitcoin-rpcpassword=password
-bitcoin-rpcconnect=127.0.0.1
-bitcoin-rpcport=18332
-log-file=/var/log/lightning.log
-bind-addr=
-announce-addr=x.x.x.x:9735
-```</p>
-
-<ul>
-  <li>注册、启动服务</li>
-</ul>
-
-<p><code>
-systemctl enable lightning
-systemctl start lightning
-</code></p>
-
-<h4 id="section-4">常用命令</h4>
-
-<ul>
-  <li>建立一个新地址</li>
-</ul>
-
-<p><code>
-lightning-cli newaddr
-</code></p>
-
-<ul>
-  <li>查看线上钱包地址</li>
-</ul>
-
-<p><code>
-lightning-cli dev-listaddrs
-</code></p>
-
-<ul>
-  <li>连接node (1ml.com node)</li>
-</ul>
-
-<p><code>
-lightning-cli connect 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735
-</code></p>
-
-<ul>
-  <li>建立通道</li>
-</ul>
-
-<p><code>
-lightning-cli fundchannel id satoshi [feerate] [announce] [minconf]
-</code></p>
-
-<ul>
-  <li>查看链上和链下余额</li>
-</ul>
-
-<p><code>
-lightning-cli listfunds
-</code></p>
-
-<ul>
-  <li>支付</li>
-</ul>
-
-<p>Send payment specified by {bolt11} with {amount}</p>
-
-<p><code>
-lightning-cli pay bolt11 [msatoshi] [label] [riskfactor] [maxfeepercent] [retry_for] [maxdelay] [exemptfee]
-</code></p>
-
-<ul>
-  <li>收款</li>
-</ul>
-
-<p>Create an invoice for {msatoshi} with {label} and {description} with optional {expiry} seconds (default 1 hour), optional {fallbacks} address list(default empty list) and optional {preimage}</p>
-
-<p><code>
-lightning-cli invoice msatoshi label description [expiry] [fallbacks] [preimage] [exposeprivatechannels]
-</code></p>
-
-<h2 id="c-lightning--lightning-charge">C-lightning &amp;&amp; lightning-charge</h2>
-
-<p>https://github.com/btcme/lightning-charge</p>
-
-<h4 id="section-5">部署</h4>
-
-<p>lightning-charge最好用docker直接集成c-lightning一把启动，比如我已经运行了一个bitcoin core全节点，可以直接下面的命令启动:</p>
-
-<p><code>
-docker run -d -u `id -u` -v `pwd`/data:/data -p 9735:9735 -p 9112:9112 \
-             -e API_TOKEN=mySecretToken \
-             -e NETWORK=testnet  \
-             -e BITCOIND_URI="http://user:password@172.18.0.1:18332" \
-             shesek/lightning-charge
-</code>
-注意BITCOIND_URL的IP是docker容器内向外连接的，如果不是用net的方式启动，要填docker的网桥地址；</p>
-
-<ul>
-  <li>查询运行状况</li>
-</ul>
-
-<p><code>
-curl http://api-token:mySecretToken@localhost:9112/info
-</code></p>
 ]]></content>
   </entry>
   
