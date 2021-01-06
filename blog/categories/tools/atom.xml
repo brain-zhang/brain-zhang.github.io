@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-03T17:02:39+08:00</updated>
+  <updated>2021-01-06T17:45:34+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux服务器的极简安全配置]]></title>
+    <link href="https://happy123.me/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/"/>
+    <updated>2021-01-06T17:33:38+08:00</updated>
+    <id>https://happy123.me/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi</id>
+    <content type="html"><![CDATA[<p>网络知识了解的越多，就越胆小；也许，这就是江湖吧；</p>
+
+<p>当配置一台新的Linux服务器并上线时，其实就是将Server暴露到了炮火横飞的战场上，任何的大意都会让其万劫不复；但由于永恒的人性的弱点，我们总是在安全和便利之间摇摆；</p>
+
+<p>本文希望能为自己提供一种最简单的办法，用最简单的办法帮助我们抵抗大多数的炮火；</p>
+
+<!-- more -->
+
+<h4 id="section">用户管理</h4>
+
+<p>最重要的就是不要用root用户操作，当一台服务器部署初期，为不同用途划分不同用户组以及用户能避免绝大多数悲剧；</p>
+
+<p><code>
+groupadd develop
+useradd -d /home/brain -s /bin/bash -m brain
+passwd brain
+usermod -a -G develop brain
+</code></p>
+
+<p>```
+vim /etc/sudoers</p>
+
+<p>root    ALL=(ALL:ALL) ALL
+brain    ALL=(ALL) NOPASSWD: ALL
+```</p>
+
+<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，我喜欢这样比较省事。如果出于安全考虑，也可以强制要求输入密码。</p>
+
+<p><code>
+root    ALL=(ALL:ALL) ALL
+brain    ALL=(ALL:ALL) ALL
+</code></p>
+
+<p>然后，切换到新用户的身份，检查到这一步为止，是否一切正常。</p>
+
+<p><code>
+su brain
+</code></p>
+
+<h4 id="section-1">防火墙</h4>
+
+<p>防火墙为我们抵抗绝大多数的脚本小子的攻击，是最省力，性价比最高的投资，切勿偷懒</p>
+
+<p>……</p>
+
+<h4 id="sshd">sshd配置</h4>
+
+<p>几条最简单的配置，即能避免90%以上的恶意嗅探；</p>
+
+<ol>
+  <li>端口</li>
+</ol>
+
+<p>```
+vim /etc/ssh/sshd_config</p>
+
+<p>Port 22
+-&gt;
+Port 12222
+```</p>
+
+<ol>
+  <li>
+    <p>DNS</p>
+  </li>
+  <li>
+    <p>Key</p>
+  </li>
+</ol>
+
+<p>首先，确定有SSH公钥（一般是文件~/.ssh/id_rsa.pub），如果没有的话，使用ssh-keygen命令生成一个</p>
+
+<h4 id="fail2ban">Fail2Ban</h4>
+
+<p>警惕那些不怀好意的撞库者</p>
+
+<p>jail.local</p>
+
+<p>nail.rc</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Sort by Length of String Followed by Alphabetical Order]]></title>
@@ -235,55 +323,6 @@ umask = 022
 <p>https://segmentfault.com/a/1190000016677670</p>
 
 <p>https://p3terx.com/archives/problems-and-solutions-encountered-in-wsl-use-2.html</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What Should You Do if Windows 10 Freezes Randomly]]></title>
-    <link href="https://happy123.me/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/"/>
-    <updated>2019-11-13T11:45:32+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly</id>
-    <content type="html"><![CDATA[<p>是的，作为一名码农，日常最主要的工作就是修电脑；</p>
-
-<p>有一台装Win10的Thinkpad T440 笔记本会随机冻结，表现就是所有操作没有反应，鼠标键盘没有响应，画面不动，然后等待1分钟后自我恢复； 每天随机发生&gt;5次；</p>
-
-<!-- more -->
-
-<p>在Google了N多<code>What Should You Do If Windows 10 Freezes Randomly</code>的帖子之后，发现有这个问题的人可以组成一个军团，可谓是苦大仇深；</p>
-
-<p>至少这下面所有的方法我都试了一遍：</p>
-
-<p>https://www.partitionwizard.com/partitionmagic/win10-freezes-randomly.html</p>
-
-<p>最后无奈之下挂载winGDB，是的，就是这么无聊，追到了Chrome里面；</p>
-
-<p>我发现，只要关闭Chrome的 “设置-&gt;高级-&gt;使用硬件加速模式”，问题概率就会大大降低；</p>
-
-<p>这是什么原理，一番探究后，我发现这台笔记本是自动切换核显和独立显卡的；而Intel核显有个选项： “Intel Graphics Control Panel -&gt; Energy management -&gt; Panel Self Refresh”关闭之后就OK了；</p>
-
-<p>好吧，归根到底还是驱动的问题；Intel的这个显卡其实官方没有支持Win10的驱动，这是Win10自己瞎支持的，出现问题再所难免；</p>
-
-<p>以后遇到Win10冻结的情况，你的检查清单上还需要多加两项：</p>
-
-<ol>
-  <li>
-    <p>Chrome的硬件加速关闭试一试</p>
-  </li>
-  <li>
-    <p>如果有Intel的核显，关闭<code>Panel Self Refresh</code>试一试</p>
-  </li>
-</ol>
-
-<blockquote>
-  <p>Apparently, disabling Panel Self Refresh (PSR) in the Intel HD Graphics Control Panel application fixed the issue.
-On Lenovo notebook right click on desktop -&gt; Intel Graphics Control Panel -&gt; Energy management -&gt; Panel Self Refresh -&gt; set to Disabled.
-I also set the display to max performance, but I don’t think this is relevant.
-Once disabled, I’ve no more experienced any freeze for several days.</p>
-</blockquote>
-
-<p>参考：</p>
-
-<p>https://forums.lenovo.com/t5/ThinkPad-X-Series-Laptops/X270-generic-freeze/td-p/3927475/page/5</p>
 ]]></content>
   </entry>
   

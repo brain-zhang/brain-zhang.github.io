@@ -100,6 +100,54 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/">Paste Fails When Using Bracketed-paste-magic on zsh5.1.1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-13T10:50:31+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>突然碰到了zsh5.1.1的一个bug，粘贴中文的时候会把shell freeze；</p>
+
+<p>不知道是不是on-my-zsh升级的时候搞坏的，一通搜索发现了这个:</p>
+
+<p>https://github.com/zsh-users/zsh-autosuggestions/issues/102</p>
+
+<p>没有升级zsh，我直接到配置文件里把那段自动转义的功能注释掉了，嗯，简单粗暴~~~这东西我也不想天天升级；</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~/.oh-my-zsh/lib/misc.zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/09/13/eltoo-shan-dian-he-chi-xian-qi-yue-geng-xin-ji-zhi/">Eltoo-闪电和离线契约更新机制</a></h1>
     
     
@@ -535,50 +583,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">Libssl Segfaults on python3.6 With Threading</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-08-03T20:23:47+08:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2019</time>
-        
-           | <a href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>openssl1.0.0 和 openssl1.0.1 使用Python3.6的绑定:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/08/03/libssl-segfaults-on-python3-dot-6-with-threading/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -596,6 +600,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/">Linux服务器的极简安全配置</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/">How to Close Lightning Channels by Lnd-cli?</a>
       </li>
     
@@ -609,10 +617,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/">Xargs Sh -c Skipping the First Argument</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Do Logging on Solidity Contract With Truffle Suite</a>
       </li>
     
   </ul>
@@ -723,7 +727,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (71)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (72)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
