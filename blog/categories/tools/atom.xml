@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-06T17:49:09+08:00</updated>
+  <updated>2021-01-07T15:48:05+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -22,7 +22,7 @@
 
 <p>当配置一台新的Linux服务器并上线时，其实就是将Server暴露到了炮火横飞的战场上，任何的大意都会让其万劫不复；但由于永恒的人性的弱点，我们总是在安全和便利之间摇摆；</p>
 
-<p>本文希望能为自己提供一种最简单的办法，用最简单的办法帮助我们抵抗大多数的炮火；</p>
+<p>本文希望能提供一种最简单的办法，帮助我们抵抗大多数的炮火；</p>
 
 <!-- more -->
 
@@ -30,21 +30,32 @@
 
 <p>最重要的就是不要用root用户操作，当一台服务器部署初期，为不同用途划分不同用户组以及用户能避免绝大多数悲剧；</p>
 
+<ol>
+  <li>增加一个用户组 <code>develop</code></li>
+</ol>
+
 <p><code>
 groupadd develop
+</code>
+2. 增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code></p>
+
+<p><code>
 useradd -d /home/brain -s /bin/bash -m brain
 passwd brain
 usermod -a -G develop brain
+</code>
+3. 允许用户登录
+<code>
+vim /etc/sudoers
+</code>
+找到类似下面的一行，并在后面增加一行</p>
+
+<p><code>
+root     ALL=(ALL:ALL) ALL
+brain    ALL=(ALL) NOPASSWD: ALL
 </code></p>
 
-<p>```
-vim /etc/sudoers</p>
-
-<p>root    ALL=(ALL:ALL) ALL
-brain    ALL=(ALL) NOPASSWD: ALL
-```</p>
-
-<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，我喜欢这样比较省事。如果出于安全考虑，也可以强制要求输入密码。</p>
+<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，这样比较省事。如果出于安全考虑，也可以强制要求输入密码。</p>
 
 <p><code>
 root    ALL=(ALL:ALL) ALL
@@ -59,7 +70,13 @@ su brain
 
 <h4 id="section-1">防火墙</h4>
 
-<p>防火墙为我们抵抗绝大多数的脚本小子的攻击，是最省力，性价比最高的投资，切勿偷懒</p>
+<p>防火墙为我们抵抗绝大多数的脚本小子的攻击，是最省力，性价比最高的投资，切勿偷懒;</p>
+
+<p>几乎所有的公有云都提供了非常傻瓜化的web 操作界面，来设置防火墙规则，一般情况下这些设置足够了；</p>
+
+<p>设置第一原则是：只开放必要的端口</p>
+
+<p>如果是自己设置防火墙，iptable的使用比较复杂，我们采用最简单的规则链:</p>
 
 <p>……</p>
 
@@ -77,15 +94,11 @@ vim /etc/ssh/sshd_config</p>
 <p>Port 22
 -&gt;
 Port 12222
-```</p>
+```
+2. DNS</p>
 
 <ol>
-  <li>
-    <p>DNS</p>
-  </li>
-  <li>
-    <p>Key</p>
-  </li>
+  <li>Key</li>
 </ol>
 
 <p>首先，确定有SSH公钥（一般是文件~/.ssh/id_rsa.pub），如果没有的话，使用ssh-keygen命令生成一个</p>
