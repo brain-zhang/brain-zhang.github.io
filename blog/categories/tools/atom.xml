@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-07T15:55:49+08:00</updated>
+  <updated>2021-01-07T16:05:15+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -31,36 +31,42 @@
 <p>最重要的就是不要用root用户操作，当一台服务器部署初期，为不同用途划分不同用户组以及用户能避免绝大多数悲剧；</p>
 
 <ol>
-  <li>增加一个用户组 <code>develop</code>
-<code>
+  <li>增加一个用户组 <code>develop</code></li>
+</ol>
+
+<p><code>
 groupadd develop
-</code></li>
-  <li>增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code>
-<code>
+</code>
+2. 增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code></p>
+
+<p><code>
 useradd -d /home/brain -s /bin/bash -m brain
 passwd brain
 usermod -a -G develop brain
-</code></li>
-  <li>允许用户登录
-<code>
-vim /etc/sudoers
-</code></li>
-</ol>
+</code>
+3. 允许用户登录</p>
 
-<p>找到类似下面的一行，并在后面增加一行
-<code>
+<p><code>
+vim /etc/sudoers
+</code></p>
+
+<p>找到类似下面的一行，并在后面增加一行</p>
+
+<p><code>
 root     ALL=(ALL:ALL) ALL
 brain    ALL=(ALL) NOPASSWD: ALL
 </code></p>
 
-<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，这样比较省事。如果出于安全考虑，也可以强制要求输入密码。
-<code>
+<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，这样比较省事。如果出于安全考虑，也可以强制要求输入密码。</p>
+
+<p><code>
 root    ALL=(ALL:ALL) ALL
 brain    ALL=(ALL:ALL) ALL
 </code></p>
 
-<p>然后，切换到新用户的身份，检查到这一步为止，是否一切正常。
-<code>
+<p>然后，切换到新用户的身份，检查到这一步为止，是否一切正常。</p>
+
+<p><code>
 su brain
 </code></p>
 

@@ -136,36 +136,46 @@ MathJax.Hub.Config({
 <p>最重要的就是不要用root用户操作，当一台服务器部署初期，为不同用途划分不同用户组以及用户能避免绝大多数悲剧；</p>
 
 <ol>
-  <li>增加一个用户组 <code>develop</code>
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span></figure></notextile></li>
+  <li>增加一个用户组 <code>develop</code></li>
 </ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">groupadd develop</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;
-2. 增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code>
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">groupadd develop</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ol>
+  <li>增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code></li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">useradd -d /home/brain -s /bin/bash -m brain
+</pre></td><td class="code"><pre><code class=""><span class="line">useradd -d /home/brain -s /bin/bash -m brain
 </span><span class="line">passwd brain
-</span><span class="line">usermod -a -G develop brain</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-3. 允许用户登录
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">vim /etc/sudoers</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</span><span class="line">usermod -a -G develop brain</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ol>
+  <li>允许用户登录</li>
+</ol>
 
-<p>找到类似下面的一行，并在后面增加一行
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/sudoers</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>找到类似下面的一行，并在后面增加一行</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">root     ALL=(ALL:ALL) ALL
-</span><span class="line">brain    ALL=(ALL) NOPASSWD: ALL</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</pre></td><td class="code"><pre><code class=""><span class="line">root     ALL=(ALL:ALL) ALL
+</span><span class="line">brain    ALL=(ALL) NOPASSWD: ALL</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，这样比较省事。如果出于安全考虑，也可以强制要求输入密码。
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，这样比较省事。如果出于安全考虑，也可以强制要求输入密码。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">root    ALL=(ALL:ALL) ALL
-</span><span class="line">brain    ALL=(ALL:ALL) ALL</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</pre></td><td class="code"><pre><code class=""><span class="line">root    ALL=(ALL:ALL) ALL
+</span><span class="line">brain    ALL=(ALL:ALL) ALL</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>然后，切换到新用户的身份，检查到这一步为止，是否一切正常。
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">su brain</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>然后，切换到新用户的身份，检查到这一步为止，是否一切正常。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">su brain</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-1">防火墙</h4>
 
