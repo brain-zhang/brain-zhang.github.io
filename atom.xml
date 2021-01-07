@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-07T16:14:21+08:00</updated>
+  <updated>2021-01-07T16:21:46+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -31,48 +31,50 @@
 <p>最重要的就是不要用root用户操作，当一台服务器部署初期，为不同用途划分不同用户组以及用户能避免绝大多数悲剧；</p>
 
 <ol>
-  <li>增加一个用户组 <code>develop</code></li>
+  <li>
+    <p>增加一个用户组 <code>develop</code></p>
+
+    <p><code>
+ groupadd develop
+</code></p>
+  </li>
+  <li>
+    <p>增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code></p>
+
+    <p><code>
+ useradd -d /home/brain -s /bin/bash -m brain
+ passwd brain
+ usermod -a -G develop brain
+</code></p>
+  </li>
+  <li>
+    <p>允许用户登录</p>
+
+    <p><code>
+ vim /etc/sudoers
+</code></p>
+
+    <p>找到类似下面的一行，并在后面增加一行</p>
+
+    <p><code>
+ root     ALL=(ALL:ALL) ALL
+ brain    ALL=(ALL) NOPASSWD: ALL
+</code></p>
+
+    <p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，这样比较省事。如果出于安全考虑，也可以强制要求输入密码。</p>
+
+    <p><code>
+ root    ALL=(ALL:ALL) ALL
+ brain    ALL=(ALL:ALL) ALL
+</code></p>
+
+    <p>然后，切换到新用户的身份，检查到这一步为止，是否一切正常。</p>
+
+    <p><code>
+ su brain
+</code></p>
+  </li>
 </ol>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">groupadd develop</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ol>
-  <li>增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code></li>
-</ol>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">useradd -d /home/brain -s /bin/bash -m brain
-</span><span class="line">passwd brain
-</span><span class="line">usermod -a -G develop brain</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ol>
-  <li>允许用户登录</li>
-</ol>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/sudoers</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>找到类似下面的一行，并在后面增加一行</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">root     ALL=(ALL:ALL) ALL
-</span><span class="line">brain    ALL=(ALL) NOPASSWD: ALL</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>上面的NOPASSWD表示，切换sudo的时候，不需要输入密码，这样比较省事。如果出于安全考虑，也可以强制要求输入密码。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">root    ALL=(ALL:ALL) ALL
-</span><span class="line">brain    ALL=(ALL:ALL) ALL</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>然后，切换到新用户的身份，检查到这一步为止，是否一切正常。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">su brain</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="section-1">防火墙</h4>
 
@@ -91,30 +93,26 @@
 <p>几条最简单的配置，即能避免90%以上的恶意嗅探；</p>
 
 <ol>
-  <li>端口</li>
-</ol>
+  <li>
+    <p>端口</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/ssh/sshd_config
-</span><span class="line">
-</span><span class="line">Port 22
-</span><span class="line">-&gt;
-</span><span class="line">Port 12222</span></code></pre></td></tr></table></div></figure></notextile></div>
+    <p>&#8220;`
+ vim /etc/ssh/sshd_config</p>
 
-<ol>
+    <p>Port 22
+ -&gt;
+ Port 12222
+&#8220;`</p>
+  </li>
   <li>
     <p>DNS</p>
   </li>
   <li>
     <p>Key</p>
+
+    <p>首先，确定有SSH公钥（一般是文件~/.ssh/id_rsa.pub），如果没有的话，使用ssh-keygen命令生成一个</p>
   </li>
 </ol>
-
-<p>首先，确定有SSH公钥（一般是文件~/.ssh/id_rsa.pub），如果没有的话，使用ssh-keygen命令生成一个</p>
 
 <h4 id="fail2ban">Fail2Ban</h4>
 
