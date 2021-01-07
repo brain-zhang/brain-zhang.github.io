@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-07T16:05:15+08:00</updated>
+  <updated>2021-01-07T16:14:21+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -36,15 +36,21 @@
 
 <p><code>
 groupadd develop
-</code>
-2. 增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code></p>
+</code></p>
+
+<ol>
+  <li>增加一个用户<code>brain</code>，设置密码，并把他加入到组 <code>develop</code></li>
+</ol>
 
 <p><code>
 useradd -d /home/brain -s /bin/bash -m brain
 passwd brain
 usermod -a -G develop brain
-</code>
-3. 允许用户登录</p>
+</code></p>
+
+<ol>
+  <li>允许用户登录</li>
+</ol>
 
 <p><code>
 vim /etc/sudoers
@@ -96,11 +102,15 @@ vim /etc/ssh/sshd_config</p>
 <p>Port 22
 -&gt;
 Port 12222
-```
-2. DNS</p>
+```</p>
 
 <ol>
-  <li>Key</li>
+  <li>
+    <p>DNS</p>
+  </li>
+  <li>
+    <p>Key</p>
+  </li>
 </ol>
 
 <p>首先，确定有SSH公钥（一般是文件~/.ssh/id_rsa.pub），如果没有的话，使用ssh-keygen命令生成一个</p>
