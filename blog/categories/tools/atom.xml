@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-08T17:44:15+08:00</updated>
+  <updated>2021-01-08T17:48:06+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -174,27 +174,27 @@
 
 <p>警惕那些不怀好意的撞库者，用Fail2Ban 将尝试暴力破解的脚本小子自动封禁</p>
 
-<ol>
+<ul>
   <li>
     <p>安装</p>
 
     <p>centos:
- <code>
- yum -y install epel-release
-</code>
- <code>
- sudo yum install fail2ban
-</code></p>
+  <code>
+  yum -y install epel-release
+ </code>
+  <code>
+  sudo yum install fail2ban
+ </code></p>
 
     <p>ubuntu:
- <code>
- sudo apt-get install fail2ban
-</code></p>
+  <code>
+  sudo apt-get install fail2ban
+ </code></p>
   </li>
   <li>
     <p>编辑规则文件</p>
   </li>
-</ol>
+</ul>
 
 <p>```
     vim /etc/fail2ban/jail.local
@@ -218,9 +218,9 @@ action = %(action_mwl)s
 logpath = /var/log/secure ```
 </code></pre>
 
-<ol>
+<ul>
   <li>设定邮件转发</li>
-</ol>
+</ul>
 
 <p>```
     vim /etc/nail.rc</p>
@@ -235,9 +235,9 @@ set ssl-verify=ignore
 set nss-config-dir=/etc/pki/nssdb ```
 </code></pre>
 
-<ol>
+<ul>
   <li>设定邮件模板</li>
-</ol>
+</ul>
 
 <p>```
      vim /etc/fail2ban/action.d/mail-whois-lines.conf</p>
@@ -297,9 +297,9 @@ dest = root
 
 <p>```</p>
 
-<ol>
+<ul>
   <li>启动服务，查看状态</li>
-</ol>
+</ul>
 
 <p><code>
     systemctl start fail2ban

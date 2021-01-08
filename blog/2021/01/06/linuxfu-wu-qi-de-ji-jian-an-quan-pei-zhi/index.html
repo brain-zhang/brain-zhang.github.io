@@ -279,27 +279,27 @@ MathJax.Hub.Config({
 
 <p>警惕那些不怀好意的撞库者，用Fail2Ban 将尝试暴力破解的脚本小子自动封禁</p>
 
-<ol>
+<ul>
   <li>
     <p>安装</p>
 
     <p>centos:
- <code>
- yum -y install epel-release
-</code>
- <code>
- sudo yum install fail2ban
-</code></p>
+  <code>
+  yum -y install epel-release
+ </code>
+  <code>
+  sudo yum install fail2ban
+ </code></p>
 
     <p>ubuntu:
- <code>
- sudo apt-get install fail2ban
-</code></p>
+  <code>
+  sudo apt-get install fail2ban
+ </code></p>
   </li>
   <li>
     <p>编辑规则文件</p>
   </li>
-</ol>
+</ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -340,9 +340,9 @@ MathJax.Hub.Config({
 </span><span class="line">action = %(action_mwl)s
 </span><span class="line">logpath = /var/log/secure</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
+<ul>
   <li>设定邮件转发</li>
-</ol>
+</ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -365,9 +365,9 @@ MathJax.Hub.Config({
 </span><span class="line">set ssl-verify=ignore
 </span><span class="line">set nss-config-dir=/etc/pki/nssdb</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
+<ul>
   <li>设定邮件模板</li>
-</ol>
+</ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -477,9 +477,9 @@ MathJax.Hub.Config({
 </span><span class="line">dest = root
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
+<ul>
   <li>启动服务，查看状态</li>
-</ol>
+</ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
