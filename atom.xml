@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-08T17:38:52+08:00</updated>
+  <updated>2021-01-08T17:44:15+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -127,20 +127,32 @@
 
     <p><code>
  echo "ssh-rsa [your public key]" &gt; ~/.ssh/authorized_keys
+</code>
+ <code>
  sudo chmod 600 ~/.ssh/authorized_keys &amp;&amp; chmod 700 ~/.ssh/
 </code></p>
 
     <p>修改/etc/ssh/sshd_config</p>
 
-    <p>&#8220;`
+    <p><code>
  PermitRootLogin no
+</code>
+ <code>
  PermitEmptyPasswords no
- PasswordAuthentication no</p>
+</code>
+ <code>
+ PasswordAuthentication no
+</code></p>
 
-    <p>RSAAuthentication yes
+    <p><code>
+ RSAAuthentication yes
+</code>
+ <code>
  PubkeyAuthentication yes
+</code>
+ <code>
  AuthorizedKeysFile .ssh/authorized_keys
- &#8220;`</p>
+</code></p>
   </li>
   <li>
     <p>重新启动sshd服务让配置生效</p>
@@ -169,6 +181,8 @@
     <p>centos:
  <code>
  yum -y install epel-release
+</code>
+ <code>
  sudo yum install fail2ban
 </code></p>
 
@@ -179,114 +193,193 @@
   </li>
   <li>
     <p>编辑规则文件</p>
-
-    <p>&#8220;`
- vim /etc/fail2ban/jail.local
- [DEFAULT]
- ignoreip = 127.0.0.1/8
- bantime  = 86400
- maxretry = 5
- findtime = 1800
- destemail = xxxx@xxx.com
- sender = xxxx@gmail.com
- mta = mail
- protocol = tcp
- banaction = firewallcmd-ipset
- action = %(action_mwl)s</p>
-
-    <p>[sshd]
- enabled = true
- filter  = sshd
- port    = 12222
- action = %(action_mwl)s
- logpath = /var/log/secure
- &#8220;`</p>
-  </li>
-  <li>
-    <p>设定邮件转发</p>
-
-    <p>&#8220;`
- vim /etc/nail.rc</p>
-
-    <p>## Add sendmail settings
- set from=xxxx@gmail.com
- set smtp=smtps:smtp.gmail.com:587
- set smtp-auth-user=xxxx@gmail.com
- set smtp-auth-password=xxxxx
- set smtp-auth=login
- set ssl-verify=ignore
- set nss-config-dir=/etc/pki/nssdb
- &#8220;`</p>
-  </li>
-  <li>
-    <p>设定邮件模板</p>
-
-    <p>&#8220;`
-  vim /etc/fail2ban/action.d/mail-whois-lines.conf</p>
-
-    <p># Fail2Ban configuration file
- #
- # Author: Cyril Jaquier
- #
- #</p>
-
-    <p>[Definition]</p>
-
-    <p># Option: actionstart
- # Notes.: command executed once at the start of Fail2Ban.
- # Values: CMD
- #
- actionstart = printf %%b “Hi,\n The jail <name> has been started successfully.\n Regards,\n Fail2Ban&#8221;|mail -s &#8220;[Fail2Ban] <name>: started on `uname -n`&#8221; <dest /></name></name></p>
-
-    <p># Option: actionstop
- # Notes.: command executed once at the end of Fail2Ban
- # Values: CMD
- #
- actionstop = printf %%b “Hi,\n The jail <name> has been stopped.\n Regards,\n Fail2Ban&#8221;|mail -s &#8220;[Fail2Ban] <name>: stopped on `uname -n`&#8221; <dest /></name></name></p>
-
-    <p># Option: actioncheck
- # Notes.: command executed once before each actionban command
- # Values: CMD
- #
- actioncheck =</p>
-
-    <p># Option: actionban
- # Notes.: command executed when banning an IP. Take care that the
- # command is executed with Fail2Ban user rights.
- # Tags: See jail.conf(5) man page
- # Values: CMD
- #
- actionban = printf %%b “Hi,\n The IP <ip> has just been banned by Fail2Ban after <failures> attempts against <name>.\n\n Here are more information about <ip>:\n `whois <ip>`\n `/bin/curl http://ip.taobao.com/service/getIpInfo.php?ip=<ip>`\n\n Regards,\n Fail2Ban&#8221;|mail -s &#8220;[Fail2Ban] <name>: banned <ip> from `uname -n`&#8221; <dest /></ip></name></ip></ip></ip></name></failures></ip></p>
-
-    <p># Option: actionunban
- # Notes.: command executed when unbanning an IP. Take care that the
- # command is executed with Fail2Ban user rights.
- # Tags: See jail.conf(5) man page
- # Values: CMD
- #
- actionunban =</p>
-
-    <p>[Init]</p>
-
-    <p># Default name of the chain
- #
- name = default</p>
-
-    <p># Destination/Addressee of the mail
- #
- dest = root</p>
-
-    <p>&#8220;`</p>
-  </li>
-  <li>
-    <p>启动服务，查看状态</p>
-
-    <p><code>
- systemctl start fail2ban
- systemctl status fail2ban
-</code></p>
   </li>
 </ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/fail2ban/jail.local
+</span><span class="line">[DEFAULT]
+</span><span class="line">ignoreip = 127.0.0.1/8
+</span><span class="line">bantime  = 86400
+</span><span class="line">maxretry = 5
+</span><span class="line">findtime = 1800
+</span><span class="line">destemail = xxxx@xxx.com
+</span><span class="line">sender = xxxx@gmail.com
+</span><span class="line">mta = mail
+</span><span class="line">protocol = tcp
+</span><span class="line">banaction = firewallcmd-ipset
+</span><span class="line">action = %(action_mwl)s
+</span><span class="line">
+</span><span class="line">[sshd]
+</span><span class="line">enabled = true
+</span><span class="line">filter  = sshd
+</span><span class="line">port    = 12222
+</span><span class="line">action = %(action_mwl)s
+</span><span class="line">logpath = /var/log/secure</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>设定邮件转发</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/nail.rc
+</span><span class="line">
+</span><span class="line">## Add sendmail settings
+</span><span class="line">set from=xxxx@gmail.com
+</span><span class="line">set smtp=smtps:smtp.gmail.com:587
+</span><span class="line">set smtp-auth-user=xxxx@gmail.com
+</span><span class="line">set smtp-auth-password=xxxxx
+</span><span class="line">set smtp-auth=login
+</span><span class="line">set ssl-verify=ignore
+</span><span class="line">set nss-config-dir=/etc/pki/nssdb</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>设定邮件模板</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"> vim /etc/fail2ban/action.d/mail-whois-lines.conf
+</span><span class="line">
+</span><span class="line"># Fail2Ban configuration file
+</span><span class="line">#
+</span><span class="line"># Author: Cyril Jaquier
+</span><span class="line">#
+</span><span class="line">#
+</span><span class="line">
+</span><span class="line">[Definition]
+</span><span class="line">
+</span><span class="line"># Option: actionstart
+</span><span class="line"># Notes.: command executed once at the start of Fail2Ban.
+</span><span class="line"># Values: CMD
+</span><span class="line">#
+</span><span class="line">actionstart = printf %%b "Hi,\n The jail &lt;name&gt; has been started successfully.\n Regards,\n Fail2Ban"|mail -s "[Fail2Ban] &lt;name&gt;: started on `uname -n`" &lt;dest&gt;
+</span><span class="line">
+</span><span class="line"># Option: actionstop
+</span><span class="line"># Notes.: command executed once at the end of Fail2Ban
+</span><span class="line"># Values: CMD
+</span><span class="line">#
+</span><span class="line">actionstop = printf %%b "Hi,\n The jail &lt;name&gt; has been stopped.\n Regards,\n Fail2Ban"|mail -s "[Fail2Ban] &lt;name&gt;: stopped on `uname -n`" &lt;dest&gt;
+</span><span class="line">
+</span><span class="line"># Option: actioncheck
+</span><span class="line"># Notes.: command executed once before each actionban command
+</span><span class="line"># Values: CMD
+</span><span class="line">#
+</span><span class="line">actioncheck =
+</span><span class="line">
+</span><span class="line"># Option: actionban
+</span><span class="line"># Notes.: command executed when banning an IP. Take care that the
+</span><span class="line"># command is executed with Fail2Ban user rights.
+</span><span class="line"># Tags: See jail.conf(5) man page
+</span><span class="line"># Values: CMD
+</span><span class="line">#
+</span><span class="line">actionban = printf %%b "Hi,\n The IP &lt;ip&gt; has just been banned by Fail2Ban after &lt;failures&gt; attempts against &lt;name&gt;.\n\n Here are more information about &lt;ip&gt;:\n `whois &lt;ip&gt;`\n `/bin/curl http://ip.taobao.com/service/getIpInfo.php?ip=&lt;ip&gt;`\n\n Regards,\n Fail2Ban"|mail -s "[Fail2Ban] &lt;name&gt;: banned &lt;ip&gt; from `uname -n`" &lt;dest&gt;
+</span><span class="line">
+</span><span class="line"># Option: actionunban
+</span><span class="line"># Notes.: command executed when unbanning an IP. Take care that the
+</span><span class="line"># command is executed with Fail2Ban user rights.
+</span><span class="line"># Tags: See jail.conf(5) man page
+</span><span class="line"># Values: CMD
+</span><span class="line">#
+</span><span class="line">actionunban =
+</span><span class="line">
+</span><span class="line">[Init]
+</span><span class="line">
+</span><span class="line"># Default name of the chain
+</span><span class="line">#
+</span><span class="line">name = default
+</span><span class="line">
+</span><span class="line"># Destination/Addressee of the mail
+</span><span class="line">#
+</span><span class="line">dest = root
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>启动服务，查看状态</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl start fail2ban
+</span><span class="line">systemctl status fail2ban</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
