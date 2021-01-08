@@ -183,7 +183,7 @@ MathJax.Hub.Config({
 
 <h4 id="section-1">防火墙</h4>
 
-<p>防火墙为我们抵抗绝大多数的脚本小子的攻击，是最省力，性价比最高的投资，切勿偷懒;</p>
+<p>防火墙为我们抵抗绝大多数的脚本小子的攻击，是最省力，性价比最高的配置，切勿偷懒;</p>
 
 <p>几乎所有的公有云都提供了非常傻瓜化的web 操作界面，来设置防火墙规则，一般情况下这些设置足够了；</p>
 
@@ -191,7 +191,7 @@ MathJax.Hub.Config({
 
 <p>如果是自己设置防火墙，iptable的使用比较复杂，我们采用最简单的规则链:</p>
 
-<p>……</p>
+<p>待整理……</p>
 
 <h4 id="sshd">sshd配置</h4>
 
@@ -199,15 +199,23 @@ MathJax.Hub.Config({
 
 <ol>
   <li>
-    <p>端口</p>
+    <p>修改默认端口</p>
 
-    <p>&#8220;`
- vim /etc/ssh/sshd_config</p>
+    <p><code>
+ vim /etc/ssh/sshd_config
+</code></p>
 
-    <p>Port 22
- -&gt;
+    <p>找到默认的22端口</p>
+
+    <p><code>
+ Port 22
+</code></p>
+
+    <p>修改为</p>
+
+    <p><code>
  Port 12222
-&#8220;`</p>
+</code></p>
   </li>
   <li>
     <p>DNS</p>
@@ -216,6 +224,9 @@ MathJax.Hub.Config({
     <p>Key</p>
 
     <p>首先，确定有SSH公钥（一般是文件~/.ssh/id_rsa.pub），如果没有的话，使用ssh-keygen命令生成一个</p>
+  </li>
+  <li>
+    <p>重新启动sshd服务让配置生效</p>
   </li>
 </ol>
 
