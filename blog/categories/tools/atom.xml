@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-09T16:09:49+08:00</updated>
+  <updated>2021-01-09T16:24:05+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Modify an Invalid '/etc/sudoers' File?]]></title>
+    <link href="https://happy123.me/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file/"/>
+    <updated>2021-01-09T16:16:31+08:00</updated>
+    <id>https://happy123.me/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file</id>
+    <content type="html"><![CDATA[<p>刚说小心驶得万年船，就想自己找方便，手工裸编辑 <code>/etc/sudoers</code> 文件把sudo权限搞挂了…-_-</p>
+
+<p>仔细瞅了瞅，少加了一个冒号，导致现在进退两难…</p>
+
+<!-- more -->
+
+<p>解决这个问题的标准方法是pkexec，参考：</p>
+
+<p>https://askubuntu.com/questions/73864/how-to-modify-an-invalid-etc-sudoers-file</p>
+
+<p>但是执行pkexec的时候又暴露了一个问题:</p>
+
+<p><code>
+polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
+==== AUTHENTICATION FAILED ===
+Error executing command as another user: Not authorized
+</code></p>
+
+<p>最后解决需要一点小技巧:</p>
+
+<ol>
+  <li>
+    <p>在第一个shell种执行:<code>echo $$</code>，得到PID</p>
+  </li>
+  <li>
+    <p>再开一个shell，再执行<code>pkttyagent --process PID</code></p>
+  </li>
+  <li>
+    <p>再回到第一个shell执行<code>pkexec visudo</code></p>
+  </li>
+</ol>
+
+<p>参考：</p>
+
+<p>https://github.com/NixOS/nixpkgs/issues/18012</p>
+
+<p>最后的教训是，人就是这样，要求别人头头是道，轮到自己偷奸耍滑；早用<code>visudo</code>还有这种事吗？</p>
+
+<p>三省吾身，不说了，我得赶紧把其它偷奸耍滑的行为全补好;</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux服务器极简安全配置]]></title>
@@ -483,72 +531,6 @@ LxRunOffline.exe install -n Ubuntu-18.04 -d C:\wsl -f D:\temp\ubuntu18.04.backup
 <p><code>
 wslconfig /u Ubuntu-18.04
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[WSL权限管理]]></title>
-    <link href="https://happy123.me/blog/2019/11/18/wslquan-xian-guan-li/"/>
-    <updated>2019-11-18T10:45:54+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/18/wslquan-xian-guan-li</id>
-    <content type="html"><![CDATA[<p>重装系统，又折腾了一遍WSL环境，记录一下:</p>
-
-<p>WSL (Win­dows Sub­sys­tem for Linux) 通过 /mnt 目录下的 c、d、e 等目录可分别访问本地的 C、D、E 等盘，虽然可以直接访问 Win­dows 下的文件内容，但输入 ls -al 查看文件你会发现文件权限全都是 777。这会导致一些问题出现，比如 Git会保留这些文件的执行权限，如果你之前在 Win­dows 下使用过 Git Bash ，那么在 WSL 中使用 <code>git status</code>查看本地仓库的文件状态时你会发现它们全部被标记成了 modified。</p>
-
-<!-- more -->
-
-<h3 id="section">分析问题</h3>
-
-<p>首先要了解 WSL 中的两种文件系统：</p>
-
-<h4 id="volfs">VolFs</h4>
-<p>着力于在 Win­dows 文件系统上提供完整的 Linux 文件系统特性，通过各种手段实现了对 In­odes、Di­rec­tory en­tries、File ob­jects、File de­scrip­tors、Spe­cial file types 的支持。比如为了支持 Win­dows 上没有的 In­odes，VolFs 会把文件权限等信息保存在文件的 NTFS Ex­tended At­trib­utes 中。</p>
-
-<p>WSL 中的 / 使用的就是 VolFs 文件系统。</p>
-
-<h4 id="drvfs">DrvFs</h4>
-<p>着力于提供与 Win­dows 文件系统的互操作性。与 VolFs 不同，为了提供最大的互操作性，DrvFs 不会在文件的 NTFS Ex­tended At­trib­utes 中储存附加信息，而是从 Win­dows 的文件权限（Ac­cess Con­trol Lists，就是你右键文件 &gt; 属性 &gt; 安全选项卡中的那些权限配置）推断出该文件对应的的 Linux 文件权限。</p>
-
-<p>所有 Win­dows 盘符挂载至 WSL 下的 /mnt 时都是使用的 DrvFs 文件系统。</p>
-
-<p>简单来说就是 WSL 对 / 目录下的文件拥有完整的控制权，而 /mnt 目录中的文件无法被 WSL 完全控制（可修改数据，无法真实的修改权限）。WSL 对 /mnt 目录中权限的修改不会直接记录到文件本身，而在 Win­dows 下对文件权限的修改直接可作用到 WSL 。关于权限在<a href="https://p3terx.com/go/aHR0cHM6Ly9kZXZibG9ncy5taWNyb3NvZnQuY29tL2NvbW1hbmRsaW5lL2NobW9kLWNob3duLXdzbC1pbXByb3ZlbWVudHMv">微软开发者博客中</a>有更详细的说明。</p>
-
-<h3 id="section-1">解决方案</h3>
-
-<p>这只是让文件在 WSL 中的权限看起来正常（目录 755，文件 644），实际并不会作用到 Win­dows 文件系统下的文件本身。</p>
-
-<p>在 /etc/wsl.conf 中添加以下配置：</p>
-
-<p><code>
-[automount]
-enabled = true
-root = /mnt/
-options = "metadata,umask=22,fmask=111"
-mountFsTab = true
-</code></p>
-
-<p>上面的方法对所有盘符都有效，如果你想在 WSL 中调用 Win­dows 下的应用程序（比如 explorer.exe . 调用资源管理器打开当前路径）就需要对 C 盘进行单独设置，否则会提示没有权限。首先确认 wsl.conf 中的 mountFsTab 没有被设置为 false，然后编辑 /etc/fstab，添加如下内容：</p>
-
-<p><code>
-C:\ /mnt/c drvfs rw,noatime,uid=1000,gid=1000,metadata,umask=22,fmask=11 0 0
-</code></p>
-
-<p>此时执行<code>mkdir</code>等命令的时候，会发现新建的目录权限依然是 777。</p>
-
-<p>目前民间解决方案是在.profile、.bashrc、.zshrc 或者其他 shell 配置文件中添加如下命令，重新设置 umask</p>
-
-<p><code>
-[filesystem]
-umask = 022
-</code></p>
-
-<p>全部设置完成之后，最好重启一遍Windows系统。</p>
-
-<h4 id="section-2">参考:</h4>
-
-<p>https://segmentfault.com/a/1190000016677670</p>
-
-<p>https://p3terx.com/archives/problems-and-solutions-encountered-in-wsl-use-2.html</p>
 ]]></content>
   </entry>
   
