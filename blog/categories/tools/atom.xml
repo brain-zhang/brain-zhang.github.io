@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-08T17:48:06+08:00</updated>
+  <updated>2021-01-09T16:00:54+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -43,7 +43,13 @@
 
     <p><code>
  useradd -d /home/brain -s /bin/bash -m brain
+</code></p>
+
+    <p><code>
  passwd brain
+</code></p>
+
+    <p><code>
  usermod -a -G develop brain
 </code></p>
   </li>
@@ -58,6 +64,9 @@
 
     <p><code>
  root     ALL=(ALL:ALL) ALL
+</code></p>
+
+    <p><code>
  brain    ALL=(ALL) NOPASSWD: ALL
 </code></p>
 
@@ -65,6 +74,9 @@
 
     <p><code>
  root    ALL=(ALL:ALL) ALL
+</code></p>
+
+    <p><code>
  brain    ALL=(ALL:ALL) ALL
 </code></p>
 
@@ -127,8 +139,9 @@
 
     <p><code>
  echo "ssh-rsa [your public key]" &gt; ~/.ssh/authorized_keys
-</code>
- <code>
+</code></p>
+
+    <p><code>
  sudo chmod 600 ~/.ssh/authorized_keys &amp;&amp; chmod 700 ~/.ssh/
 </code></p>
 
@@ -136,21 +149,25 @@
 
     <p><code>
  PermitRootLogin no
-</code>
- <code>
+</code></p>
+
+    <p><code>
  PermitEmptyPasswords no
-</code>
- <code>
+</code></p>
+
+    <p><code>
  PasswordAuthentication no
 </code></p>
 
     <p><code>
  RSAAuthentication yes
-</code>
- <code>
+</code></p>
+
+    <p><code>
  PubkeyAuthentication yes
-</code>
- <code>
+</code></p>
+
+    <p><code>
  AuthorizedKeysFile .ssh/authorized_keys
 </code></p>
   </li>
@@ -181,8 +198,9 @@
     <p>centos:
   <code>
   yum -y install epel-release
- </code>
-  <code>
+ </code></p>
+
+    <p><code>
   sudo yum install fail2ban
  </code></p>
 

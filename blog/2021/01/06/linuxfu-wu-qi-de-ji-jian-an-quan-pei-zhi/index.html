@@ -148,7 +148,13 @@ MathJax.Hub.Config({
 
     <p><code>
  useradd -d /home/brain -s /bin/bash -m brain
+</code></p>
+
+    <p><code>
  passwd brain
+</code></p>
+
+    <p><code>
  usermod -a -G develop brain
 </code></p>
   </li>
@@ -163,6 +169,9 @@ MathJax.Hub.Config({
 
     <p><code>
  root     ALL=(ALL:ALL) ALL
+</code></p>
+
+    <p><code>
  brain    ALL=(ALL) NOPASSWD: ALL
 </code></p>
 
@@ -170,6 +179,9 @@ MathJax.Hub.Config({
 
     <p><code>
  root    ALL=(ALL:ALL) ALL
+</code></p>
+
+    <p><code>
  brain    ALL=(ALL:ALL) ALL
 </code></p>
 
@@ -232,8 +244,9 @@ MathJax.Hub.Config({
 
     <p><code>
  echo "ssh-rsa [your public key]" &gt; ~/.ssh/authorized_keys
-</code>
- <code>
+</code></p>
+
+    <p><code>
  sudo chmod 600 ~/.ssh/authorized_keys &amp;&amp; chmod 700 ~/.ssh/
 </code></p>
 
@@ -241,21 +254,25 @@ MathJax.Hub.Config({
 
     <p><code>
  PermitRootLogin no
-</code>
- <code>
+</code></p>
+
+    <p><code>
  PermitEmptyPasswords no
-</code>
- <code>
+</code></p>
+
+    <p><code>
  PasswordAuthentication no
 </code></p>
 
     <p><code>
  RSAAuthentication yes
-</code>
- <code>
+</code></p>
+
+    <p><code>
  PubkeyAuthentication yes
-</code>
- <code>
+</code></p>
+
+    <p><code>
  AuthorizedKeysFile .ssh/authorized_keys
 </code></p>
   </li>
@@ -286,8 +303,9 @@ MathJax.Hub.Config({
     <p>centos:
   <code>
   yum -y install epel-release
- </code>
-  <code>
+ </code></p>
+
+    <p><code>
   sudo yum install fail2ban
  </code></p>
 
