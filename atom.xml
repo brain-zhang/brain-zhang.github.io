@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-01-09T16:29:08+08:00</updated>
+  <updated>2021-04-17T09:48:12+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Remove All Non-ascii Content From a Workflow (File)]]></title>
+    <link href="https://happy123.me/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file/"/>
+    <updated>2021-04-17T09:46:10+08:00</updated>
+    <id>https://happy123.me/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file</id>
+    <content type="html"><![CDATA[<h4 id="grep-remove-lines">grep remove lines</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">grep --colour='auto' -P '[^\x00-\x7]' file</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="tr-remove-characters">tr remove characters</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C tr -dc '\0-\177' &lt;file &gt;newfile</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Modify an Invalid '/etc/sudoers' File?]]></title>
@@ -4083,142 +4100,6 @@ p(x)=\prod_{j=1}^n p(x_j;\mu_j,\sigma^2_j)=\prod_{j=1}^n \frac{1}{\sqrt{2\pi}\si
 <p>Map Reduce和数据并行对于大规模机器学习问题而言是非常重要的概念。</p>
 
 <p>之前提到，如果我们用批量梯度下降算法来求解大规模数据集的最优解，我们需要对整个训练集进行循环，计算偏导数和代价，再求和，计算代价非常大。如果我们能够将我们的数据集分配给多台计算机，让每一台计算机处理数据集的一个子集，然后我们将计算的结果汇总然后再求和。这样的方法叫做Map Reduce。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[吴恩达机器学习笔记-4]]></title>
-    <link href="https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4/"/>
-    <updated>2019-09-18T16:59:17+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4</id>
-    <content type="html"><![CDATA[<p class="info">机器学习系统设计思路，向量机，聚类</p>
-
-<!-- more -->
-
-<h2 id="section">机器学习系统设计</h2>
-
-<h4 id="section-1">确定优先级</h4>
-
-<ul>
-  <li>如何设计一个垃圾邮件分类器算法?</li>
-</ul>
-
-<ol>
-  <li>
-    <p>首先，决定如何选择并表达特征向量x：可以选择一个由 100 个最常出现在垃圾邮件中的词所构成的列表，根据这些词是否有在邮件中出现，来获得我们的特征向量（出现为 1，不出现为 0），尺寸为 100×1。</p>
-  </li>
-  <li>收集更多的数据，让我们有更多的垃圾邮件和非垃圾邮件的样本</li>
-  <li>基于邮件的路由信息开发一系列复杂的特征</li>
-  <li>基于邮件的正文信息开发一系列复杂的特征，包括考虑截词的处理</li>
-  <li>为探测刻意的拼写错误（例如: 把 watch 写成 w4tch）开发复杂的算法</li>
-</ol>
-
-<h4 id="section-2">误差分析</h4>
-
-<p>构建一个学习算法的推荐方法为：</p>
-
-<ol>
-  <li>从一个简单的能快速实现的算法开始，实现该算法并用交叉验证集数据测试这个算法</li>
-  <li>绘制学习曲线，决定是增加更多数据，或者添加更多特征，还是其他选择</li>
-  <li>进行误差分析：人工检查交叉验证集中我们算法中产生预测误差的实例，看看这些实例是否有某种系统化的趋势</li>
-</ol>
-
-<h4 id="section-3">不对称分类的误差</h4>
-
-<p>偏斜类（skewed classes）问题，表现为训练集中有非常多的同一种类的实例，只有很少或没有其他类的实例。</p>
-
-<ul>
-  <li>
-    <p>查准率（Precision） = TP/（TP+FP）。
-例：肿瘤预测中，在所有预测有恶性肿瘤的病人中，实际上有恶性肿 瘤的病人的百分比，越高越好。</p>
-  </li>
-  <li>
-    <p>查全率（Recall） = TP/（TP+FN）。
-例：肿瘤预测中，在所有实际上有恶性肿瘤的病人中，成功预测有恶性肿瘤的病人的百分比，越高越好。</p>
-  </li>
-</ul>
-
-<p>对于肿瘤预测来说, 查全率更重要</p>
-
-<h4 id="section-4">精确率和召回率的权衡</h4>
-
-<p>如果希望只在非常确信的情况下预测为真（肿瘤为恶性），即我们希望更高的查准率，我们可以使用比 0.5 更大的阀值，如 0.7，0.9。这样做我们会减少错误预测病人为恶性肿瘤的情况，同时却会增加未能成功预测肿瘤为恶性的情况。</p>
-
-<p>如果我们希望提高查全率，尽可能地让所有有可能是恶性肿瘤的病人都得到进一步地检查、诊断，我们可以使用比 0.5 更小的阀值，如 0.3。</p>
-
-<p>选择阈值的一种方法是是计算 F1 值（F1 Score），其计算公式为：</p>
-
-<script type="math/tex; mode=display">
-F_1Score = 2\frac{PR}{P+R}
-</script>
-
-<h4 id="section-5">机器学习数据</h4>
-
-<p>关于机器学习数据与特征值的选取比较有效的检测方法：</p>
-
-<ol>
-  <li>
-    <p>一个人类专家看到了特征值 x，能很有信心的预测出 y 值吗？因为这可以证明 y 可以根据特征值 x 被准确地预测出来。</p>
-  </li>
-  <li>
-    <p>我们实际上能得到一组庞大的训练集，并且在这个训练集中训练一个有很多参数的学习算法吗？</p>
-  </li>
-</ol>
-
-<h2 id="section-6">向量机</h2>
-
-<h4 id="section-7">支持向量机</h4>
-
-<p>简称 SVM，在学习复杂的非线性方程时提供了一种更为清晰，更加强大的方式。</p>
-
-<p>老实说，向量机没有理解；它是作为一种分类器来使用的，他画出来的分类线比线性回归和逻辑回归的偏差更小；简称大间距分类器，意思是分类线的到每一个样本点的距离，都保持最大间隔，这样就跟具有鲁棒性，分的就明显；</p>
-
-<h4 id="section-8">核函数</h4>
-
-<p>TODO，待理解</p>
-
-<h2 id="section-9">非监督学习</h2>
-
-<h4 id="k-means">K-Means算法</h4>
-
-<p>K-均值是最普及的聚类算法，算法接受一个未标记的数据集，然后将数据聚类成不同的组。假设我们想要将数据聚类成 n 个组，其方法为:</p>
-
-<ol>
-  <li>选择 k 个随机的点，称为聚类中心（cluster centroids）；</li>
-  <li>对于数据集中的每一个数据，按照距离 K个中心点的距离，将其与距离最近的中心点关联起来，与同一个中心点关联的所有点聚成一类；</li>
-  <li>计算每一个组的平均值，将该组所关联的中心点移动到平均值的位置；</li>
-  <li>重复步骤 2-4 直至中心点不再变化。</li>
-</ol>
-
-<h4 id="section-10">优化</h4>
-
-<p>𝜇𝑐(𝑖) 代表与𝑥(𝑖) 最近的聚类中心点。优化目标便是找出使得代价函数最小的𝑐(1),𝑐(2),…𝑐(𝑚)和 𝜇1,𝜇2,…,𝜇𝑘。</p>
-
-<ul>
-  <li>K-均值迭代算法</li>
-</ul>
-
-<ol>
-  <li>第一个循环(cluster assignment)是用于减小 𝑐(𝑖) 引起的代价</li>
-  <li>第二个循环(move centroid)则是用于减小 𝜇𝑖 引起的代价。</li>
-</ol>
-
-<h4 id="section-11">随机初始化</h4>
-
-<p>随机初始化所有的聚类中心点的做法：</p>
-
-<ol>
-  <li>我们应该选择 K &lt; m，即聚类中心点的个数要小于所有训练集实例的数量</li>
-  <li>随机选择 K 个训练实例，然后令 K 个聚类中心分别与这 K 个训练实例相等</li>
-</ol>
-
-<h4 id="section-12">选择聚类数目</h4>
-
-<p>改变 聚类数k 值，运行K-均值聚类方法，然后计算成本 函数或者计算畸变函数 J。</p>
-
-<p>我们可能会得到一条这样像肘部的曲线，这就是“肘部法则”所做的。
-这种模式下，它的畸变值会迅速下降，从 1 到 2，从 2 到 3 之后，你会在 3 的时候达到一个肘点。
-在此之后，畸变值就下降的非常慢，我们就选这个转折点。</p>
 ]]></content>
   </entry>
   
