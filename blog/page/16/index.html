@@ -100,6 +100,60 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/">石头比特币之岛</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-08T22:26:46+08:00" pubdate data-updated="true">Jun 8<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="info">这是一篇妙文，讲述了我们人类世界一直习以为常的货币，其本质是什么，你会看到，早期的石头货币与现在数字货币并没有什么不同。</p>
+
+<h2 id="section">正文</h2>
+
+<h4 id="section-1">所以，你已经决定了要把比特币告诉某些人</h4>
+
+<p>我很高兴听到这个消息。你赢得了我的祝贺和尊重；解释比特币是一个高尚的事业。其他高尚的事业还包括给麻风病患者沐浴，手动替便秘的骡子通便，以及任何包括“第一阶段的人体临床试验”这样的字眼的事。</p>
+
+<p>我的意思是说，你正在做一件非常有必要同时将让这个世界变得更加美好的事情。然后，在不远的未来，你会感觉非常痛苦。你会痛苦、疲惫、并且真的怀疑这个事情的好处究竟会怎样到来。</p>
+
+<p>比特币不能被轻松随意的解释或者方便的被比喻。事实上，没几个比较是适合它的！它是一种货币但它像一种商品一样运作。它的总量有限，所以…它几乎就像是黄金！…除了它是以一个精确的固定的速率被创造，并且将在一个准确的固定的时间点停止创造。所以，它又不像黄金。“挖矿”这个工作也并不真正的产出什么实物。比特币是一份倾倒给任何不加怀疑的新手的，时代错误的trainwreck（一种效力强劲的大麻）。并且可怕的伪字，比如说“区块链blockchain”和“hashcash”使得它听起来更像是一场骗局。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/06/08/shi-tou-bi-te-bi-zhi-dao/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/06/07/zui-feng-kuang-de-bi-te-bi-yong-hu/">最疯狂的比特币用户</a></h1>
     
     
@@ -857,94 +911,6 @@ users:(("processname",pid=1234,fd=3))
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/15/extend-lvm-in-vcenter/">Extend Lvm in vCenter</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-15T09:56:59+08:00" pubdate data-updated="true">May 15<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/15/extend-lvm-in-vcenter/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/05/15/extend-lvm-in-vcenter/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="vcenterlvm">如何在vCenter上LVM分区扩容</h2>
-
-<ul>
-  <li>
-    <p>导入镜像后，编辑虚拟机，增加第二块硬盘</p>
-  </li>
-  <li>
-    <p>这个时候我们执行下面命令就可以看到新加的磁盘</p>
-
-    <pre><code>  ls -alh /dev/sdb
-</code></pre>
-  </li>
-  <li>
-    <p>使用fdisk 创建lvm分区，方法和创建普通分区的方法一致，然后lvm的分区类型是8e</p>
-  </li>
-  <li>
-    <p>执行下面的命令看看效果，现在/dev/sdb1 已经是linux LVM类型的分区了</p>
-
-    <pre><code>  fdisk -l
-</code></pre>
-  </li>
-  <li>
-    <p>创建PV</p>
-
-    <pre><code>  pvcreate /dev/sdb1
-  pvdisplay
-</code></pre>
-  </li>
-  <li>
-    <p>把PV加入VG中</p>
-
-    <pre><code>  vgdisplay
-  vgextend centos /dev/sdb1
-</code></pre>
-  </li>
-  <li>
-    <p>扩容LV</p>
-
-    <pre><code>  lvdisplay
-  lvextend -L 150G  /dev/centos/opt
-  xfs_growfs /dev/centos/opt
-</code></pre>
-  </li>
-  <li>
-    <p>df -h看一下，打完收工</p>
-  </li>
-  <li>
-    <p>如果再不够，可以加第三块盘，同样的操作</p>
-  </li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/17/">&larr; Older</a>
@@ -962,6 +928,10 @@ users:(("processname",pid=1234,fd=3))
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file/">How to Remove All Non-ascii Content From a Workflow (File)</a>
       </li>
     
@@ -975,10 +945,6 @@ users:(("processname",pid=1234,fd=3))
     
       <li class="post">
         <a href="/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/">How to Close Lightning Channels by Lnd-cli?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/">How to Set Systemd Startup Script for Bitcoind?</a>
       </li>
     
   </ul>
@@ -1089,7 +1055,7 @@ users:(("processname",pid=1234,fd=3))
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (74)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (75)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

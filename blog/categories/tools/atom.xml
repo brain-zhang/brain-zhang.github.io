@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-04-17T09:48:12+08:00</updated>
+  <updated>2021-04-19T17:27:46+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Split a File Into Equal Parts Without Breaking Individual Lines?]]></title>
+    <link href="https://happy123.me/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/"/>
+    <updated>2021-04-19T17:26:06+08:00</updated>
+    <id>https://happy123.me/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines</id>
+    <content type="html"><![CDATA[<p><code>
+split -n l/5 your_file.txt
+</code>
+注意 l/5 前面是小写的L;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Remove All Non-ascii Content From a Workflow (File)]]></title>
@@ -405,105 +417,6 @@ dest = root
 <p><code>
 cat /tmp/xxx.txt|sort -u | awk '{print length($0), $0}'  | sort -k2,2n -k1,1n -k3,3 |cut -d" " -f2-|less
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xargs Sh -c Skipping the First Argument]]></title>
-    <link href="https://happy123.me/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/"/>
-    <updated>2020-08-12T16:46:27+08:00</updated>
-    <id>https://happy123.me/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument</id>
-    <content type="html"><![CDATA[<p>其实这个问题已经见过很多次了，但是知其然不知其所以然；今天偶尔在stackoverflow上看到了，记录一下；</p>
-
-<h4 id="shellarg1-arg2">shell中的arg1, arg2…</h4>
-
-<p>在bash shell中，<code>$1</code>, <code>$2</code>代表arg1, arg2，比如</p>
-
-<p>```
-# echo hello world|xargs echo $1 $2</p>
-
-<p>hello world
-```</p>
-
-<!-- more -->
-
-<p><code>$0</code> 代表执行环境，如果是一个执行脚本的话，<code>$0</code> 代表其脚本名；比如下面这个脚本hello.sh:</p>
-
-<p>```
-#!/bin/bash</p>
-
-<p>echo $0
-echo $1
-echo $2
-```</p>
-
-<p>执行:</p>
-
-<p>```
-# ./hello.sh arg1 arg2</p>
-
-<p>```
-会输出</p>
-
-<p><code>
-./hello.sh
-arg1
-arg2
-</code></p>
-
-<h4 id="xargs-sh--c-arg">xargs 调用sh -c 中的arg</h4>
-
-<p>但是使用<code>xargs sh -c</code>时会出现一个比较疑惑的情况，比如执行:</p>
-
-<p>```
-# echo hello world|xargs sh -c ‘echo $1 $2’</p>
-
-<p>world
-```</p>
-
-<p>此时<code>$1</code>代表world，<code>$2</code>已经没有值了；而执行</p>
-
-<p>```
-# echo hello world|xargs sh -c ‘echo $0 $1’</p>
-
-<p>hello world
-```</p>
-
-<p>反而得到了正确结果；</p>
-
-<h4 id="why">why</h4>
-
-<p>之前我一直认为<code>xargs sh -c</code>调用的时候吃掉了<code>$0</code>，不求甚解；偶尔读了一下sh的手册才发现玄机:</p>
-
-<blockquote>
-  <p>From the documentation for the -c option:</p>
-</blockquote>
-
-<blockquote>
-  <p>Read commands from the command_string operand. Set the value of special parameter 0 (see Special Parameters) from the value of the command_name operand and the positional parameters ($1, $2, and so on) in sequence from the remaining argument operands.</p>
-</blockquote>
-
-<p>就是说在上面这条命令中，其实是没有找到要执行的命令，或者说要执行的命令为空，而hello world作为<code>$1</code>, <code>$2</code>传给一个空命令了；</p>
-
-<p>后面追加一个dummy的命令会看的更清楚:</p>
-
-<p>```
-# echo hello world|xargs sh -c ‘echo $1 $2’ _</p>
-
-<p>hello world
-```</p>
-
-<p>后面我加了一条下划线作为xargs的dummy command，这样<code>$1</code>, <code>$2</code>就恢复正常了；</p>
-
-<h4 id="section">总结</h4>
-
-<p>虽然这是一个啥用也没有的Magic Topic，但是搞明白之后还是挺有意思的，娱乐用；</p>
-
-<p>另外隐隐约约觉得这里面隐含着一些安全方面的问题，暂时只是一种感觉，将来需要留意有没有这方面的hack手段;</p>
-
-<h4 id="section-1">引用</h4>
-
-<p>https://stackoverflow.com/questions/41043163/xargs-sh-c-skipping-the-first-argument</p>
 ]]></content>
   </entry>
   
