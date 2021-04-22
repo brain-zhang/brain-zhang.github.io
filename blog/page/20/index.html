@@ -100,6 +100,59 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/">Libpcap PACKET_MMAP内存分配</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-25T10:03:49+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>libpcap为了提高效率，调用<code>setsockopt(handle-&gt;fd, SOL_PACKET, PACKET_RX_RING,(void *) &amp;req, sizeof(req))</code>时采用kmalloc分配内存。</p>
+
+<p>可以参考:</p>
+
+<p>https://www.kernel.org/doc/Documentation/networking/packet_mmap.txt</p>
+
+<p>kmalloc底层依赖linux的slab内存分配机制，在2.6.22内核之后，slub取代slab成为默认的内存分配器。空间和时间上都有所提升。值得升级。</p>
+
+<p>另外，centos5.9默认采用的2.6.18内核，编译的时候默认的KMALLOC_MAX_SIZE 设置为size-131072，这对于有很大内存的机器，分配效率是不高的。</p>
+
+<p>最简单的办法就是用rpm包升级到2.6.33.9-rt31.86.el5rt，这个内核编译的时候已经将KMALLOC_MAX_SIZE设置为size-4194304。</p>
+
+<p>这个问题是追踪libpcap的抓包程序，内存分配频繁失败发现的。</p>
+
+<p>只能说，内核升级频繁，很多编译开关影响很大，要想全面发挥linux的性能，只能紧跟潮流啊。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/12/08/dockerzhong-de-wang-luo/">Docker中的网络</a></h1>
     
     
@@ -1186,135 +1239,6 @@ https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/18/docker-cheat-sheet/">Docker Cheat Sheet</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-18T09:09:52+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/09/18/docker-cheat-sheet/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2014/09/18/docker-cheat-sheet/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1 id="container">container相关</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ docker run -it xxx /bin/bash                                      // 启动一个container
-</span><span class="line">$ docker rm -f xxx                                                  // 结束一个container，加-f表示删除掉，这样比较干净
-</span><span class="line">$ docker run -it --add-host host:ip xxx /bin/bash                   // 启动一个container,增加/etc/hosts设定
-</span><span class="line">$ docker run -d -p 127.0.0.1:5000:5000 webapp python app.py         // 启动一个container,映射本地的5000端口
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="image-">image 相关</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ docker rmi -f xxx                                                 // 删除一个image，以下情况下不能删除:
-</span><span class="line">                                                                    // * 有其他image依赖于这个image
-</span><span class="line">                                                                    // * 有已创建的container依赖于这个image
-</span><span class="line">                                                                    // build的过程会出现很多&lt;none&gt;的临时image，最好不要去手工清除
-</span><span class="line">$ docker build tag Dockerfile_dir                                   // build一个image
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="docker-service-">docker service 相关</h1>
-
-<h2 id="section">配置文件位置</h2>
-
-<ul>
-  <li>
-    <p>ubuntu: /etc/default/docker</p>
-  </li>
-  <li>
-    <p>centos: /etc/sysconfig/docker</p>
-  </li>
-</ul>
-
-<h3 id="section-1">配置参数</h3>
-
-<pre><code>DOCKER_OPTS
-</code></pre>
-
-<h4 id="docker-">增加docker 仓库验证</h4>
-
-<pre><code>--insecure-registry own-docker.com
-</code></pre>
-
-<h4 id="storage-backend">设置storage backend</h4>
-
-<pre><code>-s overlay
-</code></pre>
-
-<p>使用overlay极大提升性能和稳定性，建议开启。但是有两个问题:</p>
-
-<ul>
-  <li>
-    <p>编译centos镜像时，调用yum会报checksum错误，所以基本上不能在overlay上面构建redhat系的镜像</p>
-  </li>
-  <li>
-    <p>不支持 <code>inotify_add_watch</code> 调用，<code>tail -f</code> 类的命令会有问题，具体见:https://github.com/docker/docker/issues/11705</p>
-  </li>
-</ul>
-
-<h1 id="section-2">相关工具:</h1>
-
-<h4 id="docker">docker镜像瘦身工具</h4>
-
-<p>https://github.com/jwilder/docker-squash</p>
-
-<h4 id="nsenter-docker-inspect">nsenter, docker inspect的增强版</h4>
-
-<p>https://github.com/jpetazzo/nsenter</p>
-
-<h4 id="dockerfly">dockerfly，自己写的一个构建工具</h4>
-
-<p>https://github.com/brain-zhang/dockerfly</p>
-
-<h4 id="shipyard">shipyard，还算是比较靠谱的监控工具</h4>
-
-<p>https://github.com/shipyard/shipyard</p>
-
-<h1 id="section-3">一些坑:</h1>
-
-<ul>
-  <li>centos 在4.0.0-1.el6.elrepo.x86_64内核下，启动xfs+overlay，删除文件夹会有问题</li>
-  <li>overlay下，tail命令会有问题</li>
-  <li>overlay下，docker build，yum的checksum会有问题</li>
-  <li>devicemapper效率巨慢无比，不要用</li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/21/">&larr; Older</a>
@@ -1332,6 +1256,10 @@ https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Linux下块设备缓存Bcache设置</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a>
       </li>
     
@@ -1345,10 +1273,6 @@ https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177
     
       <li class="post">
         <a href="/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/">Linux服务器极简安全配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/">How to Close Lightning Channels by Lnd-cli?</a>
       </li>
     
   </ul>
@@ -1459,7 +1383,7 @@ https://meta.stackexchange.com/questions/177133/turn-off-markdown-formatting/177
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (75)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (76)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

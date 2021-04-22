@@ -100,6 +100,53 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Export Json by Mongoexport</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-03T08:46:23+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2014</time>
+        
+           | <a href="/blog/2014/07/03/wei-cexport-json-by-mongoexport/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2014/07/03/wei-cexport-json-by-mongoexport/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Exp:</p>
+
+<pre><code>mongoexport -d foo -c exp -o exp.json -q '{"ts":{"$gte":0}}'
+</code></pre>
+
+<p>Notice:</p>
+
+<pre><code>You should use `"`  not  `'` in query string
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/03/26/freeze-svn-externals-for-tags/">Freeze Svn:externals for Tags/branch</a></h1>
     
     
@@ -671,6 +718,10 @@ http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</p>
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Linux下块设备缓存Bcache设置</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a>
       </li>
     
@@ -684,10 +735,6 @@ http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</p>
     
       <li class="post">
         <a href="/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/">Linux服务器极简安全配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/">How to Close Lightning Channels by Lnd-cli?</a>
       </li>
     
   </ul>
@@ -798,7 +845,7 @@ http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</p>
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (75)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (76)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

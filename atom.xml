@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-04-21T09:24:42+08:00</updated>
+  <updated>2021-04-22T10:05:08+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux下块设备缓存Bcache设置]]></title>
+    <link href="https://happy123.me/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/"/>
+    <updated>2021-04-22T10:04:17+08:00</updated>
+    <id>https://happy123.me/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi</id>
+    <content type="html"><![CDATA[<h2 id="bcache">Bcache简介</h2>
+
+<p>Bcache是Linux内核块设备层cache，支持多块HDD使用同一块SSD作为缓存盘。它让SSD作为HDD的缓存成为了可能。由于SSD价格昂贵，存储空间小，而HDD价格低廉，存储空间大，因此采用SSD作为缓存，HDD作为数据存储盘，既解决了SSD容量太小，又解决了HDD运行速度太慢的问题。</p>
+
+<p>Bcache是从Linux-3.10开始正式并入内核主线的，因此，要使用Bcache，需要将内核升级到3.10及以上版本才行。</p>
+
+<!-- more -->
+
+<h2 id="bcache-1">Bcache缓存策略</h2>
+
+<p>Bcache支持三种缓存策略，分别是：writeback、writethrough、writearoud，默认使用writethrough，缓存策略可动态修改。</p>
+
+<p>writeback 回写策略：回写策略默认是关闭的，如果开启此策略，则所有的数据将先写入缓存盘，然后等待系统将数据回写入后端数据盘中。
+writethrough 写通策略：默认的就是写通策略，此模式下，数据将会同时写入缓存盘和后端数据盘。
+writearoud ：选择此策略，数据将直接写入后端磁盘。</p>
+
+<p>Write-misses写缺失(写入的数据不在缓存中)有两种处理方式：</p>
+
+<pre><code>* Write allocate方式将写入位置读入缓存，然后采用write-hit（缓存命中写入）操作。写缺失操作与读缺失操作类似。
+* No-write allocate方式并不将写入位置读入缓存，而是直接将数据写入存储。这种方式下，只有读操作会被缓存。
+</code></pre>
+
+<p>无论是Write-through还是Write-back都可以使用写缺失的两种方式之一。只是通常Write-back采用Write allocate方式，而Write-through采用No-write allocate方式；因为多次写入同一缓存时，Write allocate配合Write-back可以提升性能；而对于Write-through则没有帮助。</p>
+
+<h2 id="section">操作</h2>
+
+<p>假设我们的HDD设备为/dev/sdb， SSD设备为/dev/sdc，我们需要用SSD加速HDD</p>
+
+<h4 id="section-1">擦除磁盘中的超级块信息</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># wipefs -a /dev/sdb
+</span><span class="line"># wipefs -a /dev/sdc</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="hdd">创建后端磁盘(HDD)</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">make-bcache -B /dev/sdb</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="ssd">创建缓存盘(SSD)</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">make-bcache -C /dev/sdc -w4k -b1M --writeback</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-2">添加缓存盘</h4>
+<p>要为bcache后端磁盘添加缓存盘，在创建缓存盘成功之后，首先需要获取该缓存盘的cset.uuid</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># ls /sys/fs/bcache/
+</span><span class="line">5d9e80f1-e4b7-48f5-ace2-f2f391877ea7 
+</span><span class="line">
+</span><span class="line"># bash -c 'echo 5d9e80f1-e4b7-48f5-ace2-f2f391877ea7 &gt; /sys/block/bcache0/bcache/attach'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>注意，写入UUID必须以root身份才能执行，在zsh里面sudo可能会出现权限不够的问题，所以直接用<code>bash -c</code>来做</p>
+
+<h4 id="section-3">看一下块设备结构</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># lsblk
+</span><span class="line">
+</span><span class="line">sdb         8:16   0 1000G  0 disk
+</span><span class="line">└─bcache0 251:0    0 1000G  0 disk
+</span><span class="line">sdc         8:32   0  300G  0 disk
+</span><span class="line">└─bcache0 251:0    0 1000G  0 disk
+</span><span class="line">
+</span><span class="line">ls /sys/block/sdb/bcache/dev/slaves</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-4">格式化、挂载</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># mkfs.ext4 /dev/bcache0
+</span><span class="line"># mount /dev/bcache0 /opt</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-5">开机自动挂载</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo "/dev/bcache0 /opt ext4 rw 0 0" &gt;&gt; /etc/fstab</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-6">测试性能</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/ fio -filename=/dev/sda -direct=1 -iodepth 1 -thread -rw=randwrite -ioengine=psync -bs=16k -size=2G -numjobs=10 -runtime=60 -group_reporting -name=mytest</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="bcache-2">停用Bcache</h2>
+
+<h4 id="section-7">卸载</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">umount /dev/bcache0</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-8">注销缓存盘</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo 1 &gt;/sys/fs/bcache/5d9e80f1-e4b7-48f5-ace2-f2f391877ea7/unregister</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-9">停用后端磁盘</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo 1 &gt; /sys/block/bcache0/bcache/stop</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="lsblk">操作完成后，通过lsblk命令查看结果</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># lsblk /dev/sdb</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>停用之后，后端磁盘的数据是不会丢的，只不过加速功能没有了；当然，注销缓存盘的时候，缓存盘不能有数据读写操作</p>
+
+<h2 id="section-10">参考</h2>
+
+<p>https://wiki.ubuntu.com/ServerTeam/Bcache</p>
+
+<p>https://askubuntu.com/questions/523817/how-to-setup-bcache</p>
+
+<p>https://markrepo.github.io/maintenance/2018/09/10/bcache/</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Split a File Into Equal Parts Without Breaking Individual Lines?]]></title>
@@ -3771,134 +3906,6 @@ Once disabled, I’ve no more experienced any freeze for several days.</p>
 <p>https://blog.muun.com/the-inbound-capacity-problem-in-the-lightning-network/</p>
 
 <p>https://github.com/lightningnetwork/lightning-rfc</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Run Tmux Service Scripts on Ubuntu Start Up]]></title>
-    <link href="https://happy123.me/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/"/>
-    <updated>2019-10-30T10:11:38+08:00</updated>
-    <id>https://happy123.me/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up</id>
-    <content type="html"><![CDATA[<p>是的，做了无数遍还是不长记性，昨天又在这上面踩坑了；在ubuntu上写的启动脚本不执行，仅仅是可执行权限和用户权限的问题，又浪费了一上午；</p>
-
-<!-- more -->
-
-<p>在unbuntu启动时自动做一些工作，最佳实践是：</p>
-
-<h4 id="section">你想要执行一个服务</h4>
-
-<ul>
-  <li>如果是比较老的ubuntu (version&lt;=14.04LTS);</li>
-</ul>
-
-<p>这个时候你需要利用ubuntu的<a href="http://upstart.ubuntu.com/">upstart机制</a></p>
-
-<p>简单说来，就是将一个这样的脚本:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">start on startup
-</span><span class="line">task
-</span><span class="line">exec /path/to/command</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>存为taskxxx.conf文件，放到/etc/init 目录下面(这将会在开机时用root用户权限启动)；</p>
-
-<p>或者存为 ~/.config/upstart(这将会在开机时用当前用户权限启动)</p>
-
-<ul>
-  <li>如果你是比较现代的ubuntu (version&gt;=16.04LTS)</li>
-</ul>
-
-<p>你需要利用 <a href="https://github.com/systemd/systemd">systemd</a> 服务，这个我们之前写文章科普过：</p>
-
-<p>https://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script/</p>
-
-<h4 id="section-1">仅仅想执行一条简单的命令</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo nano /etc/rc.local</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>加入执行的命令，不要忘了最后加exit</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/opt/tmux.sh
-</span><span class="line">exit 0</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>增加可执行权限</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo chmod +x /etc/rc.local</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>注意：</p>
-
-<ul>
-  <li>要有可执行权限，这个最容易踩坑，ubuntu安装完毕 /etc/rc.local 是没有可执行权限的</li>
-  <li>注意执行命令的ENV变量，不确定的时候要在命令签名设定SHELL ENV Variable</li>
-  <li>如果是执行一个脚本，注意脚本命令调用的shell (bash or sh or zsh)，以及ENV Variable</li>
-  <li>注意执行脚本、执行命令的用户</li>
-</ul>
-
-<h4 id="section-2">如果是修改一个环境变量</h4>
-
-<p>修改当前用户:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nano ~/.bashrc</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>所有用户生效:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nano ~/etc/profile</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section-3">最后，附赠最简单粗暴的开机执行任务方式</h4>
-
-<p>就是在/etc/rc.local 里面启动一个tmux session，在里面执行想要运行的命令；简单粗暴有效</p>
-
-<p>来个模板:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
-</span><span class="line"># description "Start Tmux"
-</span><span class="line">
-</span><span class="line"># Sleep for 5 seconds. If you are starting more than one tmux session
-</span><span class="line">#   "at the same time", then make sure they all sleep for different periods
-</span><span class="line">#   or you can experience problems
-</span><span class="line">/bin/sleep 5
-</span><span class="line"># Ensure the environment is available
-</span><span class="line">source ~/.bashrc
-</span><span class="line"># Create a new tmux session named newscrawler..
-</span><span class="line">/usr/bin/tmux new-session -d -s bitcoin
-</span><span class="line"># ...and control the tmux session (initially ensure the environment
-</span><span class="line">#   is available, then run commands)
-</span><span class="line">
-</span><span class="line"># /usr/bin/tmux send-keys -t bitcoincash:0 "source ~/.bashrc" C-m
-</span><span class="line">tmux new-window -n console -t bitcoin
-</span><span class="line">/bin/sleep 3
-</span><span class="line">/usr/bin/tmux send-keys -t bitcoin:0 "cd /opt/bitcoin &amp;&amp; ./startbitcoind.sh" C-m
-</span><span class="line">/bin/sleep 3
-</span><span class="line">/usr/bin/tmux send-keys -t bitcoin:1 "cd /opt/bitcoin &amp;&amp; ./checkwallet start" C-m
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
