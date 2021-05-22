@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-05-20T09:43:47+08:00</updated>
+  <updated>2021-05-22T17:25:26+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Hide a Password Passed as Command Line Argument?]]></title>
+    <link href="https://happy123.me/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/"/>
+    <updated>2021-05-22T17:22:37+08:00</updated>
+    <id>https://happy123.me/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument</id>
+    <content type="html"><![CDATA[<p>有部分软件设计的时候没有考虑命令行参数之外传递密码的途径，无法用环境变量或配置传递密码；导致任何用户用ps一看都能看到，这是重大的安全隐患；</p>
+
+<p>解决方法很tricky:</p>
+
+<p>https://serverfault.com/questions/592744/how-to-hide-a-password-passed-as-command-line-argument</p>
+
+<p>https://serverfault.com/questions/592744/how-to-hide-a-password-passed-as-command-line-argument</p>
+
+<p>做软件设计的时候一定要考虑命令行传递密码的替代方案；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Become Superuser on Ubuntu Linux]]></title>
@@ -3185,55 +3202,6 @@ multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块�
 <p>https://segmentfault.com/a/1190000016677670</p>
 
 <p>https://p3terx.com/archives/problems-and-solutions-encountered-in-wsl-use-2.html</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What Should You Do if Windows 10 Freezes Randomly]]></title>
-    <link href="https://happy123.me/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/"/>
-    <updated>2019-11-13T11:45:32+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly</id>
-    <content type="html"><![CDATA[<p>是的，作为一名码农，日常最主要的工作就是修电脑；</p>
-
-<p>有一台装Win10的Thinkpad T440 笔记本会随机冻结，表现就是所有操作没有反应，鼠标键盘没有响应，画面不动，然后等待1分钟后自我恢复； 每天随机发生&gt;5次；</p>
-
-<!-- more -->
-
-<p>在Google了N多<code>What Should You Do If Windows 10 Freezes Randomly</code>的帖子之后，发现有这个问题的人可以组成一个军团，可谓是苦大仇深；</p>
-
-<p>至少这下面所有的方法我都试了一遍：</p>
-
-<p>https://www.partitionwizard.com/partitionmagic/win10-freezes-randomly.html</p>
-
-<p>最后无奈之下挂载winGDB，是的，就是这么无聊，追到了Chrome里面；</p>
-
-<p>我发现，只要关闭Chrome的 “设置-&gt;高级-&gt;使用硬件加速模式”，问题概率就会大大降低；</p>
-
-<p>这是什么原理，一番探究后，我发现这台笔记本是自动切换核显和独立显卡的；而Intel核显有个选项： “Intel Graphics Control Panel -&gt; Energy management -&gt; Panel Self Refresh”关闭之后就OK了；</p>
-
-<p>好吧，归根到底还是驱动的问题；Intel的这个显卡其实官方没有支持Win10的驱动，这是Win10自己瞎支持的，出现问题再所难免；</p>
-
-<p>以后遇到Win10冻结的情况，你的检查清单上还需要多加两项：</p>
-
-<ol>
-  <li>
-    <p>Chrome的硬件加速关闭试一试</p>
-  </li>
-  <li>
-    <p>如果有Intel的核显，关闭<code>Panel Self Refresh</code>试一试</p>
-  </li>
-</ol>
-
-<blockquote>
-  <p>Apparently, disabling Panel Self Refresh (PSR) in the Intel HD Graphics Control Panel application fixed the issue.
-On Lenovo notebook right click on desktop -&gt; Intel Graphics Control Panel -&gt; Energy management -&gt; Panel Self Refresh -&gt; set to Disabled.
-I also set the display to max performance, but I don’t think this is relevant.
-Once disabled, I’ve no more experienced any freeze for several days.</p>
-</blockquote>
-
-<p>参考：</p>
-
-<p>https://forums.lenovo.com/t5/ThinkPad-X-Series-Laptops/X270-generic-freeze/td-p/3927475/page/5</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-05-20T09:43:47+08:00</updated>
+  <updated>2021-05-22T17:25:26+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Hide a Password Passed as Command Line Argument?]]></title>
+    <link href="https://happy123.me/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/"/>
+    <updated>2021-05-22T17:22:37+08:00</updated>
+    <id>https://happy123.me/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument</id>
+    <content type="html"><![CDATA[<p>有部分软件设计的时候没有考虑命令行参数之外传递密码的途径，无法用环境变量或配置传递密码；导致任何用户用ps一看都能看到，这是重大的安全隐患；</p>
+
+<p>解决方法很tricky:</p>
+
+<p>https://serverfault.com/questions/592744/how-to-hide-a-password-passed-as-command-line-argument</p>
+
+<p>https://serverfault.com/questions/592744/how-to-hide-a-password-passed-as-command-line-argument</p>
+
+<p>做软件设计的时候一定要考虑命令行传递密码的替代方案；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Become Superuser on Ubuntu Linux]]></title>
@@ -259,31 +276,6 @@ echo 1 &gt; /sys/block/bcache0/bcache/stop
 split -n l/5 your_file.txt
 </code>
 注意 l/5 前面是小写的L;</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Remove All Non-ascii Content From a Workflow (File)]]></title>
-    <link href="https://happy123.me/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file/"/>
-    <updated>2021-04-17T09:46:10+08:00</updated>
-    <id>https://happy123.me/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file</id>
-    <content type="html"><![CDATA[<h4 id="grep-remove-lines">grep remove lines</h4>
-
-<p><code>
-grep --colour='auto' -P '[^\x00-\x7]' file
-</code></p>
-
-<h4 id="tr-remove-characters">tr remove characters</h4>
-
-<p><code>
-LC_ALL=C tr -dc '\0-\177' &lt;file &gt;newfile
-</code></p>
-
-<h4 id="ignore-invalid-or-incomplete-multibyte-or-wide-character">ignore Invalid or incomplete multibyte or wide character</h4>
-
-<p><code>
-cat $file|iconv -f utf8 -c -t ascii//IGNORE
-</code></p>
 ]]></content>
   </entry>
   

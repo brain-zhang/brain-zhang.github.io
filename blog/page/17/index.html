@@ -100,6 +100,66 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">再谈以太网帧格式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-23T21:59:43+08:00" pubdate data-updated="true">May 23<span>rd</span>, 2016</time>
+        
+           | <a href="/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2016/05/23/zai-tan-yi-tai-wang-zheng-ge-shi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>又重新读了一遍《tcp/ip详解》，又重温了一遍万年知识以太网，为了不能忘却的回忆，我决定原文摘抄一遍。</p>
+
+<p>以太网这个术语是指DEC、Intel和Xerox公司在1982年联合公布的一个标准。它是当今TCP/IP采用的主要局域网技术。
+几年后，IEEE802委员会公布了一个稍有不同的标准集，其中802.3针对整个CSMA/CD网络，802.4针对令牌总线网络，
+802.5针对令牌环网络，这三者的共同特性由802.2标准来定义，那就是802网络共有的逻辑链路控制（LLC）。不幸的
+是，802.3定义了一个与以太网不同的帧格式。</p>
+
+<p>下图定义了两种不同形式的封装格式：</p>
+
+<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/802_3.jpg" alt="802.3" /></p>
+
+<p>在以太网帧格式中，类型字段之后就是数据，而在802帧格式中，跟随在后面的3字节的802.2LLC和5字节的802.2SNAP。</p>
+
+<p>目的服务访问（DSAP）和源服务访问点（SSAP）的值都设为0xaa。ctrl字段的值设为3.随后的3个字节org code都设置为0。</p>
+
+<p>再接下来的2个字节类型字段和以以太网帧格式一样。</p>
+
+<p>CRC字段用于帧内后续字节差错的循环冗余码检验。</p>
+
+<p>802.3标准定义的帧和以太网的帧都有最小长度要求。802.3规定数据部分必须至少为38字节，而对于以太网，则要求最少要有46字节。为了保证这一点，必须在不足的空间插入填充字节。</p>
+
+<p>最后注意一下，mtu的大小只是指帧内容的大小，不包括帧头。所以mtu是1500时，QinQ又额外的四个字节，加上帧头共1522个字节，会丢包，最小要把mtu设置为1504。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/22/xue-liao-dian-cai-hui-zhi-shi/">学了点财会知识</a></h1>
     
     
@@ -1040,92 +1100,6 @@ sysctl -w fs.inotify.max_user_instances=8192
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/">Is Craig Wright Real Satoshi Nakamoto?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-05-02T19:41:48+08:00" pubdate data-updated="true">May 2<span>nd</span>, 2016</time>
-        
-           | <a href="/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Craig Wright 又在声明他是”中本聪”了.</p>
-
-<p>“中本聪”给出的签名是：</p>
-
-<pre><code>MEUCIQDBKn1Uly8m0UyzETObUSL4wYdBfd4ejvtoQfVcNCIK4AIgZmMsXNQWHvo6KDd2Tu6euEl13VTC3ihl6XUlhcU+fM4=
-</code></pre>
-
-<p>我们先对信息串进行base64解码，再转换成hex是：</p>
-
-<pre><code>3045022100c12a7d54972f26d14cb311339b5122f8c187417dde1e8efb6841f55c34220ae0022066632c5cd4161efa3a2837764eee9eb84975dd54c2de2865e9752585c53e7cce
-</code></pre>
-
-<p>很遗憾，我们可以在交易ID：</p>
-
-<pre><code>828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe
-</code></pre>
-
-<p>中找出这个签名。可通过：</p>
-
-<p>https://blockchain.info/tx/828ef3b079f9c23829c56fe86e85b4a69d9e06e5b54ea597eef5fb3ffef509fe?format=hex</p>
-
-<p>找到十六进制串的交易内容</p>
-
-<p>然后搜索一下hex样子的签名，遗憾地发现，能在这个交易中找到这个签名。</p>
-
-<p>但是令人疑惑的是GAVIN ANDRESEN为这位”中本聪”背书:</p>
-
-<p>http://gavinandresen.ninja/satoshi</p>
-
-<p>Gavin不是一个无的放矢的人,他肯定是见到了更多的证据.</p>
-
-<p>但是Craig Wright 又不对其他给定的文本签名来证明自己是中本聪,反而老是用这种神神遭遭的签名来忽悠大家……</p>
-
-<p>卫平布莱恩特老师说,这球有意思啊…….</p>
-
-<p>最后, 如果Craig Wright这个人是为了某种目的假冒的话,只能说他真是煞费苦心啊. 我不认为一个签名造假如此low的家伙能有这种能力.</p>
-
-<p>但是他的一些行为如果算恶作剧的话,又未免太高段了,参考这里:</p>
-
-<p>https://www.zhihu.com/question/22199390/answer/76083139</p>
-
-<p>不负责任的YY一下, Craig Wright肯定和真正的中本聪有某种关系,他在bitcoin诞生之初就了解参与过.</p>
-
-<p>他不是bitcoin的发明者,因为种种迹象表明,他的技术能力实在太low了.</p>
-
-<p>真正的中本聪可能是他的那个朋友:David Kleiman, 但他已经死了.</p>
-
-<p>呵呵, 绝佳的侦探小说体裁啊.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/18/">&larr; Older</a>
@@ -1143,6 +1117,10 @@ sysctl -w fs.inotify.max_user_instances=8192
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/">How to Become Superuser on Ubuntu Linux</a>
       </li>
     
@@ -1156,10 +1134,6 @@ sysctl -w fs.inotify.max_user_instances=8192
     
       <li class="post">
         <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file/">How to Remove All Non-ascii Content From a Workflow (File)</a>
       </li>
     
   </ul>
@@ -1270,7 +1244,7 @@ sysctl -w fs.inotify.max_user_instances=8192
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (78)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (79)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

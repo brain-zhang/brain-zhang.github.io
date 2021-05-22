@@ -100,6 +100,50 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/">How to Sort by Length of String Followed by Alphabetical Order</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-08-17T08:34:52+08:00" pubdate data-updated="true">Aug 17<span>th</span>, 2020</time>
+        
+           | <a href="/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>shell中，多行文本，先按照字母长度排序，相同长度再按照字母序排列；</p>
+
+<p>做了很多次，隔几天就忘，让人绝望：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat /tmp/xxx.txt|sort -u | awk '{print length($0), $0}'  | sort -k2,2n -k1,1n -k3,3 |cut -d" " -f2-|less</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/">Xargs Sh -c Skipping the First Argument</a></h1>
     
     
@@ -583,52 +627,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">What Should You Do if Windows 10 Freezes Randomly</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-11-13T11:45:32+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>是的，作为一名码农，日常最主要的工作就是修电脑；</p>
-
-<p>有一台装Win10的Thinkpad T440 笔记本会随机冻结，表现就是所有操作没有反应，鼠标键盘没有响应，画面不动，然后等待1分钟后自我恢复； 每天随机发生&gt;5次；</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/11/13/what-should-you-do-if-windows-10-freezes-randomly/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -646,6 +644,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/">How to Become Superuser on Ubuntu Linux</a>
       </li>
     
@@ -659,10 +661,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file/">How to Remove All Non-ascii Content From a Workflow (File)</a>
       </li>
     
   </ul>
@@ -773,7 +771,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (78)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (79)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
