@@ -100,6 +100,58 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">How to Allow Non-root Process to Bind to Low-numbered Ports</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2021-06-01T16:32:31+08:00" pubdate data-updated="true">Jun 1<span>st</span>, 2021</time>
+        
+           | <a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4 id="use-capnetbindservice-to-grant-low-numbered-port-access-to-a-process">Use CAP_NET_BIND_SERVICE to grant low-numbered port access to a process:</h4>
+
+<p>With this you can grant permanent access to a specific binary to bind to low-numbered ports via the setcap command:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo setcap CAP_NET_BIND_SERVICE=+eip /path/to/binary</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>For more details on the e/i/p part, see cap_from_text.</p>
+
+<p>After doing this, /path/to/binary will be able to bind to low-numbered ports. Note that you must use setcap on the binary itself rather than a symlink.</p>
+
+<p>FROM:</p>
+
+<p>https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a></h1>
     
     
@@ -547,146 +599,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/">How to Set Systemd Startup Script for Bitcoind?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2020-12-29T16:22:42+08:00" pubdate data-updated="true">Dec 29<span>th</span>, 2020</time>
-        
-           | <a href="/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="setup-bitcoindservice">setup bitcoind.service</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/systemd/system/bitcoind.service</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[Unit]
-</span><span class="line">Description=Bitcoin daemon
-</span><span class="line">After=network.target
-</span><span class="line">
-</span><span class="line">[Service]
-</span><span class="line">ExecStart=/opt/node/bitcoin/bin/bitcoind -daemon -conf=/opt/node/bitcoin/blockdata/bitcoin.conf -pid=/run/bitcoind/bitcoind.pid
-</span><span class="line"># Creates /run/bitcoind owned by bitcoin
-</span><span class="line">RuntimeDirectory=bitcoind
-</span><span class="line">RuntimeDirectoryPreserve=yes
-</span><span class="line">User=ubuntu
-</span><span class="line">Type=forking
-</span><span class="line">PIDFile=/run/bitcoind/bitcoind.pid
-</span><span class="line">Restart=on-failure
-</span><span class="line">StandardOutput=/var/log/bitcoind.log
-</span><span class="line">StandardError=/var/log/bitcoind.log
-</span><span class="line">
-</span><span class="line"># Hardening measures
-</span><span class="line">####################
-</span><span class="line">
-</span><span class="line"># Provide a private /tmp and /var/tmp.
-</span><span class="line">PrivateTmp=true
-</span><span class="line">
-</span><span class="line"># Mount /usr, /boot/ and /etc read-only for the process.
-</span><span class="line">ProtectSystem=full
-</span><span class="line">
-</span><span class="line"># Disallow the process and all of its children to gain
-</span><span class="line"># new privileges through execve().
-</span><span class="line">NoNewPrivileges=true
-</span><span class="line">
-</span><span class="line"># Use a new /dev namespace only populated with API pseudo devices
-</span><span class="line"># such as /dev/null, /dev/zero and /dev/random.
-</span><span class="line">PrivateDevices=true
-</span><span class="line">
-</span><span class="line">[Install]
-</span><span class="line">WantedBy=multi-user.target
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="reload-systemctl-daemon">Reload systemctl daemon</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">systemctl daemon-reload</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="enabled-new-bitcoind-service">Enabled new bitcoind service</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">systemctl enable bitcoind</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="commands-to-start-or-stop-the-service">Commands to start or stop the service</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">systemctl stop bitcoind
-</span><span class="line">systemctl start bitcoind</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="show-service-status">Show service status</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">systemctl status bitcoind.service</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>More info in:</p>
-
-<p>https://github.com/bitcoin/bitcoin/tree/master/contrib/init</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -702,6 +614,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">How to Allow Non-root Process to Bind to Low-numbered Ports</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a>
       </li>
     
@@ -715,10 +631,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Linux下块设备缓存Bcache设置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a>
       </li>
     
   </ul>
@@ -829,7 +741,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (79)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (80)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

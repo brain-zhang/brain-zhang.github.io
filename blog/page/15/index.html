@@ -100,6 +100,65 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-14T16:06:12+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在windows CMD中输出中文是比较烦的事情，最简单的就是增加一个windows.py，用的时候import一下:</p>
+
+<pre><code>#!/usr/bin/env python
+#  -*- coding: utf-8 -*-
+import sys
+
+class UnicodeStreamFilter:
+    def __init__(self, target):
+        self.target = target
+        self.encoding = 'utf-8'
+        self.errors = 'replace'
+        self.encode_to = self.target.encoding
+    def write(self, s):
+        if type(s) == str:
+            s = s.decode("utf-8")
+        s = s.encode(self.encode_to, self.errors).decode(self.encode_to)
+        self.target.write(s)
+
+if sys.stdout.encoding == 'cp936':
+    sys.stdout = UnicodeStreamFilter(sys.stdout)
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/12/25/jia-mi-ji-zhu-fa-zhan/">加密技术发展</a></h1>
     
     
@@ -675,75 +734,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/05/mysql-cheat/">Mysql Cheat</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-05T08:23:00+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2016</time>
-        
-           | <a href="/blog/2016/07/05/mysql-cheat/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2016/07/05/mysql-cheat/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>整理一下经常忘记的mysql命令</p>
-
-<h1 id="section">连接</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ mysql -u root -p
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="list">list</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ show DATABASES;
-</span><span class="line">$ show TABLES;
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="error">Error</h1>
-
-<ul>
-  <li>ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: YES)</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ mysqld --skip-grant-tables
-</span><span class="line">$ mysql -u root mysql
-</span><span class="line">$ mysql&gt; UPDATE user SET Password=PASSWORD('my_password') where USER='root';
-</span><span class="line">$ mysql&gt; FLUSH PRIVILEGES;
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -761,6 +751,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">How to Allow Non-root Process to Bind to Low-numbered Ports</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a>
       </li>
     
@@ -774,10 +768,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Linux下块设备缓存Bcache设置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a>
       </li>
     
   </ul>
@@ -888,7 +878,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (79)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (80)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

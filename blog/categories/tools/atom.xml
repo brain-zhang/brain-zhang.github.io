@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-05-22T17:53:44+08:00</updated>
+  <updated>2021-06-01T16:33:39+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Allow Non-root Process to Bind to Low-numbered Ports]]></title>
+    <link href="https://happy123.me/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/"/>
+    <updated>2021-06-01T16:32:31+08:00</updated>
+    <id>https://happy123.me/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports</id>
+    <content type="html"><![CDATA[<h4 id="use-capnetbindservice-to-grant-low-numbered-port-access-to-a-process">Use CAP_NET_BIND_SERVICE to grant low-numbered port access to a process:</h4>
+
+<p>With this you can grant permanent access to a specific binary to bind to low-numbered ports via the setcap command:</p>
+
+<p><code>
+sudo setcap CAP_NET_BIND_SERVICE=+eip /path/to/binary
+</code></p>
+
+<p>For more details on the e/i/p part, see cap_from_text.</p>
+
+<p>After doing this, /path/to/binary will be able to bind to low-numbered ports. Note that you must use setcap on the binary itself rather than a symlink.</p>
+
+<p>FROM:</p>
+
+<p>https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Hide a Password Passed as Command Line Argument?]]></title>
@@ -264,18 +287,6 @@ echo 1 &gt; /sys/block/bcache0/bcache/stop
 
 <p>https://markrepo.github.io/maintenance/2018/09/10/bcache/</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Split a File Into Equal Parts Without Breaking Individual Lines?]]></title>
-    <link href="https://happy123.me/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/"/>
-    <updated>2021-04-19T17:26:06+08:00</updated>
-    <id>https://happy123.me/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines</id>
-    <content type="html"><![CDATA[<p><code>
-split -n l/5 your_file.txt
-</code>
-注意 l/5 前面是小写的L;</p>
 ]]></content>
   </entry>
   
