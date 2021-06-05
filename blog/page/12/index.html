@@ -100,6 +100,77 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-01T22:18:33+08:00" pubdate data-updated="true">May 1<span>st</span>, 2018</time>
+        
+           | <a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>两个大文件，a.txt和b.txt两个文件的数据都是逐行呈现的， 如何求他们的交集、并集和差集。</p>
+
+<p>用sort+uniq直接搞定:</p>
+
+<h2 id="section">交集</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
+</span><span class="line">$ sort b.txt | uniq &gt; bb.txt
+</span><span class="line">$ cat aa.txt bb.txt | sort | uniq -d
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">并集</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt b.txt | sort | uniq
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">差集</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sort a.txt | uniq &gt; aa.txt
+</span><span class="line">$ sort b.txt | uniq &gt; bb.txt
+</span><span class="line">$ cat aa.txt bb.txt bb.txt | sort | uniq -u
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>在开搞 bloom filter或者bitmap 或者grep -f之前可以先组合工具来一个</li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/">How to Parallel All Cmds for Linux</a></h1>
     
     
@@ -592,58 +663,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">Satoshi Craig Wright Is Being Sued for $10 Billion</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-22T19:31:24+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2018</time>
-        
-           | <a href="/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>啥也不说了，涉及百亿美元的案子，估计在人类历史上都能排前排了。</p>
-
-<p>而且作为Bitcoin粉，我估计这个案子有可能在历史上空前绝后。涉及悬疑，天才，欺诈，巨额金钱，先知等等元素~~</p>
-
-<p>留名之。</p>
-
-<p>https://www.coindesk.com/satoshi-craig-wright-sued-10-billion/</p>
-
-<p>另外我对这篇<a href="http://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">文章</a>用press.one进行了<a href="https://press.one/file/v?s=60db2f3ea40a25d28781c900af248523eb3c17024ce3ca18a42433035aff55524e4b2df76cfcef1466d38c4e23e4ab770d42359835b66d159cd5dd5099e0be260&amp;h=a93f5a68189ff4a9b14d9e592c4dd0a8a1b649d0191b58740d93ce10c0d055ec&amp;a=7e32e3deba87efcd35bc6d1ab355d85c50aa60bd&amp;v=2&amp;f=P1">签名:</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13/">&larr; Older</a>
@@ -661,6 +680,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/06/05/lnd-low-rescan-speed-for-startup/">Lnd Low Rescan Speed for Startup</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">How to Allow Non-root Process to Bind to Low-numbered Ports</a>
       </li>
     
@@ -674,10 +697,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/">How to Enable VNC+xfce on Ubuntu16</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Linux下块设备缓存Bcache设置</a>
       </li>
     
   </ul>
@@ -743,7 +762,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ai/'>ai (5)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (62)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (63)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
