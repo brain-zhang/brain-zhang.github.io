@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://happy123.me/atom.xml" rel="self"/>
   <link href="https://happy123.me/"/>
-  <updated>2021-06-05T17:47:09+08:00</updated>
+  <updated>2021-11-07T14:14:26+08:00</updated>
   <id>https://happy123.me/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Limit Exists Running Docker Container Cpus]]></title>
+    <link href="https://happy123.me/blog/2021/11/07/how-to-limit-docker-cpus/"/>
+    <updated>2021-11-07T11:05:44+08:00</updated>
+    <id>https://happy123.me/blog/2021/11/07/how-to-limit-docker-cpus</id>
+    <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker update --cpu-period=100000 --cpu-quota=40000  &lt;container&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>意思是cpu时间切分为100000份，指定容器占用40000份，即cpu占用率最高40%</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Lnd Low Rescan Speed for Startup]]></title>
@@ -2849,300 +2861,6 @@ multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块�
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">nginx -s reload</span></code></pre></td></tr></table></div></figure></notextile></div>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Setup Lightning Node Cheat Sheet]]></title>
-    <link href="https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet/"/>
-    <updated>2019-11-18T15:14:19+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet</id>
-    <content type="html"><![CDATA[<p>运营一个闪电节点的基本命令速查；</p>
-
-<!-- more -->
-
-<h2 id="bitcoin-core">Bitcoin Core</h2>
-
-<h4 id="section">启动</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>如果需要一些老接口</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bitcoind --conf=/opt/bitcoin/blockdata/bitcoin.conf --datadir=/opt/bitcoin/blockdata/ --deprecatedrpc=signrawtransaction</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="bitcoinconf">bitcoin.conf</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rpcuser=user
-</span><span class="line">rpcpassword=password
-</span><span class="line">#rpcallowip=127.0.0.1/16
-</span><span class="line">rpcallowip=0.0.0.0/0
-</span><span class="line">rpcport=8332
-</span><span class="line">test.rpcport=8332
-</span><span class="line">rpcthreads=10
-</span><span class="line">server=1
-</span><span class="line">rest=1
-</span><span class="line">testnet=0
-</span><span class="line">zmqpubrawblock=tcp://127.0.0.1:28332
-</span><span class="line">zmqpubrawtx=tcp://127.0.0.1:28333
-</span><span class="line">
-</span><span class="line">#walletnotify=/usr/bin/echo "hello"</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="lnd">Lnd</h2>
-
-<p>接口丰富，自带rpc和restapi接口，迭代速度快；</p>
-
-<p>https://github.com/lightningnetwork/lnd</p>
-
-<h4 id="section-1">部署</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoind --bitcoind.rpcuser=user --bitcoind.rpcpass='password' --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333 --listen=0.0.0.0:9736 --externalip=207.246.105.100 --no-macaroons 2&gt;&amp;1 &gt;&gt; lndtest.log</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section-2">常用命令</h4>
-
-<ul>
-  <li>解锁钱包</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet unlock
-</span><span class="line">lncli  --network=testnet newaddr</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>查看余额</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet walletbalance
-</span><span class="line">lncli  --network=testnet listunspent</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>连接到一个闪电节点</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet connect "027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735"</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>打开一个通道</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet openchannel --node_key 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8 100000</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>支付</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet sendpayment --pay_req "lntb10n1pw6gf60pp5jxwg30u3k7qw2lzef7cnpy6tmnd80q2v5ytglf5tdaalrejhprzsdqhvf6xxmt9ypkxuepqw3jhxaqcqzpg9jsccqelkelayq89ydgrhxwf0hv2ffkdu2y6l27vtpmscszxj3pjsh..."</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>接收付款</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet addinvoice --memo "invoice for lnd.fun test3" --amt 100000</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>关闭通道</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet closechannel "1243f60a54c4c6b8ab5d124a0c701792e085ab13a68da135ca3ffbabb461f1cc"</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>链上发送全部余额</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli  --network=testnet sendcoins tbxxxxxx  --sweepall</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="c-lightning">C-lightning</h2>
-
-<p>接口简洁，能直接集成lightning-charge；</p>
-
-<p>https://github.com/ElementsProject/lightning</p>
-
-<h4 id="section-3">部署</h4>
-
-<ul>
-  <li>c-lightning提供了systemctl 服务脚本:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat /etc/systemd/system/lightning.service
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">[Unit]
-</span><span class="line">Description=c-Lightning daemon
-</span><span class="line">
-</span><span class="line">[Service]
-</span><span class="line">ExecStart=/usr/bin/lightningd --pid-file=/root/.lightning/lightning.pid --daemon
-</span><span class="line">PIDFile=/root/.lightning/lightning.pid
-</span><span class="line">User=root
-</span><span class="line">Type=forking
-</span><span class="line">Restart=always
-</span><span class="line">RestartSec=10
-</span><span class="line">
-</span><span class="line">[Install]
-</span><span class="line">WantedBy=multi-user.target</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>配置文件:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">~/.lightning/config
-</span><span class="line">
-</span><span class="line">alias=brain_zhang_lightning_testnode
-</span><span class="line">log-level=debug
-</span><span class="line">#network=bitcoin
-</span><span class="line">network=testnet
-</span><span class="line">bitcoin-rpcuser=user
-</span><span class="line">bitcoin-rpcpassword=password
-</span><span class="line">bitcoin-rpcconnect=127.0.0.1
-</span><span class="line">bitcoin-rpcport=18332
-</span><span class="line">log-file=/var/log/lightning.log
-</span><span class="line">bind-addr=
-</span><span class="line">announce-addr=x.x.x.x:9735</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>注册、启动服务</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">systemctl enable lightning
-</span><span class="line">systemctl start lightning</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section-4">常用命令</h4>
-
-<ul>
-  <li>建立一个新地址</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli newaddr</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>查看线上钱包地址</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli dev-listaddrs</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>连接node (1ml.com node)</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli connect 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>建立通道</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli fundchannel id satoshi [feerate] [announce] [minconf]</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>查看链上和链下余额</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli listfunds</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>支付</li>
-</ul>
-
-<p>Send payment specified by {bolt11} with {amount}</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli pay bolt11 [msatoshi] [label] [riskfactor] [maxfeepercent] [retry_for] [maxdelay] [exemptfee]</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>收款</li>
-</ul>
-
-<p>Create an invoice for {msatoshi} with {label} and {description} with optional {expiry} seconds (default 1 hour), optional {fallbacks} address list(default empty list) and optional {preimage}</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lightning-cli invoice msatoshi label description [expiry] [fallbacks] [preimage] [exposeprivatechannels]</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="c-lightning--lightning-charge">C-lightning &amp;&amp; lightning-charge</h2>
-
-<p>https://github.com/btcme/lightning-charge</p>
-
-<h4 id="section-5">部署</h4>
-
-<p>lightning-charge最好用docker直接集成c-lightning一把启动，比如我已经运行了一个bitcoin core全节点，可以直接下面的命令启动:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">docker run -d -u `id -u` -v `pwd`/data:/data -p 9735:9735 -p 9112:9112 \
-</span><span class="line">             -e API_TOKEN=mySecretToken \
-</span><span class="line">             -e NETWORK=testnet  \
-</span><span class="line">             -e BITCOIND_URI="http://user:password@172.18.0.1:18332" \
-</span><span class="line">             shesek/lightning-charge</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>注意BITCOIND_URL的IP是docker容器内向外连接的，如果不是用net的方式启动，要填docker的网桥地址；</p>
-
-<ul>
-  <li>查询运行状况</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">curl http://api-token:mySecretToken@localhost:9112/info</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   

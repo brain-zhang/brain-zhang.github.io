@@ -100,6 +100,57 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/">为什么不用MAC地址来定位机器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-09-09T15:09:42+08:00" pubdate data-updated="true">Sep 9<span>th</span>, 2018</time>
+        
+           | <a href="/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/#disqus_thread"
+             data-disqus-identifier="https://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在知乎看到了这个问题，MAC地址48Bit, IP地址32Bit，完全可以用MAC划分出一个段来作为IP的映射，或者干脆不用IP了，有啥不可以呢？</p>
+
+<p>我觉得问题挺有意思的。我推测了一下。</p>
+
+<p>这纯粹是一个历史演变：</p>
+
+<p>10Base 以太网[Ethernet Version 2（EV2）] 是由施乐公司出去的人发明的，后来以太网被市场承认了就纳入IEEE802标准，这是20世纪80年代的事情，那个时候就已经定义MAC地址了。</p>
+
+<p>TCP/IP虽然最初是在1983年提出的，但是发展还是在1990年之后；另外TCP/IP也不是一个协议，而是一组协议簇，像ARP之类的和MAC地址相关的协议，很明显的，是在已有的硬件基础上开发的。</p>
+
+<p>所以结论很明显，在早期只有局域网的时代，诞生了MAC地址这种硬件地址规定；后来联网机器越来越多，TCP/IP 成为主流联网协议，但是它的年龄和MAC地址是差不多的，也不可能再重新搞，为了适配现有的局域网模式，开发了ARP等协议；</p>
+
+<p>计算机很多问题都是工程问题、商业问题，并不是技术完美就通吃天下，很多东西都是历史积淀、为了兼容现有系统而发展出来的。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/09/09/zhen-de-cun-zai-du-li-sui-ji-shi-jian-ma/">真的存在独立随机事件吗</a></h1>
     
     
@@ -540,64 +591,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">Migrate Vm Instances and Snapshots From Different Vps Supporters or Accounts</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-07-21T09:11:55+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2018</time>
-        
-           | <a href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/#disqus_thread"
-             data-disqus-identifier="https://happy123.me/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>虽然已经进入X时代了，但电脑城装机习惯性还是用Ghost，无他，习惯方便。</p>
-
-<p>Linux上面系统迁移，网上搜一搜，大批文章还是原始的dd, rsync之类；当然，不是说他不行，而是面向小白实在是有点坑啊。</p>
-
-<p>云时代，不同厂商间基本都提供了<code>快照</code>+<code>在线热迁移</code>的方案了，用起来也很舒服。</p>
-
-<p>那么，作为一个VPS小白用户，怎么在不同的账号，或者说不同的厂商之间，迁移我的Linux系统呢？</p>
-
-<p>比如我在vultr上面有两个账号，vultr的快照功能是很赞的，免费、速度快、生成虚机靠谱；</p>
-
-<p>那么问题来了，怎么把账号A的Linux A迁移到账号B的Linux B虚机上呢？</p>
-
-<p>官方回复是还没有考虑这个功能，然后Linux怎么可能做不到这种简单的事情呢？当然立刻就有人回复了详细的搞法，还贴心的附录了视频:</p>
-
-<p>https://discuss.vultr.com/discussion/104/snapshot-image-downloads/p2</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/07/21/migrate-vm-instances-and-snapshots-from-different-vps-supporters-or-accounts/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/11/">&larr; Older</a>
@@ -615,6 +608,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2021/11/07/how-to-limit-docker-cpus/">How to Limit Exists Running Docker Container Cpus</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/06/05/lnd-low-rescan-speed-for-startup/">Lnd Low Rescan Speed for Startup</a>
       </li>
     
@@ -628,10 +625,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/">How to Become Superuser on Ubuntu Linux</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/">How to Enable VNC+xfce on Ubuntu16</a>
       </li>
     
   </ul>
@@ -706,6 +699,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/develop/'>develop (34)</a></li>
 <li class='category'><a href='/blog/categories/django/'>django (2)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (5)</a></li>
+<li class='category'><a href='/blog/categories/docker/'>docker, (1)</a></li>
 <li class='category'><a href='/blog/categories/dpdk/'>dpdk (1)</a></li>
 <li class='category'><a href='/blog/categories/epel/'>epel (1)</a></li>
 <li class='category'><a href='/blog/categories/finance/'>finance (1)</a></li>
@@ -723,6 +717,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/life/'>life (21)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
 <li class='category'><a href='/blog/categories/lvm/'>lvm (1)</a></li>
 <li class='category'><a href='/blog/categories/macvtap/'>macvtap (1)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
@@ -742,7 +737,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (80)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (81)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
