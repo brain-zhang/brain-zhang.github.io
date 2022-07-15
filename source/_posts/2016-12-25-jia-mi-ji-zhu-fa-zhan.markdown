@@ -89,7 +89,7 @@ Alice要安全的给Bob钥匙，就得放在加锁的盒子里，但是要打开
 
 在我们想出解决办法之前，先放一张拽拽的图片镇楼:
 
-![非对称加密发明人](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201612/bg1.jpg)
+![非对称加密发明人](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/201612/bg1.jpg)
 
 左边的Whtfield Diffie是早期的Geek典范，看看他迷离的眼神，拽拽的发型，不羁的络腮胡....等等等等，最让人生气的是他还有个善解人意的爱人~ ~
 

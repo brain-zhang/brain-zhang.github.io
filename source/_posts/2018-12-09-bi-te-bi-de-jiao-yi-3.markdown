@@ -560,7 +560,7 @@ OP_DUP OP_HASH160 <PubkeyHash> OP_EQUALVERIFY OP_CHECKSIG
 
 然后我们用一张语法树解析图再现整个过程：
 
-![img](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181209/bg1.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181209/bg1.png)
 
 ##### 这就是一笔标准的P2PKH(Pay to Public Key Hash)交易的全解析。
 

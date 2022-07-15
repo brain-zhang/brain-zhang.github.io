@@ -111,13 +111,13 @@ styles: data-table
 
 * 我们用下面一张图来表示`A保险箱里面的50个硬币` 这件事：
 
-![img](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg1.jpg)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181123/bg1.jpg)
 
 把它想象成一个邮筒构造的保险箱，在不打开的前提下，投币是只进不出的。可以注意到，我们并没有直接将Public Key明晃晃暴露在外面，而是先HASH一下，然后贴到保险箱子上面，想要存币的人，只要知道这个HASH值，作为保险箱的ID，就可以直接投币进去啦。
 
 但是保险箱的锁在哪里呢？
 
-![img](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg2.jpg)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181123/bg2.jpg)
 
 
 * 这张图中，我们引入了一个脚本，称之为 `Pubkey Script`；具体内容是:
@@ -141,12 +141,12 @@ OP_DUP OP_HASH160 <PubkeyHash> OP_EQUALVERIFY OP_CHECKSIG
 
 整个过程组织如下图：
 
-![img](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg3.jpg)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181123/bg3.jpg)
 
 当我提供一个signature以及full public key的时候，就可以开锁了，开锁下一步自然就是转移资金啦。我们给B汇款50个币，而B的保险箱又是怎么表示的呢？和A保险箱是一样的。
 
 
-![img](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20181123/bg4.jpg)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181123/bg4.jpg)
 
 
 * 带有`public key hash` ID的保险箱是一个UTXO，这个保险箱用`public key hash`上锁，而提供`signature`和`full public key`开锁，转移资金的过程，就是花费UTXO的过程，其实就是把A的UTXO转移到B的UTXO的过程，这就是比特币最简单的一笔交易

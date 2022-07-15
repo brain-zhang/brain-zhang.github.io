@@ -186,11 +186,11 @@ api = Api(app,
 
 此时前台的界面是这样的:
 
-![Auth1](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg3.jpg)
+![Auth1](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/201908/bg3.jpg)
 
 可以点击右上角的Authorize一次性设置所有API的访问密钥；
 
-![Auth2](https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/201908/bg4.jpg)
+![Auth2](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/201908/bg4.jpg)
 
 也可以在每个API的右上角设置访问密钥；
 
