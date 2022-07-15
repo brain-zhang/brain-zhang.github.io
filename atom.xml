@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[memoryboxes blog]]></title>
-  <link href="http://happy123.me/atom.xml" rel="self"/>
-  <link href="http://happy123.me/"/>
+  <link href="http://brain-zhang.github.io/atom.xml" rel="self"/>
+  <link href="http://brain-zhang.github.io/"/>
   <updated>2015-07-14T09:11:11+00:00</updated>
-  <id>http://happy123.me/</id>
+  <id>http://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[memoryboxes]]></name>
 
@@ -15,9 +15,9 @@
 
   <entry>
     <title type="html"><![CDATA[Linux Profile and Debug Tools of Performance]]></title>
-    <link href="http://happy123.me/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/06/28/linux-profile-and-debug-tools-of-performance/"/>
     <updated>2015-06-28T08:52:15+00:00</updated>
-    <id>http://happy123.me/blog/2015/06/28/linux-profile-and-debug-tools-of-performance</id>
+    <id>http://brain-zhang.github.io/blog/2015/06/28/linux-profile-and-debug-tools-of-performance</id>
     <content type="html"><![CDATA[<h4>用perf工具统计系统调用</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -66,9 +66,9 @@
 
   <entry>
     <title type="html"><![CDATA[Linux Cheat Sheet]]></title>
-    <link href="http://happy123.me/blog/2015/06/19/linux-cheat-sheet/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/06/19/linux-cheat-sheet/"/>
     <updated>2015-06-19T01:43:07+00:00</updated>
-    <id>http://happy123.me/blog/2015/06/19/linux-cheat-sheet</id>
+    <id>http://brain-zhang.github.io/blog/2015/06/19/linux-cheat-sheet</id>
     <content type="html"><![CDATA[<p>收集linux下需要多次google的命令</p>
 
 <h2>编码问题</h2>
@@ -163,9 +163,9 @@
 
   <entry>
     <title type="html"><![CDATA[Debug Kernel Panic in Centos]]></title>
-    <link href="http://happy123.me/blog/2015/06/07/debug-kernel-panic-in-centos/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/06/07/debug-kernel-panic-in-centos/"/>
     <updated>2015-06-07T01:22:34+00:00</updated>
-    <id>http://happy123.me/blog/2015/06/07/debug-kernel-panic-in-centos</id>
+    <id>http://brain-zhang.github.io/blog/2015/06/07/debug-kernel-panic-in-centos</id>
     <content type="html"><![CDATA[<p>当你面对一台新机器，出于某些原因(不是闲的慌)不得不自己编译一个内核时，会碰上kernel panic。</p>
 
 <p>kernel panic很让人心烦，启动时的panic更让人烦，没有挂上硬盘，没有任何log的panic尤其让人烦。</p>
@@ -249,9 +249,9 @@
 
   <entry>
     <title type="html"><![CDATA[Tcpdump Commands]]></title>
-    <link href="http://happy123.me/blog/2015/05/08/tcpdump-commands/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/05/08/tcpdump-commands/"/>
     <updated>2015-05-08T12:06:22+00:00</updated>
-    <id>http://happy123.me/blog/2015/05/08/tcpdump-commands</id>
+    <id>http://brain-zhang.github.io/blog/2015/05/08/tcpdump-commands</id>
     <content type="html"><![CDATA[<p>tcpdump 的抓包保存到文件的命令参数是-w xxx.cap</p>
 
 <ul>
@@ -366,9 +366,9 @@
 
   <entry>
     <title type="html"><![CDATA[How to Xargs Separate Parameters]]></title>
-    <link href="http://happy123.me/blog/2015/05/06/how-to-xargs-separate-parameters/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/05/06/how-to-xargs-separate-parameters/"/>
     <updated>2015-05-06T00:06:52+00:00</updated>
-    <id>http://happy123.me/blog/2015/05/06/how-to-xargs-separate-parameters</id>
+    <id>http://brain-zhang.github.io/blog/2015/05/06/how-to-xargs-separate-parameters</id>
     <content type="html"><![CDATA[<p>做过很多遍了，每次还是得现查，记一下:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -389,9 +389,9 @@
 
   <entry>
     <title type="html"><![CDATA[Python编程实战 - 笔记1]]></title>
-    <link href="http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1/"/>
     <updated>2015-04-27T00:17:45+00:00</updated>
-    <id>http://happy123.me/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1</id>
+    <id>http://brain-zhang.github.io/blog/2015/04/27/pythonbian-cheng-shi-jian-bi-ji-1</id>
     <content type="html"><![CDATA[<p>这本书讲的挺实在的，设计模式的部分又复习了一遍。另外又学了几个Python3的新decorator。</p>
 
 <h2>创建型设计模式</h2>
@@ -520,9 +520,9 @@
 
   <entry>
     <title type="html"><![CDATA[Multiline Comments in Docker File]]></title>
-    <link href="http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/04/10/multiline-comments-in-docker-file/"/>
     <updated>2015-04-10T01:07:36+00:00</updated>
-    <id>http://happy123.me/blog/2015/04/10/multiline-comments-in-docker-file</id>
+    <id>http://brain-zhang.github.io/blog/2015/04/10/multiline-comments-in-docker-file</id>
     <content type="html"><![CDATA[<p>为了减少Image的fs layout数目，Dockerfile中经常会把多个命令集中到一个 <code>RUN</code> 指令下。</p>
 
 <p>多行之后可读性就很差了。</p>
@@ -558,9 +558,9 @@
 
   <entry>
     <title type="html"><![CDATA[Different Users in Same Unix Group Can Not Run Mongod]]></title>
-    <link href="http://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod/"/>
     <updated>2015-04-10T00:44:42+00:00</updated>
-    <id>http://happy123.me/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod</id>
+    <id>http://brain-zhang.github.io/blog/2015/04/10/different-users-in-same-unix-group-can-not-run-mongod</id>
     <content type="html"><![CDATA[<p>事情的缘起是这样的&hellip;&hellip;.</p>
 
 <p>想要在Dockerfile中启动一个MongoDB，之后编译为Docker image。(不要问我问什么要在docker image中存一个mongodb数据库，真实世界的需求你永远想不到)</p>
@@ -622,9 +622,9 @@
 
   <entry>
     <title type="html"><![CDATA[第一个AndroidApp-华容道]]></title>
-    <link href="http://happy123.me/blog/2015/03/03/huarongdao/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/03/03/huarongdao/"/>
     <updated>2015-03-03T00:19:39+00:00</updated>
-    <id>http://happy123.me/blog/2015/03/03/huarongdao</id>
+    <id>http://brain-zhang.github.io/blog/2015/03/03/huarongdao</id>
     <content type="html"><![CDATA[<h2>第一个Android APP上线，很简单的一个小游戏：智取华容道</h2>
 
 <p>GooglePlay:
@@ -736,9 +736,9 @@
 
   <entry>
     <title type="html"><![CDATA[Javascript设计模式 - 笔记3]]></title>
-    <link href="http://happy123.me/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/"/>
     <updated>2015-01-24T03:30:02+00:00</updated>
-    <id>http://happy123.me/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3</id>
+    <id>http://brain-zhang.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3</id>
     <content type="html"><![CDATA[<p>javascript 里面的继承是个非常复杂的话题，一言蔽之，就是你要替解释器干点活。另外，javascript属于使用原型式继承的语言，这个比较少见，所以直觉上不好拐弯。</p>
 
 <p>先回顾比较简单的办法</p>
@@ -876,9 +876,9 @@
 
   <entry>
     <title type="html"><![CDATA[Git Cheat]]></title>
-    <link href="http://happy123.me/blog/2015/01/17/git-cheat/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/01/17/git-cheat/"/>
     <updated>2015-01-17T03:45:03+00:00</updated>
-    <id>http://happy123.me/blog/2015/01/17/git-cheat</id>
+    <id>http://brain-zhang.github.io/blog/2015/01/17/git-cheat</id>
     <content type="html"><![CDATA[<p>整理一下经常忘记的Git命令</p>
 
 <h1>remote 同步</h1>
@@ -996,9 +996,9 @@
 
   <entry>
     <title type="html"><![CDATA[Javascript设计模式 - 笔记2]]></title>
-    <link href="http://happy123.me/blog/2015/01/05/javascriptshe-ji-mo-shi-2/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/01/05/javascriptshe-ji-mo-shi-2/"/>
     <updated>2015-01-05T01:05:16+00:00</updated>
-    <id>http://happy123.me/blog/2015/01/05/javascriptshe-ji-mo-shi-2</id>
+    <id>http://brain-zhang.github.io/blog/2015/01/05/javascriptshe-ji-mo-shi-2</id>
     <content type="html"><![CDATA[<h1>如何封装一个对象</h1>
 
 <h2>门户大开型</h2>
@@ -1291,9 +1291,9 @@
 
   <entry>
     <title type="html"><![CDATA[Javascript设计模式 - 笔记1]]></title>
-    <link href="http://happy123.me/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/"/>
+    <link href="http://brain-zhang.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/"/>
     <updated>2015-01-04T00:25:15+00:00</updated>
-    <id>http://happy123.me/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1</id>
+    <id>http://brain-zhang.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1</id>
     <content type="html"><![CDATA[<h1>富有表现力的javascript</h1>
 
 <h2>弱类型语言</h2>
@@ -1650,9 +1650,9 @@
 
   <entry>
     <title type="html"><![CDATA[Macvtap Ethernet Support Tcpdump]]></title>
-    <link href="http://happy123.me/blog/2014/12/31/macvtap-ethernet-support-tcpdump/"/>
+    <link href="http://brain-zhang.github.io/blog/2014/12/31/macvtap-ethernet-support-tcpdump/"/>
     <updated>2014-12-31T09:05:01+00:00</updated>
-    <id>http://happy123.me/blog/2014/12/31/macvtap-ethernet-support-tcpdump</id>
+    <id>http://brain-zhang.github.io/blog/2014/12/31/macvtap-ethernet-support-tcpdump</id>
     <content type="html"><![CDATA[<p>用macvtap模拟网卡时，用tcpdump抓包是抓不到的，后来发现3.14版本以上的内核修正了这一点。</p>
 
 <p>参考这个提交:</p>
@@ -1663,9 +1663,9 @@
 
   <entry>
     <title type="html"><![CDATA[Linux多网卡多路由设置]]></title>
-    <link href="http://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/"/>
+    <link href="http://brain-zhang.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/"/>
     <updated>2014-12-30T01:40:53+00:00</updated>
-    <id>http://happy123.me/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi</id>
+    <id>http://brain-zhang.github.io/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi</id>
     <content type="html"><![CDATA[<p>折腾了半天，原始出处不知道了，转记一下。</p>
 
 <p>比如如果一个linux服务器有三个口接三个不同的网络，假设对应的网络信息是如此</p>
@@ -1753,9 +1753,9 @@
 
   <entry>
     <title type="html"><![CDATA[Libpcap PACKET_MMAP内存分配]]></title>
-    <link href="http://happy123.me/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/"/>
+    <link href="http://brain-zhang.github.io/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei/"/>
     <updated>2014-12-25T02:03:49+00:00</updated>
-    <id>http://happy123.me/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei</id>
+    <id>http://brain-zhang.github.io/blog/2014/12/25/libpcappacket-mmapnei-cun-fen-pei</id>
     <content type="html"><![CDATA[<p>libpcap为了提高效率，调用<code>setsockopt(handle-&gt;fd, SOL_PACKET, PACKET_RX_RING,(void *) &amp;req, sizeof(req))</code>时采用kmalloc分配内存。</p>
 
 <p>可以参考:</p>
@@ -1776,9 +1776,9 @@
 
   <entry>
     <title type="html"><![CDATA[Docker中的网络]]></title>
-    <link href="http://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo/"/>
+    <link href="http://brain-zhang.github.io/blog/2014/12/08/dockerzhong-de-wang-luo/"/>
     <updated>2014-12-08T00:25:53+00:00</updated>
-    <id>http://happy123.me/blog/2014/12/08/dockerzhong-de-wang-luo</id>
+    <id>http://brain-zhang.github.io/blog/2014/12/08/dockerzhong-de-wang-luo</id>
     <content type="html"><![CDATA[<p>Docker的默认网络是非常弱的，他使用的是一个虚拟网桥和container中的veth pair通信，在container中，默认是没有对外的IP的，外部主机或容器只能通过NAT，或者自定义iptable来实现主机或容器间的互联互通。
 这种局限性非常明显:</p>
 
@@ -1883,9 +1883,9 @@
 
   <entry>
     <title type="html"><![CDATA[多个git账号之间的切换]]></title>
-    <link href="http://happy123.me/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/"/>
+    <link href="http://brain-zhang.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/"/>
     <updated>2014-12-07T07:00:34+00:00</updated>
-    <id>http://happy123.me/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan</id>
+    <id>http://brain-zhang.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan</id>
     <content type="html"><![CDATA[<p>做过很多遍了，却总是记不住，这回从头来描述一下。</p>
 
 <h1>介绍</h1>
@@ -2059,9 +2059,9 @@
 
   <entry>
     <title type="html"><![CDATA[科技进步是安全行业的最根本保障]]></title>
-    <link href="http://happy123.me/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/"/>
+    <link href="http://brain-zhang.github.io/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang/"/>
     <updated>2014-11-29T04:43:57+00:00</updated>
-    <id>http://happy123.me/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang</id>
+    <id>http://brain-zhang.github.io/blog/2014/11/29/ke-ji-jin-bu-shi-an-quan-xing-ye-de-zui-gen-ben-bao-zhang</id>
     <content type="html"><![CDATA[<p>今天上网的时候突然发现有人邮件问什么是矿震。原来是知乎的注册号职业还是煤矿行业，知乎还是挺智能的~~~</p>
 
 <p>查了一下，辽宁那又有矿难了,矿震引起煤尘爆炸。唉&hellip;&hellip;</p>
@@ -2109,9 +2109,9 @@
 
   <entry>
     <title type="html"><![CDATA[Pycon2014 in Shanghai]]></title>
-    <link href="http://happy123.me/blog/2014/11/16/pycon2017-in-shanghai/"/>
+    <link href="http://brain-zhang.github.io/blog/2014/11/16/pycon2017-in-shanghai/"/>
     <updated>2014-11-16T04:19:21+00:00</updated>
-    <id>http://happy123.me/blog/2014/11/16/pycon2017-in-shanghai</id>
+    <id>http://brain-zhang.github.io/blog/2014/11/16/pycon2017-in-shanghai</id>
     <content type="html"><![CDATA[<p>今年又去打酱油了。在上海有这点好处，可以很方便的找到各种组织~~~</p>
 
 <p>去年拿了个帽子，今年发了件T恤，明年来条短裤就套装啦。</p>
