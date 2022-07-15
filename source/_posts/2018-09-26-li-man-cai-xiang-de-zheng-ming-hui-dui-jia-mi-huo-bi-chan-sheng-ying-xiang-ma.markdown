@@ -53,7 +53,7 @@ https://www.youtube.com/watch?v=oe4Jo4i3w_w
 
 ### 如果猜想被证明，对加密数字货币(如比特币)有什么影响
 
-我们知道，比特币的安全设计是远远领先于时代的，我们之前在[这篇文章](https://happy123.me/blog/2018/04/24/cryptocurrency-security/)中，曾经谈到过比特币的地址安全问题。
+我们知道，比特币的安全设计是远远领先于时代的，我们之前在[这篇文章](https://brain-zhang.github.io/blog/2018/04/24/cryptocurrency-security/)中，曾经谈到过比特币的地址安全问题。
 
 1. 基本上所有加密货币的地址都是参考比特币，采用椭圆曲线非对称加密算法为基础生成的
 

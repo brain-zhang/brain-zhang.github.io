@@ -33,7 +33,7 @@ https://www.youtube.com/watch?v=SMEOKDVXlUo
 
 ## 由来
 
-还记得我们[之前的文章](https://happy123.me/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/)里面提到的，如果要建立一个分布式的账本，要解决两个问题:
+还记得我们[之前的文章](https://brain-zhang.github.io/blog/2018/11/23/bi-te-bi-de-jiao-yi-1/)里面提到的，如果要建立一个分布式的账本，要解决两个问题:
 
 1. 什么样的交易是一笔合法的交易
 2. 哪个节点有记账的权力，如何保证整个账本是唯一且不可篡改的
@@ -275,7 +275,7 @@ F(nBits)=V3 * 2^(8*(V1-3) )
 
 因此挖矿可以形象的类比抛硬币，好比有256枚硬币，给定编号1,2,3……256，每进行一次Hash运算，就像抛一次硬币，256枚硬币同时抛出，落地后要求编号前n的所有硬币全部正面向上。
 
-这里的详细计算可以参考我们之前的一篇[文章](https://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/)
+这里的详细计算可以参考我们之前的一篇[文章](https://brain-zhang.github.io/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/)
 
 #### CPU挖矿时代
 

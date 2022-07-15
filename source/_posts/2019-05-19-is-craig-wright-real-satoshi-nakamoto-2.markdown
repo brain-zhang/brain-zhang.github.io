@@ -8,9 +8,9 @@ categories: blockchain
 
 之前我们写过两篇文章来八卦所谓的`澳本聪`的故事:
 
-[Is Craig Wright Real Satoshi Nakamoto?](https://happy123.me/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/)
+[Is Craig Wright Real Satoshi Nakamoto?](https://brain-zhang.github.io/blog/2016/05/02/is-craig-wright-real-satoshi-nakamoto/)
 
-[Satoshi Craig Wright Is Being Sued for $10 Billion](https://happy123.me/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/)
+[Satoshi Craig Wright Is Being Sued for $10 Billion](https://brain-zhang.github.io/blog/2018/04/22/satoshi-craig-wright-is-being-sued-for-10-dollars-billion/)
 
 PS: 学术界普遍怀疑其实 [Nick Szabo](https://www.blogger.com/profile/16820399856274245684)才是中本聪；偶也50%认同；
 

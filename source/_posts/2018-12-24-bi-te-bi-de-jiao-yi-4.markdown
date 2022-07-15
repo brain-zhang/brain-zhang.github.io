@@ -52,7 +52,7 @@ Coinbase交易规范的叫法是Generation TX，每一个block有且只有一笔
 2. 然后是32字节代表上一个block的hash id(因为这笔交易所属block是第一个block，所以人为设置为0): `0000000000000000000000000000000000000000000000000000000000000000`
 3. 接着是32字节的merkle root(关于merkle root，我们会在后面的文章中详解): `3BA3EDFD7A7B12B27AC72C3E67768F617FC81BC3888A51323A9FB8AA4B1E5E4A`
 4. 4字节的时间戳: `29AB5F49`
-5. 接着是目标难度(bits): `FFFF001D` 代表着挖矿难度，具体含义可参考我们之前的[比特币POW难度调节分析](https://happy123.me/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/)。 
+5. 接着是目标难度(bits): `FFFF001D` 代表着挖矿难度，具体含义可参考我们之前的[比特币POW难度调节分析](https://brain-zhang.github.io/blog/2018/02/12/bi-te-bi-pownan-du-diao-jie-fen-xi/)。 
 6. nonce: `1DAC2B7C`，同样的挖矿调节参数，我们老是说比特币系统就是在算一个 "毫无意义的随机数字"，没错，这就是毫无意义君。
 7. 这个区块包含的总交易数目：`01`
 

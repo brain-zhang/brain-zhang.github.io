@@ -55,7 +55,7 @@ gpg --list-keys
 /home/brain/.gnupg/pubring.gpg
 -------------------------------
 pub   4096R/xxxxxxxx 2018-08-16
-uid                  brain.zhang (happy123.me) <brain.zhangbin#xxx.com>
+uid                  brain.zhang (brain-zhang.github.io) <brain.zhangbin#xxx.com>
 sub   4096R/yyyyyyyy 2018-08-16
 
 

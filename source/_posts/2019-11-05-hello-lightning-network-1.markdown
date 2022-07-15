@@ -65,7 +65,7 @@ categories: blockchain lightning
 
 我们先来关注一下 `local_balance`和`remote_balance`这两个参数；
 
-如果还记得我们之前的[科普文章](https://happy123.me/blog/2019/01/06/bi-te-bi-de-jiao-yi-7/)的话；构建闪电通道的第一个步骤是建立一笔Funding TX；
+如果还记得我们之前的[科普文章](https://brain-zhang.github.io/blog/2019/01/06/bi-te-bi-de-jiao-yi-7/)的话；构建闪电通道的第一个步骤是建立一笔Funding TX；
 这需要双方拿出一定量的比特币放入通道中，这样就会有固定数量的比特币被锁定到通道中，称为通道容量(capacity); 通道发起方投入的金额称为本地余额(local_balance)，对端投入的金额称为远程余额(remote_balance)；
 
 在上面这个例子中，我们看到作为通道发起方，local_balance是279176 satoshi，remote_balance是0，代表对端仅仅是跟我们建立通道链接，并没有放币进来；

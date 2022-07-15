@@ -34,7 +34,7 @@ exec /path/to/command
 
 你需要利用 [systemd](https://github.com/systemd/systemd) 服务，这个我们之前写文章科普过：
 
-https://happy123.me/blog/2016/08/22/how-to-write-standard-startup-script/
+https://brain-zhang.github.io/blog/2016/08/22/how-to-write-standard-startup-script/
 
 
 #### 仅仅想执行一条简单的命令

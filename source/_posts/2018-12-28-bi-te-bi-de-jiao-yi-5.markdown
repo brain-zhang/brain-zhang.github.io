@@ -7,7 +7,7 @@ categories: blockchain
 ---
 我们还是拿[3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517](http://chainquery.com/bitcoin-api/getrawtransaction/3a295e4d385f4074f6a7bb28f6103b7235cf48f8177b7153b0609161458ac517/1)做例子。
 
-这篇文章需要结合[比特币的交易-3](https://happy123.me/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/)这篇文章来理解，我们在这里也直接复用TransA、TransB的说法。
+这篇文章需要结合[比特币的交易-3](https://brain-zhang.github.io/blog/2018/12/09/bi-te-bi-de-jiao-yi-3/)这篇文章来理解，我们在这里也直接复用TransA、TransB的说法。
 
 <!-- more -->
 
@@ -16,7 +16,7 @@ categories: blockchain
 
 #### 私钥-公钥
 
-在[比特币的HD钱包-2](https://happy123.me/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/)中，我们已经算出来私钥的WIF表示:
+在[比特币的HD钱包-2](https://brain-zhang.github.io/blog/2018/11/02/bi-te-bi-de-hdqian-bao-yan-hua-2/)中，我们已经算出来私钥的WIF表示:
 
 
 ```
