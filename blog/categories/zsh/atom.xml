@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Zsh | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/zsh/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/zsh/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[svn1.7+ Zsh报错]]></title>
-    <link href="https://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/"/>
+    <link href="https://brain-zhang.github.io/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/"/>
     <updated>2014-09-17T08:40:14+08:00</updated>
-    <id>https://happy123.me/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo</id>
+    <id>https://brain-zhang.github.io/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo</id>
     <content type="html"><![CDATA[<p>更新svn(subversion)&gt;1.7后 zsh 的svn自动完成会报错。</p>
 
 <p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: MongoDB | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/mongodb/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[从MongoDB迁移到TokuMx]]></title>
-    <link href="https://happy123.me/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/"/>
+    <link href="https://brain-zhang.github.io/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx/"/>
     <updated>2014-09-16T08:36:30+08:00</updated>
-    <id>https://happy123.me/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx</id>
+    <id>https://brain-zhang.github.io/blog/2014/09/16/cong-mongodbqian-yi-dao-tokumx</id>
     <content type="html"><![CDATA[<h2 id="why">WHY:</h2>
 
 <p>原因无它，MongoDB的 BSON格式带来的磁盘空间消耗实在太严重了,将mongodb的数据库文件gzip一把，一般能到原大小的1/10。</p>

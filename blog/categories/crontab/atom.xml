@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Crontab | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/crontab/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/crontab/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Crontab Eight Comm]]></title>
-    <link href="https://happy123.me/blog/2015/08/07/crontab-eight-comm/"/>
+    <link href="https://brain-zhang.github.io/blog/2015/08/07/crontab-eight-comm/"/>
     <updated>2015-08-07T18:11:11+08:00</updated>
-    <id>https://happy123.me/blog/2015/08/07/crontab-eight-comm</id>
+    <id>https://brain-zhang.github.io/blog/2015/08/07/crontab-eight-comm</id>
     <content type="html"><![CDATA[<p>网上收集，多次踩坑，立此存照</p>
 
 <h2 id="crontab">crontab八诫</h2>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Limit Exists Running Docker Container Cpus]]></title>
-    <link href="https://happy123.me/blog/2021/11/07/how-to-limit-docker-cpus/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/11/07/how-to-limit-docker-cpus/"/>
     <updated>2021-11-07T11:05:44+08:00</updated>
-    <id>https://happy123.me/blog/2021/11/07/how-to-limit-docker-cpus</id>
+    <id>https://brain-zhang.github.io/blog/2021/11/07/how-to-limit-docker-cpus</id>
     <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">docker update --cpu-period=100000 --cpu-quota=40000  &lt;container&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -27,9 +27,9 @@
   
   <entry>
     <title type="html"><![CDATA[Lnd Low Rescan Speed for Startup]]></title>
-    <link href="https://happy123.me/blog/2021/06/05/lnd-low-rescan-speed-for-startup/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/06/05/lnd-low-rescan-speed-for-startup/"/>
     <updated>2021-06-05T17:31:07+08:00</updated>
-    <id>https://happy123.me/blog/2021/06/05/lnd-low-rescan-speed-for-startup</id>
+    <id>https://brain-zhang.github.io/blog/2021/06/05/lnd-low-rescan-speed-for-startup</id>
     <content type="html"><![CDATA[<p>Lnd启动的时候需要扫描最近数百个区块来验证安全性，做rescan动作的时候慢的出奇，有时候需要30分钟才能完成这个动作：</p>
 
 <p>https://github.com/lightningnetwork/lnd/issues/760</p>
@@ -56,9 +56,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Allow Non-root Process to Bind to Low-numbered Ports]]></title>
-    <link href="https://happy123.me/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/"/>
     <updated>2021-06-01T16:32:31+08:00</updated>
-    <id>https://happy123.me/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports</id>
+    <id>https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports</id>
     <content type="html"><![CDATA[<h4 id="use-capnetbindservice-to-grant-low-numbered-port-access-to-a-process">Use CAP_NET_BIND_SERVICE to grant low-numbered port access to a process:</h4>
 
 <p>With this you can grant permanent access to a specific binary to bind to low-numbered ports via the setcap command:</p>
@@ -78,9 +78,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Hide a Password Passed as Command Line Argument?]]></title>
-    <link href="https://happy123.me/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/"/>
     <updated>2021-05-22T17:22:37+08:00</updated>
-    <id>https://happy123.me/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument</id>
+    <id>https://brain-zhang.github.io/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument</id>
     <content type="html"><![CDATA[<p>有部分软件设计的时候没有考虑命令行参数之外传递密码的途径，无法用环境变量或配置传递密码；导致任何用户用ps一看都能看到，这是重大的安全隐患；</p>
 
 <p>解决方法很tricky:</p>
@@ -95,9 +95,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Become Superuser on Ubuntu Linux]]></title>
-    <link href="https://happy123.me/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/"/>
     <updated>2021-05-17T17:31:30+08:00</updated>
-    <id>https://happy123.me/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux</id>
+    <id>https://brain-zhang.github.io/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux</id>
     <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -109,9 +109,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Enable VNC+xfce on Ubuntu16]]></title>
-    <link href="https://happy123.me/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/"/>
     <updated>2021-05-17T17:13:32+08:00</updated>
-    <id>https://happy123.me/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16</id>
+    <id>https://brain-zhang.github.io/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16</id>
     <content type="html"><![CDATA[<h4 id="vncserver">安装桌面环境和vncserver</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -161,9 +161,9 @@
   
   <entry>
     <title type="html"><![CDATA[Linux下块设备缓存Bcache设置]]></title>
-    <link href="https://happy123.me/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/"/>
     <updated>2021-04-22T10:04:17+08:00</updated>
-    <id>https://happy123.me/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi</id>
+    <id>https://brain-zhang.github.io/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi</id>
     <content type="html"><![CDATA[<h2 id="bcache">Bcache简介</h2>
 
 <p>Bcache是Linux内核块设备层cache，支持多块HDD使用同一块SSD作为缓存盘。它让SSD作为HDD的缓存成为了可能。由于SSD价格昂贵，存储空间小，而HDD价格低廉，存储空间大，因此采用SSD作为缓存，HDD作为数据存储盘，既解决了SSD容量太小，又解决了HDD运行速度太慢的问题。</p>
@@ -344,9 +344,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Split a File Into Equal Parts Without Breaking Individual Lines?]]></title>
-    <link href="https://happy123.me/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/"/>
     <updated>2021-04-19T17:26:06+08:00</updated>
-    <id>https://happy123.me/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines</id>
+    <id>https://brain-zhang.github.io/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines</id>
     <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">split -n l/5 your_file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>注意 l/5 前面是小写的L;</p>
@@ -355,9 +355,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Remove All Non-ascii Content From a Workflow (File)]]></title>
-    <link href="https://happy123.me/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file/"/>
     <updated>2021-04-17T09:46:10+08:00</updated>
-    <id>https://happy123.me/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file</id>
+    <id>https://brain-zhang.github.io/blog/2021/04/17/how-to-remove-all-non-ascii-content-from-a-workflow-file</id>
     <content type="html"><![CDATA[<h4 id="grep-remove-lines">grep remove lines</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -377,9 +377,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Modify an Invalid '/etc/sudoers' File?]]></title>
-    <link href="https://happy123.me/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file/"/>
     <updated>2021-01-09T16:16:31+08:00</updated>
-    <id>https://happy123.me/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file</id>
+    <id>https://brain-zhang.github.io/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file</id>
     <content type="html"><![CDATA[<p>刚说小心驶得万年船，就想自己偷奸耍滑，手工裸编辑 <code>/etc/sudoers</code> 文件把sudo权限搞挂了…-_-</p>
 
 <p>仔细瞅了瞅，少加了一个冒号，导致现在进退两难…</p>
@@ -425,9 +425,9 @@
   
   <entry>
     <title type="html"><![CDATA[Linux服务器极简安全配置]]></title>
-    <link href="https://happy123.me/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/"/>
     <updated>2021-01-06T17:33:38+08:00</updated>
-    <id>https://happy123.me/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi</id>
+    <id>https://brain-zhang.github.io/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi</id>
     <content type="html"><![CDATA[<p>网络知识了解的越多，就越胆小；也许，这就是江湖吧；</p>
 
 <p>当配置一台新的Linux服务器并上线时，其实就是将Server暴露到了炮火横飞的战场上，任何的大意都会让其万劫不复；但由于永恒的人性的弱点，我们总是在安全和便利之间摇摆；</p>
@@ -815,9 +815,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Close Lightning Channels by Lnd-cli?]]></title>
-    <link href="https://happy123.me/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/"/>
     <updated>2021-01-03T16:54:10+08:00</updated>
-    <id>https://happy123.me/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli</id>
+    <id>https://brain-zhang.github.io/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli</id>
     <content type="html"><![CDATA[<p>越来越有老年痴呆的倾向，这个命令至少Google过3次了，每次都忘，被自己蠢哭了~~</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -829,9 +829,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Set Systemd Startup Script for Bitcoind?]]></title>
-    <link href="https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/"/>
     <updated>2020-12-29T16:22:42+08:00</updated>
-    <id>https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind</id>
+    <id>https://brain-zhang.github.io/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind</id>
     <content type="html"><![CDATA[<h2 id="setup-bitcoindservice">setup bitcoind.service</h2>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -939,9 +939,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Sort by Length of String Followed by Alphabetical Order]]></title>
-    <link href="https://happy123.me/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/"/>
     <updated>2020-08-17T08:34:52+08:00</updated>
-    <id>https://happy123.me/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order</id>
+    <id>https://brain-zhang.github.io/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order</id>
     <content type="html"><![CDATA[<p>shell中，多行文本，先按照字母长度排序，相同长度再按照字母序排列；</p>
 
 <p>做了很多次，隔几天就忘，让人绝望：</p>
@@ -953,9 +953,9 @@
   
   <entry>
     <title type="html"><![CDATA[Xargs Sh -c Skipping the First Argument]]></title>
-    <link href="https://happy123.me/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/"/>
     <updated>2020-08-12T16:46:27+08:00</updated>
-    <id>https://happy123.me/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument</id>
+    <id>https://brain-zhang.github.io/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument</id>
     <content type="html"><![CDATA[<p>其实这个问题已经见过很多次了，但是知其然不知其所以然；今天偶尔在stackoverflow上看到了，记录一下；</p>
 
 <h4 id="shellarg1-arg2">shell中的arg1, arg2…</h4>
@@ -1059,9 +1059,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Do Logging on Solidity Contract With Truffle Suite]]></title>
-    <link href="https://happy123.me/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/"/>
     <updated>2020-07-17T17:33:45+08:00</updated>
-    <id>https://happy123.me/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite</id>
+    <id>https://brain-zhang.github.io/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite</id>
     <content type="html"><![CDATA[<p>Ethereum的智能合约调试起来很麻烦，到目前为止还是没有一个方便的类似于console.log()或printf的调用；</p>
 
 <p>一般都是通过Event的方法来打印log；这种办法在写单元测试的时候很麻烦；</p>
@@ -1126,9 +1126,9 @@
   
   <entry>
     <title type="html"><![CDATA[十行代码挑战世界金融体系]]></title>
-    <link href="https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/"/>
     <updated>2020-04-23T15:47:39+08:00</updated>
-    <id>https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi</id>
+    <id>https://brain-zhang.github.io/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi</id>
     <content type="html"><![CDATA[<p>这个有点标题党了，但实话说许多”高科技”项目也是这种浮夸的宣传手段，且听我慢慢道来；</p>
 
 <p>最近央行将推出数字货币（DCEP）的消息沸沸扬扬，在没有实际用过之前，我无意对其做过多揣测；</p>
@@ -1790,9 +1790,9 @@
   
   <entry>
     <title type="html"><![CDATA[Hello Lightning Network -3]]></title>
-    <link href="https://happy123.me/blog/2019/11/30/hello-lightning-network-3/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/11/30/hello-lightning-network-3/"/>
     <updated>2019-11-30T09:12:24+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/30/hello-lightning-network-3</id>
+    <id>https://brain-zhang.github.io/blog/2019/11/30/hello-lightning-network-3</id>
     <content type="html"><![CDATA[<p>在前面几篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
 
 <p>为了理解这个问题，我们对于闪电网络的原理做了详细的探讨，现在是谈谈社区的一些解决方案的时候了；</p>
@@ -2297,9 +2297,9 @@
   
   <entry>
     <title type="html"><![CDATA[Hello Lightning Network -2]]></title>
-    <link href="https://happy123.me/blog/2019/11/26/hello-lightning-network-2/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/11/26/hello-lightning-network-2/"/>
     <updated>2019-11-26T17:14:16+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/26/hello-lightning-network-2</id>
+    <id>https://brain-zhang.github.io/blog/2019/11/26/hello-lightning-network-2</id>
     <content type="html"><![CDATA[<p>在上一篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
 
 <p>为了研究如何解决Inbound Capacity的问题，我们还需要复习并深化闪电网络的一些基础知识；即RSMC 和HTLC；这些基础我们曾在<a href="https://happy123.me/blog/2019/01/06/bi-te-bi-de-jiao-yi-7/">之前的文章中</a>简要介绍过，但只是对网上的资料做了一番整理，人云亦云而已，实在是辜负了闪电网络；</p>
@@ -2610,9 +2610,9 @@ multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块�
   
   <entry>
     <title type="html"><![CDATA[Nginx配置多端口多域名访问]]></title>
-    <link href="https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/"/>
     <updated>2019-11-18T15:52:07+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen</id>
+    <id>https://brain-zhang.github.io/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen</id>
     <content type="html"><![CDATA[<p>在一个服务器上部署多个站点，需要开放多个端口来访问不同的站点，流程很简单，调试花了2小时，记录一下：</p>
 
 <!-- more -->

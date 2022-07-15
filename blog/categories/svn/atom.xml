@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Svn | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/svn/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/svn/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Freeze Svn:externals for Tags/branch]]></title>
-    <link href="https://happy123.me/blog/2014/03/26/freeze-svn-externals-for-tags/"/>
+    <link href="https://brain-zhang.github.io/blog/2014/03/26/freeze-svn-externals-for-tags/"/>
     <updated>2014-03-26T18:12:23+08:00</updated>
-    <id>https://happy123.me/blog/2014/03/26/freeze-svn-externals-for-tags</id>
+    <id>https://brain-zhang.github.io/blog/2014/03/26/freeze-svn-externals-for-tags</id>
     <content type="html"><![CDATA[<p>svn的external link在多个项目互相引用时很有用。</p>
 
 <p>但我们想要做tag及branch的时候，需要将external link的文件或目录固定在某个版本。</p>

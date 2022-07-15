@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/blockchain/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/blockchain/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Lnd Low Rescan Speed for Startup]]></title>
-    <link href="https://happy123.me/blog/2021/06/05/lnd-low-rescan-speed-for-startup/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/06/05/lnd-low-rescan-speed-for-startup/"/>
     <updated>2021-06-05T17:31:07+08:00</updated>
-    <id>https://happy123.me/blog/2021/06/05/lnd-low-rescan-speed-for-startup</id>
+    <id>https://brain-zhang.github.io/blog/2021/06/05/lnd-low-rescan-speed-for-startup</id>
     <content type="html"><![CDATA[<p>Lnd启动的时候需要扫描最近数百个区块来验证安全性，做rescan动作的时候慢的出奇，有时候需要30分钟才能完成这个动作：</p>
 
 <p>https://github.com/lightningnetwork/lnd/issues/760</p>
@@ -44,9 +44,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Close Lightning Channels by Lnd-cli?]]></title>
-    <link href="https://happy123.me/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/"/>
     <updated>2021-01-03T16:54:10+08:00</updated>
-    <id>https://happy123.me/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli</id>
+    <id>https://brain-zhang.github.io/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli</id>
     <content type="html"><![CDATA[<p>越来越有老年痴呆的倾向，这个命令至少Google过3次了，每次都忘，被自己蠢哭了~~</p>
 
 <p><code>
@@ -59,9 +59,9 @@ lncli closechannel &lt;fund_txid&gt; [fund_tx_vout_NO]
   
   <entry>
     <title type="html"><![CDATA[How to Set Systemd Startup Script for Bitcoind?]]></title>
-    <link href="https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/"/>
     <updated>2020-12-29T16:22:42+08:00</updated>
-    <id>https://happy123.me/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind</id>
+    <id>https://brain-zhang.github.io/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind</id>
     <content type="html"><![CDATA[<h2 id="setup-bitcoindservice">setup bitcoind.service</h2>
 
 <p><code>
@@ -140,9 +140,9 @@ systemctl status bitcoind.service
   
   <entry>
     <title type="html"><![CDATA[How to Do Logging on Solidity Contract With Truffle Suite]]></title>
-    <link href="https://happy123.me/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/"/>
     <updated>2020-07-17T17:33:45+08:00</updated>
-    <id>https://happy123.me/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite</id>
+    <id>https://brain-zhang.github.io/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite</id>
     <content type="html"><![CDATA[<p>Ethereum的智能合约调试起来很麻烦，到目前为止还是没有一个方便的类似于console.log()或printf的调用；</p>
 
 <p>一般都是通过Event的方法来打印log；这种办法在写单元测试的时候很麻烦；</p>
@@ -202,9 +202,9 @@ import “../contracts/Console.sol”;</p>
   
   <entry>
     <title type="html"><![CDATA[十行代码挑战世界金融体系]]></title>
-    <link href="https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/"/>
+    <link href="https://brain-zhang.github.io/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/"/>
     <updated>2020-04-23T15:47:39+08:00</updated>
-    <id>https://happy123.me/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi</id>
+    <id>https://brain-zhang.github.io/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi</id>
     <content type="html"><![CDATA[<p>这个有点标题党了，但实话说许多”高科技”项目也是这种浮夸的宣传手段，且听我慢慢道来；</p>
 
 <p>最近央行将推出数字货币（DCEP）的消息沸沸扬扬，在没有实际用过之前，我无意对其做过多揣测；</p>

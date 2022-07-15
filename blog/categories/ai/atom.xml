@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ai | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/ai/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/ai/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-5]]></title>
-    <link href="https://happy123.me/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5/"/>
     <updated>2019-09-22T18:01:34+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5</id>
+    <id>https://brain-zhang.github.io/blog/2019/09/22/wu-en-da-ji-qi-xue-xi-bi-ji-5</id>
     <content type="html"><![CDATA[<p class="info">降维，异常检测，推荐系统，大规模机器学习</p>
 
 <!-- more -->
@@ -187,9 +187,9 @@ p(x)=\prod_{j=1}^n p(x_j;\mu_j,\sigma^2_j)=\prod_{j=1}^n \frac{1}{\sqrt{2\pi}\si
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-4]]></title>
-    <link href="https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4/"/>
     <updated>2019-09-18T16:59:17+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4</id>
+    <id>https://brain-zhang.github.io/blog/2019/09/18/wu-en-da-ji-qi-xue-xi-bi-ji-4</id>
     <content type="html"><![CDATA[<p class="info">机器学习系统设计思路，向量机，聚类</p>
 
 <!-- more -->
@@ -323,9 +323,9 @@ F_1Score = 2\frac{PR}{P+R}
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-3]]></title>
-    <link href="https://happy123.me/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3/"/>
     <updated>2019-09-16T16:55:56+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3</id>
+    <id>https://brain-zhang.github.io/blog/2019/09/16/wu-en-da-ji-qi-xue-xi-bi-ji-3</id>
     <content type="html"><![CDATA[<p class="info">神经网络学习, 反向传播算法， 模型优化</p>
 
 <!-- more -->
@@ -566,9 +566,9 @@ J_{test}(\theta)=-\frac{1}{m_{test}}\sum^{m_{test}}_{i=1}(y^{(i)}_{test}\log{h_\
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-2]]></title>
-    <link href="https://happy123.me/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2/"/>
     <updated>2019-09-11T10:53:38+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2</id>
+    <id>https://brain-zhang.github.io/blog/2019/09/11/wu-en-da-ji-qi-xue-xi-2</id>
     <content type="html"><![CDATA[<p class="info">Logistic回归， 正则化</p>
 
 <!-- more -->
@@ -809,9 +809,9 @@ def sigmoid(x, derivative=False):
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-1]]></title>
-    <link href="https://happy123.me/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji/"/>
     <updated>2019-09-01T15:59:41+08:00</updated>
-    <id>https://happy123.me/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji</id>
+    <id>https://brain-zhang.github.io/blog/2019/09/01/wu-en-da-ji-qi-xue-xi-bi-ji</id>
     <content type="html"><![CDATA[<p class="info">这个系列教程大名鼎鼎，之前我都是用到啥就瞎试一通；最近花了两个周，认认真真把这些基础知识重新学了一遍；做个笔记；
 苏老泉二十七始发愤，我这比他还落后；不过求知的旅途，上路永远不嫌晚，我一直在路上；</p>
 

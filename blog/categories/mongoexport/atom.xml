@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Mongoexport | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/mongoexport/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/mongoexport/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Export Json by Mongoexport]]></title>
-    <link href="https://happy123.me/blog/2014/07/03/wei-cexport-json-by-mongoexport/"/>
+    <link href="https://brain-zhang.github.io/blog/2014/07/03/wei-cexport-json-by-mongoexport/"/>
     <updated>2014-07-03T08:46:23+08:00</updated>
-    <id>https://happy123.me/blog/2014/07/03/wei-cexport-json-by-mongoexport</id>
+    <id>https://brain-zhang.github.io/blog/2014/07/03/wei-cexport-json-by-mongoexport</id>
     <content type="html"><![CDATA[<p>Exp:</p>
 
 <pre><code>mongoexport -d foo -c exp -o exp.json -q '{"ts":{"$gte":0}}'

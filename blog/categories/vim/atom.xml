@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Vim | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/vim/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vim 对选中范围内容批量替换]]></title>
-    <link href="https://happy123.me/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/"/>
+    <link href="https://brain-zhang.github.io/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan/"/>
     <updated>2014-09-17T08:31:22+08:00</updated>
-    <id>https://happy123.me/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan</id>
+    <id>https://brain-zhang.github.io/blog/2014/09/17/vim-dui-xuan-zhong-fan-wei-nei-rong-pi-liang-ti-huan</id>
     <content type="html"><![CDATA[<p>vim可以很方便的用 %s/src/dst/g 批量替换。</p>
 
 <p>但是我想对ctrl+v 块选择的内容做批量替换就麻烦一点了，每次都得打一串很长很长的脚本命令。</p>
@@ -48,9 +48,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vim 命令行操作小技巧]]></title>
-    <link href="https://happy123.me/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/"/>
+    <link href="https://brain-zhang.github.io/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao/"/>
     <updated>2014-09-17T08:30:15+08:00</updated>
-    <id>https://happy123.me/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao</id>
+    <id>https://brain-zhang.github.io/blog/2014/09/17/vim-ming-ling-xing-cao-zuo-xiao-ji-qiao</id>
     <content type="html"><![CDATA[<h2 id="vim-">vim 使用:进入命令行后，除了直接敲命令外，一般会有两个操作:</h2>
 
 <p>1.查看历史指令并执行</p>

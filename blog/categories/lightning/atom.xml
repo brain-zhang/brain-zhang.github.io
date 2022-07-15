@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Lightning | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/lightning/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/lightning/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Lnd Low Rescan Speed for Startup]]></title>
-    <link href="https://happy123.me/blog/2021/06/05/lnd-low-rescan-speed-for-startup/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/06/05/lnd-low-rescan-speed-for-startup/"/>
     <updated>2021-06-05T17:31:07+08:00</updated>
-    <id>https://happy123.me/blog/2021/06/05/lnd-low-rescan-speed-for-startup</id>
+    <id>https://brain-zhang.github.io/blog/2021/06/05/lnd-low-rescan-speed-for-startup</id>
     <content type="html"><![CDATA[<p>Lnd启动的时候需要扫描最近数百个区块来验证安全性，做rescan动作的时候慢的出奇，有时候需要30分钟才能完成这个动作：</p>
 
 <p>https://github.com/lightningnetwork/lnd/issues/760</p>
@@ -44,9 +44,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Close Lightning Channels by Lnd-cli?]]></title>
-    <link href="https://happy123.me/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/"/>
+    <link href="https://brain-zhang.github.io/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/"/>
     <updated>2021-01-03T16:54:10+08:00</updated>
-    <id>https://happy123.me/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli</id>
+    <id>https://brain-zhang.github.io/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli</id>
     <content type="html"><![CDATA[<p>越来越有老年痴呆的倾向，这个命令至少Google过3次了，每次都忘，被自己蠢哭了~~</p>
 
 <p><code>
@@ -59,9 +59,9 @@ lncli closechannel &lt;fund_txid&gt; [fund_tx_vout_NO]
   
   <entry>
     <title type="html"><![CDATA[Hello Lightning Network -3]]></title>
-    <link href="https://happy123.me/blog/2019/11/30/hello-lightning-network-3/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/11/30/hello-lightning-network-3/"/>
     <updated>2019-11-30T09:12:24+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/30/hello-lightning-network-3</id>
+    <id>https://brain-zhang.github.io/blog/2019/11/30/hello-lightning-network-3</id>
     <content type="html"><![CDATA[<p>在前面几篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
 
 <p>为了理解这个问题，我们对于闪电网络的原理做了详细的探讨，现在是谈谈社区的一些解决方案的时候了；</p>
@@ -450,9 +450,9 @@ success swap payment:</p>
   
   <entry>
     <title type="html"><![CDATA[Hello Lightning Network -2]]></title>
-    <link href="https://happy123.me/blog/2019/11/26/hello-lightning-network-2/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/11/26/hello-lightning-network-2/"/>
     <updated>2019-11-26T17:14:16+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/26/hello-lightning-network-2</id>
+    <id>https://brain-zhang.github.io/blog/2019/11/26/hello-lightning-network-2</id>
     <content type="html"><![CDATA[<p>在上一篇文章中我们评论道：闪电网络是一个丰富的生态，将来里面会有各种各样的角色参与其中；目前来看，如何注入足够Inbound Capacity，保持闪电网络有充裕的流动性似乎是个棘手问题；而且不少人攻击这最终会导致比特币运营中心化；</p>
 
 <p>为了研究如何解决Inbound Capacity的问题，我们还需要复习并深化闪电网络的一些基础知识；即RSMC 和HTLC；这些基础我们曾在<a href="https://happy123.me/blog/2019/01/06/bi-te-bi-de-jiao-yi-7/">之前的文章中</a>简要介绍过，但只是对网上的资料做了一番整理，人云亦云而已，实在是辜负了闪电网络；</p>
@@ -759,9 +759,9 @@ multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块�
   
   <entry>
     <title type="html"><![CDATA[Setup Lightning Node Cheat Sheet]]></title>
-    <link href="https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/11/18/setup-lightning-node-cheat-sheet/"/>
     <updated>2019-11-18T15:14:19+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/18/setup-lightning-node-cheat-sheet</id>
+    <id>https://brain-zhang.github.io/blog/2019/11/18/setup-lightning-node-cheat-sheet</id>
     <content type="html"><![CDATA[<p>运营一个闪电节点的基本命令速查；</p>
 
 <!-- more -->

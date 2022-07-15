@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Iptables | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/iptables/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/iptables/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Migrate Firewalld to Iptables on Centos7]]></title>
-    <link href="https://happy123.me/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/"/>
+    <link href="https://brain-zhang.github.io/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7/"/>
     <updated>2017-12-06T16:23:22+08:00</updated>
-    <id>https://happy123.me/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7</id>
+    <id>https://brain-zhang.github.io/blog/2017/12/06/migrate-firewalld-to-iptables-on-centos7</id>
     <content type="html"><![CDATA[<h2 id="firewall">关闭 FireWall</h2>
 
 <pre><code>systemctl stop firewalld.service #停止firewall

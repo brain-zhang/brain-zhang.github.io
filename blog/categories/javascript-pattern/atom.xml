@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Javascript_pattern | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/javascript-pattern/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/javascript-pattern/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Javascript设计模式 - 笔记3]]></title>
-    <link href="https://happy123.me/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/"/>
+    <link href="https://brain-zhang.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/"/>
     <updated>2015-01-24T11:30:02+08:00</updated>
-    <id>https://happy123.me/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3</id>
+    <id>https://brain-zhang.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3</id>
     <content type="html"><![CDATA[<p>javascript 里面的继承是个非常复杂的话题，一言蔽之，就是你要替解释器干点活。另外，javascript属于使用原型式继承的语言，这个比较少见，所以直觉上不好拐弯。</p>
 
 <p>先回顾比较简单的办法</p>
@@ -120,9 +120,9 @@ Author.getBooks = function() {return this.books;}</p>
   
   <entry>
     <title type="html"><![CDATA[Javascript设计模式 - 笔记2]]></title>
-    <link href="https://happy123.me/blog/2015/01/05/javascriptshe-ji-mo-shi-2/"/>
+    <link href="https://brain-zhang.github.io/blog/2015/01/05/javascriptshe-ji-mo-shi-2/"/>
     <updated>2015-01-05T09:05:16+08:00</updated>
-    <id>https://happy123.me/blog/2015/01/05/javascriptshe-ji-mo-shi-2</id>
+    <id>https://brain-zhang.github.io/blog/2015/01/05/javascriptshe-ji-mo-shi-2</id>
     <content type="html"><![CDATA[<h1 id="section">如何封装一个对象</h1>
 
 <h2 id="section-1">门户大开型</h2>
@@ -297,9 +297,9 @@ Book.converTotitleCase = function(){…};</p>
   
   <entry>
     <title type="html"><![CDATA[Javascript设计模式 - 笔记1]]></title>
-    <link href="https://happy123.me/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/"/>
+    <link href="https://brain-zhang.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/"/>
     <updated>2015-01-04T08:25:15+08:00</updated>
-    <id>https://happy123.me/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1</id>
+    <id>https://brain-zhang.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1</id>
     <content type="html"><![CDATA[<h1 id="javascript">富有表现力的javascript</h1>
 
 <h2 id="section">弱类型语言</h2>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Network | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/network/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/network/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Nginx配置多端口多域名访问]]></title>
-    <link href="https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/"/>
+    <link href="https://brain-zhang.github.io/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/"/>
     <updated>2019-11-18T15:52:07+08:00</updated>
-    <id>https://happy123.me/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen</id>
+    <id>https://brain-zhang.github.io/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen</id>
     <content type="html"><![CDATA[<p>在一个服务器上部署多个站点，需要开放多个端口来访问不同的站点，流程很简单，调试花了2小时，记录一下：</p>
 
 <!-- more -->
@@ -178,9 +178,9 @@ nginx -s reload
   
   <entry>
     <title type="html"><![CDATA[两个经典的排障故事]]></title>
-    <link href="https://happy123.me/blog/2018/10/04/liang-ge-jing-dian-de-pai-zhang-gu-shi/"/>
+    <link href="https://brain-zhang.github.io/blog/2018/10/04/liang-ge-jing-dian-de-pai-zhang-gu-shi/"/>
     <updated>2018-10-04T21:48:57+08:00</updated>
-    <id>https://happy123.me/blog/2018/10/04/liang-ge-jing-dian-de-pai-zhang-gu-shi</id>
+    <id>https://brain-zhang.github.io/blog/2018/10/04/liang-ge-jing-dian-de-pai-zhang-gu-shi</id>
     <content type="html"><![CDATA[<p>很久之前就在某杂志上看过，不久前在知乎<a href="https://www.zhihu.com/question/21747929">有哪些让你目瞪口呆的 bug</a>里面又见到了；我觉得这两个troubleshooting的case有很深的道理在里面，记一下。</p>
 
 <h3 id="section">电子邮件无法发送到500英里以外</h3>
@@ -308,9 +308,9 @@ You want: miles<br />
   
   <entry>
     <title type="html"><![CDATA[用wireshark分析网络]]></title>
-    <link href="https://happy123.me/blog/2018/10/02/yong-wiresharkfen-xi-wang-luo/"/>
+    <link href="https://brain-zhang.github.io/blog/2018/10/02/yong-wiresharkfen-xi-wang-luo/"/>
     <updated>2018-10-02T21:36:37+08:00</updated>
-    <id>https://happy123.me/blog/2018/10/02/yong-wiresharkfen-xi-wang-luo</id>
+    <id>https://brain-zhang.github.io/blog/2018/10/02/yong-wiresharkfen-xi-wang-luo</id>
     <content type="html"><![CDATA[<p>这两天看了两本有意思的书，<a href="https://book.douban.com/subject/26268767/">《Wireshark网络分析就这么简单》</a>、<a href="https://book.douban.com/subject/26710788/">《wireshark网络分析的艺术》</a>。</p>
 
 <p>之前工作中就常常用到这个软件，好多时候总是感叹<code>这个软件实在太NB了</code>，这本书作者也是个实战派，采用种种案例展示了如何用Wireshark探索网络现象，实在是很迷人。</p>
@@ -463,9 +463,9 @@ You want: miles<br />
   
   <entry>
     <title type="html"><![CDATA[云计算的诞生]]></title>
-    <link href="https://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng/"/>
+    <link href="https://brain-zhang.github.io/blog/2018/09/10/yun-ji-suan-de-dan-sheng/"/>
     <updated>2018-09-10T13:39:29+08:00</updated>
-    <id>https://happy123.me/blog/2018/09/10/yun-ji-suan-de-dan-sheng</id>
+    <id>https://brain-zhang.github.io/blog/2018/09/10/yun-ji-suan-de-dan-sheng</id>
     <content type="html"><![CDATA[<p>有一个很经典的问题: java和javascript是什么关系？</p>
 
 <p>然后小伙伴们是这样回答的:</p>
@@ -629,9 +629,9 @@ You want: miles<br />
   
   <entry>
     <title type="html"><![CDATA[为什么不用MAC地址来定位机器]]></title>
-    <link href="https://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/"/>
+    <link href="https://brain-zhang.github.io/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi/"/>
     <updated>2018-09-09T15:09:42+08:00</updated>
-    <id>https://happy123.me/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi</id>
+    <id>https://brain-zhang.github.io/blog/2018/09/09/wei-shi-yao-bu-yong-macdi-zhi-lai-ding-wei-ji-qi</id>
     <content type="html"><![CDATA[<p>在知乎看到了这个问题，MAC地址48Bit, IP地址32Bit，完全可以用MAC划分出一个段来作为IP的映射，或者干脆不用IP了，有啥不可以呢？</p>
 
 <p>我觉得问题挺有意思的。我推测了一下。</p>

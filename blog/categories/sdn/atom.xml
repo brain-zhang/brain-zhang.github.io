@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: SDN | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/sdn/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/sdn/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[有关于云计算及SDN]]></title>
-    <link href="https://happy123.me/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/"/>
+    <link href="https://brain-zhang.github.io/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn/"/>
     <updated>2016-05-10T08:25:16+08:00</updated>
-    <id>https://happy123.me/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn</id>
+    <id>https://brain-zhang.github.io/blog/2016/05/10/you-guan-yu-yun-ji-suan-ji-sdn</id>
     <content type="html"><![CDATA[<p>云计算和SDN这两个名词总是被许多人挂在嘴边，他们给人的印象就是在Qcon大会上念PPT的一拨人。</p>
 
 <p>作为一个实用党，下面我企图用一问一答的形式来瞎扯一番:</p>

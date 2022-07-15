@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Git | Living a Simple Life is a Happy Life]]></title>
-  <link href="https://happy123.me/blog/categories/git/atom.xml" rel="self"/>
-  <link href="https://happy123.me/"/>
-  <updated>2021-11-07T14:40:02+08:00</updated>
-  <id>https://happy123.me/</id>
+  <link href="https://brain-zhang.github.io/blog/categories/git/atom.xml" rel="self"/>
+  <link href="https://brain-zhang.github.io/"/>
+  <updated>2022-07-15T14:36:05+08:00</updated>
+  <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Git Cheat 2]]></title>
-    <link href="https://happy123.me/blog/2016/03/21/git-cheat-2/"/>
+    <link href="https://brain-zhang.github.io/blog/2016/03/21/git-cheat-2/"/>
     <updated>2016-03-21T09:49:54+08:00</updated>
-    <id>https://happy123.me/blog/2016/03/21/git-cheat-2</id>
+    <id>https://brain-zhang.github.io/blog/2016/03/21/git-cheat-2</id>
     <content type="html"><![CDATA[<h1 id="git-v2">整理一下经常忘记的Git命令 (版本v2)</h1>
 
 <p>http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html?utm_source=tool.lu</p>
@@ -381,9 +381,9 @@ git log --name-status
   
   <entry>
     <title type="html"><![CDATA[Git Cheat]]></title>
-    <link href="https://happy123.me/blog/2015/01/17/git-cheat/"/>
+    <link href="https://brain-zhang.github.io/blog/2015/01/17/git-cheat/"/>
     <updated>2015-01-17T11:45:03+08:00</updated>
-    <id>https://happy123.me/blog/2015/01/17/git-cheat</id>
+    <id>https://brain-zhang.github.io/blog/2015/01/17/git-cheat</id>
     <content type="html"><![CDATA[<p>整理一下经常忘记的Git命令</p>
 
 <h1 id="remote-">remote 同步</h1>
@@ -517,9 +517,9 @@ $ git diff –stat</p>
   
   <entry>
     <title type="html"><![CDATA[多个git账号之间的切换]]></title>
-    <link href="https://happy123.me/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/"/>
+    <link href="https://brain-zhang.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan/"/>
     <updated>2014-12-07T15:00:34+08:00</updated>
-    <id>https://happy123.me/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan</id>
+    <id>https://brain-zhang.github.io/blog/2014/12/07/duo-ge-gitzhang-hao-zhi-jian-de-qie-huan</id>
     <content type="html"><![CDATA[<p>做过很多遍了，却总是记不住，这回从头来描述一下。</p>
 
 <h1 id="section">介绍</h1>
