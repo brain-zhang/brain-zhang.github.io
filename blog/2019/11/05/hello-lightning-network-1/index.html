@@ -215,13 +215,13 @@ MathJax.Hub.Config({
 
 <p>local_balance和remote_balance可以在不关闭通道的情况下多次更新，但是如果不关闭或者拼接通道，通道容量无法更改；</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191106/bg0.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191106/bg0.png" alt="img" /></p>
 
 <blockquote>
   <p>我们可以把它想象成一个沙漏，虽然沙子的总量是固定的，但是我们可以在沙漏的上下部之间移动啥子，如果想要改变沙子的总量，就需要打破沙漏；</p>
 </blockquote>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191106/bg1.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191106/bg1.png" alt="img" /></p>
 
 <blockquote>
   <p>如图：以你的视角来看，你和ROBERT的通道容量是8 btc, local_balance是5btc，remote_balance是3btc; 以ROBERT的视角来看，他的local_balance是3btc，remote_balance是5btc</p>
@@ -229,7 +229,7 @@ MathJax.Hub.Config({
 
 <p>每次你付款时，都会把local_balance的部分余额推给对端的ROBERT。 同样的，当收到一笔付款时，local_balance也会增加，remote_balance会减少；</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191106/bg2.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191106/bg2.png" alt="img" /></p>
 
 <blockquote>
   <p>如图：当你支付ROBERT 1BTC时，你的local_balance减少1BTC，而remote_balance增加1BTC;</p>
@@ -255,7 +255,7 @@ MathJax.Hub.Config({
 
 <p>这个时候的闪电网络拓扑是这样的：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191106/bg3.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191106/bg3.png" alt="img" /></p>
 
 <blockquote>
   <p>你打开了一个连接到LNTOP的支付通道，并在其中放入2个BTC，你的local_balance是2BTC，remote_balance为0BTC</p>
@@ -279,7 +279,7 @@ MathJax.Hub.Config({
 
 <p>嗯……，当然不会这么简单……在一个复杂的网络中，即使你在直接相连的通道中有足够的remote_balance，但你不能保证支付路径上的每一个节点都有充足的remote_balance； 让我们揭示网络中所有节点的local_balance和remote_balance，来更好的理解资金如何流动。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191106/bg4.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191106/bg4.png" alt="img" /></p>
 
 <blockquote>
   <p>如图: LNTOP是一个大的中转节点，与他相邻的每个节点都有LNTOP提供的remote_balance</p>
@@ -287,7 +287,7 @@ MathJax.Hub.Config({
 
 <p>这样你与LNTOP的支付通道中，你的remote_balance为3BTC， 而LNTOP与ANGELA的支付渠道中，LNTOP的remote_balance为2BTC，这样ANGELA最多能发送给你2BTC；</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/memoryboxes.github.io/source/images/20191106/bg5.gif" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191106/bg5.gif" alt="img" /></p>
 
 <blockquote>
   <p>如图：ANGELA为你发送了1BTC</p>
