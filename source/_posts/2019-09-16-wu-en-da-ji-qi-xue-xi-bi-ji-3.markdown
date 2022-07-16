@@ -25,7 +25,7 @@ categories: develop ai
 
 #### 模型表示
 
-![](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190916/bg1.jpg)
+![](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190916/bg1.jpg)
 
 
 第一层称为输入层（Input Layer），最后一 层称为输出层（Output Layer），中间一层称为隐藏层（Hidden Layers）。在神经网络中，参数又可被称为权重（weight）。我们为每一层都增加一个偏差单位（bias unit）
@@ -101,7 +101,7 @@ def onehot(x):
 
 #### 代价函数
 
-![](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190916/bg2.jpg)
+![](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190916/bg2.jpg)
 
 通过代价函数来观察算法预测的结果与真实情况的误差有多大，与逻辑回归唯一不同的是，对于每一行特征，我们都会给出 K 个预测，基本上我们可以利用循环，对每一行特征都预测 K 个不同结果，然后在利用循环
 在 K 个预测中选择可能性最高的一个，将其与 y 中的实际数据进行比较。 

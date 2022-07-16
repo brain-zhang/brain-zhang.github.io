@@ -152,7 +152,7 @@ WIF格式和比特币地址都是用Base58Check编码表示的，Base58是Base64
 
 最后综合起来，从公钥K到比特币地址完整的示意图如下:
 
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181102/bg1.jpg)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181102/bg1.jpg)
 
 `satoshi`作为seed计算出私钥，进而计算出公钥K之后，最终进一步生成地址
 

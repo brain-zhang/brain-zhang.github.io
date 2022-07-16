@@ -56,7 +56,7 @@ categories: blockchain lightning
 
 一个最基本的LOOP循环包含下面这几个步骤：
 
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191130/bg1.jpg)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191130/bg1.jpg)
 
 我们假设商家的名字叫Bob，他想用自己的链上钱包充值一个闪电通道，他连接到了一个LOOP服务，这个LOOP服务可以是Bob自己架设，也可以是不需要信任的第三方假设的；
 

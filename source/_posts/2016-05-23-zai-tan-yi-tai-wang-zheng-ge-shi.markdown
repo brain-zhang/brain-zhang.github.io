@@ -15,7 +15,7 @@ categories: network
 
 下图定义了两种不同形式的封装格式：
 
-![802.3](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/802_3.jpg)
+![802.3](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/802_3.jpg)
 
 在以太网帧格式中，类型字段之后就是数据，而在802帧格式中，跟随在后面的3字节的802.2LLC和5字节的802.2SNAP。
 

@@ -62,14 +62,14 @@ https://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system/
 答案肯定不会是简单的 1/3。那不如先来看看酒鬼最初的几步会发生什么。下图是对这个酒鬼最初几步所有可能的轨迹的枚举。
 
 
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg1.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg1.png)
 
 
 从图中可以看到，达到`0` 即意味着跌落悬崖。所以在 `0` 的那些概率的和便是酒鬼前六步掉下悬崖的概率。这个图可以无限推演下去。
 
 所以让我们把这个场景放到数轴上，换一种方式来看。如此一来醉鬼悬崖边漫步就相当于质点沿轴心运动这类问题了。酒鬼在这个数轴上随意地左右走动， 走到 x = 0 的位置意味着被吸收 ，也就是摔下了悬崖。
 
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg2.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg2.png)
 
 假设他向右一步的概率为 `p`，向左的概率为 `1－p`。当他在 `x = n（n>0）` 的位置的时候，不是向右就是向左。记 `P（n）`为从 `x = n` 的位置出发，最后到达 `x = 0` 被吸收的概率。酒鬼一开始在 `x = 1` 的位置，我们要求的就是他到 0 的概率。
 
@@ -111,7 +111,7 @@ P(1) = 1 - p + p* P(1)²
 
 而如果 p 在 （1/2 , 1） 这个区间里，这时候酒鬼摔落悬崖的概率实际上是一个关于 p 的连续函数。我们可以做出 P(1) 的图像如下
 
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg3.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg3.png)
 
 现在让我们回答最初的问题，当酒鬼向后走的概率为2/3时，他摔下悬崖的概率为 1/2 。 很违背直觉的结果，保持一半清醒是不够的，最少要2/3的清醒。
 
@@ -178,7 +178,7 @@ p(n+1) - p(n) = p(n) - p(n-1)
 首先研究k，假定诚实矿工以均匀的速度出块，则k近似服从泊松分布：`P(k, λ)`；
 
 就是“在一个指定长度的固定区间内有k个点（事件）”的概率。诚实矿工出z块的时间即“指定长度的固定区间”，攻击矿工出块次数k即“事件”，每种k出现的概率是:
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg4.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg4.png)
 
 其中λ是攻击矿工出块的期望，假设比特币的算力简化计算为:
 
@@ -190,17 +190,17 @@ z是防御者的工作量，p是防御者的速度，z/p是防御者消耗的时
 
 
 根据赌徒破产问题，在落后了z-k个块之后仍旧能追上的概率是:
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg5.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg5.png)
 
 追不上的概率为:
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg6.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg6.png)
 
 每种k (k<=z)出现的概率，乘以它追不上的概率，就是这个k的失败率:
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg7.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg7.png)
 
 
 1-所有攻击失败情况的概率之和，就是攻击成功的概率:
-![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181117/bg8.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181117/bg8.png)
 
 ## 总结
 
