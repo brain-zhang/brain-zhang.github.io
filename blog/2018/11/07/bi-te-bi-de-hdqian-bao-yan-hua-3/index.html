@@ -172,7 +172,7 @@ MathJax.Hub.Config({
 
 <p>首先用一张经典的图来描述HD钱包的私钥生成:</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181113/bg1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181113/bg1.jpg" alt="img" /></p>
 
 <p>分层钱包说白了，就是将<code>seed-&gt;私钥</code>的过程变成了，<code>助记词-&gt;seed-&gt;一级私钥-&gt;二级私钥-&gt;三级私钥....</code>，即多层树状私钥生成的方案。HD钱包包含以树状结构衍生的密钥，使得父密钥可以衍生一系列子密钥，每个子密钥又可以衍生出一系列孙密钥，以此类推，无限衍生。HD钱包有两个主要的优势。</p>
 
@@ -279,7 +279,7 @@ MathJax.Hub.Config({
 
 <p>一张图展示熵如何生成助记词:</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181113/bg2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181113/bg2.jpg" alt="img" /></p>
 
 <p>在上面这个例子中，我们选取了128Bits 原始熵，BIP39规范中，用户有128bits, 160bits, 192bits, 224bits, 256bits多个选择;下面的表格说明了熵数据的大小和助记词的长度之间的关系:</p>
 
@@ -422,7 +422,7 @@ MathJax.Hub.Config({
   <li>3、 这个512bits的<code>I</code>可以分为两个部分，左边的256bits用作Master Private Key，右边的256bits用作Master Chain Code。Master Private Key又可以推导出Master Public Key。整个表示如下:</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181113/bg3.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181113/bg3.jpg" alt="img" /></p>
 
 <ul>
   <li>
@@ -502,7 +502,7 @@ MathJax.Hub.Config({
 
 <p>这种解决方案的另一种常见的应用是冷藏或者硬件钱包。在这种情况下，扩展的私钥可以被储存在纸质钱包中或者硬件设备中（比如 Trezor 硬件钱包），与此同时扩展公钥可以在线保存。使用者可以根据意愿创造“接收”地址而私钥可以安全地在线下被保存。为了支付资金，使用者可以使用扩展的私钥离线签署比特币客户或者通过硬件钱包设备（比如 Trezor）签署交易。下图阐述了扩展母公钥来衍生子公钥的传递机制。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181113/bg4.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181113/bg4.jpg" alt="img" /></p>
 
 <h4 id="section-8">硬化子密钥的衍生</h4>
 
@@ -510,7 +510,7 @@ MathJax.Hub.Config({
 
 <p>为了应对这种风险，HD钱包使用一种叫做硬化衍生(hardened derivation）的替代衍生函数。这就“打破”了母公钥以及子链码之间的关系。这个硬化衍生函数使用了母私钥去推导子链码，而不是母公钥。这就在母/子顺序中创造了一道“防火墙”——有链码但并不能够用来推算子链码或者姊妹私钥。强化衍生函数看起来几乎与一般的衍生的子私钥相同，不同的是母私钥被用来输入散列函数中而不是母公钥，如图所示。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20181113/bg5.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181113/bg5.jpg" alt="img" /></p>
 
 <p>当强化私钥衍生函数被使用时，得到的子私钥以及链码与使用一般衍生函数所得到的结果完全不同。得到的密钥“分支”可以被用来生产不易被攻击的扩展公钥，因为它所含的链码不能被用来开发或者暴露任何私钥。强化衍生也因此被用在上一层级，使用扩展公钥的密钥树中创造“间隙”。</p>
 

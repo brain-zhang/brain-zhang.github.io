@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-07-15T14:59:11+08:00</updated>
+  <updated>2022-07-16T20:24:34+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -1846,7 +1846,7 @@
 
 <p>一个最基本的LOOP循环包含下面这几个步骤：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191130/bg1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191130/bg1.jpg" alt="img" /></p>
 
 <p>我们假设商家的名字叫Bob，他想用自己的链上钱包充值一个闪电通道，他连接到了一个LOOP服务，这个LOOP服务可以是Bob自己架设，也可以是不需要信任的第三方假设的；</p>
 
@@ -2322,7 +2322,7 @@
 
 <p>这笔交易被称之为Funding Tx，一般翻译为保证金交易；Funding Tx交易输出的资金需要Alice和Bob两个人的签名同意才能动用；</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191126/bg0-1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191126/bg0-1.jpg" alt="img" /></p>
 
 <p>Funding Tx构造之后，最终资金如何花费需要取得双方的同意，当双方产生分歧时，这笔钱就有可能冻结在这个地址永远无法花费，所以此时还不能广播上链；所以支付通道建立初期， 状况是这样的：</p>
 
@@ -2343,7 +2343,7 @@
 
 <p>于是我们产生了一个初步的方案：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191126/bg0-2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191126/bg0-2.jpg" alt="img" /></p>
 
 <p>Alice构造了C1a交易，这笔交易的Input是Funing Tx的output，但是输出上做了限制，它将资金分配到了两个output:</p>
 
@@ -2372,7 +2372,7 @@
 
 <p>聪明的Alice和Bob再次对他们的通道交易做了升级，现在通道里面的交易变成了这样：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190106/bg1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190106/bg1.jpg" alt="img" /></p>
 
 <p>在Alice一方， 又增加了一笔交易， 即RD1a；</p>
 
@@ -2388,13 +2388,13 @@
 
 <p>于是创建新的Commitment Tx，对于Alice来说是C2a 和RD2a，对于Bob来说是C2b和RD2b，过程与上面类似。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190106/bg2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190106/bg2.jpg" alt="img" /></p>
 
 <p>交易更新时的交易结构–此时两个状态均是有效的，那么最核心的问题来了，如何才能彻底废弃掉C1a和C1b呢？</p>
 
 <p>RSMC采用了一个非常巧妙的方法，在C1a的第一个输出中，采用了Alice2和Bob的多重签名，Alice将Alice2 的私钥交给Bob，即表示Alice放弃C1a，承认C2a。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190106/bg3.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190106/bg3.jpg" alt="img" /></p>
 
 <p>Alice交出Alice2的私钥给Bob，那么Bob就可以修改RD1a的输出给他自己，形成新的交易BR1a。</p>
 
@@ -2428,7 +2428,7 @@
 
 <p>Alice想要支付0.5BTC给Bob，但她并没有一个渠道来和他进行交易。幸运的是，她和Charlie有一个交易渠道，而Charlie正好和Bob有一个交易渠道。这样Alice就能借助Charlie的交易渠道，通过哈希时间锁定合约（HTLC）来和Bob进行交易了。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190106/bg4.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190106/bg4.png" alt="img" /></p>
 
 <p>为了完成这次交易，Alice就会给Bob发短信说：“嘿！我要给你付笔款。”这时Bob自己将收到一个随机数字（R），接着Bob便会回一个被哈希的数字（H）（你可以认为被哈希的数字R是随机数字的一种加密形式）给Alice。</p>
 
@@ -2446,7 +2446,7 @@
 
 <p>让我们用一个更复杂的例子来好好理清这个交易过程吧！</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191126/bg1-0.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191126/bg1-0.jpg" alt="img" /></p>
 
 <p>在这个例子中，我们有五个参与者：Alice、Bob、Carol、Diana和Eric。这五名参与者彼此之间已经开设了支付通道。Alice和Bob有支付通道。Bob连接Carol，Carol连接到Diana，Diana连接Eric。为了简单起见，我们假设每个通道每个参与者都注资2个比特币资金，每个通道的总容量为4个比特币。</p>
 
@@ -2537,13 +2537,13 @@
 
 <p>那么让我们再次继续RSMC中的例子，假设Alice和Bob已经在Funding Tx的基础上建立了Commitment Tx，并且每个人都注入了0.5BTC，现在Alice想要为Bob构造一个输出为0.1BTC的HTLC，细节是这样的：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191126/htlc2-1.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191126/htlc2-1.jpg" alt="img" /></p>
 
 <p>这个图跟我们在更新Commitment Tx的时候没有多大区别，最大的不同就是我们多了一个Output: 即C2a,C2b中的Output2;</p>
 
 <p>这个输出就代表着0.1BTC的HTLC的完整逻辑；要花费它可以有两种方式，就是我们上面所定义的两种路径：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191126/htlc2-2.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191126/htlc2-2.jpg" alt="img" /></p>
 
 <p>我们以Alice的视角，来观察C2a交易中的HTLC输出，拆分为HT1a和HED1a；</p>
 
@@ -2559,7 +2559,7 @@
 
 <p>经历了漫长的探索，我们最终得到了闪电网络白皮书中这样一张大图：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20191126/bg1-1.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20191126/bg1-1.png" alt="img" /></p>
 
 <ul>
   <li>当我们以Alice视角来看待HT1a交易时： </li>

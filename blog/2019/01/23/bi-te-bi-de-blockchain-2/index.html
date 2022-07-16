@@ -221,7 +221,7 @@ MathJax.Hub.Config({
 
 <p>想象当中，两条链的结构是这样的:</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg1.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg1.png" alt="img" /></p>
 
 <p>那么，挖矿的难度应该怎么设计呢？我们要求该父链区块的难度必须符合辅链的难度要求：</p>
 
@@ -235,7 +235,7 @@ MathJax.Hub.Config({
 
 <p>辅链除了用prev block 指针组成一条chain，还又引入了另外一个指针： parent block； 这样每几个block可以归附于一个parent block，挂接在主链的同一个block下面；这样就实现了挖一个主链block，附带挖多个辅链block；结构如下:</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg2.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg2.png" alt="img" /></p>
 
 <p>在这张图中，主链的block100只挂接了辅链的blockB100，但是blockB101，blockB102都指向同样的parent block，就是blockB100，这样就实现了只用主链的blockB100，同时挂接辅链的三个区块(blockB100、blockB101、block102)；</p>
 
@@ -257,15 +257,15 @@ MathJax.Hub.Config({
 
 <p>最终的设计细节如下:</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg3.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg3.png" alt="img" /></p>
 
 <p>AuxPOW协议对两条链都有一些数据结构方面的规定，对于父链，要求必须在区块的coinbase的scriptSig字段中插入如下格式的44字节数据：</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg4.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg4.png" alt="img" /></p>
 
 <p>对于辅链，对原区块结构改动比较大，在nNonce字段和txn_count之间插入了5个字段，这种区块取名AuxPOW区块。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg5.png" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg5.png" alt="img" /></p>
 
 <blockquote>
   <p>混合挖矿要求父链和辅链的算法一致，是否支持混合挖矿是矿池的决定，矿工不知道是否在混合挖矿。矿池如果支持混合挖矿，需要对接所有辅链的节点。</p>
@@ -388,7 +388,7 @@ MathJax.Hub.Config({
 
 <p>从侧链转比特币到主链的过程也是如此。这就是侧链双向锚定协议。</p>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg6.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg6.jpg" alt="img" /></p>
 
 <h2 id="blockstream-liquid">Blockstream Liquid协议</h2>
 
@@ -441,13 +441,13 @@ MathJax.Hub.Config({
   </li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg7.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg7.jpg" alt="img" /></p>
 
 <ul>
   <li>Alice再看了一部电影，那么她需要再支付0.1BTC给Bob。于是，Alice构造另一笔交易PTX2：输入依然是交易FTX；输出为两个地址，其中Alice为0.8BTC，Bob为0.2BTC。Alice对该交易签名，并将交易和她的签名给Bob:</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github..io/source/images/20190311/bg8.jpg" alt="img" /></p>
+<p><img src="https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20190311/bg8.jpg" alt="img" /></p>
 
 <ul>
   <li>
