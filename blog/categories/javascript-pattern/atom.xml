@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript_pattern | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/javascript-pattern/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-07-26T16:11:12+08:00</updated>
+  <updated>2022-07-26T16:13:17+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -36,7 +36,7 @@ function Person(name) {
     return this.name;
 }</p>
 
-<p>var reader = new Person(‘memoryboxes’);
+<p>var reader = new Person(‘brainzhang’);
 reader.getName();</p>
 
 <p>```</p>
