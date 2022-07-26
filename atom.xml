@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[memoryboxes blog]]></title>
+  <title><![CDATA[brainzhang blog]]></title>
   <link href="http://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="http://brain-zhang.github.io/"/>
   <updated>2015-07-14T09:11:11+00:00</updated>
   <id>http://brain-zhang.github.io/</id>
   <author>
-    <name><![CDATA[memoryboxes]]></name>
+    <name><![CDATA[brainzhang]]></name>
 
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -1826,7 +1826,7 @@
 
 <p>需要注意的是，如果想要tcpdump macvtap，需要linux kernel 3.14以上的支持，参见<a href="https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523">这里</a>。</p>
 
-<p>最后推荐为了简化macvlan的操作，我写的一个小工具:<a href="https://github.com/memoryboxes/dockerfly">dockerfly</a></p>
+<p>最后推荐为了简化macvlan的操作，我写的一个小工具:<a href="https://github.com/brain-zhang/dockerfly">dockerfly</a></p>
 
 <p>参考:</p>
 
