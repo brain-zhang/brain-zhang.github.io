@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-07-26T15:09:47+08:00</updated>
+  <updated>2022-07-26T15:26:52+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ZFS Cheat]]></title>
+    <link href="https://brain-zhang.github.io/blog/2022/07/26/zfs-cheat/"/>
+    <updated>2022-07-26T15:14:19+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2022/07/26/zfs-cheat</id>
+    <content type="html"><![CDATA[<h2 id="zfs-">ZFS 使用命令小集</h2>
+
+<h4 id="zpool">列出zpool磁盘</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs list</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="pool">查看pool状态</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool status</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section">替换坏掉的硬盘</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool replace -f pool0 /dev/sdb</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-1">查看是否开启重复数据删除</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs get dedup pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-2">开启重复数据删除</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs set dedup=on pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-3">获取去重比例</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># zpool get dedupratio pool1
+</span><span class="line">
+</span><span class="line">NAME  PROPERTY    VALUE  SOURCE
+</span><span class="line">tank  dedupratio  1.42x  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-4">查看是否开启压缩</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs get compress pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-5">开启压缩</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs set compress=lz4 pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>或者
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">zfs set compress=on pool1</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<p>从2015年zfs版本后，默认压缩为lz4格式， compresss=on 即代表压缩为lz4， <a href="!http://open-zfs.org/wiki/Performance_tuning#Compression">参考</a></p>
+
+<h4 id="section-6">获取压缩比例</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">root@ypcpve:~# zfs get compressratio zpool0
+</span><span class="line">NAME    PROPERTY       VALUE  SOURCE
+</span><span class="line">zpool0  compressratio  1.15x  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-7">强制删除不用的硬盘</h3>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs destroy -f zpool0/vm-102-disk-2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="sparse">开启空间自动回收机制(sparse)</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs set refreservation=0G NVMe/vm-901-disk-0</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-8">查看磁盘负载</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool iostat</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-9">查看磁盘状态及容量</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">root@proxmox4 ~ &gt; zfs list rpool/data/vm-100-disk-1
+</span><span class="line">NAME                       USED  AVAIL  REFER  MOUNTPOINT
+</span><span class="line">rpool/data/vm-100-disk-1   132G   832G    64K  -
+</span><span class="line">
+</span><span class="line">root@proxmox4 ~ &gt; zfs get all rpool/data/vm-100-disk-1
+</span><span class="line">NAME                      PROPERTY              VALUE                 SOURCE
+</span><span class="line">rpool/data/vm-100-disk-1  type                  volume                -
+</span><span class="line">rpool/data/vm-100-disk-1  creation              Mi Feb 21 13:29 2018  -
+</span><span class="line">rpool/data/vm-100-disk-1  used                  132G                  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Limit Exists Running Docker Container Cpus]]></title>
@@ -2605,262 +2699,6 @@ multisig（PAlice4，PBob4）的交易取代 HTRD1a，它没有对任何区块�
 <p>https://blog.lightning.engineering/posts/2018/05/30/routing.html</p>
 
 <p>https://blog.lightning.engineering/technical/posts/2019/04/15/loop-out-in-depth.html</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Nginx配置多端口多域名访问]]></title>
-    <link href="https://brain-zhang.github.io/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen/"/>
-    <updated>2019-11-18T15:52:07+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2019/11/18/nginxpei-zhi-duo-duan-kou-duo-yu-ming-fang-wen</id>
-    <content type="html"><![CDATA[<p>在一个服务器上部署多个站点，需要开放多个端口来访问不同的站点，流程很简单，调试花了2小时，记录一下：</p>
-
-<!-- more -->
-
-<h2 id="section">主域名多端口访问</h2>
-
-<h4 id="dns-nameservera">在DNS NameServer设置A记录</h4>
-
-<p>将 www.xxx.com 指向服务器ip</p>
-
-<h4 id="nginx">开放所需端口，修改nginx配置文件</h4>
-
-<p>比如我们有两个服务分别开放在80端口和8080端口</p>
-
-<p>如果有iptable，先开放端口：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">iptables -A INPUT -ptcp --dport 80 -j ACCEPT
-</span><span class="line">iptables -A INPUT -ptcp --dport 8080 -j ACCEPT</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>修改配置文件:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-<span class="line-number">42</span>
-<span class="line-number">43</span>
-<span class="line-number">44</span>
-<span class="line-number">45</span>
-<span class="line-number">46</span>
-<span class="line-number">47</span>
-<span class="line-number">48</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">#path: /usr/local/nginx/conf/nginx.conf
-</span><span class="line">
-</span><span class="line">server {
-</span><span class="line">listen 80;
-</span><span class="line">server_name www.xxx.com;
-</span><span class="line">access_log /data/www/log/33.33.33.33_nginx.log combined;
-</span><span class="line">index index.html index.htm index.php;
-</span><span class="line">include /usr/local/nginx/conf/rewrite/none.conf;
-</span><span class="line">root /data/www/website/33.33.33.33:80;
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">location ~ [^/]\.php(/|$) {
-</span><span class="line">    fastcgi_pass unix:/dev/shm/php-cgi.sock;
-</span><span class="line">    fastcgi_index index.php;
-</span><span class="line">    include fastcgi.conf;
-</span><span class="line">    }
-</span><span class="line">location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
-</span><span class="line">    expires 30d;
-</span><span class="line">    access_log off;
-</span><span class="line">    }
-</span><span class="line">location ~ .*\.(js|css)?$ {
-</span><span class="line">    expires 7d;
-</span><span class="line">    access_log off;
-</span><span class="line">    }
-</span><span class="line">}
-</span><span class="line">server {
-</span><span class="line">listen 8080;
-</span><span class="line">server_name A.xxx.com;
-</span><span class="line">access_log /data/www/log/33.33.33.33:8080_nginx.log combined;
-</span><span class="line">index index.html index.htm index.php;
-</span><span class="line">include /usr/local/nginx/conf/rewrite/none.conf;
-</span><span class="line">root /data/www/website/33.33.33.33:8080;
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">location ~ [^/]\.php(/|$) {
-</span><span class="line">    fastcgi_pass unix:/dev/shm/php-cgi.sock;
-</span><span class="line">    fastcgi_index index.php;
-</span><span class="line">    include fastcgi.conf;
-</span><span class="line">    }
-</span><span class="line">location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
-</span><span class="line">    expires 30d;
-</span><span class="line">    access_log off;
-</span><span class="line">    }
-</span><span class="line">location ~ .*\.(js|css)?$ {
-</span><span class="line">    expires 7d;
-</span><span class="line">    access_log off;
-</span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>关键就是两个<code>server</code>段配置，你也可以把这两段拆成两个配置文件，放到</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/etc/nginx/conf.d/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>目录下面；</p>
-
-<h2 id="section-1">子域名多端口访问</h2>
-
-<p>这种访问比较傻，因为你的8080端口的访问需要 http://xxx.com:8080 这样的格式；</p>
-
-<p>而且如果有两个不同的cgi，比如80端口对应一个php web服务， 8080端口对应一个nodejs web服务；而我们的nodejs自带web服务，已经在8080端口监听了，这怎么办？</p>
-
-<p>这个时候我们需要Nginx的反向代理功能，并在DNS Server上面增加一条A记录，最终实现</p>
-
-<ul>
-  <li>www.xxx.com 访问80端口</li>
-  <li>A.xxx.com 通过nginx转发访问8080端口服务</li>
-</ul>
-
-<h5 id="a">增加一条A记录</h5>
-
-<p>将 A.xxx.com 指向服务器ip</p>
-
-<h5 id="nginx-1">Nginx配置模板如下：</h5>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-<span class="line-number">42</span>
-<span class="line-number">43</span>
-<span class="line-number">44</span>
-<span class="line-number">45</span>
-<span class="line-number">46</span>
-<span class="line-number">47</span>
-<span class="line-number">48</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">#path: /usr/local/nginx/conf/nginx.conf
-</span><span class="line">
-</span><span class="line">server {
-</span><span class="line">    listen 80;
-</span><span class="line">    server_name www.xxx.com;
-</span><span class="line">    access_log /data/www/log/33.33.33.33_nginx.log combined;
-</span><span class="line">    index index.html index.htm index.php;
-</span><span class="line">    include /usr/local/nginx/conf/rewrite/none.conf;
-</span><span class="line">    root /data/www/website/33.33.33.33:80;
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">    location ~ [^/]\.php(/|$) {
-</span><span class="line">        fastcgi_pass unix:/dev/shm/php-cgi.sock;
-</span><span class="line">        fastcgi_index index.php;
-</span><span class="line">        include fastcgi.conf;
-</span><span class="line">        }
-</span><span class="line">    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|ico)$ {
-</span><span class="line">        expires 30d;
-</span><span class="line">        access_log off;
-</span><span class="line">        }
-</span><span class="line">    location ~ .*\.(js|css)?$ {
-</span><span class="line">        expires 7d;
-</span><span class="line">        access_log off;
-</span><span class="line">        }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">server {
-</span><span class="line">    listen 80;
-</span><span class="line">    listen [::]:80;
-</span><span class="line">
-</span><span class="line">    server_name A.XXX.com;
-</span><span class="line">
-</span><span class="line">    proxy_connect_timeout  300s;
-</span><span class="line">    proxy_send_timeout  300s;
-</span><span class="line">    proxy_read_timeout  300s;
-</span><span class="line">    fastcgi_send_timeout 300s;
-</span><span class="line">    fastcgi_read_timeout 300s;
-</span><span class="line">
-</span><span class="line">    location / {
-</span><span class="line">        proxy_pass    http://127.0.0.1:3000;
-</span><span class="line">        proxy_http_version 1.1;
-</span><span class="line">        proxy_set_header Upgrade $http_upgrade;
-</span><span class="line">        proxy_set_header Connection 'upgrade';
-</span><span class="line">        proxy_set_header Host $host;
-</span><span class="line">        proxy_cache_bypass $http_upgrade;
-</span><span class="line">        try_files $uri $uri/ =404;
-</span><span class="line">    }
-</span><span class="line">}
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="nginx-2">nginx重新载入配置文件</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">nginx -s reload</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   

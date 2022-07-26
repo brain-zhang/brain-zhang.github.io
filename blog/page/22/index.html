@@ -100,6 +100,61 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/">svn1.7+ Zsh报错</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-17T08:40:14+08:00" pubdate data-updated="true">Sep 17<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2014/09/17/svn1-dot-7-plus-zshbao-cuo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更新svn(subversion)&gt;1.7后 zsh 的svn自动完成会报错。</p>
+
+<p><code>_arguments:comparguments:312: invalid argument: [--cl]:arg:</code></p>
+
+<p>修改方法:</p>
+
+<p>打开文件：/usr/share/zsh/4.3.11/functions/_subversion</p>
+
+<p>找到35行左右</p>
+
+<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:arg:)#/(--$match[2])-    $match[1]$match[3] (-$match[1])--$match[2]$match[3]}</code>
+改为</p>
+
+<p><code>${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}</code></p>
+
+<p>参考资料：
+http://www.zsh.org/mla/workers/2011/msg01448.html</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/17/zi-ding-yi-djangode-mi-ma-ce-lue/">自定义Django的密码策略</a></h1>
     
     
@@ -1028,113 +1083,6 @@ yumdownloader &lt;package&gt; --resolve
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">批量删除mongo Collections</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-27T09:24:04+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>mongodb没有批量删除collecton的命令，平常建立了很多a1,a2,a3的表删除有些麻烦，写个小脚本方便些。</p>
-
-<pre><code>mongorm.sh -d database -c a*
-</code></pre>
-
-<p>就很方便删除了。</p>
-
-<pre><code>#!/bin/bash
-# remove mongodb's collections with command "mongn rm app*"
-# Usage `mongorm &lt;-c collections*&gt; &lt;-d dababase&gt;`
-
-E_BADARGS=85
-E_NOFILE=86
-
-DATABASE=''
-COLLECTIONS=''
-
-while getopts "c:d:h" arg
-do
-        case $arg in
-             c)
-                echo "-c $OPTARG"
-                COLLECTIONS=$OPTARG
-                ;;
-             d)
-                echo "-d $OPTARG"
-                DATABASE=$OPTARG
-                ;;
-             h)
-                 echo "mongorm &lt;-d database&gt; &lt;-c collections&gt;"
-                 echo "for exp:"
-                 echo "        mongorm -d bpc -c app*"
-                 ;;
-             ?)
-                echo "unkonw argument"
-        exit 1
-        ;;
-        esac
-done
-
-if [[ -z "$DATABASE" ]]
-    # Correct number of arguments passed to script?
-then
-    echo 'Usage: -d database'
-    echo 'please do mongorm.sh -h to get more info'
-    exit $E_BADARGS
-fi
-
-if [[ -z "$COLLECTIONS" ]]
-    # Correct number of arguments passed to script?
-then
-    echo 'Usage: -c collections'
-    echo 'please do mongorm.sh -h to get more info'
-    exit $E_BADARGS
-fi
-
-mongojs_rm_function=`cat &lt;&lt; EOF
-db.getCollectionNames().forEach(function(c) {
-    if(c.match("$COLLECTIONS")) {
-                db.getCollection(c).drop();
-                    }
-                  });
-EOF
-`
-echo $mongojs_rm_function&gt;remove.js
-
-mongo 127.0.0.1:27017/$DATABASE remove.js
-rm -rf remove.js
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/23/">&larr; Older</a>
@@ -1152,6 +1100,10 @@ rm -rf remove.js
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2022/07/26/zfs-cheat/">ZFS Cheat</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/11/07/how-to-limit-docker-cpus/">How to Limit Exists Running Docker Container Cpus</a>
       </li>
     
@@ -1165,10 +1117,6 @@ rm -rf remove.js
     
       <li class="post">
         <a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/">How to Become Superuser on Ubuntu Linux</a>
       </li>
     
   </ul>
@@ -1281,7 +1229,7 @@ rm -rf remove.js
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (81)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (82)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

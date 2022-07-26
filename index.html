@@ -100,6 +100,130 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2022/07/26/zfs-cheat/">ZFS Cheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2022-07-26T15:14:19+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2022</time>
+        
+           | <a href="/blog/2022/07/26/zfs-cheat/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2022/07/26/zfs-cheat/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="zfs-">ZFS 使用命令小集</h2>
+
+<h4 id="zpool">列出zpool磁盘</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs list</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="pool">查看pool状态</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool status</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section">替换坏掉的硬盘</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool replace -f pool0 /dev/sdb</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-1">查看是否开启重复数据删除</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs get dedup pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-2">开启重复数据删除</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs set dedup=on pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-3">获取去重比例</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># zpool get dedupratio pool1
+</span><span class="line">
+</span><span class="line">NAME  PROPERTY    VALUE  SOURCE
+</span><span class="line">tank  dedupratio  1.42x  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-4">查看是否开启压缩</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs get compress pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-5">开启压缩</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs set compress=lz4 pool1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>或者
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">zfs set compress=on pool1</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<p>从2015年zfs版本后，默认压缩为lz4格式， compresss=on 即代表压缩为lz4， <a href="!http://open-zfs.org/wiki/Performance_tuning#Compression">参考</a></p>
+
+<h4 id="section-6">获取压缩比例</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">root@ypcpve:~# zfs get compressratio zpool0
+</span><span class="line">NAME    PROPERTY       VALUE  SOURCE
+</span><span class="line">zpool0  compressratio  1.15x  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-7">强制删除不用的硬盘</h3>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs destroy -f zpool0/vm-102-disk-2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="sparse">开启空间自动回收机制(sparse)</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs set refreservation=0G NVMe/vm-901-disk-0</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-8">查看磁盘负载</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool iostat</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-9">查看磁盘状态及容量</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">root@proxmox4 ~ &gt; zfs list rpool/data/vm-100-disk-1
+</span><span class="line">NAME                       USED  AVAIL  REFER  MOUNTPOINT
+</span><span class="line">rpool/data/vm-100-disk-1   132G   832G    64K  -
+</span><span class="line">
+</span><span class="line">root@proxmox4 ~ &gt; zfs get all rpool/data/vm-100-disk-1
+</span><span class="line">NAME                      PROPERTY              VALUE                 SOURCE
+</span><span class="line">rpool/data/vm-100-disk-1  type                  volume                -
+</span><span class="line">rpool/data/vm-100-disk-1  creation              Mi Feb 21 13:29 2018  -
+</span><span class="line">rpool/data/vm-100-disk-1  used                  132G                  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2021/11/07/how-to-limit-docker-cpus/">How to Limit Exists Running Docker Container Cpus</a></h1>
     
     
@@ -562,52 +686,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file/">How to Modify an Invalid &#8216;/etc/sudoers&#8217; File?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2021-01-09T16:16:31+08:00" pubdate data-updated="true">Jan 9<span>th</span>, 2021</time>
-        
-           | <a href="/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>刚说小心驶得万年船，就想自己偷奸耍滑，手工裸编辑 <code>/etc/sudoers</code> 文件把sudo权限搞挂了…-_-</p>
-
-<p>仔细瞅了瞅，少加了一个冒号，导致现在进退两难…</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2021/01/09/how-to-modify-an-invalid-slash-etc-slash-sudoers-file/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -623,6 +701,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2022/07/26/zfs-cheat/">ZFS Cheat</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2021/11/07/how-to-limit-docker-cpus/">How to Limit Exists Running Docker Container Cpus</a>
       </li>
     
@@ -636,10 +718,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/">How to Become Superuser on Ubuntu Linux</a>
       </li>
     
   </ul>
@@ -752,7 +830,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (81)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (82)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

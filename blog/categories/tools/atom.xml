@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-07-26T15:09:47+08:00</updated>
+  <updated>2022-07-26T15:26:52+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ZFS Cheat]]></title>
+    <link href="https://brain-zhang.github.io/blog/2022/07/26/zfs-cheat/"/>
+    <updated>2022-07-26T15:14:19+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2022/07/26/zfs-cheat</id>
+    <content type="html"><![CDATA[<h2 id="zfs-">ZFS 使用命令小集</h2>
+
+<h4 id="zpool">列出zpool磁盘</h4>
+<p><code>
+zfs list
+</code></p>
+
+<h4 id="pool">查看pool状态</h4>
+<p><code>
+zpool status
+</code></p>
+
+<h4 id="section">替换坏掉的硬盘</h4>
+<p><code>
+zpool replace -f pool0 /dev/sdb
+</code></p>
+
+<h4 id="section-1">查看是否开启重复数据删除</h4>
+<p><code>
+zfs get dedup pool1
+</code></p>
+
+<h4 id="section-2">开启重复数据删除</h4>
+<p><code>
+zfs set dedup=on pool1
+</code></p>
+
+<h4 id="section-3">获取去重比例</h4>
+<p>```
+# zpool get dedupratio pool1</p>
+
+<p>NAME  PROPERTY    VALUE  SOURCE
+tank  dedupratio  1.42x  -
+```</p>
+
+<h4 id="section-4">查看是否开启压缩</h4>
+<p><code>
+zfs get compress pool1
+</code></p>
+
+<h4 id="section-5">开启压缩</h4>
+<p><code>
+zfs set compress=lz4 pool1
+</code></p>
+
+<p>或者
+<code>
+zfs set compress=on pool1
+</code></p>
+
+<p>从2015年zfs版本后，默认压缩为lz4格式， compresss=on 即代表压缩为lz4， <a href="!http://open-zfs.org/wiki/Performance_tuning#Compression">参考</a></p>
+
+<h4 id="section-6">获取压缩比例</h4>
+<p><code>
+root@ypcpve:~# zfs get compressratio zpool0
+NAME    PROPERTY       VALUE  SOURCE
+zpool0  compressratio  1.15x  -
+</code></p>
+
+<h3 id="section-7">强制删除不用的硬盘</h3>
+<p><code>
+zfs destroy -f zpool0/vm-102-disk-2
+</code></p>
+
+<h4 id="sparse">开启空间自动回收机制(sparse)</h4>
+<p><code>
+zfs set refreservation=0G NVMe/vm-901-disk-0
+</code></p>
+
+<h4 id="section-8">查看磁盘负载</h4>
+<p><code>
+zpool iostat
+</code></p>
+
+<h4 id="section-9">查看磁盘状态及容量</h4>
+
+<p>```
+root@proxmox4 ~ &gt; zfs list rpool/data/vm-100-disk-1
+NAME                       USED  AVAIL  REFER  MOUNTPOINT
+rpool/data/vm-100-disk-1   132G   832G    64K  -</p>
+
+<p>root@proxmox4 ~ &gt; zfs get all rpool/data/vm-100-disk-1
+NAME                      PROPERTY              VALUE                 SOURCE
+rpool/data/vm-100-disk-1  type                  volume                -
+rpool/data/vm-100-disk-1  creation              Mi Feb 21 13:29 2018  -
+rpool/data/vm-100-disk-1  used                  132G                  -
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Limit Exists Running Docker Container Cpus]]></title>
@@ -76,51 +171,6 @@ sudo passwd root</p>
 
 <p>su -
 ```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Enable VNC+xfce on Ubuntu16]]></title>
-    <link href="https://brain-zhang.github.io/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/"/>
-    <updated>2021-05-17T17:13:32+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16</id>
-    <content type="html"><![CDATA[<h4 id="vncserver">安装桌面环境和vncserver</h4>
-
-<p><code>
-sudo apt-get install xfce4 vnc4server
-</code></p>
-
-<h4 id="vncserver-1">启动vncserver</h4>
-
-<p><code>
-vncserver
-</code></p>
-
-<h4 id="section">修改配置文件</h4>
-
-<p>```
-vim ~/.vnc/xstartup</p>
-
-<h1 id="binsh">!/bin/sh</h1>
-<p>unset SESSION_MANAGER
-unset DBUS_SESSION_BUS_ADDRESS
-startxfce4 &amp;</p>
-
-<p>[ -x /etc/vnc/xstartup ] &amp;&amp; exec /etc/vnc/xstartup
-[ -r $HOME/.Xresources ] &amp;&amp; xrdb $HOME/.Xresources
-xsetroot -solid grey
-```</p>
-
-<h4 id="section-1">修改配置文件后，运行如下命令结束掉之前产生的窗口:1</h4>
-
-<p><code>
-vncserver -kill :1
-</code></p>
-
-<h4 id="vnc-clienttab">用vnc client连接后，tab键自动补全用不了，可以进行如下设置</h4>
-
-<p>settings -&gt; window manager -&gt; keyboard -&gt; switch window for same application -&gt; clear</p>
-
 ]]></content>
   </entry>
   
