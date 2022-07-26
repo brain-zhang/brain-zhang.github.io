@@ -352,6 +352,19 @@ directory mask = 2777
 
 <pre><code>systemctl restart smbd
 </code></pre>
+
+<h2 id="section-4">排障</h2>
+
+<p>绝大多数的不能访问的错误都是由两个原因引起:</p>
+
+<ul>
+  <li>
+    <p>权限问题；特别是你应该仔细检查最上层目录的权限和拥有者；大多数时候你用root创建的目录，但是访问共享的时候却用samba用户</p>
+  </li>
+  <li>
+    <p>防火墙问题，特别是selinux，关闭它试试</p>
+  </li>
+</ul>
 </div>
   
   
