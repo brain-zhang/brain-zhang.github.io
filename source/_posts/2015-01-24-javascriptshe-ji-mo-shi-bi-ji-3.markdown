@@ -24,7 +24,7 @@ Person.prototype.getName = functino() {
     return this.name;
 }
 
-var reader = new Person('memoryboxes');
+var reader = new Person('brainzhang');
 reader.getName();
 
 ```
