@@ -1,0 +1,98 @@
+---
+layout: post
+title: "ZFS Cheat"
+date: 2022-07-26 15:14:19 +0800
+comments: true
+categories: tools
+---
+
+## ZFS 使用命令小集
+
+
+#### 列出zpool磁盘
+```
+zfs list
+```
+
+#### 查看pool状态
+```
+zpool status
+```
+
+#### 替换坏掉的硬盘
+```
+zpool replace -f pool0 /dev/sdb
+```
+
+#### 查看是否开启重复数据删除
+```
+zfs get dedup pool1
+```
+
+#### 开启重复数据删除
+```
+zfs set dedup=on pool1
+```
+
+#### 获取去重比例
+```
+# zpool get dedupratio pool1
+
+NAME  PROPERTY    VALUE  SOURCE
+tank  dedupratio  1.42x  -
+```
+
+#### 查看是否开启压缩
+```
+zfs get compress pool1
+```
+
+#### 开启压缩
+```
+zfs set compress=lz4 pool1
+```
+
+或者
+```
+zfs set compress=on pool1
+```
+
+从2015年zfs版本后，默认压缩为lz4格式， compresss=on 即代表压缩为lz4， [参考](!http://open-zfs.org/wiki/Performance_tuning#Compression)
+
+
+#### 获取压缩比例
+```
+root@ypcpve:~# zfs get compressratio zpool0
+NAME    PROPERTY       VALUE  SOURCE
+zpool0  compressratio  1.15x  -
+```
+
+
+### 强制删除不用的硬盘
+```
+zfs destroy -f zpool0/vm-102-disk-2
+```
+
+#### 开启空间自动回收机制(sparse)
+```
+zfs set refreservation=0G NVMe/vm-901-disk-0
+```
+
+#### 查看磁盘负载
+```
+zpool iostat
+```
+
+#### 查看磁盘状态及容量
+
+```
+root@proxmox4 ~ > zfs list rpool/data/vm-100-disk-1
+NAME                       USED  AVAIL  REFER  MOUNTPOINT
+rpool/data/vm-100-disk-1   132G   832G    64K  -
+
+root@proxmox4 ~ > zfs get all rpool/data/vm-100-disk-1
+NAME                      PROPERTY              VALUE                 SOURCE
+rpool/data/vm-100-disk-1  type                  volume                -
+rpool/data/vm-100-disk-1  creation              Mi Feb 21 13:29 2018  -
+rpool/data/vm-100-disk-1  used                  132G                  -
+```
