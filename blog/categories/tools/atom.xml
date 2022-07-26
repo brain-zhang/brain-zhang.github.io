@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-07-26T15:26:52+08:00</updated>
+  <updated>2022-07-26T15:40:43+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rsync Cheat]]></title>
+    <link href="https://brain-zhang.github.io/blog/2022/07/26/rsync-cheat/"/>
+    <updated>2022-07-26T15:35:51+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2022/07/26/rsync-cheat</id>
+    <content type="html"><![CDATA[<p>这条命令我用了不下百次了，但是每次还得查，老年痴呆的前兆，/(ㄒoㄒ)/~~</p>
+
+<p><code>
+rsync -acvruP --progress /opt/src1 /opt/src2  /mnt/dest/
+</code></p>
+
+<ul>
+  <li>-c, –checksum 打开校验开关，强制对文件传输进行校验; 开了前置计算会很慢，文件多的时候不要用</li>
+  <li>-a, –archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD</li>
+  <li>-r, –recursive 对子目录以递归模式处理</li>
+  <li>-u, –update 仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)；已经有拷贝了一半的文件的情况下不要用，不会自动更新</li>
+</ul>
+
+<p>最后，要注意路径中的斜杠处理:</p>
+
+<p><code>
+rsync -acvruP --progress /opt/src1 /mnt/dest/
+</code></p>
+
+<p>与下面的命令是不一样的</p>
+
+<p><code>
+rsync -acvruP --progress /opt/src1/ /mnt/dest/
+</code></p>
+
+<p>前者会拷贝src1目录，后者会拷贝src1目录下的文件，但是不会带src1</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ZFS Cheat]]></title>
@@ -28,7 +62,8 @@ zfs list
 <h4 id="pool">查看pool状态</h4>
 <p><code>
 zpool status
-</code></p>
+</code>
+<!-- more --></p>
 
 <h4 id="section">替换坏掉的硬盘</h4>
 <p><code>
@@ -158,19 +193,6 @@ sudo setcap CAP_NET_BIND_SERVICE=+eip /path/to/binary
 <p>https://stackoverflow.com/questions/3830823/hiding-secret-from-command-line-parameter-on-unix</p>
 
 <p>做软件设计的时候一定要考虑命令行传递密码的替代方案；</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Become Superuser on Ubuntu Linux]]></title>
-    <link href="https://brain-zhang.github.io/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/"/>
-    <updated>2021-05-17T17:31:30+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux</id>
-    <content type="html"><![CDATA[<p>```
-sudo passwd root</p>
-
-<p>su -
-```</p>
 ]]></content>
   </entry>
   
