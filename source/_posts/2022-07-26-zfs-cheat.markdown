@@ -18,6 +18,7 @@ zfs list
 ```
 zpool status
 ```
+<!-- more -->
 
 #### 替换坏掉的硬盘
 ```
