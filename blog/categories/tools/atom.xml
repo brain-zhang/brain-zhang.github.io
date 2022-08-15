@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-07-26T16:13:17+08:00</updated>
+  <updated>2022-08-15T16:54:28+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -98,8 +98,9 @@ zfs get compress pool1
 zfs set compress=lz4 pool1
 </code></p>
 
-<p>或者
-<code>
+<p>或者</p>
+
+<p><code>
 zfs set compress=on pool1
 </code></p>
 
