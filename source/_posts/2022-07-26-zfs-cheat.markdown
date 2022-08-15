@@ -54,6 +54,7 @@ zfs set compress=lz4 pool1
 ```
 
 或者
+
 ```
 zfs set compress=on pool1
 ```
