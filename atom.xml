@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-08-15T16:58:10+08:00</updated>
+  <updated>2022-09-13T12:10:13+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -137,6 +137,19 @@
 </span><span class="line">rpool/data/vm-100-disk-1  type                  volume                -
 </span><span class="line">rpool/data/vm-100-disk-1  creation              Mi Feb 21 13:29 2018  -
 </span><span class="line">rpool/data/vm-100-disk-1  used                  132G                  -</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="arc-">查看 ARC 缓存大小</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 得到MB
+</span><span class="line">root@proxmox4 ~ &gt; awk '/^size/ { print $1 " " $3 / 1048576 }' &lt; /proc/spl/kstat/zfs/arcstats
+</span><span class="line">
+</span><span class="line"># 查看最大设置，默认0代表使用系统的一半内存
+</span><span class="line">root@proxmox4 ~ &gt; cat /sys/module/zfs/parameters/zfs_arc_max</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
