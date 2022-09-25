@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-09-13T12:10:13+08:00</updated>
+  <updated>2022-09-25T11:02:27+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -150,6 +150,38 @@
 </span><span class="line">
 </span><span class="line"># 查看最大设置，默认0代表使用系统的一半内存
 </span><span class="line">root@proxmox4 ~ &gt; cat /sys/module/zfs/parameters/zfs_arc_max</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="pve">pve规划</h2>
+
+<p>pve 为每个虚拟机以及容器在zpool上直接创建sub vol； 这样不利于管理；最好为每一类虚拟机单独创建一个dataset；例如:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 为每种虚机按用途分别归类dataset
+</span><span class="line">
+</span><span class="line">zfs create zpool0/linuxdateset
+</span><span class="line">zfs create zpool0/windataset
+</span><span class="line">zfs create zpool0/lxcdataset
+</span><span class="line">zfs create zpool0/productdataset
+</span><span class="line">zfs create zpool0/testdataset
+</span><span class="line">
+</span><span class="line"># 查看所有dataset
+</span><span class="line">pvesm zfsscan</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>建立这些dataset后，要到PVE的管理界面上 <code>Datacenter-&gt;Stortage</code> 添加相应的挂载点，然后把虚拟机的硬盘分门别类存放</p>
+
+<p>这样就可以为每个dataset设置不同的属性；比如我们测试环境的数据可靠性要求比较低，我们为zpool0/testdataset 关闭同步功能，这样会大幅提升读写性能</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs set sync=disabled zpool0/testdataset</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
