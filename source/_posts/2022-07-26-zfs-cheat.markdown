@@ -109,3 +109,29 @@ root@proxmox4 ~ > awk '/^size/ { print $1 " " $3 / 1048576 }' < /proc/spl/kstat/
 # 查看最大设置，默认0代表使用系统的一半内存
 root@proxmox4 ~ > cat /sys/module/zfs/parameters/zfs_arc_max
 ```
+
+## pve规划
+
+
+pve 为每个虚拟机以及容器在zpool上直接创建sub vol； 这样不利于管理；最好为每一类虚拟机单独创建一个dataset；例如:
+
+```
+# 为每种虚机按用途分别归类dataset
+
+zfs create zpool0/linuxdateset
+zfs create zpool0/windataset
+zfs create zpool0/lxcdataset
+zfs create zpool0/productdataset
+zfs create zpool0/testdataset
+
+# 查看所有dataset
+pvesm zfsscan
+```
+
+建立这些dataset后，要到PVE的管理界面上 `Datacenter->Stortage` 添加相应的挂载点，然后把虚拟机的硬盘分门别类存放
+
+这样就可以为每个dataset设置不同的属性；比如我们测试环境的数据可靠性要求比较低，我们为zpool0/testdataset 关闭同步功能，这样会大幅提升读写性能
+
+```
+zfs set sync=disabled zpool0/testdataset
+```
