@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-09-25T11:02:27+08:00</updated>
+  <updated>2022-10-17T09:18:33+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -176,6 +176,53 @@ zfs create zpool0/testdataset</p>
 <p><code>
 zfs set sync=disabled zpool0/testdataset
 </code></p>
+
+<h2 id="ssdzil">在SSD上分配ZIL缓存</h2>
+
+<p>在SSD上创建log, read缓存，为zfs pool 机械盘加速</p>
+
+<h4 id="section-11">建立缓存文件并挂载</h4>
+<p>```
+mkidr /zcache &amp;&amp; cd /zcache
+fallocate -l 16G zfs-log-cache.img
+fallocate -l 16G zfs-read-cache.img</p>
+
+<p>losetup -fP zfs-log-cache.img
+losetup -fP zfs-log-read.img</p>
+
+<h4 id="section-12">查看挂载情况</h4>
+<p>```
+losetup -a</p>
+
+<p>/dev/loop0: [66306]:37691140 (/zcache/zfs-log-cache.img)
+/dev/loop1: [66306]:37691139 (/zcache/zfs-read-cache.img)
+```</p>
+
+<h4 id="zpool-1">添加到zpool</h4>
+<p><code>
+zpool add zpool0 log /dev/loop0
+zpool add zpool0 read /dev/loop1
+</code></p>
+
+<h4 id="section-13">检查使用情况</h4>
+<p><code>
+watch "zpool iostat -v"
+</code></p>
+
+<h4 id="section-14">移除</h4>
+<p><code>
+zpool remove zpool0 /dev/loop0
+zpool remove zpool0 /dev/loop1
+</code></p>
+
+<h4 id="section-15">开机自动挂载</h4>
+<p>```
+vim /etc/fstab</p>
+
+<h1 id="section-16">添加</h1>
+<p>/zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
+/zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0
+```</p>
 ]]></content>
   </entry>
   
