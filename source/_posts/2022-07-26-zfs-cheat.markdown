@@ -135,3 +135,51 @@ pvesm zfsscan
 ```
 zfs set sync=disabled zpool0/testdataset
 ```
+
+## 在SSD上分配ZIL缓存
+
+在SSD上创建log, read缓存，为zfs pool 机械盘加速
+
+#### 建立缓存文件并挂载
+```
+mkidr /zcache && cd /zcache
+fallocate -l 16G zfs-log-cache.img
+fallocate -l 16G zfs-read-cache.img
+
+losetup -fP zfs-log-cache.img
+losetup -fP zfs-log-read.img
+
+#### 查看挂载情况
+```
+losetup -a
+
+/dev/loop0: [66306]:37691140 (/zcache/zfs-log-cache.img)
+/dev/loop1: [66306]:37691139 (/zcache/zfs-read-cache.img)
+```
+
+#### 添加到zpool
+```
+zpool add zpool0 log /dev/loop0
+zpool add zpool0 read /dev/loop1
+```
+
+
+#### 检查使用情况
+```
+watch "zpool iostat -v"
+```
+
+#### 移除
+```
+zpool remove zpool0 /dev/loop0
+zpool remove zpool0 /dev/loop1
+```
+
+#### 开机自动挂载
+```
+vim /etc/fstab
+
+# 添加
+/zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
+/zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0
+```
