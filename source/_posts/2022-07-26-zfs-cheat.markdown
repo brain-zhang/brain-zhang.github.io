@@ -148,6 +148,7 @@ fallocate -l 16G zfs-read-cache.img
 
 losetup -fP zfs-log-cache.img
 losetup -fP zfs-log-read.img
+```
 
 #### 查看挂载情况
 ```
