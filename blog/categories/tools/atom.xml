@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-10-17T09:22:52+08:00</updated>
+  <updated>2022-10-17T09:34:37+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -188,7 +188,8 @@ fallocate -l 16G zfs-log-cache.img
 fallocate -l 16G zfs-read-cache.img</p>
 
 <p>losetup -fP zfs-log-cache.img
-losetup -fP zfs-log-read.img</p>
+losetup -fP zfs-log-read.img
+```</p>
 
 <h4 id="section-12">查看挂载情况</h4>
 <p>```

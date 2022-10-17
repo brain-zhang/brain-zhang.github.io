@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-10-17T09:22:52+08:00</updated>
+  <updated>2022-10-17T09:34:37+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -194,49 +194,50 @@
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">mkidr /zcache &amp;&amp; cd /zcache
 </span><span class="line">fallocate -l 16G zfs-log-cache.img
 </span><span class="line">fallocate -l 16G zfs-read-cache.img
 </span><span class="line">
 </span><span class="line">losetup -fP zfs-log-cache.img
-</span><span class="line">losetup -fP zfs-log-read.img
-</span><span class="line">
-</span><span class="line">#### 查看挂载情况</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>losetup -a</p>
+</span><span class="line">losetup -fP zfs-log-read.img</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>/dev/loop0: [66306]:37691140 (/zcache/zfs-log-cache.img)
-/dev/loop1: [66306]:37691139 (/zcache/zfs-read-cache.img)
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">
-</span><span class="line">#### 添加到zpool</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-zpool add zpool0 log /dev/loop0
-zpool add zpool0 read /dev/loop1
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<h4 id="section-11">查看挂载情况</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">losetup -a
 </span><span class="line">
-</span><span class="line">#### 检查使用情况</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-watch “zpool iostat -v”
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">
-</span><span class="line">#### 移除</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-zpool remove zpool0 /dev/loop0
-zpool remove zpool0 /dev/loop1
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">
-</span><span class="line">#### 开机自动挂载</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-vim /etc/fstab</p>
+</span><span class="line">/dev/loop0: [66306]:37691140 (/zcache/zfs-log-cache.img)
+</span><span class="line">/dev/loop1: [66306]:37691139 (/zcache/zfs-read-cache.img)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h1 id="section-11">添加</h1>
-<p>/zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
-/zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0
-&#8220;`</p>
+<h4 id="zpool-1">添加到zpool</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool add zpool0 log /dev/loop0
+</span><span class="line">zpool add zpool0 read /dev/loop1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-12">检查使用情况</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">watch "zpool iostat -v"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-13">移除</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zpool remove zpool0 /dev/loop0
+</span><span class="line">zpool remove zpool0 /dev/loop1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-14">开机自动挂载</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/fstab
+</span><span class="line">
+</span><span class="line"># 添加
+</span><span class="line">/zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
+</span><span class="line">/zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
