@@ -6,6 +6,18 @@ comments: true
 categories: tools
 ---
 
+## 特别提示
+
+在各种折腾之前，先看看你买的大容量硬盘自带的缓存开了没有；有一些矿盘，不知道是何原因，默认缓存没有开
+
+```
+# 查看是否开了写缓存
+$ hdparm -W /dev/sdx
+
+# 开启
+$ hdparm -W1 /dev/sdx
+```
+
 ## ZFS 使用命令小集
 
 
@@ -184,3 +196,15 @@ vim /etc/fstab
 /zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
 /zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0
 ```
+
+
+## 磁盘替换
+
+大容量磁盘RaidZx重建是一个极其缓慢的过程；实测我的12T X3 Raidz1阵列，替换一块坏盘重建花了三天；
+
+```
+$ sudo zpool offline zpool0 ata-TOSHIBA01
+$ sudo zpool online zpool0 ata-TOSHIBA02
+$ sudo zpool replace ata-TOSHIBA01 ata-TOSHIBA02
+```
+
