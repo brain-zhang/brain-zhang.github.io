@@ -187,7 +187,22 @@ MathJax.Hub.Config({
   </header>
 
 
-  <div class="entry-content"><h2 id="zfs-">ZFS 使用命令小集</h2>
+  <div class="entry-content"><h2 id="section">特别提示</h2>
+
+<p>在各种折腾之前，先看看你买的大容量硬盘自带的缓存开了没有；有一些矿盘，不知道是何原因，默认缓存没有开</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 查看是否开了写缓存
+</span><span class="line">$ hdparm -W /dev/sdx
+</span><span class="line">
+</span><span class="line"># 开启
+</span><span class="line">$ hdparm -W1 /dev/sdx</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="zfs-">ZFS 使用命令小集</h2>
 
 <h4 id="zpool">列出zpool磁盘</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>

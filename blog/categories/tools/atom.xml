@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-10-17T09:34:37+08:00</updated>
+  <updated>2022-11-11T14:33:29+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -52,7 +52,19 @@ rsync -acvruP --progress /opt/src1/ /mnt/dest/
     <link href="https://brain-zhang.github.io/blog/2022/07/26/zfs-cheat/"/>
     <updated>2022-07-26T15:14:19+08:00</updated>
     <id>https://brain-zhang.github.io/blog/2022/07/26/zfs-cheat</id>
-    <content type="html"><![CDATA[<h2 id="zfs-">ZFS 使用命令小集</h2>
+    <content type="html"><![CDATA[<h2 id="section">特别提示</h2>
+
+<p>在各种折腾之前，先看看你买的大容量硬盘自带的缓存开了没有；有一些矿盘，不知道是何原因，默认缓存没有开</p>
+
+<p>```
+# 查看是否开了写缓存
+$ hdparm -W /dev/sdx</p>
+
+<h1 id="section-1">开启</h1>
+<p>$ hdparm -W1 /dev/sdx
+```</p>
+
+<h2 id="zfs-">ZFS 使用命令小集</h2>
 
 <h4 id="zpool">列出zpool磁盘</h4>
 <p><code>
@@ -65,22 +77,22 @@ zpool status
 </code>
 <!-- more --></p>
 
-<h4 id="section">替换坏掉的硬盘</h4>
+<h4 id="section-2">替换坏掉的硬盘</h4>
 <p><code>
 zpool replace -f pool0 /dev/sdb
 </code></p>
 
-<h4 id="section-1">查看是否开启重复数据删除</h4>
+<h4 id="section-3">查看是否开启重复数据删除</h4>
 <p><code>
 zfs get dedup pool1
 </code></p>
 
-<h4 id="section-2">开启重复数据删除</h4>
+<h4 id="section-4">开启重复数据删除</h4>
 <p><code>
 zfs set dedup=on pool1
 </code></p>
 
-<h4 id="section-3">获取去重比例</h4>
+<h4 id="section-5">获取去重比例</h4>
 <p>```
 # zpool get dedupratio pool1</p>
 
@@ -88,12 +100,12 @@ zfs set dedup=on pool1
 tank  dedupratio  1.42x  -
 ```</p>
 
-<h4 id="section-4">查看是否开启压缩</h4>
+<h4 id="section-6">查看是否开启压缩</h4>
 <p><code>
 zfs get compress pool1
 </code></p>
 
-<h4 id="section-5">开启压缩</h4>
+<h4 id="section-7">开启压缩</h4>
 <p><code>
 zfs set compress=lz4 pool1
 </code></p>
@@ -106,14 +118,14 @@ zfs set compress=on pool1
 
 <p>从2015年zfs版本后，默认压缩为lz4格式， compresss=on 即代表压缩为lz4， <a href="!http://open-zfs.org/wiki/Performance_tuning#Compression">参考</a></p>
 
-<h4 id="section-6">获取压缩比例</h4>
+<h4 id="section-8">获取压缩比例</h4>
 <p><code>
 root@ypcpve:~# zfs get compressratio zpool0
 NAME    PROPERTY       VALUE  SOURCE
 zpool0  compressratio  1.15x  -
 </code></p>
 
-<h3 id="section-7">强制删除不用的硬盘</h3>
+<h3 id="section-9">强制删除不用的硬盘</h3>
 <p><code>
 zfs destroy -f zpool0/vm-102-disk-2
 </code></p>
@@ -123,12 +135,12 @@ zfs destroy -f zpool0/vm-102-disk-2
 zfs set refreservation=0G NVMe/vm-901-disk-0
 </code></p>
 
-<h4 id="section-8">查看磁盘负载</h4>
+<h4 id="section-10">查看磁盘负载</h4>
 <p><code>
 zpool iostat
 </code></p>
 
-<h4 id="section-9">查看磁盘状态及容量</h4>
+<h4 id="section-11">查看磁盘状态及容量</h4>
 
 <p>```
 root@proxmox4 ~ &gt; zfs list rpool/data/vm-100-disk-1
@@ -148,7 +160,7 @@ rpool/data/vm-100-disk-1  used                  132G                  -
 # 得到MB
 root@proxmox4 ~ &gt; awk ‘/^size/ { print $1 “ “ $3 / 1048576 }’ &lt; /proc/spl/kstat/zfs/arcstats</p>
 
-<h1 id="section-10">查看最大设置，默认0代表使用系统的一半内存</h1>
+<h1 id="section-12">查看最大设置，默认0代表使用系统的一半内存</h1>
 <p>root@proxmox4 ~ &gt; cat /sys/module/zfs/parameters/zfs_arc_max
 ```</p>
 
@@ -181,7 +193,7 @@ zfs set sync=disabled zpool0/testdataset
 
 <p>在SSD上创建log, read缓存，为zfs pool 机械盘加速</p>
 
-<h4 id="section-11">建立缓存文件并挂载</h4>
+<h4 id="section-13">建立缓存文件并挂载</h4>
 <p>```
 mkidr /zcache &amp;&amp; cd /zcache
 fallocate -l 16G zfs-log-cache.img
@@ -191,7 +203,7 @@ fallocate -l 16G zfs-read-cache.img</p>
 losetup -fP zfs-log-read.img
 ```</p>
 
-<h4 id="section-12">查看挂载情况</h4>
+<h4 id="section-14">查看挂载情况</h4>
 <p>```
 losetup -a</p>
 
@@ -205,25 +217,36 @@ zpool add zpool0 log /dev/loop0
 zpool add zpool0 read /dev/loop1
 </code></p>
 
-<h4 id="section-13">检查使用情况</h4>
+<h4 id="section-15">检查使用情况</h4>
 <p><code>
 watch "zpool iostat -v"
 </code></p>
 
-<h4 id="section-14">移除</h4>
+<h4 id="section-16">移除</h4>
 <p><code>
 zpool remove zpool0 /dev/loop0
 zpool remove zpool0 /dev/loop1
 </code></p>
 
-<h4 id="section-15">开机自动挂载</h4>
+<h4 id="section-17">开机自动挂载</h4>
 <p>```
 vim /etc/fstab</p>
 
-<h1 id="section-16">添加</h1>
+<h1 id="section-18">添加</h1>
 <p>/zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
 /zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0
 ```</p>
+
+<h2 id="section-19">磁盘替换</h2>
+
+<p>大容量磁盘RaidZx重建是一个极其缓慢的过程；实测我的12T X3 Raidz1阵列，替换一块坏盘重建花了三天；</p>
+
+<p><code>
+$ sudo zpool offline zpool0 ata-TOSHIBA01
+$ sudo zpool online zpool0 ata-TOSHIBA02
+$ sudo zpool replace ata-TOSHIBA01 ata-TOSHIBA02
+</code></p>
+
 ]]></content>
   </entry>
   
