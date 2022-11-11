@@ -18,6 +18,12 @@ $ hdparm -W /dev/sdx
 $ hdparm -W1 /dev/sdx
 ```
 
+然后，看看你的SATA接口当前速率是2.0还是3.0，有人就是这么粗心，拿着3.0的盘，插着2.0的线；
+
+```
+$ smartctl -a /dev/sdx
+```
+
 ## ZFS 使用命令小集
 
 
