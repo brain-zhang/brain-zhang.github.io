@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2022-11-11T15:00:03+08:00</updated>
+  <updated>2023-01-18T10:00:00+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -125,19 +125,29 @@
 </span><span class="line">NAME    PROPERTY       VALUE  SOURCE
 </span><span class="line">zpool0  compressratio  1.15x  -</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h3 id="section-8">强制删除不用的硬盘</h3>
+<h4 id="section-8">强制删除不用的硬盘</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">zfs destroy -f zpool0/vm-102-disk-2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-9">数据集迁移</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">zfs snapshot oldpool/mydataset@snapshot1
+</span><span class="line">zfs send oldpool/mydataset@snapshot1 | zfs receive newpool/mydataset
+</span><span class="line">zfs snapshot oldpool/mydataset@snapshot2
+</span><span class="line">zfs send -i oldpool/mydataset@snapshot1 oldpool/mydataset@snapshot2 | zfs receive newpool/mydataset</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h4 id="sparse">开启空间自动回收机制(sparse)</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">zfs set refreservation=0G NVMe/vm-901-disk-0</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-9">查看磁盘负载</h4>
+<h4 id="section-10">查看磁盘负载</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">zpool iostat</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-10">查看磁盘状态及容量</h4>
+<h4 id="section-11">查看磁盘状态及容量</h4>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -207,7 +217,7 @@
 
 <p>在SSD上创建log, read缓存，为zfs pool 机械盘加速</p>
 
-<h4 id="section-11">建立缓存文件并挂载</h4>
+<h4 id="section-12">建立缓存文件并挂载</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -221,7 +231,7 @@
 </span><span class="line">losetup -fP zfs-log-cache.img
 </span><span class="line">losetup -fP zfs-log-read.img</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-12">查看挂载情况</h4>
+<h4 id="section-13">查看挂载情况</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -237,17 +247,17 @@
 </pre></td><td class="code"><pre><code class=""><span class="line">zpool add zpool0 log /dev/loop0
 </span><span class="line">zpool add zpool0 read /dev/loop1</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-13">检查使用情况</h4>
+<h4 id="section-14">检查使用情况</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">watch "zpool iostat -v"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-14">移除</h4>
+<h4 id="section-15">移除</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">zpool remove zpool0 /dev/loop0
 </span><span class="line">zpool remove zpool0 /dev/loop1</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h4 id="section-15">开机自动挂载</h4>
+<h4 id="section-16">开机自动挂载</h4>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -259,7 +269,7 @@
 </span><span class="line">/zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
 </span><span class="line">/zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2 id="section-16">磁盘替换</h2>
+<h2 id="section-17">磁盘替换</h2>
 
 <p>大容量磁盘RaidZx重建是一个极其缓慢的过程；实测我的12T X3 Raidz1阵列，替换一块坏盘重建花了三天；</p>
 
