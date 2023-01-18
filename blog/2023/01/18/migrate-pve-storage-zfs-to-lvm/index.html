@@ -9,7 +9,7 @@
   <meta name="author" content="brain-zhang">
 
   
-  <meta name="description" content="之前PVE的存储我用ZFS做了三个pool，一个RaidZ1，两个Raid0； 实际用下来有一个大槽点； 就是对于12T以上的单盘，ZFS每次写入的时候都会炒豆子音大爆发，放在家里实在不是什么好体验；而且我一直有个困扰已久的问题没有解决；就是ZFS强壮是强壮；但是对于其dataset的管理方式， &hellip;">
+  <meta name="description" content="之前PVE的存储我用ZFS做了三个pool，一个RaidZ1，两个Raid0； 我的PVE内核版本为 5.13.19-6-pve; 实际用下来有一个大槽点； 就是对于12T以上的单盘，ZFS每次写入的时候都会炒豆子音大爆发，放在家里实在不是什么好体验；而且我一直有个困扰已久的问题没有解决； &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -125,6 +125,8 @@ MathJax.Hub.Config({
 
 <div class="entry-content"><p>之前PVE的存储我用ZFS做了三个pool，一个RaidZ1，两个Raid0；</p>
 
+<p>我的PVE内核版本为 <code>5.13.19-6-pve</code>;</p>
+
 <p>实际用下来有一个大槽点；</p>
 
 <p>就是对于12T以上的单盘，ZFS每次写入的时候都会炒豆子音大爆发，放在家里实在不是什么好体验；而且我一直有个困扰已久的问题没有解决；就是ZFS强壮是强壮；但是对于其dataset的管理方式，无论是send还是destroy，每个操作都会有长时间的卡顿lock；另外相对于读性能，不知道为什么，我的RaidZ1写性能一直没有达到单盘读写能力，我加了ARC、ZIL，各种方法都折腾了一遍，但是效果都不好；
@@ -137,7 +139,7 @@ MathJax.Hub.Config({
 <ul>
   <li>透明压缩、文件去重；太有用了，尤其是PVE 创建LXC容器，文件存储直接继承ZFS的所有能力</li>
   <li>dataset级别的存储操作；这种块级别管理文件的方式，对于大规模数据迁移很有用，而且可以针对不同的需求对每一个dataset参数调整</li>
-  <li>快照；zfs的杀手特性</li>
+  <li>快照；ZFS的杀手特性</li>
 </ul>
 
 <p>总之折腾了一年多，我已经把ZFS的手册翻了好几遍了，我已经理解这个文件系统的使用方式了；</p>
