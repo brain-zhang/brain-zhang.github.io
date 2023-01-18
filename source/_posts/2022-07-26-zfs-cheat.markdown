@@ -88,9 +88,17 @@ zpool0  compressratio  1.15x  -
 ```
 
 
-### 强制删除不用的硬盘
+#### 强制删除不用的硬盘
 ```
 zfs destroy -f zpool0/vm-102-disk-2
+```
+
+#### 数据集迁移
+```
+zfs snapshot oldpool/mydataset@snapshot1
+zfs send oldpool/mydataset@snapshot1 | zfs receive newpool/mydataset
+zfs snapshot oldpool/mydataset@snapshot2
+zfs send -i oldpool/mydataset@snapshot1 oldpool/mydataset@snapshot2 | zfs receive newpool/mydataset
 ```
 
 #### 开启空间自动回收机制(sparse)
@@ -116,6 +124,7 @@ rpool/data/vm-100-disk-1  type                  volume                -
 rpool/data/vm-100-disk-1  creation              Mi Feb 21 13:29 2018  -
 rpool/data/vm-100-disk-1  used                  132G                  -
 ```
+
 
 
 #### 查看 ARC 缓存大小
