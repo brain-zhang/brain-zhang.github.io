@@ -156,10 +156,26 @@ MathJax.Hub.Config({
   <li>一个VG可以划分为多个LV(逻辑卷)；其表现就跟一块硬盘划分多个分区是一样的</li>
   <li>有一种特殊的LV，称之为Thinly-Provisioned Logical Volumes(精简模式LVM)；</li>
   <li>thin LV支持COW(快照方便)和动态存储分配空间(按需分配而不是虚拟之指定的磁盘大小，节约空间)，跟ZFS一样，适合云环境</li>
+  <li>创建thinLV之前，必须先创建一个thinpool，次序依次是 创建PV-&gt;创建VG-&gt;在此VG上创建thinpool-&gt;在此thinpool上创建thin LV；</li>
   <li>LVM可以动态缩减空间，增删硬盘</li>
+  <li>一个PV可以加入多个VG，一个VG可以包括多个PV</li>
+  <li>一个VG可以包含多个thinpool+多个普通LV</li>
+  <li>VG可以动态扩展，空间可以动态调整</li>
+  <li>LV空间可以动态调整</li>
 </ul>
 
 <h2 id="pvelvm">PVE中的LVM</h2>
+
+<ul>
+  <li>PVE上后台用命令行可以支持所有LVM特性</li>
+  <li>PVE Web界面功能比较弱，只支持
+    <ul>
+      <li>将一个PV划分为一个VG</li>
+      <li>将一个VG划分为一个thinpool，即lvm-thin</li>
+      <li>Web UI不可以组合划分</li>
+    </ul>
+  </li>
+</ul>
 
 <p>参考了一篇非常详细的文章，人家写的很清楚，就不啰嗦了:</p>
 
@@ -172,7 +188,6 @@ MathJax.Hub.Config({
   <li>两个VG做成thin pool，只有lvm thin，分别用于存储LXC容器和VM</li>
   <li>一个VG 用来做文件服务器</li>
 </ul>
-
 </div>
 
 
