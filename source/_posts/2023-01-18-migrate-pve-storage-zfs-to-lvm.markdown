@@ -37,10 +37,20 @@ categories: tools
 * 一个VG可以划分为多个LV(逻辑卷)；其表现就跟一块硬盘划分多个分区是一样的
 * 有一种特殊的LV，称之为Thinly-Provisioned Logical Volumes(精简模式LVM)；
 * thin LV支持COW(快照方便)和动态存储分配空间(按需分配而不是虚拟之指定的磁盘大小，节约空间)，跟ZFS一样，适合云环境
+* 创建thinLV之前，必须先创建一个thinpool，次序依次是 创建PV->创建VG->在此VG上创建thinpool->在此thinpool上创建thin LV；
 * LVM可以动态缩减空间，增删硬盘
-
+* 一个PV可以加入多个VG，一个VG可以包括多个PV
+* 一个VG可以包含多个thinpool+多个普通LV
+* VG可以动态扩展，空间可以动态调整
+* LV空间可以动态调整
 
 ## PVE中的LVM
+
+* PVE上后台用命令行可以支持所有LVM特性
+* PVE Web界面功能比较弱，只支持
+  - 将一个PV划分为一个VG
+  - 将一个VG划分为一个thinpool，即lvm-thin
+  - Web UI不可以组合划分
 
 参考了一篇非常详细的文章，人家写的很清楚，就不啰嗦了:
 
@@ -52,4 +62,3 @@ https://codeantenna.com/a/SG6LHk1x9s
 * 三块硬盘，分成三个VG
 * 两个VG做成thin pool，只有lvm thin，分别用于存储LXC容器和VM
 * 一个VG 用来做文件服务器
-
