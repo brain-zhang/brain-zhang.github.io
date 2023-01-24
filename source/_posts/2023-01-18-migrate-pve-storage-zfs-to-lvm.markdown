@@ -39,7 +39,7 @@ categories: tools
 * thin LV支持COW(快照方便)和动态存储分配空间(按需分配而不是虚拟之指定的磁盘大小，节约空间)，跟ZFS一样，适合云环境
 * 创建thinLV之前，必须先创建一个thinpool，次序依次是 创建PV->创建VG->在此VG上创建thinpool->在此thinpool上创建thin LV；
 * LVM可以动态缩减空间，增删硬盘
-* 一个PV可以加入多个VG，一个VG可以包括多个PV
+* 一个VG可以单个PV，也可以多个PV组成
 * 一个VG可以包含多个thinpool+多个普通LV
 * VG可以动态扩展，空间可以动态调整
 * LV空间可以动态调整
