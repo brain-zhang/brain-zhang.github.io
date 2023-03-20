@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-01-24T17:07:01+08:00</updated>
+  <updated>2023-03-20T11:18:09+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fix LVM Disks Missing Under /dev/xxx in PVE7.1]]></title>
+    <link href="https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/"/>
+    <updated>2023-03-20T11:06:10+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1</id>
+    <content type="html"><![CDATA[<p>PVE7.1，重启后 LVM thinpool 丢掉了一块VM Disk；</p>
+
+<p>解决方法:</p>
+
+<p><code>
+lvchange -an storagename
+vgchange -ay storagename
+</code></p>
+
+<p>参考:</p>
+
+<p>https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1807169.html
+https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_missing_under/</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Migrate PVE Storage From ZFS to Lvm]]></title>
@@ -347,29 +368,6 @@ docker update --cpu-period=100000 --cpu-quota=40000  &lt;container&gt;
 </code></p>
 
 <p>意思是cpu时间切分为100000份，指定容器占用40000份，即cpu占用率最高40%</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Allow Non-root Process to Bind to Low-numbered Ports]]></title>
-    <link href="https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/"/>
-    <updated>2021-06-01T16:32:31+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports</id>
-    <content type="html"><![CDATA[<h4 id="use-capnetbindservice-to-grant-low-numbered-port-access-to-a-process">Use CAP_NET_BIND_SERVICE to grant low-numbered port access to a process:</h4>
-
-<p>With this you can grant permanent access to a specific binary to bind to low-numbered ports via the setcap command:</p>
-
-<p><code>
-sudo setcap CAP_NET_BIND_SERVICE=+eip /path/to/binary
-</code></p>
-
-<p>For more details on the e/i/p part, see cap_from_text.</p>
-
-<p>After doing this, /path/to/binary will be able to bind to low-numbered ports. Note that you must use setcap on the binary itself rather than a symlink.</p>
-
-<p>FROM:</p>
-
-<p>https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443</p>
 ]]></content>
   </entry>
   

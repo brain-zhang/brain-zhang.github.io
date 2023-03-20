@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fix LVM Disks Missing Under /dev/xxx in PVE7.1 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="PVE7.1，重启后 LVM thinpool 丢掉了一块VM Disk； 解决方法: 1
+2
+lvchange -an storagename
+vgchange -ay storagename 参考: https://www.mail-archive.com/debian-bugs-dist@ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- 
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="brain-zhang.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Fix LVM Disks Missing Under /dev/xxx in PVE7.1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2023-03-20T11:06:10+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2023</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>PVE7.1，重启后 LVM thinpool 丢掉了一块VM Disk；</p>
+
+<p>解决方法:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">lvchange -an storagename
+</span><span class="line">vgchange -ay storagename</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>参考:</p>
+
+<p>https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1807169.html
+https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_missing_under/</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2023-03-20T11:06:10+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2023</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/" title="Previous Post: Migrate PVE Storage From ZFS To Lvm">&laquo; Migrate PVE Storage From ZFS To Lvm</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/">Fix LVM Disks Missing Under /dev/xxx in PVE7.1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/">Migrate PVE Storage From ZFS to Lvm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2022/07/26/rsync-cheat/">Rsync Cheat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2022/07/26/zfs-cheat/">ZFS Cheat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2021/11/07/how-to-limit-docker-cpus/">How to Limit Exists Running Docker Container Cpus</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2023 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/';
+        var disqus_url = 'https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
