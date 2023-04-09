@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-03-20T11:18:09+08:00</updated>
+  <updated>2023-04-09T16:45:58+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Connection Error Between Ipad and Macbook]]></title>
+    <link href="https://brain-zhang.github.io/blog/2023/04/09/fix/"/>
+    <updated>2023-04-09T16:44:24+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2023/04/09/fix</id>
+    <content type="html"><![CDATA[<p>iOS真机调试，Mac连上iPad一直闪，信任不了设备问题</p>
+
+<p>打开终端Terminal，输入
+<code>
+`$ sudo killall -STOP -c usbd
+</code>`</p>
+
+<p>命令回车，即可把进程关闭。插上iPhone，正常连接，问题解决。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fix LVM Disks Missing Under /dev/xxx in PVE7.1]]></title>
@@ -355,19 +371,6 @@ $ sudo zpool online zpool0 ata-TOSHIBA02
 $ sudo zpool replace ata-TOSHIBA01 ata-TOSHIBA02
 </code></p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Limit Exists Running Docker Container Cpus]]></title>
-    <link href="https://brain-zhang.github.io/blog/2021/11/07/how-to-limit-docker-cpus/"/>
-    <updated>2021-11-07T11:05:44+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2021/11/07/how-to-limit-docker-cpus</id>
-    <content type="html"><![CDATA[<p><code>
-docker update --cpu-period=100000 --cpu-quota=40000  &lt;container&gt;
-</code></p>
-
-<p>意思是cpu时间切分为100000份，指定容器占用40000份，即cpu占用率最高40%</p>
 ]]></content>
   </entry>
   

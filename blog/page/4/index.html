@@ -100,6 +100,58 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/11/05/hello-lightning-network-1/">Hello Lightning Network -1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-11-05T17:17:48+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/11/05/hello-lightning-network-1/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/11/05/hello-lightning-network-1/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="info">有许多比特币社区的先行者们面对小白的提问时，总是真诚的说：“去看看比特币的白皮书吧，把它真正弄明白吧，你就会理解一切的。” —–如今，我想对许多质疑闪电网络的比特币先驱们说：“去看看闪电网络的白皮书吧，把它真正弄明白吧，你就会理解一切的。”</p>
+
+<p>我们之前写文章评价道，闪电网络是次世代的支付技术，它不仅仅是一个支付技术，更是建立在比特币主网上的二层网络协议，将来会有许许多多新奇的应用建立在上面，它会为比特币开启下一个十年；</p>
+
+<p>但是闪电网络还在实现的早期阶段，能耐心去读懂它的白皮书的人已经非常少了，更不用提现在飞速发展的<a href="https://github.com/lightningnetwork/lightning-rfc/">BOLT规范</a>了；这其实跟比特币刚诞生时是一样的，在动辄就大谈“区块链技术改变未来”的那一群人中，有几人会真正花时间，去把已经发表11年的比特币8页白皮书弄个明白呢？</p>
+
+<p>闪电网络的基本原理其实非常简单，在我们之前的文章中已经花费了大量篇幅去介绍；但是在实现过程中，还有数不清的工程细节上的权衡；由于现在的实现还只是一个雏形，我们实操闪电网络交易的时候会有各种各样的“？”，我打算写一个系列文章，把一些有趣或者让人困惑的地方抽丝剥茧，记录一下自己的学习过程，也把这项迷人的技术介绍给更多人。</p>
+
+<p>我们将在这篇文章中讨论闪电网络的通道入站容量(Inbound Capacity)问题。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/11/05/hello-lightning-network-1/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/10/30/how-to-run-tmux-service-scripts-on-ubuntu-start-up/">How to Run Tmux Service Scripts on Ubuntu Start Up</a></h1>
     
     
@@ -516,60 +568,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">理想中的比特币全节点实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-08-18T15:59:29+08:00" pubdate data-updated="true">Aug 18<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/08/18/li-xiang-zhong-de-bi-te-bi-quan-jie-dian-shi-xian/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>虽然比特币已经运行十年，各式各样的比特币全节点实现已经很多了，但是我觉得还是有必要再增添一员；</p>
-
-<p>我理想中的比特币全节点实现是这样的:</p>
-
-<ul>
-  <li>他的核心是模块化可拆分的</li>
-  <li>他的核心不包括挖矿和钱包，可以为这两个功能提供接口作为插件来实现，但是不要耦合到核心里面</li>
-  <li>他要实现BIP-157和BIP-158，不能为了导入一个新私钥就重新扫描一遍区块链</li>
-  <li>他要兼容Lightning，并实现其瞭望塔功能</li>
-  <li>交易存储最好用merkle-patricia-tree来实现，如此一来像ElectrumX这样的服务节点就可以去掉了</li>
-  <li>他必须原生支持所有的SPV钱包调用，并形成一个BIP规范</li>
-  <li>他必须可以是纯SPV，可以是全Block，也可以从一个checkpoint之后只存储需要的block</li>
-  <li>最后，他最好能运行在一台1Core 1G 1M的小VPS上面</li>
-</ul>
-
-<p>我好像真贪心呢^_^</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -587,6 +585,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/">Fix LVM Disks Missing Under /dev/xxx in PVE7.1</a>
       </li>
     
@@ -600,10 +602,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2022/07/26/zfs-cheat/">ZFS Cheat</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2021/11/07/how-to-limit-docker-cpus/">How to Limit Exists Running Docker Container Cpus</a>
       </li>
     
   </ul>
@@ -716,7 +714,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (85)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (86)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

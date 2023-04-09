@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-03-20T11:18:09+08:00</updated>
+  <updated>2023-04-09T16:45:58+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Connection Error Between Ipad and Macbook]]></title>
+    <link href="https://brain-zhang.github.io/blog/2023/04/09/fix/"/>
+    <updated>2023-04-09T16:44:24+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2023/04/09/fix</id>
+    <content type="html"><![CDATA[<p>iOS真机调试，Mac连上iPad一直闪，信任不了设备问题</p>
+
+<p>打开终端Terminal，输入
+<code>
+`$ sudo killall -STOP -c usbd
+</code>`</p>
+
+<p>命令回车，即可把进程关闭。插上iPhone，正常连接，问题解决。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fix LVM Disks Missing Under /dev/xxx in PVE7.1]]></title>
@@ -1418,73 +1434,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 <h4 id="section-1">引用</h4>
 
 <p>https://stackoverflow.com/questions/41043163/xargs-sh-c-skipping-the-first-argument</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Do Logging on Solidity Contract With Truffle Suite]]></title>
-    <link href="https://brain-zhang.github.io/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/"/>
-    <updated>2020-07-17T17:33:45+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite</id>
-    <content type="html"><![CDATA[<p>Ethereum的智能合约调试起来很麻烦，到目前为止还是没有一个方便的类似于console.log()或printf的调用；</p>
-
-<p>一般都是通过Event的方法来打印log；这种办法在写单元测试的时候很麻烦；</p>
-
-<p>目前最接近于官方的手段是构造一个公用的Console库合约，然后链接到主合约里面来用；</p>
-
-<p>https://github.com/trufflesuite/truffle-logger-example</p>
-
-<p>这个PR一直没有Merge到TruffleSuite的新版本中，我们只能先临时手工Copy下代码来Monkey Patch一下；</p>
-
-<p>步骤如下：</p>
-
-<ul>
-  <li>首先在主合约的同级目录添加Console.sol合约:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">wget https://raw.githubusercontent.com/trufflesuite/truffle/truffleLogger/packages/core/lib/logging/Console.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>然后在部署脚本里面增加这个库的链接(以官方示例MetaCoin为例)</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ vim migrations/2_deploy_contracts.js</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">const Console = artifacts.require("Console");
-</span><span class="line">const MetaCoin = artifacts.require("MetaCoin");
-</span><span class="line">
-</span><span class="line">module.exports = function(deployer) {
-</span><span class="line">      deployer.deploy(Console);
-</span><span class="line">        deployer.link(Console, MetaCoin);
-</span><span class="line">          deployer.deploy(MetaCoin);
-</span><span class="line">          };
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>在需要打印log的单元测试中引入Console.sol</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ vim test/TestMetaCoin.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import "../contracts/Console.sol";
-</span><span class="line">
-</span><span class="line">.....
-</span><span class="line">    console.log("xxxxxx");</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
