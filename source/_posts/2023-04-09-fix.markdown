@@ -8,7 +8,7 @@ categories: tools
 iOS真机调试，Mac连上iPad一直闪，信任不了设备问题
 
 打开终端Terminal，输入
-``
+```
 `$ sudo killall -STOP -c usbd
 ```
 
