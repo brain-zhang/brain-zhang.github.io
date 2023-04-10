@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-04-10T16:28:05+08:00</updated>
+  <updated>2023-04-10T16:32:36+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -20,8 +20,9 @@
     <id>https://brain-zhang.github.io/blog/2023/04/09/fix</id>
     <content type="html"><![CDATA[<p>iOS真机调试，Mac连上iPad一直闪，信任不了设备问题</p>
 
-<p>打开终端Terminal，输入
-<code>
+<p>打开终端Terminal，输入</p>
+
+<p><code>
 $ sudo killall -STOP -c usbd
 </code></p>
 
