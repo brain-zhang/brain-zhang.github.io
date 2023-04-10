@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-04-10T11:53:05+08:00</updated>
+  <updated>2023-04-10T16:28:05+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -22,7 +22,7 @@
 
 <p>打开终端Terminal，输入
 <code>
-`$ sudo killall -STOP -c usbd
+$ sudo killall -STOP -c usbd
 </code></p>
 
 <p>命令回车，即可把进程关闭。插上iPhone，正常连接，问题解决。</p>
