@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-08-02T15:38:57+08:00</updated>
+  <updated>2023-08-02T15:44:57+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ios Dev and Xcode Cheatsheet]]></title>
+    <title type="html"><![CDATA[Ios Dev and Xcode Cheat]]></title>
     <link href="https://brain-zhang.github.io/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/"/>
     <updated>2023-08-02T15:30:42+08:00</updated>
     <id>https://brain-zhang.github.io/blog/2023/08/02/ios-dev-and-xcode-cheatsheet</id>
@@ -36,11 +36,12 @@
   <li>当引用类似 &#8220;#import “happynet-Swfit.h”` 提示找不到的时候， 请检查引用次序，类似:</li>
 </ul>
 
-<p><code>
-@import TestDylib;
-#include "xxx-Swift.h"
-#import "xxxmanager.h"
-</code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">@import TestDylib;
+</span><span class="line">#include "xxx-Swift.h"
+</span><span class="line">#import "xxxmanager.h"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>编译提示少符号的时候，检查 <code>Target-&gt; Build Phases-&gt; Compile Sources</code> 是否把所有文件添加进去了</li>
