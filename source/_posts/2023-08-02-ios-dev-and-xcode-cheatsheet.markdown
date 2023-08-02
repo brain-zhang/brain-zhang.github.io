@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ios dev and xcode cheatsheet"
+title: "Ios dev and Xcode Cheat"
 date: 2023-08-02 15:30:42 +0800
 comments: true
 categories: tools
@@ -17,12 +17,12 @@ categories: tools
 ```
 
 * 当引用类似 ``#import "happynet-Swfit.h"` 提示找不到的时候， 请检查引用次序，类似:
- 
- ```
+
+```
 @import TestDylib;
 #include "xxx-Swift.h"
 #import "xxxmanager.h"
- ```
+```
 
 * 编译提示少符号的时候，检查 `Target-> Build Phases-> Compile Sources` 是否把所有文件添加进去了
 * 调试第三方库，例如Tunnel的时候，先用 `Debug->Attach To Process by PID Or Name` 挂载进程
