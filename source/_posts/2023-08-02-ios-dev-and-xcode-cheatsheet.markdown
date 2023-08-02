@@ -16,11 +16,13 @@ categories: tools
 	#import "xxx.h"
 ```
 
-* 当引用类似 ``#import "happynet-Swfit.h"` 提示找不到的时候， 请检查引用次序，类似:
+* 当引用类似 `#import "happynet-Swfit.h"` 提示找不到的时候， 请检查引用次序，类似:
 
 ```
 @import TestDylib;
+
 #include "xxx-Swift.h"
+
 #import "xxxmanager.h"
 ```
 
