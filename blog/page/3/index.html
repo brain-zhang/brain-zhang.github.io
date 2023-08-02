@@ -100,6 +100,61 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/">Xargs Sh -c Skipping the First Argument</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-08-12T16:46:27+08:00" pubdate data-updated="true">Aug 12<span>th</span>, 2020</time>
+        
+           | <a href="/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>其实这个问题已经见过很多次了，但是知其然不知其所以然；今天偶尔在stackoverflow上看到了，记录一下；</p>
+
+<h4 id="shellarg1-arg2">shell中的arg1, arg2…</h4>
+
+<p>在bash shell中，<code>$1</code>, <code>$2</code>代表arg1, arg2，比如</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># echo hello world|xargs echo $1 $2
+</span><span class="line">
+</span><span class="line">hello world</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Do Logging on Solidity Contract With Truffle Suite</a></h1>
     
     
@@ -574,50 +629,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/11/11/frpnei-wang-chuan-tou/">FRP内网穿透</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-11-11T10:45:34+08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/11/11/frpnei-wang-chuan-tou/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/11/11/frpnei-wang-chuan-tou/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>对于没有公网 IP 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。之前一直用最简单的nc做反代，折腾了几次之后迁移到FRP上面了；记录一下ABC;</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/11/11/frpnei-wang-chuan-tou/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -635,6 +646,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/">Ios Dev and Xcode Cheatsheet</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
       </li>
     
@@ -648,10 +663,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2022/07/26/rsync-cheat/">Rsync Cheat</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2022/07/26/zfs-cheat/">ZFS Cheat</a>
       </li>
     
   </ul>
@@ -764,7 +775,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (86)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (87)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

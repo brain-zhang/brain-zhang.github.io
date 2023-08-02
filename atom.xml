@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-04-10T16:32:36+08:00</updated>
+  <updated>2023-08-02T15:35:24+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ios Dev and Xcode Cheatsheet]]></title>
+    <link href="https://brain-zhang.github.io/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/"/>
+    <updated>2023-08-02T15:30:42+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2023/08/02/ios-dev-and-xcode-cheatsheet</id>
+    <content type="html"><![CDATA[<p>自学Swfit开发了一个App，记录一下坑:</p>
+
+<ul>
+  <li>
+    <p>Swift和ObjectC混编的时候，检查 <code>ProjectName--Bridging-Header.h</code> 文件是否被指定为桥接文件 : <code>Target-&gt; Build Settings -&gt;Swift Compiler -&gt; Install Object-C Compatibility  Header</code> 设置为Yes， <code>Target-&gt;Build Settings -&gt; Swift Compiler -&gt;Object-C Briding Header</code> 是否设置为这个文件</p>
+  </li>
+  <li>
+    <p><code>xxx-Bridging-header.h</code> 文件内容一般是 swift的头文件和公共的头文件，内容一般是</p>
+  </li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#import "xxx.h"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>当引用类似 &#8220;#import “happynet-Swfit.h”` 提示找不到的时候， 请检查引用次序，类似:</li>
+</ul>
+
+<p><code>
+	@import TestDylib;
+	#include "xxx-Swift.h"
+	#import "xxxmanager.h"
+</code></p>
+
+<ul>
+  <li>编译提示少符号的时候，检查 <code>Target-&gt; Build Phases-&gt; Compile Sources</code> 是否把所有文件添加进去了</li>
+  <li>调试第三方库，例如Tunnel的时候，先用 <code>Debug-&gt;Attach To Process by PID Or Name</code> 挂载进程</li>
+  <li>如果是线程错误，xcode会弹出一个Text Table，显示汇编指令哪一行有问题，同时临近的Table回显示代码文件中对应的哪一行，一般是淡绿色标注那一行</li>
+  <li>如果出现莫名其妙的编译错误，先<code>Build -&gt; Clean Build xxx</code>；清理一下，重新编译试试</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fix Connection Error Between Ipad and Macbook]]></title>
@@ -1328,112 +1367,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">cat /tmp/xxx.txt|sort -u | awk '{print length($0), $0}'  | sort -k2,2n -k1,1n -k3,3 |cut -d" " -f2-|less</span></code></pre></td></tr></table></div></figure></notextile></div>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xargs Sh -c Skipping the First Argument]]></title>
-    <link href="https://brain-zhang.github.io/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument/"/>
-    <updated>2020-08-12T16:46:27+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2020/08/12/xargs-sh-c-skipping-the-first-argument</id>
-    <content type="html"><![CDATA[<p>其实这个问题已经见过很多次了，但是知其然不知其所以然；今天偶尔在stackoverflow上看到了，记录一下；</p>
-
-<h4 id="shellarg1-arg2">shell中的arg1, arg2…</h4>
-
-<p>在bash shell中，<code>$1</code>, <code>$2</code>代表arg1, arg2，比如</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># echo hello world|xargs echo $1 $2
-</span><span class="line">
-</span><span class="line">hello world</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<!-- more -->
-
-<p><code>$0</code> 代表执行环境，如果是一个执行脚本的话，<code>$0</code> 代表其脚本名；比如下面这个脚本hello.sh:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
-</span><span class="line">
-</span><span class="line">echo $0
-</span><span class="line">echo $1
-</span><span class="line">echo $2</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>执行:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># ./hello.sh arg1 arg2
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>会输出</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">./hello.sh
-</span><span class="line">arg1
-</span><span class="line">arg2</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="xargs-sh--c-arg">xargs 调用sh -c 中的arg</h4>
-
-<p>但是使用<code>xargs sh -c</code>时会出现一个比较疑惑的情况，比如执行:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># echo hello world|xargs sh -c 'echo $1 $2'
-</span><span class="line">
-</span><span class="line">world</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>此时<code>$1</code>代表world，<code>$2</code>已经没有值了；而执行</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># echo hello world|xargs sh -c 'echo $0 $1'
-</span><span class="line">
-</span><span class="line">hello world</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>反而得到了正确结果；</p>
-
-<h4 id="why">why</h4>
-
-<p>之前我一直认为<code>xargs sh -c</code>调用的时候吃掉了<code>$0</code>，不求甚解；偶尔读了一下sh的手册才发现玄机:</p>
-
-<blockquote>
-  <p>From the documentation for the -c option:</p>
-</blockquote>
-
-<blockquote>
-  <p>Read commands from the command_string operand. Set the value of special parameter 0 (see Special Parameters) from the value of the command_name operand and the positional parameters ($1, $2, and so on) in sequence from the remaining argument operands.</p>
-</blockquote>
-
-<p>就是说在上面这条命令中，其实是没有找到要执行的命令，或者说要执行的命令为空，而hello world作为<code>$1</code>, <code>$2</code>传给一个空命令了；</p>
-
-<p>后面追加一个dummy的命令会看的更清楚:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># echo hello world|xargs sh -c 'echo $1 $2' _
-</span><span class="line">
-</span><span class="line">hello world</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>后面我加了一条下划线作为xargs的dummy command，这样<code>$1</code>, <code>$2</code>就恢复正常了；</p>
-
-<h4 id="section">总结</h4>
-
-<p>虽然这是一个啥用也没有的Magic Topic，但是搞明白之后还是挺有意思的，娱乐用；</p>
-
-<p>另外隐隐约约觉得这里面隐含着一些安全方面的问题，暂时只是一种感觉，将来需要留意有没有这方面的hack手段;</p>
-
-<h4 id="section-1">引用</h4>
-
-<p>https://stackoverflow.com/questions/41043163/xargs-sh-c-skipping-the-first-argument</p>
 ]]></content>
   </entry>
   
