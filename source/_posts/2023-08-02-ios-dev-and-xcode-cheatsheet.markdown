@@ -19,9 +19,9 @@ categories: tools
 * 当引用类似 ``#import "happynet-Swfit.h"` 提示找不到的时候， 请检查引用次序，类似:
  
  ```
-	@import TestDylib;
-	#include "xxx-Swift.h"
-	#import "xxxmanager.h"
+@import TestDylib;
+#include "xxx-Swift.h"
+#import "xxxmanager.h"
  ```
 
 * 编译提示少符号的时候，检查 `Target-> Build Phases-> Compile Sources` 是否把所有文件添加进去了
