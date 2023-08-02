@@ -141,14 +141,18 @@ MathJax.Hub.Config({
 </pre></td><td class="code"><pre><code class=""><span class="line">#import "xxx.h"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>当引用类似 &#8220;#import “happynet-Swfit.h”` 提示找不到的时候， 请检查引用次序，类似:</li>
+  <li>当引用类似 <code>#import "happynet-Swfit.h"</code> 提示找不到的时候， 请检查引用次序，类似:</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">@import TestDylib;
+</span><span class="line">
 </span><span class="line">#include "xxx-Swift.h"
+</span><span class="line">
 </span><span class="line">#import "xxxmanager.h"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>

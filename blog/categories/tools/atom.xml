@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-08-02T15:44:57+08:00</updated>
+  <updated>2023-08-02T15:47:26+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -34,14 +34,16 @@
 </code></p>
 
 <ul>
-  <li>当引用类似 ``#import “happynet-Swfit.h”` 提示找不到的时候， 请检查引用次序，类似:</li>
+  <li>当引用类似 <code>#import "happynet-Swfit.h"</code> 提示找不到的时候， 请检查引用次序，类似:</li>
 </ul>
 
-<p><code>
-@import TestDylib;
-#include "xxx-Swift.h"
-#import "xxxmanager.h"
-</code></p>
+<p>```
+@import TestDylib;</p>
+
+<h1 id="include-xxx-swifth">include “xxx-Swift.h”</h1>
+
+<h1 id="import-xxxmanagerh">import “xxxmanager.h”</h1>
+<p>```</p>
 
 <ul>
   <li>编译提示少符号的时候，检查 <code>Target-&gt; Build Phases-&gt; Compile Sources</code> 是否把所有文件添加进去了</li>
