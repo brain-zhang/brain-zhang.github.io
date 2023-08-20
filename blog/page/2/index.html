@@ -100,6 +100,53 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">How to Hide a Password Passed as Command Line Argument?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2021-05-22T17:22:37+08:00" pubdate data-updated="true">May 22<span>nd</span>, 2021</time>
+        
+           | <a href="/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/05/22/how-to-hide-a-password-passed-as-command-line-argument/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有部分软件设计的时候没有考虑命令行参数之外传递密码的途径，无法用环境变量或配置传递密码；导致任何用户用ps一看都能看到，这是重大的安全隐患；</p>
+
+<p>解决方法很tricky:</p>
+
+<p>https://serverfault.com/questions/592744/how-to-hide-a-password-passed-as-command-line-argument</p>
+
+<p>https://stackoverflow.com/questions/3830823/hiding-secret-from-command-line-parameter-on-unix</p>
+
+<p>做软件设计的时候一定要考虑命令行传递密码的替代方案；</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2021/05/17/how-to-become-superuser-on-ubuntu-linux/">How to Become Superuser on Ubuntu Linux</a></h1>
     
     
@@ -640,50 +687,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/">How to Sort by Length of String Followed by Alphabetical Order</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2020-08-17T08:34:52+08:00" pubdate data-updated="true">Aug 17<span>th</span>, 2020</time>
-        
-           | <a href="/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>shell中，多行文本，先按照字母长度排序，相同长度再按照字母序排列；</p>
-
-<p>做了很多次，隔几天就忘，让人绝望：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat /tmp/xxx.txt|sort -u | awk '{print length($0), $0}'  | sort -k2,2n -k1,1n -k3,3 |cut -d" " -f2-|less</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -701,6 +704,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/">Enable /etc/rc.local With Systemd on Ubuntu 20.04</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/">Ios Dev and Xcode Cheat</a>
       </li>
     
@@ -714,10 +721,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/">Migrate PVE Storage From ZFS to Lvm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2022/07/26/rsync-cheat/">Rsync Cheat</a>
       </li>
     
   </ul>
@@ -830,7 +833,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (87)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (88)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

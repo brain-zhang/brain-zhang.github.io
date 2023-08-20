@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-08-02T15:47:26+08:00</updated>
+  <updated>2023-08-20T15:03:30+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Enable /etc/rc.local With Systemd on Ubuntu 20.04]]></title>
+    <link href="https://brain-zhang.github.io/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/"/>
+    <updated>2023-08-20T15:01:38+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04</id>
+    <content type="html"><![CDATA[<h1 id="setup-systemd-service-file">setup systemd service file</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo vi /etc/systemd/system/rc-local.service
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">[Unit]
+</span><span class="line"> Description=/etc/rc.local Compatibility
+</span><span class="line"> ConditionPathExists=/etc/rc.local
+</span><span class="line">[Service]
+</span><span class="line"> Type=forking
+</span><span class="line"> ExecStart=/etc/rc.local start
+</span><span class="line"> TimeoutSec=0
+</span><span class="line"> StandardOutput=tty
+</span><span class="line"> RemainAfterExit=yes
+</span><span class="line"> SysVStartPriority=99
+</span><span class="line">[Install]
+</span><span class="line"> WantedBy=multi-user.target</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h1 id="enable-systemd-service">enable systemd service</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl enable rc-local</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h1 id="create-rclocal">create rc.local</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo vi /etc/rc.local
+</span><span class="line">
+</span><span class="line">#!/bin/bash
+</span><span class="line">...
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">sudo chmod +x /etc/rc.local</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ios Dev and Xcode Cheat]]></title>
@@ -1358,20 +1420,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 <p>More info in:</p>
 
 <p>https://github.com/bitcoin/bitcoin/tree/master/contrib/init</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Sort by Length of String Followed by Alphabetical Order]]></title>
-    <link href="https://brain-zhang.github.io/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/"/>
-    <updated>2020-08-17T08:34:52+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order</id>
-    <content type="html"><![CDATA[<p>shell中，多行文本，先按照字母长度排序，相同长度再按照字母序排列；</p>
-
-<p>做了很多次，隔几天就忘，让人绝望：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat /tmp/xxx.txt|sort -u | awk '{print length($0), $0}'  | sort -k2,2n -k1,1n -k3,3 |cut -d" " -f2-|less</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
