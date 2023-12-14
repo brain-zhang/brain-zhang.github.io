@@ -100,6 +100,146 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/">How to Set Systemd Startup Script for Bitcoind?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-12-29T16:22:42+08:00" pubdate data-updated="true">Dec 29<span>th</span>, 2020</time>
+        
+           | <a href="/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2020/12/29/how-to-set-systemd-startup-script-for-bitcoind/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="setup-bitcoindservice">setup bitcoind.service</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/systemd/system/bitcoind.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[Unit]
+</span><span class="line">Description=Bitcoin daemon
+</span><span class="line">After=network.target
+</span><span class="line">
+</span><span class="line">[Service]
+</span><span class="line">ExecStart=/opt/node/bitcoin/bin/bitcoind -daemon -conf=/opt/node/bitcoin/blockdata/bitcoin.conf -pid=/run/bitcoind/bitcoind.pid
+</span><span class="line"># Creates /run/bitcoind owned by bitcoin
+</span><span class="line">RuntimeDirectory=bitcoind
+</span><span class="line">RuntimeDirectoryPreserve=yes
+</span><span class="line">User=ubuntu
+</span><span class="line">Type=forking
+</span><span class="line">PIDFile=/run/bitcoind/bitcoind.pid
+</span><span class="line">Restart=on-failure
+</span><span class="line">StandardOutput=/var/log/bitcoind.log
+</span><span class="line">StandardError=/var/log/bitcoind.log
+</span><span class="line">
+</span><span class="line"># Hardening measures
+</span><span class="line">####################
+</span><span class="line">
+</span><span class="line"># Provide a private /tmp and /var/tmp.
+</span><span class="line">PrivateTmp=true
+</span><span class="line">
+</span><span class="line"># Mount /usr, /boot/ and /etc read-only for the process.
+</span><span class="line">ProtectSystem=full
+</span><span class="line">
+</span><span class="line"># Disallow the process and all of its children to gain
+</span><span class="line"># new privileges through execve().
+</span><span class="line">NoNewPrivileges=true
+</span><span class="line">
+</span><span class="line"># Use a new /dev namespace only populated with API pseudo devices
+</span><span class="line"># such as /dev/null, /dev/zero and /dev/random.
+</span><span class="line">PrivateDevices=true
+</span><span class="line">
+</span><span class="line">[Install]
+</span><span class="line">WantedBy=multi-user.target
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="reload-systemctl-daemon">Reload systemctl daemon</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl daemon-reload</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="enabled-new-bitcoind-service">Enabled new bitcoind service</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl enable bitcoind</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="commands-to-start-or-stop-the-service">Commands to start or stop the service</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl stop bitcoind
+</span><span class="line">systemctl start bitcoind</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="show-service-status">Show service status</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">systemctl status bitcoind.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>More info in:</p>
+
+<p>https://github.com/bitcoin/bitcoin/tree/master/contrib/init</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2020/08/17/how-to-sort-by-length-of-string-followed-by-alphabetical-order/">How to Sort by Length of String Followed by Alphabetical Order</a></h1>
     
     
@@ -581,52 +721,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/11/18/wslquan-xian-guan-li/">WSL权限管理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-11-18T10:45:54+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/11/18/wslquan-xian-guan-li/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/11/18/wslquan-xian-guan-li/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>重装系统，又折腾了一遍WSL环境，记录一下:</p>
-
-<p>WSL (Win­dows Sub­sys­tem for Linux) 通过 /mnt 目录下的 c、d、e 等目录可分别访问本地的 C、D、E 等盘，虽然可以直接访问 Win­dows 下的文件内容，但输入 ls -al 查看文件你会发现文件权限全都是 777。这会导致一些问题出现，比如 Git会保留这些文件的执行权限，如果你之前在 Win­dows 下使用过 Git Bash ，那么在 WSL 中使用 <code>git status</code>查看本地仓库的文件状态时你会发现它们全部被标记成了 modified。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/11/18/wslquan-xian-guan-li/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -644,6 +738,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/12/14/bi-te-bi/">比特币,AI,以及共产主义</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/">Enable /etc/rc.local With Systemd on Ubuntu 20.04</a>
       </li>
     
@@ -657,10 +755,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/">Fix LVM Disks Missing Under /dev/xxx in PVE7.1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/">Migrate PVE Storage From ZFS to Lvm</a>
       </li>
     
   </ul>
@@ -750,7 +844,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (21)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (22)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>

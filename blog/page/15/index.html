@@ -100,6 +100,65 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/12/04/game-theory/">Game Theory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-04T17:39:24+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2017</time>
+        
+           | <a href="/blog/2017/12/04/game-theory/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2017/12/04/game-theory/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>看网易公开课的博弈论，很有意思，记下笔记:</p>
+
+<h2 id="section">导论-五个入门结论</h2>
+
+<ol>
+  <li>
+    <p>don’t play a strictly dominated strategy</p>
+  </li>
+  <li>
+    <p>rational choice in case lead to outcomes suck</p>
+  </li>
+  <li>
+    <p>you can’t get what you want ,till you know what you want</p>
+  </li>
+  <li>
+    <p>put yourself in others’ shoes and try to figure out what they will do</p>
+  </li>
+  <li>
+    <p>most people are evil</p>
+  </li>
+</ol>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/12/03/how-to-config-samba-config-with-no-password-share/">How to Config Samba Config With No Password Share</a></h1>
     
     
@@ -683,65 +742,6 @@ run()
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Python在windows CMD中输出中文</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-02-14T16:06:12+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2017</time>
-        
-           | <a href="/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2017/02/14/pythonzai-windows-cmdzhong-shu-chu-zhong-wen/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在windows CMD中输出中文是比较烦的事情，最简单的就是增加一个windows.py，用的时候import一下:</p>
-
-<pre><code>#!/usr/bin/env python
-#  -*- coding: utf-8 -*-
-import sys
-
-class UnicodeStreamFilter:
-    def __init__(self, target):
-        self.target = target
-        self.encoding = 'utf-8'
-        self.errors = 'replace'
-        self.encode_to = self.target.encoding
-    def write(self, s):
-        if type(s) == str:
-            s = s.decode("utf-8")
-        s = s.encode(self.encode_to, self.errors).decode(self.encode_to)
-        self.target.write(s)
-
-if sys.stdout.encoding == 'cp936':
-    sys.stdout = UnicodeStreamFilter(sys.stdout)
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/16/">&larr; Older</a>
@@ -759,6 +759,10 @@ if sys.stdout.encoding == 'cp936':
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/12/14/bi-te-bi/">比特币,AI,以及共产主义</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/">Enable /etc/rc.local With Systemd on Ubuntu 20.04</a>
       </li>
     
@@ -772,10 +776,6 @@ if sys.stdout.encoding == 'cp936':
     
       <li class="post">
         <a href="/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/">Fix LVM Disks Missing Under /dev/xxx in PVE7.1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/">Migrate PVE Storage From ZFS to Lvm</a>
       </li>
     
   </ul>
@@ -865,7 +865,7 @@ if sys.stdout.encoding == 'cp936':
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (21)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (22)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
