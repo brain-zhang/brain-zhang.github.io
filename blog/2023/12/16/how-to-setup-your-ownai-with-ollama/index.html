@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Setup Your ownAI With Ollama - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="AI大潮汹涌，一年时间，各种大模型层出不穷；用多了ChatGPT，自然想要自己本地搭建一个，看看单机版大模型的表现如何； 目前最简单的，还是用ollama，简单记录一下本地搭建流程。 硬件 垃圾党配置: CPU: E5 2680V2 内存: 64GB 显卡: GTX3060 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://brain-zhang.github.io/blog/2023/12/16/how-to-setup-your-ownai-with-ollama">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- 
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="brain-zhang.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/android/"><i class="fa fa-flask"></i>Android</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Setup Your ownAI With Ollama</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2023-12-16T17:39:58+08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2023</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>AI大潮汹涌，一年时间，各种大模型层出不穷；用多了ChatGPT，自然想要自己本地搭建一个，看看单机版大模型的表现如何；</p>
+
+<p>目前最简单的，还是用ollama，简单记录一下本地搭建流程。</p>
+
+<!-- more -->
+
+<h4 id="section">硬件</h4>
+
+<p>垃圾党配置:</p>
+
+<ul>
+  <li>CPU: E5 2680V2</li>
+  <li>内存: 64GB</li>
+  <li>显卡: GTX3060</li>
+</ul>
+
+<p>如果要运行一个7B的模型，这个配置可以满足比较简单的问答了，一般一分钟内能出100个Token</p>
+
+<p>但如果要运行一个13B的模型，无论如何都要上3090了;</p>
+
+<h4 id="section-1">软件配置</h4>
+
+<p>ubuntu20.04LTS + NVIDIA-SMI 525.147.05 + CUDA11.3</p>
+
+<h4 id="section-2">搭建过程</h4>
+
+<ol>
+  <li>安装ollama</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">curl https://ollama.ai/install.sh | sh</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>修改配置文件，开放对外服务</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim /etc/systemd/system/ollama.service
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"># 增加环境变量
+</span><span class="line">iEnvironment=OLLAMA_HOST=0.0.0.0
+</span><span class="line">Environment=OLLAMA_ORIGINS=*
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"># 重启服务
+</span><span class="line">
+</span><span class="line">systemctl daemon-reload
+</span><span class="line">systemctl restart ollama</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>搭建一个web UI</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway --name ollama-webui --restart always ghcr.io/ollama-webui/ollama-webui:main</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>此时就可以用 <code>http://x.x.x.x:3000</code> 这个地址访问AI服务了</p>
+
+<ol>
+  <li>下载模型</li>
+</ol>
+
+<p>我实验下来，有两个模型还是可以的，就是 llvma2和dolphin-mixtral,但是他们的中文能力都不怎么样，英文表现好一点</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ollama pull llama2:latest
+</span><span class="line">ollama pull dolphin-mixtral:latest</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-3">性能</h4>
+
+<p>Token输出速度还是可以的，一般问答一分钟都可以输出；这个时候3060 12GB显存基本上满载了；</p>
+
+<h4 id="section-4">表现</h4>
+
+<p>只能说，如果一年前本地跑模型能达到这个水平，那我会震惊；</p>
+
+<p>但是现在用多了ChatGPT4V；只能说差得远；不能用作生产，只能个人娱乐；</p>
+
+<p>听说现在当红的 <code>mixtral-8x7</code>表现很不错，但是这个模型至少需要A100级别才能跑起来；暂时没有这种条件，只能看着人家搞流口水……</p>
+
+<p>AGI，已经变成超重资产行业了…</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2023-12-16T17:39:58+08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2023</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ai/'>ai</a>, <a class='category' href='/blog/categories/develop/'>develop</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2023/12/14/bi-te-bi/" title="Previous Post: 比特币,AI,以及共产主义">&laquo; 比特币,AI,以及共产主义</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/">How to Setup Your ownAI With Ollama</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/12/14/bi-te-bi/">比特币,AI,以及共产主义</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/">Enable /etc/rc.local With Systemd on Ubuntu 20.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/">Ios Dev and Xcode Cheat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2023 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'memoryboxes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://brain-zhang.github.io/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/';
+        var disqus_url = 'https://brain-zhang.github.io/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

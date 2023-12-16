@@ -100,6 +100,50 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/05/01/gobao-guan-li-gong-ju/">Go包管理工具</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-05-01T15:25:27+08:00" pubdate data-updated="true">May 1<span>st</span>, 2019</time>
+        
+           | <a href="/blog/2019/05/01/gobao-guan-li-gong-ju/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/05/01/gobao-guan-li-gong-ju/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>真的，Go的包管理工具之发展过程充分体现了什么叫<code>折腾</code>。 (叹气~~~)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/05/01/gobao-guan-li-gong-ju/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/04/08/zhi-shu-tou-zi-ce-lue/">指数投资策略</a></h1>
     
     
@@ -563,75 +607,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/01/16/wsl-best-practice/">Wsl Best Practice</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-01-16T14:13:58+08:00" pubdate data-updated="true">Jan 16<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/01/16/wsl-best-practice/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/01/16/wsl-best-practice/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>WSL用了一年，感觉还不错。尤其是在我的机器上pypy3.5版本的<code>SHA512 pbkdf</code>计算性能竟然超越了原生Linux和Windows。成为Python运行效率最高的平台，实在是匪夷所思的事情。</p>
-
-<p>WSL最让我满意的，是命令行里面可以结合Windows和Linux的命令行工具来管道处理，这个实在是太赞了。纯粹计算类的程序，Windows上面有很多现成的命令行工具，现在终于能:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ping.exe -t xxx.xxx.xxx.xxx|grep xxxx|echo -I xxx ~~~
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这样来搞了，事实上，我自己写了很多Python脚本来处理Powershell自带的很多工具输出的内容，还有不少GPU运算程序大多数跑在Windows上面，能直接重定向到Linux上面实在太好了。</p>
-
-<p>另外，WSL网络协议栈和Windows是共享的，倒是直接省了一个事，我直接把http_proxy配置成本地的shadowsock服务就很安逸的翻墙了；方便。</p>
-
-<p>最后，就等着磁盘性能的改善了。</p>
-
-<p>下面记一下常用的坑：</p>
-
-<ul>
-  <li>如果开机之后插拔一个移动硬盘，需要手工在WSL中执行重新挂载命令：</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo umount /mnt/g &amp;&amp; sudo mount -t drvfs "G:" /mnt/g
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>WSL跟最新2019版本的卡巴斯基冲突，卡巴斯基默认会过滤所有HTTP流量</li>
-</ul>
-
-<p>目前无解；要么禁用卡巴斯基的HTTP过滤功能，要么回退2018版本</p>
-
-<p>最后，多个版本实验之后，锁定Win10 1709我也能连续3个月不关机了，稳定性可喜可贺。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -649,6 +624,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/">How to Setup Your ownAI With Ollama</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/12/14/bi-te-bi/">比特币,AI,以及共产主义</a>
       </li>
     
@@ -662,10 +641,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/">Fix LVM Disks Missing Under /dev/xxx in PVE7.1</a>
       </li>
     
   </ul>
@@ -728,7 +703,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
 <li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
-<li class='category'><a href='/blog/categories/ai/'>ai (5)</a></li>
+<li class='category'><a href='/blog/categories/ai/'>ai (6)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
 <li class='category'><a href='/blog/categories/blockchain/'>blockchain (63)</a></li>
@@ -737,7 +712,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
 <li class='category'><a href='/blog/categories/cisco/'>cisco (1)</a></li>
 <li class='category'><a href='/blog/categories/crontab/'>crontab (1)</a></li>
-<li class='category'><a href='/blog/categories/develop/'>develop (34)</a></li>
+<li class='category'><a href='/blog/categories/develop/'>develop (35)</a></li>
 <li class='category'><a href='/blog/categories/django/'>django (2)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker (5)</a></li>
 <li class='category'><a href='/blog/categories/docker/'>docker, (1)</a></li>

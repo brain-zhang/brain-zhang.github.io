@@ -1137,8 +1137,14 @@
         <lastmod>2023-12-14T11:10:37+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            https://brain-zhang.github.io/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/
+        </loc>
+        <lastmod>2023-12-16T17:58:18+08:00</lastmod>
+    </url>
+    <url>
         <loc>https://brain-zhang.github.io/</loc>
-        <lastmod>2023-12-14T11:10:37+08:00</lastmod>
+        <lastmod>2023-12-16T17:58:18+08:00</lastmod>
     </url>
     <url>
         <loc>https://brain-zhang.github.io/privacy/</loc>
@@ -1150,7 +1156,7 @@
     </url>
     <url>
         <loc>https://brain-zhang.github.io/blog/archives/</loc>
-        <lastmod>2023-12-14T11:10:37+08:00</lastmod>
+        <lastmod>2023-12-16T17:58:18+08:00</lastmod>
     </url>
     <url>
         <loc>https://brain-zhang.github.io/robots.txt</loc>

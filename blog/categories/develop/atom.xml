@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Develop | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/develop/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-12-14T11:11:08+08:00</updated>
+  <updated>2023-12-16T17:58:38+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Setup Your ownAI With Ollama]]></title>
+    <link href="https://brain-zhang.github.io/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/"/>
+    <updated>2023-12-16T17:39:58+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2023/12/16/how-to-setup-your-ownai-with-ollama</id>
+    <content type="html"><![CDATA[<p>AI大潮汹涌，一年时间，各种大模型层出不穷；用多了ChatGPT，自然想要自己本地搭建一个，看看单机版大模型的表现如何；</p>
+
+<p>目前最简单的，还是用ollama，简单记录一下本地搭建流程。</p>
+
+<!-- more -->
+
+<h4 id="section">硬件</h4>
+
+<p>垃圾党配置:</p>
+
+<ul>
+  <li>CPU: E5 2680V2</li>
+  <li>内存: 64GB</li>
+  <li>显卡: GTX3060</li>
+</ul>
+
+<p>如果要运行一个7B的模型，这个配置可以满足比较简单的问答了，一般一分钟内能出100个Token</p>
+
+<p>但如果要运行一个13B的模型，无论如何都要上3090了;</p>
+
+<h4 id="section-1">软件配置</h4>
+
+<p>ubuntu20.04LTS + NVIDIA-SMI 525.147.05 + CUDA11.3</p>
+
+<h4 id="section-2">搭建过程</h4>
+
+<ol>
+  <li>安装ollama</li>
+</ol>
+
+<p><code>
+curl https://ollama.ai/install.sh | sh
+</code></p>
+
+<ol>
+  <li>修改配置文件，开放对外服务</li>
+</ol>
+
+<p>```
+vim /etc/systemd/system/ollama.service</p>
+
+<h1 id="section-3">增加环境变量</h1>
+<p>iEnvironment=OLLAMA_HOST=0.0.0.0
+Environment=OLLAMA_ORIGINS=*</p>
+
+<h1 id="section-4">重启服务</h1>
+
+<p>systemctl daemon-reload
+systemctl restart ollama
+```</p>
+
+<ol>
+  <li>搭建一个web UI</li>
+</ol>
+
+<p><code>
+docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway --name ollama-webui --restart always ghcr.io/ollama-webui/ollama-webui:main
+</code></p>
+
+<p>此时就可以用 <code>http://x.x.x.x:3000</code> 这个地址访问AI服务了</p>
+
+<ol>
+  <li>下载模型</li>
+</ol>
+
+<p>我实验下来，有两个模型还是可以的，就是 llvma2和dolphin-mixtral,但是他们的中文能力都不怎么样，英文表现好一点</p>
+
+<p><code>
+ollama pull llama2:latest
+ollama pull dolphin-mixtral:latest
+</code></p>
+
+<h4 id="section-5">性能</h4>
+
+<p>Token输出速度还是可以的，一般问答一分钟都可以输出；这个时候3060 12GB显存基本上满载了；</p>
+
+<h4 id="section-6">表现</h4>
+
+<p>只能说，如果一年前本地跑模型能达到这个水平，那我会震惊；</p>
+
+<p>但是现在用多了ChatGPT4V；只能说差得远；不能用作生产，只能个人娱乐；</p>
+
+<p>听说现在当红的 <code>mixtral-8x7</code>表现很不错，但是这个模型至少需要A100级别才能跑起来；暂时没有这种条件，只能看着人家搞流口水……</p>
+
+<p>AGI，已经变成超重资产行业了…</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[吴恩达机器学习笔记-5]]></title>
@@ -804,63 +898,6 @@ def sigmoid(x, derivative=False):
 ```</p>
 
 <p>最后，它的梯度下降看上去同正则化的线性回归一样，但是由于假设ℎ𝜃(𝑥)=𝑔(𝜃𝑇𝑋) ，所以与线性回归不同。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Unicode String Parse With Python and Fileinput]]></title>
-    <link href="https://brain-zhang.github.io/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput/"/>
-    <updated>2019-09-06T11:41:03+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2019/09/06/unicode-string-parse-with-python-and-fileinput</id>
-    <content type="html"><![CDATA[<p>用fileinput模块parse数据很方便:</p>
-
-<p>```
-import fileinput</p>
-
-<p>if <strong>name</strong> == ‘<strong>main</strong>’:
-    for line in fileinput.input():
-        sys.stdout.write(line)</p>
-
-<p>```</p>
-
-<p>但有时候会碰到UnicodeDecodeError:</p>
-
-<p>比如执行:</p>
-
-<!-- more -->
-
-<p>```
-echo -e “foo\x80bar” |python3 testinput.py</p>
-
-<p>…
-UnicodeDecodeError: ‘utf8’ codec can’t decode byte 0x80 in position 3: invalid start byte
-```</p>
-
-<p>这种错误还不好用<code>try .. catch</code>忽略掉，因为它是在fileinput模块中自己parse的；</p>
-
-<p>Python2的时候很罗嗦，需要自己用codecs去判断之后，才能parse;</p>
-
-<p>Python3总算是引入了一个openhook参数，可以自己hook处理了；</p>
-
-<p>最简单的处理方式:</p>
-
-<p>```
-import fileinput
-import io
-import sys</p>
-
-<p>if <strong>name</strong> == ‘<strong>main</strong>’:
-    sys.stdin = io.TextIOWrapper(sys.stdin.buffer, errors=’replace’)
-    for line in fileinput.input(openhook=fileinput.hook_encoded(“utf-8”)):
-        sys.stdout.write(line)</p>
-
-<p>```</p>
-
-<p>参考:</p>
-
-<p>https://stackoverflow.com/questions/24754861/unicode-file-with-python-and-fileinput</p>
-
-<p>https://bugs.python.org/issue26756</p>
 ]]></content>
   </entry>
   
