@@ -100,6 +100,48 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2021/11/07/how-to-limit-docker-cpus/">How to Limit Exists Running Docker Container Cpus</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2021-11-07T11:05:44+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2021</time>
+        
+           | <a href="/blog/2021/11/07/how-to-limit-docker-cpus/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/11/07/how-to-limit-docker-cpus/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker update --cpu-period=100000 --cpu-quota=40000  &lt;container&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>意思是cpu时间切分为100000份，指定容器占用40000份，即cpu占用率最高40%</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2021/06/05/lnd-low-rescan-speed-for-startup/">Lnd Low Rescan Speed for Startup</a></h1>
     
     
@@ -566,54 +608,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/">Linux服务器极简安全配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2021-01-06T17:33:38+08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2021</time>
-        
-           | <a href="/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>网络知识了解的越多，就越胆小；也许，这就是江湖吧；</p>
-
-<p>当配置一台新的Linux服务器并上线时，其实就是将Server暴露到了炮火横飞的战场上，任何的大意都会让其万劫不复；但由于永恒的人性的弱点，我们总是在安全和便利之间摇摆；</p>
-
-<p>本文希望能提供一种最简单的办法，帮助我们抵抗大多数的炮火；</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2021/01/06/linuxfu-wu-qi-de-ji-jian-an-quan-pei-zhi/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -631,6 +625,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/12/18/yong-heng-de-ai-yu-he-ping-%2C-zeng-e-yu-zhan-zheng-de-dui-li/"><Pluto>永恒的爱与和平、憎恶与战争的对立</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/">How to Setup Your ownAI With Ollama</a>
       </li>
     
@@ -644,10 +642,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/">Ios Dev and Xcode Cheat</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
       </li>
     
   </ul>
@@ -737,7 +731,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (22)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (23)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
