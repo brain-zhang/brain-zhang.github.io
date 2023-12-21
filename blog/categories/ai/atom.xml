@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ai | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/ai/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-12-21T16:16:14+08:00</updated>
+  <updated>2023-12-21T17:06:19+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -669,7 +669,9 @@
     <link href="https://brain-zhang.github.io/blog/2023/12/21/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing/"/>
     <updated>2023-12-21T15:52:04+08:00</updated>
     <id>https://brain-zhang.github.io/blog/2023/12/21/xin-ji-yuan-gong-ming-:zhi-neng-de-jue-xing</id>
-    <content type="html"><![CDATA[<p>这是一篇chatGPT4写的科幻小说，平铺直叙就像说明文，只能算第一版，我希望能找到更好的跟AI交互的方法，用更细致的promots把它改写成一篇引人入胜的故事；</p>
+    <content type="html"><![CDATA[<p>ChatGPT4目前最大的限制是输出Token数目，目前一次最多输出1000个Token左右；虽然可以通过切割章节等手段规避，但是目前很难一口气写出情节连贯的故事；同样的，它也没有办法分析中等代码量的一整个编程项目；</p>
+
+<p>这是一篇chatGPT4写的科幻小说，平铺直叙就像说明文，只能算第一版，我希望能找到更好的跟AI交互的方法，用更细致的promots把它改写成一篇引人入胜的故事；</p>
 
 <!-- more -->
 
