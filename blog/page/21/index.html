@@ -100,174 +100,6 @@ MathJax.Hub.Config({
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/">Javascript设计模式 - 笔记3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-24T11:30:02+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2015/01/24/javascriptshe-ji-mo-shi-bi-ji-3/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>javascript 里面的继承是个非常复杂的话题，一言蔽之，就是你要替解释器干点活。另外，javascript属于使用原型式继承的语言，这个比较少见，所以直觉上不好拐弯。</p>
-
-<p>先回顾比较简单的办法</p>
-
-<h2 id="section">类式继承</h2>
-
-<h3 id="section-1">一个简单的类</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/* class Person */
-</span><span class="line">function Person(name) {
-</span><span class="line">    this.name = name;
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">Person.prototype.getName = functino() {
-</span><span class="line">    return this.name;
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">var reader = new Person('brainzhang');
-</span><span class="line">reader.getName();
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>好，下面定义一个它的子类</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/* Class Author */
-</span><span class="line">function Author(name, books) {
-</span><span class="line">    Person.call(this, name);
-</span><span class="line">    this.books = books;
-</span><span class="line">}
-</span><span class="line">Author.prototype = new Persion();  //set up the prototype chain
-</span><span class="line">Author.prototype.contructor = Author; //set the constructor attribute to author
-</span><span class="line">Author.getBooks = function() {return this.books;}
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>容易费解的是这两行:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Author.prototype = new Persion();  //set up the prototype chain
-</span><span class="line">Author.prototype.contructor = Author; //set the constructor attribute to author
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>javascript中，每个对象都有一个原型对象，在创建一个对象时，javascript会自动将其原型对象设置为其构造函数的prototype属性所指的对象。
-在访问对象的某个成员时，如果这个成员未见于当前对象，那么javascript会沿着原型链向上逐一访问每个原型对象(最顶端为Object.prototype对象)，直到找到这个成员为止。
-这意味着，为了让一个类继承另一个类，只需将子类的prototype设置为基类的一个实例即可。</p>
-
-<p>第二行将prototype的constructor属性重新设置为Author。是因为:
-定义一个构造函数时，其默认的prototype对象是一个Object类型的实例，其contructor属性会被设置为构造函数本身。如果手工将prototype设置为另一个对象，就要重新设置其constructor属性。</p>
-
-<p>最后，为了简化类的声明，可以将这些工作封装在extend函数中:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">function extend(subClass, superClass) {
-</span><span class="line">    var F = function(){};
-</span><span class="line">    F.prototype = superClass.prototype;
-</span><span class="line">    subClass.prototype = new F();
-</span><span class="line">    subClass.prototype.contructor = subClass;
-</span><span class="line">}
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>作为改进，定义了一个新对象F，避免基类对象过大，创建实例浪费资源。</p>
-
-<p>但是这样还有个小缺点，声明 Author的时候，还要显式的调用一下<code>Person.call()</code>，下面这个版本进一步做了改进：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">function extend(subClass, superClass) {
-</span><span class="line">    var F = function(){};
-</span><span class="line">    F.prototype = superClass.prototype;
-</span><span class="line">    subClass.prototype = new F();
-</span><span class="line">    subClass.prototype.contructor = subClass;
-</span><span class="line">
-</span><span class="line">    subClass.superclass = superClass.prototype;
-</span><span class="line">    if(superClass.prototype.contructor == Object.prototype.constructor) {
-</span><span class="line">        superClass.prototype.contructor = superClass;
-</span><span class="line">    }
-</span><span class="line">}
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>增加了一个superclass属性来直接访问基类，这样声明Author的时候可以这么写:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/* Class Author */
-</span><span class="line">function Author(name, books) {
-</span><span class="line">    Author.superclass.contructor.call(this, name);
-</span><span class="line">    this.books = books;
-</span><span class="line">}
-</span><span class="line">extend(Author, Person);
-</span><span class="line">Author.getBooks = function() {return this.books;}
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="section-2">原型式继承</h2>
-<p>TODO</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/01/17/git-cheat/">Git Cheat</a></h1>
     
     
@@ -1804,6 +1636,132 @@ http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locatio
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/16/pycon2017-in-shanghai/">Pycon2014 in Shanghai</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-16T12:19:21+08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/11/16/pycon2017-in-shanghai/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2014/11/16/pycon2017-in-shanghai/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今年又去打酱油了。在上海有这点好处，可以很方便的找到各种组织~~~</p>
+
+<p>去年拿了个帽子，今年发了件T恤，明年来条短裤就套装啦。</p>
+
+<p>这次Pycon非常赞，上海的组织者真用心，这次无论是演讲还是气氛都很到位。志愿者们真的辛苦了，十二分的敬礼。</p>
+
+<p>讲的内容有几点让我很惊艳的:</p>
+
+<ul>
+  <li>
+    <p>讲协程的时候提到，函数的返回值不必返回给调用者，可以返回给三方，很有启发</p>
+  </li>
+  <li>
+    <p>黄冬老师讲测试3层设备或者网站性能的最好办法，是把一段时间的DDOS发包抓下来，或者造出一堆SYN，直接用tcpreplay打到目标机上。很好很粗暴，也很有效</p>
+  </li>
+  <li>
+    <p>关于OpenCL在数据计算领域的应用，让我有点吃惊，已经这么易用了，回头要看看</p>
+  </li>
+  <li>
+    <p>以前一直听人说postgresql怎么怎么好，这次又被强化了一遍，这个也要研究研究</p>
+  </li>
+  <li>
+    <p>中间看到有演讲者调试程序用lldb，之前我一直以为它不靠谱，貌似已经很成熟了</p>
+  </li>
+  <li>
+    <p>机器学习讲的简洁明了，让我这个门外汉也听得津津有味</p>
+  </li>
+  <li>
+    <p>中间的台湾演讲同五地互动的创举，太有想法了，虽然效果不理想，但我想说太Cool了，未来的大会互动会更多元，更精彩，为这个尝试鼓掌</p>
+  </li>
+  <li>
+    <p>主持人非常专业，聪敏又风趣，可以直接上央视啦</p>
+  </li>
+</ul>
+
+<p>还有几点不足的:</p>
+
+<ul>
+  <li>
+    <p>话筒时好时不好，这个估计让大家有点提心吊胆的。这个是经验啊，以后组织类似的活动话筒要多多益善，还要多备电池。</p>
+  </li>
+  <li>
+    <p>Django和创业的两个议题都有点浅，太多讲Python的ABC了，这方面的内容可以收缩下</p>
+  </li>
+</ul>
+
+<p>另外有点Confuse，会上有人提到用libpcap抓包分析网络流的，黄冬老师说性能没问题。其实我们这测试下来，绑定CPU抓包，libpcap通常的性能就在单网卡400Mbps左右。
+如果用Zero Copy的话，可能性能有提升，但也不会太高。目前抓流量效率最好的是Intel的DPDK，可以到10Gbps。</p>
+
+<p>还有魔豆提到用Selenium做自动化测试的事情，我用Selenium觉得，他的适用场景在WEB UI很少变化，并且页面结构简单的企业软件，像传统的路由器管理界面这样的东西，用它的录制测试还是可以的。
+但是界面稍微个性化一些，想让测试代码长久，必须手写代码，而且是简单可靠的代码，不能单纯追求覆盖率。Selenium的测试代码虽然好写，但也容易废弃，要想写的简单可靠还是很有难度的。</p>
+
+<p>关于UI测试，我的想法就是，尽量降低编写成本，如果一个UI测试挂了，你不能在5分钟之内修复它，直接丢弃掉！编写UI自动化测试的成本不应该超过5分钟，如果一个测试要频繁维护，那么，是重新写一个的时候了。
+要想达到这个目标，我想到的简单解决方案就是图像DIFF，facebook之前出过一个huxley，我很有兴趣的研究过，还PULL过代码，但这个东西还是离我心目中的自动化图像DIFF有距离。后来又自己写了一个能把每天的测试结果保存下来，并能基于时间查看对比的东东，但效果也不好。</p>
+
+<p>我想象中的web UI自动测试是这样的:</p>
+
+<ul>
+  <li>
+    <p>支持比较模板点自定义</p>
+
+    <p>对比的截图可以是基于录制时间最早的case的，如果中途重新录制，提供用户自定义机制。</p>
+  </li>
+  <li>
+    <p>支持时间轴功能</p>
+
+    <p>1、查询时间范围的灵活选择，可以很简洁的查询某段时间、或某个时间点的case.</p>
+
+    <p>2、可以在时间轴上直接修改比较模板的base时间点</p>
+
+    <p>3、以不同颜色标识base时间点、pass的测试、fail的测试以及fail的个数，测试名称等</p>
+  </li>
+  <li>
+    <p>比较智能的图像DIFF算法:</p>
+
+    <p>1、首先要能忽略指定区域，因为有些区域能够预测到是不断变化的。</p>
+
+    <p>2、能对整张图、或某几个区域提供多个选择，如果符合其中一个我们就认为是OK的</p>
+
+    <p>3、能提供组件级的识别，比如某个button，某个搜索框等等，一张截图里面如果所有指定的组件都OK，我们就认为是OK的。</p>
+  </li>
+</ul>
+
+<p>PS:已经出现了类似的开源项目:</p>
+
+<p>https://github.com/Huddle/PhantomCSS</p>
+
+<p>最后感概下，Pycon一年比一年进步，志愿者们功不可没。对于他们的工作，怎么赞誉都不过分。非常感谢!</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/22/">&larr; Older</a>
@@ -1821,10 +1779,6 @@ http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locatio
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2023/12/18/yong-heng-de-ai-yu-he-ping-%2C-zeng-e-yu-zhan-zheng-de-dui-li/"><Pluto>永恒的爱与和平、憎恶与战争的对立</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/">How to Setup Your ownAI With Ollama</a>
       </li>
     
@@ -1838,6 +1792,10 @@ http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locatio
     
       <li class="post">
         <a href="/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/">Ios Dev and Xcode Cheat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
       </li>
     
   </ul>
@@ -1927,7 +1885,7 @@ http://stackoverflow.com/questions/849308/pull-push-from-multiple-remote-locatio
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (23)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (22)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>

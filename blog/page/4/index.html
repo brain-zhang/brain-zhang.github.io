@@ -100,50 +100,6 @@ MathJax.Hub.Config({
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/">Setup Lightning Node Cheat Sheet</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-11-18T15:14:19+08:00" pubdate data-updated="true">Nov 18<span>th</span>, 2019</time>
-        
-           | <a href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/11/18/setup-lightning-node-cheat-sheet/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>运营一个闪电节点的基本命令速查；</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/11/18/setup-lightning-node-cheat-sheet/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2019/11/18/wslhuan-jing-bei-fen-hui-fu/">WSL环境备份恢复</a></h1>
     
     
@@ -551,6 +507,54 @@ MathJax.Hub.Config({
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/">Paste Fails When Using Bracketed-paste-magic on zsh5.1.1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-09-13T10:50:31+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2019</time>
+        
+           | <a href="/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2019/09/13/paste-fails-when-using-bracketed-paste-magic-on-zsh5-dot-1-1/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>突然碰到了zsh5.1.1的一个bug，粘贴中文的时候会把shell freeze；</p>
+
+<p>不知道是不是on-my-zsh升级的时候搞坏的，一通搜索发现了这个:</p>
+
+<p>https://github.com/zsh-users/zsh-autosuggestions/issues/102</p>
+
+<p>没有升级zsh，我直接到配置文件里把那段自动转义的功能注释掉了，嗯，简单粗暴~~~这东西我也不想天天升级；</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~/.oh-my-zsh/lib/misc.zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -568,10 +572,6 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
-        <a href="/blog/2023/12/18/yong-heng-de-ai-yu-he-ping-%2C-zeng-e-yu-zhan-zheng-de-dui-li/"><Pluto>永恒的爱与和平、憎恶与战争的对立</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/">How to Setup Your ownAI With Ollama</a>
       </li>
     
@@ -585,6 +585,10 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/">Ios Dev and Xcode Cheat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
       </li>
     
   </ul>
@@ -674,7 +678,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (23)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (22)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
