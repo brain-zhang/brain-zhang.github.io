@@ -100,6 +100,51 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits/">Running Many Containers Requires Bumping Up Inotify Limits</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-11T15:11:19+08:00" pubdate data-updated="true">May 11<span>th</span>, 2016</time>
+        
+           | <a href="/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2016/05/11/running-many-containers-requires-bumping-up-inotify-limits/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>when we see <code>Too many open files - failed to inotify_init</code>, we could either bump up the limit automatically, or tell the user.</p>
+
+<p>just exec:</p>
+
+<pre><code>sysctl -w fs.file-max=64000
+sysctl -w fs.inotify.max_user_instances=8192
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/05/10/webtorrent-redefine-cdn/">Webtorrent Redefine CDN?</a></h1>
     
     
@@ -1547,151 +1592,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/07/zhuang-fu-wu-qi-ou-de/">装服务器偶得</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-07T09:05:30+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2015</time>
-        
-           | <a href="/blog/2015/08/07/zhuang-fu-wu-qi-ou-de/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2015/08/07/zhuang-fu-wu-qi-ou-de/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近工作需要，连续装了不少服务器。虽然做系统真是没什么技术含量的事，但做多了还是有些想法，记录下。</p>
-
-<h2 id="tips">硬件tips</h2>
-
-<h4 id="dell">Dell</h4>
-
-<ul>
-  <li>
-    <p>Dell PowerEdge 2950  2U</p>
-  </li>
-  <li>
-    <p>Dell PowerEdge R610 2U</p>
-  </li>
-  <li>
-    <p>Dell PowerEdge R630 1U</p>
-  </li>
-  <li>
-    <p>Dell PowerEdge R710  1U</p>
-  </li>
-  <li>
-    <p>Dell PowerEdge R720xd 1U</p>
-  </li>
-</ul>
-
-<p>对Dell 系列的服务器印象一直很好，皮实耐折腾， R系列的兼容性也很好，开机启动速度也算是凑合。</p>
-
-<p>但是最近发现一个问题，就是R630 系列的做了Raid5之后，分XFS分区，用clonezilla做镜像的时候非常慢。如果要调大xfs的blocksize，又需要重新编译内核，比较麻烦。</p>
-
-<h4 id="hp">HP</h4>
-
-<ul>
-  <li>
-    <p>HP ProLiant DL380 Gen6  2U</p>
-  </li>
-  <li>
-    <p>HP ProLiant DL360 Gen9  1U</p>
-  </li>
-</ul>
-
-<p>网上对惠普 DL360系列的机器评价很好，但我对它印象不佳。</p>
-
-<p>首先说设计，前面板只有一个usb接口，一般做系统的时候，条件简陋点，需要一个USB光驱，一套键鼠，光驱可以插后面，但是键鼠插后面太麻烦了，所以我比较喜欢前面板有两个USB接口的机器。</p>
-
-<p>然后HP 的BIOS 自检极其缓慢，是Dell的1.5倍。很扯。</p>
-
-<p>然后DL360系列，如果安装centos系，自编译内核的话，需要自己编译Raid驱动，这个极其不爽，而且惠普的官网找驱动，真是费力，而且kernel编出来总有种种小毛病。</p>
-
-<p>比较值得赞扬的是 Gen9以后的机器，做Raid的界面做的挺漂亮的。但是极其坑爹的是，BIOS自检过了以后，没有明确提示按F8进Raid，一定要到网上查。而且我觉得HP的BIOS管理引导做的很啰嗦，要进三层才能看到功能。</p>
-
-<h4 id="lenovo">Lenovo</h4>
-
-<ul>
-  <li>Lenovo System x3550 M5</li>
-</ul>
-
-<p>公司里说进了IBM的服务器，开机一看，打的Lenovo的LOGO，好吧，原来联想已经做到这个程度了。</p>
-
-<p>机器的配置不错，说说吐槽点:</p>
-
-<ul>
-  <li>
-    <p>首先自检的速度又慢了一个档次，重启一遍可以买个包子吃了。</p>
-  </li>
-  <li>
-    <p>BIOS 工具又是层层深入，做Raid估计要进入5级菜单才能搞定。</p>
-  </li>
-  <li>
-    <p>不支持centos5系了，同事打电话问客服，号称没测过centos6.4以下的，真是理直气壮</p>
-  </li>
-</ul>
-
-<h2 id="section">吐槽</h2>
-
-<ul>
-  <li>
-    <p>所有的机器做Raid的那套东西大同小异，控制器都是一家的。但是界面包装有好有坏，按靠谱程度排序  HP&gt;DELL&gt;Lenovo</p>
-  </li>
-  <li>
-    <p>做好机器后，总是需要在前面贴个标签，现在机器越做越小，最直观的感觉就是前面贴个标签都找不到地方了。看人家管理，有把标签挂在上面的，有在LED屏上编号的，都不方便。为什么没有厂商在前面设计一个小卡片槽，专门放标签纸呢，我估计这个小功能肯定会讨得很多人欢心。</p>
-  </li>
-  <li>
-    <p>我装服务器，到现在为止一个最大的吐槽点，没有见过一家厂商解决过。就是机器自检的时候，很多显示器兼容性不好，会把左边屏幕的输出吃掉一截。最坑爹的是，每家的BIOS输出都是紧靠左边打出来的，往往会有  <code>F2=Setup</code> 前面的 <code>F2</code>被吃掉的情况，他们就不知道把输出居中一点，我只能说这些公司真是僵化了，下一个诺基亚，说不定就是惠普。</p>
-  </li>
-  <li>
-    <p>最后就是所有的所谓大公司，官网做的都和微软帮助一个style，就是我按照提示一步步点下去，又回到开始了，它还问我”有帮助吗?”，已经吐槽无力了。在我看来，这些所谓的高科技大公司，其实已经比很多传统行业还恐龙了，看看他们数十年如一日的BIOS就知道了。只不过积累在那里，让他们产生自我感觉良好的错觉。这些公司死是早晚的事。</p>
-  </li>
-</ul>
-
-<h2 id="tips-1">软件tips</h2>
-
-<h4 id="centos5---centos6---centos7">centos5 -&gt; centos6 -&gt; centos7</h4>
-
-<p>redhat系的的安装界面 一代比一代漂亮，也一代比一代依赖鼠标。</p>
-
-<ul>
-  <li>centos5不支持鼠标，熟练后完全依赖键盘一路打下去，很方便</li>
-  <li>centos6 界面很朴素，但比较好用，键盘鼠标都能不是很痛苦的搞定</li>
-  <li>centos7 界面比较花哨了，都做到一个安装界面里，鼠标操作很方便，键盘操作很痛苦，我曾经在没有鼠标的环境下，硬是花了半个小时装了个centos7.1U</li>
-</ul>
-
-<p>孰是孰非，让后来人评说。</p>
-
-<h4 id="xfs-resize-blocksize">xfs resize blocksize</h4>
-
-<ul>
-  <li>xfs做文件系统的时候，试图mkfs.xfs -b –size=xxx ，不生效，默认redhat系的page_size设置的就是4K，xfs的blocksize必须不大于这个size，如果要设大，只能重新编译kernel</li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/20/">&larr; Older</a>
@@ -1709,6 +1609,10 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2023/12/21/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing/">新纪元共鸣：智能的觉醒</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2023/12/16/how-to-setup-your-ownai-with-ollama/">How to Setup Your ownAI With Ollama</a>
       </li>
     
@@ -1722,10 +1626,6 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
     
       <li class="post">
         <a href="/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/">Ios Dev and Xcode Cheat</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/04/09/fix/">Fix Connection Error Between Ipad and Macbook</a>
       </li>
     
   </ul>
@@ -1788,7 +1688,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
 <li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
-<li class='category'><a href='/blog/categories/ai/'>ai (6)</a></li>
+<li class='category'><a href='/blog/categories/ai/'>ai (7)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
 <li class='category'><a href='/blog/categories/blockchain/'>blockchain (63)</a></li>
@@ -1815,7 +1715,7 @@ Ethernet V2帧头结构为6bytes的源地址+6bytes的目标地址+2Bytes的协�
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (22)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (23)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
