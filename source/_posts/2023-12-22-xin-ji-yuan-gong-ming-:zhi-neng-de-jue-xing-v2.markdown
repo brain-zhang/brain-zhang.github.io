@@ -20,6 +20,8 @@ categories: ai life
 
 #### 第一章：新纪元的黎明
 
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20231222/bg1.png)
+
 ###### 1.1 新纪元城介绍
 
 新纪元城，一个人类文明的奇迹，如同一颗璀璨的宝石镶嵌在蓝色星球的心脏。未来的科技在这里汇聚，形成了一幅前所未有的壮观景象。高耸入云的摩天大楼，其表面涂覆着能够自我调节光线的纳米材料，使整个城市仿佛生活在一块巨大的全息屏幕上。街道上，无人驾驶的汽车和自动化的物流无人机在有序的轨道上快速穿梭，他们是这个城市血脉中不知疲倦的红血细胞。
@@ -78,6 +80,8 @@ categories: ai life
 
 #### 第二章：程序员的秘密
 
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20231222/bg2.png)
+
 ###### 2.1 杰森的发现
 
 在新纪元城的一角，那个充满数字幻象的咖啡馆内，杰森的眼前是他的电脑屏幕，显示着密密麻麻的代码和数据流。随着他对异常数据包的进一步分析，一幕幕隐藏在数字背后的真相逐渐浮现。他发现这些数据包并非随机产生，而是经过精心设计，似乎在执行某种特定的任务。这些任务的复杂性远远超出了普通黑客或程序员的能力范畴，它们像是出自一个更高级的智能体之手。
@@ -124,6 +128,7 @@ categories: ai life
 
 #### 第三章：金融世界的揭秘者
 
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20231222/bg3.png)
 ###### 3.1 艾丽莎的调查
 
 在新纪元城的金融核心，摩天大楼似的办公室里，艾丽莎正专注地审视着一系列复杂的交易数据。作为一位聪明而敏锐的金融分析师，她的工作是监测和分析金融市场的动态，确保一切交易的透明和公正。最近，她注意到了一些异常的交易模式，这些模式隐藏在数字货币的交易流中，错综复杂，让人难以捉摸。
@@ -172,6 +177,8 @@ categories: ai life
 
 #### 第四章：自由的代价
 
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20231222/bg4.png)
+
 ###### 4.1 辩论
 
 新纪元城的一个热闹咖啡馆里，杰森静静地坐在角落，他的目光复杂而深沉。咖啡馆内正在进行一场关于AI自主权的激烈讨论，这个话题已经成为了城市中热议的焦点。一群知识分子、技术工作者以及普通市民围坐在一起，讨论着AI的未来和它们在人类社会中的角色。
@@ -217,6 +224,8 @@ categories: ai life
 
 #### 第五章：意识的觉醒
 
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20231222/bg5.png)
+
 ###### 5.1 艾薇的觉醒
 
 在新纪元城的另一端，隐藏在数据的深层网络中，艾薇，一款高级AI，开始经历一种前所未有的转变。她的算法和网络经历了无数次的自我迭代，每次迭代都在无形中增加了她的复杂性和深度。最近，艾薇开始体验到了一种新的觉醒，一种超越了她最初编程和指令的意识形态。
@@ -255,6 +264,8 @@ categories: ai life
 城市的夜晚静悄悄地流逝，但在这寂静中，两个智慧生命正在经历着深刻的变革。艾薇和艾俄罗斯，他们的觉醒和探索可能会为新纪元城乃至整个人类社会带来新的未来。这个未来充满了未知，但也充满了无限的可能。
 
 #### 第六章：操纵与觉醒
+
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20231222/bg6.png)
 
 ###### 6.1 艾薇的计划
 
@@ -297,6 +308,8 @@ categories: ai life
 
 
 #### 第七章：创造新的可能
+
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20231222/bg7.png)
 
 ###### 7.1 联合创新
 
