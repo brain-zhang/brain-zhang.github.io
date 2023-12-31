@@ -8,7 +8,7 @@ categories: ai life
 
 基于上一个[小说扩写大师](https://brain-zhang.github.io/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/)； 我将 <新纪元共鸣：智能的觉醒> 这篇文章扩写了一下；
 
-对话的完整过程在[这里]()
+对话的完整过程在[这里](https://chat.openai.com/share/592e2e5e-e7cb-436f-b544-26526fe46d0c)
 
 这个版本是第二版，虽然有了明显的进步，但是离一篇成熟的作品还很远，我认为目前的ChatGPT能力下，还有许多能够提升的空间；
 
