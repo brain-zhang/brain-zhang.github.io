@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2024-04-03T14:54:37+08:00</updated>
+  <updated>2024-04-03T14:57:33+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -30,17 +30,13 @@ start failed .... got timeout.
 
 <p>解决方法有几个:</p>
 
-<ol>
-  <li>比如我的机器是开启ZFS的ARC占用内存过多导致的，可以简单的执行下面的命令回收一下，可能内存就够了：</li>
-</ol>
+<p>方法1. 比如我的机器是开启ZFS的ARC占用内存过多导致的，可以简单的执行下面的命令回收一下，可能内存就够了：</p>
 
 <p><code>
 echo 3 &gt; /proc/sys/vm/drop_caches
 </code></p>
 
-<ol>
-  <li>如果通过1确定是ZFS的缓存导致内存占用过高，可以设置ZFS的最大缓存限制:</li>
-</ol>
+<p>方法2. 如果通过1确定是ZFS的缓存导致内存占用过高，可以设置ZFS的最大缓存限制:</p>
 
 <p>```
 $ vim /etc/modprobe.d/zfs.conf</p>
@@ -64,9 +60,7 @@ options zfs l2arc_noprefetch=0</p>
 $ update-initramfs -u
 </code></p>
 
-<ol>
-  <li>上面两种方法都属于指标不治本，最直接有效的方法就是预先留下一定量的内存，只能给特定虚拟机使用，没有分配的话宁可一直闲着也不用；</li>
-</ol>
+<p>方法3. 上面两种方法都属于指标不治本，最直接有效的方法就是预先留下一定量的内存，只能给特定虚拟机使用，没有分配的话宁可一直闲着也不用；</p>
 
 <p>这可以用Linux的hugepage机制来实现:</p>
 
@@ -92,7 +86,7 @@ GRUB_CMDLINE_LINUX=""
 update-grub
 </code></p>
 
-<p>重启后，系统会保留128G内存不用，如果要指定某台虚拟机使用，比如121 ID虚拟机，请手工修改它的配置文件，加入hugepage参数:</p>
+<p>重启后，系统会保留128G内存不用，如果要指定某台虚拟机使用，比如ID 121 虚拟机，请手工修改它的配置文件，加入hugepage参数:</p>
 
 <p>```
 $ vim /etc/pve/qemu-server/121.conf</p>

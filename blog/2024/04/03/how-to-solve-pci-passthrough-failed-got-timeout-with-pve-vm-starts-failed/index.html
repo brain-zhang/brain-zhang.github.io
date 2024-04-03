@@ -135,16 +135,12 @@ MathJax.Hub.Config({
 
 <p>解决方法有几个:</p>
 
-<ol>
-  <li>比如我的机器是开启ZFS的ARC占用内存过多导致的，可以简单的执行下面的命令回收一下，可能内存就够了：</li>
-</ol>
+<p>方法1. 比如我的机器是开启ZFS的ARC占用内存过多导致的，可以简单的执行下面的命令回收一下，可能内存就够了：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">echo 3 &gt; /proc/sys/vm/drop_caches</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>如果通过1确定是ZFS的缓存导致内存占用过高，可以设置ZFS的最大缓存限制:</li>
-</ol>
+<p>方法2. 如果通过1确定是ZFS的缓存导致内存占用过高，可以设置ZFS的最大缓存限制:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -177,9 +173,7 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ update-initramfs -u</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<ol>
-  <li>上面两种方法都属于指标不治本，最直接有效的方法就是预先留下一定量的内存，只能给特定虚拟机使用，没有分配的话宁可一直闲着也不用；</li>
-</ol>
+<p>方法3. 上面两种方法都属于指标不治本，最直接有效的方法就是预先留下一定量的内存，只能给特定虚拟机使用，没有分配的话宁可一直闲着也不用；</p>
 
 <p>这可以用Linux的hugepage机制来实现:</p>
 
@@ -207,7 +201,7 @@ MathJax.Hub.Config({
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">update-grub</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>重启后，系统会保留128G内存不用，如果要指定某台虚拟机使用，比如121 ID虚拟机，请手工修改它的配置文件，加入hugepage参数:</p>
+<p>重启后，系统会保留128G内存不用，如果要指定某台虚拟机使用，比如ID 121 虚拟机，请手工修改它的配置文件，加入hugepage参数:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
