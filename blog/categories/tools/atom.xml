@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2023-12-31T10:16:13+08:00</updated>
+  <updated>2024-04-03T14:54:37+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Solve 'PCI Passthrough Failed: Got Timeout' With PVE Vm Starts Failed]]></title>
+    <link href="https://brain-zhang.github.io/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/"/>
+    <updated>2024-04-03T14:38:15+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed</id>
+    <content type="html"><![CDATA[<p>PVE的虚机做了显卡直通后，有时候启动会报错:</p>
+
+<p><code>
+start failed .... got timeout.
+</code></p>
+
+<p>这一般是因为系统的内存不够了，因为硬件直通，虚拟机的内存需要跟物理内存的DMA映射一致，他就需要物理上连续的内存空间；如果此时物理机的空余内存看起来是够的，但是连续空间不够，就会报错；</p>
+
+<!-- more -->
+
+<p>解决方法有几个:</p>
+
+<ol>
+  <li>比如我的机器是开启ZFS的ARC占用内存过多导致的，可以简单的执行下面的命令回收一下，可能内存就够了：</li>
+</ol>
+
+<p><code>
+echo 3 &gt; /proc/sys/vm/drop_caches
+</code></p>
+
+<ol>
+  <li>如果通过1确定是ZFS的缓存导致内存占用过高，可以设置ZFS的最大缓存限制:</li>
+</ol>
+
+<p>```
+$ vim /etc/modprobe.d/zfs.conf</p>
+
+<h1 id="zfs-tuning-for-a-proxmox-machine-that-reserves-8gb-for-zfs">ZFS tuning for a proxmox machine that reserves 8GB for ZFS</h1>
+<p>#
+# Don’t let ZFS use less than 4GB and more than 8GB
+options zfs zfs_arc_min=4294967296
+options zfs zfs_arc_max=8589934592
+#
+# disabling prefetch is no longer required
+options zfs l2arc_noprefetch=0</p>
+
+<p>```</p>
+
+<p>上面的配置把ZFS的最大缓存占用限制在4GB-8GB之间；</p>
+
+<p>然后执行下面命令重新生成内核，重启物理机器生效</p>
+
+<p><code>
+$ update-initramfs -u
+</code></p>
+
+<ol>
+  <li>上面两种方法都属于指标不治本，最直接有效的方法就是预先留下一定量的内存，只能给特定虚拟机使用，没有分配的话宁可一直闲着也不用；</li>
+</ol>
+
+<p>这可以用Linux的hugepage机制来实现:</p>
+
+<p>修改 <code>/etc/default/grub</code> 中的启动参数，加入</p>
+
+<p><code>
+default_hugepagesz=1G hugepagesz=1G hugepages=128
+</code></p>
+
+<p>比如我的机器，修改为</p>
+
+<p><code>
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt pcie_acs_override=downstream,multifunction nofb textonly nomodeset video=efifb:off"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt pcie_acs_override=downstream default_hugepagesz=1G hugepagesz=1G hugepages=128,multifunction nofb textonly nomodeset video=efifb:off"
+GRUB_CMDLINE_LINUX=""
+</code>
+然后执行下面命令重新生成引导配置文件，最后重启物理机器生效</p>
+
+<p><code>
+update-grub
+</code></p>
+
+<p>重启后，系统会保留128G内存不用，如果要指定某台虚拟机使用，比如121 ID虚拟机，请手工修改它的配置文件，加入hugepage参数:</p>
+
+<p>```
+$ vim /etc/pve/qemu-server/121.conf</p>
+
+<p>…
+hugepages: 1024
+…
+```</p>
+
+<p>之后启动虚拟机，他就会从128G内存中分配它需要的内存；当然，这个虚拟机的内存是不能大于128GB的；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Enable /etc/rc.local With Systemd on Ubuntu 20.04]]></title>
@@ -133,79 +226,6 @@ vgchange -ay storagename
 
 <p>https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1807169.html
 https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_missing_under/</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Migrate PVE Storage From ZFS to Lvm]]></title>
-    <link href="https://brain-zhang.github.io/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/"/>
-    <updated>2023-01-18T10:21:13+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm</id>
-    <content type="html"><![CDATA[<p>之前PVE的存储我用ZFS做了三个pool，一个RaidZ1，两个Raid0；</p>
-
-<p>我的PVE内核版本为 <code>5.13.19-6-pve</code>;</p>
-
-<p>实际用下来有一个大槽点；</p>
-
-<p>就是对于12T以上的单盘，ZFS每次写入的时候都会炒豆子音大爆发，放在家里实在不是什么好体验；而且我一直有个困扰已久的问题没有解决；就是ZFS强壮是强壮；但是对于其dataset的管理方式，无论是send还是destroy，每个操作都会有长时间的卡顿lock；另外相对于读性能，不知道为什么，我的RaidZ1写性能一直没有达到单盘读写能力，我加了ARC、ZIL，各种方法都折腾了一遍，但是效果都不好；
-还有一个最大的问题，就是虚拟机多了之后，比如我同时对20台虚拟机做硬盘迁移操作；ZFS的lock太严重了，比如我同时delete两个虚拟硬盘，必定lock timeout;这个lock timeout 60s的限制，没有找到设置的地方，只能硬改代码，非常tricky；而不用后台命令，PVE的web UI对于并行操作的支持不好，所以降低磁盘并行操作的locktime非常必要；</p>
-
-<!-- more -->
-
-<p>当然实际使用上，ZFS的优点也很突出:</p>
-
-<ul>
-  <li>透明压缩、文件去重；太有用了，尤其是PVE 创建LXC容器，文件存储直接继承ZFS的所有能力</li>
-  <li>dataset级别的存储操作；这种块级别管理文件的方式，对于大规模数据迁移很有用，而且可以针对不同的需求对每一个dataset参数调整</li>
-  <li>快照；ZFS的杀手特性</li>
-</ul>
-
-<p>总之折腾了一年多，我已经把ZFS的手册翻了好几遍了，我已经理解这个文件系统的使用方式了；</p>
-
-<p>但是为了静音，我打算切换到PVE 源远流长的LVM存储管理；鉴于现在我的忘性越来越大，我想用尽可能简单的方式，来描述PVE如何使用LVM的；以后随时能扫一眼回忆回忆；</p>
-
-<h2 id="lvm">几句话过一下LVM</h2>
-
-<ul>
-  <li>LVM是整个一套管理磁盘存储的机制；包括分区扩容缩减，替换磁盘等等等等</li>
-  <li>一个物理磁盘称之为PhysicalStorageMedia</li>
-  <li>LVM最底层的设备称之为PV(物理卷)， 物理卷可以是一组raid盘，可以是单个物理硬盘，可以是一个分区(比如/dev/sda1)</li>
-  <li>多个PV组成了VG(卷组)，一个VG对外表现就是一个块设备，就像一块硬盘一样</li>
-  <li>一个VG可以划分为多个LV(逻辑卷)；其表现就跟一块硬盘划分多个分区是一样的</li>
-  <li>有一种特殊的LV，称之为Thinly-Provisioned Logical Volumes(精简模式LVM)；</li>
-  <li>thin LV支持COW(快照方便)和动态存储分配空间(按需分配而不是虚拟之指定的磁盘大小，节约空间)，跟ZFS一样，适合云环境</li>
-  <li>创建thinLV之前，必须先创建一个thinpool，次序依次是 创建PV-&gt;创建VG-&gt;在此VG上创建thinpool-&gt;在此thinpool上创建thin LV；</li>
-  <li>LVM可以动态缩减空间，增删硬盘</li>
-  <li>一个VG可以单个PV，也可以多个PV组成</li>
-  <li>一个VG可以包含多个thinpool+多个普通LV</li>
-  <li>VG可以动态扩展，空间可以动态调整</li>
-  <li>LV空间可以动态调整</li>
-</ul>
-
-<h2 id="pvelvm">PVE中的LVM</h2>
-
-<ul>
-  <li>PVE上后台用命令行可以支持所有LVM特性</li>
-  <li>PVE Web界面功能比较弱，只支持
-    <ul>
-      <li>将一个PV划分为一个VG</li>
-      <li>将一个VG划分为一个thinpool，即lvm-thin</li>
-      <li>Web UI不可以组合划分</li>
-    </ul>
-  </li>
-</ul>
-
-<p>参考了一篇非常详细的文章，人家写的很清楚，就不啰嗦了:</p>
-
-<p>https://codeantenna.com/a/SG6LHk1x9s</p>
-
-<h2 id="section">规划</h2>
-
-<ul>
-  <li>三块硬盘，分成三个VG</li>
-  <li>两个VG做成thin pool，只有lvm thin，分别用于存储LXC容器和VM</li>
-  <li>一个VG 用来做文件服务器</li>
-</ul>
 ]]></content>
   </entry>
   
