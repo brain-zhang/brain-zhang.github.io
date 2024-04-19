@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2024-04-03T14:57:33+08:00</updated>
+  <updated>2024-04-19T16:24:44+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Resize Partition on Linux]]></title>
+    <link href="https://brain-zhang.github.io/blog/2024/04/19/how-to-resize-partition-on-linux/"/>
+    <updated>2024-04-19T16:16:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2024/04/19/how-to-resize-partition-on-linux</id>
+    <content type="html"><![CDATA[<p>之前操作Linux，扩容已有分区，一直是手工<code>fdisk</code>删除分区重建搞定的，这种方式不直观且容易出错；最近采用<code>parted</code>操作了以下，发现很直观；</p>
+
+<p>比如我要对 /dev/sda1 从 100GB，扩容至200GB，操作如下</p>
+
+<h3 id="section">查看当前分区情况</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 进入 parted 工具
+</span><span class="line">$ sudo parted
+</span><span class="line">GNU Parted 3.4
+</span><span class="line">Using /dev/sda
+</span><span class="line">Welcome to GNU Parted! Type 'help' to view a list of commands.
+</span><span class="line"># 查看磁盘信息
+</span><span class="line">(parted) print /dev/sda</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>我只有 /dev/sda1 一个分区，因此很好办</p>
+
+<h3 id="section-1">根分区扩容</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 进入 parted 工具
+</span><span class="line">$ sudo parted /dev/sda
+</span><span class="line"># 查看磁盘信息
+</span><span class="line">(parted) print
+</span><span class="line"># 此时应该只有一个分区，直接扩展这个分区
+</span><span class="line">(parted)resizepart 1
+</span><span class="line">Warning: Partition /dev/sda1 is being used. Are you sure you want to continue?
+</span><span class="line"># 直接输入 yes 确认
+</span><span class="line">Yes/No? yes
+</span><span class="line"># 输入新的结束点
+</span><span class="line"># 这里输入的数值，就是上方输出中 Disk: 后方的数值
+</span><span class="line">End?  [200GB]? 200GB
+</span><span class="line"># 扩展完成之后退出 parted
+</span><span class="line">(parted) quit</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="resize2fs-">用resize2fs 工具扩展文件系统</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo resize2fs /dev/sda1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>不出意外，应该搞定了； </p>
+
+<h3 id="section-2">注意事项</h3>
+
+<p>扩容之前，最好用 <code>lsof</code> 查看以下扩容分区，把所有的读写进程都停掉，如果条件允许，umount 这个分区再扩容，更加安全</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Solve 'PCI Passthrough Failed: Got Timeout' With PVE Vm Starts Failed]]></title>
@@ -2157,58 +2229,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 </pre></td><td class="code"><pre><code class=""><span class="line">sudo passwd root
 </span><span class="line">
 </span><span class="line">su -</span></code></pre></td></tr></table></div></figure></notextile></div>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Enable VNC+xfce on Ubuntu16]]></title>
-    <link href="https://brain-zhang.github.io/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/"/>
-    <updated>2021-05-17T17:13:32+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16</id>
-    <content type="html"><![CDATA[<h4 id="vncserver">安装桌面环境和vncserver</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo apt-get install xfce4 vnc4server</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="vncserver-1">启动vncserver</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">vncserver</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section">修改配置文件</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">vim ~/.vnc/xstartup
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">#!/bin/sh
-</span><span class="line">unset SESSION_MANAGER
-</span><span class="line">unset DBUS_SESSION_BUS_ADDRESS
-</span><span class="line">startxfce4 &amp;
-</span><span class="line">
-</span><span class="line">[ -x /etc/vnc/xstartup ] &amp;&amp; exec /etc/vnc/xstartup
-</span><span class="line">[ -r $HOME/.Xresources ] &amp;&amp; xrdb $HOME/.Xresources
-</span><span class="line">xsetroot -solid grey</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="section-1">修改配置文件后，运行如下命令结束掉之前产生的窗口:1</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">vncserver -kill :1</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="vnc-clienttab">用vnc client连接后，tab键自动补全用不了，可以进行如下设置</h4>
-
-<p>settings -&gt; window manager -&gt; keyboard -&gt; switch window for same application -&gt; clear</p>
-
 ]]></content>
   </entry>
   

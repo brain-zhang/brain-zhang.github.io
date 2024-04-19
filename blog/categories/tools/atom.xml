@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2024-04-03T14:57:33+08:00</updated>
+  <updated>2024-04-19T16:24:44+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Resize Partition on Linux]]></title>
+    <link href="https://brain-zhang.github.io/blog/2024/04/19/how-to-resize-partition-on-linux/"/>
+    <updated>2024-04-19T16:16:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2024/04/19/how-to-resize-partition-on-linux</id>
+    <content type="html"><![CDATA[<p>之前操作Linux，扩容已有分区，一直是手工<code>fdisk</code>删除分区重建搞定的，这种方式不直观且容易出错；最近采用<code>parted</code>操作了以下，发现很直观；</p>
+
+<p>比如我要对 /dev/sda1 从 100GB，扩容至200GB，操作如下</p>
+
+<h3 id="section">查看当前分区情况</h3>
+
+<p><code>
+# 进入 parted 工具
+$ sudo parted
+GNU Parted 3.4
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+# 查看磁盘信息
+(parted) print /dev/sda
+</code></p>
+
+<p>我只有 /dev/sda1 一个分区，因此很好办</p>
+
+<h3 id="section-1">根分区扩容</h3>
+
+<p><code>
+# 进入 parted 工具
+$ sudo parted /dev/sda
+# 查看磁盘信息
+(parted) print
+# 此时应该只有一个分区，直接扩展这个分区
+(parted)resizepart 1
+Warning: Partition /dev/sda1 is being used. Are you sure you want to continue?
+# 直接输入 yes 确认
+Yes/No? yes
+# 输入新的结束点
+# 这里输入的数值，就是上方输出中 Disk: 后方的数值
+End?  [200GB]? 200GB
+# 扩展完成之后退出 parted
+(parted) quit
+</code></p>
+
+<h3 id="resize2fs-">用resize2fs 工具扩展文件系统</h3>
+
+<p><code>
+$ sudo resize2fs /dev/sda1
+</code></p>
+
+<p>不出意外，应该搞定了； </p>
+
+<h3 id="section-2">注意事项</h3>
+
+<p>扩容之前，最好用 <code>lsof</code> 查看以下扩容分区，把所有的读写进程都停掉，如果条件允许，umount 这个分区再扩容，更加安全</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Solve 'PCI Passthrough Failed: Got Timeout' With PVE Vm Starts Failed]]></title>
@@ -199,27 +255,6 @@ $ sudo killall -STOP -c usbd
 </code></p>
 
 <p>命令回车，即可把进程关闭。插上iPhone，正常连接，问题解决。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fix LVM Disks Missing Under /dev/xxx in PVE7.1]]></title>
-    <link href="https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/"/>
-    <updated>2023-03-20T11:06:10+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1</id>
-    <content type="html"><![CDATA[<p>PVE7.1，重启后 LVM thinpool 丢掉了一块VM Disk；</p>
-
-<p>解决方法:</p>
-
-<p><code>
-lvchange -an storagename
-vgchange -ay storagename
-</code></p>
-
-<p>参考:</p>
-
-<p>https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1807169.html
-https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_missing_under/</p>
 ]]></content>
   </entry>
   

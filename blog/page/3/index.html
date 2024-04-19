@@ -100,6 +100,88 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/">How to Enable VNC+xfce on Ubuntu16</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2021-05-17T17:13:32+08:00" pubdate data-updated="true">May 17<span>th</span>, 2021</time>
+        
+           | <a href="/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/05/17/how-to-enable-vnc-plus-xfce-on-ubuntu16/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4 id="vncserver">安装桌面环境和vncserver</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo apt-get install xfce4 vnc4server</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="vncserver-1">启动vncserver</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vncserver</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section">修改配置文件</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim ~/.vnc/xstartup
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">#!/bin/sh
+</span><span class="line">unset SESSION_MANAGER
+</span><span class="line">unset DBUS_SESSION_BUS_ADDRESS
+</span><span class="line">startxfce4 &amp;
+</span><span class="line">
+</span><span class="line">[ -x /etc/vnc/xstartup ] &amp;&amp; exec /etc/vnc/xstartup
+</span><span class="line">[ -r $HOME/.Xresources ] &amp;&amp; xrdb $HOME/.Xresources
+</span><span class="line">xsetroot -solid grey</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-1">修改配置文件后，运行如下命令结束掉之前产生的窗口:1</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vncserver -kill :1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="vnc-clienttab">用vnc client连接后，tab键自动补全用不了，可以进行如下设置</h4>
+
+<p>settings -&gt; window manager -&gt; keyboard -&gt; switch window for same application -&gt; clear</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Linux下块设备缓存Bcache设置</a></h1>
     
     
@@ -613,103 +695,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">How to Do Logging on Solidity Contract With Truffle Suite</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2020-07-17T17:33:45+08:00" pubdate data-updated="true">Jul 17<span>th</span>, 2020</time>
-        
-           | <a href="/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2020/07/17/how-to-debug-solidity-contract-on-truffle-suite/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ethereum的智能合约调试起来很麻烦，到目前为止还是没有一个方便的类似于console.log()或printf的调用；</p>
-
-<p>一般都是通过Event的方法来打印log；这种办法在写单元测试的时候很麻烦；</p>
-
-<p>目前最接近于官方的手段是构造一个公用的Console库合约，然后链接到主合约里面来用；</p>
-
-<p>https://github.com/trufflesuite/truffle-logger-example</p>
-
-<p>这个PR一直没有Merge到TruffleSuite的新版本中，我们只能先临时手工Copy下代码来Monkey Patch一下；</p>
-
-<p>步骤如下：</p>
-
-<ul>
-  <li>首先在主合约的同级目录添加Console.sol合约:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">wget https://raw.githubusercontent.com/trufflesuite/truffle/truffleLogger/packages/core/lib/logging/Console.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>然后在部署脚本里面增加这个库的链接(以官方示例MetaCoin为例)</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ vim migrations/2_deploy_contracts.js</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">const Console = artifacts.require("Console");
-</span><span class="line">const MetaCoin = artifacts.require("MetaCoin");
-</span><span class="line">
-</span><span class="line">module.exports = function(deployer) {
-</span><span class="line">      deployer.deploy(Console);
-</span><span class="line">        deployer.link(Console, MetaCoin);
-</span><span class="line">          deployer.deploy(MetaCoin);
-</span><span class="line">          };
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>在需要打印log的单元测试中引入Console.sol</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ vim test/TestMetaCoin.sol</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import "../contracts/Console.sol";
-</span><span class="line">
-</span><span class="line">.....
-</span><span class="line">    console.log("xxxxxx");</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -727,6 +712,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2024/04/19/how-to-resize-partition-on-linux/">How to Resize Partition on Linux</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">How to Solve &#8216;PCI Passthrough Failed: Got Timeout&#8217; With PVE Vm Starts Failed</a>
       </li>
     
@@ -740,10 +729,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2023/12/21/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-chatgptdui-hua-ji-lu/">新纪元共鸣：智能的觉醒-ChatGPT对话记录</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/12/21/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing/">新纪元共鸣：智能的觉醒</a>
       </li>
     
   </ul>
@@ -856,7 +841,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (89)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (90)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
