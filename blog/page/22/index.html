@@ -100,6 +100,49 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/">Macvtap Ethernet Support Tcpdump</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-31T17:05:01+08:00" pubdate data-updated="true">Dec 31<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2014/12/31/macvtap-ethernet-support-tcpdump/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>用macvtap模拟网卡时，用tcpdump抓包是抓不到的，后来发现3.14版本以上的内核修正了这一点。</p>
+
+<p>参考这个提交:</p>
+
+<p>https://github.com/torvalds/linux/commit/6acf54f1cf0a6747bac9fea26f34cfc5a9029523</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/12/30/linuxshuang-wang-qia-shuang-lu-you-she-zhi/">Linux多网卡多路由设置</a></h1>
     
     
@@ -1233,69 +1276,6 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-compile-by-autotools/">How to Compile by Autotools</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-29T12:12:30+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/10/29/how-to-compile-by-autotools/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2014/10/29/how-to-compile-by-autotools/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>虽然因为llvm的出现，开源工具链又开始慢慢进化了，但是很多项目还是需要autotools自动gen configure的，但是我每次命令都记不全，还是记一下吧</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
-</span><span class="line">
-</span><span class="line">echo "Running aclocal..."
-</span><span class="line">aclocal || exit 1
-</span><span class="line">echo "Running autoheader..."
-</span><span class="line">autoheader || exit 1
-</span><span class="line">echo "Running autoconf..."
-</span><span class="line">autoconf || exit 1
-</span><span class="line">echo "Running automake..."
-</span><span class="line">automake --add-missing --copy || exit 1
-</span><span class="line">echo "Finished."
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/23/">&larr; Older</a>
@@ -1313,6 +1293,10 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2024/10/14/aiwei-lai-shi-dai-hui-wei-wo-men-dai-lai-shi-yao/">AI未来时代会为我们带来什么</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2024/04/19/how-to-resize-partition-on-linux/">How to Resize Partition on Linux</a>
       </li>
     
@@ -1326,10 +1310,6 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
     
       <li class="post">
         <a href="/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/">小说扩写润色大师</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/12/21/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-chatgptdui-hua-ji-lu/">新纪元共鸣：智能的觉醒-ChatGPT对话记录</a>
       </li>
     
   </ul>
@@ -1375,7 +1355,8 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 <section> 
   <h1>文章分类</h1> 
   <ul id="categories"> 
-    <li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
+    <li class='category'><a href='/blog/categories/ai/'>AI (1)</a></li>
+<li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
 <li class='category'><a href='/blog/categories/array/'>Array (1)</a></li>
 <li class='category'><a href='/blog/categories/c/'>C (1)</a></li>
 <li class='category'><a href='/blog/categories/c2c/'>C2C (1)</a></li>
@@ -1420,6 +1401,7 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
 <li class='category'><a href='/blog/categories/life/'>life (26)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life, (1)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
