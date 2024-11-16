@@ -1,0 +1,16 @@
+---
+layout: post
+title: "fix connection error between ipad and macbook"
+date: 2023-04-09 16:44:24 +0800
+comments: true
+categories: tools
+---
+iOS真机调试，Mac连上iPad一直闪，信任不了设备问题
+
+打开终端Terminal，输入
+
+```
+$ sudo killall -STOP -c usbd
+```
+
+命令回车，即可把进程关闭。插上iPhone，正常连接，问题解决。

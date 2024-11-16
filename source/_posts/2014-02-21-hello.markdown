@@ -1,0 +1,9 @@
+---
+layout: post
+title: "hello"
+date: 2014-02-21 23:45:34 -0800
+comments: true
+categories: life
+---
+
+let's sail.

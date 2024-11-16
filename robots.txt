@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: https://brain-zhang.github.io/sitemap.xml 

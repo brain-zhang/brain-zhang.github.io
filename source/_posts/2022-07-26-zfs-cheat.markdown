@@ -1,0 +1,225 @@
+---
+layout: post
+title: "ZFS Cheat"
+date: 2022-07-26 15:14:19 +0800
+comments: true
+categories: tools
+---
+
+## 特别提示
+
+在各种折腾之前，先看看你买的大容量硬盘自带的缓存开了没有；有一些矿盘，不知道是何原因，默认缓存没有开
+
+```
+# 查看是否开了写缓存
+$ hdparm -W /dev/sdx
+
+# 开启
+$ hdparm -W1 /dev/sdx
+```
+
+然后，看看你的SATA接口当前速率是2.0还是3.0，有人就是这么粗心，拿着3.0的盘，插着2.0的线；
+
+```
+$ smartctl -a /dev/sdx
+```
+
+## ZFS 使用命令小集
+
+
+#### 列出zpool磁盘
+```
+zfs list
+```
+
+#### 查看pool状态
+```
+zpool status
+```
+<!-- more -->
+
+#### 替换坏掉的硬盘
+```
+zpool replace -f pool0 /dev/sdb
+```
+
+#### 查看是否开启重复数据删除
+```
+zfs get dedup pool1
+```
+
+#### 开启重复数据删除
+```
+zfs set dedup=on pool1
+```
+
+#### 获取去重比例
+```
+# zpool get dedupratio pool1
+
+NAME  PROPERTY    VALUE  SOURCE
+tank  dedupratio  1.42x  -
+```
+
+#### 查看是否开启压缩
+```
+zfs get compress pool1
+```
+
+#### 开启压缩
+```
+zfs set compress=lz4 pool1
+```
+
+或者
+
+```
+zfs set compress=on pool1
+```
+
+从2015年zfs版本后，默认压缩为lz4格式， compresss=on 即代表压缩为lz4， [参考](!http://open-zfs.org/wiki/Performance_tuning#Compression)
+
+
+#### 获取压缩比例
+```
+root@ypcpve:~# zfs get compressratio zpool0
+NAME    PROPERTY       VALUE  SOURCE
+zpool0  compressratio  1.15x  -
+```
+
+
+#### 强制删除不用的硬盘
+```
+zfs destroy -f zpool0/vm-102-disk-2
+```
+
+#### 数据集迁移
+```
+zfs snapshot oldpool/mydataset@snapshot1
+zfs send oldpool/mydataset@snapshot1 | zfs receive newpool/mydataset
+zfs snapshot oldpool/mydataset@snapshot2
+zfs send -i oldpool/mydataset@snapshot1 oldpool/mydataset@snapshot2 | zfs receive newpool/mydataset
+```
+
+#### 开启空间自动回收机制(sparse)
+```
+zfs set refreservation=0G NVMe/vm-901-disk-0
+```
+
+#### 查看磁盘负载
+```
+zpool iostat
+```
+
+#### 查看磁盘状态及容量
+
+```
+root@proxmox4 ~ > zfs list rpool/data/vm-100-disk-1
+NAME                       USED  AVAIL  REFER  MOUNTPOINT
+rpool/data/vm-100-disk-1   132G   832G    64K  -
+
+root@proxmox4 ~ > zfs get all rpool/data/vm-100-disk-1
+NAME                      PROPERTY              VALUE                 SOURCE
+rpool/data/vm-100-disk-1  type                  volume                -
+rpool/data/vm-100-disk-1  creation              Mi Feb 21 13:29 2018  -
+rpool/data/vm-100-disk-1  used                  132G                  -
+```
+
+
+
+#### 查看 ARC 缓存大小
+
+```
+# 得到MB
+root@proxmox4 ~ > awk '/^size/ { print $1 " " $3 / 1048576 }' < /proc/spl/kstat/zfs/arcstats
+
+# 查看最大设置，默认0代表使用系统的一半内存
+root@proxmox4 ~ > cat /sys/module/zfs/parameters/zfs_arc_max
+```
+
+## pve规划
+
+
+pve 为每个虚拟机以及容器在zpool上直接创建sub vol； 这样不利于管理；最好为每一类虚拟机单独创建一个dataset；例如:
+
+```
+# 为每种虚机按用途分别归类dataset
+
+zfs create zpool0/linuxdateset
+zfs create zpool0/windataset
+zfs create zpool0/lxcdataset
+zfs create zpool0/productdataset
+zfs create zpool0/testdataset
+
+# 查看所有dataset
+pvesm zfsscan
+```
+
+建立这些dataset后，要到PVE的管理界面上 `Datacenter->Stortage` 添加相应的挂载点，然后把虚拟机的硬盘分门别类存放
+
+这样就可以为每个dataset设置不同的属性；比如我们测试环境的数据可靠性要求比较低，我们为zpool0/testdataset 关闭同步功能，这样会大幅提升读写性能
+
+```
+zfs set sync=disabled zpool0/testdataset
+```
+
+## 在SSD上分配ZIL缓存
+
+在SSD上创建log, read缓存，为zfs pool 机械盘加速
+
+#### 建立缓存文件并挂载
+```
+mkidr /zcache && cd /zcache
+fallocate -l 16G zfs-log-cache.img
+fallocate -l 16G zfs-read-cache.img
+
+losetup -fP zfs-log-cache.img
+losetup -fP zfs-log-read.img
+```
+
+#### 查看挂载情况
+```
+losetup -a
+
+/dev/loop0: [66306]:37691140 (/zcache/zfs-log-cache.img)
+/dev/loop1: [66306]:37691139 (/zcache/zfs-read-cache.img)
+```
+
+#### 添加到zpool
+```
+zpool add zpool0 log /dev/loop0
+zpool add zpool0 read /dev/loop1
+```
+
+
+#### 检查使用情况
+```
+watch "zpool iostat -v"
+```
+
+#### 移除
+```
+zpool remove zpool0 /dev/loop0
+zpool remove zpool0 /dev/loop1
+```
+
+#### 开机自动挂载
+```
+vim /etc/fstab
+
+# 添加
+/zcache/zfs-log-cache.img       /dev/loop0       ext4       loop       0 0
+/zcache/zfs-read-cache.img      /dev/loop1       ext4       loop       0 0
+```
+
+
+## 磁盘替换
+
+大容量磁盘RaidZx重建是一个极其缓慢的过程；实测我的12T X3 Raidz1阵列，替换一块坏盘重建花了三天；
+
+```
+$ sudo zpool offline zpool0 ata-TOSHIBA01
+$ sudo zpool online zpool0 ata-TOSHIBA02
+$ sudo zpool replace ata-TOSHIBA01 ata-TOSHIBA02
+```
+
