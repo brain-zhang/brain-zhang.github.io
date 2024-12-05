@@ -8,7 +8,7 @@
 
 #cd _deploy && git pull && cd ../
 bundle exec rake generate
-#echo "happy123.me" > public/CNAME
+echo "brainz.fun" > public/CNAME
 bundle exec rake deploy
 git add .
 git commit  -m "$1"
