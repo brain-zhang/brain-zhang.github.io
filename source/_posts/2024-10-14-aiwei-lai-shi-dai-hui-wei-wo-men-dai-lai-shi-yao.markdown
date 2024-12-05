@@ -3,7 +3,7 @@ layout: post
 title: "AI未来时代会为我们带来什么"
 date: 2024-10-14 13:53:19 +0800
 comments: true
-categories: life AI
+categories: life ai
 ---
 
 最近两年各种AI技术的进步，让人浮想联翩；这也许是关于技术发展的盲目乐观，但爱做梦的人总忍不住去想象未来的科幻场景；
