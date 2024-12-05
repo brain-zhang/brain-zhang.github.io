@@ -100,6 +100,131 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/07/03/peewee-abc/">Peewee ABC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-03T11:10:09+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2018</time>
+        
+           | <a href="/blog/2018/07/03/peewee-abc/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2018/07/03/peewee-abc/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在我用了又一个小时的时间去温习sqlchemy丰富的文档后，我放弃治疗了。</p>
+
+<p>我的智商还是适合比较简单的幼儿化的Python库，于是我转向Peewee了。</p>
+
+<h2 id="model">定义Model</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from peewee import SqliteDatabase, Model, CharField
+</span><span class="line">
+</span><span class="line">db = SqliteDatabase('testdb.sqlite3')
+</span><span class="line">
+</span><span class="line">class User(Model):
+</span><span class="line">    username = CharField(index=True)
+</span><span class="line">    password = CharField()
+</span><span class="line">    email = CharField(index=True)
+</span><span class="line">    birthday = DateField()
+</span><span class="line">    is_relative = BooleanField()
+</span><span class="line">
+</span><span class="line">    class Meta:
+</span><span class="line">        database = db
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">创建</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.connect()
+</span><span class="line">&gt;&gt;&gt; db.create_tables([User])
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">保存</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; user_record = User(name='Bob', password="", email="hello@world.com", birthday=date(1960, 1, 15), is_relative=True)
+</span><span class="line">&gt;&gt;&gt; user_record.save()
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">批量插入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">fields = [User.username, User.password, User.email, User.birthday, User.is_relative]
+</span><span class="line">user_records.append(
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">    (username, password, email, birthday, True),
+</span><span class="line">)
+</span><span class="line">User.insert_many(user_records, fields=fields).execute()
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-3">查询</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">for user in User.select().where(User.username.contains(username)):
+</span><span class="line">    print(user.username ....)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-4">关闭</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt;&gt;&gt; db.close()
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/06/11/how-to-set-proxy-for-git/">How to Set Proxy for Git</a></h1>
     
     
@@ -678,49 +803,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/">How to Calling Multiple Commands Through Xargs</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-05-01T09:25:03+08:00" pubdate data-updated="true">May 1<span>st</span>, 2018</time>
-        
-           | <a href="/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2018/05/01/how-to-calling-multiple-commands-through-xargs/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有时候想在xargs后面接多条命令，这个时候直接加<code>;</code>是不行的，要这样做:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">cat a.txt | xargs -I@  sh -c 'command1; command2; ...'
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/14/">&larr; Older</a>
@@ -738,6 +820,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2024/12/05/tui-jian-hen-hao-kan-de-wu-xia-xiao-shu-tian-zhi-xia/">推荐一本很好看的武侠小说&#8211;天之下</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2024/10/14/aiwei-lai-shi-dai-hui-wei-wo-men-dai-lai-shi-yao/">AI未来时代会为我们带来什么</a>
       </li>
     
@@ -751,10 +837,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2023/12/22/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-v2/">新纪元共鸣：智能的觉醒-V2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/">小说扩写润色大师</a>
       </li>
     
   </ul>
@@ -845,8 +927,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (26)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life, (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (28)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>

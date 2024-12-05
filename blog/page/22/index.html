@@ -100,6 +100,400 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/">Javascript设计模式 - 笔记1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-04T08:25:15+08:00" pubdate data-updated="true">Jan 4<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2015/01/04/javascriptshe-ji-mo-shi-bi-ji-1/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1 id="javascript">富有表现力的javascript</h1>
+
+<h2 id="section">弱类型语言</h2>
+
+<p>javascript中有三种原始类型:布尔型、数值型(不区分浮点数和整数)和字符串型。</p>
+
+<p>此外，还有对象类型和包含可执行代码的函数类型。前者是一种复合类型(数组是一种特殊的对象)。</p>
+
+<p>最后，还有空类型(null)和未定义类型(undefined)。</p>
+
+<p>原始数据类型按值传送，其他数据类型则按引用传送。</p>
+
+<h2 id="section-1">函数是一等对象</h2>
+
+<ul>
+  <li>匿名函数</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(function(){
+</span><span class="line">    var foo = 10;
+</span><span class="line">    var bar = 2;
+</span><span class="line">    alert(foo * bar);
+</span><span class="line">})();
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>闭包</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">var baz;
+</span><span class="line">(function(){
+</span><span class="line">    var foo = 10;
+</span><span class="line">    var bar = 2;
+</span><span class="line">    baz = function(){
+</span><span class="line">        return foo * bar;
+</span><span class="line">    }
+</span><span class="line">})();
+</span><span class="line">baz(); //baz可以访问foo和bar，即使是在匿名函数外面执行
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>
+    <p>作用域、嵌套函数和闭包</p>
+
+    <ul>
+      <li>
+        <p>js中，只有函数具有作用域：</p>
+
+        <p>在一个函数内部声明的变量，外部无法访问；
+  定义在一个函数中的变量在该函数的内嵌函数中是可以访问的</p>
+      </li>
+      <li>
+        <p>js中的作用域是词法性的：</p>
+
+        <p>函数运行在定义他们的作用域中，而不是调用他们的作用域中；
+  可以利用这个特性定义静态方法和属性；</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="mutableintrospection">对象的易变性(mutable)和内省(introspection)</h2>
+
+<ul>
+  <li>易变性：js中可以对象前定义的类和实例化的对象进行修改</li>
+  <li>内省：js中可以在运行时检查对象所具有的属性和方法</li>
+</ul>
+
+<h1 id="section-2">接口</h1>
+
+<ul>
+  <li>
+    <p>接口也是一种对象，判断一个类是否是实现了某类接口，就是传入这个接口，而后比较。</p>
+
+    <p>java有专门的接口类，C++有虚基类，而C在linux kernel中的对象设计方法实际上也是一种接口实现，这都是接口在语言层面支持的体现</p>
+  </li>
+  <li>
+    <p>封装(encapsulation)和信息隐藏：信息隐藏是目的，而封装则是藉以达到这个目的的技术</p>
+
+    <p>java和C++有 private关键字作为支持，Python有’__‘的命名约定，js中一般用闭包来模拟</p>
+  </li>
+</ul>
+
+<h2 id="section-3">接口实现</h2>
+
+<h3 id="section-4">用注释来模拟</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/*
+</span><span class="line">interface Composite {
+</span><span class="line">    function add(child);
+</span><span class="line">    function remove(child);
+</span><span class="line">    ...
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">interface FormItem{
+</span><span class="line">    function save();
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">var CompositeForm = function(id, method, action) {
+</span><span class="line">    //implements Composite, FromItem
+</span><span class="line">    ...
+</span><span class="line">};
+</span><span class="line">
+</span><span class="line">CompositeForm.prototype.add = function(child) {
+</span><span class="line">    ...
+</span><span class="line">}
+</span><span class="line">CompositeForm.prototype.remove= function(child) {
+</span><span class="line">    ...
+</span><span class="line">}
+</span><span class="line">CompositeForm.prototype.save= function() {
+</span><span class="line">    ...
+</span><span class="line">}
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>优点：简单明了，代码体积小</li>
+  <li>缺点：无法错误检查</li>
+</ul>
+
+<h3 id="section-5">用属性检查模仿接口</h3>
+
+<p>约定所有类明确声明实现了那些接口，和这些类打交道的对象可以针对这些声明做检查。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/*
+</span><span class="line">interface Composite {
+</span><span class="line">    function add(child);
+</span><span class="line">    function remove(child);
+</span><span class="line">    ...
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">interface FormItem{
+</span><span class="line">    function save();
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">var CompositeForm = function(id, method, action) {
+</span><span class="line">    //implements Composite, FromItem
+</span><span class="line">    this.implementsInterfaces = ['Composite', 'FromItem'];
+</span><span class="line">    ...
+</span><span class="line">};
+</span><span class="line">    ...
+</span><span class="line">
+</span><span class="line">function addForm(formInstance) {
+</span><span class="line">    if (!implements(formInstance, 'Composite', 'FormItem')) {
+</span><span class="line">        throw new Error("object does not implement a required interface");
+</span><span class="line">    }
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">function implements(objects) {
+</span><span class="line">    for (var i = 1; i &lt; arguments.length; i++) {
+</span><span class="line">        var interfaceName = arguments[i];
+</span><span class="line">        var interfaceFound = false;
+</span><span class="line">        for (var j = 0; j &lt; object.implementsInterfaces[j] == interfaceName) {
+</span><span class="line">            interfaceFound = true;
+</span><span class="line">            break;
+</span><span class="line">        }
+</span><span class="line">        if (!interfaceFound) {
+</span><span class="line">            return false;
+</span><span class="line">        }
+</span><span class="line">    }
+</span><span class="line">    return true;
+</span><span class="line">}
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>优点:有错误检查</li>
+  <li>缺点:每次调用都要检查，啰嗦，另外防不住有说了实现但没有干活的</li>
+</ul>
+
+<h1 id="section-6">鸭式辨型模仿接口</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">var Composite = new Intreface('Composite', ['add', 'remove']);
+</span><span class="line">var FormItem = new Interface('FormItem', ['save']);
+</span><span class="line">var CompositeForm = function(id, method, action) {
+</span><span class="line">    ...
+</span><span class="line">};
+</span><span class="line">
+</span><span class="line">function addForm(formInstance) {
+</span><span class="line">    ensureImplements(formInstance, Composite, FormItem);
+</span><span class="line">    ......
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">var Interface = function(name, methods) {
+</span><span class="line">    if (arguments.length != 2) {
+</span><span class="line">        throw new Error("Interface constructor called with " + arguments.length + "arguments, but expected exactly 2.");
+</span><span class="line">    }
+</span><span class="line">    this.name = name;
+</span><span class="line">    this.methods = [];
+</span><span class="line">    for (var i = 0; len = methods.length; i &lt; len; i++) {
+</span><span class="line">        if (typeof methods[i] !== 'string')  {
+</span><span class="line">            throw new Error("Interface contructor expects method names to be " +
+</span><span class="line">                            "passed in as string");
+</span><span class="line">        }
+</span><span class="line">    }
+</span><span class="line">    this.methods.push(methods[i]);
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">Interface.ensureImplements = function(object) {
+</span><span class="line">    if (arguments.length &lt; 2) {
+</span><span class="line">        throw Error("Functino Interface.ensureImplements called with " + arguments.length +
+</span><span class="line">                    "arguments, but expected at leaset 2.");
+</span><span class="line">    }
+</span><span class="line">
+</span><span class="line">    for (var i = 1, len = arguments.length; i &lt; len; i++) {
+</span><span class="line">        if (interface.constructor !== Interface) {
+</span><span class="line">            throw new Error("Function Interface.ensureImplements expects arguments" +
+</span><span class="line">                            "two and above to be instances of Interface.");
+</span><span class="line">        } 
+</span><span class="line">    }
+</span><span class="line">
+</span><span class="line">    for (var j = 1, methodsLen = interface.methods.length; j &lt; methodsLen; j++) {
+</span><span class="line">        var method = interface.methods[j];
+</span><span class="line">        if(!object[method] || typeof object[method] !== 'function') {
+</span><span class="line">            throw new Error("Function Interface.ensureImplements: object " +
+</span><span class="line">                            "does not implement the " + interface.name)  +
+</span><span class="line">                            "interface.Method " + method + " was not found.");
+</span><span class="line">        }
+</span><span class="line">    }
+</span><span class="line">}
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>优点：进一步加强了错误检查</li>
+  <li>缺点：增大了调试难度</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/12/31/macvtap-ethernet-support-tcpdump/">Macvtap Ethernet Support Tcpdump</a></h1>
     
     
@@ -1179,103 +1573,6 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">How to Auto Gen Css/js by Grunt and Jenkins</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-29T12:16:15+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2014/10/29/how-to-auto-gen-css-slash-js-by-grunt-and-jenkins/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>虽然有<a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a>的存在，但多个人编辑同一份css/js代码时，还要操心编译这个事，实在是多余。</p>
-
-<p>想到的最直接的办法就是jenkins上开一个项目，自动编译一把，再自动提交:</p>
-
-<p>虽然是野路子，但效果那是杠杠的。</p>
-
-<p>记一下一些要注意的点:</p>
-
-<ul>
-  <li>有时候自动编译会失败，需要标记一下:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/node-v0.10.20-linux-x64/bin/grunt --force |tee $PWD_DIR/grunt.log
-</span><span class="line">err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
-</span><span class="line">fail_count=`grep 'failed' *.log|wc -l`
-</span><span class="line">abort_count=`grep 'Aborting' *.log|wc -l`
-</span><span class="line">if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
-</span><span class="line">    exit 1
-</span><span class="line">fi
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这样jenkins编译失败，就会标红了</p>
-
-<ul>
-  <li>还有个坑，有时候新增加了一个js的代码目录，这样编译后也会多一个目录，这就需要svn每次提交的时候，不要忘了强制add一下当前所有目录:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">svn add static/dist/ --force
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>最后，极少数的情况编译后会出现冲突，因为编译的时候有人同样编译了一把提交了，这样自动提交会失败，也需要标记一下:</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">svn ci --no-auth-cache --username=xxx --password=xxx static/dist/* -m "jenkins:auto grunt" 2&gt;&amp;1| tee $PWD_DIR/svn.log
-</span><span class="line">err_count=`grep 'Error' $PWD_DIR/*.log|wc -l`
-</span><span class="line">fail_count=`grep 'failed' *.log|wc -l`
-</span><span class="line">abort_count=`grep 'Aborting' *.log|wc -l`
-</span><span class="line">if [[ $err_count -gt 0 || $fail_count -gt 0 || $abort_count -gt 0 ]]; then
-</span><span class="line">    exit 1
-</span><span class="line">fi
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这样基本上看看jenkins的状态，或是让jenkins自动发发邮件，就舒心了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/23/">&larr; Older</a>
@@ -1293,6 +1590,10 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2024/12/05/tui-jian-hen-hao-kan-de-wu-xia-xiao-shu-tian-zhi-xia/">推荐一本很好看的武侠小说&#8211;天之下</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2024/10/14/aiwei-lai-shi-dai-hui-wei-wo-men-dai-lai-shi-yao/">AI未来时代会为我们带来什么</a>
       </li>
     
@@ -1306,10 +1607,6 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
     
       <li class="post">
         <a href="/blog/2023/12/22/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-v2/">新纪元共鸣：智能的觉醒-V2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/">小说扩写润色大师</a>
       </li>
     
   </ul>
@@ -1400,8 +1697,7 @@ openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (26)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life, (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (28)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
