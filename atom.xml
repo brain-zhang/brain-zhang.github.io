@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2024-12-05T16:49:15+08:00</updated>
+  <updated>2024-12-13T12:12:52+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用watch命令高亮输出的不同]]></title>
+    <link href="https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/"/>
+    <updated>2024-12-13T12:07:14+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong</id>
+    <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">watch -d date</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>-d</code> 参数会将两次输出之间的差异高亮显示；</p>
+
+<p>我赶紧又 <code>man</code> 了一下 <code>watch</code> 命令的选项，又得到了几个对我有用的功能:</p>
+
+<p><code>-b</code> 参数可以在程序异常退出的时候响铃</p>
+
+<p><code>-g</code> 参数可以在程序输出发生变化时退出watch命令</p>
+
+<p>还有我最常用的 <code>-n</code>参数，控制watch的间隔</p>
+
+<p>Linux上面很多小命令，是从上世纪70年代的上古UNIX时期一路经过血战竞争才能留到现在的，论设计肯定是精益求精了；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[推荐一本很好看的武侠小说--天之下]]></title>
@@ -2276,28 +2298,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 
 <p>话说，bitcoin core还好一点，Ethereum一个全节点的成本已经越来越高了，硬盘需求已经直奔2T SSD了；对于个人来说，在AWS上启动一个2T云硬盘的vps着实花费不小；</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Allow Non-root Process to Bind to Low-numbered Ports]]></title>
-    <link href="https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/"/>
-    <updated>2021-06-01T16:32:31+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports</id>
-    <content type="html"><![CDATA[<h4 id="use-capnetbindservice-to-grant-low-numbered-port-access-to-a-process">Use CAP_NET_BIND_SERVICE to grant low-numbered port access to a process:</h4>
-
-<p>With this you can grant permanent access to a specific binary to bind to low-numbered ports via the setcap command:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo setcap CAP_NET_BIND_SERVICE=+eip /path/to/binary</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>For more details on the e/i/p part, see cap_from_text.</p>
-
-<p>After doing this, /path/to/binary will be able to bind to low-numbered ports. Note that you must use setcap on the binary itself rather than a symlink.</p>
-
-<p>FROM:</p>
-
-<p>https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443</p>
 ]]></content>
   </entry>
   

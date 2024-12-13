@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2024-12-05T16:49:15+08:00</updated>
+  <updated>2024-12-13T12:12:52+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用watch命令高亮输出的不同]]></title>
+    <link href="https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/"/>
+    <updated>2024-12-13T12:07:14+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong</id>
+    <content type="html"><![CDATA[<p><code>
+watch -d date
+</code></p>
+
+<p><code>-d</code> 参数会将两次输出之间的差异高亮显示；</p>
+
+<p>我赶紧又 <code>man</code> 了一下 <code>watch</code> 命令的选项，又得到了几个对我有用的功能:</p>
+
+<p><code>-b</code> 参数可以在程序异常退出的时候响铃</p>
+
+<p><code>-g</code> 参数可以在程序输出发生变化时退出watch命令</p>
+
+<p>还有我最常用的 <code>-n</code>参数，控制watch的间隔</p>
+
+<p>Linux上面很多小命令，是从上世纪70年代的上古UNIX时期一路经过血战竞争才能留到现在的，论设计肯定是精益求精了；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Resize Partition on Linux]]></title>
@@ -238,23 +261,6 @@ sudo vi /etc/rc.local</p>
   <li>如果出现莫名其妙的编译错误，先<code>Build -&gt; Clean Build xxx</code>；清理一下，重新编译试试</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fix Connection Error Between Ipad and Macbook]]></title>
-    <link href="https://brain-zhang.github.io/blog/2023/04/09/fix/"/>
-    <updated>2023-04-09T16:44:24+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2023/04/09/fix</id>
-    <content type="html"><![CDATA[<p>iOS真机调试，Mac连上iPad一直闪，信任不了设备问题</p>
-
-<p>打开终端Terminal，输入</p>
-
-<p><code>
-$ sudo killall -STOP -c usbd
-</code></p>
-
-<p>命令回车，即可把进程关闭。插上iPhone，正常连接，问题解决。</p>
 ]]></content>
   </entry>
   
