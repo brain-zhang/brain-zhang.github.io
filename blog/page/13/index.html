@@ -100,80 +100,6 @@ MathJax.Hub.Config({
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">How to Grep Obtain Patterns From File</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-07-04T18:06:55+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
-        
-           | <a href="/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2018/07/04/how-to-grep-obtain-patterns-from-file/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有一个100G的大文本文件 emailinfo.dict，包含邮箱及用户昵称; 格式为</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">hello@163.com,你是我的海
-</span><span class="line">...
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>有一个用户名文件user.txt，格式为:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">aaa
-</span><span class="line">xxxx
-</span><span class="line">....
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>我们希望找出emailinfo.dict中，以user.txt中用户名开头的所有内容。</p>
-
-<p>首先将user.txt内容改为:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">^aaa
-</span><span class="line">^xxxx
-</span><span class="line">....
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>然后执行:</p>
-
-<pre><code>grep -G -f user.txt emailinfo.dict
-</code></pre>
-
-<p>这个<code>-G</code>参数又花了我半个小时去读文档，我都不知道第几次做这种事情了。人年纪大了果然只能靠笔记。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2018/07/03/peewee-abc/">Peewee ABC</a></h1>
     
     
@@ -779,6 +705,104 @@ MathJax.Hub.Config({
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/">How to Parallel All Cmds for Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-01T13:07:20+08:00" pubdate data-updated="true">May 1<span>st</span>, 2018</time>
+        
+           | <a href="/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2018/05/01/how-to-parallel-all-cmds-for-linux/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>grep 一个100GB的文件总是很有压力，怎么才能提速呢?</p>
+
+<h3 id="section">瞎优化</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">LC_ALL=C fgrep -A 5 -B 5 'xxxxx.password' allpassseed.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>
+    <p><code>LC_ALL=C</code>比<code>LC_ALL=UTF-8</code>要块</p>
+  </li>
+  <li>
+    <p>不需要正则的话，用fgrep可以提速</p>
+  </li>
+</ul>
+
+<h3 id="linux-parallel-all-cmdsperl">不过这样优化总是治标不治本，下面隆重推出linux 里面parallel all cmds的perl工具</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat allpassseed.txt |parallel  --pipe  --no-notice grep -f xxxxx.password
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>使用parallel ，和不使用parallel直接grep。结果显而易见，相差 20 倍。这比用啥 ack，ag优化效果明显多了</p>
+
+<h3 id="xargs-n">xargs也有一个-n的多核选项，可以作为备用</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ time echo {1..5} |xargs -n 1  sleep
+</span><span class="line">
+</span><span class="line">real    0m15.005s
+</span><span class="line">user    0m0.000s
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这一条xargs把每个echo的数作为参数传给sleep ，所以一共sleep了 1+2+3+4+5=15秒。</p>
+
+<p>如果使用 -P 参数分给5个核，每个核各sleep 1,2,3,4,5秒，所以执行完之后总共sleep的5秒。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ time echo {1..5} |xargs -n 1 -P 5 sleep
+</span><span class="line">
+</span><span class="line">real    0m5.003s
+</span><span class="line">user    0m0.000s
+</span><span class="line">sys 0m0.000s
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>引自:</li>
+</ul>
+
+<p>https://www.jianshu.com/p/c5a2369fa613</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/14/">&larr; Older</a>
@@ -800,10 +824,6 @@ MathJax.Hub.Config({
       </li>
     
       <li class="post">
-        <a href="/blog/2024/12/05/tui-jian-hen-hao-kan-de-wu-xia-xiao-shu-tian-zhi-xia/">推荐一本很好看的武侠小说&#8211;天之下</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2024/10/14/aiwei-lai-shi-dai-hui-wei-wo-men-dai-lai-shi-yao/">AI未来时代会为我们带来什么</a>
       </li>
     
@@ -813,6 +833,10 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">How to Solve &#8216;PCI Passthrough Failed: Got Timeout&#8217; With PVE Vm Starts Failed</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2023/12/22/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-v2/">新纪元共鸣：智能的觉醒-V2</a>
       </li>
     
   </ul>
@@ -902,7 +926,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (28)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (27)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
@@ -943,7 +967,7 @@ MathJax.Hub.Config({
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2024 - brain-zhang -
+  Copyright &copy; 2025 - brain-zhang -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
