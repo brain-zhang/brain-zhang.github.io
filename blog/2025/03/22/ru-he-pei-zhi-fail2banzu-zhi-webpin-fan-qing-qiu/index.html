@@ -169,13 +169,16 @@ MathJax.Hub.Config({
 
 <p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
 
-<p>新建文件 /etc/fail2ban/filter.d/nginx-url-bruteforce.conf：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>新建文件 <code>/etc/fail2ban/filter.d/nginx-url-bruteforce.conf</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="jail">4. 配置Jail规则</h3>
-<p>编辑 /etc/fail2ban/jail.local，添加以下内容：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+
+<p>编辑 /etc/fail2ban/jail.local，添加以下内容</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -187,7 +190,7 @@ MathJax.Hub.Config({
 <span class="line-number">10</span>
 <span class="line-number">11</span>
 <span class="line-number">12</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[nginx-url-bruteforce]
+</pre></td><td class="code"><pre><code class=""><span class="line">[nginx-url-bruteforce]
 </span><span class="line">enabled = true
 </span><span class="line">port = http,https
 </span><span class="line">filter = nginx-url-bruteforce
@@ -198,12 +201,14 @@ MathJax.Hub.Config({
 </span><span class="line">findtime = 60
 </span><span class="line"># 封禁1小时
 </span><span class="line">bantime = 3600
-</span><span class="line">action = %(action_mwl)s</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</span><span class="line">action = %(action_mwl)s</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="filter-1">5. 测试Filter规则</h3>
-<p>使用 fail2ban-regex 测试正则匹配：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<p>使用 fail2ban-regex 测试正则匹配</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="fail2ban-1">6. 重启Fail2Ban并监控</h3>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>

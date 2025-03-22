@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2025-03-22T10:55:59+08:00</updated>
+  <updated>2025-03-22T10:58:20+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -52,14 +52,17 @@ sudo apt update &amp;&amp; sudo apt install fail2ban</p>
 
 <p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
 
-<p>新建文件 /etc/fail2ban/filter.d/nginx-url-bruteforce.conf：
-<code>
+<p>新建文件 <code>/etc/fail2ban/filter.d/nginx-url-bruteforce.conf</code></p>
+
+<p><code>
 [Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=
 </code></p>
 
 <h3 id="jail">4. 配置Jail规则</h3>
-<p>编辑 /etc/fail2ban/jail.local，添加以下内容：
-<code>
+
+<p>编辑 /etc/fail2ban/jail.local，添加以下内容</p>
+
+<p><code>
 [nginx-url-bruteforce]
 enabled = true
 port = http,https
@@ -75,8 +78,10 @@ action = %(action_mwl)s
 </code></p>
 
 <h3 id="filter-1">5. 测试Filter规则</h3>
-<p>使用 fail2ban-regex 测试正则匹配：
-<code>
+
+<p>使用 fail2ban-regex 测试正则匹配</p>
+
+<p><code>
 sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf
 </code></p>
 
