@@ -43,14 +43,17 @@ sudo yum install epel-release && sudo yum install fail2ban
 
 比如要监控 所有 `/hello` url下的请求；
 
-新建文件 /etc/fail2ban/filter.d/nginx-url-bruteforce.conf：
+新建文件 `/etc/fail2ban/filter.d/nginx-url-bruteforce.conf`
+
 ```
 [Definition]failregex=^<HOST> -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=
 ```
 
 
 ### 4. 配置Jail规则
-编辑 /etc/fail2ban/jail.local，添加以下内容：
+
+编辑 /etc/fail2ban/jail.local，添加以下内容
+
 ```
 [nginx-url-bruteforce]
 enabled = true
@@ -67,7 +70,9 @@ action = %(action_mwl)s
 ```
 
 ### 5. 测试Filter规则
-使用 fail2ban-regex 测试正则匹配：
+
+使用 fail2ban-regex 测试正则匹配
+
 ```
 sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf
 ```
