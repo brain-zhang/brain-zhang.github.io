@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2025-01-23T15:21:12+08:00</updated>
+  <updated>2025-03-22T10:43:07+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,96 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何配置Fail2Ban阻止Web频繁请求]]></title>
+    <link href="https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/"/>
+    <updated>2025-03-22T10:38:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu</id>
+    <content type="html"><![CDATA[<p>这类问题，AI回答已经非常靠谱了；记录一下，仅仅是加强一下记忆；</p>
+
+<h3 id="nginx">1. 确认Nginx日志格式</h3>
+
+<h4 id="nginxipremoteaddrnginxetcnginxnginxconf">1.1 确保Nginx日志中包含客户端IP（$remote_addr），检查Nginx配置（通常位于/etc/nginx/nginx.conf）：</h4>
+
+<p><code>
+http {
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent"';
+    access_log /var/log/nginx/access.log main;
+}
+</code></p>
+
+<h4 id="nginx-1">1.2 重启Nginx使配置生效：</h4>
+<p><code>
+sudosystemctl restart nginx
+</code></p>
+
+<h3 id="fail2ban">2. 安装Fail2Ban</h3>
+
+<p>```
+# Ubuntu/Debian
+sudo apt update &amp;&amp; sudo apt install fail2ban</p>
+
+<h1 id="centosrhel">CentOS/RHEL</h1>
+<p>sudo yum install epel-release &amp;&amp; sudo yum install fail2ban
+```</p>
+
+<h3 id="filter">3. 创建自定义Filter规则</h3>
+
+<p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
+
+<p>新建文件 /etc/fail2ban/filter.d/nginx-url-bruteforce.conf：
+<code>
+[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=
+</code></p>
+
+<h3 id="jail">4. 配置Jail规则</h3>
+<p>编辑 /etc/fail2ban/jail.local，添加以下内容：
+<code>
+[nginx-url-bruteforce]
+enabled = true
+port = http,https
+filter = nginx-url-bruteforce
+logpath = /var/log/nginx/access.log
+ # 允许的最大尝试次数
+maxretry = 5
+# 在60秒内超过maxretry则封禁
+findtime = 60
+# 封禁1小时
+bantime = 3600
+action = %(action_mwl)s
+</code></p>
+
+<h3 id="filter-1">5. 测试Filter规则</h3>
+<p>使用 fail2ban-regex 测试正则匹配：
+<code>
+sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf
+</code></p>
+
+<h3 id="fail2ban-1">6. 重启Fail2Ban并监控</h3>
+<p><code>
+sudo systemctl restart fail2ban
+sudo fail2ban-client status nginx-url-bruteforce
+</code></p>
+
+<h3 id="section">7. 高级调整（可选）</h3>
+
+<ul>
+  <li>
+    <p>日志路径：如果日志路径不同，修改 logpath。</p>
+  </li>
+  <li>
+    <p>封禁时间：调整 bantime（单位：秒，如 86400 封禁1天）。</p>
+  </li>
+  <li>
+    <p>精确匹配状态码：如需仅封禁500错误，修改 failregex：</p>
+  </li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[用watch命令高亮输出的不同]]></title>
@@ -219,48 +309,6 @@ sudo vi /etc/rc.local</p>
 
 <p>sudo chmod +x /etc/rc.local
 ```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ios Dev and Xcode Cheat]]></title>
-    <link href="https://brain-zhang.github.io/blog/2023/08/02/ios-dev-and-xcode-cheatsheet/"/>
-    <updated>2023-08-02T15:30:42+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2023/08/02/ios-dev-and-xcode-cheatsheet</id>
-    <content type="html"><![CDATA[<p>自学Swfit开发了一个App，记录一下坑:</p>
-
-<ul>
-  <li>
-    <p>Swift和ObjectC混编的时候，检查 <code>ProjectName--Bridging-Header.h</code> 文件是否被指定为桥接文件 : <code>Target-&gt; Build Settings -&gt;Swift Compiler -&gt; Install Object-C Compatibility  Header</code> 设置为Yes， <code>Target-&gt;Build Settings -&gt; Swift Compiler -&gt;Object-C Briding Header</code> 是否设置为这个文件</p>
-  </li>
-  <li>
-    <p><code>xxx-Bridging-header.h</code> 文件内容一般是 swift的头文件和公共的头文件，内容一般是</p>
-  </li>
-</ul>
-
-<p><code>
-	#import "xxx.h"
-</code></p>
-
-<ul>
-  <li>当引用类似 <code>#import "happynet-Swfit.h"</code> 提示找不到的时候， 请检查引用次序，类似:</li>
-</ul>
-
-<p>```
-@import TestDylib;</p>
-
-<h1 id="include-xxx-swifth">include “xxx-Swift.h”</h1>
-
-<h1 id="import-xxxmanagerh">import “xxxmanager.h”</h1>
-<p>```</p>
-
-<ul>
-  <li>编译提示少符号的时候，检查 <code>Target-&gt; Build Phases-&gt; Compile Sources</code> 是否把所有文件添加进去了</li>
-  <li>调试第三方库，例如Tunnel的时候，先用 <code>Debug-&gt;Attach To Process by PID Or Name</code> 挂载进程</li>
-  <li>如果是线程错误，xcode会弹出一个Text Table，显示汇编指令哪一行有问题，同时临近的Table回显示代码文件中对应的哪一行，一般是淡绿色标注那一行</li>
-  <li>如果出现莫名其妙的编译错误，先<code>Build -&gt; Clean Build xxx</code>；清理一下，重新编译试试</li>
-</ul>
-
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2025-01-23T15:21:12+08:00</updated>
+  <updated>2025-03-22T10:43:07+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何配置Fail2Ban阻止Web频繁请求]]></title>
+    <link href="https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/"/>
+    <updated>2025-03-22T10:38:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu</id>
+    <content type="html"><![CDATA[<p>这类问题，AI回答已经非常靠谱了；记录一下，仅仅是加强一下记忆；</p>
+
+<h3 id="nginx">1. 确认Nginx日志格式</h3>
+
+<h4 id="nginxipremoteaddrnginxetcnginxnginxconf">1.1 确保Nginx日志中包含客户端IP（$remote_addr），检查Nginx配置（通常位于/etc/nginx/nginx.conf）：</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">http {
+</span><span class="line">    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+</span><span class="line">                    '$status $body_bytes_sent "$http_referer" '
+</span><span class="line">                    '"$http_user_agent"';
+</span><span class="line">    access_log /var/log/nginx/access.log main;
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="nginx-1">1.2 重启Nginx使配置生效：</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudosystemctl restart nginx</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="fail2ban">2. 安装Fail2Ban</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># Ubuntu/Debian
+</span><span class="line">sudo apt update &amp;&amp; sudo apt install fail2ban
+</span><span class="line">
+</span><span class="line"># CentOS/RHEL
+</span><span class="line">sudo yum install epel-release &amp;&amp; sudo yum install fail2ban</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="filter">3. 创建自定义Filter规则</h3>
+
+<p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
+
+<p>新建文件 /etc/fail2ban/filter.d/nginx-url-bruteforce.conf：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h3 id="jail">4. 配置Jail规则</h3>
+<p>编辑 /etc/fail2ban/jail.local，添加以下内容：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[nginx-url-bruteforce]
+</span><span class="line">enabled = true
+</span><span class="line">port = http,https
+</span><span class="line">filter = nginx-url-bruteforce
+</span><span class="line">logpath = /var/log/nginx/access.log
+</span><span class="line"> # 允许的最大尝试次数
+</span><span class="line">maxretry = 5
+</span><span class="line"># 在60秒内超过maxretry则封禁
+</span><span class="line">findtime = 60
+</span><span class="line"># 封禁1小时
+</span><span class="line">bantime = 3600
+</span><span class="line">action = %(action_mwl)s</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h3 id="filter-1">5. 测试Filter规则</h3>
+<p>使用 fail2ban-regex 测试正则匹配：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h3 id="fail2ban-1">6. 重启Fail2Ban并监控</h3>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl restart fail2ban
+</span><span class="line">sudo fail2ban-client status nginx-url-bruteforce</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section">7. 高级调整（可选）</h3>
+
+<ul>
+  <li>
+    <p>日志路径：如果日志路径不同，修改 logpath。</p>
+  </li>
+  <li>
+    <p>封禁时间：调整 bantime（单位：秒，如 86400 封禁1天）。</p>
+  </li>
+  <li>
+    <p>精确匹配状态码：如需仅封禁500错误，修改 failregex：</p>
+  </li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[用watch命令高亮输出的不同]]></title>
@@ -2233,28 +2337,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 
 <p>话说，bitcoin core还好一点，Ethereum一个全节点的成本已经越来越高了，硬盘需求已经直奔2T SSD了；对于个人来说，在AWS上启动一个2T云硬盘的vps着实花费不小；</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Allow Non-root Process to Bind to Low-numbered Ports]]></title>
-    <link href="https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/"/>
-    <updated>2021-06-01T16:32:31+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports</id>
-    <content type="html"><![CDATA[<h4 id="use-capnetbindservice-to-grant-low-numbered-port-access-to-a-process">Use CAP_NET_BIND_SERVICE to grant low-numbered port access to a process:</h4>
-
-<p>With this you can grant permanent access to a specific binary to bind to low-numbered ports via the setcap command:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo setcap CAP_NET_BIND_SERVICE=+eip /path/to/binary</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>For more details on the e/i/p part, see cap_from_text.</p>
-
-<p>After doing this, /path/to/binary will be able to bind to low-numbered ports. Note that you must use setcap on the binary itself rather than a symlink.</p>
-
-<p>FROM:</p>
-
-<p>https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443</p>
 ]]></content>
   </entry>
   

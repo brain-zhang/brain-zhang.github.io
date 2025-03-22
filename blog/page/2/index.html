@@ -100,6 +100,58 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2023/12/14/bi-te-bi/">比特币,AI,以及共产主义</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2023-12-14T09:39:19+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2023</time>
+        
+           | <a href="/blog/2023/12/14/bi-te-bi/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2023/12/14/bi-te-bi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>从中学的政治课本里面，就一直强调共产主义是我们社会发展的高级形态；但是共产主义社会到底是什么样子的？国家制度什么样子的，婚配制度什么样子的？还有没有警察局，还有没有死刑，还有没有法院….没有人能说清；</p>
+
+<p>但是所有的课本上，所有的理论家，都信誓旦旦的预言，共产主义会实现 <code>生产力极大发展，财产公有，按需分配</code>；</p>
+
+<p>这个<code>财产公有，按需分配</code> ，一直是我的最大疑惑；人性是贪婪无度的，基因是自私的，把自己的东西白送给集体违背人性；也许在某个时期，在某些领袖的权威和人格魅力感染之下，会部分实现这个<code>按需分配</code>，但是长时间的维系这个制度，我是很怀疑的；</p>
+
+<p>而且这个美好的前景的最大漏洞在于： 按需分配，谁来分配呢？怎么保证这个分配者不会腐化呢？</p>
+
+<p>原来我是一直对于这个<code>财产公有，按需分配</code>有怀疑的，毕竟人类自私的基因是几千万年来优胜劣汰留下来的，很难想象会通过某种制度发生改变；</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2023/12/14/bi-te-bi/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/">Enable /etc/rc.local With Systemd on Ubuntu 20.04</a></h1>
     
     
@@ -642,58 +694,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">How to Allow Non-root Process to Bind to Low-numbered Ports</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2021-06-01T16:32:31+08:00" pubdate data-updated="true">Jun 1<span>st</span>, 2021</time>
-        
-           | <a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4 id="use-capnetbindservice-to-grant-low-numbered-port-access-to-a-process">Use CAP_NET_BIND_SERVICE to grant low-numbered port access to a process:</h4>
-
-<p>With this you can grant permanent access to a specific binary to bind to low-numbered ports via the setcap command:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo setcap CAP_NET_BIND_SERVICE=+eip /path/to/binary</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>For more details on the e/i/p part, see cap_from_text.</p>
-
-<p>After doing this, /path/to/binary will be able to bind to low-numbered ports. Note that you must use setcap on the binary itself rather than a symlink.</p>
-
-<p>FROM:</p>
-
-<p>https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -711,6 +711,10 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/">用watch命令高亮输出的不同</a>
       </li>
     
@@ -724,10 +728,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
     
       <li class="post">
         <a href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">How to Solve &#8216;PCI Passthrough Failed: Got Timeout&#8217; With PVE Vm Starts Failed</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/12/22/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-v2/">新纪元共鸣：智能的觉醒-V2</a>
       </li>
     
   </ul>
@@ -840,7 +840,7 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (91)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (92)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>

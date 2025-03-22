@@ -100,6 +100,140 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2025-03-22T10:38:46+08:00" pubdate data-updated="true">Mar 22<span>nd</span>, 2025</time>
+        
+           | <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这类问题，AI回答已经非常靠谱了；记录一下，仅仅是加强一下记忆；</p>
+
+<h3 id="nginx">1. 确认Nginx日志格式</h3>
+
+<h4 id="nginxipremoteaddrnginxetcnginxnginxconf">1.1 确保Nginx日志中包含客户端IP（$remote_addr），检查Nginx配置（通常位于/etc/nginx/nginx.conf）：</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">http {
+</span><span class="line">    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+</span><span class="line">                    '$status $body_bytes_sent "$http_referer" '
+</span><span class="line">                    '"$http_user_agent"';
+</span><span class="line">    access_log /var/log/nginx/access.log main;
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="nginx-1">1.2 重启Nginx使配置生效：</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudosystemctl restart nginx</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="fail2ban">2. 安装Fail2Ban</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># Ubuntu/Debian
+</span><span class="line">sudo apt update &amp;&amp; sudo apt install fail2ban
+</span><span class="line">
+</span><span class="line"># CentOS/RHEL
+</span><span class="line">sudo yum install epel-release &amp;&amp; sudo yum install fail2ban</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="filter">3. 创建自定义Filter规则</h3>
+
+<p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
+
+<p>新建文件 /etc/fail2ban/filter.d/nginx-url-bruteforce.conf：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h3 id="jail">4. 配置Jail规则</h3>
+<p>编辑 /etc/fail2ban/jail.local，添加以下内容：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">[nginx-url-bruteforce]
+</span><span class="line">enabled = true
+</span><span class="line">port = http,https
+</span><span class="line">filter = nginx-url-bruteforce
+</span><span class="line">logpath = /var/log/nginx/access.log
+</span><span class="line"> # 允许的最大尝试次数
+</span><span class="line">maxretry = 5
+</span><span class="line"># 在60秒内超过maxretry则封禁
+</span><span class="line">findtime = 60
+</span><span class="line"># 封禁1小时
+</span><span class="line">bantime = 3600
+</span><span class="line">action = %(action_mwl)s</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h3 id="filter-1">5. 测试Filter规则</h3>
+<p>使用 fail2ban-regex 测试正则匹配：
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h3 id="fail2ban-1">6. 重启Fail2Ban并监控</h3>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl restart fail2ban
+</span><span class="line">sudo fail2ban-client status nginx-url-bruteforce</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section">7. 高级调整（可选）</h3>
+
+<ul>
+  <li>
+    <p>日志路径：如果日志路径不同，修改 logpath。</p>
+  </li>
+  <li>
+    <p>封禁时间：调整 bantime（单位：秒，如 86400 封禁1天）。</p>
+  </li>
+  <li>
+    <p>精确匹配状态码：如需仅封禁500错误，修改 failregex：</p>
+  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/">用watch命令高亮输出的不同</a></h1>
     
     
@@ -597,58 +731,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2023/12/14/bi-te-bi/">比特币,AI,以及共产主义</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2023-12-14T09:39:19+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2023</time>
-        
-           | <a href="/blog/2023/12/14/bi-te-bi/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2023/12/14/bi-te-bi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>从中学的政治课本里面，就一直强调共产主义是我们社会发展的高级形态；但是共产主义社会到底是什么样子的？国家制度什么样子的，婚配制度什么样子的？还有没有警察局，还有没有死刑，还有没有法院….没有人能说清；</p>
-
-<p>但是所有的课本上，所有的理论家，都信誓旦旦的预言，共产主义会实现 <code>生产力极大发展，财产公有，按需分配</code>；</p>
-
-<p>这个<code>财产公有，按需分配</code> ，一直是我的最大疑惑；人性是贪婪无度的，基因是自私的，把自己的东西白送给集体违背人性；也许在某个时期，在某些领袖的权威和人格魅力感染之下，会部分实现这个<code>按需分配</code>，但是长时间的维系这个制度，我是很怀疑的；</p>
-
-<p>而且这个美好的前景的最大漏洞在于： 按需分配，谁来分配呢？怎么保证这个分配者不会腐化呢？</p>
-
-<p>原来我是一直对于这个<code>财产公有，按需分配</code>有怀疑的，毕竟人类自私的基因是几千万年来优胜劣汰留下来的，很难想象会通过某种制度发生改变；</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2023/12/14/bi-te-bi/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -664,6 +746,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/">用watch命令高亮输出的不同</a>
       </li>
     
@@ -677,10 +763,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">How to Solve &#8216;PCI Passthrough Failed: Got Timeout&#8217; With PVE Vm Starts Failed</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2023/12/22/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-v2/">新纪元共鸣：智能的觉醒-V2</a>
       </li>
     
   </ul>
@@ -793,7 +875,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/svn/'>svn (1)</a></li>
 <li class='category'><a href='/blog/categories/tcpdump/'>tcpdump (1)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (91)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (92)</a></li>
 <li class='category'><a href='/blog/categories/torrent/'>torrent (1)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/vmware/'>vmware (1)</a></li>
