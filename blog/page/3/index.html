@@ -100,6 +100,65 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2021/06/05/lnd-low-rescan-speed-for-startup/">Lnd Low Rescan Speed for Startup</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2021-06-05T17:31:07+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2021</time>
+        
+           | <a href="/blog/2021/06/05/lnd-low-rescan-speed-for-startup/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/06/05/lnd-low-rescan-speed-for-startup/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Lnd启动的时候需要扫描最近数百个区块来验证安全性，做rescan动作的时候慢的出奇，有时候需要30分钟才能完成这个动作：</p>
+
+<p>https://github.com/lightningnetwork/lnd/issues/760</p>
+
+<p>如果单独启动Lnd可以耐着性子等，但是如果用Lit(lightning-network-termial) 启动的话，因为它集成了数个服务，所以在等Lnd RPC服务就绪前，往往等不到扫描完毕就超时退出了…</p>
+
+<p>因为Lit Debug Log没有打全，我对于这个问题百思不得其解，其在bitcoin Regnet, Testnet, Mainnet上面的表现各不相同….</p>
+
+<p>最后找到的一劳永逸的解决办法有两个：</p>
+
+<ol>
+  <li>
+    <p>换btcd，不要用bitcoin core了</p>
+  </li>
+  <li>
+    <p>换ssd硬盘，花钱解决</p>
+  </li>
+</ol>
+
+<p>话说，bitcoin core还好一点，Ethereum一个全节点的成本已经越来越高了，硬盘需求已经直奔2T SSD了；对于个人来说，在AWS上启动一个2T云硬盘的vps着实花费不小；</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2021/06/01/how-to-allow-non-root-process-to-bind-to-low-numbered-ports/">How to Allow Non-root Process to Bind to Low-numbered Ports</a></h1>
     
     
@@ -555,50 +614,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/">How to Close Lightning Channels by Lnd-cli?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2021-01-03T16:54:10+08:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2021</time>
-        
-           | <a href="/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/01/03/how-to-close-lightning-channels-by-lnd-cli/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>越来越有老年痴呆的倾向，这个命令至少Google过3次了，每次都忘，被自己蠢哭了~~</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lncli closechannel &lt;fund_txid&gt; [fund_tx_vout_NO]</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>不要忘了vout_NO，不然会报错”channel not found”</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -616,6 +631,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/03/22/guan-yu-qu-kuai-lian-wei-lai-de-yu-ce/">关于区块链未来的一些预测</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a>
       </li>
     
@@ -629,10 +648,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2024/04/19/how-to-resize-partition-on-linux/">How to Resize Partition on Linux</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">How to Solve &#8216;PCI Passthrough Failed: Got Timeout&#8217; With PVE Vm Starts Failed</a>
       </li>
     
   </ul>
@@ -698,7 +713,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ai/'>ai (11)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (63)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (64)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
