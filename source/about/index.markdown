@@ -49,13 +49,9 @@ footer: true
 * pubkey
 
 ```
-gpg --keyserver keys.gnupg.net --search-keys brain.zhang
+gpg --keyserver keyserver.ubuntu.com --search-keys brain.zhang
 ```
 
-
-* pubkey finger
-
-![finger](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/201908/bg1.jpg)
 
 
 ## 联系我
