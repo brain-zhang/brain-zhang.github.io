@@ -100,6 +100,88 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">How to Sort a Very Very Very Big File</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-03T07:21:50+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2018</time>
+        
+           | <a href="/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2018/05/03/how-to-sort-a-very-very-very-big-file/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sort -uo 一个1T的文件，让最高配的google cloud instance (48 core/512G)崩溃了~~~，可惜了我的$30，白白跑了那么长时间~~~</p>
+
+<p>网上搜索都是how to sort a big file，那我这个属于very very very big big big file了~~</p>
+
+<p>不管是并行也好，管道也好，用了各种奇技淫巧就是敌不过人家 very very big~</p>
+
+<p>不要跟我谈什么外排，归并，位图，bloom filter，redis hash去重，我就是不想折腾，最后只有分割手动外排搞定~~</p>
+
+<h3 id="section">把大象装进冰箱分为几步？</h3>
+
+<h3 id="section-1">三步:</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">split -l 1000000000 huge-file small-chunk
+</span><span class="line">
+</span><span class="line">for X in small-chunk*; do sort -u &lt; $X &gt; sorted-$X; done
+</span><span class="line">
+</span><span class="line">sort -u -m sorted-small-chunk* &gt; sorted-huge-file &amp;&amp; rm -rf small-chunk* sorted-small-chunk*
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="tips">小TIPS:</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>如果只要去重不要排序的话，尽量不要用 sort -u或者sort</td>
+      <td>uniq，这个是nLog(n)的效率，让人捉急。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>可以利用awk的数组是内存hash表的特性，直接awk来做，前提是你内存够大，瞎估估需要十倍于数据的内存吧:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat xxxxx zzz | awk '{ if (!seen[$0]++) { print $0; } }' &gt; xxx_zzz.uniq.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ps">PS:</h3>
+
+<p>我后来又看了一下GNU Sort的实现描述，它说已经用了外排了，但是实际使用还是不给力，暂时迷惑中</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/05/01/how-to-get-intersection-of-two-big-files/">How to Get Intersection of Two Big Files</a></h1>
     
     
@@ -617,52 +699,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">How to Get Pubkey From a Transaction</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-22T20:42:49+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2018</time>
-        
-           | <a href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>比如<code>1HUBHMij46Hae75JPdWjeZ5Q7KaL7EFRSD</code>，这个地址，有转出过，如何得到公钥</p>
-
-<p>原理很简单，但是实践起来比较烦：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/04/22/how-to-get-pubkey-from-a-transaction/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/15/">&larr; Older</a>
@@ -680,6 +716,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/04/04/guan-yu-aifa-zhan-de-ji-ge-mi-si/">关于AI发展的几个迷思</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/03/22/guan-yu-qu-kuai-lian-wei-lai-de-yu-ce/">关于区块链未来的一些预测</a>
       </li>
     
@@ -693,10 +733,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2024/10/14/aiwei-lai-shi-dai-hui-wei-wo-men-dai-lai-shi-yao/">AI未来时代会为我们带来什么</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2024/04/19/how-to-resize-partition-on-linux/">How to Resize Partition on Linux</a>
       </li>
     
   </ul>
@@ -742,7 +778,8 @@ MathJax.Hub.Config({
 <section> 
   <h1>文章分类</h1> 
   <ul id="categories"> 
-    <li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
+    <li class='category'><a href='/blog/categories/ai/'>AI (1)</a></li>
+<li class='category'><a href='/blog/categories/android/'>Android (1)</a></li>
 <li class='category'><a href='/blog/categories/array/'>Array (1)</a></li>
 <li class='category'><a href='/blog/categories/c/'>C (1)</a></li>
 <li class='category'><a href='/blog/categories/c2c/'>C2C (1)</a></li>
