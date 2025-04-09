@@ -5,7 +5,7 @@ date: 2019-01-25 22:31:39 +0800
 comments: true
 categories: blockchain
 ---
-自中本聪在[2009-01-03](https://memorybox-bitcoin.github.io/20090103/)挖出第一个block开始，比特币已经运行整整十年了！
+自中本聪在[2009-01-03](https://brainzhang-bitcoin.github.io/20090103/)挖出第一个block开始，比特币已经运行整整十年了！
 
 不可思议的历程，毕竟欧元也不过出现20年，iphone也不过出现12年而已；比特币其实已经超越了历史上许多国家法币的寿命！
 

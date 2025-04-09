@@ -15,7 +15,7 @@ https://www.reddit.com/r/Bitcoin/comments/ac4e64/the_happy_birthday_bitcoin_adve
 
 我在2013年初次读到白皮书的时候搭建了一个网站:
 
-https://memorybox-bitcoin.github.io/20090103/
+https://brainzhang-bitcoin.github.io/20090103/
 
 出于好玩的心态一直维护着，看看下一个十年会是怎样。
 
