@@ -3,7 +3,7 @@ layout: post
 title: "关于AI发展的几个迷思"
 date: 2025-04-04 10:57:30 +0800
 comments: true
-categories: AI
+categories: ai
 ---
 
  一些瞎想，随手记下来
