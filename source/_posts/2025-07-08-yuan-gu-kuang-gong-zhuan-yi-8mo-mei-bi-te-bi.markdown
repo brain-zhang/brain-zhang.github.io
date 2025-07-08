@@ -39,7 +39,24 @@ categories: blockchain
 
 所以，这看起来好像是个极富耐心的巨鲸在整理他的财富；
 
-但是，有好事者发现了另外一件耐人寻味的事；就在转账的前几天，准确的说是2025-07-01，有一个神秘人向多个知名的沉睡大额地址用OP_RETURN发送了几则消息，典型交易如下:
+这个巨鲸的整理工作时间线大概是这样的:
+
+
+2025-07-04 02:41:32 先对地址`12tLs9c9RsALt4ockxa1hB4iTCTSmxj2me`的BCH进行了转移:
+
+https://blockchair.com/fr/bitcoin-cash/transaction/932deee311857b585f637d1ec15faf54dcc35d6c19e32b3bbefbfd6dade53c99
+
+
+2025-07-04 03:43:33 对BTC进行了转移:
+
+https://blockchair.com/bitcoin/transaction/9d5d67169a37222720b407c99939f7baa40587eef9ab16ec3a17c7c856ef9045
+
+
+剩下的七个地址转移类似；然后，最后一笔交易发生在 2025-07-04 14:59:38 BTC转移:
+
+https://blockchair.com/bitcoin/transaction/138e8e608fc406baea409e2e52e0edad77104d9b282da4eb6c515386398d45fe
+
+一切看起来都很正常；但是，有好事者发现了另外一件耐人寻味的事；就在转账的前几天，准确的说是2025-07-01，有一个神秘人向多个知名的沉睡大额地址用OP_RETURN发送了几则消息，典型交易如下:
 
 https://mempool.space/tx/c1cf9a8468fdd62968e4744d77fc1409203a01dd003048a571ec1d543f790acd
 
