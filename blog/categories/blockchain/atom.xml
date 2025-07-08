@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2025-07-08T21:15:26+08:00</updated>
+  <updated>2025-07-08T21:18:02+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -124,7 +124,7 @@
 
 <p>另外，还有一个最小可能的猜想，就是真的有人，或者有一种方法，找到了远古时代bitcoin-core生成地址的漏洞，可以破解这种私钥,它们正在为占有这些财富而构造法律保护；这样这个远古矿工的转移也说得通了，毕竟小心驶得万年船</p>
 
-<p>但是，我始终认为量子计算机无法从未花费过的比特币地址，因为量子计算算法或许可以破解非对称加密，但是目前没有任何理论证明量子计算机可以逆向hash算法；所以极其微小的可能是早期的bitcoin-core生成地址有漏洞，可以用bloomfilter暴力查找破解；</p>
+<p>但是，我始终认为量子计算机无法破解从未花费过的比特币地址，因为量子计算算法或许可以破解非对称加密，但是目前没有任何理论证明量子计算机可以逆向hash算法；所以极其微小的可能是早期的bitcoin-core生成地址有漏洞，可以用bloomfilter暴力查找破解；</p>
 
 <p>顺便说一句，我也仔细研究过bitcoinv0.01的代码，中本聪代码生成地址的随机数是用了OpenSSL的成熟算法，要出现漏洞，我想只可能出现在WinXP的随机数生成算法里面了，倒也不能说这里面一点儿可能都没有；</p>
 
