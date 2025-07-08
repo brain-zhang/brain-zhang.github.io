@@ -100,6 +100,237 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/">为centos添加EPEL Repo</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T11:04:58+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/14/wei-centostian-jia-epel-repo/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2014/03/14/wei-centostian-jia-epel-repo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>centos默认的源软件不是很全，大部分时候需要添加EPEL源。</p>
+
+<h2 id="centos5x">centos5.x</h2>
+
+<pre><code>wget http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+sudo rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
+</code></pre>
+
+<h2 id="centos6x">centos6.x</h2>
+
+<pre><code>wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
+</code></pre>
+
+<h2 id="etcyumreposd">添加完毕后可以到/etc/yum.repos.d里面看一下</h2>
+
+<pre><code>$ ls -1 /etc/yum.repos.d/epel* /etc/yum.repos.d/remi.repo
+/etc/yum.repos.d/epel.repo
+/etc/yum.repos.d/epel-testing.repo
+/etc/yum.repos.d/remi.repo
+</code></pre>
+
+<h2 id="remi-repository">设置remi repository</h2>
+
+<p>remi repository更新很快，如果你很需要htopxxx最新版本这样的话最好打开</p>
+
+<pre><code>sudo vim /etc/yum.repos.d/remi.repo
+</code></pre>
+
+<p>编辑 [remi]段:</p>
+
+<pre><code>name=Les RPM de remi pour Enterprise Linux $releasever - $basearch
+#baseurl=http://rpms.famillecollet.com/enterprise/$releasever/remi/$basearch/
+mirrorlist=http://rpms.famillecollet.com/enterprise/$releasever/remi/mirror
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+failovermethod=priority
+</code></pre>
+
+<h2 id="section">开发工具套装</h2>
+
+<pre><code>yum groupinstall "Development Tools"
+</code></pre>
+
+<h2 id="scl">SCL源</h2>
+
+<p>http://wiki.centos.org/AdditionalResources/Repositories/SCL</p>
+
+<h2 id="section-1">解决仓库安装失败的问题</h2>
+
+<p>有时候某个软件可以Search，但安装一直报错:</p>
+
+<pre><code>http://download.fedoraproject.org/pu...ry.sqlite.bz2: [Errno 12] Timeout: &lt;urlopen error timed out&gt;
+Trying other mirror.
+</code></pre>
+
+<p>最简单的修复办法就是重建repos</p>
+
+<pre><code>yum clean all
+rpm --rebuilddb
+yum update
+</code></pre>
+
+<p>90%的情况会奏效</p>
+
+<h2 id="yum">yum只下载安装包</h2>
+
+<pre><code>[RHEL5]
+yum -y install yum-downloadonly
+yum install mongodb-org --downloadonly
+
+[RHEL6]
+yum install yum-plugin-downloadonly
+yum install --downloadonly --downloaddir=. mongodb-org
+</code></pre>
+
+<h2 id="yumrpm">yum提取已经安装的rpm包</h2>
+
+<pre><code>yum install yum-utils
+yumdownloader &lt;package&gt;
+yumdownloader &lt;package&gt; --resolve
+</code></pre>
+
+<h2 id="yumkernel">yum升级kernel</h2>
+
+<p>http://elrepo.org/tiki/kernel-ml</p>
+
+<h2 id="elrepo-url">elrepo url</h2>
+
+<p>http://elrepo.org/tiki/tiki-index.php</p>
+
+<p>http://elrepo.org/linux/kernel/</p>
+
+<p>http://mirrors.sohu.com/centos/6.6/xen4/x86_64/Packages/</p>
+
+<h2 id="mongodb-rpm-repo">mongodb RPM repo</h2>
+
+<p>https://repo.mongodb.org/yum/redhat</p>
+
+<h2 id="section-2">163镜像源</h2>
+
+<p>http://mirrors.163.com/.help/centos.html</p>
+
+<h2 id="rpm-">rpm 常用命令</h2>
+
+<ul>
+  <li>重装某个包</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -ivh --replacepkgs xxx.rpm
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>修改prefix</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qp --queryformat "%{defaultprefix}\n" &lt;packagefile&gt;
+</span><span class="line">rpm -ivh --prefix &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查询某个包包含的文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -ql &lt;packagefile&gt;
+</span><span class="line">rpm -qs &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查询某个包包含的配置文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qc &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查询某个包安装时要执行的脚本文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -q --scripts &lt;packagefile&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查询某个文件属于哪个包</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qf &lt;filepath&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查询某个可执行文件的配置文件和log文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qcf &lt;filepath&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>寻找最近安装的包</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">find /bin -type f -mtime -14 | rpm -qF
+</span><span class="line">rpm -qa --queryformat '%{installtime} %{name}-%{version}-%{release} %{installtime:date}\n' | sort -nr +1 | sed -e 's/^[^ ]* //'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>寻找最大的安装包</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm -qa --queryformat '%{name-%{version}-%{release} %{size}\n' | sort -nr +1}'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>解压一个rpm文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rpm2cpio xxx.rpm | cpio -div
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/27/pi-liang-shan-chu-mongo-collections/">批量删除mongo Collections</a></h1>
     
     
@@ -364,6 +595,10 @@ http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</p>
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/07/08/yuan-gu-kuang-gong-zhuan-yi-8mo-mei-bi-te-bi/">远古矿工转移8万枚比特币</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/04/13/wei-lai-de-ai-firstsi-lu/">未来的AI First思路</a>
       </li>
     
@@ -377,10 +612,6 @@ http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</p>
     
       <li class="post">
         <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/">用watch命令高亮输出的不同</a>
       </li>
     
   </ul>
@@ -446,7 +677,7 @@ http://rhnh.net/2011/08/20/vim-and-tmux-on-osx</p>
 <li class='category'><a href='/blog/categories/ai/'>ai (13)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (64)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (65)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

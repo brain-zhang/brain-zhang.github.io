@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2025-04-18T20:22:49+08:00</updated>
+  <updated>2025-07-08T20:56:20+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[远古矿工转移8万枚比特币]]></title>
+    <link href="https://brain-zhang.github.io/blog/2025/07/08/yuan-gu-kuang-gong-zhuan-yi-8mo-mei-bi-te-bi/"/>
+    <updated>2025-07-08T20:53:56+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2025/07/08/yuan-gu-kuang-gong-zhuan-yi-8mo-mei-bi-te-bi</id>
+    <content type="html"><![CDATA[<p>为严谨起见，本文所说的时间均为UTC时间；</p>
+
+<p>2025-07-04，比特币链上连续出现了多笔大额交易，一共有8个地址，在一天时间内转移了&gt;80000个比特币，市值超过80亿美元；令人震惊的是，这8个地址都创建于2011年远古年代，似乎是属于一个早期矿工，这些币自从2011年之后再也没有动过，直到今天才第一次转出，这位矿工的定力实在让人钦佩；</p>
+
+<p>但是数额实在太过巨大，有不少人就这位矿工的来历各种揣测，并对他今天的转账惴惴不安；我仔细在链上研究了一下这几个地址，发现一些很有意思的东东，就胡侃一通；</p>
+
+<p>时间线是这样的，我们首先看一下这八个地址:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">12tLs9c9RsALt4ockxa1hB4iTCTSmxj2me
+</span><span class="line">1KbrSKrT3GeEruTuuYYUSQ35JwKbrAWJYm
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">1P1iThxBH542Gmk1kZNXyji4E4iwpvSbrt
+</span><span class="line">1CPaziTqeEixPoSFtJxu74uDGbpEAotZom
+</span><span class="line">14YK4mzJGo5NKkNnmVJeuEAQftLt795Gec
+</span><span class="line">1ucXXZQSEf4zny2HRwAQKtVpkLPTUKRtt
+</span><span class="line">1BAFWQhH9pNkz3mZDQ1tWrtKkSHVCkc3fV
+</span><span class="line">1f1miYFQWTzdLiCBxtHHnNiW7WAWPUccr</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>前两个地址最早的交易时间可以追溯到 2011-04-03 05:08:32，2011-04-03 06:18:45；看交易记录可以断定，当时钱包的主人正在把挖矿的成果归集到一个钱包里面，并且这个人很强迫症，每个地址收入了10000币；</p>
+
+<p>后面六个地址是另外一个钱包，他们都创建于2011-05-04；看交易历史也是同一个强迫症矿工每个地址归集了10000币；</p>
+
+<p>之后，这8个地址没有任何花费，只有零星的小额入账；</p>
+
+<p>2011年04月，当时还是GPU挖矿的时代，当时有据可查的第一个GPU挖矿软件是由<a href="https://en.bitcoin.it/wiki/ArtForz">ArtForz</a>2010年7月18开始运行的，广为人知的披萨哥Laszlo也是大概在2010下半年下场的，这些早期的GPU矿工多的可以一天挖上千枚；所以当时一个矿工积攒10w币并不是天方夜谭；</p>
+
+<p>所以，这看起来好像是个极富耐心的巨鲸在整理他的财富；</p>
+
+<p>但是，有好事者发现了另外一件耐人寻味的事；就在转账的前几天，准确的说是2025-07-01，有一个神秘人向多个知名的沉睡大额地址用OP_RETURN发送了几则消息，典型交易如下:</p>
+
+<p>https://mempool.space/tx/c1cf9a8468fdd62968e4744d77fc1409203a01dd003048a571ec1d543f790acd</p>
+
+<p>https://mempool.space/tx/e0d3c7a199ecc9f1d059ee12e4495431713d739971c7705ff9fae2e9e706e0d5</p>
+
+<p>https://mempool.space/tx/d24287d1a9d6109df9aed5c32a5e20482e8357cbd696c62d797f67e0399ab9bf</p>
+
+<p>…</p>
+
+<p>众所周知，比特币链上有十几个非常著名的沉睡已久的地址，里面还保存有大额比特币，但是人们倾向于它们的主人已经永久丢失了私钥，这些地址一般还有源源不断的小额入账，一般这些交易都是spam或者测试交易，还有一些行为艺术家搞乐子，不过这几笔转账传递的信息煞有介事，它的<code>OP_RETURN</code> 带有一个网址:</p>
+
+<p>“NOTICE TO OWNER: see www.salomonbros.com/owner_notice”</p>
+
+<p>把网址中的_替换为-，就可以访问:</p>
+
+<p>https://salomonbros.com/owner-notice</p>
+
+<p>里面是一篇法律文书，大意是这些沉睡地址上的币属于无主财物，他们的某个委托人似乎掌握了某种方法可以破解私钥；这些币的原始主人要不在2025 年 10 月 5 日之前自己转账划走，要不就填个表格联系他们声明其所有权；</p>
+
+<p>这篇文章充满了自大和妄想症，看起来连一个普通的钓鱼骗局都不够格，但是….我又仔细研究了这个网站:</p>
+
+<p>这个网站的公司叫做所罗门兄弟投资公司，跟那个著名的倒闭的所罗门兄弟有一点点儿联系，似乎是前员工在2022年重新成立的公司，借用了之前雇主的名号而已，他们的业务也晦暗不明，似乎也从来没有跟加密货币产生什么联系，这个网站历史如下：</p>
+
+<h4 id="salomonbroscom-">主域名 - salomonbros.com ：</h4>
+
+<p>2023 年 1 月 6 日：创建 salomonbros.com 域名（合法外壳）</p>
+
+<p>2025 年 7 月 1 日：最后一次域名更新（最终激活）</p>
+
+<p>2025 年 7 月 1 日-3日：有人利用比特币交易在OP_RETURN中嵌入网站信息</p>
+
+<p>2025 年 7 月 3 日：salomonbros.com/owner-notice 的具体部署</p>
+
+<h4 id="salomonencorecom">历史域名 - salomonencore.com：</h4>
+
+<p>2022 年 2 月 20 日：创建 salomonencore.com（初始页面）</p>
+
+<p>2022 年 5 月 16 日：首次被搜索引擎索引</p>
+
+<p>2022 年 9 月 21 日：具有象征意义的地址变更——从“世界贸易中心 7 号楼 46 层，纽约”（传统金融力量的象征）变更为“纽约第三大道 733 号，纽约州 10017”（艾斯纳阿默普尔总部/加里·阿尔福德的办公室）</p>
+
+<p>2023 年 4 月 26 日/5 月 14 日：重定向至 salomonbros.com</p>
+
+<p>我不知道怎么对其进行一个合理的解释：</p>
+
+<pre><code>• 如果说他们是行为艺术家，只为了逗乐，那真是兴师动众
+• 如果他们以为这种声明会引来比特币的主人填表格，那他们真是低估了早期比特币玩家的智商
+• 如果他们真的掌握了某种方法，可以破解私钥，直接转账拿走即可，不用如此大费周章
+• 如果他们掌握了某种方法，可以破解花费过的地址，即已经暴露的公钥，想用这种方法引诱原主人暴露公钥，更是脱裤子放屁，因为打开比特币排行榜，有不少交易所的热钱包，一直用P2PK地址，它们的公钥一直明晃晃的挂在网上，怎么不直接去攻击他们呢？
+</code></pre>
+
+<p>我只能认为，他们是一帮自大且拙劣的骗子，自以为精通法律条文，但是对于比特币的算法一无所知；它们连一个骗局都做不来；</p>
+
+<p>最后，让人匪夷所思的是这个远古矿工，他竟然回应了这个OP_RETURN消息，把P2PKH的地址转移到P2WPKH地址，但是他的转移又不完全，至少<code>12tLs9c9RsALt4ockxa1hB4iTCTSmxj2me</code>这里面的币还是转移到了同样的P2PKH地址<code>1GcCK347TMbzHrRpDoVvJdR6eyECyqHCiU</code>，搞不懂，实在搞不懂；</p>
+
+<p>被发送spam OP_RETURN的地址不止这八个，但是似乎其他地址毫无动静；</p>
+
+<p>最后，虽然还有很多谜团；但是我认为，比特币玩家，尽早把冷钱包的P2PKH地址的币转移到从未花费过的P2WPKH或者TapRoot地址上，是明智之举，这会抵抗量子计算机的力量，即使现在全世界还没有能实现破解非对称加密的量子计算机，但是未雨绸缪总是不错的；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[未来的AI First思路]]></title>
@@ -2131,37 +2237,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
   <li>两个VG做成thin pool，只有lvm thin，分别用于存储LXC容器和VM</li>
   <li>一个VG 用来做文件服务器</li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rsync Cheat]]></title>
-    <link href="https://brain-zhang.github.io/blog/2022/07/26/rsync-cheat/"/>
-    <updated>2022-07-26T15:35:51+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2022/07/26/rsync-cheat</id>
-    <content type="html"><![CDATA[<p>这条命令我用了不下百次了，但是每次还得查，老年痴呆的前兆，/(ㄒoㄒ)/~~</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rsync -acvruP --progress /opt/src1 /opt/src2  /mnt/dest/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>-c, –checksum 打开校验开关，强制对文件传输进行校验; 开了前置计算会很慢，文件多的时候不要用</li>
-  <li>-a, –archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD</li>
-  <li>-r, –recursive 对子目录以递归模式处理</li>
-  <li>-u, –update 仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)；已经有拷贝了一半的文件的情况下不要用，不会自动更新</li>
-</ul>
-
-<p>最后，要注意路径中的斜杠处理:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rsync -acvruP --progress /opt/src1 /mnt/dest/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>与下面的命令是不一样的</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rsync -acvruP --progress /opt/src1/ /mnt/dest/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>前者会拷贝src1目录，后者会拷贝src1目录下的文件，但是不会带src1</p>
 ]]></content>
   </entry>
   

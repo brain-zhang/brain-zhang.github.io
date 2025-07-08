@@ -100,6 +100,50 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/">小说扩写润色大师</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2023-12-22T15:57:12+08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2023</time>
+        
+           | <a href="/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>chatGPT由于输出的限制，不能一次性写长文，可以采用分治法，比如下面这个GPTS Role:<a href="https://chat.openai.com/g/g-mB8AlMHxP-xiao-shuo-kuo-xie-run-se-da-shi">小说扩写大师</a>，可以把每个章节题目和概要喂给他，然后就可以自由自在水文了:</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2023/12/21/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-chatgptdui-hua-ji-lu/">新纪元共鸣：智能的觉醒-ChatGPT对话记录</a></h1>
     
     
@@ -599,67 +643,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2022/07/26/rsync-cheat/">Rsync Cheat</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2022-07-26T15:35:51+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2022</time>
-        
-           | <a href="/blog/2022/07/26/rsync-cheat/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2022/07/26/rsync-cheat/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这条命令我用了不下百次了，但是每次还得查，老年痴呆的前兆，/(ㄒoㄒ)/~~</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rsync -acvruP --progress /opt/src1 /opt/src2  /mnt/dest/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>-c, –checksum 打开校验开关，强制对文件传输进行校验; 开了前置计算会很慢，文件多的时候不要用</li>
-  <li>-a, –archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD</li>
-  <li>-r, –recursive 对子目录以递归模式处理</li>
-  <li>-u, –update 仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)；已经有拷贝了一半的文件的情况下不要用，不会自动更新</li>
-</ul>
-
-<p>最后，要注意路径中的斜杠处理:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rsync -acvruP --progress /opt/src1 /mnt/dest/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>与下面的命令是不一样的</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">rsync -acvruP --progress /opt/src1/ /mnt/dest/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>前者会拷贝src1目录，后者会拷贝src1目录下的文件，但是不会带src1</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -677,6 +660,10 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/07/08/yuan-gu-kuang-gong-zhuan-yi-8mo-mei-bi-te-bi/">远古矿工转移8万枚比特币</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/04/13/wei-lai-de-ai-firstsi-lu/">未来的AI First思路</a>
       </li>
     
@@ -690,10 +677,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
     
       <li class="post">
         <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/">用watch命令高亮输出的不同</a>
       </li>
     
   </ul>
@@ -759,7 +742,7 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 <li class='category'><a href='/blog/categories/ai/'>ai (13)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (64)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (65)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
