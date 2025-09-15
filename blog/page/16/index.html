@@ -100,6 +100,71 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Coincheck被盗5亿个XEM</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-02-02T21:16:43+08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2018</time>
+        
+           | <a href="/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2018/02/02/coincheck-bei-dao-5-yi-ge-xem/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2018-01-26,Coincheck 被盗 5 亿个 XEM, 这个数目估计是史上最大了，hacker 的账户地址是这里:</p>
+
+<p>http://explorer.ournem.com/#/s_account?account=NC4C6PSUW5CLTDT5SXAGJDQJGZNESKFK5MCN77OG</p>
+
+<p>按照 coinmarketcap 的市场价来算，现在 5 亿个 XEM 价值大概 4 亿美元</p>
+
+<p>另外可能是 coincheck 自己的防护，他们的 Ripple 钱包也有一笔大额的转账:</p>
+
+<p>https://xrpcharts.ripple.com/#/transactions/FC32DBF1C0CE6780A669349FEDF7BD9EC18033EB79B3DC8F1ADBAE9B5EAD3EF8</p>
+
+<p>有将近 1 亿个 xrp 转账到了一个地址，这个地址貌似有 30 亿个 xrp.</p>
+
+<p>这笔转账可能是 coincheck 正在审计，不是 hack 行为。</p>
+
+<p>除去 MTGOX 那次，Coincheck 的这次悲剧不论数量还是市场价格估计都是史上最强了</p>
+
+<p>2018-01-28, Coincheck公布了补偿措施</p>
+
+<p>http://corporate.coincheck.com/2018/01/28/30.html </p>
+
+<p>共损失 52300,0000 个 XEM，按照被偷时的币值返还，每个币 88 日元 </p>
+
+<p>额，貌似总额超过 25 亿人民币了 </p>
+
+<p>最奇怪的是，直到2018-02-01，市场才起了反应，开始下跌。</p>
+
+<p>这个赌博的场子越来越让人看不懂了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/01/09/block-chain-white-papers/">Block Chain White Papers</a></h1>
     
     
@@ -692,79 +757,6 @@ yum repolist
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Deploy Local Ntp Server on Centos7</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-06-06T21:20:35+08:00" pubdate data-updated="true">Jun 6<span>th</span>, 2017</time>
-        
-           | <a href="/blog/2017/06/06/deploy-local-ntp-server-on-centos7/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2017/06/06/deploy-local-ntp-server-on-centos7/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有时候需要内网环境搭建一个ntp服务器同步内网的几台机器。</p>
-
-<p>四步走:</p>
-
-<h2 id="ntpd">安装ntpd</h2>
-
-<pre><code>yum -y install ntp ntpdate
-</code></pre>
-
-<h2 id="etcntpdconf">修改/etc/ntpd.conf</h2>
-
-<pre><code># line 18: add the network range you allow to receive requests
-restrict 10.0.0.0 mask 255.255.255.0 nomodify notrap
-
-# local clock
-server 127.127.1.0
-fudge  127.127.1.0 stratum 10
-</code></pre>
-
-<h2 id="section">重启</h2>
-
-<pre><code>systemctl start ntpd
-systemctl enable ntpd
-firewall-cmd --add-service=ntp --permanent
-firewall-cmd --reload
-</code></pre>
-
-<h2 id="section-1">瞄一眼</h2>
-
-<pre><code>watch ntpq -p
-</code></pre>
-
-<p>注意reach这个值，在启动ntp server服务后，这个值就从0开始不断增加，当增加到17的时候，从0到17是5次的变更，每一次是poll的值的秒数，是64秒*5=320秒的时间。</p>
-
-<p>如果之后从ntp客户端同步ntp server还失败的话，用ntpdate –d来查询详细错误信息，再做判断。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/17/">&larr; Older</a>
@@ -782,6 +774,10 @@ firewall-cmd --reload
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/09/15/tan-tan-wen-ding-bi/">谈谈稳定币</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/07/08/yuan-gu-kuang-gong-zhuan-yi-8mo-mei-bi-te-bi/">远古矿工转移8万枚比特币</a>
       </li>
     
@@ -795,10 +791,6 @@ firewall-cmd --reload
     
       <li class="post">
         <a href="/blog/2025/03/22/guan-yu-qu-kuai-lian-wei-lai-de-yu-ce/">关于区块链未来的一些预测</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a>
       </li>
     
   </ul>
@@ -864,7 +856,7 @@ firewall-cmd --reload
 <li class='category'><a href='/blog/categories/ai/'>ai (13)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (65)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (66)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>

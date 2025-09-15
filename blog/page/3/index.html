@@ -100,6 +100,57 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/">Migrate PVE Storage From ZFS to Lvm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2023-01-18T10:21:13+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2023</time>
+        
+           | <a href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前PVE的存储我用ZFS做了三个pool，一个RaidZ1，两个Raid0；</p>
+
+<p>我的PVE内核版本为 <code>5.13.19-6-pve</code>;</p>
+
+<p>实际用下来有一个大槽点；</p>
+
+<p>就是对于12T以上的单盘，ZFS每次写入的时候都会炒豆子音大爆发，放在家里实在不是什么好体验；而且我一直有个困扰已久的问题没有解决；就是ZFS强壮是强壮；但是对于其dataset的管理方式，无论是send还是destroy，每个操作都会有长时间的卡顿lock；另外相对于读性能，不知道为什么，我的RaidZ1写性能一直没有达到单盘读写能力，我加了ARC、ZIL，各种方法都折腾了一遍，但是效果都不好；
+还有一个最大的问题，就是虚拟机多了之后，比如我同时对20台虚拟机做硬盘迁移操作；ZFS的lock太严重了，比如我同时delete两个虚拟硬盘，必定lock timeout;这个lock timeout 60s的限制，没有找到设置的地方，只能硬改代码，非常tricky；而不用后台命令，PVE的web UI对于并行操作的支持不好，所以降低磁盘并行操作的locktime非常必要；</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2023/01/18/migrate-pve-storage-zfs-to-lvm/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2022/07/26/rsync-cheat/">Rsync Cheat</a></h1>
     
     
@@ -601,47 +652,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2021-04-19T17:26:06+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2021</time>
-        
-           | <a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">split -n l/5 your_file.txt</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>注意 l/5 前面是小写的L;</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -659,6 +669,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/09/15/tan-tan-wen-ding-bi/">谈谈稳定币</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/07/08/yuan-gu-kuang-gong-zhuan-yi-8mo-mei-bi-te-bi/">远古矿工转移8万枚比特币</a>
       </li>
     
@@ -672,10 +686,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2025/03/22/guan-yu-qu-kuai-lian-wei-lai-de-yu-ce/">关于区块链未来的一些预测</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a>
       </li>
     
   </ul>
@@ -741,7 +751,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ai/'>ai (13)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
-<li class='category'><a href='/blog/categories/blockchain/'>blockchain (65)</a></li>
+<li class='category'><a href='/blog/categories/blockchain/'>blockchain (66)</a></li>
 <li class='category'><a href='/blog/categories/bootstrap/'>bootstrap (1)</a></li>
 <li class='category'><a href='/blog/categories/business/'>business (1)</a></li>
 <li class='category'><a href='/blog/categories/centos/'>centos (3)</a></li>
