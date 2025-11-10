@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2025-09-15T17:53:23+08:00</updated>
+  <updated>2025-11-10T17:08:13+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,401 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[中国城市经济财政与宜居度分析]]></title>
+    <link href="https://brain-zhang.github.io/blog/2025/11/10/zhong-guo-cheng-shi-jing-ji-cai-zheng-yu-yi-ju-du-fen-xi/"/>
+    <updated>2025-11-10T16:59:26+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2025/11/10/zhong-guo-cheng-shi-jing-ji-cai-zheng-yu-yi-ju-du-fen-xi</id>
+    <content type="html"><![CDATA[<h3 id="section">六个指标从经济上来寻找最宜居的中国城市</h3>
+
+<ol>
+  <li>人均GDP: 衡量一个地区经济发展效率和居民平均创造财富能力的关键指标。</li>
+  <li>人均财政支出: 衡量政府为每个市民提供的公共服务和基础设施投入的潜在能力，与教育、医疗、交通、环境等宜居要素直接相关。</li>
+  <li>人均负债：评估城市财政健康度和未来发展潜力的一个至关重要的指标。一个地方政府负债过高，意味着未来可能需要通过增加税收、削减公共服务支出或依赖上级转移支付来偿债，这都会直接影响经济发展的活力和居民的福祉。</li>
+  <li>人均可支配收入：衡量居民真实的口袋有多鼓。</li>
+  <li>房价收入比：衡量实际居住压力。</li>
+  <li>千人病床数/医生数：衡量医疗资源压力。</li>
+</ol>
+
+<!-- more -->
+
+<h3 id="deepseek">deepseek打分</h3>
+
+<p>下表对30个主要城市进行了评估。旨在反映各城市在经济效率、财政健康、居民富裕度、生活压力和公共服务等方面的相对表现。</p>
+
+<hr />
+
+<h3 id="section-1">🏙️ 中国主要城市宜居度经济财政指标评分表（前30名）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">排名</th>
+      <th style="text-align: left">城市</th>
+      <th style="text-align: left">人均GDP</th>
+      <th style="text-align: left">人均财政支出</th>
+      <th style="text-align: left">人均负债额</th>
+      <th style="text-align: left">人均可支配收入</th>
+      <th style="text-align: left">房价收入比</th>
+      <th style="text-align: left">人均医疗资源</th>
+      <th style="text-align: left">综合得分</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><strong>深圳</strong></td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left"><strong>55</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><strong>苏州</strong></td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>51</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left"><strong>无锡</strong></td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>50</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left"><strong>广州</strong></td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left"><strong>50</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left"><strong>北京</strong></td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left"><strong>50</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left"><strong>上海</strong></td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left"><strong>50</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>杭州</strong></td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>49</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>长沙</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>48</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left"><strong>宁波</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>47</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left"><strong>南京</strong></td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left"><strong>47</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">11</td>
+      <td style="text-align: left"><strong>珠海</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>46</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">12</td>
+      <td style="text-align: left"><strong>福州</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>44</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">13</td>
+      <td style="text-align: left"><strong>武汉</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left"><strong>45</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">14</td>
+      <td style="text-align: left"><strong>青岛</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>45</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">15</td>
+      <td style="text-align: left"><strong>泉州</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left"><strong>44</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">16</td>
+      <td style="text-align: left"><strong>常州</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>44</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">17</td>
+      <td style="text-align: left"><strong>成都</strong></td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>43</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">18</td>
+      <td style="text-align: left"><strong>西安</strong></td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>41</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">19</td>
+      <td style="text-align: left"><strong>郑州</strong></td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>40</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">20</td>
+      <td style="text-align: left"><strong>济南</strong></td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>42</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">21</td>
+      <td style="text-align: left"><strong>合肥</strong></td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>40</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">22</td>
+      <td style="text-align: left"><strong>东莞</strong></td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left"><strong>38</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">23</td>
+      <td style="text-align: left"><strong>佛山</strong></td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left"><strong>41</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">24</td>
+      <td style="text-align: left"><strong>沈阳</strong></td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left"><strong>41</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">25</td>
+      <td style="text-align: left"><strong>天津</strong></td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left"><strong>42</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">26</td>
+      <td style="text-align: left"><strong>石家庄</strong></td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>39</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">27</td>
+      <td style="text-align: left"><strong>贵阳</strong></td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>35</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">28</td>
+      <td style="text-align: left"><strong>昆明</strong></td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>35</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">29</td>
+      <td style="text-align: left"><strong>南宁</strong></td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left"><strong>34</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">30</td>
+      <td style="text-align: left"><strong>哈尔滨</strong></td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left"><strong>35</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="section-2">🔍 扩展榜单的深度观察</h3>
+
+<p><strong>1. 顶尖阵营（前10名）</strong>
+- <strong>格局稳定</strong>：深圳、苏州、无锡、广州、杭州等城市凭借均衡且优秀的表现在前列站稳脚跟。
+- <strong>京沪特点</strong>：北京和上海在绝对实力（人均GDP、医疗、收入）上获得高分，但极高的房价（低房价收入比得分）拉低了它们的总排名，使其未能进入前5。</p>
+
+<p><strong>2. 强劲追赶者（第11-20名）</strong>
+- <strong>亮点城市</strong>：<strong>福州、泉州</strong>展现了东南沿海民营经济的活力，财政健康，生活压力可控。<strong>武汉、成都</strong>作为中西部核心，公共服务（高人均财政支出和医疗资源）是其主要优势，但较高的政府负债是其共同短板。
+- <strong>北方亮点</strong>：<strong>青岛、济南</strong>作为北方经济强省的双核，表现稳健，各项指标较为均衡。</p>
+
+<p><strong>3. 潜力与挑战并存（第21-30名）</strong>
+- <strong>新一线城市</strong>：<strong>合肥、西安、郑州</strong>等城市正处于快速发展期，表现为较高的政府投入（人均财政支出尚可）和较大的发展雄心，但同时也伴随着较高的负债和待提升的人均经济效率。
+- <strong>东北与西部城市</strong>：沈阳、哈尔滨在房价压力方面表现较好，但经济和财政收入指标面临挑战。贵阳、昆明、南宁则普遍面临政府负债较高的问题，影响了其财政健康度和未来发展潜力。</p>
+
+<p><strong>核心结论</strong>：
+这份扩大的榜单揭示了一个核心规律：真正宜居的城市需要在 <strong>“创造财富”（经济收入）、“政府能力”（财政健康）和“生活成本”（居住压力）</strong> 三者之间取得平衡。任何一方面的明显短板都会影响其综合排名。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[谈谈稳定币]]></title>
@@ -2274,27 +2669,6 @@
 </pre></td><td class="code"><pre><code class=""><span class="line">$ sudo killall -STOP -c usbd</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>命令回车，即可把进程关闭。插上iPhone，正常连接，问题解决。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fix LVM Disks Missing Under /dev/xxx in PVE7.1]]></title>
-    <link href="https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/"/>
-    <updated>2023-03-20T11:06:10+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1</id>
-    <content type="html"><![CDATA[<p>PVE7.1，重启后 LVM thinpool 丢掉了一块VM Disk；</p>
-
-<p>解决方法:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lvchange -an storagename
-</span><span class="line">vgchange -ay storagename</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>参考:</p>
-
-<p>https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1807169.html
-https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_missing_under/</p>
 ]]></content>
   </entry>
   

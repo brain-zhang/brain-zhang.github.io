@@ -100,6 +100,55 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">How to Solve &#8216;PCI Passthrough Failed: Got Timeout&#8217; With PVE Vm Starts Failed</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2024-04-03T14:38:15+08:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2024</time>
+        
+           | <a href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>PVE的虚机做了显卡直通后，有时候启动会报错:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">start failed .... got timeout.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这一般是因为系统的内存不够了，因为硬件直通，虚拟机的内存需要跟物理内存的DMA映射一致，他就需要物理上连续的内存空间；如果此时物理机的空余内存看起来是够的，但是连续空间不够，就会报错；</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2024/04/03/how-to-solve-pci-passthrough-failed-got-timeout-with-pve-vm-starts-failed/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2023/12/22/xin-ji-yuan-gong-ming-%3Azhi-neng-de-jue-xing-v2/">新纪元共鸣：智能的觉醒-V2</a></h1>
     
     
@@ -593,57 +642,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/">Fix LVM Disks Missing Under /dev/xxx in PVE7.1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2023-03-20T11:06:10+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2023</time>
-        
-           | <a href="/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2023/03/20/fix-lvm-disks-missing-under-slash-dev-slash-xxx-in-pve7-dot-1/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>PVE7.1，重启后 LVM thinpool 丢掉了一块VM Disk；</p>
-
-<p>解决方法:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">lvchange -an storagename
-</span><span class="line">vgchange -ay storagename</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>参考:</p>
-
-<p>https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1807169.html
-https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_missing_under/</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -661,6 +659,10 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/11/10/zhong-guo-cheng-shi-jing-ji-cai-zheng-yu-yi-ju-du-fen-xi/">中国城市经济财政与宜居度分析</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/09/15/tan-tan-wen-ding-bi/">谈谈稳定币</a>
       </li>
     
@@ -674,10 +676,6 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
     
       <li class="post">
         <a href="/blog/2025/04/04/guan-yu-aifa-zhan-de-ji-ge-mi-si/">关于AI发展的几个迷思</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2025/03/22/guan-yu-qu-kuai-lian-wei-lai-de-yu-ce/">关于区块链未来的一些预测</a>
       </li>
     
   </ul>
@@ -767,7 +765,7 @@ https://www.reddit.com/r/Proxmox/comments/ot6lfr/lvm_issues_after_upgrade_disks_
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (27)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (28)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>

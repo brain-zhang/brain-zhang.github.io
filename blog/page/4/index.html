@@ -100,6 +100,54 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Linux下块设备缓存Bcache设置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2021-04-22T10:04:17+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2021</time>
+        
+           | <a href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="bcache">Bcache简介</h2>
+
+<p>Bcache是Linux内核块设备层cache，支持多块HDD使用同一块SSD作为缓存盘。它让SSD作为HDD的缓存成为了可能。由于SSD价格昂贵，存储空间小，而HDD价格低廉，存储空间大，因此采用SSD作为缓存，HDD作为数据存储盘，既解决了SSD容量太小，又解决了HDD运行速度太慢的问题。</p>
+
+<p>Bcache是从Linux-3.10开始正式并入内核主线的，因此，要使用Bcache，需要将内核升级到3.10及以上版本才行。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2021/04/22/linuxxia-kuai-she-bei-huan-cun-bcacheshe-zhi/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2021/04/19/how-to-split-a-file-into-equal-parts-without-breaking-individual-lines/">How to Split a File Into Equal Parts Without Breaking Individual Lines?</a></h1>
     
     
@@ -662,62 +710,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/">十行代码挑战世界金融体系</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2020-04-23T15:47:39+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2020</time>
-        
-           | <a href="/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这个有点标题党了，但实话说许多”高科技”项目也是这种浮夸的宣传手段，且听我慢慢道来；</p>
-
-<p>最近央行将推出数字货币（DCEP）的消息沸沸扬扬，在没有实际用过之前，我无意对其做过多揣测；</p>
-
-<p>不过这个消息激起了我另一方面的兴趣，就是写一写那些在以太坊上面发行的各种山寨Token；</p>
-
-<p>众所周知，自从Ethereum的<a href="https://github.com/ethereum/EIPs/issues/20">ERC20</a>、<a href="https://github.com/ethereum/EIPs/issues/223">ERC223</a>、<a href="https://github.com/ethereum/EIPs/issues/721">ERC721</a>、<a href="https://github.com/ethereum/EIPs/issues/777">ERC777</a>等Token合约标准诞生以来，在Ethereum上面发行一种货币的成本低的令人发指，我测算，按照现在的ETH汇率，大概10块人民币就能让你发行一个具有发行、转账、增发、销毁等基本功能的电子货币，如果导入OpenZeppelin程序库，在部署合约的时候多出100块钱左右，就可以拥有一个具有融资上限、拍卖、行权计划和其他更复杂的功能的货币。</p>
-
-<p>先知Andreas M. Antonopoulos 曾经在2014年加拿大关于比特币的听证会上表示，未来的货币发行市场可能会超出所有人的想象，一个十几岁的屁大小子，用10行代码足以创造最灵活最有信用的货币；借助区块链的技术，一个幼儿园的童星创造的货币，可能比历史上最有权力的君王创造的货币用户更多；</p>
-
-<p>虽然比特币发明以来，把它的代码Folk一份，修改两个参数就出来”颠覆世界”的山寨币已经数不胜数，但真正把”造币”这件事情变成无门槛，像吃棒棒糖一样容易的，还是得说以太坊的ERC20的横空出世；</p>
-
-<p>那么，就先让我们体验一下，如何10行代码创造我们自己的棒棒糖币吧~~~</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2020/04/23/shi-xing-dai-ma-dian-fu-shi-jie-jin-rong-ti-xi/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -735,6 +727,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/11/10/zhong-guo-cheng-shi-jing-ji-cai-zheng-yu-yi-ju-du-fen-xi/">中国城市经济财政与宜居度分析</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/09/15/tan-tan-wen-ding-bi/">谈谈稳定币</a>
       </li>
     
@@ -748,10 +744,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2025/04/04/guan-yu-aifa-zhan-de-ji-ge-mi-si/">关于AI发展的几个迷思</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2025/03/22/guan-yu-qu-kuai-lian-wei-lai-de-yu-ce/">关于区块链未来的一些预测</a>
       </li>
     
   </ul>
@@ -841,7 +833,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (27)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (28)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
