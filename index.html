@@ -100,6 +100,54 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2025/12/10/meng-zhong-de-di-er-ren-sheng/">梦中的另一个我</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2025-12-10T15:31:13+08:00" pubdate data-updated="true">Dec 10<span>th</span>, 2025</time>
+        
+           | <a href="/blog/2025/12/10/meng-zhong-de-di-er-ren-sheng/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2025/12/10/meng-zhong-de-di-er-ren-sheng/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近几年频繁的在梦中遇到另一个我；现在我已经对他的生活经历颇为熟悉，每次梦到他，都惊觉他其实就是平行世界的我；</p>
+
+<p>这个”我”，跟我在现实生活中的经历类似，他曾经因为家庭环境的逼仄，三次骑自行车离家漫游；第一次走遍了北方，第二次从山东出发，经四川北上，走遍了宁夏新疆，在极冬中翻阅重重达坂，到了拉萨；在后藏漫游了许久，有了一个稳定的小家，但最后还是离开了；最后一次，不知道他走了什么路线，我梦见他的时候，他在美国匹茲堡的一个小镇上；</p>
+
+<p>他几十年的人生中，买了两套房子，其中有一套离我现在住的地方还不远，另外一套，他自己都记不清了，只是模糊的有印象，自己第一次漫游北方的时候，为了有一个窝，在喜欢的海边，买了一个最小最便宜的烂尾楼，后来自己却忘了究竟是哪里了。。。</p>
+
+<p>他漫游在这个世上，有三个朋友，一个在四川新都桥，一个在湖北，还有一个就是在匹茲堡；这三个朋友都曾漫游到他住的小镇上来看过他，那是他最快乐的几天；</p>
+
+<p>关于他的生活，还有很多细节，奇怪的是，我现在清醒了，却记不起来多少了；但是一进到梦里，我会立即附着在那个”他”身上，前世今生的记忆会一起涌来：拉萨的某个山头的气息，四川宁夏辗转的记忆，还有极冬时候的严寒……裹着一条被子蜷缩在烂尾楼的安全幸福感……我都真切的体会着，这就是梦中的第二个我。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2025/11/10/zhong-guo-cheng-shi-jing-ji-cai-zheng-yu-yi-ju-du-fen-xi/">中国城市经济财政与宜居度分析</a></h1>
     
     
@@ -800,108 +848,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2024/04/19/how-to-resize-partition-on-linux/">How to Resize Partition on Linux</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2024-04-19T16:16:46+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2024</time>
-        
-           | <a href="/blog/2024/04/19/how-to-resize-partition-on-linux/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2024/04/19/how-to-resize-partition-on-linux/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前操作Linux，扩容已有分区，一直是手工<code>fdisk</code>删除分区重建搞定的，这种方式不直观且容易出错；最近采用<code>parted</code>操作了以下，发现很直观；</p>
-
-<p>比如我要对 /dev/sda1 从 100GB，扩容至200GB，操作如下</p>
-
-<h3 id="section">查看当前分区情况</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># 进入 parted 工具
-</span><span class="line">$ sudo parted
-</span><span class="line">GNU Parted 3.4
-</span><span class="line">Using /dev/sda
-</span><span class="line">Welcome to GNU Parted! Type 'help' to view a list of commands.
-</span><span class="line"># 查看磁盘信息
-</span><span class="line">(parted) print /dev/sda</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>我只有 /dev/sda1 一个分区，因此很好办</p>
-
-<h3 id="section-1">根分区扩容</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># 进入 parted 工具
-</span><span class="line">$ sudo parted /dev/sda
-</span><span class="line"># 查看磁盘信息
-</span><span class="line">(parted) print
-</span><span class="line"># 此时应该只有一个分区，直接扩展这个分区
-</span><span class="line">(parted)resizepart 1
-</span><span class="line">Warning: Partition /dev/sda1 is being used. Are you sure you want to continue?
-</span><span class="line"># 直接输入 yes 确认
-</span><span class="line">Yes/No? yes
-</span><span class="line"># 输入新的结束点
-</span><span class="line"># 这里输入的数值，就是上方输出中 Disk: 后方的数值
-</span><span class="line">End?  [200GB]? 200GB
-</span><span class="line"># 扩展完成之后退出 parted
-</span><span class="line">(parted) quit</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="resize2fs-">用resize2fs 工具扩展文件系统</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo resize2fs /dev/sda1</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>不出意外，应该搞定了； </p>
-
-<h3 id="section-2">注意事项</h3>
-
-<p>扩容之前，最好用 <code>lsof</code> 查看以下扩容分区，把所有的读写进程都停掉，如果条件允许，umount 这个分区再扩容，更加安全</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -917,6 +863,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2025/12/10/meng-zhong-de-di-er-ren-sheng/">梦中的另一个我</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2025/11/10/zhong-guo-cheng-shi-jing-ji-cai-zheng-yu-yi-ju-du-fen-xi/">中国城市经济财政与宜居度分析</a>
       </li>
     
@@ -930,10 +880,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2025/04/13/wei-lai-de-ai-firstsi-lu/">未来的AI First思路</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2025/04/04/guan-yu-aifa-zhan-de-ji-ge-mi-si/">关于AI发展的几个迷思</a>
       </li>
     
   </ul>
@@ -1023,7 +969,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/ldap/'>ldap (1)</a></li>
 <li class='category'><a href='/blog/categories/learn123/'>learn123 (1)</a></li>
 <li class='category'><a href='/blog/categories/libpcap/'>libpcap (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (28)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (29)</a></li>
 <li class='category'><a href='/blog/categories/lightning/'>lightning (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (7)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux, (1)</a></li>
