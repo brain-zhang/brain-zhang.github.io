@@ -283,13 +283,13 @@ MathJax.Hub.Config({
 <h4 id="section-3">一些约定:</h4>
 
 <ol>
-  <li>TransA代表TxPrev，TransB代笔TxNew</li>
+  <li>TransA代表TxPrev，TransB代表TxNew</li>
 </ol>
 
 <h4 id="section-4">步骤:</h4>
 
 <ol>
-  <li>首先解析TransB涨vin中的scriptSig，得到sigStr以及pubkeyStr</li>
+  <li>首先解析TransB vin中的scriptSig，得到sigStr以及pubkeyStr</li>
   <li>从TransA中拿出对应的vout ，从scriptPub脚本中截取需要的部分(subScript)：即 <code>OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG</code>；截取规则就是检索最后一个<code>OP_CODESEPARATOR</code>的位置，在这之后的脚本段就是我们要截取的对象</li>
   <li>如果subScript中包含了签名，移除掉(在scriptPub中包含签名是很特殊的情况，一般出现在P2SH交易中，普通交易不需要这一步)</li>
   <li>如果脚本中有<code>OP_CODESEPARATORS</code>操作符，移除</li>
