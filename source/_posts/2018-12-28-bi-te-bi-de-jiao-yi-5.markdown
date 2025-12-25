@@ -135,7 +135,7 @@ def makeOutput(value,  index, pubkey):
 
 我们可以先通过验证签名的过程来理解以下，验证签名过程的通过10个步骤描述。下面的缩略图说明了详细的流程。
 
-![img](https://en.bitcoin.it/w/images/en/7/70/Bitcoin_OpCheckSig_InDetail.png)
+![img](https://raw.githubusercontent.com/brain-zhang/brain-zhang.github.io/source/images/20181203/bg31.png)
 
 这张图出自于[这里](http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html)，里面的TX ID是不同的，但基本步骤一样。
 
