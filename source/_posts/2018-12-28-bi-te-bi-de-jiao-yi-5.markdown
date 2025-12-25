@@ -141,12 +141,12 @@ def makeOutput(value,  index, pubkey):
 
 #### 一些约定:
 
-1. TransA代表TxPrev，TransB代笔TxNew
+1. TransA代表TxPrev，TransB代表TxNew
 
 
 #### 步骤:
 
-1. 首先解析TransB涨vin中的scriptSig，得到sigStr以及pubkeyStr
+1. 首先解析TransB vin中的scriptSig，得到sigStr以及pubkeyStr
 2. 从TransA中拿出对应的vout ，从scriptPub脚本中截取需要的部分(subScript)：即 `OP_DUP OP_HASH160 650d0497e014e60d4680fce6997d405de264f042 OP_EQUALVERIFY OP_CHECKSIG`；截取规则就是检索最后一个`OP_CODESEPARATOR`的位置，在这之后的脚本段就是我们要截取的对象
 3. 如果subScript中包含了签名，移除掉(在scriptPub中包含签名是很特殊的情况，一般出现在P2SH交易中，普通交易不需要这一步)
 4. 如果脚本中有`OP_CODESEPARATORS`操作符，移除
