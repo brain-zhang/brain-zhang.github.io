@@ -100,6 +100,58 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/">用watch命令高亮输出的不同</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2024-12-13T12:07:14+08:00" pubdate data-updated="true">Dec 13<span>th</span>, 2024</time>
+        
+           | <a href="/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">watch -d date</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>-d</code> 参数会将两次输出之间的差异高亮显示；</p>
+
+<p>我赶紧又 <code>man</code> 了一下 <code>watch</code> 命令的选项，又得到了几个对我有用的功能:</p>
+
+<p><code>-b</code> 参数可以在程序异常退出的时候响铃</p>
+
+<p><code>-g</code> 参数可以在程序输出发生变化时退出watch命令</p>
+
+<p>还有我最常用的 <code>-n</code>参数，控制watch的间隔</p>
+
+<p>Linux上面很多小命令，是从上世纪70年代的上古UNIX时期一路经过血战竞争才能留到现在的，论设计肯定是精益求精了；</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2024/10/14/aiwei-lai-shi-dai-hui-wei-wo-men-dai-lai-shi-yao/">AI未来时代会为我们带来什么</a></h1>
     
     
@@ -597,98 +649,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/">Enable /etc/rc.local With Systemd on Ubuntu 20.04</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2023-08-20T15:01:38+08:00" pubdate data-updated="true">Aug 20<span>th</span>, 2023</time>
-        
-           | <a href="/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2023/08/20/enable-slash-etc-slash-rc-dot-local-with-systemd-on-ubuntu-20-dot-04/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1 id="setup-systemd-service-file">setup systemd service file</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo vi /etc/systemd/system/rc-local.service
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">[Unit]
-</span><span class="line"> Description=/etc/rc.local Compatibility
-</span><span class="line"> ConditionPathExists=/etc/rc.local
-</span><span class="line">[Service]
-</span><span class="line"> Type=forking
-</span><span class="line"> ExecStart=/etc/rc.local start
-</span><span class="line"> TimeoutSec=0
-</span><span class="line"> StandardOutput=tty
-</span><span class="line"> RemainAfterExit=yes
-</span><span class="line"> SysVStartPriority=99
-</span><span class="line">[Install]
-</span><span class="line"> WantedBy=multi-user.target</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="enable-systemd-service">enable systemd service</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl enable rc-local</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="create-rclocal">create rc.local</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo vi /etc/rc.local
-</span><span class="line">
-</span><span class="line">#!/bin/bash
-</span><span class="line">...
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">sudo chmod +x /etc/rc.local</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -706,6 +666,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2026/01/07/aiman-tan-lu-1-tian-wen-man-tan/">AI漫谈录-1:天文漫谈</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2026/01/01/aishi-dai-de-ji-zhu-he-shang-ye-tu-juan/">AI时代的入口革命、协议支撑与商业生态图景</a>
       </li>
     
@@ -719,10 +683,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2025/09/15/tan-tan-wen-ding-bi/">谈谈稳定币</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2025/07/08/yuan-gu-kuang-gong-zhuan-yi-8mo-mei-bi-te-bi/">远古矿工转移8万枚比特币</a>
       </li>
     
   </ul>
@@ -785,7 +745,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
 <li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
-<li class='category'><a href='/blog/categories/ai/'>ai (14)</a></li>
+<li class='category'><a href='/blog/categories/ai/'>ai (15)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
 <li class='category'><a href='/blog/categories/blockchain/'>blockchain (66)</a></li>
