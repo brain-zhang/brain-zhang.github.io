@@ -100,6 +100,54 @@ MathJax.Hub.Config({
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2026/01/07/aiman-tan-lu-2-he-dian-li-yong/">AI漫谈录-2:核电利用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2026-01-07T14:34:33+08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2026</time>
+        
+           | <a href="/blog/2026/01/07/aiman-tan-lu-2-he-dian-li-yong/#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io/blog/2026/01/07/aiman-tan-lu-2-he-dian-li-yong/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我现在每天跟AI的对话已经远远超过跟人的交流了；有时候会产生有一些很有意思的对话内容，记录一下:</p>
+
+<p>这一期记录的是跟豆包聊核电；</p>
+
+<p>https://www.doubao.com/thread/w25b202fb1b304afa</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2026/01/07/aiman-tan-lu-2-he-dian-li-yong/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2026/01/07/aiman-tan-lu-1-tian-wen-man-tan/">AI漫谈录-1:天文漫谈</a></h1>
     
     
@@ -129,6 +177,8 @@ MathJax.Hub.Config({
   <div class="entry-content"><p>我现在每天跟AI的对话已经远远超过跟人的交流了；有时候会产生有一些很有意思的对话内容，记录一下:</p>
 
 <p>这一期记录的是跟豆包聊天文；</p>
+
+<p>https://www.doubao.com/thread/w237082c64f99d1cf</p>
 
 </div>
   
@@ -682,145 +732,6 @@ MathJax.Hub.Config({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">如何配置Fail2Ban阻止Web频繁请求</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2025-03-22T10:38:46+08:00" pubdate data-updated="true">Mar 22<span>nd</span>, 2025</time>
-        
-           | <a href="/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/#disqus_thread"
-             data-disqus-identifier="https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这类问题，AI回答已经非常靠谱了；记录一下，仅仅是加强一下记忆；</p>
-
-<h3 id="nginx">1. 确认Nginx日志格式</h3>
-
-<h4 id="nginxipremoteaddrnginxetcnginxnginxconf">1.1 确保Nginx日志中包含客户端IP（$remote_addr），检查Nginx配置（通常位于/etc/nginx/nginx.conf）：</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">http {
-</span><span class="line">    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-</span><span class="line">                    '$status $body_bytes_sent "$http_referer" '
-</span><span class="line">                    '"$http_user_agent"';
-</span><span class="line">    access_log /var/log/nginx/access.log main;
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="nginx-1">1.2 重启Nginx使配置生效：</h4>
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudosystemctl restart nginx</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="fail2ban">2. 安装Fail2Ban</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># Ubuntu/Debian
-</span><span class="line">sudo apt update &amp;&amp; sudo apt install fail2ban
-</span><span class="line">
-</span><span class="line"># CentOS/RHEL
-</span><span class="line">sudo yum install epel-release &amp;&amp; sudo yum install fail2ban</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="filter">3. 创建自定义Filter规则</h3>
-
-<p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
-
-<p>新建文件 <code>/etc/fail2ban/filter.d/nginx-url-bruteforce.conf</code></p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="jail">4. 配置Jail规则</h3>
-
-<p>编辑 /etc/fail2ban/jail.local，添加以下内容</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[nginx-url-bruteforce]
-</span><span class="line">enabled = true
-</span><span class="line">port = http,https
-</span><span class="line">filter = nginx-url-bruteforce
-</span><span class="line">logpath = /var/log/nginx/access.log
-</span><span class="line"> # 允许的最大尝试次数
-</span><span class="line">maxretry = 5
-</span><span class="line"># 在60秒内超过maxretry则封禁
-</span><span class="line">findtime = 60
-</span><span class="line"># 封禁1小时
-</span><span class="line">bantime = 3600
-</span><span class="line">action = %(action_mwl)s</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="filter-1">5. 测试Filter规则</h3>
-
-<p>使用 fail2ban-regex 测试正则匹配</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="fail2ban-1">6. 重启Fail2Ban并监控</h3>
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl restart fail2ban
-</span><span class="line">sudo fail2ban-client status nginx-url-bruteforce</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section">7. 高级调整（可选）</h3>
-
-<ul>
-  <li>
-    <p>日志路径：如果日志路径不同，修改 logpath。</p>
-  </li>
-  <li>
-    <p>封禁时间：调整 bantime（单位：秒，如 86400 封禁1天）。</p>
-  </li>
-  <li>
-    <p>精确匹配状态码：如需仅封禁500错误，修改 failregex：</p>
-  </li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -836,6 +747,10 @@ MathJax.Hub.Config({
   <ul id="最新文章">
     
       <li class="post">
+        <a href="/blog/2026/01/07/aiman-tan-lu-2-he-dian-li-yong/">AI漫谈录-2:核电利用</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2026/01/07/aiman-tan-lu-1-tian-wen-man-tan/">AI漫谈录-1:天文漫谈</a>
       </li>
     
@@ -849,10 +764,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/blog/2025/11/10/zhong-guo-cheng-shi-jing-ji-cai-zheng-yu-yi-ju-du-fen-xi/">中国城市经济财政与宜居度分析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2025/09/15/tan-tan-wen-ding-bi/">谈谈稳定币</a>
       </li>
     
   </ul>
@@ -915,7 +826,7 @@ MathJax.Hub.Config({
 <li class='category'><a href='/blog/categories/tokumx/'>TokuMx (1)</a></li>
 <li class='category'><a href='/blog/categories/unicode/'>Unicode (1)</a></li>
 <li class='category'><a href='/blog/categories/zsh/'>Zsh (1)</a></li>
-<li class='category'><a href='/blog/categories/ai/'>ai (15)</a></li>
+<li class='category'><a href='/blog/categories/ai/'>ai (16)</a></li>
 <li class='category'><a href='/blog/categories/autotools/'>autotools (1)</a></li>
 <li class='category'><a href='/blog/categories/bitcoin/'>bitcoin (3)</a></li>
 <li class='category'><a href='/blog/categories/blockchain/'>blockchain (66)</a></li>
