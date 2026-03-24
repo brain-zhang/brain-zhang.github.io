@@ -10,6 +10,8 @@ categories: tools, linux
 
 本教程适用于：**宿主机双显卡**（一块直通 VM，一块共享给 LXC），且解决了 apt 驱动版本不一致的痛点。
 
+<!-- more -->
+
 ### **第一步：宿主机（PVE）底层环境整备**
 
 在 PVE 宿主机上，我们需要确保 3060 归宿主机管，GT 720 归虚拟机管。
@@ -45,6 +47,17 @@ RemainAfterExit=yes
 [Install]
 WantedBy=multi-user.target
 ```
+4. grub更新
+
+```
+/etc/default/grub
+
+GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_pstate=disable default_hugepagesz=2m hugepagesz=2m hugepages=65536 intel_iommu=on iommu=pt pcie_acs_override=downstream,multifunction nofb textonly nomodeset video=efifb:off"
+```
+
+```
+update-initramfs -u
+```
 
 ### ---
 
@@ -75,6 +88,47 @@ WantedBy=multi-user.target
    # 4. 命令工具投影 (容器内无需再 apt install nvidia-utils)
    lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
 ```
+
+3. 配置模版
+
+``
+#ubuntu22.04 -> ubuntu24.04
+arch: amd64
+cores: 32
+features: nesting=1
+hostname: hpc-ai0
+memory: 65535
+mp0: /mnt/naspool,mp=/mnt/naspool
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=42:39:96:3D:44:E6,ip=192.168.100.153/24,type=veth
+ostype: ubuntu
+rootfs: thinpoolf:vm-153-disk-0,size=200G
+swap: 512
+unprivileged: 0
+lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.cgroup2.devices.allow: c 195:* rwm
+lxc.cgroup2.devices.allow: c 511:* rwm
+lxc.cgroup2.devices.allow: c 236:* rwm
+lxc.cgroup2.devices.allow: c 10:* rwm
+lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
+lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
+lxc.mount.entry: /dev/nvram dev/nvram none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-caps/nvidia-cap1 dev/nvidia-caps/nvidia-cap1 none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-caps/nvidia-cap2 dev/nvidia-caps/nvidia-cap2 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so none bind,optional,create=file
+lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file
+``
 
 ### ---
 
