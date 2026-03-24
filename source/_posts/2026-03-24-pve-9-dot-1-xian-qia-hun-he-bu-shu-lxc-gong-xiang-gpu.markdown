@@ -47,7 +47,9 @@ RemainAfterExit=yes
 [Install]
 WantedBy=multi-user.target
 ```
+
 4. grub更新
+
 
 ```
 /etc/default/grub
@@ -91,7 +93,7 @@ update-initramfs -u
 
 3. 配置模版
 
-``
+```
 #ubuntu22.04 -> ubuntu24.04
 arch: amd64
 cores: 32
@@ -128,7 +130,7 @@ lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-lin
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file
-``
+```
 
 ### ---
 
