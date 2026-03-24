@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools, | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-03-24T11:28:33+08:00</updated>
+  <updated>2026-03-24T11:39:37+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -62,8 +62,11 @@ RemainAfterExit=yes</p>
 
 <p>[Install]
 WantedBy=multi-user.target
-```
-4. grub更新</p>
+```</p>
+
+<ol>
+  <li>grub更新</li>
+</ol>
 
 <p>```
 /etc/default/grub</p>

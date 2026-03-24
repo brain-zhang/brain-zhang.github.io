@@ -180,6 +180,7 @@ MathJax.Hub.Config({
 </span><span class="line">
 </span><span class="line">[Install]
 </span><span class="line">WantedBy=multi-user.target</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 <ol>
   <li>grub更新</li>
 </ol>
@@ -246,44 +247,78 @@ MathJax.Hub.Config({
   <li>配置模版</li>
 </ol>
 
-<p><code>
-#ubuntu22.04 -&gt; ubuntu24.04
-arch: amd64
-cores: 32
-features: nesting=1
-hostname: hpc-ai0
-memory: 65535
-mp0: /mnt/naspool,mp=/mnt/naspool
-net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=42:39:96:3D:44:E6,ip=192.168.100.153/24,type=veth
-ostype: ubuntu
-rootfs: thinpoolf:vm-153-disk-0,size=200G
-swap: 512
-unprivileged: 0
-lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
-lxc.cgroup2.devices.allow: c 10:200 rwm
-lxc.cgroup2.devices.allow: c 10:200 rwm
-lxc.cgroup2.devices.allow: c 195:* rwm
-lxc.cgroup2.devices.allow: c 511:* rwm
-lxc.cgroup2.devices.allow: c 236:* rwm
-lxc.cgroup2.devices.allow: c 10:* rwm
-lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
-lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
-lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
-lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
-lxc.mount.entry: /dev/nvram dev/nvram none bind,optional,create=file
-lxc.mount.entry: /dev/nvidia-caps/nvidia-cap1 dev/nvidia-caps/nvidia-cap1 none bind,optional,create=file
-lxc.mount.entry: /dev/nvidia-caps/nvidia-cap2 dev/nvidia-caps/nvidia-cap2 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so none bind,optional,create=file
-lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.1 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file
-</code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#ubuntu22.04 -&gt; ubuntu24.04
+</span><span class="line">arch: amd64
+</span><span class="line">cores: 32
+</span><span class="line">features: nesting=1
+</span><span class="line">hostname: hpc-ai0
+</span><span class="line">memory: 65535
+</span><span class="line">mp0: /mnt/naspool,mp=/mnt/naspool
+</span><span class="line">net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=42:39:96:3D:44:E6,ip=192.168.100.153/24,type=veth
+</span><span class="line">ostype: ubuntu
+</span><span class="line">rootfs: thinpoolf:vm-153-disk-0,size=200G
+</span><span class="line">swap: 512
+</span><span class="line">unprivileged: 0
+</span><span class="line">lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+</span><span class="line">lxc.cgroup2.devices.allow: c 10:200 rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 10:200 rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 195:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 511:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 236:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 10:* rwm
+</span><span class="line">lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvram dev/nvram none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-caps/nvidia-cap1 dev/nvidia-caps/nvidia-cap1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-caps/nvidia-cap2 dev/nvidia-caps/nvidia-cap2 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="section-1">—</h3>
 
