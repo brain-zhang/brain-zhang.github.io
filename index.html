@@ -135,23 +135,25 @@ MathJax.Hub.Config({
 <p>在 PVE 宿主机上，我们需要确保 3060 归宿主机管，GT 720 归虚拟机管。</p>
 
 <ol>
-  <li><strong>精准隔离硬件</strong>：修改 /etc/modprobe.d/vfio.conf，<strong>只填入</strong>要直通给 VM 的显卡 ID（如 GT 720），<strong>严禁</strong>填入 3060 的 ID。
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span></figure></notextile></li>
+  <li><strong>精准隔离硬件</strong>：修改 /etc/modprobe.d/vfio.conf，<strong>只填入</strong>要直通给 VM 的显卡 ID（如 GT 720），<strong>严禁</strong>填入 3060 的 ID。</li>
 </ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">   \# 示例：只隔离 GT 720
-</span><span class="line">   options vfio-pci ids=10de:1288,10de:0e0f</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   # 示例：只隔离 GT 720
+</span><span class="line">   options vfio-pci ids=10de:1288,10de:0e0f</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
   <li><strong>安装宿主机驱动</strong>：使用 .run 安装包安装最新驱动（如 580.142），建议加 &#8211;dkms 防止内核升级后驱动失效。</li>
-  <li><strong>开启持久化模式</strong>：确保显卡不掉线。
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span></figure></notextile></li>
+  <li><strong>开启持久化模式</strong>：确保显卡不掉线。</li>
 </ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">   Bash
-</span><span class="line">   nvidia-smi \-pm 1
-</span><span class="line">   systemctl enable nvidia-persistenced &amp;&amp; systemctl start nvidia-persistenced</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   Bash
+</span><span class="line">   nvidia-smi -pm 1
+</span><span class="line">   systemctl enable nvidia-persistenced &amp;&amp; systemctl start nvidia-persistenced</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -188,8 +190,10 @@ MathJax.Hub.Config({
 
 <ol>
   <li><strong>基础权限</strong>：确保容器是 <strong>Privileged (unprivileged: 0)</strong>。</li>
-  <li><strong>添加以下核心配置</strong>：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li><strong>添加以下核心配置</strong>：</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -206,26 +210,25 @@ MathJax.Hub.Config({
 <span class="line-number">15</span>
 <span class="line-number">16</span>
 <span class="line-number">17</span>
-<span class="line-number">18</span></figure></notextile></li>
-</ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">   \# 1\. 硬件设备号允许 (195:Nvidia, 511:UVM, 236:Caps)
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   # 1. 硬件设备号允许 (195:Nvidia, 511:UVM, 236:Caps)
 </span><span class="line">   lxc.cgroup2.devices.allow: c 195:\* rwm
 </span><span class="line">   lxc.cgroup2.devices.allow: c 511:\* rwm
 </span><span class="line">   lxc.cgroup2.devices.allow: c 236:\* rwm
 </span><span class="line">
-</span><span class="line">   \# 2\. 硬件节点挂载 (映射真实的显卡通路)
+</span><span class="line">   # 2. 硬件节点挂载 (映射真实的显卡通路)
 </span><span class="line">   lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
 </span><span class="line">   lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
 </span><span class="line">   lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
 </span><span class="line">   lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
 </span><span class="line">
-</span><span class="line">   \# 3\. 库文件投影 (直接投影 .142 版本，避开容器内 apt 版本过低的问题)
-</span><span class="line">   lxc.mount.entry: /usr/lib/x86\_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86\_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
-</span><span class="line">   lxc.mount.entry: /usr/lib/x86\_64-linux-gnu/libcuda.so.580.142 usr/lib/x86\_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
-</span><span class="line">   lxc.mount.entry: /usr/lib/x86\_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86\_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
+</span><span class="line">   # 3. 库文件投影 (直接投影 .142 版本，避开容器内 apt 版本过低的问题)
+</span><span class="line">   lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
+</span><span class="line">   lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
+</span><span class="line">   lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
 </span><span class="line">
-</span><span class="line">   \# 4\. 命令工具投影 (容器内无需再 apt install nvidia-utils)
-</span><span class="line">   lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">   # 4. 命令工具投影 (容器内无需再 apt install nvidia-utils)
+</span><span class="line">   lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="section-1">—</h3>
 
@@ -234,14 +237,17 @@ MathJax.Hub.Config({
 <p>进入容器后，由于我们投影的是带版本号的长文件名，需要建立软链接让系统识别。</p>
 
 <ol>
-  <li>
-    <p><strong>清理旧残留</strong>（如果之前乱装过）：
-Bash
-apt purge -y “nvidia-*” “libnvidia-*” &amp;&amp; apt autoremove -y</p>
-  </li>
-  <li>
-    <p><strong>建立版本重定向</strong>：
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li><strong>清理旧残留</strong>（如果之前乱装过）：</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   apt purge -y "nvidia-*" "libnvidia-*" &amp;&amp; apt autoremove -y</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li><strong>建立版本重定向</strong>：</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -250,19 +256,17 @@ apt purge -y “nvidia-*” “libnvidia-*” &amp;&amp; apt autoremove -y</p>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
 <span class="line-number">9</span>
-<span class="line-number">10</span></figure></notextile></p>
-  </li>
-</ol>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">   \# 建立 NVML 链接
-</span><span class="line">   ln \-sf /usr/lib/x86\_64-linux-gnu/libnvidia-ml.so.580.142 /usr/lib/x86\_64-linux-gnu/libnvidia-ml.so.1
-</span><span class="line">   ln \-sf /usr/lib/x86\_64-linux-gnu/libnvidia-ml.so.1 /usr/lib/x86\_64-linux-gnu/libnvidia-ml.so
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   # 建立 NVML 链接
+</span><span class="line">   ln -sf /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1
+</span><span class="line">   ln -sf /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so
 </span><span class="line">
-</span><span class="line">   \# 建立 CUDA 链接
-</span><span class="line">   ln \-sf /usr/lib/x86\_64-linux-gnu/libcuda.so.580.142 /usr/lib/x86\_64-linux-gnu/libcuda.so.1
-</span><span class="line">   ln \-sf /usr/lib/x86\_64-linux-gnu/libcuda.so.1 /usr/lib/x86\_64-linux-gnu/libcuda.so
+</span><span class="line">   # 建立 CUDA 链接
+</span><span class="line">   ln -sf /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 /usr/lib/x86_64-linux-gnu/libcuda.so.1
+</span><span class="line">   ln -sf /usr/lib/x86_64-linux-gnu/libcuda.so.1 /usr/lib/x86_64-linux-gnu/libcuda.so
 </span><span class="line">
-</span><span class="line">   \# 刷新缓存
-</span><span class="line">   ldconfig</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">   # 刷新缓存
+</span><span class="line">   ldconfig</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="section-2">—</h3>
 
@@ -270,9 +274,8 @@ apt purge -y “nvidia-*” “libnvidia-*” &amp;&amp; apt autoremove -y</p>
 
 <p>在容器内输入：</p>
 
-<p>Bash</p>
-
-<p>nvidia-smi</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">nvidia-smi</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p><strong>看到表格即代表成功！</strong> 此时你的 3060 正在以 580.142 的驱动版本完美运行。</p>
 

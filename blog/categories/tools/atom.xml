@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools, | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-03-24T11:15:31+08:00</updated>
+  <updated>2026-03-24T11:21:58+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -27,21 +27,24 @@
 <p>在 PVE 宿主机上，我们需要确保 3060 归宿主机管，GT 720 归虚拟机管。</p>
 
 <ol>
-  <li>
-    <p><strong>精准隔离硬件</strong>：修改 /etc/modprobe.d/vfio.conf，<strong>只填入</strong>要直通给 VM 的显卡 ID（如 GT 720），<strong>严禁</strong>填入 3060 的 ID。
-<code>
-\# 示例：只隔离 GT 720
-options vfio-pci ids=10de:1288,10de:0e0f
-</code></p>
-  </li>
-  <li><strong>安装宿主机驱动</strong>：使用 .run 安装包安装最新驱动（如 580.142），建议加 --dkms 防止内核升级后驱动失效。</li>
-  <li><strong>开启持久化模式</strong>：确保显卡不掉线。
-<code>
-Bash
-nvidia-smi \-pm 1
-systemctl enable nvidia-persistenced &amp;&amp; systemctl start nvidia-persistenced
-</code></li>
+  <li><strong>精准隔离硬件</strong>：修改 /etc/modprobe.d/vfio.conf，<strong>只填入</strong>要直通给 VM 的显卡 ID（如 GT 720），<strong>严禁</strong>填入 3060 的 ID。</li>
 </ol>
+
+<p><code>
+   # 示例：只隔离 GT 720
+   options vfio-pci ids=10de:1288,10de:0e0f
+</code></p>
+
+<ol>
+  <li><strong>安装宿主机驱动</strong>：使用 .run 安装包安装最新驱动（如 580.142），建议加 --dkms 防止内核升级后驱动失效。</li>
+  <li><strong>开启持久化模式</strong>：确保显卡不掉线。</li>
+</ol>
+
+<p><code>
+   Bash
+   nvidia-smi -pm 1
+   systemctl enable nvidia-persistenced &amp;&amp; systemctl start nvidia-persistenced
+</code></p>
 
 <p>```
 # nvidia-persistenced.service</p>
@@ -67,30 +70,29 @@ WantedBy=multi-user.target
 
 <ol>
   <li><strong>基础权限</strong>：确保容器是 <strong>Privileged (unprivileged: 0)</strong>。</li>
-  <li>
-    <p><strong>添加以下核心配置</strong>：
-```
-# 1. 硬件设备号允许 (195:Nvidia, 511:UVM, 236:Caps)
-lxc.cgroup2.devices.allow: c 195:* rwm
-lxc.cgroup2.devices.allow: c 511:* rwm
-lxc.cgroup2.devices.allow: c 236:* rwm</p>
-
-    <p># 2. 硬件节点挂载 (映射真实的显卡通路)
-lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
-lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
-lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
-lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file</p>
-
-    <p># 3. 库文件投影 (直接投影 .142 版本，避开容器内 apt 版本过低的问题)
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file</p>
-
-    <p># 4. 命令工具投影 (容器内无需再 apt install nvidia-utils)
-lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
-```</p>
-  </li>
+  <li><strong>添加以下核心配置</strong>：</li>
 </ol>
+
+<p>```
+   # 1. 硬件设备号允许 (195:Nvidia, 511:UVM, 236:Caps)
+   lxc.cgroup2.devices.allow: c 195:* rwm
+   lxc.cgroup2.devices.allow: c 511:* rwm
+   lxc.cgroup2.devices.allow: c 236:* rwm</p>
+
+<p># 2. 硬件节点挂载 (映射真实的显卡通路)
+   lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
+   lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
+   lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
+   lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file</p>
+
+<p># 3. 库文件投影 (直接投影 .142 版本，避开容器内 apt 版本过低的问题)
+   lxc.mount.entry: /usr/lib/x86<em>64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86</em>64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
+   lxc.mount.entry: /usr/lib/x86<em>64-linux-gnu/libcuda.so.580.142 usr/lib/x86</em>64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
+   lxc.mount.entry: /usr/lib/x86<em>64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86</em>64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file</p>
+
+<p># 4. 命令工具投影 (容器内无需再 apt install nvidia-utils)
+   lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+```</p>
 
 <h3 id="section-1">—</h3>
 
@@ -99,27 +101,29 @@ lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,creat
 <p>进入容器后，由于我们投影的是带版本号的长文件名，需要建立软链接让系统识别。</p>
 
 <ol>
-  <li>
-    <p><strong>清理旧残留</strong>（如果之前乱装过）：
-Bash
-apt purge -y “nvidia-*” “libnvidia-*” &amp;&amp; apt autoremove -y</p>
-  </li>
-  <li>
-    <p><strong>建立版本重定向</strong>：
-```
-# 建立 NVML 链接
-ln -sf /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1
-ln -sf /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so</p>
-
-    <p># 建立 CUDA 链接
-ln -sf /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 /usr/lib/x86_64-linux-gnu/libcuda.so.1
-ln -sf /usr/lib/x86_64-linux-gnu/libcuda.so.1 /usr/lib/x86_64-linux-gnu/libcuda.so</p>
-
-    <p># 刷新缓存
-ldconfig
-```</p>
-  </li>
+  <li><strong>清理旧残留</strong>（如果之前乱装过）：</li>
 </ol>
+
+<p><code>
+   apt purge -y "nvidia-*" "libnvidia-*" &amp;&amp; apt autoremove -y
+</code></p>
+
+<ol>
+  <li><strong>建立版本重定向</strong>：</li>
+</ol>
+
+<p>```
+   # 建立 NVML 链接
+   ln -sf /usr/lib/x86<em>64-linux-gnu/libnvidia-ml.so.580.142 /usr/lib/x86</em>64-linux-gnu/libnvidia-ml.so.1
+   ln -sf /usr/lib/x86<em>64-linux-gnu/libnvidia-ml.so.1 /usr/lib/x86</em>64-linux-gnu/libnvidia-ml.so</p>
+
+<p># 建立 CUDA 链接
+   ln -sf /usr/lib/x86<em>64-linux-gnu/libcuda.so.580.142 /usr/lib/x86</em>64-linux-gnu/libcuda.so.1
+   ln -sf /usr/lib/x86<em>64-linux-gnu/libcuda.so.1 /usr/lib/x86</em>64-linux-gnu/libcuda.so</p>
+
+<p># 刷新缓存
+   ldconfig
+```</p>
 
 <h3 id="section-2">—</h3>
 
@@ -127,9 +131,9 @@ ldconfig
 
 <p>在容器内输入：</p>
 
-<p>Bash</p>
-
-<p>nvidia-smi</p>
+<p><code>
+nvidia-smi
+</code></p>
 
 <p><strong>看到表格即代表成功！</strong> 此时你的 3060 正在以 580.142 的驱动版本完美运行。</p>
 
