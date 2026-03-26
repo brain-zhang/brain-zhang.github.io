@@ -98,21 +98,19 @@ update-initramfs -u
 arch: amd64
 cores: 32
 features: nesting=1
-hostname: hpc-ai0
+hostname: hpc-ubuntu24-ai0
 memory: 65535
-mp0: /mnt/naspool,mp=/mnt/naspool
-net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=42:39:96:3D:44:E6,ip=192.168.100.153/24,type=veth
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=BC:24:11:CE:86:83,ip=192.168.100.156/24,type=veth
 ostype: ubuntu
-rootfs: thinpoolf:vm-153-disk-0,size=200G
+rootfs: thinpoolf:vm-156-disk-0,size=100G
 swap: 512
 unprivileged: 0
-lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 lxc.cgroup2.devices.allow: c 10:200 rwm
-lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.cgroup2.devices.allow: c 10:* rwm
+lxc.cgroup2.devices.allow: c 235:* rwm
 lxc.cgroup2.devices.allow: c 195:* rwm
 lxc.cgroup2.devices.allow: c 511:* rwm
 lxc.cgroup2.devices.allow: c 236:* rwm
-lxc.cgroup2.devices.allow: c 10:* rwm
 lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
 lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
 lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
@@ -121,15 +119,26 @@ lxc.mount.entry: /dev/nvram dev/nvram none bind,optional,create=file
 lxc.mount.entry: /dev/nvidia-caps/nvidia-cap1 dev/nvidia-caps/nvidia-cap1 none bind,optional,create=file
 lxc.mount.entry: /dev/nvidia-caps/nvidia-cap2 dev/nvidia-caps/nvidia-cap2 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 none bind,optional,create=file
-lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so none bind,optional,create=file
-lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.1 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.1 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
 lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.1 none bind,optional,create=file
 ```
 
 ### ---
