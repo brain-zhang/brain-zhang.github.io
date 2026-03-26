@@ -283,25 +283,32 @@ MathJax.Hub.Config({
 <span class="line-number">34</span>
 <span class="line-number">35</span>
 <span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">#ubuntu22.04 -&gt; ubuntu24.04
 </span><span class="line">arch: amd64
 </span><span class="line">cores: 32
 </span><span class="line">features: nesting=1
-</span><span class="line">hostname: hpc-ai0
+</span><span class="line">hostname: hpc-ubuntu24-ai0
 </span><span class="line">memory: 65535
-</span><span class="line">mp0: /mnt/naspool,mp=/mnt/naspool
-</span><span class="line">net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=42:39:96:3D:44:E6,ip=192.168.100.153/24,type=veth
+</span><span class="line">net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=BC:24:11:CE:86:83,ip=192.168.100.156/24,type=veth
 </span><span class="line">ostype: ubuntu
-</span><span class="line">rootfs: thinpoolf:vm-153-disk-0,size=200G
+</span><span class="line">rootfs: thinpoolf:vm-156-disk-0,size=100G
 </span><span class="line">swap: 512
 </span><span class="line">unprivileged: 0
-</span><span class="line">lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 </span><span class="line">lxc.cgroup2.devices.allow: c 10:200 rwm
-</span><span class="line">lxc.cgroup2.devices.allow: c 10:200 rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 10:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 235:* rwm
 </span><span class="line">lxc.cgroup2.devices.allow: c 195:* rwm
 </span><span class="line">lxc.cgroup2.devices.allow: c 511:* rwm
 </span><span class="line">lxc.cgroup2.devices.allow: c 236:* rwm
-</span><span class="line">lxc.cgroup2.devices.allow: c 10:* rwm
 </span><span class="line">lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
@@ -310,15 +317,26 @@ MathJax.Hub.Config({
 </span><span class="line">lxc.mount.entry: /dev/nvidia-caps/nvidia-cap1 dev/nvidia-caps/nvidia-cap1 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /dev/nvidia-caps/nvidia-cap2 dev/nvidia-caps/nvidia-cap2 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
-</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 none bind,optional,create=file
-</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so none bind,optional,create=file
-</span><span class="line">lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.1 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.1 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
-</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+</span><span class="line">
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.1 none bind,optional,create=file</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="section-1">—</h3>
 
