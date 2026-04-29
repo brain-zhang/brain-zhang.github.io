@@ -106,6 +106,7 @@ sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
 ```
 
 * 教程中的docker-compose.yaml driver部分需要做一点儿小小的修改:
+
 ```
 services:
   steam-headless:
