@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-04-29T17:24:52+08:00</updated>
+  <updated>2026-04-29T17:28:12+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -179,8 +179,10 @@
 </span><span class="line">sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>教程中的docker-compose.yaml driver部分需要做一点儿小小的修改:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+  <li>教程中的docker-compose.yaml driver部分需要做一点儿小小的修改:</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -191,9 +193,8 @@
 <span class="line-number">9</span>
 <span class="line-number">10</span>
 <span class="line-number">11</span>
-<span class="line-number">12</span></figure></notextile></li>
-</ul>
-<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">services:
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">services:
 </span><span class="line">  steam-headless:
 </span><span class="line">    image: ...
 </span><span class="line">    deploy:
@@ -204,7 +205,7 @@
 </span><span class="line">              capabilities: [gpu]
 </span><span class="line">              device_ids:
 </span><span class="line">                - nvidia.com/gpu=0     # 确保这里和你的 /etc/cdi/nvidia.yaml 里面的 name 对应
-</span><span class="line">...</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+</span><span class="line">...</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>好了，steam串流起来了，最后就可以愉快的最大化压榨这张显卡了；</p>
 
