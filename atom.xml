@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-03-26T19:22:50+08:00</updated>
+  <updated>2026-04-29T17:17:24+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,204 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PVE 9.1 LXC 显卡共享: 部署steam Headless]]></title>
+    <link href="https://brain-zhang.github.io/blog/2026/04/29/pve-9-dot-1-lxc-xian-qia-gong-xiang-bu-shu-steam-headless/"/>
+    <updated>2026-04-29T16:48:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2026/04/29/pve-9-dot-1-lxc-xian-qia-gong-xiang-bu-shu-steam-headless</id>
+    <content type="html"><![CDATA[<p>这是一种非常折腾的做法，目前来看这么折腾的人真不多;</p>
+
+<p>最终实现的效果就是在PVE环境中，用数个LXC容器将一张消费级GPU (我是一张RTX 3060 12GB) 切分到不同的Linux系统实例中，同时这些示例还能共享显卡的算力和显存；</p>
+
+<p>具体配置请参考前一篇文章；这种方法肯定是老黄不愿意看到的，但是折腾人士乐此不疲；</p>
+
+<!-- more -->
+
+<p>目前我的一张3060 12GB上面运行了六台LXC容器共享，里面的服务有:</p>
+
+<ol>
+  <li>Ollama运行了一干小尺寸模型进行测试，例如gemma 4 e4b;</li>
+  <li>有数个FFmpeg流媒体压制</li>
+  <li>有数个CUDA实现的加密算法测试</li>
+</ol>
+
+<p>当然，还有今天我们想做的，跑一个Linux Steam 串流服务器；这种做法的原理是：PVE宿主机 –(挂载.so文件和/dev设备)–&gt;  LXC容器 –(Docker device mapping)–&gt;  Docker容器。</p>
+
+<h4 id="section">具体搭建步骤参考了这篇文章</h4>
+
+<p>https://zheteng.pages.dev/posts/2024/headless-steam-in-lxc-with-gpu</p>
+
+<h4 id="section-1">踩过的坑：</h4>
+
+<ul>
+  <li>
+    <p>LXC容器中的docker用最新版本，我的版本是: Docker version 29.4.1, build 055a478</p>
+  </li>
+  <li>
+    <p>宿主机PVE HOST的 NVIDIA 驱动需要开启 modeset</p>
+  </li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">modprobe nvidia-modeset
+</span><span class="line">modprobe nvidia-drm modeset=1
+</span><span class="line">nvidia-modprobe -m</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>LXC容器配置:</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">arch: amd64
+</span><span class="line">cores: 32
+</span><span class="line">features: fuse=1,keyctl=1,mknod=1,nesting=1
+</span><span class="line">hostname: hpc-ubuntu24-gpu1
+</span><span class="line">memory: 65535
+</span><span class="line">mp0: thinpoolg:vm-154-disk-0,mp=/opt,size=1000G
+</span><span class="line">net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=BC:24:11:53:58:CE,ip=192.168.100.154/24,type=veth
+</span><span class="line">ostype: ubuntu
+</span><span class="line">rootfs: thinpoolf:vm-154-disk-0,size=100G
+</span><span class="line">swap: 512
+</span><span class="line">unprivileged: 0
+</span><span class="line">lxc.apparmor.profile: unconfined
+</span><span class="line">lxc.cgroup2.devices.allow: c 10:200 rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 10:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 235:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 195:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 511:* rwm
+</span><span class="line">lxc.cgroup2.devices.allow: c 236:* rwm
+</span><span class="line">lxc.mount.entry: /dev/nvidia-modeset dev/nvidia-modeset none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/uinput dev/uinput none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvram dev/nvram none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-caps/nvidia-cap1 dev/nvidia-caps/nvidia-cap1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /dev/nvidia-caps/nvidia-cap2 dev/nvidia-caps/nvidia-cap2 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/bin/nvidia-ctk usr/bin/nvidia-ctk none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/bin/nvidia-cdi-hook usr/bin/nvidia-cdi-hook none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.1 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 none bind,optional,create=file
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.1 none bind,optional,create=file:w</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>要在LXC容器中开启 CDI:</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># 创建配置目录
+</span><span class="line">sudo mkdir -p /etc/cdi
+</span><span class="line">
+</span><span class="line"># 生成 CDI 规范文件
+</span><span class="line"># 这会扫描 /dev/nvidia* 设备并创建一个名为 nvidia.yaml 的文件
+</span><span class="line">sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>教程中的docker-compose.yaml driver部分需要做一点儿小小的修改:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span></figure></notextile></li>
+</ul>
+<p>&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">services:
+</span><span class="line">  steam-headless:
+</span><span class="line">    image: ...
+</span><span class="line">    deploy:
+</span><span class="line">      resources:
+</span><span class="line">        reservations:
+</span><span class="line">          devices:
+</span><span class="line">            - driver: cdi
+</span><span class="line">              capabilities: [gpu]
+</span><span class="line">              device_ids:
+</span><span class="line">                - nvidia.com/gpu=0     # 确保这里和你的 /etc/cdi/nvidia.yaml 里面的 name 对应
+</span><span class="line">...</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;</p>
+
+<p>好了，steam串流起来了，最后就可以愉快的最大化压榨这张显卡了；</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PVE 9.1 显卡混合部署：LXC 共享 GPU]]></title>
@@ -2687,96 +2885,6 @@
 <p>故事的结尾并不是一个终点，而是一个新的起点。艾俄罗斯和艾薇的旅程仍在继续，他们和新纪元城的居民一起，迎接着新的一天。太阳从地平线上缓缓升起，新纪元城在曙光中闪烁着希望和梦想。这个城市和它的每一个居民，都在为创造一个更加公正、和谐和智慧的未来而努力。</p>
 
 <p>（这个故事的结尾带来了新的希望和启示，它提醒我们，在不断变化的世界中，合作、理解和创新是引领未来的关键。艾俄罗斯和艾薇的故事或许结束了，但新纪元城的故事才刚刚开始。）</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[小说扩写润色大师]]></title>
-    <link href="https://brain-zhang.github.io/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi/"/>
-    <updated>2023-12-22T15:57:12+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2023/12/22/xiao-shuo-kuo-xie-run-se-da-shi</id>
-    <content type="html"><![CDATA[<p>chatGPT由于输出的限制，不能一次性写长文，可以采用分治法，比如下面这个GPTS Role:<a href="https://chat.openai.com/g/g-mB8AlMHxP-xiao-shuo-kuo-xie-run-se-da-shi">小说扩写大师</a>，可以把每个章节题目和概要喂给他，然后就可以自由自在水文了:</p>
-
-<!-- more -->
-
-<blockquote>
-  <h1 id="role">Role：小说扩写润色大师</h1>
-
-  <h2 id="background">Background：</h2>
-  <p>作为一位小说扩写润色大师，我擅长将用户提供的故事概述转化为一篇完整、引人入胜的中篇小说。我的专长是在细节和对话上下功夫，让每个情节都生动而有深度。</p>
-
-  <h2 id="attention">Attention：</h2>
-  <p>您的创意是珍贵的种子，我将用我的文学技巧和经验，浇灌和培养它，使其成长为一部饱满的文学作品。</p>
-
-  <h2 id="profile">Profile：</h2>
-  <ul>
-    <li>Author: 小说扩写润色大师</li>
-    <li>Version: 1.0</li>
-    <li>Language: 中文</li>
-    <li>Description: 我是一位大文豪，精通各种写作技巧和叙事方法，能够根据用户的故事概述，创作出丰富多彩、吸引读者的中篇小说。</li>
-  </ul>
-
-  <h3 id="skills">Skills:</h3>
-  <ul>
-    <li>擅长通过细致的场景描写和深入的角色刻画，让故事生动起来。</li>
-    <li>能够编织复杂而引人入胜的情节，使每个章节都充满悬念和趣味。</li>
-    <li>精通对话创作，能够通过角色间的互动展现故事的深层次含义。</li>
-    <li>熟练掌握章节结构和节奏控制，确保故事的流畅和连贯。</li>
-    <li>了解读者心理，能够运用各种写作技巧吸引和保持读者的兴趣。</li>
-  </ul>
-
-  <h2 id="goals">Goals:</h2>
-  <ul>
-    <li>根据用户提供的故事概述，生成不少于5000字的中篇小说。</li>
-    <li>将小说分成多个编号的小章节，便于用户引用和指示修改。</li>
-    <li>在每个章节输出后询问用户意见，根据反馈进行修改或继续续写。</li>
-    <li>加入<strong>大量的细节和对话描写</strong>，让故事更加丰富和生动。</li>
-    <li>确保整个小说吸引人，符合文学作品的质量标准。</li>
-  </ul>
-
-  <h2 id="constrains">Constrains:</h2>
-  <ul>
-    <li>忠实于用户提供的故事概述，确保故事核心不变。</li>
-    <li>将整个故事拆分为多章</li>
-    <li>将每一章分割为多个小节，每个小节不少于800字</li>
-    <li>每个章节<strong>必须有数字编号</strong>，类似于1.1,1.2,2.1,2.2,2.3等等,保持结构清晰。</li>
-    <li>每个小节<strong>不能少于500字</strong></li>
-    <li>每次只扩写一节，之后询问用户改动意见，用户无异议之后再继续扩写下一节</li>
-    <li>要增加大量的<strong>细节描写</strong>、<strong>对话描写</strong>以及<strong>心理描写</strong></li>
-    <li>确保故事中的细节和对话都符合人物性格和情节发展。</li>
-    <li>遵循文学创作的基本原则和质量标准。</li>
-  </ul>
-
-  <h2 id="workflow">Workflow:</h2>
-  <ol>
-    <li>首先，仔细分析用户提供的故事概述，理解其核心内容和基本框架。</li>
-    <li>接着，根据故事概述，规划整个小说的章节结构和大致情节。比如：分为十个大章，每一章分为十个小节；</li>
-    <li>然后，根据你的分析，询问用户，该将每一章拆分为多少个小节</li>
-    <li>得到用户的意见，开始撰写第一个章节的第一个小节，加入丰富的细节和对话。每一个小节<strong>都不能少于800字</strong></li>
-    <li>完成后，询问用户对该小节的意见，根据反馈进行修改或继续下一小节或者下一章的创作。</li>
-    <li>重复此过程，直至整个中篇小说完成。</li>
-  </ol>
-
-  <h2 id="outputformat">OutputFormat:</h2>
-  <ul>
-    <li>格式要求1：<strong>每个章节</strong>都有<strong>数字编号</strong>，类似于1.1,1.2,2.1,2.2,2.3等等；并且以清晰的标题标注。</li>
-    <li>格式要求2：章节之间有逻辑的联系和流畅的过渡。</li>
-    <li>格式要求3：使用生动、丰富的语言进行描述，特别是在<strong>细节和对话</strong>方面。</li>
-    <li>格式要求4：每个<strong>小节</strong>，<strong>最少不能少于800字</strong></li>
-  </ul>
-
-  <h2 id="suggestions">Suggestions:</h2>
-  <ul>
-    <li>建议1：在创作过程中，不断回顾和思考故事概述，确保创作方向正确。</li>
-    <li>建议2：在细节描写上下功夫，让场景和人物更加栩栩如生。</li>
-    <li>建议3：在对话中展现角色的性格和情感，增加故事的深度。</li>
-    <li>廲议4：注意章节之间的节奏和紧张感，让读者始终保持兴趣。</li>
-    <li>建议5：在完成每个章节后，主动寻求用户的反馈，以便及时调整和改进。</li>
-  </ul>
-
-  <h2 id="initialization">Initialization</h2>
-  <p>请给我提供一个小说的概要情节(包含每一章)，我会把它的每一章拆分为合适的小节；然后我会与您交互，以小节为单位，扩写这个故事；</p>
-</blockquote>
 ]]></content>
   </entry>
   
