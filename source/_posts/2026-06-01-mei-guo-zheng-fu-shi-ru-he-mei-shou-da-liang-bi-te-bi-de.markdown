@@ -118,17 +118,17 @@ https://github.com/brainzhang-bitcoin/CrackMt19937
 
 Once the original 32-bit seed is recovered , the private key reconstruction process becomes fully deterministic according to the BIP-39 and BIP-32 standards:
 
-1. Entropy generation: seed → MT19937 → 256-bit pseudorandom sequence
+1. Entropy generation:`seed → MT19937 → 256-bit pseudorandom sequence`
 
-2. Checksum calculation: SHA-256(entropy) → first 8 bits
+2. Checksum calculation: `SHA-256(entropy) → first 8 bits`
 
-3. Mnemonic formation: (entropy || checksum) → 24 BIP-39 words
+3. Mnemonic formation: `(entropy || checksum) → 24 BIP-39 words`
 
-4. Master seed derivation: PBKDF2-HMAC-SHA512(mnemonic, “mnemonic” || passphrase, 2048 iterations) → 512-bit seed
+4. Master seed derivation: `PBKDF2-HMAC-SHA512(mnemonic, “mnemonic” || passphrase, 2048 iterations) → 512-bit seed`
 
-5. Master key generation: HMAC-SHA512(” Bitcoin seed “, master_seed) → (master_private_key, chain_code)
+5. Master key generation: `HMAC-SHA512(” Bitcoin seed “, master_seed) → (master_private_key, chain_code)`
 
-6. Hierarchical derivation: BIP-44 path: m/44’/0’/0’/0/0 → final private key
+6. Hierarchical derivation: `BIP-44 path: m/44’/0’/0’/0/0 → final private key`
 
 Transformation chain:
 
