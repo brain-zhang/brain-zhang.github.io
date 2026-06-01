@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-06-01T21:08:05+08:00</updated>
+  <updated>2026-06-01T21:12:20+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -138,37 +138,23 @@
 
 <ol>
   <li>
-    <p>Entropy generation: seed → MT19937 → 256-bit pseudorandom sequence</p>
+    <p>Entropy generation:<code>seed → MT19937 → 256-bit pseudorandom sequence</code></p>
   </li>
   <li>
-    <p>Checksum calculation: SHA-256(entropy) → first 8 bits</p>
+    <p>Checksum calculation: <code>SHA-256(entropy) → first 8 bits</code></p>
   </li>
   <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>Mnemonic formation: (entropy</td>
-          <td> </td>
-          <td>checksum) → 24 BIP-39 words</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>Mnemonic formation: <code>(entropy || checksum) → 24 BIP-39 words</code></p>
   </li>
   <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>Master seed derivation: PBKDF2-HMAC-SHA512(mnemonic, “mnemonic”</td>
-          <td> </td>
-          <td>passphrase, 2048 iterations) → 512-bit seed</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>Master seed derivation: <code>PBKDF2-HMAC-SHA512(mnemonic, “mnemonic” || passphrase, 2048 iterations) → 512-bit seed</code></p>
   </li>
   <li>
-    <p>Master key generation: HMAC-SHA512(” Bitcoin seed “, master_seed) → (master_private_key, chain_code)</p>
+    <p>Master key generation: <code>HMAC-SHA512(” Bitcoin seed “, master_seed) → (master_private_key, chain_code)</code></p>
   </li>
-  <li>Hierarchical derivation: BIP-44 path: m/44’/0’/0’/0/0 → final private key</li>
+  <li>
+    <p>Hierarchical derivation: <code>BIP-44 path: m/44’/0’/0’/0/0 → final private key</code></p>
+  </li>
 </ol>
 
 <p>Transformation chain:</p>
