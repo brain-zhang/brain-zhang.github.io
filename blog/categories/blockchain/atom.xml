@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-06-01T20:56:14+08:00</updated>
+  <updated>2026-06-01T21:03:18+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -38,6 +38,8 @@
 
 <p>我又做了一番研究，发现竟然是从2017年，就广泛存在于社区的一个漏洞！且听我慢慢道来：</p>
 
+<h2 id="libbitcoin-explorer">Libbitcoin Explorer的漏洞</h2>
+
 <p>比特币有个历史悠久的库实现，叫 <a href="https://github.com/libbitcoin/libbitcoin-explorer">Libbitcoin Explorer</a>，社区里简称为bx；就是把比特币的私钥生成、钱包组织、区块链数据解析等等杂活，做成这么一个库，供大家学习使用；</p>
 
 <p>这个项目，是用于教学和小工具方向的，并没有经过工业界的安全审计，他的作者也明晃晃的在项目主页说明了：仅供学习使用！但是项目实现的质量很高，很多比特币客户端以及矿池的实现，都会参考他，甚至直接引入代码；</p>
@@ -51,6 +53,8 @@
 <p>这个随机数算法，被libbitcoin库所有的3.x版本采用，作为教学示范，整整存在了6年，而没有人质疑！</p>
 
 <p>而路边矿池的开发者，估计也是参考了这个库，这个矿池的所有私钥，都是用mt19937的算法生成的；美国政府技术团队，在2020年发现了这个漏洞，从而转移了这个矿池的所有币；</p>
+
+<h2 id="section">币安的漏洞</h2>
 
 <p>然后还有一条另外的平行的时间线，就是币安有一个官方的钱包:TrustWallet；这个钱包的web版本依赖于WASM，在2022年的一次升级中，WASM为了支持多个平台，把random变成了MT19937，随之所有依赖这个调用的软件的随机数生成都出现问题；</p>
 
@@ -70,14 +74,15 @@
 
 <p>那么我们来具体分析一下这个漏洞究竟是如何被攻击的， 采用了MT19937随机数生成的私钥，具体流程如下:</p>
 
-<h4 id="section">私钥生成流程:</h4>
+<h4 id="section-1">私钥生成流程:</h4>
 
 <ol>
   <li>
     <p>种子的生成逻辑：从随机数到字节流</p>
 
-    <p>• 每轮贡献一个字节：MT19937 算法每运行一个循环（Round）会输出一个 32 位整数，但该软件仅截取其中的最高 8 位（即 1 个字节）。
- • 32 轮构建一个种子：比特币的私钥种子需要 256 位（32 字节）。因此，程序必须让生成器运行 32 轮，将每一轮得到的那个字节按顺序连接起来，最终组成一个 32 字节的种子。</p>
+    <p>• 每轮贡献一个字节：MT19937 算法每运行一个循环（Round）会输出一个 32 位整数，但该软件仅截取其中的最高 8 位（即 1 个字节）。</p>
+
+    <p>• 32 轮构建一个种子：比特币的私钥种子需要 256 位（32 字节）。因此，程序必须让生成器运行 32 轮，将每一轮得到的那个字节按顺序连接起来，最终组成一个 32 字节的种子。</p>
   </li>
   <li>
     <p>OFFSET（偏移量）的作用</p>
@@ -87,7 +92,9 @@
 <p>OFFSET 功能的引入是为了在同一个随机数序列中寻找更多的可能性。由于 MT19937 生成的是一个无限的确定性序列，程序可以通过跳过前面的字节来选择不同的起始点：</p>
 
 <pre><code>• OFFSET = 0：取序列中第 0 到 31 轮生成的字节。
+
 • OFFSET = 1：取序列中第 32 到 63 轮生成的字节。
+
 • 扩大范围的假象：来源指出，OFFSET 的值甚至可以达到 3232。开发者引入此功能的本意可能是为了增加生成的随机性或私钥范围，但由于底层算法是非加密安全的，这反而为黑客提供了多个可预测的“窗口”。
 </code></pre>
 
@@ -98,7 +105,9 @@
 <p>这是生成钱包的第一步，也是 Libbitcoin Explorer (bx) 出现问题的地方。</p>
 
 <pre><code>• 规范要求：生成 24 个助记词需要 256 位（32 字节） 的随机数据。
+
 • 来源中的逻辑：Libbitcoin 使用缺陷随机数生成器（MT19937-32）来产生这 32 字节 的数据,。
+
 • 漏洞本质：虽然最终需要 32 字节，但由于它是用低熵的时间戳生成的，黑客可以轻松“猜”出这 32 字节的原始面貌,。
 </code></pre>
 
@@ -106,8 +115,9 @@
   <li>
     <p>助记词 (Mnemonic)：24 个单词</p>
 
-    <p>• 这 32 字节的初始熵会被转换成 24 个 BIP39 助记词（如 apple banana …）。
- • 注意：这 24 个单词和那 32 字节的熵在数学上是等价的。如果你能破解熵，你就拿到了单词。</p>
+    <p>• 这 32 字节的初始熵会被转换成 24 个 BIP39 助记词（如 apple banana …）。</p>
+
+    <p>• 注意：这 24 个单词和那 32 字节的熵在数学上是等价的。如果你能破解熵，你就拿到了单词。</p>
   </li>
   <li>
     <p>二进制种子 (Binary Seed)：64 字节（你看到的那个长数值）</p>
@@ -116,8 +126,12 @@
 
 <p>当你有了 24 个单词后，BIP39 规范会使用 PBKDF2（一种密钥拉伸算法） 对单词进行哈希处理，最终生成一个 512 位（64 字节） 的二进制种子。</p>
 
-<p>• 这就是你提到的那个超长数值。
-• 这个 512 位的种子随后会被用作 BIP32 算法 的输入，用来派生出主私钥（Master Private Key）和所有的子私钥。</p>
+<pre><code>• 这就是你提到的那个超长数值。
+
+• 这个 512 位的种子随后会被用作 BIP32 算法 的输入，用来派生出主私钥（Master Private Key）和所有的子私钥。
+</code></pre>
+
+<h2 id="section-2">重现</h2>
 
 <p>这个过程的关键就是偏移量这一步；矿池的开发者还是有一点儿安全意识的，他没有直接用MT19937生成的随机数，而是引入了偏移量，但是致命的是：即使是引入100轮的偏移量，其碰撞空间还是不够大！</p>
 
@@ -130,8 +144,12 @@
 <p>Once the original 32-bit seed is recovered , the private key reconstruction process becomes fully deterministic according to the BIP-39 and BIP-32 standards:</p>
 
 <ol>
-  <li>Entropy generation: seed → MT19937 → 256-bit pseudorandom sequence</li>
-  <li>Checksum calculation: SHA-256(entropy) → first 8 bits</li>
+  <li>
+    <p>Entropy generation: seed → MT19937 → 256-bit pseudorandom sequence</p>
+  </li>
+  <li>
+    <p>Checksum calculation: SHA-256(entropy) → first 8 bits</p>
+  </li>
   <li>
     <table>
       <tbody>
@@ -154,7 +172,9 @@
       </tbody>
     </table>
   </li>
-  <li>Master key generation: HMAC-SHA512(” Bitcoin seed “, master_seed) → (master_private_key, chain_code)</li>
+  <li>
+    <p>Master key generation: HMAC-SHA512(” Bitcoin seed “, master_seed) → (master_private_key, chain_code)</p>
+  </li>
   <li>Hierarchical derivation: BIP-44 path: m/44’/0’/0’/0/0 → final private key</li>
 </ol>
 
@@ -164,26 +184,87 @@
 S 32bit → MT19937 → E 256bit → SHA256 → Mnemonic 24words → PBKDF2 → Seed 512bit → HMAC-SHA512 → (k, c) → BIP-44 → k final
 </code></p>
 
-<p>全部碰撞出来所有的私钥还是需要一点儿时间的，为了提高效率，我用CUDA和OPENGL写了两个版本，在一张3060 12GB显卡上，花了两个月时间，碰撞了所有的可能的mt19937随机数；最后结果大概是得到了超过22w个私钥！</p>
+<p>全部碰撞出来所有的私钥还是需要一点儿时间的，为了提高效率，我用CUDA和OPENGL写了两个版本，在一张3060 12GB显卡上，花了两个月时间，碰撞了所有的可能的mt19937随机数以及偏移量；最后结果大概是得到了超过22w个私钥！</p>
+
+<p>下面是我随意摘取的一些碰撞结果:</p>
+
+<p><code>
+0000517669d5a42845d4c54ffe82ac7f8fc173a2:c:(hex)priv:401b34832c3553b24cebbac142f52828fe6f0ef33233965fb16de6f54c59579e
+00015192b9d7d187792bd65c3707c95a2b6bd52c:c:(hex)priv:6525e832feaadba339668fb68b4ba1ddca17a33e1e760fa14826d93867602593
+000156e27309b51ab8df473e4e3f639ebfa26459:c:(hex)priv:abec4a19489dff299b8c17b1db78fee0027e0ea2743fc5f8afe310ceb1c6bc5d
+00015ddfd09246895402eaf381f73b2839651690:c:(hex)priv:a80783e3b3814353147bbf25cfb57227775c57a9f1a7b48ee1fc32a7c06ebfcf
+0001845b9b12b061758f562d0aaffd83d4062550:c:(hex)priv:7870a601fc09a6ff2efa1912eb9abfbc90d8802e51c363f2b51fdb1f863422d4
+0002331a30a785a9e6865e3446184889db06b195:c:(hex)priv:f2bc50aac134f8dfc248c13f5c1a7a1bd1d18100d3a9b33730ff06d62afc96a7
+00025690aa11d01ebb7f6e42b79192664966bc32:c:(hex)priv:901e37a3a592e58e0eb8029448f074852371a628036556e73580e30162707a46
+0002e611c615ed20109f86c8802e00b9cee73d83:c:(hex)priv:419440706ada43500ad4930a386eb2ce6a83d1663f326c4940ab9da766b3d4cc
+0002e7c6e7bb84cdee051c9a0597a450ab3ef31d:c:(hex)priv:26e70784b4fc28127341f8914b06c3f184695b15d9148436eaeeb6f8532633fb
+00033e1630e3294d61061b920c8591efa32af0f8:c:(hex)priv:e4648d7cbe8d48818265af29feaf7ec388966615d751739c2c3fb3e5f6fab525
+000409775d2af2befe1b35457f64d90c78de7494:c:(hex)priv:2b55631469f395df1b665b702d4f26e5c13b878fe0577e5d6e51c7dea2b4b419
+00046533cb8e032d23f1915cb1e30b7f61126214:c:(hex)priv:a60466dc51f893c9536234ea7e2ccead6f130af48de57a938ee07e590c250c16
+0005eaff00c8b3bab8ace0c2e37a672c8fc537fa:c:(hex)priv:5b95c650c4dc912488085973649a62b6b293dfe4bf842bece027f374bf1fd117
+000618ad0e10a9fa6c4118067cb1426f762757b8:c:(hex)priv:934c8efefaddf4fdef7ac98e0e259816c2cac1e156f447180e960ae5d09d4a3b
+00063734be9c19894c94eb057dfb9eb44dafd806:c:(hex)priv:69c9ce8c462855144ed955fd638b455fa734e5ecd30a4faefd752cdd5dbb4d12
+00071a617409580fdaf626a52a44fe9918f2ae42:c:(hex)priv:f84facd51ab3aa100dceb71834b23e21eb4d1952fa602a0acfdb7967b2f6cfe7
+00071d5d23db8923c182a170c29afcd9a2150314:c:(hex)priv:c02c407fa246af12d4c9329d0ad7af621e367a62ec4129785c7c0d89165fc329
+0007565b7f299cd22b0aa7cf6f2795a4d9d5c471:c:(hex)priv:1856663233e15c7d501dd91a2d5600b3dd848a5234b7f2bf0825f0e1f8f9315b
+00081700d5a2c532690ea4b8070112e374151198:c:(hex)priv:9823a44519e2d4fabe09cbee404ddaf918c2a2ea35517cf7591dab1b920c07b3
+000844f2001b718e5bf972401db597699d724637:c:(hex)priv:059c078e7c37f5237f8f25d5a1a1ce3a12380f04a00f1b89f7df476fedb22558
+000858c8131756e1fd550f5231b898588ea3c3e7:c:(hex)priv:e8679c1e501b623e2c15db01e45de6fabd98211196cda570c26c6931db7388ac
+0008758dde50bbe1bed5e4d0e38d177a83ba941a:c:(hex)priv:bcc744071887ffd2e1573bcafe40c14ad8c31e1af90dfb228002475019d02f64
+0008b93cb0d32979045c84717a7dbf588a4e1c7b:c:(hex)priv:9b296598652e0aab99b1e5e07511b758b80426343935c5a4da5d7933ce96115a
+0008d62cfe65f4bd5a99d5bf9e19c4ac48aeed4a:c:(hex)priv:5b7d3688f90425031e3757e76797da20626eec216b8ea6a168a5ca30923fd71c
+0009233271fbf7f0d8846182f75d383e97b46ba2:c:(hex)priv:b168e965e99e493029f538de4454977a72db30f3e19d1d0924e9de996770af0a
+0009a851b885696d9976b62a32ecf5720d143a4d:u:(hex)priv:8055ba85cce450da4326eed45f1ce2556a67bd84b754da1cc73cba0896baa7cf
+0009ccc3133f33b7d8a896d59057ede530d6afc9:c:(hex)priv:3466b3085a08702188c6dad720e65ae1675a896da062bbd26f5a92f3dd5fbe20
+0009f7e1af354e33cece09d2d24fb4d620688048:c:(hex)priv:0e1deeedca574c487c8cc266582994b4565c73b9b123b9ebd8a10b44f333ef66
+000a6c63ab37a421ccf73af53e3c8bad899df5fd:c:(hex)priv:4bc048724f3670e85305231a8e411dfd79d419448f513f558cb96e624abe123e
+000afceef3e290b61f7ab15a738137d8d1917371:c:(hex)priv:cc7c14cec0914c0065c26723044a64e810d8eb270a40a91e05f0f2a27d9e90f9
+000afea3f80541982a41f9c136559b1c244de6d6:c:(hex)priv:011c8731038dbfa2ef11c107507397d45ec454e4edc49121344a5faeb72ba88b
+000afeec2447053f4608e1fb45e2b6f88107ecd6:c:(hex)priv:f88f21b004fabf8fd4b7a982b58703eb552b6ae5e87b62c4717c42615cf597e2
+000b118f3c4eb30e76530328ac409cd74994eedc:c:(hex)priv:a1c57d11e59b3f5d08a10cd1207cbb80027c4941e29d4df96605bb38f70701fe
+000b2ef227a4f64cd74f9a2dccc811842d2ae397:c:(hex)priv:5527497f0c723f3ce31e99a2a8af34cc6e95922551f53e29c1899a7f7bf4122f
+000c1984a28c0bea54bb4d5894a7e00da25919ed:c:(hex)priv:005862708dda64a8579627a071ab81f731e96efd475e0b4d0afc30d72870c74b
+......
+</code></p>
 
 <p>而采用MT19937随机数生成私钥的钱包，还有另外一个风险，就是不一定你的交易上链才会被爆破；而是在广播交易，还在内存池的时候，就有可能被窃取；原理如下:</p>
 
 <ol>
-  <li>MT19937的碰撞空间在2^32，攻击者完全可以生成一个私钥-&gt; hash160的bloomfilter文件，然后监控所有内存池中的交易</li>
-  <li>每一笔交易，都可以用hash160来碰撞，如果碰撞成功，再到数据库中寻找完整的私钥</li>
-  <li>提高手续费构建新的交易</li>
-  <li>完成盗币</li>
-  <li>整个流程如果用CUDA显卡来碰撞，仅仅几秒钟就可以实现</li>
+  <li>
+    <p>MT19937的碰撞空间在2^32，攻击者完全可以生成一个私钥-&gt; hash160的bloomfilter文件，然后监控所有内存池中的交易</p>
+  </li>
+  <li>
+    <p>每一笔交易，都可以用hash160来碰撞，如果碰撞成功，再到数据库中寻找完整的私钥</p>
+  </li>
+  <li>
+    <p>提高手续费构建新的交易</p>
+  </li>
+  <li>
+    <p>完成盗币</p>
+  </li>
+  <li>
+    <p>整个流程如果用CUDA显卡来碰撞，仅仅几秒钟就可以实现</p>
+  </li>
 </ol>
 
-<h2 id="section-1">这个事件的启示</h2>
+<h2 id="section-3">这个事件的启示</h2>
 
 <ol>
-  <li>已经有国家级别的技术力量，至少从2020年开始，就不间断的寻找比特币的所有薄弱环节</li>
-  <li>生成私钥的算法，一定要选择工业级别的随机数生成算法</li>
-  <li>加密世界，光懂技术是不够的，但是不懂技术是万万不可的</li>
-  <li>任何在你眼中的高大上的机构都有可能被一击致命；包括各种矿池，交易所，国家承认的ETF等等</li>
-  <li>比特币是一种完全由你自己负责的资产，放在交易所、ETF，还是任何一个机构，是推卸责任，总有一天你会被反噬的</li>
+  <li>
+    <p>已经有国家级别的技术力量，至少从2020年开始，就不间断的寻找比特币的所有薄弱环节</p>
+  </li>
+  <li>
+    <p>生成私钥的算法，一定要选择工业级别的随机数生成算法</p>
+  </li>
+  <li>
+    <p>加密世界，光懂技术是不够的，但是不懂技术是万万不可的</p>
+  </li>
+  <li>
+    <p>任何在你眼中的高大上的机构都有可能被一击致命；包括各种矿池，交易所，国家承认的ETF等等</p>
+  </li>
+  <li>
+    <p>比特币是一种完全由你自己负责的资产，放在交易所、购买ETF，还是信任任何一个中心化的机构，都是推卸责任，总有一天你会被反噬的</p>
+  </li>
 </ol>
 
 ]]></content>
