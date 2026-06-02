@@ -166,7 +166,7 @@ class CppMT19937:
             self.MT[i] = self.MT[(i + self.m) % self.n] ^ xA
         self.index = 0
 
-    def simulate_libbitcoin_vulnerability(entropy_seed=None, max_keys=1, region_scope=(2**31, 2**32)):
+def simulate_libbitcoin_vulnerability(entropy_seed=None, max_keys=1, region_scope=(2**31, 2**32)):
     """
     Simulate Libbitcoin Explorer private key generation vulnerability.
     Uses CppMT19937 to mimic std::mt19937(seed) behavior.
