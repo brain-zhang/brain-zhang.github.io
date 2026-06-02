@@ -223,8 +223,6 @@ MathJax.Hub.Config({
 
     <p>当你有了 24 个单词后，BIP39 规范会使用 PBKDF2（一种密钥拉伸算法） 对单词进行哈希处理，最终生成一个 512 位（64 字节） 的二进制种子。</p>
 
-    <p>• 这就是你提到的那个超长数值。</p>
-
     <p>• 这个 512 位的种子随后会被用作 BIP32 算法 的输入，用来派生出主私钥（Master Private Key）和所有的子私钥。</p>
   </li>
 </ol>
@@ -233,7 +231,160 @@ MathJax.Hub.Config({
 
 <p>这个过程的关键就是偏移量这一步；矿池的开发者还是有一点儿安全意识的，他没有直接用MT19937生成的随机数，而是引入了偏移量，但是致命的是：即使是引入100轮的偏移量，其碰撞空间还是不够大！</p>
 
-<p>我在Github上模拟了这个过程:</p>
+<p>用Python代码实现一下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import random
+</span><span class="line">
+</span><span class="line">class CppMT19937:
+</span><span class="line">    """
+</span><span class="line">    Accurately simulate C++ std::mt19937 behavior.
+</span><span class="line">    Initialization and state updates are identical to the C++ standard library.
+</span><span class="line">    """
+</span><span class="line">    def __init__(self, seed):
+</span><span class="line">        self.w = 32
+</span><span class="line">        self.n = 624
+</span><span class="line">        self.m = 397
+</span><span class="line">        self.r = 31
+</span><span class="line">        self.a = 0x9908B0DF
+</span><span class="line">        self.u = 11
+</span><span class="line">        self.d = 0xFFFFFFFF
+</span><span class="line">        self.s = 7
+</span><span class="line">        self.b = 0x9D2C5680
+</span><span class="line">        self.t = 15
+</span><span class="line">        self.c = 0xEFC60000
+</span><span class="line">        self.l = 18
+</span><span class="line">        self.f = 1812433253
+</span><span class="line">
+</span><span class="line">        self.MT = [0] * self.n
+</span><span class="line">        self.index = self.n + 1
+</span><span class="line">        self.lower_mask = (1 &lt;&lt; self.r) - 1
+</span><span class="line">        self.upper_mask = (~self.lower_mask) &amp; 0xFFFFFFFF
+</span><span class="line">        self.seed(seed)
+</span><span class="line">
+</span><span class="line">    def seed(self, seed):
+</span><span class="line">        self.MT[0] = seed &amp; 0xFFFFFFFF
+</span><span class="line">        for i in range(1, self.n):
+</span><span class="line">            temp = self.f * (self.MT[i - 1] ^ (self.MT[i - 1] &gt;&gt; 30)) + i
+</span><span class="line">            self.MT[i] = temp &amp; 0xFFFFFFFF
+</span><span class="line">        self.index = self.n
+</span><span class="line">
+</span><span class="line">    def extract_number(self):
+</span><span class="line">        if self.index &gt;= self.n:
+</span><span class="line">            self.twist()
+</span><span class="line">        y = self.MT[self.index]
+</span><span class="line">        y = y ^ ((y &gt;&gt; self.u) &amp; self.d)
+</span><span class="line">        y = y ^ ((y &lt;&lt; self.s) &amp; self.b)
+</span><span class="line">        y = y ^ ((y &lt;&lt; self.t) &amp; self.c)
+</span><span class="line">        y = y ^ (y &gt;&gt; self.l)
+</span><span class="line">        self.index += 1
+</span><span class="line">        return y &amp; 0xFFFFFFFF
+</span><span class="line">
+</span><span class="line">    def twist(self):
+</span><span class="line">        for i in range(self.n):
+</span><span class="line">            x = (self.MT[i] &amp; self.upper_mask) + (self.MT[(i + 1) % self.n] &amp; self.lower_mask)
+</span><span class="line">            xA = x &gt;&gt; 1
+</span><span class="line">            if (x % 2) != 0:
+</span><span class="line">                xA = xA ^ self.a
+</span><span class="line">            self.MT[i] = self.MT[(i + self.m) % self.n] ^ xA
+</span><span class="line">        self.index = 0
+</span><span class="line">
+</span><span class="line">    def simulate_libbitcoin_vulnerability(entropy_seed=None, max_keys=1, region_scope=(2**31, 2**32)):
+</span><span class="line">    """
+</span><span class="line">    Simulate Libbitcoin Explorer private key generation vulnerability.
+</span><span class="line">    Uses CppMT19937 to mimic std::mt19937(seed) behavior.
+</span><span class="line">    """
+</span><span class="line">    if entropy_seed is None:
+</span><span class="line">        random_entropy = random.randint(region_scope[0], region_scope[-1])
+</span><span class="line">        entropy_key = random_entropy &amp; 0xFFFFFFFF
+</span><span class="line">    else:
+</span><span class="line">        entropy_key = entropy_seed &amp; 0xFFFFFFFF
+</span><span class="line">
+</span><span class="line">    rng = CppMT19937(entropy_key)
+</span><span class="line">    for i in range(max_keys):
+</span><span class="line">        key_bytes = bytearray()
+</span><span class="line">        for _ in range(32):
+</span><span class="line">            rand_val = rng.extract_number()
+</span><span class="line">            # Simulate GCC optimization: taking high 8 bits
+</span><span class="line">            byte_val = rand_val &gt;&gt; 24
+</span><span class="line">            key_bytes.append(byte_val)
+</span><span class="line">        yield entropy_key, key_bytes.hex()</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>当然，Python的效率太低了，我在Github上用GPU模拟了这个过程:</p>
 
 <p>https://github.com/brainzhang-bitcoin/CrackMt19937</p>
 
@@ -368,6 +519,9 @@ MathJax.Hub.Config({
 
 <ol>
   <li>
+    <p>比特币的算法还是安全的，但是数不清的各种小作坊钱包实现，各种草台班子交易所，以及粗心的用户，都是薄弱环节；</p>
+  </li>
+  <li>
     <p>已经有国家级别的技术力量，至少从2020年开始，就不间断的寻找比特币的所有薄弱环节</p>
   </li>
   <li>
@@ -377,10 +531,13 @@ MathJax.Hub.Config({
     <p>加密世界，光懂技术是不够的，但是不懂技术是万万不可的</p>
   </li>
   <li>
-    <p>任何在你眼中的高大上的机构都有可能被一击致命；包括各种矿池，交易所，国家承认的ETF等等</p>
+    <p>任何在你眼中的高大上的机构都有可能被一击致命；包括各种矿池，交易所，国家承认的ETF等等；就是美国政府，不要看他今天闹得欢，说不定哪天也会沦为笑柄；</p>
   </li>
   <li>
-    <p>比特币是一种完全由你自己负责的资产，放在交易所、购买ETF，还是信任任何一个中心化的机构，都是推卸责任，总有一天你会被反噬的</p>
+    <p>比特币是最自由的资产，但是自由的代价非常高：它要求你自己完全负责，没有任何人或者任何组织会给你托底；放在交易所、购买ETF，还是信任任何一个中心化的机构，都是推卸责任，总有一天你会被反噬的</p>
+  </li>
+  <li>
+    <p>最后的一条，是我个人的一点儿玄学思考：比特币从诞生到今天，有一个很大的攻击点就是 – 他会导致富者越富，穷者越穷，比法币还要极端；如今看来，这其实不太可能；因为能长久的安全的保管一大批比特币是一件极难的事情；这种数字资产只要到了一定价值，就会有数不清的薄弱环节被人惦记上，而人–是天然的薄弱环节；众所周知，中本聪沉睡的币有大概100w个，大部分都是P2PK地址；如果未来通用量子计算机实现，这些币大概率也保不住的；而目前币圈接近100w币的体量的组织，就是那几个大的ETF和交易所；我相信只要时间足够长，他们的币也拿不稳 – 我把这个称之为”中本聪诅咒”：就是大量的币集中到某个中心化组织，这些币一定拿不稳；所以我说：比特币无论从技术上还是经济博弈上来说，都是天然去中心化的；</p>
   </li>
 </ol>
 
