@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blockchain | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/blockchain/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-06-02T11:10:51+08:00</updated>
+  <updated>2026-06-02T11:22:15+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -183,19 +183,20 @@ def twist(self):
             xA = xA ^ self.a
         self.MT[i] = self.MT[(i + self.m) % self.n] ^ xA
     self.index = 0
+</code></pre>
 
-def simulate_libbitcoin_vulnerability(entropy_seed=None, max_keys=1, region_scope=(2**31, 2**32)):
-"""
-Simulate Libbitcoin Explorer private key generation vulnerability.
-Uses CppMT19937 to mimic std::mt19937(seed) behavior.
-"""
-if entropy_seed is None:
-    random_entropy = random.randint(region_scope[0], region_scope[-1])
-    entropy_key = random_entropy &amp; 0xFFFFFFFF
-else:
-    entropy_key = entropy_seed &amp; 0xFFFFFFFF
+<p>def simulate_libbitcoin_vulnerability(entropy_seed=None, max_keys=1, region_scope=(2<strong>31, 2</strong>32)):
+    “””
+    Simulate Libbitcoin Explorer private key generation vulnerability.
+    Uses CppMT19937 to mimic std::mt19937(seed) behavior.
+    “””
+    if entropy_seed is None:
+        random_entropy = random.randint(region_scope[0], region_scope[-1])
+        entropy_key = random_entropy &amp; 0xFFFFFFFF
+    else:
+        entropy_key = entropy_seed &amp; 0xFFFFFFFF</p>
 
-rng = CppMT19937(entropy_key)
+<pre><code>rng = CppMT19937(entropy_key)
 for i in range(max_keys):
     key_bytes = bytearray()
     for _ in range(32):

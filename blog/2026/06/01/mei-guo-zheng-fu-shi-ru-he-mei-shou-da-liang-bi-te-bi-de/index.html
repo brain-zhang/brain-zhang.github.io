@@ -363,7 +363,7 @@ MathJax.Hub.Config({
 </span><span class="line">            self.MT[i] = self.MT[(i + self.m) % self.n] ^ xA
 </span><span class="line">        self.index = 0
 </span><span class="line">
-</span><span class="line">    def simulate_libbitcoin_vulnerability(entropy_seed=None, max_keys=1, region_scope=(2**31, 2**32)):
+</span><span class="line">def simulate_libbitcoin_vulnerability(entropy_seed=None, max_keys=1, region_scope=(2**31, 2**32)):
 </span><span class="line">    """
 </span><span class="line">    Simulate Libbitcoin Explorer private key generation vulnerability.
 </span><span class="line">    Uses CppMT19937 to mimic std::mt19937(seed) behavior.
