@@ -3,7 +3,7 @@ layout: post
 title: "PVE 9.1 显卡混合部署：LXC 共享 GPU"
 date: 2026-03-24 11:11:15 +0800
 comments: true
-categories: tools, linux
+categories: tools linux
 ---
 
 **🚀 PVE 9.1 显卡混合部署：LXC 共享 GPU 终程**
