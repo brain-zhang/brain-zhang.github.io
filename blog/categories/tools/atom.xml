@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Tools, | Living a Simple Life is a Happy Life]]></title>
+  <title><![CDATA[Category: Tools | Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-07-05T11:02:36+08:00</updated>
+  <updated>2026-07-06T17:20:08+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,143 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PVE 9.1 LXC 显卡共享: 部署Steam Headless]]></title>
+    <link href="https://brain-zhang.github.io/blog/2026/04/29/pve-9-dot-1-lxc-xian-qia-gong-xiang-bu-shu-steam-headless/"/>
+    <updated>2026-04-29T16:48:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2026/04/29/pve-9-dot-1-lxc-xian-qia-gong-xiang-bu-shu-steam-headless</id>
+    <content type="html"><![CDATA[<p>这是一种非常折腾的做法，目前来看这么折腾的人真不多;</p>
+
+<p>最终实现的效果就是在PVE环境中，用数个LXC容器将一张消费级GPU (我是一张RTX 3060 12GB) 切分到不同的Linux系统实例中，同时这些实例还能共享显卡的算力和显存；同时，最妙的 —- 这张显卡的算力和显存是动态分配的； 这比显卡直通，比老黄专业卡的虚拟化还爽；</p>
+
+<p>具体配置请参考前一篇文章；这种方法肯定是老黄不愿意看到的，但是折腾人士乐此不疲；</p>
+
+<!-- more -->
+
+<p>目前我的一张3060 12GB上面运行了六台LXC容器共享，里面的服务有:</p>
+
+<ol>
+  <li>Ollama运行了一干小尺寸模型进行测试，例如gemma 4 e4b;</li>
+  <li>有数个FFmpeg流媒体压制</li>
+  <li>有数个CUDA实现的加密算法测试</li>
+</ol>
+
+<p>当然，还有今天我们想做的，跑一个Linux Steam 串流服务器；这种做法的原理是：PVE宿主机 –(挂载.so文件和/dev设备)–&gt;  LXC容器 –(Docker device mapping)–&gt;  Docker容器。</p>
+
+<h4 id="section">具体搭建步骤参考了这篇文章</h4>
+
+<p>https://zheteng.pages.dev/posts/2024/headless-steam-in-lxc-with-gpu</p>
+
+<h4 id="section-1">踩过的坑：</h4>
+
+<ul>
+  <li>
+    <p>LXC容器中的docker用最新版本，我的版本是: Docker version 29.4.1, build 055a478</p>
+  </li>
+  <li>
+    <p>宿主机PVE HOST的 NVIDIA 驱动需要开启 modeset</p>
+  </li>
+</ul>
+
+<p><code>
+modprobe nvidia-modeset
+modprobe nvidia-drm modeset=1
+nvidia-modprobe -m
+</code></p>
+
+<ul>
+  <li>LXC容器配置:</li>
+</ul>
+
+<p><code>
+arch: amd64
+cores: 32
+features: fuse=1,keyctl=1,mknod=1,nesting=1
+hostname: hpc-ubuntu24-gpu1
+memory: 65535
+mp0: thinpoolg:vm-154-disk-0,mp=/opt,size=1000G
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.100.2,hwaddr=BC:24:11:53:58:CE,ip=192.168.100.154/24,type=veth
+ostype: ubuntu
+rootfs: thinpoolf:vm-154-disk-0,size=100G
+swap: 512
+unprivileged: 0
+lxc.apparmor.profile: unconfined
+lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.cgroup2.devices.allow: c 10:* rwm
+lxc.cgroup2.devices.allow: c 235:* rwm
+lxc.cgroup2.devices.allow: c 195:* rwm
+lxc.cgroup2.devices.allow: c 511:* rwm
+lxc.cgroup2.devices.allow: c 236:* rwm
+lxc.mount.entry: /dev/nvidia-modeset dev/nvidia-modeset none bind,optional,create=file
+lxc.mount.entry: /dev/uinput dev/uinput none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
+lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
+lxc.mount.entry: /dev/nvram dev/nvram none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-caps/nvidia-cap1 dev/nvidia-caps/nvidia-cap1 none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-caps/nvidia-cap2 dev/nvidia-caps/nvidia-cap2 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libcuda.so.580.142 usr/lib/x86_64-linux-gnu/libcuda.so none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.142 usr/lib/x86_64-linux-gnu/libnvcuvid.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/bin/nvidia-smi usr/bin/nvidia-smi none bind,optional,create=file
+lxc.mount.entry: /usr/bin/nvidia-ctk usr/bin/nvidia-ctk none bind,optional,create=file
+lxc.mount.entry: /usr/bin/nvidia-cdi-hook usr/bin/nvidia-cdi-hook none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.1 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 none bind,optional,create=file
+lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.1 none bind,optional,create=file:w
+</code></p>
+
+<ul>
+  <li>要在LXC容器中开启 CDI:</li>
+</ul>
+
+<p>```
+# 创建配置目录
+sudo mkdir -p /etc/cdi</p>
+
+<h1 id="cdi-">生成 CDI 规范文件</h1>
+<p># 这会扫描 /dev/nvidia* 设备并创建一个名为 nvidia.yaml 的文件
+sudo nvidia-ctk cdi generate –output=/etc/cdi/nvidia.yaml
+```</p>
+
+<ul>
+  <li>教程中的docker-compose.yaml driver部分需要做一点儿小小的修改:</li>
+</ul>
+
+<p><code>
+services:
+  steam-headless:
+    image: ...
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: cdi
+              capabilities: [gpu]
+              device_ids:
+                - nvidia.com/gpu=0     # 确保这里和你的 /etc/cdi/nvidia.yaml 里面的 name 对应
+...
+</code></p>
+
+<p>好了，steam串流起来了，最后就可以愉快的最大化压榨这张显卡了；</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PVE 9.1 显卡混合部署：LXC 共享 GPU]]></title>
@@ -214,6 +351,180 @@ nvidia-smi
   <li><strong>vfio-pci 抢占</strong>：如果宿主机 nvidia-smi 报错，优先检查 /sys/bus/pci/drivers/vfio-pci/ 是否抢走了 3060。</li>
   <li><strong>特权模式</strong>：LXC 访问硬件最稳妥的方式依然是 unprivileged: 0。</li>
 </ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何配置Fail2Ban阻止Web频繁请求]]></title>
+    <link href="https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/"/>
+    <updated>2025-03-22T10:38:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu</id>
+    <content type="html"><![CDATA[<p>这类问题，AI回答已经非常靠谱了；记录一下，仅仅是加强一下记忆；</p>
+
+<h3 id="nginx">1. 确认Nginx日志格式</h3>
+
+<h4 id="nginxipremoteaddrnginxetcnginxnginxconf">1.1 确保Nginx日志中包含客户端IP（$remote_addr），检查Nginx配置（通常位于/etc/nginx/nginx.conf）：</h4>
+
+<p><code>
+http {
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent"';
+    access_log /var/log/nginx/access.log main;
+}
+</code></p>
+
+<h4 id="nginx-1">1.2 重启Nginx使配置生效：</h4>
+<p><code>
+sudosystemctl restart nginx
+</code></p>
+
+<h3 id="fail2ban">2. 安装Fail2Ban</h3>
+
+<p>```
+# Ubuntu/Debian
+sudo apt update &amp;&amp; sudo apt install fail2ban</p>
+
+<h1 id="centosrhel">CentOS/RHEL</h1>
+<p>sudo yum install epel-release &amp;&amp; sudo yum install fail2ban
+```</p>
+
+<h3 id="filter">3. 创建自定义Filter规则</h3>
+
+<p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
+
+<p>新建文件 <code>/etc/fail2ban/filter.d/nginx-url-bruteforce.conf</code></p>
+
+<p><code>
+[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=
+</code></p>
+
+<h3 id="jail">4. 配置Jail规则</h3>
+
+<p>编辑 /etc/fail2ban/jail.local，添加以下内容</p>
+
+<p><code>
+[nginx-url-bruteforce]
+enabled = true
+port = http,https
+filter = nginx-url-bruteforce
+logpath = /var/log/nginx/access.log
+ # 允许的最大尝试次数
+maxretry = 5
+# 在60秒内超过maxretry则封禁
+findtime = 60
+# 封禁1小时
+bantime = 3600
+action = %(action_mwl)s
+</code></p>
+
+<h3 id="filter-1">5. 测试Filter规则</h3>
+
+<p>使用 fail2ban-regex 测试正则匹配</p>
+
+<p><code>
+sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf
+</code></p>
+
+<h3 id="fail2ban-1">6. 重启Fail2Ban并监控</h3>
+<p><code>
+sudo systemctl restart fail2ban
+sudo fail2ban-client status nginx-url-bruteforce
+</code></p>
+
+<h3 id="section">7. 高级调整（可选）</h3>
+
+<ul>
+  <li>
+    <p>日志路径：如果日志路径不同，修改 logpath。</p>
+  </li>
+  <li>
+    <p>封禁时间：调整 bantime（单位：秒，如 86400 封禁1天）。</p>
+  </li>
+  <li>
+    <p>精确匹配状态码：如需仅封禁500错误，修改 failregex：</p>
+  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[用watch命令高亮输出的不同]]></title>
+    <link href="https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/"/>
+    <updated>2024-12-13T12:07:14+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong</id>
+    <content type="html"><![CDATA[<p><code>
+watch -d date
+</code></p>
+
+<p><code>-d</code> 参数会将两次输出之间的差异高亮显示；</p>
+
+<p>我赶紧又 <code>man</code> 了一下 <code>watch</code> 命令的选项，又得到了几个对我有用的功能:</p>
+
+<p><code>-b</code> 参数可以在程序异常退出的时候响铃</p>
+
+<p><code>-g</code> 参数可以在程序输出发生变化时退出watch命令</p>
+
+<p>还有我最常用的 <code>-n</code>参数，控制watch的间隔</p>
+
+<p>Linux上面很多小命令，是从上世纪70年代的上古UNIX时期一路经过血战竞争才能留到现在的，论设计肯定是精益求精了；</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Resize Partition on Linux]]></title>
+    <link href="https://brain-zhang.github.io/blog/2024/04/19/how-to-resize-partition-on-linux/"/>
+    <updated>2024-04-19T16:16:46+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2024/04/19/how-to-resize-partition-on-linux</id>
+    <content type="html"><![CDATA[<p>之前操作Linux，扩容已有分区，一直是手工<code>fdisk</code>删除分区重建搞定的，这种方式不直观且容易出错；最近采用<code>parted</code>操作了以下，发现很直观；</p>
+
+<p>比如我要对 /dev/sda1 从 100GB，扩容至200GB，操作如下</p>
+
+<h3 id="section">查看当前分区情况</h3>
+
+<p><code>
+# 进入 parted 工具
+$ sudo parted
+GNU Parted 3.4
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+# 查看磁盘信息
+(parted) print /dev/sda
+</code></p>
+
+<p>我只有 /dev/sda1 一个分区，因此很好办</p>
+
+<h3 id="section-1">根分区扩容</h3>
+
+<p><code>
+# 进入 parted 工具
+$ sudo parted /dev/sda
+# 查看磁盘信息
+(parted) print
+# 此时应该只有一个分区，直接扩展这个分区
+(parted)resizepart 1
+Warning: Partition /dev/sda1 is being used. Are you sure you want to continue?
+# 直接输入 yes 确认
+Yes/No? yes
+# 输入新的结束点
+# 这里输入的数值，就是上方输出中 Disk: 后方的数值
+End?  [200GB]? 200GB
+# 扩展完成之后退出 parted
+(parted) quit
+</code></p>
+
+<h3 id="resize2fs-">用resize2fs 工具扩展文件系统</h3>
+
+<p><code>
+$ sudo resize2fs /dev/sda1
+</code></p>
+
+<p>不出意外，应该搞定了； </p>
+
+<h3 id="section-2">注意事项</h3>
+
+<p>扩容之前，最好用 <code>lsof</code> 查看以下扩容分区，把所有的读写进程都停掉，如果条件允许，umount 这个分区再扩容，更加安全</p>
 ]]></content>
   </entry>
   
