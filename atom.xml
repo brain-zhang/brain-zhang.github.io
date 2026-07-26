@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-07-06T17:20:08+08:00</updated>
+  <updated>2026-07-26T20:52:18+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -2520,7 +2520,7 @@
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-compute.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-compute.so.1 none bind,optional,create=file
 </span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 none bind,optional,create=file
-</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.1 none bind,optional,create=file:w</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">lxc.mount.entry: /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.142 usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.1 none bind,optional,create=file</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
   <li>要在LXC容器中开启 CDI:</li>
