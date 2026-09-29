@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-09-29T21:42:22+08:00</updated>
+  <updated>2026-09-29T21:50:04+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何在Antigravity中设置定时任务]]></title>
+    <link href="https://brain-zhang.github.io/blog/2026/09/29/ru-he-zai-antigravityzhong-she-zhi-ding-shi-ren-wu/"/>
+    <updated>2026-09-29T21:44:59+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2026/09/29/ru-he-zai-antigravityzhong-she-zhi-ding-shi-ren-wu</id>
+    <content type="html"><![CDATA[<p>Antigravity中有设置定时任务的选项；但是界面设置，只能每次都开启一个新的session，如果指定每次定时任务都在一个session中完成，需要直接修改配置文件:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim ~/.gemini/config/sidecars/merge-pr/sidecar.json
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">{
+</span><span class="line">  "builtin": "schedule",
+</span><span class="line">  "restart_policy": "always",
+</span><span class="line">  "args": [
+</span><span class="line">    "*/30 * * * *",
+</span><span class="line">    "send-message",
+</span><span class="line">    "bde19415-3acf-4bec-9147-8e9861186961",
+</span><span class="line">    "--",
+</span><span class="line">    "please exec `atb-github-pr-merge` skill, to merge test ok prs"
+</span><span class="line">  ],
+</span><span class="line">  "display_name": "merge pr"
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AI漫谈录-6 相对论与量子力学观测者效应的统一]]></title>
@@ -4967,28 +5009,6 @@
   </li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[用watch命令高亮输出的不同]]></title>
-    <link href="https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong/"/>
-    <updated>2024-12-13T12:07:14+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2024/12/13/yong-watchming-ling-gao-liang-shu-chu-de-bu-tong</id>
-    <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">watch -d date</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>-d</code> 参数会将两次输出之间的差异高亮显示；</p>
-
-<p>我赶紧又 <code>man</code> 了一下 <code>watch</code> 命令的选项，又得到了几个对我有用的功能:</p>
-
-<p><code>-b</code> 参数可以在程序异常退出的时候响铃</p>
-
-<p><code>-g</code> 参数可以在程序输出发生变化时退出watch命令</p>
-
-<p>还有我最常用的 <code>-n</code>参数，控制watch的间隔</p>
-
-<p>Linux上面很多小命令，是从上世纪70年代的上古UNIX时期一路经过血战竞争才能留到现在的，论设计肯定是精益求精了；</p>
 ]]></content>
   </entry>
   
