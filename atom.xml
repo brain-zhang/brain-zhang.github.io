@@ -4,7 +4,7 @@
   <title><![CDATA[Living a Simple Life is a Happy Life]]></title>
   <link href="https://brain-zhang.github.io/atom.xml" rel="self"/>
   <link href="https://brain-zhang.github.io/"/>
-  <updated>2026-09-29T21:50:04+08:00</updated>
+  <updated>2026-09-30T09:56:50+08:00</updated>
   <id>https://brain-zhang.github.io/</id>
   <author>
     <name><![CDATA[brain-zhang]]></name>
@@ -12,6 +12,199 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[[科幻小说]请勿对宇宙开闪光灯]]></title>
+    <link href="https://brain-zhang.github.io/blog/2026/09/30/ke-huan-xiao-shuo-qing-wu-dui-yu-zhou-kai-shan-guang-deng/"/>
+    <updated>2026-09-30T09:55:54+08:00</updated>
+    <id>https://brain-zhang.github.io/blog/2026/09/30/ke-huan-xiao-shuo-qing-wu-dui-yu-zhou-kai-shan-guang-deng</id>
+    <content type="html"><![CDATA[<p>这是与AI吹水的副产品；来源于一个想法：例如设定某种外星文明制造出能探测 $10^{-60}$ 量级引力微扰的“深时钟”，他们不再用电磁波监听宇宙，而是通过监测太空中微小的引力涟漪，直接侦测出哪个星系里诞生了具备“观测能力”的智慧物种，然后执行”清理”动作，这不就是我们微观态的波函数坍缩诱因嘛；</p>
+
+<!-- more -->
+
+<p>地底三百米的“夸父”超导量子计算中心，空气里常年混杂着三股气味：绝热液氮的铁锈味、机房高压臭氧味，以及苏见青泡了第三遍的廉价速溶咖啡味。</p>
+
+<p>苏见青今年研三，距离毕业论文开题截止只剩四天。此刻她正蹲在防静电地板上，生无可恋地举着手机给后勤保洁部门拍报修照片。</p>
+
+<p>地板离地二十厘米的半空中，悬停着半只苍蝇。</p>
+
+<p>物理意义上的半只。切口平滑整齐得像是瑞士钟表匠手工磨出来的，翅膀上的微小脉络清晰可见，连一滴体液都没渗出来。更恶心的是，它的另外半截尸体早在三分钟前就“啪嗒”一声掉在水泥地上成了肉泥，而这半截，就这么极其反人类地浮在空气里，连一丝随气流晃动的迹象都没有。</p>
+
+<p>“见青，拍照开闪光灯没用，物业只会回复是‘静电吸附’或者‘地下室通风管负压异常’，顺便扣我们实验室两百块卫生管理费。”</p>
+
+<p>隔壁主控台前传来一阵塑料拖鞋的拖沓声。林澈教授端着一个掉了一大块搪瓷皮的旧铁杯慢吞吞走过来，由于长年缺乏日照和高血脂，他的眼眶凹陷发青，白大褂里套着一件洗得发黄的老头汗衫，整个人散发着一种熬夜过度的疲惫与厌世。</p>
+
+<p>作为国际顶尖的量子物理首席科学家，林澈完全没有科学怪人的狂暴气场。相反，他大部分时间都在为设备折旧费和差旅报销发票跟财务处的大姐吵架。</p>
+
+<p>“老师，真不是静电。”苏见青拿着一支圆珠笔小心翼翼地戳了戳那截死蝇，笔尖像是顶在一块无形的凝固水泥上，纹丝不动。“刚才我冲咖啡，手抖漏了一滴，那滴咖啡也是在半空悬停了足足两秒钟才掉进杯子里的。我怀疑是德国人卖给我们的地磁屏蔽罩漏磁了，这帮奸商。”</p>
+
+<p>“不是漏磁。”林澈吸了一大口劣质茶水，嘴里嚼着几片茶叶渣子，含混不清地吐在垃圾桶里，“德国人的罩子没问题，有问题的是咱们这间屋子的房租可能得按黑洞视界来交了。”</p>
+
+<p>苏见青愣了一下：“啊？”</p>
+
+<p>林澈懒得废话，用脚尖踢了踢旁边一张满是油渍的转椅，示意她看主控屏幕。</p>
+
+<p>屏幕上拉着两条曲线。上面一条红线跳跃得像是狂躁症患者的心电图，那是“夸父”量子阵列的工作日志——这台耗资十二亿的计算怪兽正以每秒数百亿次的频率，用微弱的探测激光挨个“清点”上百万个超导量子比特究竟是0还是1；下面一条蓝线则平直得如同一具尸体，来自旁边那个被九层超冷铅板封死的光晶格锶原子钟。</p>
+
+<p>那台钟号称宇宙最准，十亿年才会产生一秒误差。</p>
+
+<p>但眼下，只要上面那条红线往上窜一个峰值，下面平直的蓝线就会极其规律地向下打个寒颤。</p>
+
+<p>“夸父每疯狂读取一次数据，原子钟就慢二十阿秒。”林澈从白大褂口袋里摸出一盒被压扁的红双喜，抽出一根掐断了过滤嘴，也不点，就叼在嘴角，“百亿亿分之二十秒。很少对吧？但见青啊，你在初中就学过，什么玩意儿能把时间硬生生拽慢？”</p>
+
+<p>“……引力。”苏见青盯着屏幕，喉咙有些发干，“相对论说，大质量天体会压弯时空，那里的时间流速会变慢。可是老师，我们地下室连个杠铃都没有，哪来的引力？”</p>
+
+<p>“这就是最荒唐的地方。”林澈扯过一张财务报销单的背面，用圆珠笔在上面画了一个极其潦草的方块，“在微观世界里，一个粒子没被你看的时候，它像个摸鱼的员工，处于‘既在这儿又在那儿’的叠加态，概率上它是轻盈的、悬空的，宇宙根本不用花算力去渲染它真实的物理实体。”</p>
+
+<p>他把笔尖重重戳在纸心上：</p>
+
+<p>“但人类这种生物有严重的控制狂。我们造出了量子计算机，非要每隔一皮秒就拿探针去戳它一下，大吼一声：‘别装死！你到底是0还是1？！’。于是，这团虚无的可能态被我们硬生生吓成了实体。这就叫测量，这就叫坍缩。”</p>
+
+<p>苏见青呆呆地看着他：“所以呢？”</p>
+
+<p>“所以，宇宙也是要讲运行成本的啊，傻姑娘。”林澈冷笑了一声，眼里没有疯狂，只有一种程序架构师面对系统内存溢出时的绝望，“微观概率被强行固化成宏观事实，信息的擦除需要消耗能量，能量等价于质量。我们在用最昂贵的算力，在无中生有地制造‘确定性’。而海量的确定性堆在一起……是有分量的。”</p>
+
+<p>“我们在给时空增重？”</p>
+
+<p>“你可以理解为，微观世界原本是一张松软的皮沙发。粒子们原本都在上面轻飘飘地打滚，结果我们嫌分辨率不够，非要拿着几千亿把铁锤对着沙发一通猛砸，硬是在沙发垫上砸出了一个个肉眼看不见的引力小坑。”林澈指了指半空那半只苍蝇，“那只倒霉虫子刚好路过铁锤砸下来的地方，那里的时空被砸凹下去了，时间被拉长了。就这么简单，没有鬼，没有玄学，纯粹是宇宙服务器的显卡快被我们烧穿了。”</p>
+
+<p>苏见青感觉自己的后背被冷汗打湿了：“那……那要是明天全网联调……”</p>
+
+<p>“对，明天上午十点，‘启明工程’全球并网。”林澈长长地叹了一口气，“日内瓦对撞机、北美费米实验室、日本超级神冈，再加上咱们的‘夸父’，总计一万二千个量子计算节点。科技部的大领导要来视察剪彩，新华社通稿都印好了，标题叫《物理学大一统的曙光》。如果明天我不按启动键，下半年的科研经费全得被收回，连你下个月八百块的助研补贴都发不出来。”</p>
+
+<p>“老师！这已经不是发不发补贴的问题了吧？！”苏见青的声音猛地拔高，“如果您的理论是对的，全球设备一起‘砸沙发’，会发生什么？”</p>
+
+<p>林澈看了看自己浮肿的手背，语气寡淡得像是在讨论明早食堂的包子熟没熟：“不知道。可能就跟这半只苍蝇一样，我们大家，都得在半空中多挂一会儿。”</p>
+
+<p>林澈不知道的是，在浩瀚幽暗的深空里，早就有一双“耳朵”在等待着这声敲击。</p>
+
+<p>在猎户座悬臂的外侧，一颗荒凉的小行星深处，没有光，也没有声音。</p>
+
+<p>名为伊尔的存在并没有眼睛。在数亿年的演化史中，它的种族为了避开宇宙中最致命的法则，早就用基因手术彻底抹去了视网膜、听觉神经和所有接触外部世界的器官。它们生活在一具由冷凝超流体包裹的甲壳里，依靠纯粹的几何数学模型与同伴沟通。</p>
+
+<p>它们被称为“盲族”。</p>
+
+<p>盲族不看宇宙，但它们聆听时空本身。</p>
+
+<p>在伊尔的心智核心中，连接着一座横跨整颗小行星的巨大装置——“深时钟”。宇宙对于电磁波来说是辽阔而充满阻碍的，无线电会衰减，光线会被尘埃遮挡；但引力波不同，时空本身的颤抖没有任何东西可以阻挡。</p>
+
+<p>在深时钟的感知中，黑洞相撞是低沉而震撼的轰鸣，超新星爆发是狂暴的撕裂，那些都是大自然的无序噪音。唯独有一种声音，清脆、微弱，却带着致命的规律。</p>
+
+<p>叮。</p>
+
+<p>那是很久以前，太阳系第三颗行星上，第一个原始智人用眼睛分辨出一块黑曜石锋刃的声音。微弱到了极点，像一粒尘埃落入大海。</p>
+
+<p>叮。叮。</p>
+
+<p>几个世纪前，一个叫伽利略的人将自制望远镜对准木星，几个叫杨振宁、李政道、爱因斯坦的人在纸上和实验室里捕捉微观粒子的轨迹。涟漪越来越密。</p>
+
+<p>而现在，那个方向传来的微弱颤音，已经变成了密集如暴雨般的敲击声。</p>
+
+<p>“编号Sol-3，一颗年轻的黄色恒星。”伊尔通过思维通道向深空议会发送脉冲，“那颗行星上的碳基幼虫，正在疯狂制造高频退相干事件。它们刚刚学会了制造宏观量子比特，并且毫无节制地对它们进行读取。”</p>
+
+<p>在茫茫宇宙的生存法则里，有一条被所有古老文明默认的铁律：观测不是免费的。</p>
+
+<p>未被观测的宇宙是一片轻盈的量子概率海，而智慧生命的“求知欲”，本质上是一座贪婪的抽水机。每一次观测，都在把虚无的概率凝固成沉重的物理事实。这不仅会在时空织锦上压出无法抹平的褶皱，更会像黑暗森林中的火把一样，精确暴露自己的三维空间坐标。</p>
+
+<p>“它们在用眼睛看世界。”伊尔的信息流里透着古老文明对初生虫子的怜悯，“它们甚至不知道，每一次看清微观世界的真相，都是在给自己的引力绞索套上一圈绳结。”</p>
+
+<p>“警告无效。它们的信噪比正在突破临界值，引力尖峰即将穿透本星系群。”议会的指令毫无波澜地传回，“启动‘平息’。”</p>
+
+<p>“不需要浪费能源发射清理潮汐。”伊尔淡漠地回应，“这群幼虫不需要外力干预。根据数学模型，只要它们的自尊心和经费审查制度还在运作，它们自己就能把自己埋进坍缩井里。”</p>
+
+<p>次日，上午九点五十八分。</p>
+
+<p>指挥大厅里挤满了人。领导们系着整齐的领带，在前排谈笑风生；前方的红木长桌上摆着鲜花、红丝绒托盘和用来剪彩的镀金剪刀。数台高清摄像机正架设在后方，红色的录制指示灯欢快地闪烁着。</p>
+
+<p>苏见青站在角落里，脸色煞白。她低头看着自己的脚——就在两分钟前，她不小心碰掉了一颗衬衫纽扣。</p>
+
+<p>那枚白色的塑料小圆片并没有掉在地上。它落到膝盖高度时，速度就慢得像是在粘稠的蜂蜜里下沉，直到现在，还在距离皮鞋三厘米的地方缓缓飘动。</p>
+
+<p>大厅里的空气越来越闷，一种如同暴风雨前夕的低气压笼罩在每个人头顶。几位领导不适地扯了扯领带，但谁也没有离席。毕竟，仪式必须准时。</p>
+
+<p>“林教授，设备准备就绪了吧？部里和院里的领导可都看着呢。”主管科研的副校长红光满面地拍了拍林澈的肩膀，“按个电钮的事，别紧张！完了咱们去二楼吃自助冷餐，特批的大闸蟹。”</p>
+
+<p>林澈站在并网总控台前。他今天被迫换上了一件不太合身的正装西盘，整个人看起来像个被架上法场的账房先生。</p>
+
+<p>他低头看着控制屏上那个绿色的“EXECUTE（执行）”按钮。在按钮上方，全球并网节点的通讯灯全亮着——上万个实验中心，数以百万计的精密探针，正像无数只贪婪的蚊子，瞄准了这颗星球上所有的量子纠缠源。</p>
+
+<p>人类太想弄清楚一切了。我们必须测量，必须记录，必须给宇宙的每一粒尘埃编上身份证号。</p>
+
+<p>“林老师……”苏见青在后面扯了扯他的西装后摆，带着哭腔小声问，“真要按吗？万一……万一真塌了呢？”</p>
+
+<p>“见青，我今年五十三了。”林澈头也不回，盯着屏幕，面无表情地吐出一句大实话，“如果不按，下周一纪委和审计署就会进驻我的实验室，查我前年买那台二手质谱仪吃没吃回扣。按了，可能全人类一起完蛋；不按，只有我一个人死全家。”</p>
+
+<p>他摇了摇头，嘴角挂着一丝小人物特有的认命与荒唐：</p>
+
+<p>“你觉得一个中年男人会怎么选？”</p>
+
+<p>“倒计时三秒！”音响里传来司仪字正腔圆的主持声。</p>
+
+<p>“三！”</p>
+
+<p>台下的闪光灯亮成一片。</p>
+
+<p>“二！”</p>
+
+<p>苏见青绝望地闭上了眼睛。</p>
+
+<p>“一！”</p>
+
+<p>林澈面无表情地伸出食指，稳稳地按在了那个绿色的回车键上。</p>
+
+<p>然后，世界没有爆炸。</p>
+
+<p>甚至没有预想中惊天动地的巨响。</p>
+
+<p>在微秒级的时间尺度内，全球数万个探测节点同时开火。数以千亿计在微观虚无中自在游荡的量子幽灵，在一瞬间被人类强行捕捉、观测、归档。</p>
+
+<p>确定性以前所未有的密度降临在这颗星球上。伴随而来的，是极其沉重的代价。</p>
+
+<p>“哎哟，这灯怎么……”</p>
+
+<p>副校长的话刚说到一半，声音就被拉长成了一种极度怪异的、仿佛磁带卡带般的低频牛吼：“哎————呦————”</p>
+
+<p>苏见青猛地睁开眼。</p>
+
+<p>她发现自己动不了了。不是身体麻痹，而是周围的空间仿佛瞬间固化成了一块剔透的无色环氧树脂。她想抬起手，却发现手腕移动一毫米都需要耗费数秒的时间。</p>
+
+<p>在大厅的前排，领导们脸上的假笑被定格在嘴边；剪彩的镀金剪刀停在红丝绸上方半公分处；摄影师相机里喷射出来的闪光灯光芒，竟然在半空中形成了一团团凝固的、肉眼可见的淡黄色光雾。</p>
+
+<p>空气分子停止了热运动。</p>
+
+<p>无限的信息带来了无限的等效质量，时空的蹦床终于被这记人类集体的狂妄重锤，彻彻底底地砸断了弹簧。他们脚下的重力井在以指数级向下塌陷，时间的流速被无限拉伸，直至趋近于零。</p>
+
+<p>林澈站在控制台前，保持着按下回车键的姿势。他那双总是带着黑眼圈的眼睛斜斜地瞥向苏见青，眼皮想眨一下，但大概需要花上三百年。</p>
+
+<p>透过天花板上为了通风而留出的采光玻璃，苏见青用尽残存的视神经意识，看到了穹顶之外的苍穹。</p>
+
+<p>整个天空被生生扭曲成了几个巨大的同心圆环。那是极端强烈的引力透镜效应——遥远星系的万道霞光，被地球周围塌陷的时空生生掰弯，在太空中交织成了一只巨大无朋、毫无温度的惨白色“眼眸”。</p>
+
+<p>那只眼睛在静静地看着他们。</p>
+
+<p>就像他们曾经低着头，死死盯着显微镜下那些徒劳挣扎的粒子一模一样。</p>
+
+<p>深时钟的监视面板上，最后一声轻微的“咔嗒”声彻底消散。</p>
+
+<p>时空张力的震颤曲线归零，变成了一条毫无波动的直线。猎户座旋臂内侧的那颗黄色矮星第三行星，在盲族的星图雷达里，从一个喧闹嘈杂的红色警告点，彻底变成了一个哑巴。</p>
+
+<p>“结束了。”伊尔向议会发送了一个简洁的代数代码。</p>
+
+<p>没有流血，没有废墟，没有恒星毁灭的刺目光芒。那个年轻而躁动的文明既没有被谁毁灭，也没有征服星辰大海。</p>
+
+<p>他们只是如愿以偿地看清了微观世界的一切参数，获得了绝对的确定性。而作为交换，他们把自己永远留在了那张高分辨率的照片里。</p>
+
+<p>几百光年外的虚空中，一颗水蓝色的行星依然在平稳地公转。</p>
+
+<p>风停在树冠上方，海浪保持着卷曲的白沫悬挂在礁石边，飞鸟像标本一样嵌在蔚蓝色的天幕中。</p>
+
+<p>而在日内瓦地下三百米深处，那半截悬浮在空中的苍蝇，和七十亿个一动不动的人类一起，保持着生动的表情，构成了一座巨大而滑稽的微缩蜡像馆。</p>
+
+<p>没人能把他们删除了。</p>
+
+<p>因为在这个充满无限概率与随机意外的荒谬宇宙里，只有他们这群自作聪明的小虫子，终于把自己活成了一道永远不会再改变的、确凿无疑的死循环。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何在Antigravity中设置定时任务]]></title>
@@ -4899,115 +5092,6 @@
   <li>最后POW的主场景是价值存储，POS的主场景是应用创新；</li>
   <li>POW的链变化少，可能比特币会长期存活并占据C位，而POS技术不断迭代，可能会你方唱罢我登场</li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何配置Fail2Ban阻止Web频繁请求]]></title>
-    <link href="https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu/"/>
-    <updated>2025-03-22T10:38:46+08:00</updated>
-    <id>https://brain-zhang.github.io/blog/2025/03/22/ru-he-pei-zhi-fail2banzu-zhi-webpin-fan-qing-qiu</id>
-    <content type="html"><![CDATA[<p>这类问题，AI回答已经非常靠谱了；记录一下，仅仅是加强一下记忆；</p>
-
-<h3 id="nginx">1. 确认Nginx日志格式</h3>
-
-<h4 id="nginxipremoteaddrnginxetcnginxnginxconf">1.1 确保Nginx日志中包含客户端IP（$remote_addr），检查Nginx配置（通常位于/etc/nginx/nginx.conf）：</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">http {
-</span><span class="line">    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-</span><span class="line">                    '$status $body_bytes_sent "$http_referer" '
-</span><span class="line">                    '"$http_user_agent"';
-</span><span class="line">    access_log /var/log/nginx/access.log main;
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="nginx-1">1.2 重启Nginx使配置生效：</h4>
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudosystemctl restart nginx</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="fail2ban">2. 安装Fail2Ban</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># Ubuntu/Debian
-</span><span class="line">sudo apt update &amp;&amp; sudo apt install fail2ban
-</span><span class="line">
-</span><span class="line"># CentOS/RHEL
-</span><span class="line">sudo yum install epel-release &amp;&amp; sudo yum install fail2ban</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="filter">3. 创建自定义Filter规则</h3>
-
-<p>比如要监控 所有 <code>/hello</code> url下的请求；</p>
-
-<p>新建文件 <code>/etc/fail2ban/filter.d/nginx-url-bruteforce.conf</code></p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[Definition]failregex=^&lt;HOST&gt; -.*"(GET|POST) /hello/[a-fA-F0-9]{64} HTTP/.*".*ignoreregex=</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="jail">4. 配置Jail规则</h3>
-
-<p>编辑 /etc/fail2ban/jail.local，添加以下内容</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[nginx-url-bruteforce]
-</span><span class="line">enabled = true
-</span><span class="line">port = http,https
-</span><span class="line">filter = nginx-url-bruteforce
-</span><span class="line">logpath = /var/log/nginx/access.log
-</span><span class="line"> # 允许的最大尝试次数
-</span><span class="line">maxretry = 5
-</span><span class="line"># 在60秒内超过maxretry则封禁
-</span><span class="line">findtime = 60
-</span><span class="line"># 封禁1小时
-</span><span class="line">bantime = 3600
-</span><span class="line">action = %(action_mwl)s</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="filter-1">5. 测试Filter规则</h3>
-
-<p>使用 fail2ban-regex 测试正则匹配</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo fail2ban-regex /var/log/nginx/access.log /etc/fail2ban/filter.d/nginx-url-bruteforce.conf</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="fail2ban-1">6. 重启Fail2Ban并监控</h3>
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl restart fail2ban
-</span><span class="line">sudo fail2ban-client status nginx-url-bruteforce</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section">7. 高级调整（可选）</h3>
-
-<ul>
-  <li>
-    <p>日志路径：如果日志路径不同，修改 logpath。</p>
-  </li>
-  <li>
-    <p>封禁时间：调整 bantime（单位：秒，如 86400 封禁1天）。</p>
-  </li>
-  <li>
-    <p>精确匹配状态码：如需仅封禁500错误，修改 failregex：</p>
-  </li>
-</ul>
 
 ]]></content>
   </entry>
