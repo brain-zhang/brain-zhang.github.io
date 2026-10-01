@@ -3,7 +3,7 @@ layout: post
 title: "如何在Docker中让容器流量走指定代理"
 date: 2026-10-01 16:27:34 +0800
 comments: true
-categories: linux, tools
+categories: linux tools
 ---
 
 我在一台机器上运行了多个docker容器，希望为每一个容器的流量指定一个代理服务器； 不仅仅是http等等流量，而是所有流量，同时还要排除局域网流量；
