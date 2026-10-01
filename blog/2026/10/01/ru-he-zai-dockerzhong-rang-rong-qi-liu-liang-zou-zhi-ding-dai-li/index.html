@@ -1,0 +1,668 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>如何在Docker中让容器流量走指定代理 - Living a Simple Life is a Happy Life</title>
+  <meta name="author" content="brain-zhang">
+
+  
+  <meta name="description" content="我在一台机器上运行了多个docker容器，希望为每一个容器的流量指定一个代理服务器； 不仅仅是http等等流量，而是所有流量，同时还要排除局域网流量； 解决方法： 为需要走代理的容器分配一个专属的 Docker Bridge 网络（例如固定子网 172.28.0.0/16）。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  
+  <link rel="canonical" href="https://brain-zhang.github.io/blog/2026/10/01/ru-he-zai-dockerzhong-rang-rong-qi-liu-liang-zou-zhi-ding-dai-li">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Living a Simple Life is a Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- 
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.lug.ustc.edu.cn/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ["$$", "$$"]],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Living a Simple Life is a Happy Life</a></h1>
+  
+    <h2>有饭吃，自由自在，就非常开心</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="brain-zhang.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+<li><a href="/"><i class="fa fa-home"></i> 主页</a></li>
+  <li><a href="/blog/categories/blockchain/"><i class="fa fa-flask"></i>blockchain</a></li>
+  <li><a href="/blog/categories/network/"><i class="fa fa-flask"></i>network</a></li>
+  <li><a href="/blog/categories/develop/"><i class="fa fa-flask"></i>develop</a></li>
+  <li><a href="/blog/categories/ai/"><i class="fa fa-flask"></i>AI</a></li>
+  <li><a href="/blog/categories/tools/"><i class="fa fa-flask"></i>tools</a></li>
+  <li><a href="/blog/categories/life/"><i class="fa fa-flask"></i>life</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-list-ul"></i>存档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">如何在Docker中让容器流量走指定代理</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2026-10-01T16:27:34+08:00" pubdate data-updated="true">Oct 1<span>st</span>, 2026</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://brain-zhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>我在一台机器上运行了多个docker容器，希望为每一个容器的流量指定一个代理服务器； 不仅仅是http等等流量，而是所有流量，同时还要排除局域网流量；</p>
+
+<p>解决方法：</p>
+
+<ol>
+  <li>
+    <p>为需要走代理的容器分配一个专属的 Docker Bridge 网络（例如固定子网 172.28.0.0/16）。</p>
+  </li>
+  <li>
+    <p>在宿主机上运行一个透明代理客户端，监听本地重定向端口（例如 127.0.0.1:7892），或者局域网架设专门的代理服务或者网关</p>
+  </li>
+  <li>
+    <p>使用宿主机的 iptables 规则，将所有来自该子网、目标为外部公网的 TCP 流量 REDIRECT 到代理服务器</p>
+  </li>
+</ol>
+
+<p>这样的好处有很多:</p>
+
+<ol>
+  <li>不需要容器做任何更改</li>
+  <li>可以为不同的容器指定不同的代理</li>
+  <li>HOST的流量不受任何影响</li>
+</ol>
+
+<!-- more -->
+
+<h4 id="docker-bridge-docker-gateway-netsh-up">1. 用脚本建立Docker Bridge网络: docker-gateway-net.sh up</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+<span class="line-number">131</span>
+<span class="line-number">132</span>
+<span class="line-number">133</span>
+<span class="line-number">134</span>
+<span class="line-number">135</span>
+<span class="line-number">136</span>
+<span class="line-number">137</span>
+<span class="line-number">138</span>
+<span class="line-number">139</span>
+<span class="line-number">140</span>
+<span class="line-number">141</span>
+<span class="line-number">142</span>
+<span class="line-number">143</span>
+<span class="line-number">144</span>
+<span class="line-number">145</span>
+<span class="line-number">146</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/usr/bin/env bash
+</span><span class="line"># ==============================================================================
+</span><span class="line"># Docker 容器专属透明网关网络管理脚本 (含入站 Web 服务端口回包修复)
+</span><span class="line"># ==============================================================================
+</span><span class="line">
+</span><span class="line">set -euo pipefail
+</span><span class="line">
+</span><span class="line"># ---------------------------- 配置区域 ----------------------------
+</span><span class="line">NETWORK_NAME="proxy_net"               # Docker 网络名称
+</span><span class="line">SUBNET="172.28.0.0/16"                 # 专用子网网段
+</span><span class="line">GATEWAY_IP="192.168.100.2"             # 你的透明网关 IP
+</span><span class="line">ROUTE_TABLE="100"                      # 自定义路由表 ID
+</span><span class="line"># ------------------------------------------------------------------
+</span><span class="line">
+</span><span class="line">check_root() {
+</span><span class="line">  if [ "$(id -u)" -ne 0 ]; then
+</span><span class="line">    echo -e "\033[31m[错误] 此脚本必须使用 root 或 sudo 权限运行！\033[0m" &gt;&amp;2
+</span><span class="line">    exit 1
+</span><span class="line">  fi
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">enable_proxy() {
+</span><span class="line">  check_root
+</span><span class="line">  echo -e "\033[34m[+] 正在初始化透明网关路由网络环境...\033[0m"
+</span><span class="line">
+</span><span class="line">  # 1. 开启宿主机 IPv4 数据包转发
+</span><span class="line">  sysctl -w net.ipv4.ip_forward=1 &gt;/dev/null
+</span><span class="line">  echo "  ✔ 内核参数已配置 (ip_forward=1)"
+</span><span class="line">
+</span><span class="line">  # 2. 检查并创建 Docker 网络
+</span><span class="line">  if docker network inspect "${NETWORK_NAME}" &gt;/dev/null 2&gt;&1; then
+</span><span class="line">    echo "  ✔ Docker 网络 [${NETWORK_NAME}] 已存在"
+</span><span class="line">  else
+</span><span class="line">    docker network create \
+</span><span class="line">      --driver bridge \
+</span><span class="line">      --subnet "${SUBNET}" \
+</span><span class="line">      "${NETWORK_NAME}" &gt;/dev/null
+</span><span class="line">    echo "  ✔ 成功创建 Docker 网络 [${NETWORK_NAME}] (${SUBNET})"
+</span><span class="line">  fi
+</span><span class="line">
+</span><span class="line">  # 3. 清理旧规则
+</span><span class="line">  clean_routing_rules
+</span><span class="line">
+</span><span class="line">  # 4. 配置策略路由
+</span><span class="line">  # 关键修复 A: 目标是私网/局域网的包（比如外部访问容器 Web 服务的响应包），必须走主路由表原路返回！
+</span><span class="line">  ip rule add to 10.0.0.0/8 lookup main priority 990
+</span><span class="line">  ip rule add to 172.16.0.0/12 lookup main priority 991
+</span><span class="line">  ip rule add to 192.168.0.0/16 lookup main priority 992
+</span><span class="line">
+</span><span class="line">  # 关键修复 B: 自定义表指向网关
+</span><span class="line">  ip route add default via "${GATEWAY_IP}" table "${ROUTE_TABLE}"
+</span><span class="line">  # 剩余的出站公网流量，丢给透明网关
+</span><span class="line">  ip rule add from "${SUBNET}" lookup "${ROUTE_TABLE}" priority 1000
+</span><span class="line">  echo "  ✔ 策略路由已配置 (内网直连回包 + 公网流量导向 ${GATEWAY_IP})"
+</span><span class="line">
+</span><span class="line">  # 5. 出口 SNAT 伪装
+</span><span class="line">  if ! iptables -t nat -C POSTROUTING -s "${SUBNET}" -j MASQUERADE 2&gt;/dev/null; then
+</span><span class="line">    iptables -t nat -A POSTROUTING -s "${SUBNET}" -j MASQUERADE
+</span><span class="line">  fi
+</span><span class="line">  echo "  ✔ iptables MASQUERADE 出口伪装已配置"
+</span><span class="line">
+</span><span class="line">  echo -e "\033[32m[✔] 透明网关网络已就绪！外部 Web 访问与代理出网已共存。\033[0m"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">clean_routing_rules() {
+</span><span class="line">  # 循环清理匹配的 ip rule 规则
+</span><span class="line">  for prio in 990 991 992 1000; do
+</span><span class="line">    while ip rule show | grep -q "prio ${prio}"; do
+</span><span class="line">      ip rule del priority "${prio}" 2&gt;/dev/null || break
+</span><span class="line">    done
+</span><span class="line">  done
+</span><span class="line">
+</span><span class="line">  # 清空自定义路由表
+</span><span class="line">  ip route flush table "${ROUTE_TABLE}" 2&gt;/dev/null || true
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">disable_proxy() {
+</span><span class="line">  check_root
+</span><span class="line">  echo -e "\033[33m[-] 正在清理透明网关路由网络环境...\033[0m"
+</span><span class="line">
+</span><span class="line">  clean_routing_rules
+</span><span class="line">  echo "  ✔ 已清除策略路由规则及路由表"
+</span><span class="line">
+</span><span class="line">  while iptables -t nat -C POSTROUTING -s "${SUBNET}" -j MASQUERADE 2&gt;/dev/null; do
+</span><span class="line">    iptables -t nat -D POSTROUTING -s "${SUBNET}" -j MASQUERADE
+</span><span class="line">  done
+</span><span class="line">  echo "  ✔ 已清除 iptables MASQUERADE 规则"
+</span><span class="line">
+</span><span class="line">  if docker network inspect "${NETWORK_NAME}" &gt;/dev/null 2&gt;&1; then
+</span><span class="line">    local connected_containers
+</span><span class="line">    connected_containers=$(docker network inspect -f '' "${NETWORK_NAME}" 2&gt;/dev/null || echo "0")
+</span><span class="line">    if [ "${connected_containers}" -gt 0 ]; then
+</span><span class="line">      echo -e "  \033[33m[!] 警告: 网络 [${NETWORK_NAME}] 中仍有容器连接，保留网络以防容器中断。\033[0m"
+</span><span class="line">    else
+</span><span class="line">      docker network rm "${NETWORK_NAME}" &gt;/dev/null 2&gt;&amp;1
+</span><span class="line">      echo "  ✔ 已删除 Docker 网络 [${NETWORK_NAME}]"
+</span><span class="line">    fi
+</span><span class="line">  fi
+</span><span class="line">
+</span><span class="line">  echo -e "\033[32m[✔] 清理完成，网络环境已恢复原状。\033[0m"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">status_proxy() {
+</span><span class="line">  echo -e "\033[34m=== 透明网关网络运行状态 ===\033[0m"
+</span><span class="line">  echo "内核转发参数 (ip_forward): $(sysctl -n net.ipv4.ip_forward 2&gt;/dev/null || echo 0) (应为 1)"
+</span><span class="line">
+</span><span class="line">  echo -n "策略路由规则 (ip rule): "
+</span><span class="line">  if ip rule show | grep -q "lookup ${ROUTE_TABLE}"; then
+</span><span class="line">    echo -e "\033[32m已激活\033[0m"
+</span><span class="line">    echo "  路由详情: $(ip route show table "${ROUTE_TABLE}" | head -n 1)"
+</span><span class="line">  else
+</span><span class="line">    echo -e "\033[31m未生效\033[0m"
+</span><span class="line">  fi
+</span><span class="line">
+</span><span class="line">  echo -n "NAT 出口伪装 (MASQUERADE): "
+</span><span class="line">  if iptables -t nat -C POSTROUTING -s "${SUBNET}" -j MASQUERADE 2&gt;/dev/null; then
+</span><span class="line">    echo -e "\033[32m已激活\033[0m"
+</span><span class="line">  else
+</span><span class="line">    echo -e "\033[31m未生效\033[0m"
+</span><span class="line">  fi
+</span><span class="line">
+</span><span class="line">  if docker network inspect "${NETWORK_NAME}" &gt;/dev/null 2&gt;&1; then
+</span><span class="line">    echo "Docker 网络 [${NETWORK_NAME}]: 存在"
+</span><span class="line">    local containers
+</span><span class="line">    containers=$(docker network inspect -f ' () ' "${NETWORK_NAME}")
+</span><span class="line">    echo "当前挂载的容器: ${containers:-无}"
+</span><span class="line">  else
+</span><span class="line">    echo "Docker 网络 [${NETWORK_NAME}]: 不存在"
+</span><span class="line">  fi
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">case "${1:-}" in
+</span><span class="line">  up|start)
+</span><span class="line">    enable_proxy
+</span><span class="line">    ;;
+</span><span class="line">  down|stop)
+</span><span class="line">    disable_proxy
+</span><span class="line">    ;;
+</span><span class="line">  status)
+</span><span class="line">    status_proxy
+</span><span class="line">    ;;
+</span><span class="line">  *)
+</span><span class="line">    echo "用法: sudo $0 {up|down|status}"
+</span><span class="line">    exit 1
+</span><span class="line">    ;;
+</span><span class="line">esac</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="docker-compose">2. 如果是docker compose服务，在配置文件中指定网络:</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">services:
+</span><span class="line">  your_service_name:  # 你的服务名称
+</span><span class="line">    image: ...
+</span><span class="line">    # 1. 挂载到 networks
+</span><span class="line">    networks:
+</span><span class="line">      - proxy_net
+</span><span class="line">    # 2. DNS 顺便指到网关
+</span><span class="line">    dns:
+</span><span class="line">      - 192.168.100.2
+</span><span class="line">      - 8.8.8.8
+</span><span class="line">
+</span><span class="line">networks:
+</span><span class="line">  proxy_net:
+</span><span class="line">    # 核心：必须声明 external: true 和 name: proxy_net
+</span><span class="line">    external: true
+</span><span class="line">    name: proxy_net</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="docker">3. 如果是docker命令行启动</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker run -d \
+</span><span class="line">  --name xxx \
+</span><span class="line">  --restart unless-stopped \
+</span><span class="line">  --init \
+</span><span class="line">  --stop-timeout 30 \
+</span><span class="line">  --security-opt no-new-privileges:true \
+</span><span class="line">  --network proxy_net \
+</span><span class="line">  --dns 192.168.100.2 \
+</span><span class="line">  --dns 8.8.8.8 \</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section">不需要的时候，执行下面命令恢复原来的网络设置</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker-gateway-net.sh down</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">brain-zhang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2026-10-01T16:27:34+08:00" pubdate data-updated="true">Oct 1<span>st</span>, 2026</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux,</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2026/09/30/ke-huan-xiao-shuo-qing-wu-dui-yu-zhou-kai-shan-guang-deng/" title="Previous Post: [科幻小说]请勿对宇宙开闪光灯">&laquo; [科幻小说]请勿对宇宙开闪光灯</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新发布</h1>
+  <ul id="最新文章">
+    
+      <li class="post">
+        <a href="/blog/2026/10/01/ru-he-zai-dockerzhong-rang-rong-qi-liu-liang-zou-zhi-ding-dai-li/">如何在Docker中让容器流量走指定代理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2026/09/30/ke-huan-xiao-shuo-qing-wu-dui-yu-zhou-kai-shan-guang-deng/">[科幻小说]请勿对宇宙开闪光灯</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2026/09/29/ru-he-zai-antigravityzhong-she-zhi-ding-shi-ren-wu/">如何在Antigravity中设置定时任务</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2026/09/29/aiman-tan-lu-6-xiang-dui-lun-yu-liang-zi-li-xue-guan-ce-zhe-xiao-ying-de-tong-%5B%3F%5D/">AI漫谈录-6 相对论与量子力学观测者效应的统一</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2026/06/04/aiman-tan-lu-5/">AI漫谈录-5:如何实现真正的人工智能</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/brain-zhang">@brain-zhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'brain-zhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2026 - brain-zhang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'brainzhang';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://brain-zhang.github.io/blog/2026/10/01/ru-he-zai-dockerzhong-rang-rong-qi-liu-liang-zou-zhi-ding-dai-li/';
+        var disqus_url = 'https://brain-zhang.github.io/blog/2026/10/01/ru-he-zai-dockerzhong-rang-rong-qi-liu-liang-zou-zhi-ding-dai-li/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
